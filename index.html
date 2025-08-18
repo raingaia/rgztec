@@ -3,84 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC — Handcrafted Code Marketplace</title>
-  <meta name="description" content="RGZTEC is a multi-vendor, static code marketplace for HTML templates, CSS UI kits, JS widgets, and React components."/>
-  <meta property="og:title" content="RGZTEC — Handcrafted Code Marketplace" />
-  <meta property="og:description" content="Multi-vendor static code marketplace for HTML, CSS, JS & React." />
-  <meta property="og:type" content="website" />
+  <title>RGZTEC — Build faster with handcrafted code</title>
+  <meta name="description" content="Multi-vendor static code marketplace: HTML, CSS, JS & React." />
   <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 </head>
 <body>
-  <header class="main-header" aria-label="Primary site header">
+  <!-- Header / Topbar -->
+  <header class="main-header">
     <div class="container">
-      <a class="logo" href="#">
-        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 2 2 7v10l10 5 10-5V7Z" fill="currentColor"></path>
-        </svg>
-        <span>RGZTEC</span>
-      </a>
-      <form class="search" role="search" onsubmit="event.preventDefault()">
-        <button type="button" class="category-btn">Categories</button>
-        <input type="search" placeholder="Search for anything" aria-label="Search for products" />
-        <button type="submit" class="search-btn" aria-label="Submit search">🔎</button>
-      </form>
-      <nav class="actions" aria-label="User actions">
+      <a class="logo" href="/">RGZTEC</a>
+
+      <div class="search">
+        <input type="search" placeholder="Search for anything" aria-label="Search" />
+      </div>
+
+      <nav class="actions">
         <a class="link" href="#">Sign in</a>
-        <button class="icon" aria-label="Favorites">♡</button>
-        <button class="icon" aria-label="Cart">🛒</button>
+        <a class="icon" href="#" aria-label="Wishlist">♡</a>
+        <a class="icon" href="#" aria-label="Cart">🛒</a>
       </nav>
     </div>
   </header>
 
-  <nav class="subnav" aria-label="Product categories">
-    <div class="container">
-      <a href="#">HTML Templates</a>
-      <a href="#">CSS UI Kits</a>
-      <a href="#">JS Widgets</a>
-      <a href="#">React</a>
-      <a href="#">Email Templates</a>
-      <a href="#">SVG/Icons</a>
+  <!-- Subnav (categories quick links) -->
+  <nav class="subnav">
+    <div class="container subnav-row">
+      <a href="products/category.html?cat=html-templates">HTML Templates</a>
+      <a href="products/category.html?cat=css-ui-kits">CSS UI Kits</a>
+      <a href="products/category.html?cat=js-widgets">JS Widgets</a>
+      <a href="products/category.html?cat=react">React</a>
+      <a href="products/category.html?cat=email-templates">Email Templates</a>
+      <a href="products/category.html?cat=svg-icons">SVG/Icons</a>
     </div>
   </nav>
 
-  <main class="container">
+  <main>
+    <!-- Hero -->
     <section class="hero">
-      <div class="hero-left">
-        <h1>Build faster with handcrafted code</h1>
-        <p>Starter kits, UI packs, widgets — curated by RGZTEC.</p>
-        <a class="btn primary" href="#">Get started</a>
-      </div>
-      <div class="hero-right" role="img" aria-label="Decorative graphic"></div>
-    </section>
-
-    <section>
-      <h2>Featured categories</h2>
-      <div class="grid">
-        <article class="card"><div class="ph"></div><h3>HTML Templates</h3><p>Lightweight & responsive</p><a class="btn secondary" href="#">Explore</a></article>
-        <article class="card"><div class="ph"></div><h3>CSS UI Kits</h3><p>No dependencies</p><a class="btn secondary" href="#">Explore</a></article>
-        <article class="card"><div class="ph"></div><h3>JS Widgets</h3><p>Vanilla & performant</p><a class="btn secondary" href="#">Explore</a></article>
-        <article class="card"><div class="ph"></div><h3>React</h3><p>Components & hooks</p><a class="btn secondary" href="#">Explore</a></article>
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <h1>Build faster with handcrafted code</h1>
+          <p>Starter kits, UI packs, widgets — curated by RGZTEC.</p>
+          <a class="btn" href="#featured">Get started</a>
+        </div>
+        <div class="hero-placeholder" aria-hidden="true"></div>
       </div>
     </section>
 
-    <section>
-      <h2>Recommended for you</h2>
-      <div class="grid">
-        <article class="card"><div class="ph"></div><h4>SaaS Landing — HTML + CSS</h4><p>★ 4.8 • HTML</p><div class="row"><a class="btn secondary" href="#">Live Demo</a><a class="btn primary" href="#">Go to Shop</a></div></article>
-        <article class="card"><div class="ph"></div><h4>Tailwind UI Kit — 120+</h4><p>★ 4.9 • CSS</p><div class="row"><a class="btn secondary" href="#">Live Demo</a><a class="btn primary" href="#">Go to Shop</a></div></article>
-        <article class="card"><div class="ph"></div><h4>React Admin Dashboard</h4><p>★ 5.0 • React</p><div class="row"><a class="btn secondary" href="#">Live Demo</a><a class="btn primary" href="#">Go to Shop</a></div></article>
-        <article class="card"><div class="ph"></div><h4>JS Carousel + Lightbox</h4><p>★ 4.7 • JS</p><div class="row"><a class="btn secondary" href="#">Live Demo</a><a class="btn primary" href="#">Go to Shop</a></div></article>
+    <!-- Featured categories (dynamic) -->
+    <section id="featured" class="section">
+      <div class="container">
+        <h2>Featured categories</h2>
+        <!-- JS burayı dolduracak -->
+        <div id="cards" class="grid"></div>
       </div>
     </section>
   </main>
 
+  <!-- Demo Modal -->
+  <div id="demoModal" class="modal hidden" aria-hidden="true" role="dialog" aria-label="Live demo">
+    <div class="modal-inner">
+      <button id="demoClose" class="close" aria-label="Close">✕</button>
+      <iframe id="demoFrame" title="Demo preview" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="footer">
-    <div class="container">
+    <div class="container footer-row">
       <p>© <span id="y"></span> RGZTEC • Code marketplace</p>
-      <nav class="links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></nav>
+      <nav class="links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </nav>
     </div>
   </footer>
 
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <!-- App script -->
+  <script src="assets/app.js" defer></script>
 </body>
 </html>
