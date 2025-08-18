@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RGZTEC – Category</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    .prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .prod{background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+    .thumb{aspect-ratio:16/10;background:#eef2f8}
+    .prod-body{padding:14px}
+    .prod-title{font-weight:800}
+    .meta{font-size:13px;color:#475569;margin-top:6px}
+    .price{font-weight:800;margin-top:10px}
+    .row{display:flex;gap:8px;margin-top:10px}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="/">RGZTEC</a>
+      <div style="margin-left:auto"></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h2 id="catTitle">Category</h2>
+      <div id="grid" class="prod-grid"></div>
+    </div>
+  </section>
+
+  <script>
+    async function load(){
+      const params = new URLSearchParams(location.search);
+      const cat = params.get('cat') || 'html-templates';
+
+      const res = await fetch('../assets/data/products.json');
+      const db = await res.json();
+
+      const catInfo = db.categories.find(c=>c.slug===cat);
+      document.getElementById('catTitle').textContent = catInfo ? catInfo.name : cat;
+
+      const list = db.products.filter(p=>p.cat===cat);
+      const grid = document.getElementById('grid');
+
+      grid.innerHTML = list.map(p=>`
+        <article class="prod">
+          <div class="thumb" style="background:url('../${p.thumb}') center/cover no-repeat;"></div>
+          <div class="prod-body">
+            <div class="prod-title">${p.title}</div>
+            <div class="meta">${p.desc}</div>
+            <div class="price">$${p.price}</div>
+            <div class="row">
+              <a class="btn small" href="../${p.demo}" target="_blank">Demo</a>
+              <a class="btn small secondary" href="detail.html?id=${p.id}">Details</a>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+    load();
+  </script>
+</body>
+</html>
