@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML17 - Product Cards</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+      color: #0077b6;
+    }
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .indication {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .details {
+      font-size: 13px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <h2>HTML17 - Product Cards</h2>
+  <div class="grid">
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-dna"></i></div>
+      <div class="name">Capecitabine (Xeloda)</div>
+      <div class="indication">Breast & colorectal cancer.</div>
+      <div class="details">Oral chemotherapy. Widely prescribed.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-pills"></i></div>
+      <div class="name">Enzalutamide (Xtandi)</div>
+      <div class="indication">Prostate cancer.</div>
+      <div class="details">Androgen receptor inhibitor. Improves survival.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-vial"></i></div>
+      <div class="name">Palbociclib (Ibrance)</div>
+      <div class="indication">Breast cancer.</div>
+      <div class="details">CDK4/6 inhibitor. Used with endocrine therapy.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-syringe"></i></div>
+      <div class="name">Nivolumab (Opdivo)</div>
+      <div class="indication">Multiple cancers (melanoma, lung, etc.).</div>
+      <div class="details">Immune checkpoint inhibitor. Improves long-term survival.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-heart-pulse"></i></div>
+      <div class="name">Dabrafenib (Tafinlar)</div>
+      <div class="indication">BRAF-mutant melanoma.</div>
+      <div class="details">Often combined with MEK inhibitors.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-dna"></i></div>
+      <div class="name">Osimertinib (Tagrisso)</div>
+      <div class="indication">EGFR-mutant lung cancer.</div>
+      <div class="details">Targeted therapy. Strong progression-free survival benefit.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-vial"></i></div>
+      <div class="name">Erlotinib (Tarceva)</div>
+      <div class="indication">Non-small cell lung cancer.</div>
+      <div class="details">EGFR inhibitor. Oral targeted therapy.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-pills"></i></div>
+      <div class="name">Imatinib (Gleevec)</div>
+      <div class="indication">CML, GIST.</div>
+      <div class="details">Revolutionary targeted therapy. First-in-class tyrosine kinase inhibitor.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-dna"></i></div>
+      <div class="name">Dasatinib (Sprycel)</div>
+      <div class="indication">Leukemia (CML, ALL).</div>
+      <div class="details">Potent BCR-ABL inhibitor. Used after imatinib resistance.</div>
+    </div>
+
+    <div class="card">
+      <div class="icon"><i class="fa-solid fa-vial"></i></div>
+      <div class="name">Nilotinib (Tasigna)</div>
+      <div class="indication">Chronic myeloid leukemia.</div>
+      <div class="details">Second-generation tyrosine kinase inhibitor.</div>
+    </div>
+
+  </div>
+</body>
+</html>
