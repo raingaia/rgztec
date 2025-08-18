@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>html11.png</title>
+  <title>html1 demo</title>
   <style>
     body {
       margin: 0;
@@ -19,41 +19,17 @@
       width: 700px;
       padding: 40px;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.1);
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       text-align: center;
-      backdrop-filter: blur(8px);
     }
-    .card h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      color: #f1faee;
-    }
-    .card p {
-      font-size: 20px;
-      line-height: 1.6;
-      color: #e9ecef;
-    }
-    .badge {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      border-radius: 30px;
-      background: #e63946;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-    }
+    h1 { color: #5aa9ff; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Demo 11</h1>
-    <p>
-      This is the content of <strong>html11.png</strong> demo page.<br>
-      Clean layout, smooth background and modern style.
-    </p>
-    <div class="badge">Version 11</div>
+    <h1>Hello World</h1>
+    <p>Welcome to RGZTEC demo card #1</p>
   </div>
 </body>
 </html>
