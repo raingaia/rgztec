@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>html16.png</title>
+  <style>
+    body {
+      margin:0; height:100vh;
+      display:flex; justify-content:center; align-items:center;
+      background:linear-gradient(135deg,#0f766e,#115e59);
+      font-family:Verdana, sans-serif; color:#fff;
+    }
+    .panel {
+      width:700px;
+      padding:45px;
+      border-radius:20px;
+      background:#134e4a;
+      box-shadow:0 14px 36px rgba(0,0,0,0.55);
+      text-align:center;
+    }
+    h1 {
+      margin:0 0 14px;
+      font-size:34px;
+      color:#5eead4;
+    }
+    p {
+      margin:0 0 20px;
+      font-size:18px;
+      color:#ccfbf1;
+    }
+    .badge {
+      display:inline-block;
+      margin-top:10px;
+      padding:8px 18px;
+      border-radius:14px;
+      background:#5eead4;
+      color:#064e3b;
+      font-weight:bold;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>RGZTEC Demo 16</h1>
+    <p>Placeholder design exported as <strong>html16.png</strong></p>
+    <div class="badge">Version 16</div>
+  </div>
+</body>
+</html>
