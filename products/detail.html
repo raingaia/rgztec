@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RGZTEC – Product</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+    .panel{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:18px}
+    .thumb-lg{aspect-ratio:16/9;background:#eef2f8;border-radius:12px;margin-bottom:12px}
+    .title{font-weight:900;font-size:22px}
+    .muted{color:#475569}
+    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:#f1f5f9;margin-right:6px}
+    .price{font-weight:900;font-size:20px;margin:8px 0}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="/">RGZTEC</a>
+      <div style="margin-left:auto"></div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container wrap">
+      <div class="panel">
+        <div id="thumb" class="thumb-lg"></div>
+        <div id="desc" class="muted"></div>
+        <div id="tags" style="margin-top:10px"></div>
+      </div>
+      <div class="panel">
+        <div id="title" class="title">Product</div>
+        <div id="rating" class="muted"></div>
+        <div id="price" class="price"></div>
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
+          <a id="demoBtn" class="btn">Open Demo</a>
+          <a id="downloadBtn" class="btn secondary">Download .zip</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function load(){
+      const id = new URLSearchParams(location.search).get('id');
+      const res = await fetch('../assets/data/products.json');
+      const db = await res.json();
+      const p = db.products.find(x=>x.id===id) || db.products[0];
+
+      document.title = `RGZTEC – ${p.title}`;
+      document.getElementById('title').textContent = p.title;
+      document.getElementById('desc').textContent = p.desc;
+      document.getElementById('price').textContent = `$${p.price}`;
+      document.getElementById('rating').textContent = '★'.repeat(p.rating) + '☆'.repeat(5-p.rating);
+
+      document.getElementById('thumb').style.background = `url('../${p.thumb}') center/cover no-repeat`;
+
+      document.getElementById('demoBtn').href = `../${p.demo}`;
+      document.getElementById('downloadBtn').href = `../${p.files}`;
+
+      document.getElementById('tags').innerHTML = p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+    }
+    load();
+  </script>
+</body>
+</html>
