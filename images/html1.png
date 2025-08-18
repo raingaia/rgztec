@@ -16,20 +16,34 @@
       height: 100vh;
     }
     .card {
-      width: 700px;
-      padding: 40px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.1);
+      width: 400px;
+      padding: 30px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.1);
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       text-align: center;
     }
-    h1 { color: #5aa9ff; }
+    .card img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 1.5em;
+      color: #fff;
+    }
+    .card p {
+      color: #ddd;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Hello World</h1>
-    <p>Welcome to RGZTEC demo card #1</p>
+    <!-- Burada 1 numaralı ikon çağrılıyor -->
+    <img src="images/html1.png" alt="HTML Templates">
+    <h3>HTML Templates</h3>
+    <p>Explore curated HTML templates.</p>
   </div>
 </body>
 </html>
+
