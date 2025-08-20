@@ -7,95 +7,72 @@
   <meta name="description" content="Multi-vendor static code marketplace: HTML, CSS, JS & React." />
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-<style>
-  /* Wider page on large screens */
-  @media (min-width: 1280px){ .container{ max-width: 1360px !important; } }
-  @media (min-width: 1536px){ .container{ max-width: 1480px !important; } }
 
-  /* Featured grid overrides (scoped to #home-grid so nothing else breaks) */
-  #home-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* smaller cards */
-    gap: 16px;
-  }
-  #home-grid .card{
-    border-radius: 14px;
-    box-shadow: 0 1px 6px rgba(0,0,0,.05);
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
-  #home-grid .card:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,.08);
-  }
-  #home-grid .thumb{ aspect-ratio: 4 / 3; object-fit: cover; background: #eef2f8; }
-
-  #home-grid .pad{ padding: 12px; }
-  #home-grid .title{ font-size: 15px; line-height: 1.2; margin: 0 0 4px; font-weight: 800; }
-  #home-grid .meta{ font-size: 12px; color: #475569; margin: 0 0 8px; min-height: 32px; }
-  #home-grid .price{ font-size: 14px; font-weight: 800; }
-  #home-grid .row{ gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-  #home-grid .btn{ font-size: 11px; padding: 7px 10px; border-radius: 10px; }
-</style>
-
-  <!-- Page-only overrides (Etsy-like: wider page, smaller cards) -->
+  <!-- Page-only overrides (keeps your existing look, just enhances home) -->
   <style>
-    /* widen page on large screens without breaking mobile */
-    @media (min-width: 1280px){
-      .container { max-width: 1360px; }
-    }
-    @media (min-width: 1536px){
-      .container { max-width: 1480px; }
+    :root{
+      --primary: #f97316;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e5e7eb;
+      --surf: #f8fafc;
     }
 
-    /* Featured grid (scoped, won't affect other pages) */
-    #featured-templates { margin: 32px 0 40px; }
-    #featured-templates .head {
-      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;
-    }
-    #featured-templates .view-all {
-      font-size:13px; padding:8px 12px; border:1px solid #e5e7eb; border-radius:10px; text-decoration:none; color:#0f172a; background:#fff;
-    }
-    #featured-templates .view-all:hover { background:#f1f5f9; }
+    /* Wider page (Etsy-like) */
+    @media (min-width: 1280px){ .container{ max-width: 1360px !important; } }
+    @media (min-width: 1536px){ .container{ max-width: 1480px !important; } }
 
-    /* Smaller cards, tighter look */
-    #featured-templates .grid {
+    /* Hero minor tune so it breathes on wide screens */
+    .hero .hero-card p{ color: var(--muted); }
+    .hero .btn{ margin-right: 10px; }
+
+    /* Featured section (scoped so it won't affect other pages) */
+    #featured-templates{ padding: 8px 0 40px; }
+    #featured-templates .head{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin:16px 0 14px;
+    }
+    #featured-templates .head .view-all{
+      font-size:13px; padding:8px 12px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--text); background:#fff;
+    }
+    #featured-templates .head .view-all:hover{ background:#f1f5f9; }
+
+    /* Grid + Cards (smaller cards -> more columns) */
+    #home-grid{
       display:grid; gap:16px;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* smaller than before */
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
-    #featured-templates .card {
-      background:#fff; border:1px solid #e5e7eb; border-radius:14px; overflow:hidden;
+    #home-grid .card{
+      background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden;
       box-shadow:0 1px 6px rgba(0,0,0,.05);
-      transition:transform .12s ease, box-shadow .12s ease;
+      transition: transform .12s ease, box-shadow .12s ease;
     }
-    #featured-templates .card:hover {
+    #home-grid .card:hover{
       transform: translateY(-2px);
       box-shadow:0 4px 16px rgba(0,0,0,.08);
     }
-
-    #featured-templates .thumb {
-      aspect-ratio: 4 / 3;       /* Etsy-like ratio, a bit taller than 16/10 */
-      width:100%; object-fit:cover; display:block; background:#eef2f8;
+    /* 4:3 looks closer to Etsy thumbnails */
+    #home-grid .thumb{
+      aspect-ratio: 4 / 3; width:100%; object-fit:cover; background:#eef2f8; display:block;
     }
-
-    #featured-templates .pad { padding:12px; }
-    #featured-templates .title { font-weight:800; margin:0 0 4px; font-size:15px; line-height:1.2; }
-    #featured-templates .meta { font-size:12px; color:#475569; margin:0 0 8px; min-height:32px; }
-    #featured-templates .price { font-weight:800; font-size:14px; }
-
-    #featured-templates .row { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
-    #featured-templates .btn {
+    #home-grid .pad{ padding:12px; }
+    #home-grid .title{ font-weight:800; margin:0 0 4px; font-size:15px; line-height:1.25; color:var(--text); }
+    #home-grid .meta{ font-size:12px; color:var(--muted); margin:0 0 8px; min-height:32px; }
+    #home-grid .price{ font-weight:800; font-size:14px; }
+    #home-grid .row{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+    #home-grid .btn{
       font-size:11px; padding:7px 10px; border-radius:10px;
-      border:1px solid #e5e7eb; text-decoration:none; color:#0f172a; background:#fff;
+      border:1px solid var(--border); text-decoration:none; color:var(--text); background:#fff;
     }
-    #featured-templates .btn:hover { background:#f8fafc; }
-    #featured-templates .btn.primary {
-      background:#f97316; color:#fff; border-color:#f97316;
-    }
-    #featured-templates .btn.primary:hover { filter:brightness(.96); }
+    #home-grid .btn:hover{ background:#f8fafc; }
+    #home-grid .btn.primary{ background:var(--primary); color:#fff; border-color:var(--primary); }
+    #home-grid .btn.primary:hover{ filter:brightness(.96); }
+
+    /* Topbar tweaks to ensure home feels roomy */
+    .main-header .search input::placeholder{ color:#9aa3af; }
   </style>
 </head>
 <body>
-  <!-- Header / Topbar -->
+  <!-- Header / Topbar (kept same classes to match your base CSS) -->
   <header class="main-header">
     <div class="container">
       <a class="logo" href="/rgztec/">RGZTEC</a>
@@ -113,7 +90,7 @@
     </div>
   </header>
 
-  <!-- Subnav (categories quick links) -->
+  <!-- Subnav -->
   <nav class="subnav">
     <div class="container subnav-row">
       <a href="products/category.html?cat=html-templates">HTML Templates</a>
@@ -140,14 +117,15 @@
       </div>
     </section>
 
-    <!-- Featured HTML Templates (dynamic) -->
+    <!-- Featured HTML Templates -->
     <section id="featured-templates">
       <div class="container">
         <div class="head">
           <h2 style="margin:0">Featured HTML Templates</h2>
           <a class="view-all" href="/rgztec/products/category.html?cat=html-templates">View all</a>
         </div>
-        <div id="home-grid" class="grid"></div>
+
+        <div id="home-grid"></div>
       </div>
     </section>
   </main>
@@ -167,16 +145,16 @@
   <!-- Data + Render -->
   <script src="./data/products.js"></script>
   <script>
-    // year
+    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // render featured templates (smaller cards, Etsy-like)
+    // Render featured templates (compact cards on a wide grid)
     (function(){
       const container = document.getElementById('home-grid');
       if (!container || !window.RGZ_PRODUCTS) return;
 
       const IMG_BASE = './images/';
-      const BUST = '?v=2'; // cache buster
+      const BUST = '?v=4'; // cache buster
 
       function card(p){
         const img = IMG_BASE + p.image + BUST;
@@ -203,9 +181,13 @@
 
       const items = window.RGZ_PRODUCTS
         .filter(p => p.category === 'html-templates')
-        .slice(0, 16); // show more due to smaller cards
+        .slice(0, 20); // show more because cards are smaller
 
-      container.innerHTML = items.map(card).join('');
+      container.innerHTML = `
+        <div class="grid">
+          ${items.map(card).join('')}
+        </div>
+      `;
     })();
   </script>
 </body>
