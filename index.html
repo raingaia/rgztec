@@ -7,6 +7,35 @@
   <meta name="description" content="Multi-vendor static code marketplace: HTML, CSS, JS & React." />
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+<style>
+  /* Wider page on large screens */
+  @media (min-width: 1280px){ .container{ max-width: 1360px !important; } }
+  @media (min-width: 1536px){ .container{ max-width: 1480px !important; } }
+
+  /* Featured grid overrides (scoped to #home-grid so nothing else breaks) */
+  #home-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* smaller cards */
+    gap: 16px;
+  }
+  #home-grid .card{
+    border-radius: 14px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.05);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  #home-grid .card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  }
+  #home-grid .thumb{ aspect-ratio: 4 / 3; object-fit: cover; background: #eef2f8; }
+
+  #home-grid .pad{ padding: 12px; }
+  #home-grid .title{ font-size: 15px; line-height: 1.2; margin: 0 0 4px; font-weight: 800; }
+  #home-grid .meta{ font-size: 12px; color: #475569; margin: 0 0 8px; min-height: 32px; }
+  #home-grid .price{ font-size: 14px; font-weight: 800; }
+  #home-grid .row{ gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  #home-grid .btn{ font-size: 11px; padding: 7px 10px; border-radius: 10px; }
+</style>
 
   <!-- Page-only overrides (Etsy-like: wider page, smaller cards) -->
   <style>
