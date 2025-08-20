@@ -1,0 +1,68 @@
+<!-- demo/detail.html -->
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>Demo Görsel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#0b0d12; color:#e9edf3;}
+    header { padding:16px 24px; border-bottom:1px solid #1c2230; position:sticky; top:0; background:#0b0d12;}
+    .wrap { max-width:1100px; margin:0 auto; padding:24px; }
+    .row { display:grid; gap:24px; grid-template-columns: 1fr; }
+    .imgbox { background:#101726; border:1px solid #1c2230; border-radius:14px; padding:16px; }
+    .imgbox img { width:100%; height:auto; display:block; border-radius:10px; }
+    .meta { margin-top:12px; color:#9fb0cc; font-size:14px; }
+    .actions { margin-top:16px; display:flex; gap:10px; }
+    .btn { appearance:none; border:1px solid #2a3550; background:#121a2c; color:#cfd8e6; padding:10px 14px; border-radius:10px; cursor:pointer; text-decoration:none; font-size:14px; }
+    .btn:hover { border-color:#3a4a75; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="./index.html" class="btn" style="float:left;">← Galeri</a>
+      <h1 style="margin:0; text-align:center; font-size:20px;">Demo Görsel</h1>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="row">
+      <div class="imgbox">
+        <img id="demoImg" alt="">
+        <div class="meta" id="meta"></div>
+        <div class="actions">
+          <a id="rawLink" class="btn" target="_blank" rel="noopener">Raw aç</a>
+          <a id="copyPath" class="btn">Yolu kopyala</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const name = params.get("img");
+    if (!name) {
+      document.getElementById("meta").textContent = "Görsel parametresi bulunamadı (?img=...).";
+    } else {
+      const src = `../images/${name}`;
+      const img = document.getElementById("demoImg");
+      img.src = src;
+      img.alt = name;
+      document.title = `Demo • ${name}`;
+      document.getElementById("meta").textContent = `Kaynak: ${src}`;
+      const raw = document.getElementById("rawLink");
+      raw.href = src;
+
+      document.getElementById("copyPath").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(src);
+          alert("Yol kopyalandı:\n" + src);
+        } catch {
+          alert("Kopyalanamadı, elle alın: " + src);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
