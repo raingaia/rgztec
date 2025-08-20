@@ -4,19 +4,31 @@
   <meta charset="utf-8">
   <title>RGZTEC – Category</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Var olan genel stil dosyanız -->
   <link rel="stylesheet" href="../assets/styles.css">
+
   <style>
+    /* Bu sayfaya özgü basit grid & kart stilleri */
+    .container{max-width:1100px;margin:0 auto;padding:20px}
     .prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-    .prod{background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
-    .thumb{aspect-ratio:16/10;background:#eef2f8}
+    .prod{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden;border:1px solid #edf0f2}
+    .thumb{aspect-ratio:16/10;width:100%;height:auto;display:block;background:#eef2f8;object-fit:cover}
     .prod-body{padding:14px}
-    .prod-title{font-weight:800}
+    .prod-title{font-weight:700;margin:0 0 6px}
     .meta{font-size:13px;color:#475569;margin-top:6px}
     .price{font-weight:800;margin-top:10px}
-    .row{display:flex;gap:8px;margin-top:10px}
+    .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .row a{font-size:12px;padding:8px 12px;border-radius:10px;border:1px solid #e5e7eb;text-decoration:none;color:#0f172a}
+    .row a:hover{background:#f8fafc}
+    .row a.btn-primary{background:#f97316;color:#fff;border-color:#f97316}
+    .row a.btn-primary:hover{background:#ea580c}
+    header.topbar{border-bottom:1px solid #eef2f4;background:#fff}
+    .brand{font-weight:800;text-decoration:none;color:#0f172a}
+    .nav{display:flex;align-items:center;gap:14px}
   </style>
 </head>
 <body>
+
   <header class="topbar">
     <div class="container nav">
       <a class="brand" href="/">RGZTEC</a>
@@ -24,43 +36,46 @@
     </div>
   </header>
 
-  <section class="section">
-    <div class="container">
-      <h2 id="catTitle">Category</h2>
-      <div id="grid" class="prod-grid"></div>
-    </div>
-  </section>
+  <main class="container">
+    <h1 class="text-2xl font-bold mb-6">HTML Templates</h1>
+    <!-- Ürünler buraya basılacak -->
+    <div id="product-list" class="prod-grid"></div>
+  </main>
 
+  <!-- Ürün verisi -->
+  <script src="../data/products.js"></script>
+
+  <!-- Listeleme / Kart oluşturma -->
   <script>
-    async function load(){
-      const params = new URLSearchParams(location.search);
-      const cat = params.get('cat') || 'html-templates';
+    (function () {
+      const container = document.getElementById('product-list');
 
-      const res = await fetch('../assets/data/products.json');
-      const db = await res.json();
-
-      const catInfo = db.categories.find(c=>c.slug===cat);
-      document.getElementById('catTitle').textContent = catInfo ? catInfo.name : cat;
-
-      const list = db.products.filter(p=>p.cat===cat);
-      const grid = document.getElementById('grid');
-
-      grid.innerHTML = list.map(p=>`
-        <article class="prod">
-          <div class="thumb" style="background:url('../${p.thumb}') center/cover no-repeat;"></div>
-          <div class="prod-body">
-            <div class="prod-title">${p.title}</div>
-            <div class="meta">${p.desc}</div>
-            <div class="price">$${p.price}</div>
-            <div class="row">
-              <a class="btn small" href="../${p.demo}" target="_blank">Demo</a>
-              <a class="btn small secondary" href="detail.html?id=${p.id}">Details</a>
+      function renderCard(product) {
+        const imgPath = `/rgztec/images/${product.image}`;
+        return `
+          <article class="prod">
+            <picture>
+              <source srcset="${imgPath}" type="image/webp">
+              <img src="${imgPath}" alt="${product.title} Preview" loading="lazy" class="thumb">
+            </picture>
+            <div class="prod-body">
+              <h3 class="prod-title">${product.title}</h3>
+              <p class="meta">${product.description}</p>
+              <div class="price">$${product.price}</div>
+              <div class="row">
+                <a href="/rgztec/demo/?t=${product.slug}" target="_blank">Demo</a>
+                <a href="/rgztec/products/${product.slug}.html">Details</a>
+                <a class="btn-primary" href="/rgztec/demo/?t=${product.slug}#new" target="_blank">Create your store</a>
+              </div>
             </div>
-          </div>
-        </article>
-      `).join('');
-    }
-    load();
+          </article>
+        `;
+      }
+
+      // Sadece HTML kategorisini göster
+      const items = (window.RGZ_PRODUCTS || []).filter(p => p.category === 'html-templates');
+      container.innerHTML = items.map(renderCard).join('');
+    })();
   </script>
 </body>
 </html>
