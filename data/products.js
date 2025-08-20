@@ -1,12 +1,12 @@
 // /rgztec/data/products.js
-// Görseller: /rgztec/images/html1.webp ... html20.webp
+// Images live at /rgztec/images/html1.webp ... html20.webp
 
 window.RGZ_PRODUCTS = [
   {
     id: "template-1",
     title: "Landing Starter (HTML)",
     price: 19,
-    description: "Hero, feature grid, pricing ve blog bölümleriyle minimal landing.",
+    description: "Minimal landing with hero, features, pricing and blog sections.",
     category: "html-templates",
     image: "html1.webp",
     slug: "landing-starter"
@@ -15,7 +15,7 @@ window.RGZ_PRODUCTS = [
     id: "template-2",
     title: "Dashboard Lite (HTML)",
     price: 24,
-    description: "Sidebar, topbar, chart placeholder'ları; vanilla JS.",
+    description: "Sidebar, topbar and chart placeholders; vanilla JS.",
     category: "html-templates",
     image: "html2.webp",
     slug: "dashboard-lite"
@@ -24,7 +24,7 @@ window.RGZ_PRODUCTS = [
     id: "template-3",
     title: "Portfolio Mini",
     price: 12,
-    description: "Tek sayfa portfolyo: proje grid'i ve iletişim formu.",
+    description: "Single-page portfolio with project grid and contact form.",
     category: "html-templates",
     image: "html3.webp",
     slug: "portfolio-mini"
@@ -33,7 +33,7 @@ window.RGZ_PRODUCTS = [
     id: "template-4",
     title: "Blog Lite",
     price: 14,
-    description: "Liste + tek yazı şablonu; sade tipografi.",
+    description: "List + single post layout with clean typography.",
     category: "html-templates",
     image: "html4.webp",
     slug: "blog-lite"
@@ -42,7 +42,7 @@ window.RGZ_PRODUCTS = [
     id: "template-5",
     title: "Agency Starter",
     price: 21,
-    description: "Ajans/servis odaklı: hizmet kartları, referanslar, fiyatlandırma.",
+    description: "Agency/services: service cards, testimonials, pricing.",
     category: "html-templates",
     image: "html5.webp",
     slug: "agency-starter"
@@ -51,7 +51,7 @@ window.RGZ_PRODUCTS = [
     id: "template-6",
     title: "E-commerce Mini",
     price: 26,
-    description: "Ürün grid, ürün detay placeholder, sepet ikonları.",
+    description: "Product grid, product detail placeholder and cart icons.",
     category: "html-templates",
     image: "html6.webp",
     slug: "ecommerce-mini"
@@ -60,7 +60,7 @@ window.RGZ_PRODUCTS = [
     id: "template-7",
     title: "Resume Card",
     price: 9,
-    description: "Kişisel özgeçmiş tek sayfa: yetenekler, deneyimler, iletişim.",
+    description: "Single-page resume with skills, experience and contact.",
     category: "html-templates",
     image: "html7.webp",
     slug: "resume-card"
@@ -69,7 +69,7 @@ window.RGZ_PRODUCTS = [
     id: "template-8",
     title: "Product List",
     price: 13,
-    description: "Filtrelenebilir ürün/öğe listesi; grid/satır görünümü.",
+    description: "Filterable item list with grid/row views.",
     category: "html-templates",
     image: "html8.webp",
     slug: "product-list"
@@ -78,7 +78,7 @@ window.RGZ_PRODUCTS = [
     id: "template-9",
     title: "Pricing Tables",
     price: 11,
-    description: "3–4 kolon fiyat tabloları, öne çıkan plan ve CTA butonları.",
+    description: "3–4 column pricing, featured plan and CTA buttons.",
     category: "html-templates",
     image: "html9.webp",
     slug: "pricing-tables"
@@ -87,7 +87,7 @@ window.RGZ_PRODUCTS = [
     id: "template-10",
     title: "Contact Lite",
     price: 8,
-    description: "İletişim formu, harita placeholder, sosyal bağlantılar.",
+    description: "Contact form, map placeholder and social links.",
     category: "html-templates",
     image: "html10.webp",
     slug: "contact-lite"
@@ -96,7 +96,7 @@ window.RGZ_PRODUCTS = [
     id: "template-11",
     title: "FAQ Mini",
     price: 7,
-    description: "Akkordeon SSS bölümü; kategori başlıkları ve arama kutusu.",
+    description: "Accordion FAQ with categories and search input.",
     category: "html-templates",
     image: "html11.webp",
     slug: "faq-mini"
@@ -105,7 +105,7 @@ window.RGZ_PRODUCTS = [
     id: "template-12",
     title: "Gallery Grid",
     price: 12,
-    description: "Masonry/ızgara galeri; lightbox placeholder.",
+    description: "Masonry/grid gallery with lightbox placeholder.",
     category: "html-templates",
     image: "html12.webp",
     slug: "gallery-grid"
@@ -114,7 +114,7 @@ window.RGZ_PRODUCTS = [
     id: "template-13",
     title: "Hero Collection",
     price: 10,
-    description: "5 farklı hero başlık bölümü; arkaplan görsel/video alanı.",
+    description: "Five different hero sections; image/video backgrounds.",
     category: "html-templates",
     image: "html13.webp",
     slug: "hero-collection"
@@ -123,7 +123,7 @@ window.RGZ_PRODUCTS = [
     id: "template-14",
     title: "Newsletter Box",
     price: 6,
-    description: "Abonelik formu, başarı/uyarı durum bileşenleri.",
+    description: "Subscribe form with success/error states.",
     category: "html-templates",
     image: "html14.webp",
     slug: "newsletter-box"
@@ -132,7 +132,7 @@ window.RGZ_PRODUCTS = [
     id: "template-15",
     title: "Auth Pages",
     price: 15,
-    description: "Giriş/Kayıt/Şifre sıfırlama sayfaları.",
+    description: "Sign in / Sign up / Reset password pages.",
     category: "html-templates",
     image: "html15.webp",
     slug: "auth-pages"
@@ -141,7 +141,7 @@ window.RGZ_PRODUCTS = [
     id: "template-16",
     title: "Admin Mini",
     price: 22,
-    description: "Basit admin şablonu: sidebar/topbar, kartlar, tablo.",
+    description: "Simple admin: sidebar/topbar, cards and table.",
     category: "html-templates",
     image: "html16.webp",
     slug: "admin-mini"
@@ -150,7 +150,7 @@ window.RGZ_PRODUCTS = [
     id: "template-17",
     title: "Analytics Starter",
     price: 23,
-    description: "Dashboard varyasyonu; grafik/istatistik placeholder alanları.",
+    description: "Dashboard variant with chart/stat placeholders.",
     category: "html-templates",
     image: "html17.webp",
     slug: "analytics-starter"
@@ -159,7 +159,7 @@ window.RGZ_PRODUCTS = [
     id: "template-18",
     title: "Startup One-Page",
     price: 18,
-    description: "Tek sayfa tanıtım: özellikler, ekip, fiyat, CTA.",
+    description: "One-page intro: features, team, pricing, CTA.",
     category: "html-templates",
     image: "html18.webp",
     slug: "startup-onepage"
@@ -168,7 +168,7 @@ window.RGZ_PRODUCTS = [
     id: "template-19",
     title: "Coming Soon",
     price: 5,
-    description: "Geri sayım sayfası; e-posta toplama alanı.",
+    description: "Countdown page with email capture.",
     category: "html-templates",
     image: "html19.webp",
     slug: "coming-soon"
@@ -177,10 +177,9 @@ window.RGZ_PRODUCTS = [
     id: "template-20",
     title: "Docs Mini",
     price: 16,
-    description: "Dokümantasyon sayfası; sol menü + içerik alanı.",
+    description: "Docs layout with left nav + content area.",
     category: "html-templates",
     image: "html20.webp",
     slug: "docs-mini"
   }
 ];
-
