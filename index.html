@@ -71,6 +71,23 @@
       background:#eef2f8 !important;
       display:block !important;
     }
+<style>
+  /* Category icon strip (home only) */
+  #category-strip { margin: 18px 0 28px; }
+  #category-strip .cats{
+    display:grid; gap:12px;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    list-style:none; padding:0; margin:0;
+  }
+  #category-strip a{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 12px; background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+    color:#0f172a; text-decoration:none;
+  }
+  #category-strip a:hover{ background:#f8fafc; }
+  #category-strip img{ width:40px; height:30px; object-fit:contain; border-radius:6px; background:#fff; }
+  #category-strip span{ font-weight:600; font-size:14px; }
+</style>
 
     /* Content spacing & typography */
     #home-grid .pad{ padding:10px !important; }
