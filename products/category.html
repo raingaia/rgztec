@@ -1,80 +1,168 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>RGZTEC – Category</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Var olan genel stil dosyanız -->
-  <link rel="stylesheet" href="../assets/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RGZTEC — Category</title>
+  <meta name="description" content="Browse curated HTML templates on RGZTEC." />
+  <link rel="stylesheet" href="../assets/styles.css" />
 
+  <!-- Category-only overrides (Etsy-like wide page + compact cards) -->
   <style>
-    /* Bu sayfaya özgü basit grid & kart stilleri */
-    .container{max-width:1100px;margin:0 auto;padding:20px}
-    .prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-    .prod{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden;border:1px solid #edf0f2}
-    .thumb{aspect-ratio:16/10;width:100%;height:auto;display:block;background:#eef2f8;object-fit:cover}
-    .prod-body{padding:14px}
-    .prod-title{font-weight:700;margin:0 0 6px}
-    .meta{font-size:13px;color:#475569;margin-top:6px}
-    .price{font-weight:800;margin-top:10px}
-    .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .row a{font-size:12px;padding:8px 12px;border-radius:10px;border:1px solid #e5e7eb;text-decoration:none;color:#0f172a}
-    .row a:hover{background:#f8fafc}
-    .row a.btn-primary{background:#f97316;color:#fff;border-color:#f97316}
-    .row a.btn-primary:hover{background:#ea580c}
-    header.topbar{border-bottom:1px solid #eef2f4;background:#fff}
-    .brand{font-weight:800;text-decoration:none;color:#0f172a}
-    .nav{display:flex;align-items:center;gap:14px}
+    :root{
+      --primary:#f97316;
+      --text:#0f172a;
+      --muted:#475569;
+      --border:#e5e7eb;
+      --surface:#f8fafc;
+    }
+
+    /* Wider container on large screens */
+    @media (min-width:1280px){ .container{ max-width:1360px !important; } }
+    @media (min-width:1536px){ .container{ max-width:1480px !important; } }
+
+    /* Page heading */
+    .page-head{ padding: 18px 0 8px; }
+
+    /* Grid + Cards (scoped to product-grid) */
+    #product-grid{
+      display:grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; /* make 180px for even smaller */
+      gap:16px !important;
+      align-items: stretch;
+    }
+    #product-grid .card{
+      background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden;
+      box-shadow:0 1px 6px rgba(0,0,0,.05);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    #product-grid .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+
+    /* Thumbnail 4:3 for Etsy feel */
+    #product-grid .thumb{
+      aspect-ratio: 4/3;
+      width:100%; height:auto; display:block;
+      object-fit:cover; background:#eef2f8;
+    }
+
+    /* Content */
+    #product-grid .pad{ padding:10px; }
+    #product-grid .title{ font-weight:800; margin:0 0 4px; font-size:15px; line-height:1.25; color:var(--text); }
+    #product-grid .meta{ font-size:12px; color:var(--muted); margin:0 0 8px; min-height:32px; }
+    #product-grid .price{ font-weight:800; font-size:14px; }
+
+    #product-grid .row{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+    #product-grid .btn{
+      font-size:11px; padding:7px 10px; border-radius:10px;
+      border:1px solid var(--border); text-decoration:none; color:var(--text); background:#fff;
+    }
+    #product-grid .btn:hover{ background:#f8fafc; }
+    #product-grid .btn.primary{ background:var(--primary); color:#fff; border-color:var(--primary); }
+    #product-grid .btn.primary:hover{ filter:brightness(.96); }
   </style>
 </head>
 <body>
-
-  <header class="topbar">
-    <div class="container nav">
-      <a class="brand" href="/">RGZTEC</a>
-      <div style="margin-left:auto"></div>
+  <!-- Topbar (same style as home) -->
+  <header class="main-header">
+    <div class="container">
+      <a class="logo" href="/rgztec/">RGZTEC</a>
+      <div class="search"><input type="search" placeholder="Search for anything" aria-label="Search" /></div>
+      <nav class="actions">
+        <a class="link" href="#">Sign in</a>
+        <a class="icon" href="#" aria-label="Wishlist">♡</a>
+        <a class="icon" href="#" aria-label="Cart">🛒</a>
+        <a class="link" href="../demo/index.html">Demo Gallery</a>
+      </nav>
     </div>
   </header>
 
-  <main class="container">
-    <h1 class="text-2xl font-bold mb-6">HTML Templates</h1>
-    <!-- Ürünler buraya basılacak -->
-    <div id="product-list" class="prod-grid"></div>
+  <main>
+    <section class="container page-head">
+      <h1 id="page-title">HTML Templates</h1>
+    </section>
+
+    <section class="container">
+      <div id="product-grid"></div>
+    </section>
   </main>
 
-  <!-- Ürün verisi -->
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-row">
+      <p>© <span id="y"></span> RGZTEC • Code marketplace</p>
+      <nav class="links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Data + Render -->
   <script src="../data/products.js"></script>
-
-  <!-- Listeleme / Kart oluşturma -->
   <script>
-    (function () {
-      const container = document.getElementById('product-list');
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-      function renderCard(product) {
-        const imgPath = `./images/${product.image}`;
+    (function(){
+      const el = document.getElementById('product-grid');
+      if (!el || !window.RGZ_PRODUCTS) return;
+
+      // Read category from URL (?cat=html-templates), default to html-templates
+      const params = new URLSearchParams(location.search);
+      const catParam = params.get('cat') || 'html-templates';
+
+      // Pretty title for known categories
+      const pretty = {
+        'html-templates': 'HTML Templates',
+        'css-ui-kits': 'CSS UI Kits',
+        'js-widgets': 'JS Widgets',
+        'react': 'React',
+        'email-templates': 'Email Templates',
+        'svg-icons': 'SVG / Icons'
+      };
+      const title = pretty[catParam] || 'Templates';
+      const heading = document.getElementById('page-title');
+      if (heading) heading.textContent = title;
+
+      // Filter items by category
+      let items = (window.RGZ_PRODUCTS || []).filter(p => p.category === catParam);
+      if (!items.length && catParam !== 'html-templates') {
+        // graceful fallback
+        items = (window.RGZ_PRODUCTS || []).filter(p => p.category === 'html-templates');
+      }
+
+      const IMG_BASE = '../images/';
+      const BUST = '?v=5'; // cache buster
+
+      function card(p){
+        const img = IMG_BASE + p.image + BUST;
         return `
-          <article class="prod">
+          <article class="card">
             <picture>
-              <source srcset="${imgPath}" type="image/webp">
-              <img src="../images/${product.image}" alt="${product.title}" />
+              <source srcset="${img}" type="image/webp">
+              <img src="${img}" alt="${p.title} Preview" loading="lazy" class="thumb"
+                   onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=&quot;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:#9fb0cc;font-size:12px;background:#eef2f8&quot;>Image not found</div>')">
             </picture>
-            <div class="prod-body">
-              <h3 class="prod-title">${product.title}</h3>
-              <p class="meta">${product.description}</p>
-              <div class="price">$${product.price}</div>
+            <div class="pad">
+              <h3 class="title">${p.title}</h3>
+              <p class="meta">${p.description}</p>
+              <div class="price">$${p.price}</div>
               <div class="row">
-                <a href="/rgztec/demo/?t=${product.slug}" target="_blank">Demo</a>
-               <a href="/rgztec/products/detail.html?img=${encodeURIComponent(product.image)}&title=${encodeURIComponent(product.title)}">Details</a>
-                <a class="btn-primary" href="/rgztec/demo/?t=${product.slug}#new" target="_blank">Create your store</a>
+                <a class="btn" href="/rgztec/demo/?t=${p.slug}" target="_blank">Demo</a>
+                <a class="btn" href="/rgztec/products/detail.html?img=${encodeURIComponent(p.image)}&title=${encodeURIComponent(p.title)}">Details</a>
+                <a class="btn primary" href="/rgztec/demo/?t=${p.slug}#new" target="_blank">Create your store</a>
               </div>
             </div>
           </article>
         `;
       }
 
-      // Sadece HTML kategorisini göster
-      const items = (window.RGZ_PRODUCTS || []).filter(p => p.category === 'html-templates');
-      container.innerHTML = items.map(renderCard).join('');
+      // Smaller cards -> show more per page
+      el.innerHTML = items.map(card).join('');
     })();
   </script>
 </body>
