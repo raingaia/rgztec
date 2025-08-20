@@ -1,66 +1,168 @@
-<!-- demo/index.html -->
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <title>Demo Galeri</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preload" href="../images/html20.webp" as="image">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC • Demo Galeri</title>
+  <meta name="description" content="RGZTEC demo görsel galerisi" />
+  <link rel="preload" href="../images/html1.webp" as="image" />
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background:#0b0d12; color:#e9edf3;}
-    header { padding:16px 24px; border-bottom:1px solid #1c2230; position:sticky; top:0; background:#0b0d12;}
-    .wrap { max-width:1200px; margin:0 auto; padding:24px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:16px; }
-    .card { background:#111726; border:1px solid #1c2230; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.25); }
-    .thumb { width:100%; height:160px; object-fit:cover; display:block; background:#0f1420; }
-    .meta { padding:10px 12px; display:flex; align-items:center; justify-content:space-between; }
-    .btn { appearance:none; border:1px solid #2a3550; background:#121a2c; color:#cfd8e6; padding:8px 12px; border-radius:10px; cursor:pointer; text-decoration:none; font-size:14px; }
-    .btn:hover { border-color:#3a4a75; }
-    .muted { color:#9fb0cc; font-size:12px; }
-    a { color:inherit; text-decoration:none; }
-    footer { padding:24px; color:#8aa0c5; text-align:center; }
+    :root{
+      --bg:#0b0d12; --panel:#111726; --line:#1c2230;
+      --text:#e9edf3; --muted:#9fb0cc; --accent:#ff875b;
+      --shadow:0 8px 24px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,#0b0d12 0%,#0d1320 100%);
+      color:var(--text); font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(6px);
+      background:rgba(11,13,18,.7); border-bottom:1px solid var(--line);
+    }
+    .wrap{max-width:1200px; margin:0 auto; padding:20px}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .title{margin:0; font-size:18px; letter-spacing:.2px}
+    .actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      appearance:none; border:1px solid var(--line); background:#121a2c; color:var(--text);
+      padding:10px 14px; border-radius:10px; text-decoration:none; cursor:pointer; font-weight:600;
+    }
+    .btn:hover{border-color:#2b3a5a}
+    .btn.accent{background:var(--accent); border-color:transparent; color:#1a0e0b}
+    .hint{color:var(--muted)}
+
+    main .wrap{padding-top:28px}
+    .grid{
+      display:grid; gap:18px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    .card{
+      position:relative; overflow:hidden; border-radius:16px; background:var(--panel);
+      border:1px solid var(--line); box-shadow:var(--shadow); transform:translateZ(0);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .card:hover{ transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.45); border-color:#2b3a5a }
+    .thumb{
+      width:100%; aspect-ratio: 4/3; object-fit:cover; display:block; background:#101726;
+      filter:saturate(1.05); transition:transform .35s ease;
+    }
+    .card:hover .thumb{ transform:scale(1.03) }
+    .meta{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px 14px;
+    }
+    .left small{display:block; color:var(--muted); font-size:12px}
+    .name{font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:16ch}
+    .chip{
+      position:absolute; top:10px; left:10px; background:rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.12); color:#f1f5ff; font-size:12px;
+      padding:4px 8px; border-radius:999px; backdrop-filter: blur(6px); letter-spacing:.3px;
+    }
+    .kbar{
+      display:flex; gap:8px; position:absolute; inset:auto 10px 10px auto;
+    }
+    .kbtn{
+      background:rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.12); color:#fff;
+      padding:6px 10px; border-radius:10px; text-decoration:none; font-size:12px;
+      backdrop-filter: blur(6px);
+    }
+    .kbtn:hover{ background:rgba(0,0,0,.65) }
+
+    footer{ margin:40px 0 60px; color:var(--muted); text-align:center }
+    .empty{
+      border:1px dashed var(--line); border-radius:14px; padding:26px; color:var(--muted);
+      text-align:center; background:rgba(17,23,38,.5)
+    }
+
+    /* skeleton */
+    .skeleton{
+      animation:shine 1.5s linear infinite;
+      background:linear-gradient(90deg,#101726 25%,#141d30 37%,#101726 63%);
+      background-size:400% 100%;
+    }
+    @keyframes shine{0%{background-position:100% 0}100%{background-position:-100% 0}}
   </style>
 </head>
 <body>
   <header>
-    <div class="wrap">
-      <h1 style="margin:0;font-size:20px;">RGZTEC • Demo Galeri</h1>
+    <div class="wrap row">
+      <h1 class="title">RGZTEC • Demo Galeri</h1>
+      <div class="actions">
+        <a class="btn" href="../index.html">← Ana Sayfa</a>
+        <a class="btn accent" href="detail.html?img=html1.webp">Rastgele Başlat</a>
+      </div>
     </div>
   </header>
 
-  <main class="wrap">
-    <div id="grid" class="grid"></div>
+  <main>
+    <div class="wrap">
+      <p class="hint">20 görseli grid halde listeliyoruz. Görsele tıklayınca detay sayfası açılır. “Raw” ile dosyayı yeni sekmede görüntüleyebilirsin.</p>
+      <div id="grid" class="grid" aria-live="polite"></div>
+      <div id="empty" class="empty" style="display:none">Görüntülenecek görsel bulunamadı. <code>demo/data.js</code> içeriğini kontrol et.</div>
+    </div>
   </main>
 
-  <footer>© RAINGAIA</footer>
+  <footer>© <script>document.write(new Date().getFullYear())</script> RAINGAIA • RGZTEC</footer>
 
   <script src="./data.js"></script>
   <script>
-    // DEMO_IMAGES -> data.js'ten geliyor
     const grid = document.getElementById("grid");
-    const items = (window.DEMO_IMAGES || []).filter(Boolean);
+    const empty = document.getElementById("empty");
+    const files = (window.DEMO_IMAGES || []).filter(Boolean);
 
-    items.forEach((name, idx) => {
+    // skeleton placeholder
+    for (let i=0;i<Math.max(files.length,6);i++){
+      const s = document.createElement("div");
+      s.className = "card"; s.innerHTML = `
+        <div class="thumb skeleton"></div>
+        <div class="meta">
+          <div class="left">
+            <small>Yükleniyor…</small>
+            <div class="name skeleton" style="height:12px; width:120px; border-radius:6px"></div>
+          </div>
+          <div class="name skeleton" style="height:28px; width:64px; border-radius:8px"></div>
+        </div>`;
+      grid.appendChild(s);
+    }
+
+    function createCard(name, i){
+      const src = `../images/${name}`;
       const card = document.createElement("article");
       card.className = "card";
-
-      // Görsel yolu (../images/ + dosya)
-      const src = `../images/${name}`;
-
       card.innerHTML = `
-        <a href="./detail.html?img=${encodeURIComponent(name)}">
-          <img class="thumb" src="${src}" alt="${name}">
+        <a href="./detail.html?img=${encodeURIComponent(name)}" aria-label="${name}">
+          <img class="thumb" src="${src}" alt="${name}" loading="lazy" decoding="async">
         </a>
-        <div class="meta">
-          <div>
-            <div class="muted">#${String(idx+1).padStart(2,"0")}</div>
-            <div style="font-size:14px; margin-top:2px;">${name}</div>
-          </div>
-          <a class="btn" href="${src}" target="_blank" rel="noopener">Raw</a>
+        <span class="chip">#${String(i+1).padStart(2,'0')}</span>
+        <div class="kbar">
+          <a class="kbtn" href="${src}" target="_blank" rel="noopener">Raw</a>
+          <a class="kbtn" href="./detail.html?img=${encodeURIComponent(name)}">Detay</a>
         </div>
-      `;
-      grid.appendChild(card);
-    });
+        <div class="meta">
+          <div class="left">
+            <small>images/</small>
+            <div class="name" title="${name}">${name}</div>
+          </div>
+          <a class="btn" href="./detail.html?img=${encodeURIComponent(name)}">Aç</a>
+        </div>`;
+      // hata görseli
+      card.querySelector("img").addEventListener("error", e=>{
+        e.currentTarget.replaceWith(Object.assign(document.createElement("div"),{
+          className:"thumb",
+          style:"display:flex;align-items:center;justify-content:center;color:#9fb0cc;font-size:12px",
+          innerText:"Görsel bulunamadı"
+        }));
+      });
+      return card;
+    }
+
+    // gerçek içerik render
+    grid.innerHTML = "";
+    if (!files.length){ empty.style.display = "block"; }
+    files.forEach((name, i)=> grid.appendChild(createCard(name, i)));
   </script>
 </body>
 </html>
