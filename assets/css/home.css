@@ -17,7 +17,15 @@
   --shadow:0 6px 18px rgba(17, 24, 39, .06);
 }
 
-/* Reset + base */
+/* Reset + base */<head>
+  ...
+  <style>
+    /* Content spacing & typography */
+    #home-grid .pad{ padding:10px !important; }
+    /* ... o büyük CSS bloğunun tamamı ... */
+  </style>
+</head>
+
 *{ box-sizing:border-box }
 html,body{ height:100% }
 html{ scroll-behavior:smooth }
