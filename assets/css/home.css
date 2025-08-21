@@ -1,0 +1,170 @@
+/* ========== RGZTEC Global Layout v2 ========== */
+
+/* Root tokens */
+:root{
+  --bg:#fafbfc;
+  --surface:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --primary:#ff6a3d;
+  --primary-600:#ff5a28;
+
+  /* spacing scale */
+  --s-1:4px;   --s-2:8px;   --s-3:12px;  --s-4:16px;
+  --s-5:24px;  --s-6:32px;  --s-7:48px;  --s-8:72px;
+  --radius:16px;
+  --shadow:0 6px 18px rgba(17, 24, 39, .06);
+}
+
+/* Reset + base */
+*{ box-sizing:border-box }
+html,body{ height:100% }
+html{ scroll-behavior:smooth }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+}
+
+/* Typography */
+h1,h2,h3{ margin:0 0 var(--s-4); line-height:1.2; letter-spacing:.1px }
+h1{ font-size:clamp(28px, 2.2vw + 18px, 42px); font-weight:800 }
+h2{ font-size:clamp(22px, 1.6vw + 14px, 32px); font-weight:700 }
+p{ margin:0 0 var(--s-5); color:var(--muted) }
+
+/* Container */
+.wrapper, #home-grid{
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3.5vw, 36px);
+}
+
+/* Header / Top-nav — airy */
+header, .site-header, #home-grid .topbar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+header .nav, .site-header .nav, #home-grid .nav{
+  display:flex; align-items:center; gap:var(--s-4);
+  height: clamp(60px, 6.5vw, 88px);
+}
+header .brand, .site-header .brand{
+  font-weight:900; font-size:clamp(18px,1.2vw+14px,24px);
+  letter-spacing:.3px;
+}
+
+/* Search */
+input[type="search"], .search-input{
+  width:min(680px, 50vw);
+  height:44px; padding:0 var(--s-5);
+  border:1px solid var(--border); border-radius:999px;
+  background:#fff; outline:none;
+}
+input[type="search"]::placeholder{ color:#9aa3ae }
+
+/* Top nav links */
+.nav-links{ display:flex; gap:var(--s-4); flex-wrap:wrap }
+.nav-links a{
+  text-decoration:none; color:#475569; font-weight:600;
+  padding:8px 10px; border-radius:10px;
+}
+.nav-links a:hover{ background:#f5f7fa }
+
+/* Hero */
+.hero{
+  background:linear-gradient(0deg, #fff 0%, #fff 70%, rgba(255,255,255,0) 100%);
+  padding: var(--s-7) 0 var(--s-6);
+  margin-top: var(--s-4);
+}
+.hero .actions{ display:flex; gap:var(--s-3); flex-wrap:wrap; margin-top:var(--s-4) }
+
+/* Buttons */
+.btn{
+  appearance:none; border:1px solid var(--border);
+  background:#fff; color:var(--text); font-weight:700;
+  padding:10px 16px; border-radius:12px; text-decoration:none; display:inline-flex; gap:8px; align-items:center;
+  transition:transform .06s ease, filter .15s ease, border-color .15s ease;
+}
+.btn.primary{
+  background:var(--primary); border-color:var(--primary);
+  color:#fff;
+}
+.btn:hover{ filter:brightness(.97) }
+.btn.primary:hover{ background:var(--primary-600); border-color:var(--primary-600) }
+.btn:active{ transform:translateY(1px) }
+
+/* Section headings */
+.section{ padding: var(--s-6) 0 }
+.section-header{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:var(--s-3);
+  margin-bottom: var(--s-4);
+}
+
+/* Card grid (Featured, categories, vb.) */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(14px, 1.2vw, 22px);
+}
+.grid.auto-3 > *{ grid-column: span 4 }
+.grid.auto-4 > *{ grid-column: span 3 }
+@media (max-width: 1024px){
+  .grid.auto-3 > *, .grid.auto-4 > *{ grid-column: span 6 }
+}
+@media (max-width: 600px){
+  .grid.auto-3 > *, .grid.auto-4 > *{ grid-column: 1 / -1 }
+}
+
+/* Cards */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding: var(--s-5);
+  display:flex; flex-direction:column; gap:var(--s-3);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(17,24,39,.08) }
+.card .thumb{ width:100%; aspect-ratio: 16/10; display:block; object-fit:contain; border-radius:12px; background:#f4f6f9; border:1px dashed #e8ebef }
+.card .title{ font-size: clamp(15px, 1vw + 12px, 18px); font-weight:800; color:#0f172a }
+.card .meta{ font-size:13px; color:var(--muted) }
+.card .price{ font-weight:800; color:#111827 }
+
+/* Home legacy hooks (mevcut kodla uyumluluk) */
+#home-grid .pad{ padding:10px !important; }
+#home-grid .title{ font-size:15px !important; line-height:1.25 !important; font-weight:800 !important; color:var(--text) !important; }
+#home-grid .meta{ font-size:12px !important; color:#475569 !important; margin:0 0 8px !important; min-height:32px !important; }
+#home-grid .price{ font-size:14px !important; font-weight:800 !important; color:#0f172a !important }
+#home-grid .row{ display:flex !important; gap:6px !important; margin-top:8px !important; flex-wrap:wrap !important }
+#home-grid .btn{ font-size:12px !important; padding:8px 10px !important; border-radius:10px !important; border:1px solid var(--border) !important; text-decoration:none !important; color:var(--text) !important; background:#fff !important }
+#home-grid .btn.primary{ background:var(--primary) !important; color:#fff !important; border-color:var(--primary) !important }
+#home-grid .btn.primary:hover{ filter:brightness(.96) !important }
+#home-grid .btn:hover{ background:#f8fafc !important }
+#home-grid .pill{ font-size:11px; padding:4px 8px; border:1px solid var(--border); border-radius:999px; color:#475569 }
+
+/* Footer */
+footer{
+  margin-top: var(--s-7);
+  padding: var(--s-6) 0 var(--s-7);
+  border-top:1px solid var(--border);
+  background:#fff;
+  color:#64748b;
+}
+
+/* Utilities */
+.mt-0{ margin-top:0!important } .mt-2{ margin-top:var(--s-2)!important }
+.mt-3{ margin-top:var(--s-3)!important } .mt-4{ margin-top:var(--s-4)!important }
+.mt-5{ margin-top:var(--s-5)!important } .mt-6{ margin-top:var(--s-6)!important } .mt-7{ margin-top:var(--s-7)!important }
+
+.mb-0{ margin-bottom:0!important } .mb-2{ margin-bottom:var(--s-2)!important }
+.mb-3{ margin-bottom:var(--s-3)!important } .mb-4{ margin-bottom:var(--s-4)!important }
+.mb-5{ margin-bottom:var(--s-5)!important } .mb-6{ margin-bottom:var(--s-6)!important }
+
+.hidden{ display:none!important }
+.center{ display:flex; align-items:center; justify-content:center }
+
+/* ========== END ========== */
