@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTML Templates - RGZTEC Store</title>
+  <meta name="description" content="Browse all available HTML templates from the RGZTEC marketplace.">
+  <!-- Ana dizindeki CSS dosyasını kullanıyoruz -->
+  <link rel="stylesheet" href="../assets/css/home.css?v=9" />
+</head>
+<body>
 
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="wrapper nav-wrapper">
+      <!-- Ana sayfaya geri dönmek için link -->
+      <a class="brand" href="../">RGZTEC</a>
+      <form class="search" role="search" aria-label="Site search">
+        <input type="search" class="search-input" placeholder="Search HTML templates..." />
+      </form>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="./html-templates.html">HTML Templates</a>
+        <a href="./css-ui-kits.html">CSS UI Kits</a>
+        <a href="./js-widgets.html">JS Widgets</a>
+        <!-- Diğer kategori linkleri de buraya eklenebilir -->
+        <a href="../demo/">Demo Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="products-content">
+    
+    <!-- HTML TEMPLATES SECTION -->
+    <section id="templates" class="section page-content">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>HTML Templates</h2>
+          <p class="meta">High-quality, responsive HTML5 and CSS3 templates.</p>
+        </div>
+        <div class="grid auto-4">
+          <!-- Bu kategoriye ait tüm ürünleri buraya listeleyin -->
+          <article class="card"><img class="thumb" src="../images/html1.webp" alt="HTML Template 1" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 1</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html2.webp" alt="HTML Template 2" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 2</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html3.webp" alt="HTML Template 3" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 3</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html4.webp" alt="HTML Template 4" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 4</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <!-- Gerekirse daha fazla kart ekleyebilirsiniz -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="wrapper">
+      <div class="footer-grid">
+        <div>
+          <h3 class="title">About RGZTEC</h3>
+          <p class="meta">Static code marketplace and demo gallery. Demos are open without accounts.</p>
+        </div>
+        <div>
+          <h4 class="title">Links</h4>
+          <ul class="footer-links">
+            <li><a href="../demo/">Demo Gallery</a></li>
+            <li><a href="./html-templates.html">Open Store</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="title">Contact</h4>
+          <p class="meta">support@rgztec.example</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Arama fonksiyonu için aynı JS dosyasını kullanıyoruz -->
+  <script src="../assets/js/main.js?v=3"></script>
+</body>
+</html>
