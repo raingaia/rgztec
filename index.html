@@ -6,7 +6,7 @@
   <title>RGZTEC - Static Code Marketplace</title>
   <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more.">
   <!-- CSS version updated to ensure latest styles are loaded -->
-  <link rel="stylesheet" href="./assets/css/home.css?v=10" />
+  <link rel="stylesheet" href="./assets/css/home.css?v=12" />
 </head>
 <body>
 
@@ -37,16 +37,16 @@
         <h1>Welcome to RGZTEC</h1>
         <p>Multi-vendor static code marketplace. Explore featured HTML templates below.</p>
         <div class="actions">
-          <a class="btn primary" href="./products/html-templates.html">Open Store</a>
-          <a class="btn" href="./demo/">Open Demo Gallery</a>
+          <!-- "Open Store" now correctly points to the first category page -->
+          <a class="btn primary" href="./signup.html">Open Your Store</a>
+          <a class="btn" href="./demo/">Demo Gallery</a>
         </div>
       </div>
     </section>
 
-    <!-- CATEGORIES -->
+    <!-- CATEGORIES STRIP -->
     <section class="section" id="categories">
       <div class="wrapper">
-        <!-- CATEGORY STRIP LINKS UPDATED TO POINT TO CATEGORY PAGES -->
         <div class="category-strip">
           <a href="./products/html-templates.html" class="cat"><img src="./images/categories/html-templates.webp" alt="HTML Templates Icon" /><span>HTML Templates</span></a>
           <a href="./products/css-ui-kits.html" class="cat"><img src="./images/categories/css-ui-kits.webp" alt="CSS UI Kits Icon" /><span>CSS UI Kits</span></a>
@@ -54,15 +54,6 @@
           <a href="./products/react.html" class="cat"><img src="./images/categories/react.webp" alt="React Components Icon" /><span>React</span></a>
           <a href="./products/svg-icons.html" class="cat"><img src="./images/categories/svg-icons.webp" alt="SVG and Icons Icon" /><span>SVG / Icons</span></a>
           <a href="./products/email-templates.html" class="cat"><img src="./images/categories/email-templates.webp" alt="Email Templates Icon" /><span>Email Templates</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- NOTICE -->
-    <section class="section" id="notice">
-      <div class="wrapper">
-        <div class="notice-box">
-          <strong>No sign-ups.</strong> Demos are open without accounts. Email verification is not enabled yet. Store creation opens from Open Store and is read-only while verification is off.
         </div>
       </div>
     </section>
@@ -75,7 +66,7 @@
           <a class="btn" href="./products/html-templates.html">View all</a>
         </div>
         <div class="grid auto-4">
-          <!-- All 20 cards are now listed -->
+          <!-- 20 cards for HTML Templates -->
           <article class="card"><img class="thumb" src="./images/html1.webp" alt="Featured Template 1" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 1</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
           <article class="card"><img class="thumb" src="./images/html2.webp" alt="Featured Template 2" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 2</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
           <article class="card"><img class="thumb" src="./images/html3.webp" alt="Featured Template 3" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 3</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
@@ -99,6 +90,40 @@
         </div>
       </div>
     </section>
+    
+    <!-- FEATURED CSS UI KITS (VITRIN) -->
+    <section class="section" id="ui-kits">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>Featured CSS UI Kits</h2>
+          <a class="btn" href="./products/css-ui-kits.html">View all</a>
+        </div>
+        <div class="grid auto-4">
+          <!-- 20 cards for CSS UI Kits -->
+          <article class="card"><img class="thumb" src="./images/html1.webp" alt="Featured CSS Kit 1" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 1</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html2.webp" alt="Featured CSS Kit 2" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 2</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html3.webp" alt="Featured CSS Kit 3" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 3</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html4.webp" alt="Featured CSS Kit 4" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 4</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html5.webp" alt="Featured CSS Kit 5" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 5</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html6.webp" alt="Featured CSS Kit 6" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 6</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html7.webp" alt="Featured CSS Kit 7" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 7</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html8.webp" alt="Featured CSS Kit 8" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 8</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html9.webp" alt="Featured CSS Kit 9" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 9</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html10.webp" alt="Featured CSS Kit 10" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 10</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html11.webp" alt="Featured CSS Kit 11" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 11</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html12.webp" alt="Featured CSS Kit 12" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 12</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html13.webp" alt="Featured CSS Kit 13" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 13</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html14.webp" alt="Featured CSS Kit 14" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 14</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html15.webp" alt="Featured CSS Kit 15" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 15</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html16.webp" alt="Featured CSS Kit 16" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 16</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html17.webp" alt="Featured CSS Kit 17" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 17</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html18.webp" alt="Featured CSS Kit 18" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 18</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html19.webp" alt="Featured CSS Kit 19" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 19</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="./images/html20.webp" alt="Featured CSS Kit 20" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 20</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->
@@ -113,7 +138,8 @@
           <h4 class="title">Links</h4>
           <ul class="footer-links">
             <li><a href="./demo/">Demo Gallery</a></li>
-            <li><a href="./products/html-templates.html">Open Store</a></li>
+            <li><a href="./products/html-templates.html">Explore Products</a></li>
+            <li><a href="./signup.html">Become a Seller</a></li>
           </ul>
         </div>
         <div>
