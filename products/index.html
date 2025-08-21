@@ -15,6 +15,10 @@
     <div class="wrapper nav-wrapper">
       <!-- Link back to the homepage -->
       <a class="brand" href="../">RGZTEC</a>
+      <!-- Search bar added for filtering products on this page -->
+      <form class="search" role="search" aria-label="Site search">
+        <input type="search" class="search-input" placeholder="Search products..." />
+      </form>
       <nav class="nav-links" aria-label="Primary">
         <a href="../#templates">HTML Templates</a>
         <a href="../#ui">CSS UI Kits</a>
@@ -28,37 +32,64 @@
   </header>
 
   <main id="products-content">
-    <!-- PRODUCTS GRID -->
-    <section class="section page-content">
+    
+    <!-- HTML TEMPLATES SECTION -->
+    <section id="templates" class="section page-content">
       <div class="wrapper">
         <div class="section-header">
-          <h2>All Products</h2>
+          <h2>HTML Templates</h2>
         </div>
         <div class="grid auto-4">
-          <!-- All 20 cards are listed here -->
-          <article class="card"><img class="thumb" src="../images/html1.webp" alt="Featured Template 1" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 1</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html2.webp" alt="Featured Template 2" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 2</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html3.webp" alt="Featured Template 3" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 3</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html4.webp" alt="Featured Template 4" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 4</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html5.webp" alt="Featured Template 5" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 5</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html6.webp" alt="Featured Template 6" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 6</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html7.webp" alt="Featured Template 7" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 7</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html8.webp" alt="Featured Template 8" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 8</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html9.webp" alt="Featured Template 9" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 9</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html10.webp" alt="Featured Template 10" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 10</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html11.webp" alt="Featured Template 11" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 11</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html12.webp" alt="Featured Template 12" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 12</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html13.webp" alt="Featured Template 13" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 13</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html14.webp" alt="Featured Template 14" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 14</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html15.webp" alt="Featured Template 15" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 15</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html16.webp" alt="Featured Template 16" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 16</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html17.webp" alt="Featured Template 17" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 17</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html18.webp" alt="Featured Template 18" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 18</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html19.webp" alt="Featured Template 19" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 19</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html20.webp" alt="Featured Template 20" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 20</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html1.webp" alt="HTML Template 1" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 1</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html2.webp" alt="HTML Template 2" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 2</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html3.webp" alt="HTML Template 3" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 3</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html4.webp" alt="HTML Template 4" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 4</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
         </div>
       </div>
     </section>
+
+    <!-- CSS UI KITS SECTION -->
+    <section id="ui" class="section page-content">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>CSS UI Kits</h2>
+        </div>
+        <div class="grid auto-4">
+          <article class="card"><img class="thumb" src="../images/html5.webp" alt="CSS UI Kit 1" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 1</h3><p class="meta">Modern CSS Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html6.webp" alt="CSS UI Kit 2" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 2</h3><p class="meta">Modern CSS Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html7.webp" alt="CSS UI Kit 3" loading="lazy" width="640" height="400" /><h3 class="title">CSS UI Kit 3</h3><p class="meta">Modern CSS Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+        </div>
+      </div>
+    </section>
+    
+    <!-- JS WIDGETS SECTION -->
+    <section id="js" class="section page-content">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>JS Widgets</h2>
+        </div>
+        <div class="grid auto-4">
+          <article class="card"><img class="thumb" src="../images/html8.webp" alt="JS Widget 1" loading="lazy" width="640" height="400" /><h3 class="title">JS Widget 1</h3><p class="meta">Interactive JavaScript</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html9.webp" alt="JS Widget 2" loading="lazy" width="640" height="400" /><h3 class="title">JS Widget 2</h3><p class="meta">Interactive JavaScript</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- REACT SECTION -->
+    <section id="react" class="section page-content">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>React Components</h2>
+        </div>
+        <div class="grid auto-4">
+          <article class="card"><img class="thumb" src="../images/html10.webp" alt="React Component 1" loading="lazy" width="640" height="400" /><h3 class="title">React Component 1</h3><p class="meta">Reusable React Code</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+          <article class="card"><img class="thumb" src="../images/html11.webp" alt="React Component 2" loading="lazy" width="640" height="400" /><h3 class="title">React Component 2</h3><p class="meta">Reusable React Code</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Remaining sections can be filled similarly -->
+
   </main>
 
   <!-- FOOTER -->
@@ -84,5 +115,7 @@
     </div>
   </footer>
 
+  <!-- Link to the same JS file for search functionality -->
+  <script src="../assets/js/main.js?v=3"></script>
 </body>
 </html>
