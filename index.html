@@ -5,26 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC - Static Code Marketplace</title>
   <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more.">
-  <!-- CSS sürümünü v=8 olarak güncelledik -->
-  <link rel="stylesheet" href="./assets/css/home.css?v=8" /><link rel="icon" type="image/png" href="./images/favicon.png">
-<!-- Ana index.html dosyasındaki nav-links bölümünü bununla değiştirin -->
-<nav class="nav-links" aria-label="Primary">
-    <a href="./products/html-templates.html">HTML Templates</a>
-    <a href="./products/css-ui-kits.html">CSS UI Kits</a>
-    <a href="./products/js-widgets.html">JS Widgets</a>
-    <a href="./products/react.html">React</a>
-    <a href="./products/email-templates.html">Email Templates</a>
-    <a href="./products/svg-icons.html">SVG/Icons</a>
-    <a href="./demo/">Demo Gallery</a>
-</nav>
-<meta name="theme-color" content="#ff6a3d">
-<meta property="og:title" content="RGZTEC - Static Code Marketplace">
-<meta property="og:description" content="Multi-vendor static code marketplace. Explore featured HTML templates.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://raingaia.github.io/rgztec/">
-<meta property="og:image" content="https://raingaia.github.io/rgztec/images/social-card.png">
-<meta name="twitter:card" content="summary_large_image">
-
+  <!-- CSS version updated to ensure latest styles are loaded -->
+  <link rel="stylesheet" href="./assets/css/home.css?v=10" />
 </head>
 <body>
 
@@ -35,13 +17,14 @@
       <form class="search" role="search" aria-label="Site search">
         <input type="search" class="search-input" placeholder="Search for anything..." />
       </form>
+      <!-- NAVIGATION LINKS UPDATED TO POINT TO CATEGORY PAGES -->
       <nav class="nav-links" aria-label="Primary">
-        <a href="#templates">HTML Templates</a>
-        <a href="#ui">CSS UI Kits</a>
-        <a href="#js">JS Widgets</a>
-        <a href="#react">React</a>
-        <a href="#email">Email Templates</a>
-        <a href="#icons">SVG/Icons</a>
+        <a href="./products/html-templates.html">HTML Templates</a>
+        <a href="./products/css-ui-kits.html">CSS UI Kits</a>
+        <a href="./products/js-widgets.html">JS Widgets</a>
+        <a href="./products/react.html">React</a>
+        <a href="./products/email-templates.html">Email Templates</a>
+        <a href="./products/svg-icons.html">SVG/Icons</a>
         <a href="./demo/">Demo Gallery</a>
       </nav>
     </div>
@@ -54,7 +37,7 @@
         <h1>Welcome to RGZTEC</h1>
         <p>Multi-vendor static code marketplace. Explore featured HTML templates below.</p>
         <div class="actions">
-          <a class="btn primary" href="./products/">Open Store</a>
+          <a class="btn primary" href="./products/html-templates.html">Open Store</a>
           <a class="btn" href="./demo/">Open Demo Gallery</a>
         </div>
       </div>
@@ -63,13 +46,14 @@
     <!-- CATEGORIES -->
     <section class="section" id="categories">
       <div class="wrapper">
+        <!-- CATEGORY STRIP LINKS UPDATED TO POINT TO CATEGORY PAGES -->
         <div class="category-strip">
-          <a href="#templates" class="cat"><img src="./images/categories/html-templates.webp" alt="HTML Templates Icon" /><span>HTML Templates</span></a>
-          <a href="#ui" class="cat"><img src="./images/categories/css-ui-kits.webp" alt="CSS UI Kits Icon" /><span>CSS UI Kits</span></a>
-          <a href="#js" class="cat"><img src="./images/categories/js-widgets.webp" alt="JS Widgets Icon" /><span>JS Widgets</span></a>
-          <a href="#react" class="cat"><img src="./images/categories/react.webp" alt="React Components Icon" /><span>React</span></a>
-          <a href="#icons" class="cat"><img src="./images/categories/svg-icons.webp" alt="SVG and Icons Icon" /><span>SVG / Icons</span></a>
-          <a href="#email" class="cat"><img src="./images/categories/email-templates.webp" alt="Email Templates Icon" /><span>Email Templates</span></a>
+          <a href="./products/html-templates.html" class="cat"><img src="./images/categories/html-templates.webp" alt="HTML Templates Icon" /><span>HTML Templates</span></a>
+          <a href="./products/css-ui-kits.html" class="cat"><img src="./images/categories/css-ui-kits.webp" alt="CSS UI Kits Icon" /><span>CSS UI Kits</span></a>
+          <a href="./products/js-widgets.html" class="cat"><img src="./images/categories/js-widgets.webp" alt="JS Widgets Icon" /><span>JS Widgets</span></a>
+          <a href="./products/react.html" class="cat"><img src="./images/categories/react.webp" alt="React Components Icon" /><span>React</span></a>
+          <a href="./products/svg-icons.html" class="cat"><img src="./images/categories/svg-icons.webp" alt="SVG and Icons Icon" /><span>SVG / Icons</span></a>
+          <a href="./products/email-templates.html" class="cat"><img src="./images/categories/email-templates.webp" alt="Email Templates Icon" /><span>Email Templates</span></a>
         </div>
       </div>
     </section>
@@ -83,15 +67,15 @@
       </div>
     </section>
 
-    <!-- FEATURED HTML TEMPLATES -->
+    <!-- FEATURED HTML TEMPLATES (VITRIN) -->
     <section class="section" id="templates">
       <div class="wrapper">
         <div class="section-header">
           <h2>Featured HTML Templates</h2>
-          <a class="btn" href="./products/">View all</a>
+          <a class="btn" href="./products/html-templates.html">View all</a>
         </div>
         <div class="grid auto-4">
-          <!-- Cards with lazy loading -->
+          <!-- All 20 cards are now listed -->
           <article class="card"><img class="thumb" src="./images/html1.webp" alt="Featured Template 1" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 1</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
           <article class="card"><img class="thumb" src="./images/html2.webp" alt="Featured Template 2" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 2</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
           <article class="card"><img class="thumb" src="./images/html3.webp" alt="Featured Template 3" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 3</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
@@ -115,13 +99,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Placeholder sections for anchors -->
-    <section id="ui" class="section"><div class="wrapper"><h2>CSS UI Kits</h2><p class="meta">Coming soon.</p></div></section>
-    <section id="js" class="section"><div class="wrapper"><h2>JS Widgets</h2><p class="meta">Coming soon.</p></div></section>
-    <section id="react" class="section"><div class="wrapper"><h2>React</h2><p class="meta">Coming soon.</p></div></section>
-    <section id="email" class="section"><div class="wrapper"><h2>Email Templates</h2><p class="meta">Coming soon.</p></div></section>
-    <section id="icons" class="section"><div class="wrapper"><h2>SVG/Icons</h2><p class="meta">Coming soon.</p></div></section>
   </main>
 
   <!-- FOOTER -->
@@ -136,7 +113,7 @@
           <h4 class="title">Links</h4>
           <ul class="footer-links">
             <li><a href="./demo/">Demo Gallery</a></li>
-            <li><a href="./products/">Open Store</a></li>
+            <li><a href="./products/html-templates.html">Open Store</a></li>
           </ul>
         </div>
         <div>
@@ -147,7 +124,6 @@
     </div>
   </footer>
 
-  <!-- JAVASCRIPT -->
-  <script src="./assets/js/main.js?v=2"></script>
+  <script src="./assets/js/main.js?v=3"></script>
 </body>
 </html>
