@@ -5,159 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC - Static Code Marketplace</title>
   <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more.">
-  <!-- CSS version updated to ensure latest styles are loaded -->
-  <link rel="stylesheet" href="./assets/css/home.css?v=12" />
+  <!-- CSS version updated to match the latest styles -->
+  <link rel="stylesheet" href="./assets/css/home.css?v=15" />
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="wrapper nav-wrapper">
-      <a class="brand" href="./">RGZTEC</a>
-      <form class="search" role="search" aria-label="Site search">
-        <input type="search" class="search-input" placeholder="Search for anything..." />
-      </form>
-      <!-- NAVIGATION LINKS UPDATED WITH AUTH -->
-      <nav class="nav-links" aria-label="Primary">
-        <a href="./products/html-templates.html">Explore</a>
-        <a href="./demo/">Demo Gallery</a>
-        <a href="./login.html" class="btn secondary">Login</a>
-        <a href="./signup.html" class="btn primary">Become a Seller</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Left Ad Banner -->
+  <aside class="ad-banner ad-banner-left">
+    <a href="#" target="_blank" rel="noopener sponsored">
+      <img src="https://placehold.co/160x600/f97316/ffffff?text=Your+Ad+Here" alt="Advertisement" />
+    </a>
+  </aside>
 
-  <main id="home-content">
-    <!-- HERO -->
-    <section class="hero">
+  <!-- Main Page Container -->
+  <div class="page-container">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="wrapper nav-wrapper">
+        <a class="brand" href="./">RGZTEC</a>
+        <form class="search" role="search" aria-label="Site search">
+          <input type="search" class="search-input" placeholder="Search for anything..." />
+        </form>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="./products/html-templates.html">Explore</a>
+          <a href="./demo/">Demo Gallery</a>
+          <a href="./login.html" class="btn secondary">Login</a>
+          <a href="./signup.html" class="btn primary">Become a Seller</a>
+          <!-- Shopping Cart Icon -->
+          <a href="./cart.html" class="nav-cart" aria-label="Shopping Cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span class="cart-count">0</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="home-content">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="wrapper">
+          <h1>Welcome to RGZTEC</h1>
+          <p>Multi-vendor static code marketplace. Explore featured HTML templates below.</p>
+          <div class="actions">
+            <a class="btn primary" href="./signup.html">Open Your Store</a>
+            <a class="btn" href="./demo/">Demo Gallery</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CATEGORIES STRIP -->
+      <section class="section" id="categories">
+        <div class="wrapper">
+          <div class="category-strip">
+            <a href="./products/html-templates.html" class="cat"><img src="./images/categories/html-templates.webp" alt="HTML Templates Icon" /><span>HTML Templates</span></a>
+            <a href="./products/css-ui-kits.html" class="cat"><img src="./images/categories/css-ui-kits.webp" alt="CSS UI Kits Icon" /><span>CSS UI Kits</span></a>
+            <a href="./products/js-widgets.html" class="cat"><img src="./images/categories/js-widgets.webp" alt="JS Widgets Icon" /><span>JS Widgets</span></a>
+            <a href="./products/react.html" class="cat"><img src="./images/categories/react.webp" alt="React Components Icon" /><span>React</span></a>
+            <a href="./products/svg-icons.html" class="cat"><img src="./images/categories/svg-icons.webp" alt="SVG and Icons Icon" /><span>SVG / Icons</span></a>
+            <a href="./products/email-templates.html" class="cat"><img src="./images/categories/email-templates.webp" alt="Email Templates Icon" /><span>Email Templates</span></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- BECOME A SELLER -->
+      <section class="section" id="cta-seller">
+        <div class="wrapper">
+          <div class="cta-box">
+            <h2>Ready to Sell Your Code?</h2>
+            <p>Join our community of creators and start earning from your digital products today.</p>
+            <a href="./signup.html" class="btn primary">Create Your Account</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED HTML TEMPLATES (VITRIN) -->
+      <section class="section" id="templates">
+        <div class="wrapper">
+          <div class="section-header">
+            <h2>Featured HTML Templates</h2>
+            <a class="btn" href="./products/html-templates.html">View all</a>
+          </div>
+          <div class="grid auto-4">
+            <!-- 20 cards for HTML Templates with correct image paths and data attributes -->
+            <article class="card" data-id="html-01" data-title="Landing Page Starter" data-price="19" data-img="./images/html1.webp"><img class="thumb" src="./images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" /><h3 class="title">Landing Page Starter</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$19</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-02" data-title="Portfolio Showcase" data-price="25" data-img="./images/html2.webp"><img class="thumb" src="./images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" /><h3 class="title">Portfolio Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$25</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-03" data-title="Admin Dashboard UI" data-price="49" data-img="./images/html3.webp"><img class="thumb" src="./images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" /><h3 class="title">Admin Dashboard UI</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$49</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-04" data-title="E-commerce Homepage" data-price="39" data-img="./images/html4.webp"><img class="thumb" src="./images/html4.webp" alt="E-commerce Homepage" loading="lazy" width="640" height="400" /><h3 class="title">E-commerce Homepage</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$39</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-05" data-title="Blog Template" data-price="29" data-img="./images/html5.webp"><img class="thumb" src="./images/html5.webp" alt="Blog Template" loading="lazy" width="640" height="400" /><h3 class="title">Blog Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$29</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-06" data-title="SaaS Landing Page" data-price="22" data-img="./images/html6.webp"><img class="thumb" src="./images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" /><h3 class="title">SaaS Landing Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$22</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-07" data-title="Agency One-Pager" data-price="15" data-img="./images/html7.webp"><img class="thumb" src="./images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" /><h3 class="title">Agency One-Pager</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$15</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-08" data-title="Corporate Site" data-price="35" data-img="./images/html8.webp"><img class="thumb" src="./images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" /><h3 class="title">Corporate Site</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$35</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-09" data-title="Restaurant Template" data-price="24" data-img="./images/html9.webp"><img class="thumb" src="./images/html9.webp" alt="Restaurant Template" loading="lazy" width="640" height="400" /><h3 class="title">Restaurant Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$24</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-10" data-title="Real Estate Listing" data-price="33" data-img="./images/html10.webp"><img class="thumb" src="./images/html10.webp" alt="Real Estate Listing" loading="lazy" width="640" height="400" /><h3 class="title">Real Estate Listing</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$33</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-11" data-title="App Showcase" data-price="18" data-img="./images/html11.webp"><img class="thumb" src="./images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" /><h3 class="title">App Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$18</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-12" data-title="Personal Resume" data-price="12" data-img="./images/html12.webp"><img class="thumb" src="./images/html12.webp" alt="Personal Resume" loading="lazy" width="640" height="400" /><h3 class="title">Personal Resume</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$12</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-13" data-title="Event Landing Page" data-price="20" data-img="./images/html13.webp"><img class="thumb" src="./images/html13.webp" alt="Event Landing Page" loading="lazy" width="640" height="400" /><h3 class="title">Event Landing Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$20</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-14" data-title="Startup Template" data-price="28" data-img="./images/html14.webp"><img class="thumb" src="./images/html14.webp" alt="Startup Template" loading="lazy" width="640" height="400" /><h3 class="title">Startup Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$28</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-15" data-title="Product Page" data-price="19" data-img="./images/html15.webp"><img class="thumb" src="./images/html15.webp" alt="Product Page" loading="lazy" width="640" height="400" /><h3 class="title">Product Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$19</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-16" data-title="Coming Soon Page" data-price="9" data-img="./images/html16.webp"><img class="thumb" src="./images/html16.webp" alt="Coming Soon Page" loading="lazy" width="640" height="400" /><h3 class="title">Coming Soon Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$9</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-17" data-title="Login Page Template" data-price="14" data-img="./images/html17.webp"><img class="thumb" src="./images/html17.webp" alt="Login Page Template" loading="lazy" width="640" height="400" /><h3 class="title">Login Page Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$14</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-18" data-title="Contact Form Page" data-price="10" data-img="./images/html18.webp"><img class="thumb" src="./images/html18.webp" alt="Contact Form Page" loading="lazy" width="640" height="400" /><h3 class="title">Contact Form Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$10</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-19" data-title="FAQ Page" data-price="12" data-img="./images/html19.webp"><img class="thumb" src="./images/html19.webp" alt="FAQ Page" loading="lazy" width="640" height="400" /><h3 class="title">FAQ Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$12</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+            <article class="card" data-id="html-20" data-title="404 Error Page" data-price="5" data-img="./images/html20.webp"><img class="thumb" src="./images/html20.webp" alt="404 Error Page" loading="lazy" width="640" height="400" /><h3 class="title">404 Error Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$5</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
       <div class="wrapper">
-        <h1>Welcome to RGZTEC</h1>
-        <p>Multi-vendor static code marketplace. Explore featured HTML templates below.</p>
-        <div class="actions">
-          <!-- "Open Store" now correctly points to the signup page -->
-          <a class="btn primary" href="./signup.html">Open Your Store</a>
-          <a class="btn" href="./demo/">Demo Gallery</a>
+        <div class="footer-grid">
+          <div>
+            <h3 class="title">About RGZTEC</h3>
+            <p class="meta">Static code marketplace and demo gallery.</p>
+          </div>
+          <div>
+            <h4 class="title">Links</h4>
+            <ul class="footer-links">
+              <li><a href="./demo/">Demo Gallery</a></li>
+              <li><a href="./products/html-templates.html">Explore Products</a></li>
+              <li><a href="./signup.html">Become a Seller</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="title">Contact</h4>
+            <p class="meta">support@rgztec.example</p>
+          </div>
         </div>
       </div>
-    </section>
+    </footer>
+  </div> <!-- End of .page-container -->
 
-    <!-- CATEGORIES STRIP -->
-    <section class="section" id="categories">
-      <div class="wrapper">
-        <div class="category-strip">
-          <a href="./products/html-templates.html" class="cat"><img src="./images/categories/html-templates.webp" alt="HTML Templates Icon" /><span>HTML Templates</span></a>
-          <a href="./products/css-ui-kits.html" class="cat"><img src="./images/categories/css-ui-kits.webp" alt="CSS UI Kits Icon" /><span>CSS UI Kits</span></a>
-          <a href="./products/js-widgets.html" class="cat"><img src="./images/categories/js-widgets.webp" alt="JS Widgets Icon" /><span>JS Widgets</span></a>
-          <a href="./products/react.html" class="cat"><img src="./images/categories/react.webp" alt="React Components Icon" /><span>React</span></a>
-          <a href="./products/svg-icons.html" class="cat"><img src="./images/categories/svg-icons.webp" alt="SVG and Icons Icon" /><span>SVG / Icons</span></a>
-          <a href="./products/email-templates.html" class="cat"><img src="./images/categories/email-templates.webp" alt="Email Templates Icon" /><span>Email Templates</span></a>
-        </div>
-      </div>
-    </section>
+  <!-- Right Ad Banner -->
+  <aside class="ad-banner ad-banner-right">
+    <a href="#" target="_blank" rel="noopener sponsored">
+      <img src="https://placehold.co/160x600/14b8a6/ffffff?text=Your+Ad+Here" alt="Advertisement" />
+    </a>
+  </aside>
 
-    <!-- BECOME A SELLER (Replaces NOTICE) -->
-    <section class="section" id="cta-seller">
-      <div class="wrapper">
-        <div class="cta-box">
-          <h2>Ready to Sell Your Code?</h2>
-          <p>Join our community of creators and start earning from your digital products today.</p>
-          <a href="./signup.html" class="btn primary">Create Your Account</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURED HTML TEMPLATES (VITRIN) -->
-    <section class="section" id="templates">
-      <div class="wrapper">
-        <div class="section-header">
-          <h2>Featured HTML Templates</h2>
-          <a class="btn" href="./products/html-templates.html">View all</a>
-        </div>
-        <div class="grid auto-4">
-          <!-- 20 cards for HTML Templates with unique names -->
-          <article class="card"><img class="thumb" src="./images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" /><h3 class="title">Landing Page Starter</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" /><h3 class="title">Portfolio Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" /><h3 class="title">Admin Dashboard UI</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html4.webp" alt="E-commerce Homepage" loading="lazy" width="640" height="400" /><h3 class="title">E-commerce Homepage</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html5.webp" alt="Blog Template" loading="lazy" width="640" height="400" /><h3 class="title">Blog Template</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" /><h3 class="title">SaaS Landing Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" /><h3 class="title">Agency One-Pager</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" /><h3 class="title">Corporate Site</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html9.webp" alt="Restaurant Template" loading="lazy" width="640" height="400" /><h3 class="title">Restaurant Template</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html10.webp" alt="Real Estate Listing" loading="lazy" width="640" height="400" /><h3 class="title">Real Estate Listing</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" /><h3 class="title">App Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html12.webp" alt="Personal Resume" loading="lazy" width="640" height="400" /><h3 class="title">Personal Resume</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html13.webp" alt="Event Landing Page" loading="lazy" width="640" height="400" /><h3 class="title">Event Landing Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html14.webp" alt="Startup Template" loading="lazy" width="640" height="400" /><h3 class="title">Startup Template</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html15.webp" alt="Product Page" loading="lazy" width="640" height="400" /><h3 class="title">Product Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html16.webp" alt="Coming Soon Page" loading="lazy" width="640" height="400" /><h3 class="title">Coming Soon Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html17.webp" alt="Login Page Template" loading="lazy" width="640" height="400" /><h3 class="title">Login Page Template</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html18.webp" alt="Contact Form Page" loading="lazy" width="640" height="400" /><h3 class="title">Contact Form Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html19.webp" alt="FAQ Page" loading="lazy" width="640" height="400" /><h3 class="title">FAQ Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html20.webp" alt="404 Error Page" loading="lazy" width="640" height="400" /><h3 class="title">404 Error Page</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-        </div>
-      </div>
-    </section>
-    
-    <!-- FEATURED CSS UI KITS (VITRIN) -->
-    <section class="section" id="ui-kits">
-      <div class="wrapper">
-        <div class="section-header">
-          <h2>Featured CSS UI Kits</h2>
-          <a class="btn" href="./products/css-ui-kits.html">View all</a>
-        </div>
-        <div class="grid auto-4">
-          <!-- 20 cards for CSS UI Kits with unique names and different images -->
-          <article class="card"><img class="thumb" src="./images/html11.webp" alt="Modern UI Kit" loading="lazy" width="640" height="400" /><h3 class="title">Modern UI Kit</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html12.webp" alt="Glassmorphism Kit" loading="lazy" width="640" height="400" /><h3 class="title">Glassmorphism Kit</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html13.webp" alt="Neumorphism UI" loading="lazy" width="640" height="400" /><h3 class="title">Neumorphism UI</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html14.webp" alt="Tailwind Components" loading="lazy" width="640" height="400" /><h3 class="title">Tailwind Components</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html15.webp" alt="Bootstrap 5 Kit" loading="lazy" width="640" height="400" /><h3 class="title">Bootstrap 5 Kit</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html16.webp" alt="Form Elements Pack" loading="lazy" width="640" height="400" /><h3 class="title">Form Elements Pack</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html17.webp" alt="Button Collection" loading="lazy" width="640" height="400" /><h3 class="title">Button Collection</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html18.webp" alt="Card Styles" loading="lazy" width="640" height="400" /><h3 class="title">Card Styles</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html19.webp" alt="Navigation Bars" loading="lazy" width="640" height="400" /><h3 class="title">Navigation Bars</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html20.webp" alt="Modal & Popup Kit" loading="lazy" width="640" height="400" /><h3 class="title">Modal & Popup Kit</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html1.webp" alt="Pricing Tables" loading="lazy" width="640" height="400" /><h3 class="title">Pricing Tables</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html2.webp" alt="Footers UI" loading="lazy" width="640" height="400" /><h3 class="title">Footers UI</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html3.webp" alt="Hero Sections" loading="lazy" width="640" height="400" /><h3 class="title">Hero Sections</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html4.webp" alt="Testimonial Sliders" loading="lazy" width="640" height="400" /><h3 class="title">Testimonial Sliders</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html5.webp" alt="Tab Components" loading="lazy" width="640" height="400" /><h3 class="title">Tab Components</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html6.webp" alt="Accordion UI" loading="lazy" width="640" height="400" /><h3 class="title">Accordion UI</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html7.webp" alt="Alerts & Banners" loading="lazy" width="640" height="400" /><h3 class="title">Alerts & Banners</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html8.webp" alt="Progress Bars" loading="lazy" width="640" height="400" /><h3 class="title">Progress Bars</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html9.webp" alt="Tooltips & Popovers" loading="lazy" width="640" height="400" /><h3 class="title">Tooltips & Popovers</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="./images/html10.webp" alt="Dark Mode UI Kit" loading="lazy" width="640" height="400" /><h3 class="title">Dark Mode UI Kit</h3><p class="meta">Modern Components</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="wrapper">
-      <div class="footer-grid">
-        <div>
-          <h3 class="title">About RGZTEC</h3>
-          <p class="meta">Static code marketplace and demo gallery. Demos are open without accounts.</p>
-        </div>
-        <div>
-          <h4 class="title">Links</h4>
-          <ul class="footer-links">
-            <li><a href="./demo/">Demo Gallery</a></li>
-            <li><a href="./products/html-templates.html">Explore Products</a></li>
-            <li><a href="./signup.html">Become a Seller</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="title">Contact</h4>
-          <p class="meta">support@rgztec.example</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="./assets/js/main.js?v=3"></script>
+  <script src="./assets/js/main.js?v=4"></script>
 </body>
 </html>
