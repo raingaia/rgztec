@@ -31,23 +31,21 @@
     <a class="back" href="/rgztec/catalog/">← Back to Category</a>
 
     <section class="layout">
-      <!-- Sol: Görsel -->
       <div class="panel pad">
         <div class="media">
-          <div class="ghost" id="ghostLabel">G&ouml;rsel bulunamad&#305;</div>
-          <img id="product-image" alt="">
+          <div class="ghost" id="ghost">G&ouml;rsel bulunamad&#305;</div>
+          <img id="img" alt="">
         </div>
       </div>
 
-      <!-- Sağ: İçerik -->
       <div class="panel pad">
-        <h1 class="title" id="product-title">Product</h1>
-        <p class="muted" id="product-desc">Template details and features.</p>
+        <h1 class="title" id="title">Product</h1>
+        <p class="muted" id="desc">Template details and features.</p>
 
         <div class="row" style="margin:16px 0 6px">
-          <a id="btn-demo" class="btn" aria-disabled="true">Live Demo</a>
-          <a id="btn-store" class="btn primary" aria-disabled="true">Create your store</a>
-          <div class="price" id="product-price" style="margin-left:auto"></div>
+          <a id="demo" class="btn" aria-disabled="true">Live Demo</a>
+          <a id="store" class="btn primary" aria-disabled="true">Create your store</a>
+          <div class="price" id="price" style="margin-left:auto"></div>
         </div>
 
         <p class="note">Not: Demo ve ma&#287;aza linkleri se&ccedil;ti&#287;iniz &uuml;r&uuml;ne g&ouml;re otomatik ayarlan&#305;r.</p>
@@ -55,121 +53,74 @@
     </section>
   </main>
 
-  <script>
-    const params = new URLSearchParams(location.search);
-    const slug = params.get("item");
-    if (!slug) location.replace("/rgztec/catalog/");
+<script>
+const base = "/rgztec";
+const p = new URLSearchParams(location.search).get("item");
+if(!p) location.replace(base + "/catalog/");
 
-    const base = "/rgztec";
+const DB = {
+  // 1–4
+  "landing-page":              {title:"Landing Page Starter",    price:19, img:"html1.webp",  desc:"Responsive, lightweight HTML/CSS starter landing page."},
+  "landing-page-starter":      {aliasOf:"landing-page"},
+  "portfolio-showcase":        {title:"Portfolio Showcase",      price:25, img:"html2.webp",  desc:"Portfolio template with filters and responsive grid."},
+  "admin-dashboard":           {title:"Admin Dashboard UI",      price:49, img:"html3.webp",  desc:"Modern admin dashboard with cards, charts and tables."},
+  "admin-dashboard-ui":        {aliasOf:"admin-dashboard"},
+  "ecommerce-homepage":        {title:"E-commerce Homepage",     price:39, img:"html4.webp",  desc:"E-commerce landing with hero and product grid."},
 
-    // Ürün veritabanı — yeni ürünler eklendi (product-page, login-page-template, faq-page)
-    const DB = {
-      // Landing Page
-      "landing-page": {
-        title: "Landing Page Starter",
-        desc: "Responsive, lightweight HTML/CSS starter landing page.",
-        price: 19,
-        image: `${base}/images/html1.webp`,
-        demo:  `${base}/demo/detail.html?p=landing-page`,
-        store: `${base}/stores/index.html?p=landing-page`
-      },
-      "landing-page-starter": { aliasOf: "landing-page" },
+  // 5–10
+  "product-page":              {title:"Product Page",            price:19, img:"html5.webp",  desc:"Clean and responsive product detail page."},
+  "login-page-template":       {title:"Login Page Template",     price:14, img:"html6.webp",  desc:"Minimal, responsive login page."},
+  "faq-page":                  {title:"FAQ Page",                price:12, img:"html7.webp",  desc:"FAQ/Help page layout with Q&A."},
+  "docs-site-starter":         {title:"Docs Site Starter",       price:27, img:"html8.webp",  desc:"Static docs site with search-ready structure."},
+  "auth-pages-pack":           {title:"Auth Pages Pack",         price:21, img:"html9.webp",  desc:"Login, Register, Reset pages bundle."},
+  "app-showcase":              {title:"App Showcase",            price:18, img:"html10.webp", desc:"Showcase page for apps or SaaS."},
 
-      // Portfolio
-      "portfolio-showcase": {
-        title: "Portfolio Showcase",
-        desc: "Clean portfolio template with filters and responsive grid.",
-        price: 25,
-        image: `${base}/images/html2.webp`,
-        demo:  `${base}/demo/detail.html?p=portfolio-showcase`,
-        store: `${base}/stores/index.html?p=portfolio-showcase`
-      },
+  // 11–20
+  "blog-starter":              {title:"Blog Starter",            price:16, img:"html11.webp", desc:"Simple blog layout, fast and clean."},
+  "pricing-page":              {title:"Pricing Page",            price:13, img:"html12.webp", desc:"Pricing tiers layout with CTAs."},
+  "dashboard-pro":             {title:"Dashboard Pro",           price:59, img:"html13.webp", desc:"Advanced dashboard UI kit."},
+  "saas-landing":              {title:"SaaS Landing",            price:22, img:"html14.webp", desc:"SaaS marketing landing page."},
+  "coming-soon":               {title:"Coming Soon",             price:8,  img:"html15.webp", desc:"Coming soon/under construction page."},
+  "error-404-page":            {title:"Error 404 Page",          price:6,  img:"html16.webp", desc:"Stylish 404 error page."},
+  "contact-page":              {title:"Contact Page",            price:9,  img:"html17.webp", desc:"Contact form and info layout."},
+  "carousel-kit":              {title:"Carousel Kit",            price:11, img:"html18.webp", desc:"Reusable carousels and sliders."},
+  "ui-cards-pack":             {title:"UI Cards Pack",           price:12, img:"html19.webp", desc:"Card components bundle."},
+  "hero-sections-pack":        {title:"Hero Sections Pack",      price:15, img:"html20.webp", desc:"Hero/banner sections collection."}
+};
 
-      // Admin Dashboard
-      "admin-dashboard": {
-        title: "Admin Dashboard UI",
-        desc: "Modern admin dashboard with cards, charts and tables.",
-        price: 49,
-        image: `${base}/images/html3.webp`,
-        demo:  `${base}/demo/detail.html?p=admin-dashboard`,
-        store: `${base}/stores/index.html?p=admin-dashboard`
-      },
-      "admin-dashboard-ui": { aliasOf: "admin-dashboard" },
+// alias çöz
+const meta = DB[p] && DB[p].aliasOf ? DB[DB[p].aliasOf] : DB[p];
 
-      // E-commerce
-      "ecommerce-homepage": {
-        title: "E-commerce Homepage",
-        desc: "E-commerce landing with hero, categories and product grid.",
-        price: 39,
-        image: `${base}/images/html4.webp`,
-        demo:  `${base}/demo/detail.html?p=ecommerce-homepage`,
-        store: `${base}/stores/index.html?p=ecommerce-homepage`
-      },
+// EL’ler
+const $t = document.getElementById('title');
+const $d = document.getElementById('desc');
+const $i = document.getElementById('img');
+const $g = document.getElementById('ghost');
+const $pr= document.getElementById('price');
+const $demo = document.getElementById('demo');
+const $store= document.getElementById('store');
 
-      // ⬇️ Yeni eklenenler
-      "product-page": {
-        title: "Product Page",
-        desc: "Clean and responsive product detail page template.",
-        price: 19,
-        image: `${base}/images/html5.webp`,
-        demo:  `${base}/demo/detail.html?p=product-page`,
-        store: `${base}/stores/index.html?p=product-page`
-      },
+function disable(){[$demo,$store].forEach(b=>{b.removeAttribute("href");b.setAttribute("aria-disabled","true");});}
 
-      "login-page-template": {
-        title: "Login Page Template",
-        desc: "Minimal, responsive login / auth page template.",
-        price: 14,
-        image: `${base}/images/html6.webp`,
-        demo:  `${base}/demo/detail.html?p=login-page-template`,
-        store: `${base}/stores/index.html?p=login-page-template`
-      },
+if(!meta){
+  $t.textContent = "Product not found";
+  $d.textContent = "We couldn't find the product you are looking for.";
+  $pr.textContent = "";
+  disable();
+}else{
+  $t.textContent = meta.title;
+  $d.textContent = meta.desc;
+  $pr.textContent = `$${meta.price}`;
 
-      "faq-page": {
-        title: "FAQ Page",
-        desc: "FAQ/Help page with Q&A layout and clean typography.",
-        price: 12,
-        image: `${base}/images/html7.webp`,
-        demo:  `${base}/demo/detail.html?p=faq-page`,
-        store: `${base}/stores/index.html?p=faq-page`
-      }
-    };
+  $i.onload  = ()=>{ $g.style.display="none"; $i.style.display="block"; };
+  $i.onerror = ()=>{ $i.style.display="none"; $g.style.display="flex"; };
+  $i.src = `${base}/images/${meta.img}`;
 
-    // Alias çöz
-    const meta = DB[slug] && DB[slug].aliasOf ? DB[DB[slug].aliasOf] : DB[slug];
-
-    // DOM
-    const $title = document.getElementById("product-title");
-    const $desc  = document.getElementById("product-desc");
-    const $img   = document.getElementById("product-image");
-    const $ghost = document.getElementById("ghostLabel");
-    const $price = document.getElementById("product-price");
-    const $demo  = document.getElementById("btn-demo");
-    const $store = document.getElementById("btn-store");
-
-    function disableButtons(){[$demo,$store].forEach(b=>{b.removeAttribute("href");b.setAttribute("aria-disabled","true");});}
-    function enableButtons(){[$demo,$store].forEach(b=>b.removeAttribute("aria-disabled"));}
-
-    if (!meta) {
-      $title.textContent = "Product not found";
-      $desc.textContent  = "We couldn't find the product you are looking for.";
-      $price.textContent = "";
-      disableButtons();
-    } else {
-      $title.textContent = meta.title;
-      $desc.textContent  = meta.desc;
-      $price.textContent = `$${meta.price}`;
-
-      // Görsel
-      $img.onload  = () => { $ghost.style.display = "none"; $img.style.display = "block"; };
-      $img.onerror = () => { $img.style.display = "none"; $ghost.style.display = "flex"; };
-      $img.src = meta.image;
-
-      // Linkler
-      $demo.href  = meta.demo;  $demo.target = "_blank"; $demo.rel = "noopener";
-      $store.href = meta.store;
-      enableButtons();
-    }
-  </script>
+  $demo.href  = `${base}/demo/detail.html?p=${encodeURIComponent(p)}`;
+  $demo.target = "_blank"; $demo.rel="noopener";
+  $store.href = `${base}/stores/index.html?p=${encodeURIComponent(p)}`;
+}
+</script>
 </body>
 </html>
+
