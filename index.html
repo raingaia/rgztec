@@ -109,118 +109,138 @@
   <footer class="container">© <span id="y"></span> RGZTEC</footer>
 
   <script>
-    // ---------- Site ROOT (works under /rgztec/ or /rgztec/catalog/) ----------
-    const ROOT = (() => {
-      const parts = location.pathname.split('/').filter(Boolean); // ["rgztec", ...]
-      return parts.length ? `/${parts[0]}/` : '/';
-    })();
+  // ---------- ROOT builder (GitHub Pages /rgztec/ altında güvenli) ----------
+  const ROOT = (() => {
+    const parts = location.pathname.split('/').filter(Boolean);
+    return parts.length ? `/${parts[0]}/` : '/';
+  })();
+  const url = p => ROOT + p;
 
-    // Quick links (root-safe)
-    const go = p => location.href = ROOT + p;
-    document.querySelector('.logo').addEventListener('click', e=>{e.preventDefault(); go('index.html');});
-    document.getElementById('lnkDemo').addEventListener('click', ()=> go('demo/index.html'));
-    document.getElementById('lnkLogin').addEventListener('click', ()=> go('login.html'));
-    document.getElementById('lnkSeller').addEventListener('click',()=> go('advertise.html'));
-    document.getElementById('ctaStart').addEventListener('click', ()=> go('index.html#trending'));
-    document.getElementById('ctaSeller').addEventListener('click',()=> go('advertise.html'));
-    document.getElementById('y').textContent = new Date().getFullYear();
+  // Yıl
+  const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();
 
-    // Category bar → products
-    document.querySelectorAll('#cats a[data-prod]').forEach(a=>{
-      a.addEventListener('click', ()=> go(`products/${a.dataset.prod}.html`));
+  // Kısayol: Ctrl+Shift+A → admin
+  window.addEventListener('keydown',e=>{
+    const tag=(document.activeElement?.tagName||'').toLowerCase();
+    if(e.key==='/' && !/input|textarea/.test(tag)){ e.preventDefault(); document.getElementById('q')?.focus(); }
+    if(e.key.toLowerCase()==='a' && e.ctrlKey && e.shiftKey){ location.href=url('admin/index.html'); }
+  });
+
+  // Header linkleri
+  document.querySelectorAll('.logo').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();location.href=url('index.html');}));
+  document.getElementById('btnSignIn')?.addEventListener('click',()=>location.href=url('login.html'));
+  document.getElementById('btnSell') ?.addEventListener('click',()=>location.href=url('advertise.html'));
+
+  // Üst menü (gerçek sayfalara)
+  document.querySelectorAll('nav a.nav-link').forEach(a=>{
+    const t=a.textContent.trim().toLowerCase();
+    if(t==='categories') a.href = url('catalog/index.html');
+    else if(t==='about') a.href = url('privacy.html');
+    else if(t==='explore') a.href = url('index.html');
+  });
+
+  // CTA
+  document.getElementById('btnStartSelling')?.addEventListener('click',()=>{
+    const v=(document.getElementById('sellerEmail')?.value||'').trim();
+    location.href = v ? url(`advertise.html?email=${encodeURIComponent(v)}`) : url('advertise.html');
+  });
+  document.getElementById('btnSubscribe')?.addEventListener('click',()=>{
+    const v=(document.getElementById('newsEmail')?.value||'').trim();
+    location.href = v ? url(`signup.html#newsletter=${encodeURIComponent(v)}`) : url('signup.html#newsletter');
+  });
+
+  // Chip → ürün sayfaları
+  const chipToProducts = {
+    landing:'products/html-templates.html',
+    dashboard:'products/js-widgets.html',
+    portfolio:'products/html-templates.html',
+    ecommerce:'products/html-templates.html',
+    components:'products/js-widgets.html',
+    starter:'products/html-templates.html',
+    bootstrap:'products/html-templates.html',
+    tailwind:'products/css-ui-kits.html'
+  };
+  const chipBar=document.getElementById('chipBar'); let activeChip='';
+  const grid=document.getElementById('grid'); const items=grid?[...grid.querySelectorAll('.item')]:[];
+  const q=document.getElementById('q');
+  function applyFilter(){
+    const text=(q?.value||'').toLowerCase();
+    items.forEach(it=>{
+      const tags=(it.dataset.tags||'').toLowerCase();
+      const chips=(it.dataset.chip||'').toLowerCase();
+      it.style.display = (!text || tags.includes(text)) && (!activeChip || chips.includes(activeChip)) ? '' : 'none';
     });
+  }
+  q?.addEventListener('input',applyFilter);
+  chipBar?.addEventListener('click',e=>{
+    const c=e.target.closest('.chip'); if(!c) return;
+    const key=(c.dataset.chip||'').toLowerCase();
+    if(activeChip===key){ activeChip=''; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); }
+    else { activeChip=key; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); }
+    applyFilter();
+    const prod=chipToProducts[key]; if(prod) location.href=url(prod);
+  });
 
-    // ---------- Data (20 items) ----------
-    const products = [
-      {id:1,  title:"Landing Starter (HTML)", desc:"Minimal landing with hero, features, pricing and blog sections.", price:18},
-      {id:2,  title:"Dashboard Lite (HTML)",  desc:"Sidebar, topbar and chart placeholders; vanilla JS.",              price:24},
-      {id:3,  title:"Portfolio Mini",         desc:"Single-page portfolio with project grid and contact form.",      price:14},
-      {id:4,  title:"Blog Lite",              desc:"List + single post layout with clean typography.",               price:12},
-      {id:5,  title:"Agency Starter",         desc:"Services: cards, testimonials, pricing.",                        price:16},
-      {id:6,  title:"E-commerce Mini",        desc:"Product grid, detail, and cart icons.",                          price:22},
-      {id:7,  title:"Resume Card",            desc:"Skills, experience and contact.",                                price:9},
-      {id:8,  title:"Product List",           desc:"Filterable item list with grid/row views.",                      price:11},
-      {id:9,  title:"Pricing Tables",         desc:"3–4 column pricing with featured plan.",                         price:8},
-      {id:10, title:"Contact Lite",           desc:"Contact form with map placeholder and socials.",                 price:7},
-      {id:11, title:"FAQ Mini",               desc:"Accordion FAQ with categories and search.",                      price:6},
-      {id:12, title:"Gallery Grid",           desc:"Masonry/grid gallery with lightbox placeholder.",                price:13},
-      {id:13, title:"Hero Collection",        desc:"Multiple hero headers ready to drop in.",                        price:10},
-      {id:14, title:"Newsletter Box",         desc:"Email capture sections and boxes.",                               price:5},
-      {id:15, title:"Auth Pages",             desc:"Login, signup, reset flows.",                                     price:7},
-      {id:16, title:"Admin Mini",             desc:"Auth + layout + tables skeleton.",                                price:12},
-      {id:17, title:"React Components",       desc:"Cards, modals, tabs (markup only).",                              price:15},
-      {id:18, title:"SVG Icons",              desc:"Curated dev icons set (inlineable).",                             price:6},
-      {id:19, title:"Email Templates",        desc:"Transactional email starter set.",                                 price:9},
-      {id:20, title:"JS Widgets",             desc:"Tabs, accordions, tooltips (vanilla).",                            price:11}
-    ];
+  // Kart aksiyonları + görsel yükleme
+  function slugify(s){return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
+  // Ön yüze küçük aksiyonlar (Demo/Buy)
+  const style=document.createElement('style'); style.textContent=
+    `.front .quick-actions{position:absolute; right:10px; bottom:10px; display:flex; gap:8px}
+     .front .quick-actions .btn{padding:8px 10px; font-weight:700}`;
+  document.head.appendChild(style);
 
-    // Helpers
-    const grid = document.getElementById('grid');
-    const slug  = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  items.forEach(it=>{
+    const id = it.querySelector('.add')?.dataset.id || '0';
+    const title = it.querySelector('h3')?.textContent || `item-${id}`;
+    const slug = slugify(title);
 
-    // Render
-    products.forEach(p=>{
-      const el = document.createElement('article');
-      el.className = 'col-3 card';
+    const demoA = it.querySelector('.back .actions a');
+    if(demoA){ demoA.href=url(`demo/index.html?item=${id}&slug=${slug}`); demoA.target='_blank'; demoA.rel='noopener'; }
 
-      // thumb
-      const th  = document.createElement('div'); th.className='thumb';
-      const img = document.createElement('img'); img.alt=p.title; img.loading='lazy'; img.decoding='async'; img.style.visibility='hidden';
-      const ph  = document.createElement('div'); ph.className='ph'; ph.textContent='Loading preview…';
-      th.append(img, ph);
+    const buyBtn = it.querySelector('.back .add');
+    buyBtn?.addEventListener('click',e=>{e.preventDefault(); location.href=url(`cart.html?add=${id}`);});
 
-      // body
-      const body = document.createElement('div'); body.className='body';
-      const t = document.createElement('div'); t.className='title'; t.textContent=p.title;
-      const d = document.createElement('div'); d.className='desc';  d.textContent=p.desc;
-      const meta = document.createElement('div'); meta.className='meta';
-      const price = document.createElement('div'); price.className='price'; price.textContent = '$'+p.price;
-      meta.append(price);
-
-      const act = document.createElement('div'); act.className='actions';
-      const aDemo = document.createElement('a'); aDemo.className='btn'; aDemo.textContent='Live Demo';
-      const aDet  = document.createElement('a'); aDet.className='btn'; aDet.textContent='Details';
-      const aBuy  = document.createElement('a'); aBuy.className='btn primary'; aBuy.textContent='Add to cart';
-      act.append(aDemo, aDet, aBuy);
-
-      body.append(t, d, meta, act);
-      el.append(th, body);
-      grid.appendChild(el);
-
-      // links (ROOT-safe)
-      const s = slug(p.title);
-      aDemo.href = ROOT + `demo/index.html?item=${p.id}&slug=${s}`;
-      aDet.href  = ROOT + `products/detail.html?id=${p.id}&slug=${s}`;
-      aBuy.href  = ROOT + `cart.html?add=${p.id}`;
-
-      // ---------- IMAGE RESOLVER (ROOT-safe, falls back) ----------
-      const base = ROOT + 'images/catalog/';
-      const candidates = [
-        `html${p.id}.webp`, `${p.id}.webp`, `${s}.webp`,
-        `html${p.id}.png`,  `${p.id}.png`,  `${s}.png`,
-        `html${p.id}.jpg`,  `${p.id}.jpg`,  `${s}.jpg`
-      ];
-      (function tryN(i=0){
-        if(i>=candidates.length){ ph.textContent='No preview'; return; }
-        const url = base + candidates[i];
-        const probe = new Image();
-        probe.onload = ()=>{ img.src=url; img.style.visibility='visible'; ph.remove(); };
-        probe.onerror= ()=> tryN(i+1);
-        probe.src = url;
-      })();
-    });
-
-    // On-page search
-    const q = document.getElementById('q');
-    q?.addEventListener('input', ()=>{
-      const t=(q.value||'').toLowerCase();
-      [...grid.children].forEach(card=>{
-        const title=card.querySelector('.title')?.textContent.toLowerCase()||'';
-        const desc =card.querySelector('.desc') ?.textContent.toLowerCase()||'';
-        card.style.display = (title.includes(t)||desc.includes(t)) ? '' : 'none';
+    const front = it.querySelector('.front');
+    if(front){
+      // ön yüzde küçük aksiyonlar
+      const qa = document.createElement('div'); qa.className='quick-actions';
+      qa.innerHTML = `<a class="btn" href="${url(`demo/index.html?item=${id}&slug=${slug}`)}" target="_blank" rel="noopener">Demo</a>
+                      <a class="btn primary" href="${url(`cart.html?add=${id}`)}">Buy</a>`;
+      front.appendChild(qa);
+      front.style.cursor='pointer';
+      front.addEventListener('click',ev=>{
+        if(!ev.target.closest('.quick-actions')) location.href = url(`products/detail.html?id=${id}&slug=${slug}`);
       });
-    });
-  </script>
+    }
+
+    // Görsel çözümleyici (images/catalog/)
+    const thumb = it.querySelector('.thumb'); if(!thumb) return;
+    const custom=(it.dataset.img||'').trim();
+    const base = url('images/catalog/');
+    const candidates = [
+      ...(custom?[custom]:[]),
+      `html${id}.webp`, `${id}.webp`, `${slug}.webp`,
+      `html${id}.png`,  `${id}.png`,  `${slug}.png`,
+      `html${id}.jpg`,  `${id}.jpg`,  `${slug}.jpg`
+    ];
+    (function loadN(i=0){
+      if(i>=candidates.length) return;
+      const u = base + candidates[i];
+      const img = new Image();
+      img.onload = ()=>{ thumb.style.background=`url('${u}') center/cover no-repeat`; thumb.textContent=''; };
+      img.onerror = ()=> loadN(i+1);
+      img.src = u;
+    })();
+  });
+
+  // Mobile tap flip (ön yüz aksiyonları hariç)
+  grid?.addEventListener('click',e=>{
+    if(e.target.closest('.quick-actions')) return;
+    const inner = e.target.closest('.card-inner'); if(!inner) return;
+    inner.style.transform = getComputedStyle(inner).transform.includes('matrix3d') ? '' : 'rotateY(180deg)';
+  });
+</script>
+
 </body>
 </html>
 
