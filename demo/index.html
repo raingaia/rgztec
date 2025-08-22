@@ -1,259 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>RGZTEC – Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../assets/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RGZTEC - HTML Templates Showcase</title>
+  <link rel="stylesheet" href="/rgztec/assets/style.css?v=16" />
   <style>
-    body { font-family: sans-serif; background: #f9fafb; margin: 0 }
-    .container { max-width: 1100px; margin: 0 auto; padding: 20px }
-    .panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; margin-bottom: 20px }
-    .row { display: flex; flex-wrap: wrap; gap: 12px }
-    label { font-size: 13px; font-weight: 600; color: #374151; display: block; margin-bottom: 4px }
-    input { padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 8px; width: 100% }
-    button { padding: 8px 16px; border-radius: 10px; background: #f97316; color: #fff; border: none; cursor: pointer }
-    button:hover { background: #ea580c }
-    .preview { border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; background: #fff }
-    .product-card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; background: #fff; max-width: 260px }
-    .product-card img { width: 100%; border-radius: 8px; margin-bottom: 10px }
-    .product-card h3 { margin: 0; font-size: 15px }
-    .product-card p { font-size: 13px; color: #475569; margin: 8px 0 }
-    .product-card a { font-size: 13px; text-decoration: none; color: #f97316; margin-right: 8px }
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .product-card h3 {
+      margin: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .product-card p {
+      margin: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .product-card a button {
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      background: #f97316;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .product-card a button:hover {
+      background: #ea580c;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="text-2xl font-bold mb-6">Demo Store Builder</h1>
-
-    <div class="panel">
-      <div class="row">
-        <div style="flex:1 1 200px">
-          <label for="titleInput">Store title</label>
-          <input id="titleInput" type="text" value="My Store">
-        </div>
-        <div style="flex:1 1 200px">
-          <label for="colorInput">Theme color</label>
-          <input id="colorInput" type="color" value="#f97316">
-        </div>
-      </div>
-      <div class="row" style="margin-top:12px">
-        <button id="saveBtn">Save & Preview</button>
-      </div>
-    </div>
-
-    <div id="preview" class="preview">
-      <h2 id="storeTitle">My Store</h2>
-      <div id="productsPreview" class="row">
-        <!-- 1–20 ürün kartı burada başlıyor -->
-        <!-- Her kart için sadece index numarası değişiyor -->
-        <!-- Kart örneği yapısı tümüyle aynıdır -->
-        <!-- Başlangıç -->
-        <!-- Bunu loop ile de yazabilirdik ama elle yazılıyor -->
-
-        <!-- KARTLAR -->
-        <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
-        <!-- html1.html → html20.html ve ilgili webp/zip dosyaları -->
-        <!-- Her ürün kartı: -->
-        <!-- /rgztec/images/catalog/htmlX.webp -->
-        <!-- /rgztec/demos/htmlX.html -->
-        <!-- /rgztec/zips/htmlX.zip -->
-
-        <!-- Otomatik oluşturulmuş 1–20 arası -->
-        <!-- KOPYALA-YAPIŞTIR İLE DİREKT KULLAN -->
-
-        <!-- Başlangıç kart bloğu -->
-        <!-- Ürün Kartları -->
-        <!-- html1 - html20 -->
-        <!-- Her biri: image + title + 2 link -->
-        <!-- Başla -->
-        <!-- Sıralı şekilde -->
-
-        <!-- 1 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html1.webp" alt="HTML Template 1">
-          <h3>HTML Template 1</h3>
-          <p>Responsive landing page with modern UI.</p>
-          <a href="/rgztec/demos/html1.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html1.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 2 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html2.webp" alt="HTML Template 2">
-          <h3>HTML Template 2</h3>
-          <p>Modern dark portfolio layout template.</p>
-          <a href="/rgztec/demos/html2.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html2.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 3 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html3.webp" alt="HTML Template 3">
-          <h3>HTML Template 3</h3>
-          <p>Startup website with CTA blocks.</p>
-          <a href="/rgztec/demos/html3.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html3.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- ... bu yapıyı 20'ye kadar çoğalt -->
-        <!-- 4 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html4.webp" alt="HTML Template 4">
-          <h3>HTML Template 4</h3>
-          <p>Minimal blog layout with tags and author info.</p>
-          <a href="/rgztec/demos/html4.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html4.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 5 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html5.webp" alt="HTML Template 5">
-          <h3>HTML Template 5</h3>
-          <p>Full-width hero page with scroll animations.</p>
-          <a href="/rgztec/demos/html5.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html5.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 6 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html6.webp" alt="HTML Template 6">
-          <h3>HTML Template 6</h3>
-          <p>E-commerce product grid with filters.</p>
-          <a href="/rgztec/demos/html6.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html6.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 7 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html7.webp" alt="HTML Template 7">
-          <h3>HTML Template 7</h3>
-          <p>Multi-section one pager with soft scroll.</p>
-          <a href="/rgztec/demos/html7.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html7.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 8 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html8.webp" alt="HTML Template 8">
-          <h3>HTML Template 8</h3>
-          <p>Freelancer portfolio with contact form.</p>
-          <a href="/rgztec/demos/html8.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html8.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 9 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html9.webp" alt="HTML Template 9">
-          <h3>HTML Template 9</h3>
-          <p>Pricing table layout with toggle plans.</p>
-          <a href="/rgztec/demos/html9.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html9.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 10 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html10.webp" alt="HTML Template 10">
-          <h3>HTML Template 10</h3>
-          <p>Header/footer UI kit with nav menu.</p>
-          <a href="/rgztec/demos/html10.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html10.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 11 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html11.webp" alt="HTML Template 11">
-          <h3>HTML Template 11</h3>
-          <p>Real estate listing with map embed.</p>
-          <a href="/rgztec/demos/html11.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html11.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 12 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html12.webp" alt="HTML Template 12">
-          <h3>HTML Template 12</h3>
-          <p>Sticky navbar with animated sections.</p>
-          <a href="/rgztec/demos/html12.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html12.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 13 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html13.webp" alt="HTML Template 13">
-          <h3>HTML Template 13</h3>
-          <p>Blog article UI with share buttons.</p>
-          <a href="/rgztec/demos/html13.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html13.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 14 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html14.webp" alt="HTML Template 14">
-          <h3>HTML Template 14</h3>
-          <p>App landing with animated stats.</p>
-          <a href="/rgztec/demos/html14.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html14.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 15 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html15.webp" alt="HTML Template 15">
-          <h3>HTML Template 15</h3>
-          <p>Agency website with client logos.</p>
-          <a href="/rgztec/demos/html15.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html15.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 16 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html16.webp" alt="HTML Template 16">
-          <h3>HTML Template 16</h3>
-          <p>Service landing with collapsible FAQ.</p>
-          <a href="/rgztec/demos/html16.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html16.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 17 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html17.webp" alt="HTML Template 17">
-          <h3>HTML Template 17</h3>
-          <p>Event page with countdown timer.</p>
-          <a href="/rgztec/demos/html17.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html17.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 18 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html18.webp" alt="HTML Template 18">
-          <h3>HTML Template 18</h3>
-          <p>Educational site with course cards.</p>
-          <a href="/rgztec/demos/html18.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html18.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 19 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html19.webp" alt="HTML Template 19">
-          <h3>HTML Template 19</h3>
-          <p>Split layout marketing template.</p>
-          <a href="/rgztec/demos/html19.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html19.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- 20 -->
-        <div class="product-card">
-          <img src="/rgztec/images/catalog/html20.webp" alt="HTML Template 20">
-          <h3>HTML Template 20</h3>
-          <p>Newsletter signup with modal form.</p>
-          <a href="/rgztec/demos/html20.html" target="_blank">Live Demo</a>
-          <a href="/rgztec/zips/html20.zip" download>Download ZIP</a>
-        </div>
-
-        <!-- Kartlar Bitti -->
-      </div>
-    </div>
+    <h1>HTML Template Gallery</h1>
+    <div class="grid" id="product-list"></div>
   </div>
+
+  <script src="/rgztec/data/products.js"></script>
+  <script>
+    const container = document.getElementById("product-list");
+    const products = window.RGZ_PRODUCTS || [];
+
+    products.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="/rgztec/images/${item.image}" alt="${item.title}" />
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        <a href="/rgztec/demos/${item.slug}.html" target="_blank">
+          <button>Live Demo</button>
+        </a>
+      `;
+      container.appendChild(card);
+    });
+  </script>
 </body>
 </html>
-
