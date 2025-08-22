@@ -5,31 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>HTML Templates - RGZTEC Store</title>
   <meta name="description" content="Browse all available HTML templates from the RGZTEC marketplace.">
-  <!-- Ana dizindeki CSS dosyasını kullanıyoruz -->
-  <link rel="stylesheet" href="../assets/css/home.css?v=9" />
+  <link rel="stylesheet" href="../assets/css/home.css?v=12" />
+  <style>
+    /* Categories button + drawer */
+    .menu-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;font-weight:600}
+    .menu-btn svg{width:18px;height:18px}
+    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.2s;z-index:90}
+    .drawer{position:fixed;top:72px;left:18px;width:320px;max-width:92vw;background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.15);transform:translateY(-8px);opacity:0;pointer-events:none;transition:.2s;z-index:99}
+    .drawer.open,.drawer-overlay.open{opacity:1;pointer-events:auto;transform:none}
+    .drawer .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6}
+    .drawer .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+    .drawer a.cat{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+    .drawer a.cat img{width:28px;height:28px;border-radius:8px;object-fit:cover}
+
+    /* page tweaks */
+    .section-header .meta{margin-top:6px}
+    .card .thumb{aspect-ratio:16/10;object-fit:cover;border-radius:12px}
+  </style>
 </head>
 <body>
 
+  <!-- Drawer (Categories) -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="drawer" id="drawer" aria-label="Categories">
+    <div class="hdr">
+      <strong>Categories</strong>
+      <button id="drawerClose" class="menu-btn" aria-label="Close categories">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        Close
+      </button>
+    </div>
+    <div class="grid" role="menu">
+      <a class="cat" href="./html-templates.html"><img src="../images/categories/html-templates.webp" alt="HTML"><span>HTML Templates</span></a>
+      <a class="cat" href="./css-ui-kits.html"><img src="../images/categories/css-ui-kits.webp" alt="CSS"><span>CSS UI Kits</span></a>
+      <a class="cat" href="./js-widgets.html"><img src="../images/categories/js-widgets.webp" alt="JS"><span>JS Widgets</span></a>
+      <a class="cat" href="./react.html"><img src="../images/categories/react.webp" alt="React"><span>React Components</span></a>
+      <a class="cat" href="./svg-icons.html"><img src="../images/categories/svg-icons.webp" alt="SVG"><span>SVG / Icons</span></a>
+      <a class="cat" href="./email-templates.html"><img src="../images/categories/email-templates.webp" alt="Email"><span>Email Templates</span></a>
+    </div>
+  </div>
+
   <!-- HEADER -->
   <header class="site-header">
-    <div class="wrapper nav-wrapper">
-      <!-- Ana sayfaya geri dönmek için link -->
+    <div class="wrapper nav-wrapper" style="gap:12px;align-items:center;">
       <a class="brand" href="../">RGZTEC</a>
-      <form class="search" role="search" aria-label="Site search">
+
+      <!-- Categories button -->
+      <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-controls="drawer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        Categories
+      </button>
+
+      <form class="search" role="search" aria-label="Search HTML templates" style="flex:1;">
         <input type="search" class="search-input" placeholder="Search HTML templates..." />
       </form>
+
       <nav class="nav-links" aria-label="Primary">
-        <a href="./html-templates.html">HTML Templates</a>
+        <a href="./html-templates.html" aria-current="page">HTML Templates</a>
         <a href="./css-ui-kits.html">CSS UI Kits</a>
         <a href="./js-widgets.html">JS Widgets</a>
-        <!-- Diğer kategori linkleri de buraya eklenebilir -->
+        <a href="./react.html">React</a>
+        <a href="./svg-icons.html">SVG / Icons</a>
+        <a href="./email-templates.html">Email Templates</a>
         <a href="../demo/">Demo Gallery</a>
       </nav>
     </div>
   </header>
 
   <main id="products-content">
-    
     <!-- HTML TEMPLATES SECTION -->
     <section id="templates" class="section page-content">
       <div class="wrapper">
@@ -37,17 +80,151 @@
           <h2>HTML Templates</h2>
           <p class="meta">High-quality, responsive HTML5 and CSS3 templates.</p>
         </div>
+
         <div class="grid auto-4">
-          <!-- Bu kategoriye ait tüm ürünleri buraya listeleyin -->
-          <article class="card"><img class="thumb" src="../images/html1.webp" alt="HTML Template 1" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 1</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html2.webp" alt="HTML Template 2" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 2</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html3.webp" alt="HTML Template 3" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 3</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <article class="card"><img class="thumb" src="../images/html4.webp" alt="HTML Template 4" loading="lazy" width="640" height="400" /><h3 class="title">HTML Template 4</h3><p class="meta">Responsive HTML/CSS</p><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Download</a></div></article>
-          <!-- Gerekirse daha fazla kart ekleyebilirsiniz -->
+          <!-- Visit Store yönlendirmeleri (detail.html?item=slug) -->
+          <article class="card">
+            <img class="thumb" src="../images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" />
+            <h3 class="title">Landing Page Starter</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=landing-page-starter">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" />
+            <h3 class="title">Portfolio Showcase</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=portfolio-showcase">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" />
+            <h3 class="title">Admin Dashboard UI</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=admin-dashboard-ui">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html4.webp" alt="E-commerce Homepage" loading="lazy" width="640" height="400" />
+            <h3 class="title">E-commerce Homepage</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=ecommerce-homepage">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html5.webp" alt="Blog Template" loading="lazy" width="640" height="400" />
+            <h3 class="title">Blog Template</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=blog-template">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" />
+            <h3 class="title">SaaS Landing Page</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=saas-landing-page">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" />
+            <h3 class="title">Agency One-Pager</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=agency-one-pager">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" />
+            <h3 class="title">Corporate Site</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=corporate-site">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html9.webp" alt="Docs Site Starter" loading="lazy" width="640" height="400" />
+            <h3 class="title">Docs Site Starter</h3>
+            <p class="meta">Static docs site</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=docs-site-starter">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html10.webp" alt="Auth Pages Pack" loading="lazy" width="640" height="400" />
+            <h3 class="title">Auth Pages Pack</h3>
+            <p class="meta">Login • Register • Reset</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=auth-pages-pack">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" />
+            <h3 class="title">App Showcase</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=app-showcase">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html15.webp" alt="Product Page" loading="lazy" width="640" height="400" />
+            <h3 class="title">Product Page</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=product-page">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html17.webp" alt="Login Page Template" loading="lazy" width="640" height="400" />
+            <h3 class="title">Login Page Template</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=login-page-template">Visit Store</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img class="thumb" src="../images/html19.webp" alt="FAQ Page" loading="lazy" width="640" height="400" />
+            <h3 class="title">FAQ Page</h3>
+            <p class="meta">Responsive HTML/CSS</p>
+            <div class="row">
+              <a class="btn" href="../demo/" target="_blank">Preview</a>
+              <a class="btn primary" href="./detail.html?item=faq-page">Visit Store</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
-
   </main>
 
   <!-- FOOTER -->
@@ -62,7 +239,7 @@
           <h4 class="title">Links</h4>
           <ul class="footer-links">
             <li><a href="../demo/">Demo Gallery</a></li>
-            <li><a href="./html-templates.html">Open Store</a></li>
+            <li><a href="./html-templates.html">Explore Products</a></li>
           </ul>
         </div>
         <div>
@@ -73,7 +250,20 @@
     </div>
   </footer>
 
-  <!-- Arama fonksiyonu için aynı JS dosyasını kullanıyoruz -->
+  <!-- Drawer JS -->
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const drawerClose = document.getElementById('drawerClose');
+    const openDrawer = () => { drawer.classList.add('open'); overlay.classList.add('open'); };
+    const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('open'); };
+    menuBtn.addEventListener('click', openDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    drawerClose && drawerClose.addEventListener('click', closeDrawer);
+  </script>
+
   <script src="../assets/js/main.js?v=3"></script>
 </body>
 </html>
+
