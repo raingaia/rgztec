@@ -3,45 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel | RGZTEC</title>
+  <title>Admin Control Panel | RGZTEC</title>
   <link rel="stylesheet" href="../assets/css/home.css?v=15" />
 </head>
 <body class="bg-gray-100 min-h-screen">
 
+  <!-- Top Navigation -->
   <header class="bg-white shadow p-4 flex justify-between items-center">
     <h1 class="text-xl font-bold text-gray-800">RGZTEC Admin Panel</h1>
-    <button class="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Çıkış Yap</button>
+    <button class="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Log Out</button>
   </header>
 
+  <!-- Main Section -->
   <main class="p-6">
-    <h2 class="text-lg font-semibold mb-4">Ürün Yönetimi</h2>
+    <h2 class="text-lg font-semibold mb-4">Pending Product Submissions</h2>
 
     <div class="overflow-x-auto">
-      <table class="min-w-full bg-white shadow rounded-md">
-        <thead class="bg-indigo-100 text-gray-700">
+      <table class="min-w-full bg-white shadow rounded-md text-sm">
+        <thead class="bg-gray-200 text-gray-700">
           <tr>
-            <th class="text-left px-4 py-2">Ürün ID</th>
-            <th class="text-left px-4 py-2">Başlık</th>
-            <th class="text-left px-4 py-2">Satıcı</th>
-            <th class="text-left px-4 py-2">Kategori</th>
-            <th class="text-left px-4 py-2">Tarih</th>
-            <th class="text-left px-4 py-2">İşlem</th>
+            <th class="px-4 py-2 text-left">Product ID</th>
+            <th class="px-4 py-2 text-left">Title</th>
+            <th class="px-4 py-2 text-left">Seller</th>
+            <th class="px-4 py-2 text-left">Category</th>
+            <th class="px-4 py-2 text-left">Submission Date</th>
+            <th class="px-4 py-2 text-left">Actions</th>
           </tr>
         </thead>
-        <tbody class="text-gray-800 text-sm">
-          <!-- Dummy örnek -->
+        <tbody class="text-gray-800">
+
+          <!-- Example row -->
           <tr class="border-t">
-            <td class="px-4 py-2">html23</td>
-            <td class="px-4 py-2">Modern Landing Page</td>
-            <td class="px-4 py-2">john@rgztec.com</td>
-            <td class="px-4 py-2">HTML</td>
-            <td class="px-4 py-2">22/08/2025</td>
-            <td class="px-4 py-2 space-x-2">
-              <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Onayla</button>
-              <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Reddet</button>
+            <td class="px-4 py-2">html-023</td>
+            <td class="px-4 py-2">Clean Portfolio Template</td>
+            <td class="px-4 py-2">james@rgztec.com</td>
+            <td class="px-4 py-2">HTML Templates</td>
+            <td class="px-4 py-2">August 22, 2025</td>
+            <td class="px-4 py-2 flex gap-2">
+              <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Approve</button>
+              <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Reject</button>
             </td>
           </tr>
-          <!-- Daha fazla satır eklenebilir -->
+
         </tbody>
       </table>
     </div>
@@ -49,3 +52,4 @@
 
 </body>
 </html>
+
