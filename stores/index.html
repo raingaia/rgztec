@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Redirecting…</title>
-  <meta http-equiv="refresh" content="0; url=/rgztec/products/detail.html">
-  <script>
-    // /rgztec/stores/index.html?p=slug  →  /rgztec/products/detail.html?item=slug
-    (function () {
-      const p = new URLSearchParams(location.search).get('p');
-      const target = '/rgztec/products/detail.html' + (p ? ('?item=' + encodeURIComponent(p)) : '');
-      location.replace(target);
-    })();
-  </script>
-</head>
-<body>Redirecting…</body>
-</html>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Redirecting…</title>
+<meta http-equiv="refresh" content="0; url=/rgztec/products/detail.html">
+<script>
+  const p=new URLSearchParams(location.search).get('p');
+  location.replace('/rgztec/products/detail.html'+(p?('?item='+encodeURIComponent(p)):''));
+</script>
+</head><body>Redirecting…</body></html>
