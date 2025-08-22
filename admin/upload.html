@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Product | RGZTEC</title>
+  <link rel="stylesheet" href="./assets/css/home.css?v=15" />
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-gray-800">Upload New Product</h1>
+    <a href="dashboard.html" class="text-sm text-indigo-600 hover:underline">← Back to Dashboard</a>
+  </header>
+
+  <!-- Upload Form -->
+  <main class="p-6 max-w-2xl mx-auto bg-white rounded shadow">
+    <form id="uploadForm" enctype="multipart/form-data">
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Product Title</label>
+        <input type="text" required placeholder="Example: Creative Landing Page"
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Category</label>
+        <select required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md">
+          <option value="">Select Category</option>
+          <option value="HTML">HTML Templates</option>
+          <option value="CSS">CSS UI Kits</option>
+          <option value="JS">JavaScript Widgets</option>
+          <option value="React">React Components</option>
+          <option value="Email">Email Templates</option>
+          <option value="SVG">SVG / Icons</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Short Description</label>
+        <textarea rows="3" required placeholder="Briefly describe the product..."
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Live Demo URL</label>
+        <input type="url" required placeholder="https://yourdomain.com/demo/product123.html"
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md" />
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700">ZIP File (Product Package)</label>
+        <input type="file" required accept=".zip"
+               class="mt-1 block w-full text-sm text-gray-600 file:border file:border-gray-300 file:px-4 file:py-2 file:rounded file:bg-indigo-50" />
+      </div>
+
+      <button type="submit"
+              class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition">
+        Submit Product
+      </button>
+
+    </form>
+  </main>
+
+</body>
+</html>
