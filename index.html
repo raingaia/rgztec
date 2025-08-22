@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,74 +9,82 @@
   <link rel="stylesheet" href="./assets/css/home.css?v=15" />
 
   <style>
-    /* ============ LAYOUT TUNE ============ */
-    .ad-banner{display:none!important;}  /* eski kenar bannerları sakla */
+    /* ===== LAYOUT / CLEANUP ===== */
+    .ad-banner{display:none!important;} /* eski kenar bannerları tamamen gizle */
 
     :root{ --rail-w:176px; --rail-gap:16px; }
     .page-container{ margin:0 calc(var(--rail-w) + var(--rail-gap)); }
 
-    /* Çok geniş ekran dışında rayları kapat (boğulmayı engelle) */
+    /* 1600px altı: kenar rayları gizle, sayfayı tam genişlik kullan */
     @media (max-width:1599px){ .rail{display:none!important;} .page-container{margin:0;} }
 
-    /* Header: hamburger "Categories" düğmesi */
+    /* ===== HEADER bits ===== */
     .cats-btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 14px; border:1px solid #e5e7eb; border-radius:999px; background:#fff;
-      box-shadow:0 2px 8px rgba(0,0,0,.04); cursor:pointer; font-weight:600;
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;
+      box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;font-weight:600;
     }
     .cats-btn svg{width:18px;height:18px}
 
     /* Categories Drawer */
-    .drawer-overlay{position:fixed; inset:0; background:rgba(0,0,0,.3); opacity:0; pointer-events:none; transition:.2s; z-index:90;}
-    .drawer{position:fixed; top:72px; left:18px; width:320px; max-width:92vw; background:#fff; border:1px solid #eee; border-radius:16px; box-shadow:0 18px 60px rgba(0,0,0,.15); transform:translateY(-8px); opacity:0; pointer-events:none; transition:.2s; z-index:99;}
-    .drawer.open, .drawer-overlay.open{opacity:1; pointer-events:auto; transform:none;}
-    .drawer .hdr{display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid #f3f4f6;}
-    .drawer .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:14px;}
-    .drawer a.cat{display:flex; gap:10px; align-items:center; padding:10px; border:1px solid #e5e7eb; border-radius:12px; background:#fff;}
+    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.2s;z-index:90}
+    .drawer{position:fixed;top:72px;left:18px;width:320px;max-width:92vw;background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.15);transform:translateY(-8px);opacity:0;pointer-events:none;transition:.2s;z-index:99}
+    .drawer.open,.drawer-overlay.open{opacity:1;pointer-events:auto;transform:none}
+    .drawer .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6}
+    .drawer .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+    .drawer a.cat{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
     .drawer a.cat img{width:28px;height:28px;border-radius:8px;object-fit:cover}
 
-    /* Hero “Get started” */
-    .hero.alt { padding:24px 0 8px; }
-    .hero-card{display:grid; grid-template-columns:1.1fr 1fr; gap:18px; border-radius:18px; background:#fff; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.08);}
-    .hero-card .left{background:#fde5d6; padding:28px; display:flex; flex-direction:column; justify-content:center;}
-    .hero-card h2{font-size:38px; line-height:1.1; margin:0 0 6px;}
-    .hero-card p{font-size:16px; color:#374151; margin:0 0 16px;}
-    .hero-card .cta{display:inline-flex; align-items:center; gap:8px; background:#111827; color:#fff; border-radius:999px; padding:10px 14px; font-weight:700;}
-    .hero-card .right img{width:100%; height:100%; object-fit:cover; display:block;}
+    /* ===== SUBNAV (search’in altı) ===== */
+    .subnav{background:#fff}
+    .subnav .wrapper{display:flex;align-items:center;gap:22px;padding:10px 0 12px}
+    .subnav .scroll{display:flex;gap:22px;overflow:auto;white-space:nowrap;scrollbar-width:thin}
+    .subnav a{color:#111827;text-decoration:none;font-weight:600;font-size:14px}
+    .subnav a:hover{text-decoration:underline}
+    .subnav .divider{height:2px;background:#111827;opacity:.9}
+
+    /* ===== HERO (Get started) ===== */
+    .hero.alt{padding:24px 0 8px}
+    .hero-card{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.08)}
+    .hero-card .left{background:#fde5d6;padding:28px;display:flex;flex-direction:column;justify-content:center}
+    .hero-card h2{font-size:38px;line-height:1.1;margin:0 0 6px}
+    .hero-card p{font-size:16px;color:#374151;margin:0 0 16px}
+    .hero-card .cta{display:inline-flex;align-items:center;gap:8px;background:#111827;color:#fff;border-radius:999px;padding:10px 14px;font-weight:700}
+    .hero-card .right img{width:100%;height:100%;object-fit:cover;display:block}
     @media (max-width:900px){ .hero-card{grid-template-columns:1fr} }
 
-    /* Inline sponsored banner */
-    .ad-inline{margin:18px 0;}
-    .ad-inline a{display:block;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.08);}
-    .ad-inline img{width:100%;height:auto;display:block;}
+    /* ===== Inline sponsored banner ===== */
+    .ad-inline{margin:18px 0}
+    .ad-inline a{display:block;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .ad-inline img{width:100%;height:auto;display:block}
 
-    /* Grid içi sponsored kart */
-    .card.ad-card{border:2px dashed #f97316;background:#fff7ed;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;min-height:300px;}
-    .ad-card .ad-inner{max-width:420px;margin:0 auto;}
-    .ad-card .ad-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;color:#9a3412;background:#ffedd5;border:1px solid #fdba74;border-radius:999px;padding:4px 10px;margin-bottom:8px;}
-    .ad-card h3{color:#f97316;margin:8px 0;font-size:20px;}
-    .ad-card p{color:#374151;font-size:14px;line-height:1.5;margin-bottom:12px;}
-    .ad-card .ad-logos{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;opacity:.85;}
-    .ad-card .ad-logos img{height:24px;width:auto;filter:grayscale(1);}
+    /* ===== Grid içi sponsored kart ===== */
+    .card.ad-card{border:2px dashed #f97316;background:#fff7ed;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;min-height:300px}
+    .ad-card .ad-inner{max-width:420px;margin:0 auto}
+    .ad-card .ad-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;color:#9a3412;background:#ffedd5;border:1px solid #fdba74;border-radius:999px;padding:4px 10px;margin-bottom:8px}
+    .ad-card h3{color:#f97316;margin:8px 0;font-size:20px}
+    .ad-card p{color:#374151;font-size:14px;line-height:1.5;margin-bottom:12px}
+    .ad-card .ad-logos{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;opacity:.85}
+    .ad-card .ad-logos img{height:24px;width:auto;filter:grayscale(1)}
 
-    /* Side rails (sadece ≥1600px) */
+    /* ===== Side rails (sadece ≥1600px) ===== */
     .rail{
-      position:fixed; top:110px; width:var(--rail-w);
-      max-height:calc(100vh - 140px); overflow:auto; padding:12px;
-      border-radius:14px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,.08);
-      scrollbar-width:thin; z-index:50;
+      position:fixed;top:110px;width:var(--rail-w);
+      max-height:calc(100vh - 140px);overflow:auto;padding:12px;
+      border-radius:14px;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.08);
+      scrollbar-width:thin;z-index:50;
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
     }
-    .rail-left{left:var(--rail-gap);} .rail-right{right:var(--rail-gap);}
-    .rail h2{font-size:15px;margin:2px 0 10px;}
-    .rail .item{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px;border:1px solid #eee;border-radius:12px;margin-bottom:10px;background:#fff;}
-    .rail .item img{width:56px;height:56px;border-radius:10px;object-fit:cover;}
-    .rail .item h3{font-size:14px;margin:2px 0 4px;line-height:1.3;}
-    .rail .meta{font-size:12px;color:#6b7280;}
-    .rail a{color:inherit;text-decoration:none;} .rail a:hover h3{text-decoration:underline;}
-    .rail .sponsor{border:2px dashed #f97316;background:#fff7ed;}
-    .rail .badge{display:inline-block;font-size:11px;font-weight:600;color:#9a3412;background:#ffedd5;border:1px solid #fdba74;border-radius:999px;padding:2px 8px;margin-bottom:6px;}
-    .rail .cta{display:inline-block;margin-top:6px;font-size:12px;padding:6px 10px;border-radius:999px;background:#f97316;color:#fff;}
+    .rail-left{left:var(--rail-gap)} .rail-right{right:var(--rail-gap)}
+    .rail h2{font-size:15px;margin:2px 0 10px}
+    .rail .item{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px;border:1px solid #eee;border-radius:12px;margin-bottom:10px;background:#fff}
+    .rail .item img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+    .rail .item h3{font-size:14px;margin:2px 0 4px;line-height:1.3}
+    .rail .meta{font-size:12px;color:#6b7280}
+    .rail a{color:inherit;text-decoration:none} .rail a:hover h3{text-decoration:underline}
+    .rail .sponsor{border:2px dashed #f97316;background:#fff7ed}
+    .rail .badge{display:inline-block;font-size:11px;font-weight:600;color:#9a3412;background:#ffedd5;border:1px solid #fdba74;border-radius:999px;padding:2px 8px;margin-bottom:6px}
+    .rail .cta{display:inline-block;margin-top:6px;font-size:12px;padding:6px 10px;border-radius:999px;background:#f97316;color:#fff}
   </style>
 </head>
 <body>
@@ -98,7 +107,13 @@
   <!-- Drawer for categories -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <div class="drawer" id="drawer">
-    <div class="hdr"><strong>Categories</strong><button id="drawerClose" class="cats-btn" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>Close</button></div>
+    <div class="hdr">
+      <strong>Categories</strong>
+      <button id="drawerClose" class="cats-btn" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        Close
+      </button>
+    </div>
     <div class="grid" role="menu">
       <a class="cat" href="./stores/index.html?cat=html-templates"><img src="./images/categories/html-templates.webp" alt="HTML"><span>HTML Templates</span></a>
       <a class="cat" href="./stores/index.html?cat=css-ui-kits"><img src="./images/categories/css-ui-kits.webp" alt="CSS"><span>CSS UI Kits</span></a>
@@ -112,10 +127,10 @@
   <div class="page-container">
     <!-- HEADER -->
     <header class="site-header">
-      <div class="wrapper nav-wrapper" style="gap:12px; align-items:center;">
+      <div class="wrapper nav-wrapper" style="gap:12px;align-items:center;">
         <a class="brand" href="./">RGZTEC</a>
 
-        <!-- Hamburger Categories -->
+        <!-- Categories button -->
         <button class="cats-btn" id="catsBtn" aria-haspopup="true" aria-controls="drawer">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
           Categories
@@ -133,6 +148,26 @@
         </nav>
       </div>
     </header>
+
+    <!-- SUBNAV (search altı) + siyah ayraç -->
+    <div class="subnav" aria-label="Quick topics">
+      <div class="wrapper">
+        <div class="scroll">
+          <a href="./stores/index.html">All Stores</a>
+          <a href="./stores/index.html?filter=new">New Arrivals</a>
+          <a href="./stores/index.html?filter=editors-picks">Editor’s Picks</a>
+          <a href="./products/html-templates.html">Landing Pages</a>
+          <a href="./products/html-templates.html#admin">Admin Dashboards</a>
+          <a href="./products/css-ui-kits.html">CSS UI Kits</a>
+          <a href="./products/js-widgets.html">JS Widgets</a>
+          <a href="./products/react.html">React Components</a>
+          <a href="./products/svg-icons.html">SVG Icons</a>
+          <a href="./products/email-templates.html">Email Templates</a>
+          <a href="./products/html-templates.html#freebies">Freebies</a>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+    </div>
 
     <main id="home-content">
       <!-- HERO (Get started) -->
@@ -169,22 +204,70 @@
           </div>
 
           <div class="grid auto-4">
-            <!-- 1..8 (Visit Store yönlendirmesi) -->
-            <article class="card" data-id="landing-page-starter" data-title="Landing Page Starter" data-price="19" data-img="./images/html1.webp"><img class="thumb" src="./images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" /><h3 class="title">Landing Page Starter</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$19</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=landing-page-starter">Visit Store</a></div></article>
+            <!-- 1..8 -->
+            <article class="card" data-id="landing-page-starter" data-title="Landing Page Starter" data-price="19" data-img="./images/html1.webp">
+              <img class="thumb" src="./images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" />
+              <h3 class="title">Landing Page Starter</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$19</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=landing-page-starter">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="portfolio-showcase" data-title="Portfolio Showcase" data-price="25" data-img="./images/html2.webp"><img class="thumb" src="./images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" /><h3 class="title">Portfolio Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$25</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=portfolio-showcase">Visit Store</a></div></article>
+            <article class="card" data-id="portfolio-showcase" data-title="Portfolio Showcase" data-price="25" data-img="./images/html2.webp">
+              <img class="thumb" src="./images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" />
+              <h3 class="title">Portfolio Showcase</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$25</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=portfolio-showcase">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="admin-dashboard-ui" data-title="Admin Dashboard UI" data-price="49" data-img="./images/html3.webp"><img class="thumb" src="./images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" /><h3 class="title">Admin Dashboard UI</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$49</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=admin-dashboard-ui">Visit Store</a></div></article>
+            <article class="card" data-id="admin-dashboard-ui" data-title="Admin Dashboard UI" data-price="49" data-img="./images/html3.webp">
+              <img class="thumb" src="./images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" />
+              <h3 class="title">Admin Dashboard UI</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$49</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=admin-dashboard-ui">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="ecommerce-homepage" data-title="E-commerce Homepage" data-price="39" data-img="./images/html4.webp"><img class="thumb" src="./images/html4.webp" alt="E-commerce Homepage" loading="lazy" width="640" height="400" /><h3 class="title">E-commerce Homepage</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$39</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=ecommerce-homepage">Visit Store</a></div></article>
+            <article class="card" data-id="ecommerce-homepage" data-title="E-commerce Homepage" data-price="39" data-img="./images/html4.webp">
+              <img class="thumb" src="./images/html4.webp" alt="E-commerce Homepage" loading="lazy" width="640" height="400" />
+              <h3 class="title">E-commerce Homepage</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$39</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=ecommerce-homepage">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="blog-template" data-title="Blog Template" data-price="29" data-img="./images/html5.webp"><img class="thumb" src="./images/html5.webp" alt="Blog Template" loading="lazy" width="640" height="400" /><h3 class="title">Blog Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$29</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=blog-template">Visit Store</a></div></article>
+            <article class="card" data-id="blog-template" data-title="Blog Template" data-price="29" data-img="./images/html5.webp">
+              <img class="thumb" src="./images/html5.webp" alt="Blog Template" loading="lazy" width="640" height="400" />
+              <h3 class="title">Blog Template</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$29</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=blog-template">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="saas-landing-page" data-title="SaaS Landing Page" data-price="22" data-img="./images/html6.webp"><img class="thumb" src="./images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" /><h3 class="title">SaaS Landing Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$22</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=saas-landing-page">Visit Store</a></div></article>
+            <article class="card" data-id="saas-landing-page" data-title="SaaS Landing Page" data-price="22" data-img="./images/html6.webp">
+              <img class="thumb" src="./images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" />
+              <h3 class="title">SaaS Landing Page</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$22</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=saas-landing-page">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="agency-one-pager" data-title="Agency One-Pager" data-price="15" data-img="./images/html7.webp"><img class="thumb" src="./images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" /><h3 class="title">Agency One-Pager</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$15</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=agency-one-pager">Visit Store</a></div></article>
+            <article class="card" data-id="agency-one-pager" data-title="Agency One-Pager" data-price="15" data-img="./images/html7.webp">
+              <img class="thumb" src="./images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" />
+              <h3 class="title">Agency One-Pager</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$15</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=agency-one-pager">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="corporate-site" data-title="Corporate Site" data-price="35" data-img="./images/html8.webp"><img class="thumb" src="./images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" /><h3 class="title">Corporate Site</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$35</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=corporate-site">Visit Store</a></div></article>
+            <article class="card" data-id="corporate-site" data-title="Corporate Site" data-price="35" data-img="./images/html8.webp">
+              <img class="thumb" src="./images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" />
+              <h3 class="title">Corporate Site</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$35</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=corporate-site">Visit Store</a></div>
+            </article>
 
             <!-- Sponsored slot -->
             <article class="card ad-card" aria-label="sponsored-card">
@@ -193,25 +276,62 @@
                 <h3>Reach RGZTEC Buyers</h3>
                 <p>Showcase your dev tool, template, or service to creators browsing templates.</p>
                 <div class="ad-logos">
-                  <img src="https://placehold.co/80x24.webp?text=Logo1" alt="brand"><img src="https://placehold.co/80x24.webp?text=Logo2" alt="brand"><img src="https://placehold.co/80x24.webp?text=Logo3" alt="brand">
+                  <img src="https://placehold.co/80x24.webp?text=Logo1" alt="brand">
+                  <img src="https://placehold.co/80x24.webp?text=Logo2" alt="brand">
+                  <img src="https://placehold.co/80x24.webp?text=Logo3" alt="brand">
                 </div>
                 <a class="btn primary" href="#" target="_blank" rel="noopener sponsored">Advertise Now</a>
               </div>
             </article>
 
-            <!-- 9..12 (restaurant/404 yerine daha mantıklı iki ürün) -->
-            <article class="card" data-id="docs-site-starter" data-title="Docs Site Starter" data-price="27" data-img="./images/html9.webp"><img class="thumb" src="./images/html9.webp" alt="Docs Site Starter" loading="lazy" width="640" height="400" /><h3 class="title">Docs Site Starter</h3><p class="meta">Static docs site, search-ready</p><div class="price-row"><span class="price">$27</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=docs-site-starter">Visit Store</a></div></article>
+            <!-- 9..12 -->
+            <article class="card" data-id="docs-site-starter" data-title="Docs Site Starter" data-price="27" data-img="./images/html9.webp">
+              <img class="thumb" src="./images/html9.webp" alt="Docs Site Starter" loading="lazy" width="640" height="400" />
+              <h3 class="title">Docs Site Starter</h3>
+              <p class="meta">Static docs site, search-ready</p>
+              <div class="price-row"><span class="price">$27</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=docs-site-starter">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="auth-pages-pack" data-title="Auth Pages Pack" data-price="21" data-img="./images/html10.webp"><img class="thumb" src="./images/html10.webp" alt="Auth Pages Pack" loading="lazy" width="640" height="400" /><h3 class="title">Auth Pages Pack</h3><p class="meta">Login • Register • Reset</p><div class="price-row"><span class="price">$21</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=auth-pages-pack">Visit Store</a></div></article>
+            <article class="card" data-id="auth-pages-pack" data-title="Auth Pages Pack" data-price="21" data-img="./images/html10.webp">
+              <img class="thumb" src="./images/html10.webp" alt="Auth Pages Pack" loading="lazy" width="640" height="400" />
+              <h3 class="title">Auth Pages Pack</h3>
+              <p class="meta">Login • Register • Reset</p>
+              <div class="price-row"><span class="price">$21</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=auth-pages-pack">Visit Store</a></div>
+            </article>
 
-            <!-- kalan kartlar (örnek birkaç tane) -->
-            <article class="card" data-id="app-showcase" data-title="App Showcase" data-price="18" data-img="./images/html11.webp"><img class="thumb" src="./images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" /><h3 class="title">App Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$18</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=app-showcase">Visit Store</a></div></article>
+            <article class="card" data-id="app-showcase" data-title="App Showcase" data-price="18" data-img="./images/html11.webp">
+              <img class="thumb" src="./images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" />
+              <h3 class="title">App Showcase</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$18</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=app-showcase">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="product-page" data-title="Product Page" data-price="19" data-img="./images/html15.webp"><img class="thumb" src="./images/html15.webp" alt="Product Page" loading="lazy" width="640" height="400" /><h3 class="title">Product Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$19</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=product-page">Visit Store</a></div></article>
+            <article class="card" data-id="product-page" data-title="Product Page" data-price="19" data-img="./images/html15.webp">
+              <img class="thumb" src="./images/html15.webp" alt="Product Page" loading="lazy" width="640" height="400" />
+              <h3 class="title">Product Page</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$19</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=product-page">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="login-page-template" data-title="Login Page Template" data-price="14" data-img="./images/html17.webp"><img class="thumb" src="./images/html17.webp" alt="Login Page Template" loading="lazy" width="640" height="400" /><h3 class="title">Login Page Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$14</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=login-page-template">Visit Store</a></div></article>
+            <article class="card" data-id="login-page-template" data-title="Login Page Template" data-price="14" data-img="./images/html17.webp">
+              <img class="thumb" src="./images/html17.webp" alt="Login Page Template" loading="lazy" width="640" height="400" />
+              <h3 class="title">Login Page Template</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$14</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=login-page-template">Visit Store</a></div>
+            </article>
 
-            <article class="card" data-id="faq-page" data-title="FAQ Page" data-price="12" data-img="./images/html19.webp"><img class="thumb" src="./images/html19.webp" alt="FAQ Page" loading="lazy" width="640" height="400" /><h3 class="title">FAQ Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$12</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=faq-page">Visit Store</a></div></article>
+            <article class="card" data-id="faq-page" data-title="FAQ Page" data-price="12" data-img="./images/html19.webp">
+              <img class="thumb" src="./images/html19.webp" alt="FAQ Page" loading="lazy" width="640" height="400" />
+              <h3 class="title">FAQ Page</h3>
+              <p class="meta">Responsive HTML/CSS</p>
+              <div class="price-row"><span class="price">$12</span></div>
+              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="./stores/index.html?p=faq-page">Visit Store</a></div>
+            </article>
           </div>
         </div>
       </section>
@@ -221,9 +341,22 @@
     <footer class="site-footer">
       <div class="wrapper">
         <div class="footer-grid">
-          <div><h3 class="title">About RGZTEC</h3><p class="meta">Static code marketplace and demo gallery.</p></div>
-          <div><h4 class="title">Links</h4><ul class="footer-links"><li><a href="./demo/">Demo Gallery</a></li><li><a href="./products/html-templates.html">Explore Products</a></li><li><a href="./signup.html">Become a Seller</a></li></ul></div>
-          <div><h4 class="title">Contact</h4><p class="meta">support@rgztec.example</p></div>
+          <div>
+            <h3 class="title">About RGZTEC</h3>
+            <p class="meta">Static code marketplace and demo gallery.</p>
+          </div>
+          <div>
+            <h4 class="title">Links</h4>
+            <ul class="footer-links">
+              <li><a href="./demo/">Demo Gallery</a></li>
+              <li><a href="./products/html-templates.html">Explore Products</a></li>
+              <li><a href="./signup.html">Become a Seller</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="title">Contact</h4>
+            <p class="meta">support@rgztec.example</p>
+          </div>
         </div>
       </div>
     </footer>
@@ -242,7 +375,7 @@
     overlay.addEventListener('click', closeDrawer);
   </script>
 
-  <!-- (Opsiyonel) Radar döndürme -->
+  <!-- (Opsiyonel) Radar rotasyonu -->
   <script>
     (function(){
       const rails=document.querySelectorAll('.rail');
@@ -256,4 +389,4 @@
   <script src="./assets/js/main.js?v=4"></script>
 </body>
 </html>
-
+```
