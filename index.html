@@ -8,94 +8,105 @@
   <!-- CSS version updated to match the latest styles -->
   <link rel="stylesheet" href="./assets/css/home.css?v=15" />
 
-  <!-- ==== ADAPTIVE RAILS + ADS + SEO STYLES (ADDED) ==== -->
+  <!-- ==== ADAPTED SIDE RAILS + ADS + SEO STYLES (ADDED) ==== -->
   <style>
-    /* Eski kenar reklamları devre dışı (kod korunuyor) */
+    /* keep legacy 160x600 side banners hidden (we keep nodes for backward compat) */
     .ad-banner { display: none !important; }
 
-    /* Sayfa ortada kalsın; raylar için boşluk */
-    .page-container { margin: 0 300px; }
+    /* layout variables for rails */
+    :root{
+      --rail-w: 210px;      /* rail width */
+      --rail-gap: 18px;     /* gap from viewport edge */
+    }
 
-    /* Hero altı yatay banner (sponsor) */
+    /* center column leaves room for rails on both sides */
+    .page-container {
+      margin: 0 calc(var(--rail-w) + var(--rail-gap));
+    }
+
+    /* inline hero banner (sponsored) */
     .ad-inline { margin: 24px 0; }
     .ad-inline .wrapper { position: relative; }
-    .ad-inline a { display: block; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
-    .ad-inline img { width: 100%; height: auto; display: block; }
+    .ad-inline a { display:block; border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.08); }
+    .ad-inline img { width:100%; height:auto; display:block; }
 
-    /* Grid içi reklam kartı */
-    .card.ad-card {
-      border: 2px dashed #f97316; background: #fff7ed;
-      display: flex; align-items: center; justify-content: center; text-align: center;
-      padding: 20px; min-height: 320px;
+    /* sponsored card inside product grid */
+    .card.ad-card{
+      border:2px dashed #f97316; background:#fff7ed;
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      padding:20px; min-height:320px;
     }
-    .ad-card .ad-inner { max-width: 420px; margin: 0 auto; }
-    .ad-card .ad-label {
-      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em;
-      color: #9a3412; background: #ffedd5; border: 1px solid #fdba74; border-radius: 999px;
-      padding: 4px 10px; margin-bottom: 8px;
+    .ad-card .ad-inner{ max-width:420px; margin:0 auto; }
+    .ad-card .ad-label{
+      display:inline-block; font-size:12px; font-weight:700; letter-spacing:.06em;
+      color:#9a3412; background:#ffedd5; border:1px solid #fdba74; border-radius:999px;
+      padding:4px 10px; margin-bottom:8px;
     }
-    .ad-card h3 { color: #f97316; margin: 8px 0; font-size: 20px; }
-    .ad-card p { color: #374151; font-size: 14px; line-height: 1.5; margin-bottom: 12px; }
-    .ad-card .ad-logos { display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 12px; opacity: .85; }
-    .ad-card .ad-logos img { height: 24px; width: auto; filter: grayscale(1); }
+    .ad-card h3{ color:#f97316; margin:8px 0; font-size:20px; }
+    .ad-card p{ color:#374151; font-size:14px; line-height:1.5; margin-bottom:12px; }
+    .ad-card .ad-logos{ display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:12px; opacity:.85; }
+    .ad-card .ad-logos img{ height:24px; width:auto; filter:grayscale(1); }
 
-    /* Yan paneller (SEO + Sponsored) */
-    .rail {
-      position: fixed; top: 110px; width: 260px;
-      max-height: calc(100vh - 140px); overflow: auto;
-      padding: 14px; border-radius: 14px; background: #fff;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      scrollbar-width: thin; z-index: 50;
+    /* side rails (SEO + Sponsored) */
+    .rail{
+      position:fixed; top:110px; width:var(--rail-w);
+      max-height:calc(100vh - 140px); overflow:auto;
+      padding:14px; border-radius:14px; background:#fff;
+      box-shadow:0 10px 30px rgba(0,0,0,.08); scrollbar-width:thin; z-index:50;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     }
-    .rail-left  { left: 18px;  }
-    .rail-right { right: 18px; }
-    .rail h2 { font-size: 16px; letter-spacing: .02em; margin: 4px 0 10px; }
-    .rail .item {
-      display: grid; grid-template-columns: 56px 1fr; gap: 10px;
-      padding: 10px; border: 1px solid #eee; border-radius: 12px; margin-bottom: 10px; background: #fff;
+    .rail-left{ left:var(--rail-gap); }
+    .rail-right{ right:var(--rail-gap); }
+    .rail h2{ font-size:16px; letter-spacing:.02em; margin:4px 0 10px; }
+    .rail .item{
+      display:grid; grid-template-columns:56px 1fr; gap:10px;
+      padding:10px; border:1px solid #eee; border-radius:12px; margin-bottom:10px; background:#fff;
     }
-    .rail .item img { width:56px; height:56px; border-radius:10px; object-fit:cover; }
-    .rail .item h3 { font-size: 14px; margin: 2px 0 4px; line-height: 1.3; }
-    .rail .meta { font-size: 12px; color:#6b7280; }
-    .rail a { text-decoration: none; color: inherit; }
-    .rail a:hover h3 { text-decoration: underline; }
-
-    .rail .sponsor { border: 2px dashed #f97316; background:#fff7ed; }
-    .rail .badge {
+    .rail .item img{ width:56px; height:56px; border-radius:10px; object-fit:cover; }
+    .rail .item h3{ font-size:14px; margin:2px 0 4px; line-height:1.3; }
+    .rail .meta{ font-size:12px; color:#6b7280; }
+    .rail a{ text-decoration:none; color:inherit; }
+    .rail a:hover h3{ text-decoration:underline; }
+    .rail .sponsor{ border:2px dashed #f97316; background:#fff7ed; }
+    .rail .badge{
       display:inline-block; font-size:11px; font-weight:600; color:#9a3412;
       background:#ffedd5; border:1px solid #fdba74; border-radius:999px; padding:2px 8px; margin-bottom:6px;
     }
-    .rail .cta { display:inline-block; margin-top:6px; font-size:12px; padding:6px 10px; border-radius:999px; background:#f97316; color:#fff; }
+    .rail .cta{ display:inline-block; margin-top:6px; font-size:12px; padding:6px 10px; border-radius:999px; background:#f97316; color:#fff; }
 
-    /* Küçük ekranlarda raylar gizlensin, sayfa tam genişlik olsun */
+    /* make rails slimmer on medium desktops */
+    @media (max-width: 1400px){
+      :root{ --rail-w: 190px; }
+    }
+    /* hide rails on tablets/mobiles and release margins */
     @media (max-width: 1200px){
       .rail{ display:none; }
-      .page-container{ margin: 0; }
+      .page-container{ margin:0; }
     }
     @media (max-width: 1024px){
-      .card.ad-card { min-height: 260px; padding: 16px; }
+      .card.ad-card{ min-height:260px; padding:16px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Left Ad Banner (kept for structure but hidden by CSS) -->
+  <!-- legacy left banner (kept but hidden) -->
   <aside class="ad-banner ad-banner-left">
     <a href="#" target="_blank" rel="noopener sponsored">
       <img src="https://placehold.co/160x600/f97316/ffffff?text=Your+Ad+Here" alt="Advertisement" />
     </a>
   </aside>
 
-  <!-- === SEO & SPONSORED SIDE RAILS (ADDED) === -->
-  <!-- SOL RAY: Dev Radar (iç linkleme + öneriler) -->
-  <aside class="rail rail-left" aria-label="Developer Radar – curated code news & tips">
+  <!-- === SIDE RAILS (ADDED) === -->
+  <!-- LEFT: Dev Radar (internal links for SEO + curiosity) -->
+  <aside class="rail rail-left" aria-label="Developer Radar – curated code news and tips">
     <h2>Dev Radar • Today</h2>
 
     <article class="item" data-rotate>
       <img src="https://placehold.co/112x112/0ea5e9/fff?text=JS" alt="JavaScript">
       <div>
         <a href="./products/js-widgets.html#trend-tabs">
-          <h3>Trend: Vanilla JS ile tab komponenti — 1KB</h3>
+          <h3>Trend: Vanilla JS tabs in ~1 KB</h3>
         </a>
         <div class="meta">Guide • 5 min read</div>
       </div>
@@ -105,7 +116,7 @@
       <img src="https://placehold.co/112x112/22c55e/fff?text=CSS" alt="CSS">
       <div>
         <a href="./products/css-ui-kits.html#grid-starter">
-          <h3>CSS Grid şablonları: 12-col, clamp() ve akış</h3>
+          <h3>CSS Grid patterns: 12-col, clamp(), flow</h3>
         </a>
         <div class="meta">Tips • 3 min skim</div>
       </div>
@@ -115,25 +126,25 @@
       <img src="https://placehold.co/112x112/6366f1/fff?text=HTML" alt="HTML">
       <div>
         <a href="./products/html-templates.html#lighthouse">
-          <h3>Lighthouse 95+ alan HTML landing başlangıcı</h3>
+          <h3>HTML landing starter with 95+ Lighthouse</h3>
         </a>
         <div class="meta">Template • Featured</div>
       </div>
     </article>
 
-    <!-- Sol küçük sponsor slotu -->
+    <!-- left small sponsor -->
     <article class="item sponsor">
       <img src="https://placehold.co/112x112/f97316/fff?text=AD" alt="Sponsor">
       <div>
         <span class="badge">SPONSORED</span>
-        <h3>Yeni: E-posta Şablon Paketi</h3>
-        <div class="meta">Deliverability A+ • 24 bileşen</div>
-        <a class="cta" href="#" rel="noopener sponsored" target="_blank">İncele</a>
+        <h3>Email Template Pack</h3>
+        <div class="meta">Deliverability A+ • 24 components</div>
+        <a class="cta" href="#" rel="noopener sponsored" target="_blank">View</a>
       </div>
     </article>
   </aside>
 
-  <!-- SAĞ RAY: Sponsorlu öneriler + mini reklamlar -->
+  <!-- RIGHT: Recommended & Sponsored -->
   <aside class="rail rail-right" aria-label="Sponsored and Recommended">
     <h2>Recommended & Sponsored</h2>
 
@@ -141,9 +152,9 @@
       <img src="https://placehold.co/112x112/0ea5e9/fff?text=PRO" alt="Pro Kit">
       <div>
         <span class="badge">SPONSORED</span>
-        <h3>UI Kit Pro — 150+ bileşen</h3>
-        <div class="meta">Tailwind • Figma dahildir</div>
-        <a class="cta" href="#" rel="noopener sponsored" target="_blank">Satın Al</a>
+        <h3>UI Kit Pro — 150+ components</h3>
+        <div class="meta">Tailwind • Figma included</div>
+        <a class="cta" href="#" rel="noopener sponsored" target="_blank">Buy</a>
       </div>
     </article>
 
@@ -151,7 +162,7 @@
       <img src="https://placehold.co/112x112/14b8a6/fff?text=SVG" alt="SVG Icons">
       <div>
         <a href="./products/svg-icons.html#mini-pack">
-          <h3>Ücretsiz: 120 SVG ikon mini paket</h3>
+          <h3>Free: 120 SVG icons mini pack</h3>
         </a>
         <div class="meta">Freebie • Popular</div>
       </div>
@@ -161,9 +172,9 @@
       <img src="https://placehold.co/112x112/f43f5e/fff?text=React" alt="React">
       <div>
         <a href="./products/react.html#cards">
-          <h3>React kart bileşenleri — SSR uyumlu</h3>
+          <h3>React card components — SSR ready</h3>
         </a>
-        <div class="meta">Component • 8KB</div>
+        <div class="meta">Component • 8 KB</div>
       </div>
     </article>
 
@@ -171,13 +182,13 @@
       <img src="https://placehold.co/112x112/334155/fff?text=AD" alt="Ad">
       <div>
         <span class="badge">SPONSORED</span>
-        <h3>Statik Site Deploy • 1-tık</h3>
+        <h3>1-click Static Site Deploy</h3>
         <div class="meta">CDN • Analytics • Free tier</div>
-        <a class="cta" href="#" rel="noopener sponsored" target="_blank">Keşfet</a>
+        <a class="cta" href="#" rel="noopener sponsored" target="_blank">Explore</a>
       </div>
     </article>
   </aside>
-  <!-- === /SIDERAILS === -->
+  <!-- === /SIDE RAILS === -->
 
   <!-- Main Page Container -->
   <div class="page-container">
@@ -215,7 +226,7 @@
         </div>
       </section>
 
-      <!-- HERO ALTINA YATAY BANNER REKLAM -->
+      <!-- INLINE SPONSORED BANNER -->
       <section class="ad-inline" aria-label="sponsored-banner">
         <div class="wrapper">
           <a href="#" target="_blank" rel="noopener sponsored">
@@ -257,7 +268,7 @@
             <a class="btn" href="./products/html-templates.html">View all</a>
           </div>
           <div class="grid auto-4">
-            <!-- 1–8 -->
+            <!-- 1..8 -->
             <article class="card" data-id="landing-page-starter" data-title="Landing Page Starter" data-price="19" data-img="./images/html1.webp"><img class="thumb" src="./images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" /><h3 class="title">Landing Page Starter</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$19</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="portfolio-showcase" data-title="Portfolio Showcase" data-price="25" data-img="./images/html2.webp"><img class="thumb" src="./images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" /><h3 class="title">Portfolio Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$25</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="admin-dashboard-ui" data-title="Admin Dashboard UI" data-price="49" data-img="./images/html3.webp"><img class="thumb" src="./images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" /><h3 class="title">Admin Dashboard UI</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$49</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
@@ -267,12 +278,12 @@
             <article class="card" data-id="agency-one-pager" data-title="Agency One-Pager" data-price="15" data-img="./images/html7.webp"><img class="thumb" src="./images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" /><h3 class="title">Agency One-Pager</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$15</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="corporate-site" data-title="Corporate Site" data-price="35" data-img="./images/html8.webp"><img class="thumb" src="./images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" /><h3 class="title">Corporate Site</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$35</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
 
-            <!-- GRID İÇİ SPONSORED CARD -->
+            <!-- SPONSORED CARD IN GRID -->
             <article class="card ad-card" aria-label="sponsored-card">
               <div class="ad-inner">
                 <span class="ad-label">SPONSORED</span>
                 <h3>Reach RGZTEC Buyers</h3>
-                <p>Showcase your dev tool, template, or service directly to creators browsing templates.</p>
+                <p>Showcase your dev tool, template, or service to creators browsing templates.</p>
                 <div class="ad-logos">
                   <img src="https://placehold.co/80x24?text=Logo1" alt="brand">
                   <img src="https://placehold.co/80x24?text=Logo2" alt="brand">
@@ -282,7 +293,7 @@
               </div>
             </article>
 
-            <!-- 9–20 -->
+            <!-- 9..20 -->
             <article class="card" data-id="restaurant-template" data-title="Restaurant Template" data-price="24" data-img="./images/html9.webp"><img class="thumb" src="./images/html9.webp" alt="Restaurant Template" loading="lazy" width="640" height="400" /><h3 class="title">Restaurant Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$24</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="real-estate-listing" data-title="Real Estate Listing" data-price="33" data-img="./images/html10.webp"><img class="thumb" src="./images/html10.webp" alt="Real Estate Listing" loading="lazy" width="640" height="400" /><h3 class="title">Real Estate Listing</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$33</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="app-showcase" data-title="App Showcase" data-price="18" data-img="./images/html11.webp"><img class="thumb" src="./images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" /><h3 class="title">App Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$18</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
@@ -325,7 +336,7 @@
     </footer>
   </div> <!-- End of .page-container -->
 
-  <!-- Right Ad Banner (kept but hidden by CSS) -->
+  <!-- legacy right banner (kept but hidden) -->
   <aside class="ad-banner ad-banner-right">
     <a href="#" target="_blank" rel="noopener sponsored">
       <img src="https://placehold.co/160x600/14b8a6/ffffff?text=Your+Ad+Here" alt="Advertisement" />
@@ -334,21 +345,21 @@
 
   <!-- ==== MINI ROTATION + JSON-LD (ADDED) ==== -->
   <script>
-    // Yan panellerde "data-rotate" etiketli içerikleri 30sn'de bir döndürerek taze görünüm ver
+    // simple rotation for items marked data-rotate (keeps rails feeling fresh)
     (function(){
       const rails = document.querySelectorAll('.rail');
       rails.forEach(rail => {
-        const rotatables = rail.querySelectorAll('[data-rotate]');
-        if (!rotatables.length) return;
+        const hasRot = rail.querySelector('[data-rotate]');
+        if(!hasRot) return;
         setInterval(() => {
           const first = rail.querySelector('[data-rotate]');
-          if (first) rail.appendChild(first);
-        }, 30000);
+          if(first) rail.appendChild(first);
+        }, 30000); // every 30s
       });
     })();
   </script>
 
-  <!-- JSON-LD: ItemList (SEO iç linkleme sinyali) -->
+  <!-- JSON-LD: ItemList (SEO internal linking signal) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
