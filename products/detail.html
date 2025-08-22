@@ -1,111 +1,134 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>RGZTEC – Product Detail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../assets/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC – Product</title>
+  <link rel="stylesheet" href="../assets/css/main.css" />
   <style>
-    body{background:#f8fafc;margin:0;font-family:sans-serif}
-    .container{max-width:1080px;margin:0 auto;padding:20px}
-    header.topbar{border-bottom:1px solid #eef2f4;background:#fff}
-    .brand{font-weight:800;text-decoration:none;color:#0f172a}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden}
-    .thumb{width:100%;aspect-ratio:16/10;object-fit:cover;background:#eef2f8;display:block}
-    .pad{padding:16px}
-    h1{margin:0 0 10px}
-    .muted{color:#475569;font-size:14px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn{font-size:14px;padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;text-decoration:none;color:#0f172a}
-    .btn:hover{background:#f1f5f9}
-    .btn.primary{background:#f97316;color:#fff;border-color:#f97316}
-    .btn.primary:hover{background:#ea580c}
-    @media (max-width: 820px){ .grid{grid-template-columns:1fr} }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f7f7fb;margin:0}
+    .wrap{max-width:1100px;margin:auto;padding:24px}
+    .back{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;text-decoration:none}
+    .layout{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:20px}
+    .panel{background:#fff;border-radius:18px;border:1px solid #eee;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+    .panel.pad{padding:18px}
+    .media{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:#eef2f7;border-radius:14px;overflow:hidden}
+    .media img{width:100%;height:100%;object-fit:cover}
+    .title{font-size:28px;font-weight:800;margin:0 0 10px}
+    .muted{color:#6b7280}
+    .row{display:flex;gap:12px;align-items:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:700;text-decoration:none}
+    .btn.primary{background:#ff6a3d;border-color:#ff6a3d;color:#fff}
+    .price{font-size:22px;font-weight:800}
+    .note{font-size:12px;color:#6b7280;margin-top:10px}
+    @media (max-width:960px){.layout{grid-template-columns:1fr}}
+    .ghost{display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container" style="display:flex;align-items:center;gap:16px">
-      <a class="brand" href="/rgztec/">RGZTEC</a>
-      <a class="btn" href="/rgztec/products/category.html">← Back to Category</a>
-    </div>
-  </header>
+  <main class="wrap">
+    <a class="back" href="../index.html">← Back to Category</a>
 
-  <main class="container">
-    <div class="grid">
-      <!-- SOL: Görsel -->
-      <div class="card">
-        <img id="prodImg" class="thumb" src="" alt="">
-      </div>
-
-      <!-- SAĞ: Başlık + açıklama + aksiyonlar -->
-      <div class="card pad">
-        <h1 id="prodTitle">Product</h1>
-        <p id="prodDesc" class="muted">Minimal template description.</p>
-
-        <div class="row" style="margin-top:16px">
-          <a id="demoLink" class="btn" target="_blank" href="#">Live Demo</a>
-          <a id="createLink" class="btn primary" target="_blank" href="#">Create your store</a>
-        </div>
-
-        <div class="pad" style="padding-left:0;margin-top:8px">
-          <small class="muted">Not: Demo ve mağaza linkleri seçtiğiniz ürüne göre otomatik ayarlanır.</small>
+    <section class="layout">
+      <!-- Sol: Görsel -->
+      <div class="panel pad">
+        <div class="media" id="mediaBox">
+          <div class="ghost" id="ghostLabel">G&ouml;rsel bulunamad&#305;</div>
+          <img id="product-image" alt="" style="display:none"
+               onload="document.getElementById('ghostLabel').style.display='none'; this.style.display='block';"
+               onerror="this.style.display='none'; document.getElementById('ghostLabel').style.display='flex'; this.src=''">
         </div>
       </div>
-    </div>
+
+      <!-- Sağ: İçerik -->
+      <div class="panel pad">
+        <h1 class="title" id="product-title">Product</h1>
+        <p class="muted" id="product-desc">Template details and features.</p>
+
+        <div class="row" style="margin:16px 0 6px">
+          <a id="btn-demo" class="btn">Live Demo</a>
+          <a id="btn-store" class="btn primary">Create your store</a>
+          <div class="price" id="product-price" style="margin-left:auto">$0</div>
+        </div>
+
+        <p class="note">Not: Demo ve mağaza linkleri seçtiğiniz ürüne göre otomatik ayarlanır.</p>
+      </div>
+    </section>
   </main>
 
-  <!-- Ürün verisini istersen kullanmak için -->
-  <script src="../data/products.js"></script>
-
   <script>
-    // URL parametrelerini al: ?img=landing-starter.webp&title=Landing%20Starter
+    // URL param
     const params = new URLSearchParams(location.search);
-    const imgParam   = params.get('img');
-    const titleParam = params.get('title');
+    const slug = params.get("item");
 
-    // products.js'ten eşleşen ürünü bul (varsa)
-    let product = null;
-    if (window.RGZ_PRODUCTS && (imgParam || titleParam)) {
-      product = window.RGZ_PRODUCTS.find(p =>
-        (imgParam && p.image === imgParam) ||
-        (titleParam && p.title === decodeURIComponent(titleParam))
-      ) || null;
+    // Parametre yoksa katalog sayfasına dön
+    if (!slug) {
+      location.replace("../index.html");
     }
 
-    // Fallback değerler
-    const title = product?.title || (titleParam ? decodeURIComponent(titleParam) : 'Product');
-    const image = product?.image || imgParam || 'landing-starter.webp';
-    const desc  = product?.description || 'Template details and features.';
-    const slug  = product?.slug || (title ? title.toLowerCase().replace(/\s+/g,'-') : 'template');
+    // Ürün veritabanı
+    const DB = {
+      "landing-page": {
+        title: "Landing Page Starter",
+        desc: "Responsive, lightweight HTML/CSS starter landing page.",
+        price: 19,
+        image: "../assets/images/landing-page.png",
+        demo:  "../demos/landing-page/index.html",
+        store: "../seller/create.html?template=landing-page"
+      },
+      "portfolio-showcase": {
+        title: "Portfolio Showcase",
+        desc: "Clean portfolio template with filters and responsive grid.",
+        price: 25,
+        image: "../assets/images/portfolio.png",
+        demo:  "../demos/portfolio-showcase/index.html",
+        store: "../seller/create.html?template=portfolio-showcase"
+      },
+      "admin-dashboard": {
+        title: "Admin Dashboard UI",
+        desc: "Modern admin dashboard with cards, charts and tables.",
+        price: 49,
+        image: "../assets/images/dashboard.png",
+        demo:  "../demos/admin-dashboard/index.html",
+        store: "../seller/create.html?template=admin-dashboard"
+      },
+      "ecommerce-homepage": {
+        title: "E-commerce Homepage",
+        desc: "E-commerce landing with hero, categories and product grid.",
+        price: 39,
+        image: "../assets/images/ecommerce.png",
+        demo:  "../demos/ecommerce-homepage/index.html",
+        store: "../seller/create.html?template=ecommerce-homepage"
+      }
+    };
 
-    // DOM elemanları
-    const elTitle = document.getElementById('prodTitle');
-    const elDesc  = document.getElementById('prodDesc');
-    const elImg   = document.getElementById('prodImg');
-    const demoLink = document.getElementById('demoLink');
-    const createLink = document.getElementById('createLink');
+    // Sayfayı doldur
+    const data = DB[slug];
+    const $title = document.getElementById("product-title");
+    const $desc = document.getElementById("product-desc");
+    const $img  = document.getElementById("product-image");
+    const $price = document.getElementById("product-price");
+    const $demo = document.getElementById("btn-demo");
+    const $store = document.getElementById("btn-store");
 
-    // Başlık + açıklama
-    elTitle.textContent = title;
-    elDesc.textContent = desc;
+    if (!data) {
+      $title.textContent = "Product not found";
+      $desc.textContent = "We couldn't find the product you are looking for.";
+      $price.textContent = "$—";
+      $demo.classList.add("disabled");
+      $store.classList.add("disabled");
+    } else {
+      $title.textContent = data.title;
+      $desc.textContent = data.desc;
+      $price.textContent = `$${data.price}`;
+      $img.src = data.image;
 
-    // Görsel
-    elImg.src = `../images/${image}`;
-    elImg.alt = `${title} Preview`;
-    elImg.loading = 'lazy';
-    elImg.addEventListener('error', () => {
-      elImg.replaceWith(Object.assign(document.createElement('div'), {
-        className: 'thumb',
-        style: 'display:flex;align-items:center;justify-content:center;color:#9fb0cc;font-size:12px;border-top-left-radius:16px;border-top-right-radius:16px',
-        innerText: 'Görsel bulunamadı'
-      }));
-    });
+      $demo.href  = data.demo;
+      $demo.target = "_blank";
+      $demo.rel = "noopener";
 
-    // Linkler
-    demoLink.href = `/rgztec/demo/?t=${slug}`;
-    createLink.href = `/rgztec/demo/?t=${slug}#new`;
+      $store.href = data.store;
+    }
   </script>
 </body>
 </html>
