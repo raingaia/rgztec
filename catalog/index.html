@@ -67,23 +67,101 @@
   </div>
 
   <script src="/rgztec/data/products.js"></script>
-  <script>
-    const container = document.getElementById("product-list");
-    const products = window.RGZ_PRODUCTS || [];
+<script>
+  // ROOT: /rgztec/ altında da /rgztec/catalog/ altında da doğru çalışsın
+  const ROOT = (() => {
+    const parts = location.pathname.split('/').filter(Boolean);
+    return parts.length ? `/${parts[0]}/` : '/';
+  })();
+  const url = p => ROOT + p;
 
-    products.forEach((item) => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <img src="/rgztec/images/${item.image}" alt="${item.title}" />
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <a href="/rgztec/demos/${item.slug}.html" target="_blank">
-          <button>Live Demo</button>
-        </a>
-      `;
-      container.appendChild(card);
+  // Başlık/CTA linkleri (varsa id'ler)
+  const $ = s => document.querySelector(s);
+  $('.logo')?.addEventListener('click', e=>{e.preventDefault(); location.href=url('index.html');});
+  $('#lnkDemo')?.addEventListener('click', ()=> location.href=url('demo/index.html'));
+  $('#lnkLogin')?.addEventListener('click',()=> location.href=url('login.html'));
+  $('#lnkSeller')?.addEventListener('click',()=> location.href=url('advertise.html'));
+  $('#ctaStart')?.addEventListener('click', ()=> location.href=url('index.html#trending'));
+  $('#ctaSeller')?.addEventListener('click',()=> location.href=url('advertise.html'));
+  document.getElementById('y') && (document.getElementById('y').textContent=new Date().getFullYear());
+
+  // Kategori çubuğu → products
+  document.querySelectorAll('#cats a[data-prod]')?.forEach(a=>{
+    a.addEventListener('click',()=> location.href=url(`products/${a.dataset.prod}.html`));
+  });
+
+  // Ürün listesi (20 adet)
+  const products=[{id:1,title:"Landing Starter (HTML)",desc:"Minimal landing with hero, features, pricing and blog sections.",price:18},
+  {id:2,title:"Dashboard Lite (HTML)",desc:"Sidebar, topbar and chart placeholders; vanilla JS.",price:24},
+  {id:3,title:"Portfolio Mini",desc:"Single-page portfolio with project grid and contact form.",price:14},
+  {id:4,title:"Blog Lite",desc:"List + single post layout with clean typography.",price:12},
+  {id:5,title:"Agency Starter",desc:"Services: cards, testimonials, pricing.",price:16},
+  {id:6,title:"E-commerce Mini",desc:"Product grid, detail, and cart icons.",price:22},
+  {id:7,title:"Resume Card",desc:"Skills, experience and contact.",price:9},
+  {id:8,title:"Product List",desc:"Filterable item list with grid/row views.",price:11},
+  {id:9,title:"Pricing Tables",desc:"3–4 column pricing with featured plan.",price:8},
+  {id:10,title:"Contact Lite",desc:"Contact form with map placeholder and socials.",price:7},
+  {id:11,title:"FAQ Mini",desc:"Accordion FAQ with categories and search.",price:6},
+  {id:12,title:"Gallery Grid",desc:"Masonry/grid gallery with lightbox placeholder.",price:13},
+  {id:13,title:"Hero Collection",desc:"Multiple hero headers ready to drop in.",price:10},
+  {id:14,title:"Newsletter Box",desc:"Email capture sections and boxes.",price:5},
+  {id:15,title:"Auth Pages",desc:"Login, signup, reset flows.",price:7},
+  {id:16,title:"Admin Mini",desc:"Auth + layout + tables skeleton.",price:12},
+  {id:17,title:"React Components",desc:"Cards, modals, tabs (markup only).",price:15},
+  {id:18,title:"SVG Icons",desc:"Curated dev icons set (inlineable).",price:6},
+  {id:19,title:"Email Templates",desc:"Transactional email starter set.",price:9},
+  {id:20,title:"JS Widgets",desc:"Tabs, accordions, tooltips (vanilla).",price:11}];
+
+  const grid=document.getElementById('grid');
+  const slug=s=>(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+  products.forEach(p=>{
+    const el=document.createElement('article'); el.className='col-3 card';
+
+    const th=document.createElement('div'); th.className='thumb';
+    const img=document.createElement('img'); img.alt=p.title; img.loading='lazy'; img.decoding='async'; img.style.visibility='hidden';
+    const ph=document.createElement('div'); ph.className='ph'; ph.textContent='Loading preview…';
+    th.append(img,ph);
+
+    const body=document.createElement('div'); body.className='body';
+    body.innerHTML = `
+      <div class="title">${p.title}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="meta"><div class="price">$${p.price}</div></div>
+      <div class="actions">
+        <a class="btn" href="${url(`demo/index.html?item=${p.id}&slug=${slug(p.title)}`)}" target="_blank" rel="noopener">Live Demo</a>
+        <a class="btn" href="${url(`products/detail.html?id=${p.id}&slug=${slug(p.title)}`)}">Details</a>
+        <a class="btn primary" href="${url(`cart.html?add=${p.id}`)}">Add to cart</a>
+      </div>`;
+
+    el.append(th,body); grid.appendChild(el);
+
+    // Görsel çözümleyici (ROOT-safe)
+    const base = url('images/catalog/');
+    const cands = [
+      `html${p.id}.webp`, `${p.id}.webp`, `${slug(p.title)}.webp`,
+      `html${p.id}.png`,  `${p.id}.png`,  `${slug(p.title)}.png`,
+      `html${p.id}.jpg`,  `${p.id}.jpg`,  `${slug(p.title)}.jpg`
+    ];
+    (function load(i=0){
+      if(i>=cands.length){ ph.textContent='No preview'; return; }
+      const u=base+cands[i]; const t=new Image();
+      t.onload=()=>{ img.src=u; img.style.visibility='visible'; ph.remove(); };
+      t.onerror=()=>load(i+1); t.src=u;
+    })();
+  });
+
+  // Basit arama
+  const search=document.getElementById('q');
+  search?.addEventListener('input',()=>{
+    const t=(search.value||'').toLowerCase();
+    [...grid.children].forEach(card=>{
+      const title=card.querySelector('.title')?.textContent.toLowerCase()||'';
+      const desc =card.querySelector('.desc') ?.textContent.toLowerCase()||'';
+      card.style.display=(title.includes(t)||desc.includes(t))?'':'none';
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
