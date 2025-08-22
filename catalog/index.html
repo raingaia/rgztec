@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC - Static Code Marketplace</title>
+  <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more.">
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    /* Basit grid ve kart stilleri, sizin CSS’iniz varsa kalabilir */
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f7f7fb;margin:0}
+    .wrap{max-width:1200px;margin:auto;padding:24px}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10}
+    .topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 24px}
+    .brand{font-weight:800;letter-spacing:.5px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+    .card{background:#fff;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,.06);overflow:hidden;border:1px solid #eee}
+    .card-img{aspect-ratio:16/12;display:block;width:100%;object-fit:cover;background:#eef2f7}
+    .card-body{padding:16px}
+    .title{font-size:16px;font-weight:700;margin:0 0 6px}
+    .subtitle{font-size:13px;color:#6b7280;margin:0 0 10px}
+    .price{font-weight:800;margin-left:auto}
+    .row{display:flex;align-items:center;gap:10px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:600;text-decoration:none}
+    .btn.primary{background:#ff6a3d;border-color:#ff6a3d;color:#fff}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar wrap">
+      <div class="brand">RGZTEC</div>
+      <div style="flex:1;max-width:680px">
+        <input placeholder="Search for anything..." style="width:100%;height:40px;border-radius:999px;border:1px solid #e5e7eb;padding:0 14px;outline:none">
+      </div>
+      <nav class="row">
+        <a class="btn" href="#">Explore</a>
+        <a class="btn" href="gallery.html">Demo Gallery</a>
+        <a class="btn" href="auth/login.html">Login</a>
+        <a class="btn primary" href="seller/onboarding.html">Become a Seller</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" style="padding-top:24px">
+    <div class="grid" id="catalog"></div>
+  </main>
+
+  <script>
+    // Katalog verileri — slug anahtar
+    const PRODUCTS = [
+      {
+        slug: "landing-page",
+        title: "Landing Page Starter",
+        subtitle: "Responsive HTML/CSS",
+        price: 19,
+        image: "assets/images/landing-page.png"
+      },
+      {
+        slug: "portfolio-showcase",
+        title: "Portfolio Showcase",
+        subtitle: "Responsive HTML/CSS",
+        price: 25,
+        image: "assets/images/portfolio.png"
+      },
+      {
+        slug: "admin-dashboard",
+        title: "Admin Dashboard UI",
+        subtitle: "Responsive HTML/CSS",
+        price: 49,
+        image: "assets/images/dashboard.png"
+      },
+      {
+        slug: "ecommerce-homepage",
+        title: "E-commerce Homepage",
+        subtitle: "Responsive HTML/CSS",
+        price: 39,
+        image: "assets/images/ecommerce.png"
+      }
+    ];
+
+    // Katalog render
+    const $catalog = document.getElementById("catalog");
+    const makeCard = (p) => `
+      <article class="card">
+        <img class="card-img" src="${p.image}" alt="${p.title}"
+             onerror="this.src='assets/images/placeholder.png'">
+        <div class="card-body">
+          <div class="row" style="gap:8px">
+            <div style="flex:1">
+              <h3 class="title">${p.title}</h3>
+              <p class="subtitle">${p.subtitle}</p>
+            </div>
+            <div class="price">$${p.price}</div>
+          </div>
+          <div class="row" style="margin-top:12px">
+            <a class="btn" href="demos/${p.slug}/index.html" target="_blank" rel="noopener">Preview</a>
+            <!-- 404 sorunu burada çözülüyor -->
+            <a class="btn primary" href="products/detail.html?item=${encodeURIComponent(p.slug)}">Visit Store</a>
+          </div>
+        </div>
+      </article>
+    `;
+    $catalog.innerHTML = PRODUCTS.map(makeCard).join("");
+  </script>
+</body>
+</html>
