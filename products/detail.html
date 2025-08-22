@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC – Product</title>
-  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="/rgztec/assets/css/main.css" />
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f7f7fb;margin:0}
     .wrap{max-width:1100px;margin:auto;padding:24px}
@@ -13,30 +13,29 @@
     .panel{background:#fff;border-radius:18px;border:1px solid #eee;box-shadow:0 6px 20px rgba(0,0,0,.06)}
     .panel.pad{padding:18px}
     .media{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:#eef2f7;border-radius:14px;overflow:hidden}
-    .media img{width:100%;height:100%;object-fit:cover}
+    .media img{width:100%;height:100%;object-fit:cover;display:none}
+    .ghost{display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700}
     .title{font-size:28px;font-weight:800;margin:0 0 10px}
     .muted{color:#6b7280}
     .row{display:flex;gap:12px;align-items:center}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:700;text-decoration:none}
     .btn.primary{background:#ff6a3d;border-color:#ff6a3d;color:#fff}
+    .btn[aria-disabled="true"]{pointer-events:none;opacity:.55}
     .price{font-size:22px;font-weight:800}
     .note{font-size:12px;color:#6b7280;margin-top:10px}
     @media (max-width:960px){.layout{grid-template-columns:1fr}}
-    .ghost{display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700}
   </style>
 </head>
 <body>
   <main class="wrap">
-    <a class="back" href="../index.html">← Back to Category</a>
+    <a class="back" href="/rgztec/catalog/">← Back to Category</a>
 
     <section class="layout">
       <!-- Sol: Görsel -->
       <div class="panel pad">
         <div class="media" id="mediaBox">
           <div class="ghost" id="ghostLabel">G&ouml;rsel bulunamad&#305;</div>
-          <img id="product-image" alt="" style="display:none"
-               onload="document.getElementById('ghostLabel').style.display='none'; this.style.display='block';"
-               onerror="this.style.display='none'; document.getElementById('ghostLabel').style.display='flex'; this.src=''">
+          <img id="product-image" alt="">
         </div>
       </div>
 
@@ -46,9 +45,9 @@
         <p class="muted" id="product-desc">Template details and features.</p>
 
         <div class="row" style="margin:16px 0 6px">
-          <a id="btn-demo" class="btn">Live Demo</a>
-          <a id="btn-store" class="btn primary">Create your store</a>
-          <div class="price" id="product-price" style="margin-left:auto">$0</div>
+          <a id="btn-demo" class="btn" aria-disabled="true">Live Demo</a>
+          <a id="btn-store" class="btn primary" aria-disabled="true">Create your store</a>
+          <div class="price" id="product-price" style="margin-left:auto"></div>
         </div>
 
         <p class="note">Not: Demo ve mağaza linkleri seçtiğiniz ürüne göre otomatik ayarlanır.</p>
@@ -61,74 +60,111 @@
     const params = new URLSearchParams(location.search);
     const slug = params.get("item");
 
-    // Parametre yoksa katalog sayfasına dön
-    if (!slug) {
-      location.replace("../index.html");
-    }
-
-    // Ürün veritabanı
+    // Ürün veritabanı (alias'larla birlikte)
     const DB = {
+      // Landing Page (iki farklı slug ile)
+      "landing-page-starter": {
+        title: "Landing Page Starter",
+        desc: "Responsive, lightweight HTML/CSS starter landing page.",
+        price: 19,
+        image: "/rgztec/assets/images/landing-page.png",
+        demo:  "/rgztec/demos/landing-page/index.html",
+        store: "/rgztec/seller/create.html?template=landing-page"
+      },
       "landing-page": {
         title: "Landing Page Starter",
         desc: "Responsive, lightweight HTML/CSS starter landing page.",
         price: 19,
-        image: "../assets/images/landing-page.png",
-        demo:  "../demos/landing-page/index.html",
-        store: "../seller/create.html?template=landing-page"
+        image: "/rgztec/assets/images/landing-page.png",
+        demo:  "/rgztec/demos/landing-page/index.html",
+        store: "/rgztec/seller/create.html?template=landing-page"
       },
+
+      // Portfolio
       "portfolio-showcase": {
         title: "Portfolio Showcase",
         desc: "Clean portfolio template with filters and responsive grid.",
         price: 25,
-        image: "../assets/images/portfolio.png",
-        demo:  "../demos/portfolio-showcase/index.html",
-        store: "../seller/create.html?template=portfolio-showcase"
+        image: "/rgztec/assets/images/portfolio.png",
+        demo:  "/rgztec/demos/portfolio-showcase/index.html",
+        store: "/rgztec/seller/create.html?template=portfolio-showcase"
       },
+
+      // Admin Dashboard (iki farklı slug ile)
       "admin-dashboard": {
         title: "Admin Dashboard UI",
         desc: "Modern admin dashboard with cards, charts and tables.",
         price: 49,
-        image: "../assets/images/dashboard.png",
-        demo:  "../demos/admin-dashboard/index.html",
-        store: "../seller/create.html?template=admin-dashboard"
+        image: "/rgztec/assets/images/dashboard.png",
+        demo:  "/rgztec/demos/admin-dashboard/index.html",
+        store: "/rgztec/seller/create.html?template=admin-dashboard"
       },
+      "admin-dashboard-ui": {
+        title: "Admin Dashboard UI",
+        desc: "Modern admin dashboard with cards, charts and tables.",
+        price: 49,
+        image: "/rgztec/assets/images/dashboard.png",
+        demo:  "/rgztec/demos/admin-dashboard/index.html",
+        store: "/rgztec/seller/create.html?template=admin-dashboard"
+      },
+
+      // E-commerce
       "ecommerce-homepage": {
         title: "E-commerce Homepage",
         desc: "E-commerce landing with hero, categories and product grid.",
         price: 39,
-        image: "../assets/images/ecommerce.png",
-        demo:  "../demos/ecommerce-homepage/index.html",
-        store: "../seller/create.html?template=ecommerce-homepage"
+        image: "/rgztec/assets/images/ecommerce.png",
+        demo:  "/rgztec/demos/ecommerce-homepage/index.html",
+        store: "/rgztec/seller/create.html?template=ecommerce-homepage"
       }
     };
 
-    // Sayfayı doldur
-    const data = DB[slug];
+    // DOM
     const $title = document.getElementById("product-title");
-    const $desc = document.getElementById("product-desc");
-    const $img  = document.getElementById("product-image");
+    const $desc  = document.getElementById("product-desc");
+    const $img   = document.getElementById("product-image");
+    const $ghost = document.getElementById("ghostLabel");
     const $price = document.getElementById("product-price");
-    const $demo = document.getElementById("btn-demo");
+    const $demo  = document.getElementById("btn-demo");
     const $store = document.getElementById("btn-store");
 
+    function disableButtons() {
+      [$demo, $store].forEach(b => {
+        b.removeAttribute("href");
+        b.setAttribute("aria-disabled","true");
+      });
+    }
+    function enableButtons() {
+      [$demo, $store].forEach(b => b.removeAttribute("aria-disabled"));
+    }
+
+    const data = DB[slug];
+
     if (!data) {
+      // Ürün yoksa güvenli boş durum
       $title.textContent = "Product not found";
-      $desc.textContent = "We couldn't find the product you are looking for.";
-      $price.textContent = "$—";
-      $demo.classList.add("disabled");
-      $store.classList.add("disabled");
+      $desc.textContent  = "We couldn't find the product you are looking for.";
+      $price.textContent = "";
+      disableButtons();
     } else {
+      // İçeriği yükle
       $title.textContent = data.title;
-      $desc.textContent = data.desc;
+      $desc.textContent  = data.desc;
       $price.textContent = `$${data.price}`;
+
+      // Görsel (başarılıysa metni gizle)
+      $img.onload = () => { $ghost.style.display = "none"; $img.style.display = "block"; };
+      $img.onerror = () => { $img.style.display = "none"; $ghost.style.display = "flex"; };
       $img.src = data.image;
 
-      $demo.href  = data.demo;
-      $demo.target = "_blank";
-      $demo.rel = "noopener";
-
+      // Linkler
+      $demo.href = data.demo;  $demo.target = "_blank"; $demo.rel = "noopener";
       $store.href = data.store;
+      enableButtons();
     }
+
+    // item param yoksa katalog'a dön
+    if (!slug) location.replace("/rgztec/catalog/");
   </script>
 </body>
 </html>
