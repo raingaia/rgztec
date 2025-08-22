@@ -8,21 +8,94 @@
   <!-- CSS version updated to match the latest styles -->
   <link rel="stylesheet" href="./assets/css/home.css?v=15" />
 
-  <!-- ONLY AD STYLES ADDED -->
+  <!-- AD STYLES (uyumlu reklam) -->
   <style>
-    .ad-banner{
-      position:fixed; top:0; width:160px; height:100%;
-      display:flex; justify-content:center; align-items:start; padding-top:20px;
-      background:#fff; z-index:999;
+    /* Eski sidebar reklamları kullanmıyoruz */
+    .ad-banner { display: none !important; }
+
+    /* Hero altı yatay banner */
+    .ad-inline {
+      margin: 24px 0;
     }
-    .ad-banner-left{ left:0; }
-    .ad-banner-right{ right:0; }
-    .page-container{ margin:0 180px; } /* content won’t overlap ads */
+    .ad-inline .wrapper {
+      position: relative;
+    }
+    .ad-inline a {
+      display: block;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    .ad-inline img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Grid içi reklam kartı */
+    .card.ad-card {
+      border: 2px dashed #f97316;
+      background: #fff7ed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      min-height: 320px;
+    }
+    .ad-card .ad-inner {
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .ad-card .ad-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      color: #9a3412;
+      background: #ffedd5;
+      border: 1px solid #fdba74;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+    }
+    .ad-card h3 {
+      color: #f97316;
+      margin: 6px 0 8px;
+      font-size: 20px;
+    }
+    .ad-card p {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .ad-card .ad-logos {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 14px;
+      opacity: .8;
+    }
+    .ad-card .ad-logos img {
+      height: 24px;
+      width: auto;
+      filter: grayscale(1);
+    }
+    .ad-card .btn {
+      cursor: pointer;
+    }
+
+    /* Küçük ekranlarda daha yumuşak görünüm */
+    @media (max-width: 1024px) {
+      .card.ad-card { min-height: 260px; padding: 16px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Left Ad Banner -->
+  <!-- (KULLANMIYORUZ) Left Ad Banner -->
   <aside class="ad-banner ad-banner-left">
     <a href="#" target="_blank" rel="noopener sponsored">
       <img src="https://placehold.co/160x600/f97316/ffffff?text=Your+Ad+Here" alt="Advertisement" />
@@ -65,6 +138,15 @@
         </div>
       </section>
 
+      <!-- HERO ALTINA YATAY BANNER REKLAM -->
+      <section class="ad-inline" aria-label="sponsored-banner">
+        <div class="wrapper">
+          <a href="#" target="_blank" rel="noopener sponsored">
+            <img src="https://placehold.co/1200x150/f97316/ffffff?text=Promote+Your+Product+to+Developers" alt="Sponsored Advertisement">
+          </a>
+        </div>
+      </section>
+
       <!-- CATEGORIES STRIP -->
       <section class="section" id="categories">
         <div class="wrapper">
@@ -98,7 +180,7 @@
             <a class="btn" href="./products/html-templates.html">View all</a>
           </div>
           <div class="grid auto-4">
-            <!-- 20 cards for HTML Templates with corrected image paths and data attributes -->
+            <!-- 1-8 normal kart -->
             <article class="card" data-id="landing-page-starter" data-title="Landing Page Starter" data-price="19" data-img="./images/html1.webp"><img class="thumb" src="./images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" /><h3 class="title">Landing Page Starter</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$19</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="portfolio-showcase" data-title="Portfolio Showcase" data-price="25" data-img="./images/html2.webp"><img class="thumb" src="./images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" /><h3 class="title">Portfolio Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$25</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="admin-dashboard-ui" data-title="Admin Dashboard UI" data-price="49" data-img="./images/html3.webp"><img class="thumb" src="./images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" /><h3 class="title">Admin Dashboard UI</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$49</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
@@ -107,6 +189,23 @@
             <article class="card" data-id="saas-landing-page" data-title="SaaS Landing Page" data-price="22" data-img="./images/html6.webp"><img class="thumb" src="./images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" /><h3 class="title">SaaS Landing Page</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$22</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="agency-one-pager" data-title="Agency One-Pager" data-price="15" data-img="./images/html7.webp"><img class="thumb" src="./images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" /><h3 class="title">Agency One-Pager</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$15</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="corporate-site" data-title="Corporate Site" data-price="35" data-img="./images/html8.webp"><img class="thumb" src="./images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" /><h3 class="title">Corporate Site</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$35</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
+
+            <!-- GRID İÇİ REKLAM KARTI -->
+            <article class="card ad-card" aria-label="sponsored-card">
+              <div class="ad-inner">
+                <span class="ad-label">SPONSORED</span>
+                <h3>Reach RGZTEC Buyers</h3>
+                <p>Showcase your dev tool, template, or service directly to creators browsing templates.</p>
+                <div class="ad-logos">
+                  <img src="https://placehold.co/80x24?text=Logo1" alt="brand">
+                  <img src="https://placehold.co/80x24?text=Logo2" alt="brand">
+                  <img src="https://placehold.co/80x24?text=Logo3" alt="brand">
+                </div>
+                <a class="btn primary" href="#" target="_blank" rel="noopener sponsored">Advertise Now</a>
+              </div>
+            </article>
+
+            <!-- 9-20 normal kartlar -->
             <article class="card" data-id="restaurant-template" data-title="Restaurant Template" data-price="24" data-img="./images/html9.webp"><img class="thumb" src="./images/html9.webp" alt="Restaurant Template" loading="lazy" width="640" height="400" /><h3 class="title">Restaurant Template</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$24</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="real-estate-listing" data-title="Real Estate Listing" data-price="33" data-img="./images/html10.webp"><img class="thumb" src="./images/html10.webp" alt="Real Estate Listing" loading="lazy" width="640" height="400" /><h3 class="title">Real Estate Listing</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$33</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
             <article class="card" data-id="app-showcase" data-title="App Showcase" data-price="18" data-img="./images/html11.webp"><img class="thumb" src="./images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" /><h3 class="title">App Showcase</h3><p class="meta">Responsive HTML/CSS</p><div class="price-row"><span class="price">$18</span></div><div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary add-to-cart" href="#">Add to Cart</a></div></article>
@@ -149,7 +248,7 @@
     </footer>
   </div> <!-- End of .page-container -->
 
-  <!-- Right Ad Banner -->
+  <!-- (KULLANMIYORUZ) Right Ad Banner -->
   <aside class="ad-banner ad-banner-right">
     <a href="#" target="_blank" rel="noopener sponsored">
       <img src="https://placehold.co/160x600/14b8a6/ffffff?text=Your+Ad+Here" alt="Advertisement" />
