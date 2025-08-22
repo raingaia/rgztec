@@ -2,74 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Catalog - RGZTEC</title>
-  <link rel="stylesheet" href="../assets/css/home.css?v=15">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RGZTEC - HTML Templates Showcase</title>
+  <link rel="stylesheet" href="/rgztec/assets/style.css?v=16" />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+    }
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .product-card h3 {
+      margin: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .product-card p {
+      margin: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .product-card a button {
+      margin: 1rem;
+      padding: 0.5rem 1rem;
+      background: #f97316;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .product-card a button:hover {
+      background: #ea580c;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>HTML Template Gallery</h1>
+    <div class="grid" id="product-list"></div>
+  </div>
 
-  <header class="main-header">
-    <div class="container">
-      <h1 class="page-title">Explore Code Catalog</h1>
-    </div>
-  </header>
+  <script src="/rgztec/data/products.js"></script>
+  <script>
+    const container = document.getElementById("product-list");
+    const products = window.RGZ_PRODUCTS || [];
 
-  <main class="page-container">
-    <section class="intro">
-      <p>Browse through a wide range of static code templates, UI kits, and frontend components curated by our global community of developers.</p>
-    </section>
-
-    <section class="catalog-grid">
-      <div class="card">
-        <img src="../images/catalog/html.webp" alt="HTML Templates">
-        <h3>HTML Templates</h3>
-        <p>Ready-to-use static website layouts built with HTML5.</p>
-        <a href="html.html" class="btn">View HTML Templates</a>
-      </div>
-
-      <div class="card">
-        <img src="../images/catalog/css.webp" alt="CSS UI Kits">
-        <h3>CSS UI Kits</h3>
-        <p>Responsive and modular UI components built with pure CSS.</p>
-        <a href="css.html" class="btn">Browse CSS Kits</a>
-      </div>
-
-      <div class="card">
-        <img src="../images/catalog/js.webp" alt="JavaScript Widgets">
-        <h3>JavaScript Widgets</h3>
-        <p>Interactive components powered by vanilla JavaScript.</p>
-        <a href="js.html" class="btn">See JS Components</a>
-      </div>
-
-      <div class="card">
-        <img src="../images/catalog/react.webp" alt="React Components">
-        <h3>React Components</h3>
-        <p>Reusable components and mini apps built with React.</p>
-        <a href="react.html" class="btn">Explore React Kits</a>
-      </div>
-
-      <div class="card">
-        <img src="../images/catalog/email.webp" alt="Email Templates">
-        <h3>Email Templates</h3>
-        <p>Responsive email layouts for marketing and transactional emails.</p>
-        <a href="email.html" class="btn">View Email Layouts</a>
-      </div>
-
-      <div class="card">
-        <img src="../images/catalog/icons.webp" alt="SVG Icons">
-        <h3>SVG Icons</h3>
-        <p>Pixel-perfect icons for modern web applications.</p>
-        <a href="icons.html" class="btn">Browse SVG Icons</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 RGZTEC Marketplace. All rights reserved.</p>
-    </div>
-  </footer>
-
+    products.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="/rgztec/images/${item.image}" alt="${item.title}" />
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        <a href="/rgztec/demos/${item.slug}.html" target="_blank">
+          <button>Live Demo</button>
+        </a>
+      `;
+      container.appendChild(card);
+    });
+  </script>
 </body>
 </html>
-
