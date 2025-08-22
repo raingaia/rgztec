@@ -3,104 +3,139 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC - Static Code Marketplace</title>
-  <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more.">
-  <link rel="stylesheet" href="assets/css/main.css" />
+  <title>RGZTEC – Catalog</title>
+  <link rel="stylesheet" href="/rgztec/assets/css/main.css" />
   <style>
-    /* Basit grid ve kart stilleri, sizin CSS’iniz varsa kalabilir */
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f7f7fb;margin:0}
-    .wrap{max-width:1200px;margin:auto;padding:24px}
     header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10}
-    .topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 24px}
-    .brand{font-weight:800;letter-spacing:.5px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-    .card{background:#fff;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,.06);overflow:hidden;border:1px solid #eee}
-    .card-img{aspect-ratio:16/12;display:block;width:100%;object-fit:cover;background:#eef2f7}
-    .card-body{padding:16px}
-    .title{font-size:16px;font-weight:700;margin:0 0 6px}
-    .subtitle{font-size:13px;color:#6b7280;margin:0 0 10px}
-    .price{font-weight:800;margin-left:auto}
-    .row{display:flex;align-items:center;gap:10px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:600;text-decoration:none}
+    .wrap{max-width:1200px;margin:auto;padding:20px}
+    .topbar{display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .brand{font-weight:800}
+    .search{flex:1;max-width:680px}
+    .search input{width:100%;height:40px;border:1px solid #e5e7eb;border-radius:999px;padding:0 14px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:600;text-decoration:none}
     .btn.primary{background:#ff6a3d;border-color:#ff6a3d;color:#fff}
+    .tabs{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+    .tab{padding:8px 12px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
+    .tab.active{background:#111;color:#fff;border-color:#111}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:12px}
+    .card{background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,.06);overflow:hidden;display:flex;flex-direction:column}
+    .thumb{aspect-ratio:16/11;background:#eef2f7}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .body{padding:14px;display:flex;flex-direction:column;gap:10px}
+    .title{font-weight:800}
+    .muted{color:#6b7280;font-size:13px}
+    .row{display:flex;align-items:center;gap:10px}
+    .price{font-weight:800;margin-left:auto}
   </style>
 </head>
 <body>
-  <header>
-    <div class="topbar wrap">
-      <div class="brand">RGZTEC</div>
-      <div style="flex:1;max-width:680px">
-        <input placeholder="Search for anything..." style="width:100%;height:40px;border-radius:999px;border:1px solid #e5e7eb;padding:0 14px;outline:none">
-      </div>
-      <nav class="row">
-        <a class="btn" href="#">Explore</a>
-        <a class="btn" href="gallery.html">Demo Gallery</a>
-        <a class="btn" href="auth/login.html">Login</a>
-        <a class="btn primary" href="seller/onboarding.html">Become a Seller</a>
-      </nav>
-    </div>
-  </header>
+<header>
+  <div class="wrap topbar">
+    <div class="brand">RGZTEC</div>
+    <div class="search"><input id="q" placeholder="Search for anything..."></div>
+    <nav style="display:flex;gap:10px">
+      <a class="btn" href="/rgztec/">Explore</a>
+      <a class="btn" href="/rgztec/demo/">Demo Gallery</a>
+      <a class="btn" href="/rgztec/login.html">Login</a>
+      <a class="btn primary" href="/rgztec/stores/index.html?p=new">Become a Seller</a>
+    </nav>
+  </div>
+  <div class="wrap">
+    <div id="tabs" class="tabs"></div>
+  </div>
+</header>
 
-  <main class="wrap" style="padding-top:24px">
-    <div class="grid" id="catalog"></div>
-  </main>
+<main class="wrap">
+  <div id="grid" class="grid"></div>
+</main>
 
-  <script>
-    // Katalog verileri — slug anahtar
-    const PRODUCTS = [
-      {
-        slug: "landing-page",
-        title: "Landing Page Starter",
-        subtitle: "Responsive HTML/CSS",
-        price: 19,
-        image: "assets/images/landing-page.png"
-      },
-      {
-        slug: "portfolio-showcase",
-        title: "Portfolio Showcase",
-        subtitle: "Responsive HTML/CSS",
-        price: 25,
-        image: "assets/images/portfolio.png"
-      },
-      {
-        slug: "admin-dashboard",
-        title: "Admin Dashboard UI",
-        subtitle: "Responsive HTML/CSS",
-        price: 49,
-        image: "assets/images/dashboard.png"
-      },
-      {
-        slug: "ecommerce-homepage",
-        title: "E-commerce Homepage",
-        subtitle: "Responsive HTML/CSS",
-        price: 39,
-        image: "assets/images/ecommerce.png"
-      }
-    ];
+<script>
+  // 20 ürün, 6 kategori, görseller images/html1.webp…html20.webp
+  const PRODUCTS = [
+    {slug:"landing-page-starter", title:"Landing Page Starter", price:19, img:"html1.webp",  cat:"Landing Pages"},
+    {slug:"portfolio-showcase",   title:"Portfolio Showcase",   price:25, img:"html2.webp",  cat:"Landing Pages"},
+    {slug:"admin-dashboard",      title:"Admin Dashboard UI",   price:49, img:"html3.webp",  cat:"Admin"},
+    {slug:"ecommerce-homepage",   title:"E-commerce Homepage",  price:39, img:"html4.webp",  cat:"E-commerce"},
+    {slug:"product-page",         title:"Product Page",         price:19, img:"html5.webp",  cat:"Landing Pages"},
+    {slug:"login-page-template",  title:"Login Page Template",  price:14, img:"html6.webp",  cat:"Auth & Forms"},
+    {slug:"faq-page",             title:"FAQ Page",             price:12, img:"html7.webp",  cat:"Docs & Content"},
+    {slug:"docs-site-starter",    title:"Docs Site Starter",    price:27, img:"html8.webp",  cat:"Docs & Content"},
+    {slug:"auth-pages-pack",      title:"Auth Pages Pack",      price:21, img:"html9.webp",  cat:"Auth & Forms"},
+    {slug:"app-showcase",         title:"App Showcase",         price:18, img:"html10.webp", cat:"Landing Pages"},
+    {slug:"blog-starter",         title:"Blog Starter",         price:16, img:"html11.webp", cat:"Docs & Content"},
+    {slug:"pricing-page",         title:"Pricing Page",         price:13, img:"html12.webp", cat:"Landing Pages"},
+    {slug:"dashboard-pro",        title:"Dashboard Pro",        price:59, img:"html13.webp", cat:"Admin"},
+    {slug:"saas-landing",         title:"SaaS Landing",         price:22, img:"html14.webp", cat:"Landing Pages"},
+    {slug:"coming-soon",          title:"Coming Soon",          price:8,  img:"html15.webp", cat:"Landing Pages"},
+    {slug:"error-404-page",       title:"Error 404 Page",       price:6,  img:"html16.webp", cat:"UI Components"},
+    {slug:"contact-page",         title:"Contact Page",         price:9,  img:"html17.webp", cat:"Auth & Forms"},
+    {slug:"carousel-kit",         title:"Carousel Kit",         price:11, img:"html18.webp", cat:"UI Components"},
+    {slug:"ui-cards-pack",        title:"UI Cards Pack",        price:12, img:"html19.webp", cat:"UI Components"},
+    {slug:"hero-sections-pack",   title:"Hero Sections Pack",   price:15, img:"html20.webp", cat:"UI Components"},
+  ];
 
-    // Katalog render
-    const $catalog = document.getElementById("catalog");
-    const makeCard = (p) => `
+  const CATS = ["All","Landing Pages","Admin","Auth & Forms","Docs & Content","E-commerce","UI Components"];
+
+  // ---- UI ----
+  const $tabs = document.getElementById('tabs');
+  const $grid = document.getElementById('grid');
+  const $q = document.getElementById('q');
+
+  function tabButton(name){
+    const a = document.createElement('button');
+    a.className = 'tab';
+    a.textContent = name;
+    a.onclick = ()=> apply({cat:name});
+    return a;
+  }
+  CATS.forEach(c => $tabs.appendChild(tabButton(c)));
+
+  function card(p){
+    const imgUrl = `/rgztec/images/${p.img}`;
+    return `
       <article class="card">
-        <img class="card-img" src="${p.image}" alt="${p.title}"
-             onerror="this.src='assets/images/placeholder.png'">
-        <div class="card-body">
-          <div class="row" style="gap:8px">
-            <div style="flex:1">
-              <h3 class="title">${p.title}</h3>
-              <p class="subtitle">${p.subtitle}</p>
-            </div>
-            <div class="price">$${p.price}</div>
+        <div class="thumb"><img src="${imgUrl}" alt="${p.title}" onerror="this.style.display='none'"></div>
+        <div class="body">
+          <div>
+            <div class="title">${p.title}</div>
+            <div class="muted">Responsive HTML/CSS · <span>${p.cat}</span></div>
           </div>
-          <div class="row" style="margin-top:12px">
-            <a class="btn" href="demos/${p.slug}/index.html" target="_blank" rel="noopener">Preview</a>
-            <!-- 404 sorunu burada çözülüyor -->
-            <a class="btn primary" href="products/detail.html?item=${encodeURIComponent(p.slug)}">Visit Store</a>
+          <div class="row">
+            <a class="btn" href="/rgztec/demo/detail.html?p=${encodeURIComponent(p.slug)}" target="_blank" rel="noopener">Preview</a>
+            <a class="btn primary" href="/rgztec/products/detail.html?item=${encodeURIComponent(p.slug)}">Visit Store</a>
+            <div class="price">$${p.price}</div>
           </div>
         </div>
       </article>
     `;
-    $catalog.innerHTML = PRODUCTS.map(makeCard).join("");
-  </script>
+  }
+
+  function apply({cat, q}){
+    const url = new URL(location.href);
+    if (cat !== undefined){ url.searchParams.set('cat', cat); }
+    if (q !== undefined){ q ? url.searchParams.set('q', q) : url.searchParams.delete('q'); }
+    history.replaceState(null,'',url.toString());
+
+    const selCat = (cat ?? url.searchParams.get('cat') ?? 'All');
+    const term   = (q ?? url.searchParams.get('q') ?? '').toLowerCase();
+
+    [...$tabs.children].forEach(el => el.classList.toggle('active', el.textContent === selCat));
+
+    let list = PRODUCTS.slice();
+    if (selCat && selCat!=='All'){ list = list.filter(p => p.cat === selCat); }
+    if (term){ list = list.filter(p => (p.title+p.slug+p.cat).toLowerCase().includes(term)); }
+
+    $grid.innerHTML = list.map(card).join('') || `<p class="muted">No results.</p>`;
+  }
+
+  // Search
+  $q.addEventListener('input', () => apply({q:$q.value}));
+
+  // Initial
+  const startCat = new URL(location.href).searchParams.get('cat') || 'All';
+  apply({cat:startCat});
+</script>
 </body>
 </html>
+
