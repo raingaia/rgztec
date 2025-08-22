@@ -4,419 +4,631 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC - Static Code Marketplace</title>
-  <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more.">
-  <link rel="stylesheet" href="/rgztec/assets/css/home.css?v=15" />
+  <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E" />
+  <meta property="og:title" content="RGZTEC - Static Code Marketplace">
+  <meta property="og:description" content="Buy & sell production-ready static front-end code: HTML templates, CSS kits, components and demo galleries.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOAAAADgCAYAAAA..." />
+  <meta name="theme-color" content="#0b1220"/>
 
+  <!-- === CRITICAL, INLINE, PRODUCTION-READY CSS (no external deps) === -->
   <style>
-    /* ===== LAYOUT / CLEANUP ===== */
-    .ad-banner{display:none!important;} /* eski kenar bannerları tamamen gizle */
-
-    :root{ --rail-w:176px; --rail-gap:16px; }
-    .page-container{ margin:0 calc(var(--rail-w) + var(--rail-gap)); }
-
-    /* 1600px altı: kenar rayları gizle, sayfayı tam genişlik kullan */
-    @media (max-width:1599px){ .rail{display:none!important;} .page-container{margin:0;} }
-
-    /* ===== HEADER bits ===== */
-    .cats-btn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 14px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;
-      box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;font-weight:600;
+    :root{
+      --bg:#0b1220;--bg-soft:#0e1629;--panel:#121a2f;--panel-2:#0f172a;--muted:#a0a8c0;--text:#e6ecff;
+      --brand:#6aa6ff;--brand-2:#5ef3c2;--accent:#ffbb55;--danger:#ff6a6a;
+      --ring: 0 0 0 3px rgba(106,166,255,.35);
+      --radius:16px;
     }
-    .cats-btn svg{width:18px;height:18px}
-
-    /* Categories Drawer */
-    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.2s;z-index:90}
-    .drawer{position:fixed;top:72px;left:18px;width:320px;max-width:92vw;background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.15);transform:translateY(-8px);opacity:0;pointer-events:none;transition:.2s;z-index:99}
-    .drawer.open,.drawer-overlay.open{opacity:1;pointer-events:auto;transform:none}
-    .drawer .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6}
-    .drawer .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
-    .drawer a.cat{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
-    .drawer a.cat img{width:28px;height:28px;border-radius:8px;object-fit:cover}
-
-    /* ===== SUBNAV (search’in altı) ===== */
-    .subnav{background:#fff}
-    .subnav .wrapper{display:flex;align-items:center;gap:22px;padding:10px 0 12px}
-    .subnav .scroll{display:flex;gap:22px;overflow:auto;white-space:nowrap;scrollbar-width:thin}
-    .subnav a{color:#111827;text-decoration:none;font-weight:600;font-size:14px}
-    .subnav a:hover{text-decoration:underline}
-    .subnav .divider{height:2px;background:#111827;opacity:.9}
-
-    /* ===== HERO (Get started) ===== */
-    .hero.alt{padding:24px 0 8px}
-    .hero-card{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.08)}
-    .hero-card .left{background:#fde5d6;padding:28px;display:flex;flex-direction:column;justify-content:center}
-    .hero-card h2{font-size:38px;line-height:1.1;margin:0 0 6px}
-    .hero-card p{font-size:16px;color:#374151;margin:0 0 16px}
-    .hero-card .cta{display:inline-flex;align-items:center;gap:8px;background:#111827;color:#fff;border-radius:999px;padding:10px 14px;font-weight:700}
-    .hero-card .right img{width:100%;height:100%;object-fit:cover;display:block}
-    @media (max-width:900px){ .hero-card{grid-template-columns:1fr} }
-
-    /* ===== Inline sponsored banner ===== */
-    .ad-inline{margin:18px 0}
-    .ad-inline a{display:block;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-    .ad-inline img{width:100%;height:auto;display:block}
-
-    /* ===== Grid içi sponsored kart ===== */
-    .card.ad-card{border:2px dashed #f97316;background:#fff7ed;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;min-height:300px}
-    .ad-card .ad-inner{max-width:420px;margin:0 auto}
-    .ad-card .ad-label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;color:#9a3412;background:#ffedd5;border:1px solid #fdba74;border-radius:999px;padding:4px 10px;margin-bottom:8px}
-    .ad-card h3{color:#f97316;margin:8px 0;font-size:20px}
-    .ad-card p{color:#374151;font-size:14px;line-height:1.5;margin-bottom:12px}
-    .ad-card .ad-logos{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:12px;opacity:.85}
-    .ad-card .ad-logos img{height:24px;width:auto;filter:grayscale(1)}
-
-    /* ===== Side rails (sadece ≥1600px) ===== */
-    .rail{
-      position:fixed;top:110px;width:var(--rail-w);
-      max-height:calc(100vh - 140px);overflow:auto;padding:12px;
-      border-radius:14px;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.08);
-      scrollbar-width:thin;z-index:50;
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:
+        radial-gradient(1200px 600px at -10% -10%, rgba(90,130,255,.10), transparent 60%),
+        radial-gradient(1000px 500px at 110% 10%, rgba(90,255,200,.08), transparent 60%),
+        linear-gradient(180deg, var(--bg), #0a1120 60%, #070b16);
+      color:var(--text);font:500 16px/1.55 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      letter-spacing:.2px;
     }
-    .rail-left{left:var(--rail-gap)} .rail-right{right:var(--rail-gap)}
-    .rail h2{font-size:15px;margin:2px 0 10px}
-    .rail .item{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px;border:1px solid #eee;border-radius:12px;margin-bottom:10px;background:#fff}
-    .rail .item img{width:56px;height:56px;border-radius:10px;object-fit:cover}
-    .rail .item h3{font-size:14px;margin:2px 0 4px;line-height:1.3}
-    .rail .meta{font-size:12px;color:#6b7280}
-    .rail a{color:inherit;text-decoration:none} .rail a:hover h3{text-decoration:underline}
-    .rail .sponsor{border:2px dashed #f97316;background:#fff7ed}
-    .rail .badge{display:inline-block;font-size:11px;font-weight:600;color:#9a3412;background:#ffedd5;border:1px solid #fdba74;border-radius:999px;padding:2px 8px;margin-bottom:6px}
-    .rail .cta{display:inline-block;margin-top:6px;font-size:12px;padding:6px 10px;border-radius:999px;background:#f97316;color:#fff}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1200px, 92vw);margin-inline:auto}
+    .row{display:flex;gap:18px}
+    .between{justify-content:space-between;align-items:center}
+    .muted{color:var(--muted)}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid #223055;
+      background:linear-gradient(180deg,#122241,#0f1c36);color:#eaf2ff;font-weight:700;cursor:pointer;
+      transition:.2s box-shadow,.2s transform,.2s border-color;
+    }
+    .btn:hover{box-shadow:var(--ring);border-color:#2a3b6a}
+    .btn.primary{background:linear-gradient(180deg,#2760ff,#1a44d6);border-color:#2a52ff}
+    .btn.ghost{background:transparent;border-color:#283452}
+    .badge{display:inline-flex;gap:8px;align-items:center;border:1px dashed #2d3a60;color:#bcd3ff;padding:6px 10px;border-radius:999px;font-size:12px}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:50;backdrop-filter:saturate(120%) blur(8px);
+      background:linear-gradient(180deg, rgba(10,17,32,.85), rgba(10,17,32,.55));
+      border-bottom:1px solid #1a2542;
+    }
+    .logo{display:flex;gap:10px;align-items:center;font-weight:900;letter-spacing:.5px}
+    .logo-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+      background:conic-gradient(from 20deg, #6aa6ff, #5ef3c2, #6aa6ff);
+      color:#00162a;font-weight:900}
+    nav ul{display:flex;gap:18px;margin:0;padding:0;list-style:none}
+    .nav-link{padding:10px 12px;border-radius:10px;color:#cbd7ff}
+    .nav-link:hover{background:#111a31}
+    .searchbar{position:relative;flex:1;max-width:560px}
+    .searchbar input{
+      width:100%;height:44px;border-radius:12px;border:1px solid #283452;background:#0c1426;color:#e6ecff;
+      padding:0 44px 0 14px;outline:none;transition:.2s border-color,.2s box-shadow
+    }
+    .searchbar input:focus{border-color:#3550a5;box-shadow:var(--ring)}
+    .searchbar .icon{position:absolute;inset:0 0 0 auto;width:44px;display:grid;place-items:center;color:#98a6cf}
+
+    /* Ad Slots */
+    .ad{display:grid;place-items:center;background:linear-gradient(180deg,#0f1a31,#0a1327);border:1px dashed #2a3b61;color:#7da5ff;border-radius:12px}
+    .ad small{opacity:.8}
+    .ad-leaderboard{height:90px}
+    .ad-rect{height:280px}
+    .ad-sky{height:600px;position:sticky;top:92px}
+    .side-rail{display:none}
+    @media (min-width: 1200px){
+      .layout{display:grid;grid-template-columns: 1fr min(1200px, 92vw) 1fr}
+      .side-rail{display:block}
+    }
+
+    /* Hero */
+    .hero{padding:28px 0 22px}
+    .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:28px}
+    .hero-card{
+      background:linear-gradient(180deg,#0f182e,#0d1629);border:1px solid #1c2a4e;border-radius:16px;padding:22px;
+      box-shadow:0 20px 50px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.03)
+    }
+    .hero h1{margin:6px 0 8px;font-size:clamp(28px, 4vw, 44px);line-height:1.1}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+
+    /* Sections */
+    section{margin:28px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .section-head h2{margin:0;font-size:22px}
+
+    /* Category chips */
+    .chips{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{
+      display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#0d172c;border:1px solid #202e57;
+      color:#c9d6ff;font-weight:600;font-size:13px;cursor:pointer;user-select:none
+    }
+    .chip svg{opacity:.8}
+    .chip.active,.chip:hover{border-color:#2b468f;background:#0f1d3b}
+
+    /* Card Grid + Flip Cards */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .col-12{grid-column:span 12}
+    .col-6{grid-column:span 6}
+    .col-4{grid-column:span 4}
+    .col-3{grid-column:span 3}
+    @media (max-width:1024px){.col-3{grid-column:span 4}.col-4{grid-column:span 6}.col-6{grid-column:span 12}}
+    @media (max-width:700px){.col-3,.col-4,.col-6{grid-column:span 12}}
+
+    .card{perspective:1200px}
+    .card-inner{
+      position:relative;aspect-ratio:16/10;border-radius:14px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1);
+      box-shadow:0 10px 30px rgba(0,0,0,.35);border:1px solid #1b2747;overflow:hidden;background:#0f1830
+    }
+    .card:hover .card-inner{transform:rotateY(180deg)}
+    .face{
+      position:absolute;inset:0;padding:14px;display:flex;flex-direction:column;justify-content:space-between;
+      backface-visibility:hidden
+    }
+    .front{
+      background:
+        radial-gradient(800px 300px at 10% -10%, rgba(106,166,255,.10), transparent 60%),
+        radial-gradient(700px 250px at 110% 10%, rgba(94,243,194,.10), transparent 60%),
+        linear-gradient(180deg,#0f1933,#0c1529);
+    }
+    .front .thumb{
+      flex:1;border-radius:10px;border:1px solid #223055;display:grid;place-items:center;
+      background:linear-gradient(180deg,#0f1a31,#0a1327);
+      background-image: repeating-linear-gradient(45deg, rgba(95,165,255,.25) 0 2px, transparent 2px 10px),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.05));
+    }
+    .front h3{margin:10px 0 4px;font-size:15px}
+    .front .meta{display:flex;gap:10px;align-items:center;color:#a7b5df;font-size:12px}
+
+    .back{
+      transform:rotateY(180deg);
+      background:linear-gradient(180deg,#102042,#0d162c)
+    }
+    .back .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .price{font-weight:900;font-size:18px;color:#eaf2ff}
+    .seller{display:flex;align-items:center;gap:10px}
+    .avatar{width:28px;height:28px;border-radius:8px;background:
+      conic-gradient(from 0deg, #6aa6ff, #5ef3c2, #6aa6ff);border:1px solid #244}
+    .tag{font-size:11px;color:#a4b5e9;background:#101a33;border:1px solid #22335a;border-radius:999px;padding:4px 8px}
+
+    /* Inline ad inside grids */
+    .ad-inline{height:100%;min-height:200px}
+
+    /* Promo / newsletter */
+    .promo{
+      border:1px solid #1b2a4f;border-radius:16px;padding:18px;background:
+        linear-gradient(180deg,#0f1931,#0c162b);display:grid;gap:12px
+    }
+    .promo input{
+      height:44px;border-radius:12px;border:1px solid #283452;background:#0c1426;color:#e6ecff;padding:0 12px;width:100%;
+    }
+
+    footer{margin:38px 0 28px;border-top:1px solid #1a2542;padding-top:18px}
+    .foot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .foot-grid a{color:#afc3ff}
+    @media (max-width:800px){.foot-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+
+    /* Utilities */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .pill{padding:.5px 8px;border:1px solid #25406f;border-radius:999px;font-size:12px;color:#9eb6ff}
+    .kbd{border:1px solid #2a3b6a;border-bottom-width:2px;border-radius:6px;padding:2px 6px;background:#0c1426}
+    .divider{height:1px;background:#1a2542;margin:14px 0}
+
+    /* Mobile nav */
+    .hamburger{display:none}
+    @media (max-width:900px){
+      nav ul{display:none}
+      .hamburger{display:inline-flex}
+      .mobile-nav{display:none;position:fixed;inset:62px 10px auto 10px;background:#0b1326;border:1px solid #1a2542;border-radius:14px;padding:14px;z-index:60}
+      .mobile-nav.open{display:block}
+      .searchbar{max-width:100%}
+    }
   </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"RGZTEC",
+    "url":"https://rgztec.example",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://rgztec.example/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    },
+    "about":{"@type":"Organization","name":"RGZTEC"}
+  }
+  </script>
 </head>
+
 <body>
+  <!-- === Sticky Header === -->
+  <header>
+    <div class="container row between" style="gap:12px; padding:10px 0;">
+      <a class="logo" href="#" aria-label="RGZTEC Home">
+        <span class="logo-badge">RG</span>
+        <span>RGZTEC</span>
+        <span class="pill">Marketplace</span>
+      </a>
 
-  <!-- ==== Side Rails (yalnızca ≥1600px) ==== -->
-  <aside class="rail rail-left" aria-label="Developer Radar">
-    <h2>Dev Radar • Today</h2>
-    <article class="item" data-rotate><img src="https://placehold.co/112x112/0ea5e9/fff.webp?text=JS" alt="JS"><div><a href="/rgztec/catalog/?cat=UI%20Components"><h3>Vanilla JS tabs in ~1 KB</h3></a><div class="meta">Guide • 5 min</div></div></article>
-    <article class="item" data-rotate><img src="https://placehold.co/112x112/22c55e/fff.webp?text=CSS" alt="CSS"><div><a href="/rgztec/catalog/?cat=UI%20Components"><h3>CSS Grid: 12-col, clamp()</h3></a><div class="meta">Tips • 3 min</div></div></article>
-    <article class="item sponsor"><img src="https://placehold.co/112x112/f97316/fff.webp?text=AD" alt="Ad"><div><span class="badge">SPONSORED</span><h3>Email Template Pack</h3><div class="meta">Deliverability A+ • 24 comps</div><a class="cta" href="/rgztec/advertise.html" rel="noopener sponsored" target="_blank">View</a></div></article>
-  </aside>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a class="nav-link" href="#explore">Explore</a></li>
+          <li><a class="nav-link" href="#categories">Categories</a></li>
+          <li><a class="nav-link" href="#trending">Trending</a></li>
+          <li><a class="nav-link" href="#newsletter">Newsletter</a></li>
+          <li><a class="nav-link" href="#footer">About</a></li>
+        </ul>
+      </nav>
 
-  <aside class="rail rail-right" aria-label="Recommended & Sponsored">
-    <h2>Recommended & Sponsored</h2>
-    <article class="item sponsor"><img src="https://placehold.co/112x112/0ea5e9/fff.webp?text=PRO" alt="Pro"><div><span class="badge">SPONSORED</span><h3>UI Kit Pro — 150+ comps</h3><div class="meta">Tailwind • Figma</div><a class="cta" href="/rgztec/advertise.html" rel="noopener sponsored" target="_blank">Buy</a></div></article>
-    <article class="item"><img src="https://placehold.co/112x112/14b8a6/fff.webp?text=SVG" alt="SVG"><div><a href="/rgztec/catalog/?cat=UI%20Components"><h3>Free 120 SVG icons</h3></a><div class="meta">Freebie • Popular</div></div></article>
-  </aside>
-  <!-- ==== /Rails ==== -->
-
-  <!-- Drawer for categories -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <div class="drawer" id="drawer">
-    <div class="hdr">
-      <strong>Categories</strong>
-      <button id="drawerClose" class="cats-btn" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        Close
+      <button class="hamburger btn ghost" id="btnHamburger" aria-label="Open menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="#cbd7ff" stroke-width="2" stroke-linecap="round"/></svg>
+        Menu
       </button>
-    </div>
-    <div class="grid" role="menu">
-      <a class="cat" href="/rgztec/catalog/?cat=Landing%20Pages"><img src="/rgztec/images/categories/html-templates.webp" alt="HTML"><span>Landing Pages</span></a>
-      <a class="cat" href="/rgztec/catalog/?cat=Admin"><img src="/rgztec/images/categories/css-ui-kits.webp" alt="Admin"><span>Admin Dashboards</span></a>
-      <a class="cat" href="/rgztec/catalog/?cat=Auth%20%26%20Forms"><img src="/rgztec/images/categories/js-widgets.webp" alt="Auth"><span>Auth & Forms</span></a>
-      <a class="cat" href="/rgztec/catalog/?cat=Docs%20%26%20Content"><img src="/rgztec/images/categories/react.webp" alt="Docs"><span>Docs & Content</span></a>
-      <a class="cat" href="/rgztec/catalog/?cat=E-commerce"><img src="/rgztec/images/categories/svg-icons.webp" alt="E-comm"><span>E-commerce</span></a>
-      <a class="cat" href="/rgztec/catalog/?cat=UI%20Components"><img src="/rgztec/images/categories/email-templates.webp" alt="UI"><span>UI Components</span></a>
-    </div>
-  </div>
 
-  <div class="page-container">
-    <!-- HEADER -->
-    <header class="site-header">
-      <div class="wrapper nav-wrapper" style="gap:12px;align-items:center;">
-        <a class="brand" href="/rgztec/">RGZTEC</a>
-
-        <!-- Categories button -->
-        <button class="cats-btn" id="catsBtn" aria-haspopup="true" aria-controls="drawer">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-          Categories
-        </button>
-
-        <form class="search" role="search" aria-label="Site search" style="flex:1;">
-          <input type="search" class="search-input" placeholder="Search for anything..." />
-        </form>
-
-        <nav class="nav-links" aria-label="Primary">
-          <a href="/rgztec/catalog/">Explore</a>
-          <a href="/rgztec/demo/">Demo Gallery</a>
-          <a href="/rgztec/login.html" class="btn secondary">Login</a>
-          <a href="/rgztec/stores/index.html?p=new" class="btn primary">Become a Seller</a>
-        </nav>
+      <div class="searchbar" role="search">
+        <label class="sr-only" for="q">Search</label>
+        <input id="q" name="q" placeholder="Search templates, UI kits, components..." list="suggest" autocomplete="off">
+        <datalist id="suggest">
+          <option>HTML landing page</option>
+          <option>Admin dashboard</option>
+          <option>Portfolio template</option>
+          <option>Pricing component</option>
+          <option>Navbar + hero</option>
+          <option>Tailwind UI kit</option>
+          <option>Bootstrap starter</option>
+        </datalist>
+        <span class="icon"><span class="kbd">/</span></span>
       </div>
-    </header>
 
-    <!-- SUBNAV (search altı) + siyah ayraç -->
-    <div class="subnav" aria-label="Quick topics">
-      <div class="wrapper">
-        <div class="scroll">
-          <a href="/rgztec/catalog/">All Stores</a>
-          <a href="/rgztec/catalog/?filter=new">New Arrivals</a>
-          <a href="/rgztec/catalog/?filter=editors-picks">Editor’s Picks</a>
-          <a href="/rgztec/catalog/?cat=Landing%20Pages">Landing Pages</a>
-          <a href="/rgztec/catalog/?cat=Admin">Admin Dashboards</a>
-          <a href="/rgztec/catalog/?cat=Auth%20%26%20Forms">CSS UI Kits</a>
-          <a href="/rgztec/catalog/?cat=UI%20Components">JS Widgets</a>
-          <a href="/rgztec/catalog/?cat=UI%20Components">React Components</a>
-          <a href="/rgztec/catalog/?cat=UI%20Components">SVG Icons</a>
-          <a href="/rgztec/catalog/?cat=Docs%20%26%20Content">Email Templates</a>
-          <a href="/rgztec/catalog/?cat=Landing%20Pages">Freebies</a>
+      <div class="row" style="gap:8px">
+        <button class="btn ghost" id="btnSignIn">Sign in</button>
+        <button class="btn primary" id="btnSell">Sell your code</button>
+      </div>
+    </div>
+
+    <!-- Top Leaderboard Ad -->
+    <div class="container" style="padding-bottom:10px">
+      <div class="ad ad-leaderboard" id="ad-top">
+        <div>
+          <strong>Leaderboard 728×90</strong><br>
+          <small>Replace with AdSense / provider code</small>
         </div>
       </div>
-      <div class="divider" aria-hidden="true"></div>
     </div>
 
-    <main id="home-content">
-      <!-- HERO (Get started) -->
-      <section class="hero alt">
-        <div class="wrapper">
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav" aria-label="Mobile Menu">
+      <a class="nav-link" href="#explore">Explore</a>
+      <a class="nav-link" href="#categories">Categories</a>
+      <a class="nav-link" href="#trending">Trending</a>
+      <a class="nav-link" href="#newsletter">Newsletter</a>
+      <div class="divider"></div>
+      <button class="btn ghost" style="width:100%;justify-content:center">Sign in</button>
+      <button class="btn primary" style="width:100%;justify-content:center">Sell your code</button>
+    </div>
+  </header>
+
+  <!-- === Side Rails Layout (Ads / Promos) === -->
+  <div class="layout">
+    <aside class="side-rail container" aria-label="Left rail" style="width:320px">
+      <div class="ad ad-sky">Skyscraper 300×600<br><small>Left rail</small></div>
+    </aside>
+
+    <!-- === Main Content === -->
+    <main id="explore">
+      <!-- Hero -->
+      <section class="hero container">
+        <div class="wrap">
           <div class="hero-card">
-            <div class="left">
-              <h2>Refresh your codebase</h2>
-              <p>Discover HTML templates, CSS kits, and widgets from independent creators. Curated for performance.</p>
-              <a class="cta" href="/rgztec/catalog/">Get started</a>
+            <span class="badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.6 4.1L18 22l-6-4-6 4 1.6-8.9L2 9h7l3-7z" stroke="#8bc0ff"/></svg>
+              New: Flip-Cards + Inline Ads
+            </span>
+            <h1>Buy & sell <em>production-ready</em> static code.</h1>
+            <p class="muted">HTML templates, CSS UI kits, component packs, demo galleries. One click to preview, one click to ship.</p>
+            <div class="cta">
+              <a href="#trending" class="btn primary">Browse Trending</a>
+              <a href="#categories" class="btn">Explore Categories</a>
+              <a href="#newsletter" class="btn ghost">Get updates</a>
             </div>
-            <div class="right">
-              <img src="https://placehold.co/1200x560/e5e7eb/111827.webp?text=Showcase+your+template" alt="Showcase">
+            <div class="divider"></div>
+            <div class="chips" id="chipBar">
+              <button class="chip" data-chip="landing">Landing Pages</button>
+              <button class="chip" data-chip="dashboard">Dashboards</button>
+              <button class="chip" data-chip="portfolio">Portfolios</button>
+              <button class="chip" data-chip="ecommerce">E-commerce</button>
+              <button class="chip" data-chip="components">Components</button>
+              <button class="chip" data-chip="starter">Starters</button>
+              <button class="chip" data-chip="bootstrap">Bootstrap</button>
+              <button class="chip" data-chip="tailwind">Tailwind</button>
             </div>
+          </div>
+
+          <div class="hero-card promo" aria-labelledby="promoTitle">
+            <h2 id="promoTitle" style="margin:0">Monetize your code.</h2>
+            <p class="muted" style="margin:0">Open a seller page in minutes. RGZTEC handles storefronts, demos, delivery and updates.</p>
+            <ul class="muted" style="margin:10px 0 0 18px">
+              <li>Instant demo hosting</li>
+              <li>Versioned zip delivery</li>
+              <li>Promo slots & homepage features</li>
+            </ul>
+            <div class="divider"></div>
+            <label for="sellerEmail" class="sr-only">Email</label>
+            <input id="sellerEmail" type="email" placeholder="you@devmail.com" />
+            <button class="btn primary" style="width:100%;justify-content:center" id="btnStartSelling">Start Selling</button>
+            <small class="muted">By continuing you agree to our <a href="#">Terms</a> & <a href="#">Privacy</a>.</small>
           </div>
         </div>
       </section>
 
-      <!-- Inline sponsored banner -->
-      <section class="ad-inline" aria-label="sponsored-banner">
-        <div class="wrapper">
-          <a href="/rgztec/advertise.html" target="_blank" rel="noopener sponsored">
-            <img src="https://placehold.co/1200x150/f97316/ffffff.webp?text=Promote+Your+Product+to+Developers" alt="Sponsored Advertisement">
-          </a>
+      <!-- Categories -->
+      <section id="categories" class="container">
+        <div class="section-head">
+          <h2>Categories</h2>
+          <a class="btn ghost" href="#">View all</a>
+        </div>
+        <div class="grid">
+          <!-- 8 category cards -->
+          <div class="col-3"><div class="promo"><strong>Landing Pages</strong><span class="muted">Hero + Pricing + CTA</span><span class="tag">128 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>Admin Dashboards</strong><span class="muted">Tables, charts, auth</span><span class="tag">92 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>Portfolios</strong><span class="muted">Grids, masonry, lightbox</span><span class="tag">74 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>E-commerce</strong><span class="muted">Product, cart, checkout</span><span class="tag">66 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>Components</strong><span class="muted">Navbars, cards, modals</span><span class="tag">210 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>Docs/Blog</strong><span class="muted">MDX-ish, TOC, search</span><span class="tag">51 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>Bootstrap</strong><span class="muted">v5+ starters</span><span class="tag">58 items</span></div></div>
+          <div class="col-3"><div class="promo"><strong>Tailwind</strong><span class="muted">Utility UI kits</span><span class="tag">132 items</span></div></div>
         </div>
       </section>
 
-      <!-- FEATURED HTML TEMPLATES -->
-      <section class="section" id="templates">
-        <div class="wrapper">
-          <div class="section-header">
-            <h2>Featured HTML Templates</h2>
-            <a class="btn" href="/rgztec/catalog/">View all</a>
-          </div>
+      <!-- Trending / Flip Cards + Inline Ad -->
+      <section id="trending" class="container">
+        <div class="section-head">
+          <h2>Trending this week</h2>
+          <div class="muted">Filter: <span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">Vanilla</span></div>
+        </div>
 
-          <div class="grid auto-4">
-            <!-- 1..8 -->
-            <article class="card" data-id="landing-page-starter" data-title="Landing Page Starter" data-price="19" data-img="/rgztec/images/html1.webp">
-              <img class="thumb" src="/rgztec/images/html1.webp" alt="Landing Page Starter" loading="lazy" width="640" height="400" />
-              <h3 class="title">Landing Page Starter</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$19</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="portfolio-showcase" data-title="Portfolio Showcase" data-price="25" data-img="/rgztec/images/html2.webp">
-              <img class="thumb" src="/rgztec/images/html2.webp" alt="Portfolio Showcase" loading="lazy" width="640" height="400" />
-              <h3 class="title">Portfolio Showcase</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$25</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="admin-dashboard-ui" data-title="Admin Dashboard UI" data-price="49" data-img="/rgztec/images/html3.webp">
-              <img class="thumb" src="/rgztec/images/html3.webp" alt="Admin Dashboard UI" loading="lazy" width="640" height="400" />
-              <h3 class="title">Admin Dashboard UI</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$49</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="ecommerce-homepage" data-title="E-commerce Homepage" data-price="39" data-img="/rgztec/images/html4.webp">
-              <img class="thumb" src="/rgztec/images/html4.webp" alt="E-commerce Homepage" loading="lazy" width="640" height="400" />
-              <h3 class="title">E-commerce Homepage</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$39</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="blog-template" data-title="Blog Template" data-price="29" data-img="/rgztec/images/html5.webp">
-              <img class="thumb" src="/rgztec/images/html5.webp" alt="Blog Template" loading="lazy" width="640" height="400" />
-              <h3 class="title">Blog Template</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$29</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="saas-landing-page" data-title="SaaS Landing Page" data-price="22" data-img="/rgztec/images/html6.webp">
-              <img class="thumb" src="/rgztec/images/html6.webp" alt="SaaS Landing Page" loading="lazy" width="640" height="400" />
-              <h3 class="title">SaaS Landing Page</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$22</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="agency-one-pager" data-title="Agency One-Pager" data-price="15" data-img="/rgztec/images/html7.webp">
-              <img class="thumb" src="/rgztec/images/html7.webp" alt="Agency One-Pager" loading="lazy" width="640" height="400" />
-              <h3 class="title">Agency One-Pager</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$15</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="corporate-site" data-title="Corporate Site" data-price="35" data-img="/rgztec/images/html8.webp">
-              <img class="thumb" src="/rgztec/images/html8.webp" alt="Corporate Site" loading="lazy" width="640" height="400" />
-              <h3 class="title">Corporate Site</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$35</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <!-- Sponsored slot -->
-            <article class="card ad-card" aria-label="sponsored-card">
-              <div class="ad-inner">
-                <span class="ad-label">SPONSORED</span>
-                <h3>Reach RGZTEC Buyers</h3>
-                <p>Showcase your dev tool, template, or service to creators browsing templates.</p>
-                <div class="ad-logos">
-                  <img src="https://placehold.co/80x24.webp?text=Logo1" alt="brand">
-                  <img src="https://placehold.co/80x24.webp?text=Logo2" alt="brand">
-                  <img src="https://placehold.co/80x24.webp?text=Logo3" alt="brand">
+        <div class="grid" id="grid">
+          <!-- Card 1 -->
+          <article class="col-3 item" data-tags="landing tailwind components" data-chip="landing,tailwind,components">
+            <div class="card">
+              <div class="card-inner">
+                <div class="face front">
+                  <div class="thumb" aria-hidden="true"><span class="muted">Preview</span></div>
+                  <div>
+                    <h3>LaunchPad – SaaS Landing</h3>
+                    <div class="meta"><span>Tailwind</span><span class="pill">v1.2</span></div>
+                  </div>
                 </div>
-                <a class="btn primary" href="/rgztec/advertise.html" target="_blank" rel="noopener sponsored">Advertise Now</a>
+                <div class="face back">
+                  <div>
+                    <div class="seller"><span class="avatar"></span><div><strong>by NeoUI</strong><div class="muted" style="font-size:12px">Updated 3d ago</div></div></div>
+                    <p class="muted">Hero, pricing, FAQ, blog roll, contact form hooks.</p>
+                  </div>
+                  <div class="row between">
+                    <span class="price">$18</span>
+                    <div class="actions">
+                      <a href="#" class="btn ghost">Demo</a>
+                      <button class="btn primary add" data-id="1">Buy</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </article>
+            </div>
+          </article>
 
-            <!-- 9..12 -->
-            <article class="card" data-id="docs-site-starter" data-title="Docs Site Starter" data-price="27" data-img="/rgztec/images/html9.webp">
-              <img class="thumb" src="/rgztec/images/html9.webp" alt="Docs Site Starter" loading="lazy" width="640" height="400" />
-              <h3 class="title">Docs Site Starter</h3>
-              <p class="meta">Static docs site, search-ready</p>
-              <div class="price-row"><span class="price">$27</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
+          <!-- Card 2 -->
+          <article class="col-3 item" data-tags="dashboard charts tables" data-chip="dashboard">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>BoardOne – Admin</h3><div class="meta"><span>Charts+Tables</span><span class="pill">v2.0</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by datadev</strong><div class="muted" style="font-size:12px">Hot 🔥</div></div></div><p class="muted">Auth, layout, widgets, pagination.</p></div><div class="row between"><span class="price">$24</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="2">Buy</button></div></div></div>
+            </div></div>
+          </article>
 
-            <article class="card" data-id="auth-pages-pack" data-title="Auth Pages Pack" data-price="21" data-img="/rgztec/images/html10.webp">
-              <img class="thumb" src="/rgztec/images/html10.webp" alt="Auth Pages Pack" loading="lazy" width="640" height="400" />
-              <h3 class="title">Auth Pages Pack</h3>
-              <p class="meta">Login • Register • Reset</p>
-              <div class="price-row"><span class="price">$21</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
+          <!-- Card 3 -->
+          <article class="col-3 item" data-tags="portfolio masonry lightbox" data-chip="portfolio">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Mason Pro – Portfolio</h3><div class="meta"><span>Masonry</span><span class="pill">v1.7</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by gridbox</strong><div class="muted" style="font-size:12px">Updated 1w</div></div></div><p class="muted">Isotope-style grid, filter, lightbox.</p></div><div class="row between"><span class="price">$16</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="3">Buy</button></div></div></div>
+            </div></div>
+          </article>
 
-            <article class="card" data-id="app-showcase" data-title="App Showcase" data-price="18" data-img="/rgztec/images/html11.webp">
-              <img class="thumb" src="/rgztec/images/html11.webp" alt="App Showcase" loading="lazy" width="640" height="400" />
-              <h3 class="title">App Showcase</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$18</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="product-page" data-title="Product Page" data-price="19" data-img="/rgztec/images/html15.webp">
-              <img class="thumb" src="/rgztec/images/html15.webp" alt="Product Page" loading="lazy" width="640" height="400" />
-              <h3 class="title">Product Page</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$19</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="login-page-template" data-title="Login Page Template" data-price="14" data-img="/rgztec/images/html17.webp">
-              <img class="thumb" src="/rgztec/images/html17.webp" alt="Login Page Template" loading="lazy" width="640" height="400" />
-              <h3 class="title">Login Page Template</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$14</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
-
-            <article class="card" data-id="faq-page" data-title="FAQ Page" data-price="12" data-img="/rgztec/images/html19.webp">
-              <img class="thumb" src="/rgztec/images/html19.webp" alt="FAQ Page" loading="lazy" width="640" height="400" />
-              <h3 class="title">FAQ Page</h3>
-              <p class="meta">Responsive HTML/CSS</p>
-              <div class="price-row"><span class="price">$12</span></div>
-              <div class="row"><a class="btn" href="#" target="_blank">Preview</a><a class="btn primary" href="#">Visit Store</a></div>
-            </article>
+          <!-- Inline Rectangle Ad -->
+          <div class="col-3">
+            <div class="ad ad-rect ad-inline" id="ad-inline-1">
+              <div><strong>Rectangle 336×280</strong><br><small>Inline placement</small></div>
+            </div>
           </div>
+
+          <!-- Card 4 -->
+          <article class="col-3 item" data-tags="ecommerce product cart" data-chip="ecommerce">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>ShopLite – E-commerce</h3><div class="meta"><span>Product+Cart</span><span class="pill">v1.1</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by lemonlabs</strong><div class="muted" style="font-size:12px">New</div></div></div><p class="muted">Cards, filters, cart, empty states.</p></div><div class="row between"><span class="price">$22</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="4">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="col-3 item" data-tags="components pricing navbar" data-chip="components">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>KitSet – Components</h3><div class="meta"><span>UI kit</span><span class="pill">v0.9</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by crispui</strong><div class="muted" style="font-size:12px">Updated 2d</div></div></div><p class="muted">Navbars, pricing, modals, tabs.</p></div><div class="row between"><span class="price">$14</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="5">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="col-3 item" data-tags="docs blog toc" data-chip="">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>DocPress – Docs/Blog</h3><div class="meta"><span>TOC+Search</span><span class="pill">v1.0</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by notedeck</strong><div class="muted" style="font-size:12px">Stable</div></div></div><p class="muted">Docs layout, blog index, tags.</p></div><div class="row between"><span class="price">$20</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="6">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 7 -->
+          <article class="col-3 item" data-tags="bootstrap starter landing" data-chip="bootstrap,starter">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Bootstrap QuickStart</h3><div class="meta"><span>BS5+</span><span class="pill">v1.4</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by startkit</strong><div class="muted" style="font-size:12px">Updated</div></div></div><p class="muted">Navbar, hero, features, footer.</p></div><div class="row between"><span class="price">$9</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="7">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 8 -->
+          <article class="col-3 item" data-tags="tailwind components starter" data-chip="tailwind,starter">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Tailwind Starter Pack</h3><div class="meta"><span>TW</span><span class="pill">v2.3</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by moku</strong><div class="muted" style="font-size:12px">Popular</div></div></div><p class="muted">Auth pages, modals, tables.</p></div><div class="row between"><span class="price">$12</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="8">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 9 -->
+          <article class="col-3 item" data-tags="ecommerce checkout" data-chip="ecommerce">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Checkout Flow</h3><div class="meta"><span>Cart+Pay</span><span class="pill">v1.0</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by payui</strong><div class="muted" style="font-size:12px">Brand new</div></div></div><p class="muted">Cart, shipping, summary, pay.</p></div><div class="row between"><span class="price">$15</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="9">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 10 -->
+          <article class="col-3 item" data-tags="components pricing tables" data-chip="components">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Pricing Tables</h3><div class="meta"><span>Sections</span><span class="pill">v1.5</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by pricekit</strong><div class="muted" style="font-size:12px">Updated</div></div></div><p class="muted">3-tier, toggles, highlights.</p></div><div class="row between"><span class="price">$8</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="10">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 11 -->
+          <article class="col-3 item" data-tags="portfolio gallery" data-chip="portfolio">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Gallery Pro</h3><div class="meta"><span>Lightbox</span><span class="pill">v1.3</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by photon</strong><div class="muted" style="font-size:12px">Trending</div></div></div><p class="muted">Captions, keyboard nav.</p></div><div class="row between"><span class="price">$13</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="11">Buy</button></div></div></div>
+            </div></div>
+          </article>
+
+          <!-- Card 12 -->
+          <article class="col-3 item" data-tags="starter landing" data-chip="starter,landing">
+            <div class="card"><div class="card-inner">
+              <div class="face front"><div class="thumb"></div><div><h3>Minimal Starter</h3><div class="meta"><span>Vanilla</span><span class="pill">v0.7</span></div></div></div>
+              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by plainjs</strong><div class="muted" style="font-size:12px">Lightweight</div></div></div><p class="muted">Clean HTML+CSS boilerplate.</p></div><div class="row between"><span class="price">$5</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="12">Buy</button></div></div></div>
+            </div></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Newsletter / Promo -->
+      <section id="newsletter" class="container">
+        <div class="promo">
+          <div class="row between">
+            <div>
+              <h3 style="margin:0">Get weekly drops</h3>
+              <p class="muted" style="margin:6px 0 0">Be first to see new templates and promo codes.</p>
+            </div>
+            <div class="chips">
+              <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Bootstrap</span><span class="chip">Tailwind</span>
+            </div>
+          </div>
+          <div class="row" style="gap:10px">
+            <label class="sr-only" for="newsEmail">Email</label>
+            <input id="newsEmail" placeholder="you@example.com" type="email">
+            <button class="btn primary" id="btnSubscribe">Subscribe</button>
+          </div>
+          <small class="muted">No spam. Unsubscribe anytime.</small>
+        </div>
+      </section>
+
+      <!-- Bottom Leaderboard -->
+      <section class="container" style="margin-top:16px">
+        <div class="ad ad-leaderboard" id="ad-bottom">
+          <div><strong>Leaderboard 728×90</strong><br><small>Footer placement</small></div>
         </div>
       </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      <div class="wrapper">
-        <div class="footer-grid">
-          <div>
-            <h3 class="title">About RGZTEC</h3>
-            <p class="meta">Static code marketplace and demo gallery.</p>
-          </div>
-          <div>
-            <h4 class="title">Links</h4>
-            <ul class="footer-links">
-              <li><a href="/rgztec/demo/">Demo Gallery</a></li>
-              <li><a href="/rgztec/catalog/">Explore Products</a></li>
-              <li><a href="/rgztec/stores/index.html?p=new">Become a Seller</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="title">Contact</h4>
-            <p class="meta">support@rgztec.example</p>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <aside class="side-rail container" aria-label="Right rail" style="width:320px">
+      <div class="ad ad-sky">Skyscraper 300×600<br><small>Right rail</small></div>
+    </aside>
   </div>
 
-  <!-- Drawer JS -->
-  <script>
-    const catsBtn = document.getElementById('catsBtn');
-    const drawer = document.getElementById('drawer');
-    const overlay = document.getElementById('drawerOverlay');
-    const drawerClose = document.getElementById('drawerClose');
-    function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); }
-    function closeDrawer(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
-    catsBtn.addEventListener('click', openDrawer);
-    drawerClose.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-  </script>
+  <!-- Footer -->
+  <footer id="footer" class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="logo"><span class="logo-badge">RG</span><span>RGZTEC</span></div>
+        <p class="muted">A marketplace for static front-end code. Demos hosted, zips delivered, creators paid.</p>
+      </div>
+      <div>
+        <strong>Marketplace</strong>
+        <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
+          <li><a href="#trending">Trending</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#">Top sellers</a></li>
+          <li><a href="#">New arrivals</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>For creators</strong>
+        <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
+          <li><a href="#">Open a shop</a></li>
+          <li><a href="#">Upload guide</a></li>
+          <li><a href="#">Brand assets</a></li>
+          <li><a href="#">Payouts</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Company</strong>
+        <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row between" style="margin-top:14px">
+      <small class="muted">© <span id="y"></span> RGZTEC. All rights reserved.</small>
+      <div class="chips"><span class="chip">Twitter</span><span class="chip">GitHub</span><span class="chip">Discord</span></div>
+    </div>
+  </footer>
 
-  <!-- (Opsiyonel) Radar rotasyonu -->
+  <!-- === Minimal, Inline JS (no external deps) === -->
   <script>
-    (function(){
-      const rails=document.querySelectorAll('.rail');
-      rails.forEach(rail=>{
-        if(!rail.querySelector('[data-rotate]')) return;
-        setInterval(()=>{ const f=rail.querySelector('[data-rotate]'); if(f) rail.appendChild(f); },30000);
-      });
-    })();
-  </script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-  <!-- KART LINKLERINI OTOMATIK BAGLAMA + ARAMA -->
-  <script>
-    // Kartlardaki Preview / Visit Store linklerini kablola
-    document.querySelectorAll('.card[data-id]').forEach(card => {
-      const id = card.getAttribute('data-id');
-      const previewBtn = card.querySelector('.row .btn:not(.primary)');
-      const storeBtn   = card.querySelector('.row .btn.primary');
+    // Keyboard focus for search
+    window.addEventListener('keydown', (e)=>{ if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); document.getElementById('q').focus(); }});
 
-      if (previewBtn) {
-        previewBtn.href = `/rgztec/demo/detail.html?p=${encodeURIComponent(id)}`;
-        previewBtn.target = "_blank";
-        previewBtn.rel = "noopener";
-      }
-      if (storeBtn) {
-        storeBtn.href = `/rgztec/products/detail.html?item=${encodeURIComponent(id)}`;
-      }
+    // Mobile nav toggle
+    const btnHamburger = document.getElementById('btnHamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    btnHamburger?.addEventListener('click', ()=>{
+      const open = mobileNav.classList.toggle('open');
+      btnHamburger.setAttribute('aria-expanded', open ? 'true':'false');
     });
 
-    // Arama: Enter → katalog
-    const searchInput = document.querySelector('.search-input');
-    if (searchInput) {
-      searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const term = e.currentTarget.value.trim();
-          const url = new URL(`${location.origin}/rgztec/catalog/`);
-          if (term) url.searchParams.set('q', term);
-          location.href = url.toString();
-        }
+    // Simple client-side filter (search + chips)
+    const q = document.getElementById('q');
+    const grid = document.getElementById('grid');
+    const items = [...grid.querySelectorAll('.item')];
+    const chipBar = document.getElementById('chipBar');
+    let activeChip = '';
+
+    function applyFilter(){
+      const text = (q.value || '').toLowerCase();
+      items.forEach(it=>{
+        const tags = (it.dataset.tags || '').toLowerCase();
+        const chips = (it.dataset.chip || '').toLowerCase();
+        const matchText = !text || tags.includes(text);
+        const matchChip = !activeChip || chips.includes(activeChip);
+        it.style.display = (matchText && matchChip) ? '' : 'none';
       });
     }
-  </script>
+    q?.addEventListener('input', applyFilter);
 
-  <script src="/rgztec/assets/js/main.js?v=4"></script>
+    // Chip filter
+    chipBar?.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.chip');
+      if(!btn) return;
+      const key = (btn.dataset.chip || '').toLowerCase();
+      if(activeChip === key){ activeChip=''; chipBar.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); }
+      else { activeChip = key; chipBar.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); }
+      applyFilter();
+    });
+
+    // Flip support on tap (mobile): tap toggles .hover class
+    grid.addEventListener('click', (e)=>{
+      const inner = e.target.closest('.card-inner');
+      if(!inner) return;
+      // Toggle 'hover' by inline transform
+      if(getComputedStyle(inner).transform.includes('matrix3d')){ inner.style.transform=''; }
+      else { inner.style.transform='rotateY(180deg)'; }
+    });
+
+    // Fake cart (demo)
+    const cart = [];
+    document.querySelectorAll('.add').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const id = e.currentTarget.dataset.id;
+        cart.push(id);
+        e.currentTarget.textContent = 'Added ✓';
+        e.currentTarget.disabled = true;
+        e.currentTarget.style.opacity = .8;
+      });
+    });
+
+    // Buttons
+    document.getElementById('btnSubscribe')?.addEventListener('click', ()=>{
+      const v = document.getElementById('newsEmail').value.trim();
+      alert(v ? 'Subscribed: '+v : 'Please enter your email');
+    });
+    document.getElementById('btnStartSelling')?.addEventListener('click', ()=>{
+      const v = document.getElementById('sellerEmail').value.trim();
+      alert(v ? ('We will email onboarding to: '+v) : 'Please enter your email');
+    });
+
+    // --- ADS PLACEHOLDERS ---
+    // Replace each #ad-* with your ad network snippet.
+    // Example (AdSense):
+    //   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXX" crossorigin="anonymous"></script>
+    //   <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXX" data-ad-format="auto"></ins>
+    //   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </script>
 </body>
 </html>
