@@ -56,40 +56,20 @@
   </main>
 
   <script>
-    // URL param
     const params = new URLSearchParams(location.search);
     const slug = params.get("item");
     if (!slug) location.replace("/rgztec/catalog/");
 
-    // --- Akıllı görsel çözümleyici ---
-    // Verilen aday yolları sırayla dener; yüklenen ilkini kullanır.
-    function resolveImage(candidates, onDone) {
-      if (!candidates || !candidates.length) return onDone(null);
-      const tryOne = (i) => {
-        if (i >= candidates.length) return onDone(null);
-        const url = candidates[i];
-        const img = new Image();
-        img.onload = () => onDone(url);
-        img.onerror = () => tryOne(i + 1);
-        img.src = url;
-      };
-      tryOne(0);
-    }
-
-    // Ürün veritabanı (slug -> bilgiler + görsel aday listesi)
     const base = "/rgztec";
+
+    // Kesin eşleştirme: html1–html4.webp
     const DB = {
       // Landing Page
       "landing-page": {
         title: "Landing Page Starter",
         desc: "Responsive, lightweight HTML/CSS starter landing page.",
         price: 19,
-        // Sırasıyla dener: isimli -> numaralı -> png
-        images: [
-          `${base}/images/landing-page.webp`,
-          `${base}/images/html1.webp`,
-          `${base}/images/landing-page.png`
-        ],
+        image: `${base}/images/html1.webp`,
         demo:  `${base}/demo/detail.html?p=landing-page`,
         store: `${base}/stores/index.html?p=landing-page`
       },
@@ -100,11 +80,7 @@
         title: "Portfolio Showcase",
         desc: "Clean portfolio template with filters and responsive grid.",
         price: 25,
-        images: [
-          `${base}/images/portfolio.webp`,
-          `${base}/images/html2.webp`,
-          `${base}/images/portfolio.png`
-        ],
+        image: `${base}/images/html2.webp`,
         demo:  `${base}/demo/detail.html?p=portfolio-showcase`,
         store: `${base}/stores/index.html?p=portfolio-showcase`
       },
@@ -114,12 +90,7 @@
         title: "Admin Dashboard UI",
         desc: "Modern admin dashboard with cards, charts and tables.",
         price: 49,
-        images: [
-          `${base}/images/dashboard.webp`,
-          `${base}/images/html3.webp`,
-          `${base}/images/admin-dashboard.webp`,
-          `${base}/images/dashboard.png`
-        ],
+        image: `${base}/images/html3.webp`,
         demo:  `${base}/demo/detail.html?p=admin-dashboard`,
         store: `${base}/stores/index.html?p=admin-dashboard`
       },
@@ -130,11 +101,7 @@
         title: "E-commerce Homepage",
         desc: "E-commerce landing with hero, categories and product grid.",
         price: 39,
-        images: [
-          `${base}/images/ecommerce.webp`,
-          `${base}/images/html4.webp`,
-          `${base}/images/ecommerce.png`
-        ],
+        image: `${base}/images/html4.webp`,
         demo:  `${base}/demo/detail.html?p=ecommerce-homepage`,
         store: `${base}/stores/index.html?p=ecommerce-homepage`
       }
@@ -165,17 +132,10 @@
       $desc.textContent  = meta.desc;
       $price.textContent = `$${meta.price}`;
 
-      // Görseli sırayla dene
-      resolveImage(meta.images, (url) => {
-        if (url) {
-          $img.onload = () => { $ghost.style.display = "none"; $img.style.display = "block"; };
-          $img.onerror = () => { $img.style.display = "none"; $ghost.style.display = "flex"; };
-          $img.src = url;
-        } else {
-          $img.style.display = "none";
-          $ghost.style.display = "flex";
-        }
-      });
+      // Görsel
+      $img.onload  = () => { $ghost.style.display = "none"; $img.style.display = "block"; };
+      $img.onerror = () => { $img.style.display = "none"; $ghost.style.display = "flex"; };
+      $img.src = meta.image;
 
       // Linkler
       $demo.href  = meta.demo;  $demo.target = "_blank"; $demo.rel = "noopener";
@@ -185,4 +145,3 @@
   </script>
 </body>
 </html>
-
