@@ -1,437 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- RGZTEC / index.html – fixed & wired -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC - Static Code Marketplace</title>
-  <meta name="description" content="RGZTEC is a multi-vendor static code marketplace and demo gallery featuring HTML templates, CSS UI kits, and more." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E" />
-  <meta property="og:title" content="RGZTEC - Static Code Marketplace">
-  <meta property="og:description" content="Buy & sell production-ready static front-end code: HTML templates, CSS kits, components and demo galleries.">
-  <meta property="og:type" content="website">
-  <meta name="theme-color" content="#0b1220"/>
-
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>RGZTEC – HTML Template Gallery</title>
+  <meta name="description" content="Discover HTML templates, CSS kits and widgets from independent creators."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23092'%3E%3C/rect%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E"/>
   <style>
-    :root{--bg:#0b1220;--panel:#121a2f;--text:#e6ecff;--muted:#9fb0d6;--brand:#6aa6ff;--radius:16px;--ring:0 0 0 3px rgba(106,166,255,.35)}
-    *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;background:
-      radial-gradient(1200px 600px at -10% -10%, rgba(90,130,255,.10), transparent 60%),
-      radial-gradient(1000px 500px at 110% 10%, rgba(90,255,200,.08), transparent 60%),
-      linear-gradient(180deg, var(--bg), #0a1120 60%, #070b16);
-      color:var(--text);font:500 16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    :root{
+      --bg:#f7f8fb; --panel:#ffffff; --ink:#0d1220; --muted:#5b657a;
+      --brand:#ff7d33; --ring:0 0 0 3px rgba(255,125,51,.25);
+      --radius:16px; --b:#e5e8f0;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
     a{color:inherit;text-decoration:none}
     .container{width:min(1200px,92vw);margin-inline:auto}
-    .row{display:flex;gap:18px}.between{justify-content:space-between;align-items:center}.muted{color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid #223055;background:linear-gradient(180deg,#122241,#0f1c36);color:#eaf2ff;font-weight:700;cursor:pointer;transition:.2s box-shadow,.2s transform,.2s border-color}
-    .btn:hover{box-shadow:var(--ring);border-color:#2a3b6a}.btn.primary{background:linear-gradient(180deg,#2760ff,#1a44d6);border-color:#2a52ff}.btn.ghost{background:transparent;border-color:#283452}
-    .badge{display:inline-flex;gap:8px;align-items:center;border:1px dashed #2d3a60;color:#bcd3ff;padding:6px 10px;border-radius:999px;font-size:12px}
-    header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(120%) blur(8px);background:linear-gradient(180deg, rgba(10,17,32,.85), rgba(10,17,32,.55));border-bottom:1px solid #1a2542}
-    .logo{display:flex;gap:10px;align-items:center;font-weight:900;letter-spacing:.5px}
-    .logo-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:conic-gradient(from 20deg,#6aa6ff,#5ef3c2,#6aa6ff);color:#00162a;font-weight:900}
-    nav ul{display:flex;gap:18px;margin:0;padding:0;list-style:none}.nav-link{padding:10px 12px;border-radius:10px;color:#cbd7ff}.nav-link:hover{background:#111a31}
-    .searchbar{position:relative;flex:1;max-width:560px}
-    .searchbar input{width:100%;height:44px;border-radius:12px;border:1px solid #283452;background:#0c1426;color:#e6ecff;padding:0 44px 0 14px;outline:none}
-    .searchbar input:focus{border-color:#3550a5;box-shadow:var(--ring)} .searchbar .icon{position:absolute;inset:0 0 0 auto;width:44px;display:grid;place-items:center;color:#98a6cf}
-    .ad{display:grid;place-items:center;background:linear-gradient(180deg,#0f1a31,#0a1327);border:1px dashed #2a3b61;color:#7da5ff;border-radius:12px}
-    .ad-leaderboard{height:90px}.ad-rect{height:280px}.ad-sky{height:600px;position:sticky;top:92px}.side-rail{display:none}
-    @media (min-width:1200px){.layout{display:grid;grid-template-columns:1fr min(1200px,92vw) 1fr}.side-rail{display:block}}
-    .hero{padding:28px 0 22px}.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:28px}
-    .hero-card{background:linear-gradient(180deg,#0f182e,#0d1629);border:1px solid #1c2a4e;border-radius:16px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.03)}
-    .hero h1{margin:6px 0 8px;font-size:clamp(28px,4vw,44px);line-height:1.1}.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    section{margin:28px 0}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.section-head h2{margin:0;font-size:22px}
-    .chips{display:flex;flex-wrap:wrap;gap:10px}.chip{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#0d172c;border:1px solid #202e57;color:#c9d6ff;font-weight:600;font-size:13px;cursor:pointer}.chip:hover,.chip.active{border-color:#2b468f;background:#0f1d3b}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
-    @media (max-width:1024px){.col-3{grid-column:span 4}.col-4{grid-column:span 6}.col-6{grid-column:span 12}} @media (max-width:700px){.col-3,.col-4,.col-6{grid-column:span 12}}
-    .card{perspective:1200px}
-    .card-inner{position:relative;aspect-ratio:16/10;border-radius:14px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1);box-shadow:0 10px 30px rgba(0,0,0,.35);border:1px solid #1b2747;overflow:hidden;background:#0f1830}
-    .card:hover .card-inner{transform:rotateY(180deg)}
-    .face{position:absolute;inset:0;padding:14px;display:flex;flex-direction:column;justify-content:space-between;backface-visibility:hidden}
-    .front{background:
-      radial-gradient(800px 300px at 10% -10%, rgba(106,166,255,.10), transparent 60%),
-      radial-gradient(700px 250px at 110% 10%, rgba(94,243,194,.10), transparent 60%),
-      linear-gradient(180deg,#0f1933,#0c1529)}
-    .front .thumb{flex:1;border-radius:10px;border:1px solid #223055;display:grid;place-items:center;background:linear-gradient(180deg,#0f1a31,#0a1327);background-image:repeating-linear-gradient(45deg, rgba(95,165,255,.25) 0 2px, transparent 2px 10px),linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.05))}
-    .front h3{margin:10px 0 4px;font-size:15px}.front .meta{display:flex;gap:10px;align-items:center;color:#a7b5df;font-size:12px}
-    .back{transform:rotateY(180deg);background:linear-gradient(180deg,#102042,#0d162c)} .back .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .price{font-weight:900;font-size:18px;color:#eaf2ff}.seller{display:flex;align-items:center;gap:10px}
-    .avatar{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 0deg,#6aa6ff,#5ef3c2,#6aa6ff);border:1px solid #244}
-    .tag{font-size:11px;color:#a4b5e9;background:#101a33;border:1px solid #22335a;border-radius:999px;padding:4px 8px}
-    .ad-inline{height:100%;min-height:200px}.promo{border:1px solid #1b2a4f;border-radius:16px;padding:18px;background:linear-gradient(180deg,#0f1931,#0c162b);display:grid;gap:12px}
-    .promo input{height:44px;border-radius:12px;border:1px solid #283452;background:#0c1426;color:#e6ecff;padding:0 12px;width:100%}
-    footer{margin:38px 0 28px;border-top:1px solid #1a2542;padding-top:18px}.foot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.foot-grid a{color:#afc3ff} @media (max-width:800px){.foot-grid{grid-template-columns:1fr 1fr}} @media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .pill{padding:.5px 8px;border:1px solid #25406f;border-radius:999px;font-size:12px;color:#9eb6ff}.kbd{border:1px solid #2a3b6a;border-bottom-width:2px;border-radius:6px;padding:2px 6px;background:#0c1426}
-    .divider{height:1px;background:#1a2542;margin:14px 0}
-    .hamburger{display:none}@media (max-width:900px){nav ul{display:none}.hamburger{display:inline-flex}.mobile-nav{display:none;position:fixed;inset:62px 10px auto 10px;background:#0b1326;border:1px solid #1a2542;border-radius:14px;padding:14px;z-index:60}.mobile-nav.open{display:block}.searchbar{max-width:100%}}
+    .row{display:flex;gap:14px;align-items:center}
+    header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--b)}
+    .bar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 0}
+    .logo{display:flex;gap:10px;align-items:center;font-weight:900}
+    .logo-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .search{flex:1;max-width:560px;position:relative}
+    .search input{width:100%;height:42px;border-radius:999px;border:1px solid var(--b);padding:0 14px;outline:none}
+    nav{display:flex;gap:12px;overflow:auto;padding:8px 0;border-top:1px solid var(--b)}
+    nav a{white-space:nowrap;padding:6px 10px;border-radius:999px}
+    nav a:hover{background:#f1f3f8}
+    .btn{display:inline-flex;gap:8px;align-items:center;border-radius:10px;border:1px solid var(--b);padding:10px 14px;cursor:pointer;background:#fff}
+    .btn.primary{background:linear-gradient(180deg,#ff914d,#ff7d33);color:#fff;border-color:#ff7d33}
+    .btn:focus{box-shadow:var(--ring)}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin:16px 0}
+    .tile{background:#fff;border:1px solid var(--b);border-radius:var(--radius);padding:18px}
+    .tile h2{margin:0 0 8px 0;font-size:28px}
+    .promo{background:#ff7d3315;border:1px solid #ffd2b8}
+    h1{font-size:32px;margin:16px 0}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .col-3{grid-column:span 3} @media (max-width:1024px){.col-3{grid-column:span 4}} @media (max-width:700px){.col-3{grid-column:span 12}}
+    .card{background:var(--panel);border:1px solid var(--b);border-radius:14px;padding:0;display:flex;flex-direction:column;overflow:hidden}
+    .thumb{position:relative;background:#f2f3f6;min-height:160px}
+    .thumb img{display:block;width:100%;height:100%;object-fit:cover}
+    .ph{position:absolute;inset:0;display:grid;place-items:center;color:#98a6c4;font-size:13px}
+    .body{padding:12px 14px;display:grid;gap:8px}
+    .title{font-weight:800}
+    .desc{color:var(--muted);font-size:14px;min-height:40px}
+    .actions{display:flex;gap:8px;margin-top:6px}
+    .actions .btn{padding:8px 10px}
+    .price{font-weight:900}
+    footer{margin:24px 0;color:var(--muted)}
   </style>
-
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"RGZTEC","url":"https://rgztec.example",
-   "potentialAction":{"@type":"SearchAction","target":"https://rgztec.example/?q={search_term_string}","query-input":"required name=search_term_string"}}
-  </script>
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <div class="container row between" style="gap:12px; padding:10px 0;">
-      <a class="logo" href="#" aria-label="RGZTEC Home"><span class="logo-badge">RG</span><span>RGZTEC</span><span class="pill">Marketplace</span></a>
-      <nav aria-label="Primary"><ul>
-        <li><a class="nav-link" href="#explore">Explore</a></li>
-        <li><a class="nav-link" href="#categories">Categories</a></li>
-        <li><a class="nav-link" href="#trending">Trending</a></li>
-        <li><a class="nav-link" href="#newsletter">Newsletter</a></li>
-        <li><a class="nav-link" href="#footer">About</a></li>
-      </ul></nav>
-      <div class="searchbar" role="search">
-        <label class="sr-only" for="q">Search</label>
-        <input id="q" name="q" placeholder="Search templates, UI kits, components..." list="suggest" autocomplete="off">
-        <datalist id="suggest"><option>HTML landing page</option><option>Admin dashboard</option><option>Portfolio template</option><option>Pricing component</option><option>Navbar + hero</option><option>Tailwind UI kit</option><option>Bootstrap starter</option></datalist>
-        <span class="icon"><span class="kbd">/</span></span>
+    <div class="container bar">
+      <a class="logo" href="../index.html"><span class="logo-badge">RG</span> RGZTEC</a>
+      <div class="search"><input id="q" placeholder="Search templates, UI kits, widgets..."/></div>
+      <div class="row">
+        <a class="btn" href="../demo/index.html">Demo Gallery</a>
+        <a class="btn" href="../login.html">Login</a>
+        <a class="btn primary" href="../advertise.html">Become a Seller</a>
       </div>
-      <div class="row" style="gap:8px"><button class="btn ghost" id="btnSignIn">Sign in</button><button class="btn primary" id="btnSell">Sell your code</button></div>
     </div>
-    <div class="container" style="padding-bottom:10px"><div class="ad ad-leaderboard" id="ad-top"><div><strong>Leaderboard 728×90</strong><br><small>Replace with ad code</small></div></div></div>
-    <div class="mobile-nav" id="mobileNav" aria-label="Mobile Menu">
-      <a class="nav-link" href="#explore">Explore</a><a class="nav-link" href="#categories">Categories</a><a class="nav-link" href="#trending">Trending</a><a class="nav-link" href="#newsletter">Newsletter</a>
-      <div class="divider"></div><button class="btn ghost" style="width:100%;justify-content:center">Sign in</button><button class="btn primary" style="width:100%;justify-content:center">Sell your code</button>
+    <div class="container">
+      <nav>
+        <a href="../stores/index.html">All Stores</a>
+        <a href="../catalog/index.html">New Arrivals</a>
+        <a href="../catalog/index.html#editors">Editor's Picks</a>
+        <a href="../products/html-templates.html">Landing Pages</a>
+        <a href="../products/js-widgets.html">Admin Dashboards</a>
+        <a href="../products/css-ui-kits.html">CSS UI Kits</a>
+        <a href="../products/js-widgets.html">JS Widgets</a>
+        <a href="../products/react.html">React Components</a>
+        <a href="../products/svg-icons.html">SVG Icons</a>
+        <a href="../products/email-templates.html">Email Templates</a>
+        <a href="../products/category.html#freebies">Freebies</a>
+      </nav>
     </div>
   </header>
 
-  <div class="layout">
-    <aside class="side-rail container" aria-label="Left rail" style="width:320px"><div class="ad ad-sky">Skyscraper 300×600<br><small>Left rail</small></div></aside>
+  <!-- Hero -->
+  <section class="container hero">
+    <div class="tile promo">
+      <h2>Refresh your codebase</h2>
+      <p>Discover HTML templates, CSS kits, and widgets from independent creators. Curated for performance.</p>
+      <a class="btn" href="../index.html#trending">Get started</a>
+    </div>
+    <div class="tile">
+      <h2>Showcase your template</h2>
+      <p>Promote your product to developers. Instant demo hosting and versioned zip delivery.</p>
+      <a class="btn primary" href="../advertise.html">Become a seller</a>
+    </div>
+  </section>
 
-    <main id="explore">
-      <section class="hero container">
-        <div class="wrap">
-          <div class="hero-card">
-            <span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.6 4.1L18 22l-6-4-6 4 1.6-8.9L2 9h7l3-7z" stroke="#8bc0ff"/></svg>New: Flip-Cards + Inline Ads</span>
-            <h1>Buy & sell <em>production-ready</em> static code.</h1>
-            <p class="muted">HTML templates, CSS UI kits, component packs, demo galleries. One click to preview, one click to ship.</p>
-            <div class="cta"><a href="#trending" class="btn primary">Browse Trending</a><a href="#categories" class="btn">Explore Categories</a><a href="#newsletter" class="btn ghost">Get updates</a></div>
-            <div class="divider"></div>
-            <div class="chips" id="chipBar">
-              <button class="chip" data-chip="landing">Landing Pages</button>
-              <button class="chip" data-chip="dashboard">Dashboards</button>
-              <button class="chip" data-chip="portfolio">Portfolios</button>
-              <button class="chip" data-chip="ecommerce">E-commerce</button>
-              <button class="chip" data-chip="components">Components</button>
-              <button class="chip" data-chip="starter">Starters</button>
-              <button class="chip" data-chip="bootstrap">Bootstrap</button>
-              <button class="chip" data-chip="tailwind">Tailwind</button>
-            </div>
-          </div>
+  <div class="container">
+    <h1>HTML Template Gallery</h1>
 
-          <div class="hero-card promo" aria-labelledby="promoTitle">
-            <h2 id="promoTitle" style="margin:0">Monetize your code.</h2>
-            <p class="muted" style="margin:0">Open a seller page in minutes. RGZTEC handles storefronts, demos, delivery and updates.</p>
-            <ul class="muted" style="margin:10px 0 0 18px"><li>Instant demo hosting</li><li>Versioned zip delivery</li><li>Promo slots & homepage features</li></ul>
-            <div class="divider"></div>
-            <label for="sellerEmail" class="sr-only">Email</label><input id="sellerEmail" type="email" placeholder="you@devmail.com" />
-            <button class="btn primary" style="width:100%;justify-content:center" id="btnStartSelling">Start Selling</button>
-            <small class="muted">By continuing you agree to our <a href="terms.html">Terms</a> & <a href="privacy.html">Privacy</a>.</small>
-          </div>
-        </div>
-      </section>
-
-      <section id="categories" class="container">
-        <div class="section-head"><h2>Categories</h2><a class="btn ghost" href="catalog/index.html">View all</a></div>
-        <div class="grid">
-          <div class="col-3"><div class="promo"><strong>Landing Pages</strong><span class="muted">Hero + Pricing + CTA</span><span class="tag">128 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>Admin Dashboards</strong><span class="muted">Tables, charts, auth</span><span class="tag">92 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>Portfolios</strong><span class="muted">Grids, masonry, lightbox</span><span class="tag">74 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>E-commerce</strong><span class="muted">Product, cart, checkout</span><span class="tag">66 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>Components</strong><span class="muted">Navbars, cards, modals</span><span class="tag">210 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>Docs/Blog</strong><span class="muted">MDX-ish, TOC, search</span><span class="tag">51 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>Bootstrap</strong><span class="muted">v5+ starters</span><span class="tag">58 items</span></div></div>
-          <div class="col-3"><div class="promo"><strong>Tailwind</strong><span class="muted">Utility UI kits</span><span class="tag">132 items</span></div></div>
-        </div>
-      </section>
-
-      <section id="trending" class="container">
-        <div class="section-head"><h2>Trending this week</h2><div class="muted">Filter: <span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">Vanilla</span></div></div>
-        <div class="grid" id="grid">
-          <!-- Örnek kartlar (data-img opsiyonel; yoksa id/slug ile bulunur) -->
-          <article class="col-3 item" data-tags="landing tailwind components" data-chip="landing,tailwind,components" data-img="launchpad.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb" aria-hidden="true"><span class="muted">Preview</span></div><div><h3>LaunchPad – SaaS Landing</h3><div class="meta"><span>Tailwind</span><span class="pill">v1.2</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by NeoUI</strong><div class="muted" style="font-size:12px">Updated 3d ago</div></div></div><p class="muted">Hero, pricing, FAQ, blog roll, contact form hooks.</p></div><div class="row between"><span class="price">$18</span><div class="actions"><a href="#" class="btn ghost">Demo</a><button class="btn primary add" data-id="1">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="dashboard charts tables" data-chip="dashboard" data-img="boardone.png">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>BoardOne – Admin</h3><div class="meta"><span>Charts+Tables</span><span class="pill">v2.0</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by datadev</strong><div class="muted" style="font-size:12px">Hot 🔥</div></div></div><p class="muted">Auth, layout, widgets, pagination.</p></div><div class="row between"><span class="price">$24</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="2">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="portfolio masonry lightbox" data-chip="portfolio" data-img="mason-pro.jpg">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Mason Pro – Portfolio</h3><div class="meta"><span>Masonry</span><span class="pill">v1.7</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by gridbox</strong><div class="muted" style="font-size:12px">Updated 1w</div></div></div><p class="muted">Isotope-style grid, filter, lightbox.</p></div><div class="row between"><span class="price">$16</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="3">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <div class="col-3"><div class="ad ad-rect ad-inline" id="ad-inline-1"><div><strong>Rectangle 336×280</strong><br><small>Inline placement</small></div></div></div>
-
-          <article class="col-3 item" data-tags="ecommerce product cart" data-chip="ecommerce" data-img="shoplite.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>ShopLite – E-commerce</h3><div class="meta"><span>Product+Cart</span><span class="pill">v1.1</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by lemonlabs</strong><div class="muted" style="font-size:12px">New</div></div></div><p class="muted">Cards, filters, cart, empty states.</p></div><div class="row between"><span class="price">$22</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="4">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="components pricing navbar" data-chip="components" data-img="kitset.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>KitSet – Components</h3><div class="meta"><span>UI kit</span><span class="pill">v0.9</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by crispui</strong><div class="muted" style="font-size:12px">Updated 2d</div></div></div><p class="muted">Navbars, pricing, modals, tabs.</p></div><div class="row between"><span class="price">$14</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="5">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="docs blog toc" data-img="docpress.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>DocPress – Docs/Blog</h3><div class="meta"><span>TOC+Search</span><span class="pill">v1.0</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by notedeck</strong><div class="muted" style="font-size:12px">Stable</div></div></div><p class="muted">Docs layout, blog index, tags.</p></div><div class="row between"><span class="price">$20</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="6">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="bootstrap starter landing" data-chip="bootstrap,starter" data-img="bootstrap-quickstart.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Bootstrap QuickStart</h3><div class="meta"><span>BS5+</span><span class="pill">v1.4</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by startkit</strong><div class="muted" style="font-size:12px">Updated</div></div></div><p class="muted">Navbar, hero, features, footer.</p></div><div class="row between"><span class="price">$9</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="7">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="tailwind components starter" data-chip="tailwind,starter" data-img="tailwind-starter-pack.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Tailwind Starter Pack</h3><div class="meta"><span>TW</span><span class="pill">v2.3</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by moku</strong><div class="muted" style="font-size:12px">Popular</div></div></div><p class="muted">Auth pages, modals, tables.</p></div><div class="row between"><span class="price">$12</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="8">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="ecommerce checkout" data-chip="ecommerce" data-img="checkout-flow.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Checkout Flow</h3><div class="meta"><span>Cart+Pay</span><span class="pill">v1.0</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by payui</strong><div class="muted" style="font-size:12px">Brand new</div></div></div><p class="muted">Cart, shipping, summary, pay.</p></div><div class="row between"><span class="price">$15</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="9">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="components pricing tables" data-chip="components" data-img="pricing-tables.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Pricing Tables</h3><div class="meta"><span>Sections</span><span class="pill">v1.5</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by pricekit</strong><div class="muted" style="font-size:12px">Updated</div></div></div><p class="muted">3-tier, toggles, highlights.</p></div><div class="row between"><span class="price">$8</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="10">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="portfolio gallery" data-chip="portfolio" data-img="gallery-pro.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Gallery Pro</h3><div class="meta"><span>Lightbox</span><span class="pill">v1.3</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by photon</strong><div class="muted" style="font-size:12px">Trending</div></div></div><p class="muted">Captions, keyboard nav.</p></div><div class="row between"><span class="price">$13</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="11">Buy</button></div></div></div>
-            </div></div>
-          </article>
-
-          <article class="col-3 item" data-tags="starter landing" data-chip="starter,landing" data-img="minimal-starter.webp">
-            <div class="card"><div class="card-inner">
-              <div class="face front"><div class="thumb"></div><div><h3>Minimal Starter</h3><div class="meta"><span>Vanilla</span><span class="pill">v0.7</span></div></div></div>
-              <div class="face back"><div><div class="seller"><span class="avatar"></span><div><strong>by plainjs</strong><div class="muted" style="font-size:12px">Lightweight</div></div></div><p class="muted">Clean HTML+CSS boilerplate.</p></div><div class="row between"><span class="price">$5</span><div class="actions"><a class="btn ghost" href="#">Demo</a><button class="btn primary add" data-id="12">Buy</button></div></div></div>
-            </div></div>
-          </article>
-        </div>
-      </section>
-
-      <section id="newsletter" class="container">
-        <div class="promo">
-          <div class="row between"><div><h3 style="margin:0">Get weekly drops</h3><p class="muted" style="margin:6px 0 0">Be first to see new templates and promo codes.</p></div><div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Bootstrap</span><span class="chip">Tailwind</span></div></div>
-          <div class="row" style="gap:10px"><label class="sr-only" for="newsEmail">Email</label><input id="newsEmail" placeholder="you@example.com" type="email"><button class="btn primary" id="btnSubscribe">Subscribe</button></div>
-          <small class="muted">No spam. Unsubscribe anytime.</small>
-        </div>
-      </section>
-
-      <section class="container" style="margin-top:16px"><div class="ad ad-leaderboard" id="ad-bottom"><div><strong>Leaderboard 728×90</strong><br><small>Footer placement</small></div></div></section>
-    </main>
-
-    <aside class="side-rail container" aria-label="Right rail" style="width:320px"><div class="ad ad-sky">Skyscraper 300×600<br><small>Right rail</small></div></aside>
+    <!-- Grid -->
+    <div id="grid" class="grid"></div>
   </div>
 
-  <footer id="footer" class="container">
-    <div class="foot-grid">
-      <div><div class="logo"><span class="logo-badge">RG</span><span>RGZTEC</span></div><p class="muted">A marketplace for static front-end code. Demos hosted, zips delivered, creators paid.</p></div>
-      <div><strong>Marketplace</strong><ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px"><li><a href="#trending">Trending</a></li><li><a href="#categories">Categories</a></li><li><a href="stores/index.html">Top sellers</a></li><li><a href="catalog/index.html">New arrivals</a></li></ul></div>
-      <div><strong>For creators</strong><ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px"><li><a href="advertise.html">Open a shop</a></li><li><a href="advertise.html#upload">Upload guide</a></li><li><a href="assets/brand.zip">Brand assets</a></li><li><a href="advertise.html#payouts">Payouts</a></li></ul></div>
-      <div><strong>Company</strong><ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px"><li><a href="privacy.html">About</a></li><li><a href="privacy.html">Docs</a></li><li><a href="terms.html">Terms</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
-    </div>
-    <div class="row between" style="margin-top:14px"><small class="muted">© <span id="y"></span> RGZTEC. All rights reserved.</small><div class="chips"><a class="chip" href="https://github.com/raingaia/rgztec" target="_blank" rel="noopener">GitHub</a><span class="chip">Twitter</span><span class="chip">Discord</span></div></div>
-  </footer>
-<script>
-  // ---------- Base-safe URL (GitHub Pages /rgztec/ uyumlu) ----------
-  function makeUrl(path){ return new URL(path, location.href).pathname + (path.includes('?')||path.includes('#')?'':''); }
+  <footer class="container">© <span id="y"></span> RGZTEC</footer>
 
-  const R = {
-    home:'index.html', login:'login.html', signup:'signup.html',
-    cart:'cart.html', advertise:'advertise.html',
-    stores:'stores/index.html', catalog:'catalog/index.html',
-    product:'products/detail.html', demo:'demo/index.html',
-    admin:'admin/index.html'
-  };
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-  // Yıl
-  document.getElementById('y').textContent = new Date().getFullYear();
-
-  // Kısayollar
-  window.addEventListener('keydown', (e)=>{
-    const tag = document.activeElement?.tagName || '';
-    if(e.key==='/' && !/input|textarea/i.test(tag)){ e.preventDefault(); document.getElementById('q')?.focus(); }
-    if(e.key.toLowerCase()==='a' && e.ctrlKey && e.shiftKey){ location.href = makeUrl(R.admin); }
-  });
-
-  // Mobil menü
-  const btnHamburger=document.getElementById('btnHamburger');
-  const mobileNav=document.getElementById('mobileNav');
-  btnHamburger?.addEventListener('click', ()=>{
-    const open = mobileNav.classList.toggle('open');
-    btnHamburger.setAttribute('aria-expanded', open ? 'true':'false');
-  });
-
-  // Logo & header
-  document.querySelectorAll('.logo').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();location.href=makeUrl(R.home);}));
-  document.getElementById('btnSignIn')?.addEventListener('click', ()=> location.href = makeUrl(R.login));
-  document.getElementById('btnSell')?.addEventListener('click',  ()=> location.href = makeUrl(R.advertise));
-
-  // Üst menü gerçek sayfalara
-  document.querySelectorAll('nav a.nav-link').forEach(a=>{
-    const t=a.textContent.trim().toLowerCase();
-    if(t==='categories') a.href = makeUrl(R.catalog);
-    else if(t==='about') a.href = makeUrl('privacy.html');
-    else if(t==='explore') a.href = makeUrl(R.home);
-  });
-
-  // CTA’lar
-  document.getElementById('btnSubscribe')?.addEventListener('click', ()=>{
-    const v=(document.getElementById('newsEmail')?.value||'').trim();
-    location.href = v ? makeUrl(`${R.signup}#newsletter=${encodeURIComponent(v)}`) : makeUrl(`${R.signup}#newsletter`);
-  });
-  document.getElementById('btnStartSelling')?.addEventListener('click', ()=>{
-    const v=(document.getElementById('sellerEmail')?.value||'').trim();
-    location.href = v ? makeUrl(`${R.advertise}?email=${encodeURIComponent(v)}`) : makeUrl(R.advertise);
-  });
-
-  // Arama + chip filtre
-  const q=document.getElementById('q'), grid=document.getElementById('grid');
-  const items=grid ? [...grid.querySelectorAll('.item')] : [];
-  const chipBar=document.getElementById('chipBar'); let activeChip='';
-
-  function applyFilter(){
-    const text=(q?.value||'').toLowerCase();
-    items.forEach(it=>{
-      const tags=(it.dataset.tags||'').toLowerCase();
-      const chips=(it.dataset.chip||'').toLowerCase();
-      const mText=!text||tags.includes(text), mChip=!activeChip||chips.includes(activeChip);
-      it.style.display=(mText&&mChip)?'':'none';
-    });
-  }
-  q?.addEventListener('input', applyFilter);
-
-  // Chip -> ürün sayfaları (isteğe bağlı yönlendirme)
-  const chipToProducts = {
-    landing: 'products/html-templates.html',
-    dashboard: 'products/js-widgets.html',
-    portfolio: 'products/html-templates.html',
-    ecommerce: 'products/html-templates.html',
-    components: 'products/js-widgets.html',
-    starter: 'products/html-templates.html',
-    bootstrap: 'products/html-templates.html',
-    tailwind: 'products/css-ui-kits.html'
-  };
-  chipBar?.addEventListener('click',(e)=>{
-    const c=e.target.closest('.chip'); if(!c) return;
-    const key=(c.dataset.chip||'').toLowerCase();
-    if(activeChip===key){ activeChip=''; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); }
-    else { activeChip=key; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); }
-    applyFilter();
-    const prod=chipToProducts[key]; if(prod) location.href=makeUrl(prod);
-  });
-
-  // --- Kart aksiyonları + Görsel ÇÖZÜMLEYİCİ (FIXED) ---
-  function slugify(s){return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
-
-  // Ön yüze "Hızlı Aksiyonlar" kopyası: butonlar her zaman görünsün
-  const style = document.createElement('style');
-  style.textContent = `
-    .front .quick-actions{position:absolute; right:10px; bottom:10px; display:flex; gap:8px}
-    .front .quick-actions .btn{padding:8px 10px; font-weight:700}
-  `;
-  document.head.appendChild(style);
-
-  items.forEach(it=>{
-    const id = it.querySelector('.add')?.dataset.id || '0';
-    const title = it.querySelector('h3')?.textContent || `item-${id}`;
-    const slug = slugify(title);
-
-    // Demo
-    const demoA = it.querySelector('.back .actions a');
-    if(demoA){ demoA.href = makeUrl(`${R.demo}?item=${id}&slug=${slug}`); demoA.target='_blank'; demoA.rel='noopener'; }
-
-    // Buy
-    const buyBtn = it.querySelector('.back .add');
-    buyBtn?.addEventListener('click', (e)=>{ e.preventDefault(); location.href = makeUrl(`${R.cart}?add=${id}`); });
-
-    // Ön yüze küçük aksiyonlar (kopya)
-    const front = it.querySelector('.front');
-    if(front && demoA && buyBtn){
-      const qa = demoA.parentElement.cloneNode(true);
-      qa.classList.add('quick-actions');
-      // içindeki button ve linkleri yeniden bağla
-      const a = qa.querySelector('a'); const b = qa.querySelector('.add');
-      if(a){ a.href = makeUrl(`${R.demo}?item=${id}&slug=${slug}`); a.target='_blank'; a.rel='noopener'; }
-      if(b){ b.addEventListener('click', (e)=>{ e.preventDefault(); location.href = makeUrl(`${R.cart}?add=${id}`); }); }
-      front.appendChild(qa);
-    }
-
-    // Ön yüz tıklayınca detay
-    if(front){
-      front.style.cursor='pointer';
-      front.addEventListener('click', (ev)=>{
-        // Aksiyonlara tıklanmadıysa detay
-        if(!ev.target.closest('.quick-actions')) location.href = makeUrl(`${R.product}?id=${id}&slug=${slug}`);
-      });
-    }
-
-    // ---- GÖRSEL KANDİDATLARI (data-img + FALLBACK SIRASI) ----
-    const thumb = it.querySelector('.thumb'); if(!thumb) return;
-    const custom=(it.dataset.img||'').trim();
-    const base='images/catalog/';
-
-    // FIX: custom varsa bile fallback'ler DENENECEK
-    const candidates = [
-      ...(custom ? [custom] : []),
-      `html${id}.webp`, `${id}.webp`, `${slug}.webp`,
-      `html${id}.png`,  `${id}.png`,  `${slug}.png`,
-      `html${id}.jpg`,  `${id}.jpg`,  `${slug}.jpg`
+    // --- Data (20 ürün) ---
+    const products = [
+      {id:1,  title:"Landing Starter (HTML)", desc:"Minimal landing with hero, features, pricing and blog sections.", price:18},
+      {id:2,  title:"Dashboard Lite (HTML)",  desc:"Sidebar, topbar and chart placeholders; vanilla JS.",              price:24},
+      {id:3,  title:"Portfolio Mini",         desc:"Single-page portfolio with project grid and contact form.",      price:14},
+      {id:4,  title:"Blog Lite",              desc:"List + single post layout with clean typography.",               price:12},
+      {id:5,  title:"Agency Starter",         desc:"Services: cards, testimonials, pricing.",                        price:16},
+      {id:6,  title:"E-commerce Mini",        desc:"Product grid, detail, and cart icons.",                          price:22},
+      {id:7,  title:"Resume Card",            desc:"Skills, experience and contact.",                                price:9},
+      {id:8,  title:"Product List",           desc:"Filterable item list with grid/row views.",                      price:11},
+      {id:9,  title:"Pricing Tables",         desc:"3–4 column pricing with featured plan.",                         price:8},
+      {id:10, title:"Contact Lite",           desc:"Contact form with map placeholder and socials.",                 price:7},
+      {id:11, title:"FAQ Mini",               desc:"Accordion FAQ with categories and search.",                      price:6},
+      {id:12, title:"Gallery Grid",           desc:"Masonry/grid gallery with lightbox placeholder.",                price:13},
+      {id:13, title:"Hero Collection",        desc:"Multiple hero headers ready to drop in.",                        price:10},
+      {id:14, title:"Newsletter Box",         desc:"Email capture sections and boxes.",                               price:5},
+      {id:15, title:"Auth Pages",             desc:"Login, signup, reset flows.",                                     price:7},
+      {id:16, title:"Admin Mini",             desc:"Auth + layout + tables skeleton.",                                price:12},
+      {id:17, title:"React Components",       desc:"Cards, modals, tabs (markup only).",                              price:15},
+      {id:18, title:"SVG Icons",              desc:"Curated dev icons set (inlineable).",                             price:6},
+      {id:19, title:"Email Templates",        desc:"Transactional email starter set.",                                 price:9},
+      {id:20, title:"JS Widgets",             desc:"Tabs, accordions, tooltips (vanilla).",                            price:11}
     ];
 
-    (function loadN(i=0){
-      if(i>=candidates.length) return;
-      const url = makeUrl(base + candidates[i]);
-      const img = new Image();
-      img.onload = ()=>{
-        thumb.style.backgroundImage=`url('${url}')`;
-        thumb.style.backgroundSize='cover';
-        thumb.style.backgroundPosition='center';
-        thumb.style.backgroundBlendMode='normal';
-        thumb.textContent='';
-      };
-      img.onerror = ()=> loadN(i+1);
-      img.src = url;
-    })();
-  });
+    const grid = document.getElementById('grid');
 
-  // Mobil: tap flip (aksiyonlara tıklama hariç)
-  grid?.addEventListener('click',(e)=>{
-    if(e.target.closest('.quick-actions')) return;
-    const inner = e.target.closest('.card-inner'); if(!inner) return;
-    if(getComputedStyle(inner).transform.includes('matrix3d')) inner.style.transform='';
-    else inner.style.transform='rotateY(180deg)';
-  });
-</script> <!-- JS: router + bindings + image resolver (GitHub Pages-safe) -->
+    // Helper
+    const slugify = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    const priceTxt = n => '$' + n;
+
+    // Render cards
+    products.forEach(p=>{
+      const card = document.createElement('article');
+      card.className = 'col-3 card';
+
+      // thumb
+      const thumb = document.createElement('div'); thumb.className='thumb';
+      const img   = document.createElement('img'); img.alt = p.title; img.loading='lazy'; img.decoding='async'; img.style.visibility='hidden';
+      const ph    = document.createElement('div'); ph.className='ph'; ph.textContent = 'Loading preview…';
+      thumb.appendChild(img); thumb.appendChild(ph);
+
+      // text
+      const body = document.createElement('div'); body.className='body';
+      const h3   = document.createElement('div'); h3.className='title'; h3.textContent = p.title;
+      const dsc  = document.createElement('div'); dsc.className='desc';  dsc.textContent = p.desc;
+      const row1 = document.createElement('div'); row1.className='row';  row1.style.justifyContent='space-between';
+      const price= document.createElement('div'); price.className='price'; price.textContent = priceTxt(p.price);
+      row1.appendChild(price);
+
+      const actions = document.createElement('div'); actions.className='actions';
+      const aDemo = document.createElement('a'); aDemo.className='btn'; aDemo.textContent='Live Demo';
+      const aDet  = document.createElement('a'); aDet.className='btn'; aDet.textContent='Details';
+      const aBuy  = document.createElement('a'); aBuy.className='btn primary'; aBuy.textContent='Add to cart';
+      actions.append(aDemo, aDet, aBuy);
+
+      body.append(h3, dsc, row1, actions);
+
+      // assemble
+      card.append(thumb, body);
+      grid.appendChild(card);
+
+      // links (relative to /catalog/)
+      const slug = slugify(p.title);
+      aDemo.href = `../demo/index.html?item=${p.id}&slug=${slug}`;
+      aDet.href  = `../products/detail.html?id=${p.id}&slug=${slug}`;
+      aBuy.href  = `../cart.html?add=${p.id}`;
+
+      // image resolver (IMPORTANT: ../images/catalog/)
+      const base = '../images/catalog/';
+      const candidates = [
+        `html${p.id}.webp`, `${p.id}.webp`, `${slug}.webp`,
+        `html${p.id}.png`,  `${p.id}.png`,  `${slug}.png`,
+        `html${p.id}.jpg`,  `${p.id}.jpg`,  `${slug}.jpg`
+      ];
+      (function tryN(i=0){
+        if(i>=candidates.length){ ph.textContent='No preview'; return; }
+        const url = base + candidates[i];
+        const probe = new Image();
+        probe.onload = ()=>{ img.src=url; img.style.visibility='visible'; ph.remove(); };
+        probe.onerror= ()=> tryN(i+1);
+        probe.src = url;
+      })();
+    });
+
+    // Simple on-page search
+    const q = document.getElementById('q');
+    q?.addEventListener('input', ()=>{
+      const t=(q.value||'').toLowerCase();
+      [...grid.children].forEach(card=>{
+        const title = card.querySelector('.title')?.textContent.toLowerCase() || '';
+        const desc  = card.querySelector('.desc') ?.textContent.toLowerCase() || '';
+        card.style.display = (title.includes(t) || desc.includes(t)) ? '' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
