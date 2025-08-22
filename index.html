@@ -262,134 +262,176 @@
     </div>
     <div class="row between" style="margin-top:14px"><small class="muted">© <span id="y"></span> RGZTEC. All rights reserved.</small><div class="chips"><a class="chip" href="https://github.com/raingaia/rgztec" target="_blank" rel="noopener">GitHub</a><span class="chip">Twitter</span><span class="chip">Discord</span></div></div>
   </footer>
+<script>
+  // ---------- Base-safe URL (GitHub Pages /rgztec/ uyumlu) ----------
+  function makeUrl(path){ return new URL(path, location.href).pathname + (path.includes('?')||path.includes('#')?'':''); }
 
-  <!-- JS: router + bindings + image resolver (GitHub Pages-safe) -->
-  <script>
-    // Base-safe URL builder (works under /rgztec/)
-    function makeUrl(path){ return new URL(path, location.href).pathname + (path.includes('?')||path.includes('#')?'':''); }
+  const R = {
+    home:'index.html', login:'login.html', signup:'signup.html',
+    cart:'cart.html', advertise:'advertise.html',
+    stores:'stores/index.html', catalog:'catalog/index.html',
+    product:'products/detail.html', demo:'demo/index.html',
+    admin:'admin/index.html'
+  };
 
-    const R = {
-      home:'index.html', login:'login.html', signup:'signup.html',
-      cart:'cart.html', advertise:'advertise.html',
-      stores:'stores/index.html', catalog:'catalog/index.html',
-      product:'products/detail.html', demo:'demo/index.html',
-      admin:'admin/index.html'
-    };
+  // Yıl
+  document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Year
-    document.getElementById('y').textContent = new Date().getFullYear();
+  // Kısayollar
+  window.addEventListener('keydown', (e)=>{
+    const tag = document.activeElement?.tagName || '';
+    if(e.key==='/' && !/input|textarea/i.test(tag)){ e.preventDefault(); document.getElementById('q')?.focus(); }
+    if(e.key.toLowerCase()==='a' && e.ctrlKey && e.shiftKey){ location.href = makeUrl(R.admin); }
+  });
 
-    // Keyboard shortcuts
-    window.addEventListener('keydown', (e)=>{
-      const tag = document.activeElement?.tagName || '';
-      if(e.key==='/' && !/input|textarea/i.test(tag)){ e.preventDefault(); document.getElementById('q')?.focus(); }
-      if(e.key.toLowerCase()==='a' && e.ctrlKey && e.shiftKey){ location.href = makeUrl(R.admin); }
+  // Mobil menü
+  const btnHamburger=document.getElementById('btnHamburger');
+  const mobileNav=document.getElementById('mobileNav');
+  btnHamburger?.addEventListener('click', ()=>{
+    const open = mobileNav.classList.toggle('open');
+    btnHamburger.setAttribute('aria-expanded', open ? 'true':'false');
+  });
+
+  // Logo & header
+  document.querySelectorAll('.logo').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();location.href=makeUrl(R.home);}));
+  document.getElementById('btnSignIn')?.addEventListener('click', ()=> location.href = makeUrl(R.login));
+  document.getElementById('btnSell')?.addEventListener('click',  ()=> location.href = makeUrl(R.advertise));
+
+  // Üst menü gerçek sayfalara
+  document.querySelectorAll('nav a.nav-link').forEach(a=>{
+    const t=a.textContent.trim().toLowerCase();
+    if(t==='categories') a.href = makeUrl(R.catalog);
+    else if(t==='about') a.href = makeUrl('privacy.html');
+    else if(t==='explore') a.href = makeUrl(R.home);
+  });
+
+  // CTA’lar
+  document.getElementById('btnSubscribe')?.addEventListener('click', ()=>{
+    const v=(document.getElementById('newsEmail')?.value||'').trim();
+    location.href = v ? makeUrl(`${R.signup}#newsletter=${encodeURIComponent(v)}`) : makeUrl(`${R.signup}#newsletter`);
+  });
+  document.getElementById('btnStartSelling')?.addEventListener('click', ()=>{
+    const v=(document.getElementById('sellerEmail')?.value||'').trim();
+    location.href = v ? makeUrl(`${R.advertise}?email=${encodeURIComponent(v)}`) : makeUrl(R.advertise);
+  });
+
+  // Arama + chip filtre
+  const q=document.getElementById('q'), grid=document.getElementById('grid');
+  const items=grid ? [...grid.querySelectorAll('.item')] : [];
+  const chipBar=document.getElementById('chipBar'); let activeChip='';
+
+  function applyFilter(){
+    const text=(q?.value||'').toLowerCase();
+    items.forEach(it=>{
+      const tags=(it.dataset.tags||'').toLowerCase();
+      const chips=(it.dataset.chip||'').toLowerCase();
+      const mText=!text||tags.includes(text), mChip=!activeChip||chips.includes(activeChip);
+      it.style.display=(mText&&mChip)?'':'none';
     });
+  }
+  q?.addEventListener('input', applyFilter);
 
-    // Mobile nav toggle
-    const btnHamburger=document.getElementById('btnHamburger'), mobileNav=document.getElementById('mobileNav');
-    btnHamburger?.addEventListener('click', ()=>{ const open=mobileNav.classList.toggle('open'); btnHamburger.setAttribute('aria-expanded', open?'true':'false'); });
+  // Chip -> ürün sayfaları (isteğe bağlı yönlendirme)
+  const chipToProducts = {
+    landing: 'products/html-templates.html',
+    dashboard: 'products/js-widgets.html',
+    portfolio: 'products/html-templates.html',
+    ecommerce: 'products/html-templates.html',
+    components: 'products/js-widgets.html',
+    starter: 'products/html-templates.html',
+    bootstrap: 'products/html-templates.html',
+    tailwind: 'products/css-ui-kits.html'
+  };
+  chipBar?.addEventListener('click',(e)=>{
+    const c=e.target.closest('.chip'); if(!c) return;
+    const key=(c.dataset.chip||'').toLowerCase();
+    if(activeChip===key){ activeChip=''; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); }
+    else { activeChip=key; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); }
+    applyFilter();
+    const prod=chipToProducts[key]; if(prod) location.href=makeUrl(prod);
+  });
 
-    // Logo -> home
-    document.querySelectorAll('.logo').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();location.href=makeUrl(R.home);}));    
+  // --- Kart aksiyonları + Görsel ÇÖZÜMLEYİCİ (FIXED) ---
+  function slugify(s){return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
 
-    // Header buttons
-    document.getElementById('btnSignIn')?.addEventListener('click', ()=> location.href = makeUrl(R.login));
-    document.getElementById('btnSell')?.addEventListener('click',  ()=> location.href = makeUrl(R.advertise));
+  // Ön yüze "Hızlı Aksiyonlar" kopyası: butonlar her zaman görünsün
+  const style = document.createElement('style');
+  style.textContent = `
+    .front .quick-actions{position:absolute; right:10px; bottom:10px; display:flex; gap:8px}
+    .front .quick-actions .btn{padding:8px 10px; font-weight:700}
+  `;
+  document.head.appendChild(style);
 
-    // Top nav: fix real pages
-    document.querySelectorAll('nav a.nav-link').forEach(a=>{
-      const t=a.textContent.trim().toLowerCase();
-      if(t==='categories') a.href = makeUrl(R.catalog);
-      else if(t==='about') a.href = makeUrl('privacy.html');
-      else if(t==='explore') a.href = makeUrl(R.home);
-    });
+  items.forEach(it=>{
+    const id = it.querySelector('.add')?.dataset.id || '0';
+    const title = it.querySelector('h3')?.textContent || `item-${id}`;
+    const slug = slugify(title);
 
-    // Newsletter & Start Selling
-    document.getElementById('btnSubscribe')?.addEventListener('click', ()=>{
-      const v=(document.getElementById('newsEmail')?.value||'').trim();
-      location.href = v ? makeUrl(`${R.signup}#newsletter=${encodeURIComponent(v)}`) : makeUrl(`${R.signup}#newsletter`);
-    });
-    document.getElementById('btnStartSelling')?.addEventListener('click', ()=>{
-      const v=(document.getElementById('sellerEmail')?.value||'').trim();
-      location.href = v ? makeUrl(`${R.advertise}?email=${encodeURIComponent(v)}`) : makeUrl(R.advertise);
-    });
+    // Demo
+    const demoA = it.querySelector('.back .actions a');
+    if(demoA){ demoA.href = makeUrl(`${R.demo}?item=${id}&slug=${slug}`); demoA.target='_blank'; demoA.rel='noopener'; }
 
-    // Search + chip filter (on-page)
-    const q=document.getElementById('q'), grid=document.getElementById('grid');
-    const items=grid ? [...grid.querySelectorAll('.item')] : [];
-    const chipBar=document.getElementById('chipBar'); let activeChip='';
+    // Buy
+    const buyBtn = it.querySelector('.back .add');
+    buyBtn?.addEventListener('click', (e)=>{ e.preventDefault(); location.href = makeUrl(`${R.cart}?add=${id}`); });
 
-    function applyFilter(){
-      const text=(q?.value||'').toLowerCase();
-      items.forEach(it=>{
-        const tags=(it.dataset.tags||'').toLowerCase();
-        const chips=(it.dataset.chip||'').toLowerCase();
-        const mText=!text||tags.includes(text), mChip=!activeChip||chips.includes(activeChip);
-        it.style.display=(mText&&mChip)?'':'none';
+    // Ön yüze küçük aksiyonlar (kopya)
+    const front = it.querySelector('.front');
+    if(front && demoA && buyBtn){
+      const qa = demoA.parentElement.cloneNode(true);
+      qa.classList.add('quick-actions');
+      // içindeki button ve linkleri yeniden bağla
+      const a = qa.querySelector('a'); const b = qa.querySelector('.add');
+      if(a){ a.href = makeUrl(`${R.demo}?item=${id}&slug=${slug}`); a.target='_blank'; a.rel='noopener'; }
+      if(b){ b.addEventListener('click', (e)=>{ e.preventDefault(); location.href = makeUrl(`${R.cart}?add=${id}`); }); }
+      front.appendChild(qa);
+    }
+
+    // Ön yüz tıklayınca detay
+    if(front){
+      front.style.cursor='pointer';
+      front.addEventListener('click', (ev)=>{
+        // Aksiyonlara tıklanmadıysa detay
+        if(!ev.target.closest('.quick-actions')) location.href = makeUrl(`${R.product}?id=${id}&slug=${slug}`);
       });
     }
-    q?.addEventListener('input', applyFilter);
 
-    // Chip -> optional redirect to products
-    const chipToProducts = {
-      landing: 'products/html-templates.html',
-      dashboard: 'products/js-widgets.html',
-      portfolio: 'products/html-templates.html',
-      ecommerce: 'products/html-templates.html',
-      components: 'products/js-widgets.html',
-      starter: 'products/html-templates.html',
-      bootstrap: 'products/html-templates.html',
-      tailwind: 'products/css-ui-kits.html'
-    };
-    chipBar?.addEventListener('click',(e)=>{
-      const c=e.target.closest('.chip'); if(!c) return;
-      const key=(c.dataset.chip||'').toLowerCase();
-      if(activeChip===key){ activeChip=''; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); }
-      else { activeChip=key; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); }
-      applyFilter();
-      const prod=chipToProducts[key]; if(prod) location.href=makeUrl(prod);
-    });
+    // ---- GÖRSEL KANDİDATLARI (data-img + FALLBACK SIRASI) ----
+    const thumb = it.querySelector('.thumb'); if(!thumb) return;
+    const custom=(it.dataset.img||'').trim();
+    const base='images/catalog/';
 
-    // Cards: wire actions + images
-    function slugify(s){return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
-    items.forEach(it=>{
-      const id = it.querySelector('.add')?.dataset.id || '0';
-      const title = it.querySelector('h3')?.textContent || `item-${id}`;
-      const slug = slugify(title);
+    // FIX: custom varsa bile fallback'ler DENENECEK
+    const candidates = [
+      ...(custom ? [custom] : []),
+      `html${id}.webp`, `${id}.webp`, `${slug}.webp`,
+      `html${id}.png`,  `${id}.png`,  `${slug}.png`,
+      `html${id}.jpg`,  `${id}.jpg`,  `${slug}.jpg`
+    ];
 
-      const demoA = it.querySelector('.actions a');
-      if(demoA){ demoA.href = makeUrl(`${R.demo}?item=${id}&slug=${slug}`); demoA.target='_blank'; demoA.rel='noopener'; }
+    (function loadN(i=0){
+      if(i>=candidates.length) return;
+      const url = makeUrl(base + candidates[i]);
+      const img = new Image();
+      img.onload = ()=>{
+        thumb.style.backgroundImage=`url('${url}')`;
+        thumb.style.backgroundSize='cover';
+        thumb.style.backgroundPosition='center';
+        thumb.style.backgroundBlendMode='normal';
+        thumb.textContent='';
+      };
+      img.onerror = ()=> loadN(i+1);
+      img.src = url;
+    })();
+  });
 
-      const buyBtn = it.querySelector('.add');
-      buyBtn?.addEventListener('click', (e)=>{ e.preventDefault(); location.href = makeUrl(`${R.cart}?add=${id}`); });
-
-      const front = it.querySelector('.front'); if(front){ front.style.cursor='pointer'; front.addEventListener('click', ()=>location.href=makeUrl(`${R.product}?id=${id}&slug=${slug}`)); }
-
-      // image resolver from /images/catalog/
-      const thumb = it.querySelector('.thumb'); if(!thumb) return;
-      const custom=(it.dataset.img||'').trim(); const base='images/catalog/';
-      const candidates = custom ? [custom] : [
-        `html${id}.webp`, `${id}.webp`, `${slug}.webp`,
-        `html${id}.png`,  `${id}.png`,  `${slug}.png`,
-        `html${id}.jpg`,  `${id}.jpg`,  `${slug}.jpg`
-      ];
-      (function loadN(i=0){
-        if(i>=candidates.length) return;
-        const url = makeUrl(base + candidates[i]);
-        const img = new Image();
-        img.onload = ()=>{ thumb.style.backgroundImage=`url('${url}')`; thumb.style.backgroundSize='cover'; thumb.style.backgroundPosition='center'; thumb.style.backgroundBlendMode='normal'; thumb.textContent=''; };
-        img.onerror = ()=> loadN(i+1);
-        img.src = url;
-      })();
-    });
-
-    // Mobile: tap flips
-    grid?.addEventListener('click',(e)=>{
-      const inner = e.target.closest('.card-inner'); if(!inner) return;
-      if(getComputedStyle(inner).transform.includes('matrix3d')) inner.style.transform='';
-      else inner.style.transform='rotateY(180deg)';
-    });
-  </script>
+  // Mobil: tap flip (aksiyonlara tıklama hariç)
+  grid?.addEventListener('click',(e)=>{
+    if(e.target.closest('.quick-actions')) return;
+    const inner = e.target.closest('.card-inner'); if(!inner) return;
+    if(getComputedStyle(inner).transform.includes('matrix3d')) inner.style.transform='';
+    else inner.style.transform='rotateY(180deg)';
+  });
+</script> <!-- JS: router + bindings + image resolver (GitHub Pages-safe) -->
 </body>
 </html>
