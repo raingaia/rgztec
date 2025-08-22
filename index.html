@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>RGZTEC – HTML Template Gallery</title>
   <meta name="description" content="Discover HTML templates, CSS kits and widgets from independent creators."/>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23092'%3E%3C/rect%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E"/>
+
   <style>
     :root{
       --bg:#f7f8fb; --panel:#ffffff; --ink:#0d1220; --muted:#5b657a;
@@ -17,6 +18,8 @@
     a{color:inherit;text-decoration:none}
     .container{width:min(1200px,92vw);margin-inline:auto}
     .row{display:flex;gap:14px;align-items:center}
+
+    /* Header */
     header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--b)}
     .bar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 0}
     .logo{display:flex;gap:10px;align-items:center;font-weight:900}
@@ -26,26 +29,35 @@
     nav{display:flex;gap:12px;overflow:auto;padding:8px 0;border-top:1px solid var(--b)}
     nav a{white-space:nowrap;padding:6px 10px;border-radius:999px}
     nav a:hover{background:#f1f3f8}
-    .btn{display:inline-flex;gap:8px;align-items:center;border-radius:10px;border:1px solid var(--b);padding:10px 14px;cursor:pointer;background:#fff}
-    .btn.primary{background:linear-gradient(180deg,#ff914d,#ff7d33);color:#fff;border-color:#ff7d33}
-    .btn:focus{box-shadow:var(--ring)}
+
+    /* Hero */
     .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin:16px 0}
     .tile{background:#fff;border:1px solid var(--b);border-radius:var(--radius);padding:18px}
     .tile h2{margin:0 0 8px 0;font-size:28px}
     .promo{background:#ff7d3315;border:1px solid #ffd2b8}
+
+    /* Grid / Cards */
     h1{font-size:32px;margin:16px 0}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .col-3{grid-column:span 3} @media (max-width:1024px){.col-3{grid-column:span 4}} @media (max-width:700px){.col-3{grid-column:span 12}}
-    .card{background:var(--panel);border:1px solid var(--b);border-radius:14px;padding:0;display:flex;flex-direction:column;overflow:hidden}
-    .thumb{position:relative;background:#f2f3f6;min-height:160px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:stretch}
+    .col-3{grid-column:span 3}
+    @media (max-width:1024px){.col-3{grid-column:span 4}}
+    @media (max-width:700px){.col-3{grid-column:span 12}}
+
+    .card{background:var(--panel);border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px}
+    .thumb{position:relative;background:#f2f3f6;aspect-ratio:16/9} /* kırılma FIX: sabit oran */
     .thumb img{display:block;width:100%;height:100%;object-fit:cover}
     .ph{position:absolute;inset:0;display:grid;place-items:center;color:#98a6c4;font-size:13px}
-    .body{padding:12px 14px;display:grid;gap:8px}
+
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
     .title{font-weight:800}
-    .desc{color:var(--muted);font-size:14px;min-height:40px}
-    .actions{display:flex;gap:8px;margin-top:6px}
-    .actions .btn{padding:8px 10px}
+    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
     .price{font-weight:900}
+    .actions{display:flex;gap:8px;margin-top:auto} /* butonlar alta yapışır */
+    .btn{display:inline-flex;gap:8px;align-items:center;border-radius:10px;border:1px solid var(--b);padding:8px 10px;cursor:pointer;background:#fff}
+    .btn.primary{background:linear-gradient(180deg,#ff914d,#ff7d33);color:#fff;border-color:#ff7d33}
+    .btn:focus{box-shadow:var(--ring)}
+
     footer{margin:24px 0;color:var(--muted)}
   </style>
 </head>
@@ -53,27 +65,24 @@
   <!-- Header -->
   <header>
     <div class="container bar">
-      <a class="logo" href="../index.html"><span class="logo-badge">RG</span> RGZTEC</a>
+      <a class="logo" href="#"><span class="logo-badge">RG</span> RGZTEC</a>
       <div class="search"><input id="q" placeholder="Search templates, UI kits, widgets..."/></div>
       <div class="row">
-        <a class="btn" href="../demo/index.html">Demo Gallery</a>
-        <a class="btn" href="../login.html">Login</a>
-        <a class="btn primary" href="../advertise.html">Become a Seller</a>
+        <a class="btn" id="lnkDemo">Demo Gallery</a>
+        <a class="btn" id="lnkLogin">Login</a>
+        <a class="btn primary" id="lnkSeller">Become a Seller</a>
       </div>
     </div>
     <div class="container">
-      <nav>
-        <a href="../stores/index.html">All Stores</a>
-        <a href="../catalog/index.html">New Arrivals</a>
-        <a href="../catalog/index.html#editors">Editor's Picks</a>
-        <a href="../products/html-templates.html">Landing Pages</a>
-        <a href="../products/js-widgets.html">Admin Dashboards</a>
-        <a href="../products/css-ui-kits.html">CSS UI Kits</a>
-        <a href="../products/js-widgets.html">JS Widgets</a>
-        <a href="../products/react.html">React Components</a>
-        <a href="../products/svg-icons.html">SVG Icons</a>
-        <a href="../products/email-templates.html">Email Templates</a>
-        <a href="../products/category.html#freebies">Freebies</a>
+      <nav id="cats">
+        <a>All Stores</a><a>New Arrivals</a><a>Editor's Picks</a>
+        <a data-prod="html-templates">Landing Pages</a>
+        <a data-prod="js-widgets">Admin Dashboards</a>
+        <a data-prod="css-ui-kits">CSS UI Kits</a>
+        <a data-prod="js-widgets">JS Widgets</a>
+        <a data-prod="react">React Components</a>
+        <a data-prod="svg-icons">SVG Icons</a>
+        <a data-prod="email-templates">Email Templates</a>
       </nav>
     </div>
   </header>
@@ -83,29 +92,45 @@
     <div class="tile promo">
       <h2>Refresh your codebase</h2>
       <p>Discover HTML templates, CSS kits, and widgets from independent creators. Curated for performance.</p>
-      <a class="btn" href="../index.html#trending">Get started</a>
+      <a class="btn" id="ctaStart">Get started</a>
     </div>
     <div class="tile">
       <h2>Showcase your template</h2>
       <p>Promote your product to developers. Instant demo hosting and versioned zip delivery.</p>
-      <a class="btn primary" href="../advertise.html">Become a seller</a>
+      <a class="btn primary" id="ctaSeller">Become a seller</a>
     </div>
   </section>
 
   <div class="container">
     <h1>HTML Template Gallery</h1>
-
-    <!-- Grid -->
     <div id="grid" class="grid"></div>
   </div>
 
   <footer class="container">© <span id="y"></span> RGZTEC</footer>
 
   <script>
-    // Year
+    // ---------- Site ROOT (works under /rgztec/ or /rgztec/catalog/) ----------
+    const ROOT = (() => {
+      const parts = location.pathname.split('/').filter(Boolean); // ["rgztec", ...]
+      return parts.length ? `/${parts[0]}/` : '/';
+    })();
+
+    // Quick links (root-safe)
+    const go = p => location.href = ROOT + p;
+    document.querySelector('.logo').addEventListener('click', e=>{e.preventDefault(); go('index.html');});
+    document.getElementById('lnkDemo').addEventListener('click', ()=> go('demo/index.html'));
+    document.getElementById('lnkLogin').addEventListener('click', ()=> go('login.html'));
+    document.getElementById('lnkSeller').addEventListener('click',()=> go('advertise.html'));
+    document.getElementById('ctaStart').addEventListener('click', ()=> go('index.html#trending'));
+    document.getElementById('ctaSeller').addEventListener('click',()=> go('advertise.html'));
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // --- Data (20 ürün) ---
+    // Category bar → products
+    document.querySelectorAll('#cats a[data-prod]').forEach(a=>{
+      a.addEventListener('click', ()=> go(`products/${a.dataset.prod}.html`));
+    });
+
+    // ---------- Data (20 items) ----------
     const products = [
       {id:1,  title:"Landing Starter (HTML)", desc:"Minimal landing with hero, features, pricing and blog sections.", price:18},
       {id:2,  title:"Dashboard Lite (HTML)",  desc:"Sidebar, topbar and chart placeholders; vanilla JS.",              price:24},
@@ -129,55 +154,51 @@
       {id:20, title:"JS Widgets",             desc:"Tabs, accordions, tooltips (vanilla).",                            price:11}
     ];
 
+    // Helpers
     const grid = document.getElementById('grid');
+    const slug  = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 
-    // Helper
-    const slugify = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-    const priceTxt = n => '$' + n;
-
-    // Render cards
+    // Render
     products.forEach(p=>{
-      const card = document.createElement('article');
-      card.className = 'col-3 card';
+      const el = document.createElement('article');
+      el.className = 'col-3 card';
 
       // thumb
-      const thumb = document.createElement('div'); thumb.className='thumb';
-      const img   = document.createElement('img'); img.alt = p.title; img.loading='lazy'; img.decoding='async'; img.style.visibility='hidden';
-      const ph    = document.createElement('div'); ph.className='ph'; ph.textContent = 'Loading preview…';
-      thumb.appendChild(img); thumb.appendChild(ph);
+      const th  = document.createElement('div'); th.className='thumb';
+      const img = document.createElement('img'); img.alt=p.title; img.loading='lazy'; img.decoding='async'; img.style.visibility='hidden';
+      const ph  = document.createElement('div'); ph.className='ph'; ph.textContent='Loading preview…';
+      th.append(img, ph);
 
-      // text
+      // body
       const body = document.createElement('div'); body.className='body';
-      const h3   = document.createElement('div'); h3.className='title'; h3.textContent = p.title;
-      const dsc  = document.createElement('div'); dsc.className='desc';  dsc.textContent = p.desc;
-      const row1 = document.createElement('div'); row1.className='row';  row1.style.justifyContent='space-between';
-      const price= document.createElement('div'); price.className='price'; price.textContent = priceTxt(p.price);
-      row1.appendChild(price);
+      const t = document.createElement('div'); t.className='title'; t.textContent=p.title;
+      const d = document.createElement('div'); d.className='desc';  d.textContent=p.desc;
+      const meta = document.createElement('div'); meta.className='meta';
+      const price = document.createElement('div'); price.className='price'; price.textContent = '$'+p.price;
+      meta.append(price);
 
-      const actions = document.createElement('div'); actions.className='actions';
+      const act = document.createElement('div'); act.className='actions';
       const aDemo = document.createElement('a'); aDemo.className='btn'; aDemo.textContent='Live Demo';
       const aDet  = document.createElement('a'); aDet.className='btn'; aDet.textContent='Details';
       const aBuy  = document.createElement('a'); aBuy.className='btn primary'; aBuy.textContent='Add to cart';
-      actions.append(aDemo, aDet, aBuy);
+      act.append(aDemo, aDet, aBuy);
 
-      body.append(h3, dsc, row1, actions);
+      body.append(t, d, meta, act);
+      el.append(th, body);
+      grid.appendChild(el);
 
-      // assemble
-      card.append(thumb, body);
-      grid.appendChild(card);
+      // links (ROOT-safe)
+      const s = slug(p.title);
+      aDemo.href = ROOT + `demo/index.html?item=${p.id}&slug=${s}`;
+      aDet.href  = ROOT + `products/detail.html?id=${p.id}&slug=${s}`;
+      aBuy.href  = ROOT + `cart.html?add=${p.id}`;
 
-      // links (relative to /catalog/)
-      const slug = slugify(p.title);
-      aDemo.href = `../demo/index.html?item=${p.id}&slug=${slug}`;
-      aDet.href  = `../products/detail.html?id=${p.id}&slug=${slug}`;
-      aBuy.href  = `../cart.html?add=${p.id}`;
-
-      // image resolver (IMPORTANT: ../images/catalog/)
-      const base = '../images/catalog/';
+      // ---------- IMAGE RESOLVER (ROOT-safe, falls back) ----------
+      const base = ROOT + 'images/catalog/';
       const candidates = [
-        `html${p.id}.webp`, `${p.id}.webp`, `${slug}.webp`,
-        `html${p.id}.png`,  `${p.id}.png`,  `${slug}.png`,
-        `html${p.id}.jpg`,  `${p.id}.jpg`,  `${slug}.jpg`
+        `html${p.id}.webp`, `${p.id}.webp`, `${s}.webp`,
+        `html${p.id}.png`,  `${p.id}.png`,  `${s}.png`,
+        `html${p.id}.jpg`,  `${p.id}.jpg`,  `${s}.jpg`
       ];
       (function tryN(i=0){
         if(i>=candidates.length){ ph.textContent='No preview'; return; }
@@ -189,16 +210,17 @@
       })();
     });
 
-    // Simple on-page search
+    // On-page search
     const q = document.getElementById('q');
     q?.addEventListener('input', ()=>{
       const t=(q.value||'').toLowerCase();
       [...grid.children].forEach(card=>{
-        const title = card.querySelector('.title')?.textContent.toLowerCase() || '';
-        const desc  = card.querySelector('.desc') ?.textContent.toLowerCase() || '';
-        card.style.display = (title.includes(t) || desc.includes(t)) ? '' : 'none';
+        const title=card.querySelector('.title')?.textContent.toLowerCase()||'';
+        const desc =card.querySelector('.desc') ?.textContent.toLowerCase()||'';
+        card.style.display = (title.includes(t)||desc.includes(t)) ? '' : 'none';
       });
     });
   </script>
 </body>
 </html>
+
