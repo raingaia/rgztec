@@ -1,169 +1,203 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RGZTEC — Category</title>
-  <meta name="description" content="Browse curated HTML templates on RGZTEC." />
-  <link rel="stylesheet" href="../assets/styles.css" />
-
-  <!-- Category-only overrides (Etsy-like wide page + compact cards) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC • Category</title>
+  <meta name="description" content="Browse RGZTEC sellers by category. HTML templates, CSS UI kits, JS widgets, React components, SVG icons and email templates.">
+  <link rel="stylesheet" href="../assets/css/home.css?v=15" />
   <style>
-    :root{
-      --primary:#f97316;
-      --text:#0f172a;
-      --muted:#475569;
-      --border:#e5e7eb;
-      --surface:#f8fafc;
-    }
+    body{background:#fafafa}
+    /* Header */
+    .topbar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #f3f4f6}
+    .topbar .row{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+    .cats-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;font-weight:600}
+    .cats-btn svg{width:18px;height:18px}
+    .search{flex:1}
+    .search-input{width:100%}
 
-    /* Wider container on large screens */
-    @media (min-width:1280px){ .container{ max-width:1360px !important; } }
-    @media (min-width:1536px){ .container{ max-width:1480px !important; } }
+    /* Drawer */
+    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.2s;z-index:90}
+    .drawer{position:fixed;top:74px;left:18px;width:320px;max-width:92vw;background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.15);transform:translateY(-8px);opacity:0;pointer-events:none;transition:.2s;z-index:99}
+    .drawer.open,.drawer-overlay.open{opacity:1;pointer-events:auto;transform:none}
+    .drawer .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6}
+    .drawer .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+    .drawer a.cat{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
+    .drawer a.cat img{width:28px;height:28px;border-radius:8px;object-fit:cover}
 
-    /* Page heading */
-    .page-head{ padding: 18px 0 8px; }
+    /* Page head */
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    .heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0}
+    .heading h1{font-size:28px;margin:0}
+    .filters{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;cursor:pointer}
+    .chip.active{border-color:#111827}
 
-    /* Grid + Cards (scoped to product-grid) */
-    #product-grid{
-      display:grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; /* make 180px for even smaller */
-      gap:16px !important;
-      align-items: stretch;
-    }
-    #product-grid .card{
-      background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden;
-      box-shadow:0 1px 6px rgba(0,0,0,.05);
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    #product-grid .card:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
-    }
+    /* Grid */
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    @media (max-width:1100px){ .grid{grid-template-columns:repeat(3,1fr)} }
+    @media (max-width:780px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:520px){ .grid{grid-template-columns:1fr} }
 
-    /* Thumbnail 4:3 for Etsy feel */
-    #product-grid .thumb{
-      aspect-ratio: 4/3;
-      width:100%; height:auto; display:block;
-      object-fit:cover; background:#eef2f8;
-    }
-
-    /* Content */
-    #product-grid .pad{ padding:10px; }
-    #product-grid .title{ font-weight:800; margin:0 0 4px; font-size:15px; line-height:1.25; color:var(--text); }
-    #product-grid .meta{ font-size:12px; color:var(--muted); margin:0 0 8px; min-height:32px; }
-    #product-grid .price{ font-weight:800; font-size:14px; }
-
-    #product-grid .row{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
-    #product-grid .btn{
-      font-size:11px; padding:7px 10px; border-radius:10px;
-      border:1px solid var(--border); text-decoration:none; color:var(--text); background:#fff;
-    }
-    #product-grid .btn:hover{ background:#f8fafc; }
-    #product-grid .btn.primary{ background:var(--primary); color:#fff; border-color:var(--primary); }
-    #product-grid .btn.primary:hover{ filter:brightness(.96); }
+    /* Product card (home.css kartlarıyla uyumlu) */
+    .card .thumb{aspect-ratio:16/10;object-fit:cover;border-radius:12px}
+    .price-row{display:flex;align-items:center;gap:8px;margin:6px 0}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#f3f4f6;font-size:12px}
   </style>
 </head>
 <body>
-  <!-- Topbar (same style as home) -->
-  <header class="main-header">
-    <div class="container">
-      <a class="logo" href="/rgztec/">RGZTEC</a>
-      <div class="search"><input type="search" placeholder="Search for anything" aria-label="Search" /></div>
-      <nav class="actions">
-        <a class="link" href="#">Sign in</a>
-        <a class="icon" href="#" aria-label="Wishlist">♡</a>
-        <a class="icon" href="#" aria-label="Cart">🛒</a>
-        <a class="link" href="../demo/index.html">Demo Gallery</a>
+  <!-- Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="hdr"><strong>Categories</strong>
+      <button id="drawerClose" class="cats-btn" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>Close
+      </button>
+    </div>
+    <div class="grid" role="menu">
+      <a class="cat" href="./html-templates.html"><img src="../images/categories/html-templates.webp" alt="HTML"><span>HTML Templates</span></a>
+      <a class="cat" href="./css-ui-kits.html"><img src="../images/categories/css-ui-kits.webp" alt="CSS"><span>CSS UI Kits</span></a>
+      <a class="cat" href="./js-widgets.html"><img src="../images/categories/js-widgets.webp" alt="JS"><span>JS Widgets</span></a>
+      <a class="cat" href="./react.html"><img src="../images/categories/react.webp" alt="React"><span>React Components</span></a>
+      <a class="cat" href="./svg-icons.html"><img src="../images/categories/svg-icons.webp" alt="SVG"><span>SVG / Icons</span></a>
+      <a class="cat" href="./email-templates.html"><img src="../images/categories/email-templates.webp" alt="Email"><span>Email Templates</span></a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="topbar">
+    <div class="row">
+      <a class="brand" href="../">RGZTEC</a>
+      <button class="cats-btn" id="catsBtn" aria-haspopup="true" aria-controls="drawer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        Categories
+      </button>
+      <form class="search" role="search" aria-label="Search this category">
+        <input id="q" type="search" class="search-input" placeholder="Search within this category…" />
+      </form>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="../demo/">Demo Gallery</a>
+        <a href="../signup.html" class="btn primary">Become a Seller</a>
       </nav>
     </div>
-  </header>
+  </div>
 
-  <main>
-    <section class="container page-head">
-      <h1 id="page-title">HTML Templates</h1>
-    </section>
-
-    <section class="container">
-      <div id="product-grid"></div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-row">
-      <p>© <span id="y"></span> RGZTEC • Code marketplace</p>
-      <nav class="links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Contact</a>
-      </nav>
+  <div class="wrap">
+    <div class="heading">
+      <h1 id="catTitle">Category</h1>
+      <div><span class="pill" id="count">0 items</span></div>
     </div>
-  </footer>
 
-  <!-- Data + Render -->
-  <script src="../data/products.js"></script>
+    <!-- Filters -->
+    <div class="filters">
+      <button class="chip" id="priceChip">Price</button>
+      <button class="chip" id="saleChip">On sale</button>
+      <button class="chip" id="pickChip">RGZTEC Picks</button>
+    </div>
+
+    <!-- Grid -->
+    <section class="grid" id="grid" aria-live="polite"></section>
+  </div>
+
   <script>
-    // Year
-    document.getElementById('y').textContent = new Date().getFullYear();
+    /* ---------- Drawer ---------- */
+    const catsBtn=document.getElementById('catsBtn');
+    const drawer=document.getElementById('drawer');
+    const overlay=document.getElementById('drawerOverlay');
+    const drawerClose=document.getElementById('drawerClose');
+    const openDrawer=()=>{drawer.classList.add('open');overlay.classList.add('open');};
+    const closeDrawer=()=>{drawer.classList.remove('open');overlay.classList.remove('open');};
+    catsBtn.addEventListener('click',openDrawer); overlay.addEventListener('click',closeDrawer); drawerClose.addEventListener('click',closeDrawer);
 
-    (function(){
-      const el = document.getElementById('product-grid');
-      if (!el || !window.RGZ_PRODUCTS) return;
+    /* ---------- Data (20 ürün) ---------- */
+    const DATA = {
+      "html-templates": {
+        title: "HTML Templates",
+        items: [
+          {slug:"landing-page-starter", title:"Landing Page Starter", price:19, img:"../images/html1.webp", desc:"Responsive hero + features + CTA", pick:true},
+          {slug:"portfolio-showcase", title:"Portfolio Showcase", price:25, img:"../images/html2.webp", desc:"Grid portfolio + modal gallery"},
+          {slug:"admin-dashboard-ui", title:"Admin Dashboard UI", price:49, img:"../images/html3.webp", desc:"Cards, tables, charts, auth pages", pick:true},
+          {slug:"ecommerce-homepage", title:"E-commerce Homepage", price:39, img:"../images/html4.webp", desc:"Hero, categories, product grid"},
+          {slug:"blog-template", title:"Blog Template", price:29, img:"../images/html5.webp", desc:"List, tags, article layout"},
+          {slug:"saas-landing-page", title:"SaaS Landing Page", price:22, img:"../images/html6.webp", desc:"Pricing tiers + FAQ"},
+          {slug:"agency-one-pager", title:"Agency One-Pager", price:15, img:"../images/html7.webp", desc:"Clean one page + contact"},
+          {slug:"corporate-site", title:"Corporate Site", price:35, img:"../images/html8.webp", desc:"Sections, navbar, footer"},
+          {slug:"docs-site-starter", title:"Docs Site Starter", price:27, img:"../images/html9.webp", desc:"Sidebar nav + search", pick:true},
+          {slug:"auth-pages-pack", title:"Auth Pages Pack", price:21, img:"../images/html10.webp", desc:"Login, Register, Reset"},
+          {slug:"app-showcase", title:"App Showcase", price:18, img:"../images/html11.webp", desc:"Screenshots, features, CTA"},
+          {slug:"personal-resume", title:"Personal Resume", price:12, img:"../images/html12.webp", desc:"CV, timeline, contact"},
+          {slug:"event-landing-page", title:"Event Landing Page", price:20, img:"../images/html13.webp", desc:"Schedule + ticket CTA"},
+          {slug:"startup-template", title:"Startup Template", price:28, img:"../images/html14.webp", desc:"Founders, traction, pricing"},
+          {slug:"product-page", title:"Product Page", price:19, img:"../images/html15.webp", desc:"Gallery + details + reviews"},
+          {slug:"coming-soon-page", title:"Coming Soon Page", price:9, img:"../images/html16.webp", desc:"Countdown + email capture"},
+          {slug:"login-page-template", title:"Login Page Template", price:14, img:"../images/html17.webp", desc:"Minimal auth card"},
+          {slug:"contact-form-page", title:"Contact Form Page", price:10, img:"../images/html18.webp", desc:"Validated form + map"},
+          {slug:"faq-page", title:"FAQ Page", price:12, img:"../images/html19.webp", desc:"Accordions + search"},
+          {slug:"real-estate-listing", title:"Real Estate Listing", price:33, img:"../images/html10.webp", desc:"Cards + map embed"}
+        ]
+      },
+      "css-ui-kits":   { title:"CSS UI Kits", items: [] },
+      "js-widgets":    { title:"JS Widgets", items: [] },
+      "react":         { title:"React Components", items: [] },
+      "svg-icons":     { title:"SVG / Icons", items: [] },
+      "email-templates":{ title:"Email Templates", items: [] }
+    };
 
-      // Read category from URL (?cat=html-templates), default to html-templates
-      const params = new URLSearchParams(location.search);
-      const catParam = params.get('cat') || 'html-templates';
+    /* ---------- Helpers ---------- */
+    const params=new URLSearchParams(location.search);
+    // Eğer bu dosyaya html-templates.html gibi redirect ile geldiysen parametre olmayabilir:
+    // Başlığı linkten tahmin etmeye çalışalım.
+    let CAT = params.get('cat') || (location.pathname.match(/([^\/]+)\.html$/)||[])[1] || 'html-templates';
+    if (["category","index","detail"].includes(CAT)) CAT="html-templates";
 
-      // Pretty title for known categories
-      const pretty = {
-        'html-templates': 'HTML Templates',
-        'css-ui-kits': 'CSS UI Kits',
-        'js-widgets': 'JS Widgets',
-        'react': 'React',
-        'email-templates': 'Email Templates',
-        'svg-icons': 'SVG / Icons'
-      };
-      const title = pretty[catParam] || 'Templates';
-      const heading = document.getElementById('page-title');
-      if (heading) heading.textContent = title;
+    const model = DATA[CAT] || DATA["html-templates"];
+    document.title = `${model.title} • RGZTEC`;
+    document.getElementById('catTitle').textContent = model.title;
 
-      // Filter items by category
-      let items = (window.RGZ_PRODUCTS || []).filter(p => p.category === catParam);
-      if (!items.length && catParam !== 'html-templates') {
-        // graceful fallback
-        items = (window.RGZ_PRODUCTS || []).filter(p => p.category === 'html-templates');
-      }
+    const grid = document.getElementById('grid');
+    const countEl = document.getElementById('count');
+    const q = document.getElementById('q');
 
-      const IMG_BASE = '../images/';
-      const BUST = '?v=5'; // cache buster
+    function card(p){
+      return `
+      <article class="card">
+        <img class="thumb" src="${p.img}" alt="${p.title}" loading="lazy" width="640" height="400" />
+        <h3 class="title">${p.title}</h3>
+        <p class="meta">${p.desc||""}</p>
+        <div class="price-row"><span class="price">$${p.price}</span>${p.pick?'<span class="pill">Pick</span>':''}</div>
+        <div class="row">
+          <a class="btn" href="../demo/" target="_blank">Preview</a>
+          <a class="btn primary" href="./${p.slug}.html">Visit Store</a>
+        </div>
+      </article>`;
+    }
 
-      function card(p){
-        const img = IMG_BASE + p.image + BUST;
-        return `
-          <article class="card">
-            <picture>
-              <source srcset="${img}" type="image/webp">
-              <img src="${img}" alt="${p.title} Preview" loading="lazy" class="thumb"
-                   onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div style=&quot;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:#9fb0cc;font-size:12px;background:#eef2f8&quot;>Image not found</div>')">
-            </picture>
-            <div class="pad">
-              <h3 class="title">${p.title}</h3>
-              <p class="meta">${p.description}</p>
-              <div class="price">$${p.price}</div>
-              <div class="row">
-                <a class="btn" href="/rgztec/demo/?t=${p.slug}" target="_blank">Demo</a>
-                <a class="btn" href="/rgztec/products/detail.html?img=${encodeURIComponent(p.image)}&title=${encodeURIComponent(p.title)}">Details</a>
-                <a class="btn primary" href="/rgztec/demo/?t=${p.slug}#new" target="_blank">Create your store</a>
-              </div>
-            </div>
-          </article>
-        `;
-      }
+    // filtre/sort state
+    let asc=true, sale=false, pick=false, term="";
+    function render(){
+      let items=[...model.items];
+      if (term) items = items.filter(x=> (x.title+x.desc).toLowerCase().includes(term));
+      if (pick) items = items.filter(x=> x.pick);
+      // demo: sale filtresi örnek olarak fiyata göre (≤20) kabul
+      if (sale) items = items.filter(x=> x.price<=20);
+      items.sort((a,b)=> asc ? a.price-b.price : b.price-a.price);
+      grid.innerHTML = items.map(card).join("");
+      countEl.textContent = `${items.length} items`;
+    }
+    render();
 
-      // Smaller cards -> show more per page
-      el.innerHTML = items.map(card).join('');
-    })();
+    // UI events
+    document.getElementById('priceChip').addEventListener('click', e=>{
+      asc=!asc; e.currentTarget.classList.toggle('active', true); render();
+    });
+    document.getElementById('saleChip').addEventListener('click', e=>{
+      sale=!sale; e.currentTarget.classList.toggle('active', sale); render();
+    });
+    document.getElementById('pickChip').addEventListener('click', e=>{
+      pick=!pick; e.currentTarget.classList.toggle('active', pick); render();
+    });
+    q.addEventListener('input', e=>{ term=e.target.value.trim().toLowerCase(); render(); });
   </script>
 </body>
 </html>
+
