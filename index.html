@@ -1,651 +1,506 @@
 <!DOCTYPE html>
-<html lang="en" data-force-light>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC · Home</title>
-  <meta name="description" content="RGZTEC — curated HTML templates, CSS UI kits, JS widgets, React components, SVG icons, and email templates.">
+  <title>RGZTEC · Marketplace</title>
+  <meta name="description" content="Buy & sell production-ready static code: HTML templates, CSS UI kits, JS widgets and React components. Live demos, clean code, instant copy." />
   <link rel="stylesheet" href="assets/css/home.css" />
-  <link rel="stylesheet" href="assets/css/categories.css" />
-
-  <!-- Force light theme + orange accents (page-level overrides) -->
-  <style>
-    /* Always use light tokens on this page */
-    html[data-force-light]{
-      color-scheme: light;
-      --bg:#ffffff; --ink:#0d1220; --muted:#5b657a;
-      --b:#e7ebf3; --b2:#dfe4ee;
-      --shadow:0 10px 30px rgba(0,0,0,.06);
-      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#ffffff;
-    }
-    html[data-force-light] body{ background:#fff !important; color:var(--ink) !important; }
-
-    /* If OS is dark, keep our page light */
-    @media (prefers-color-scheme: dark){
-      html[data-force-light] body,
-      html[data-force-light] header,
-      html[data-force-light] .hero,
-      html[data-force-light] .card,
-      html[data-force-light] .btn,
-      html[data-force-light] .pill,
-      html[data-force-light] input, 
-      html[data-force-light] select, 
-      html[data-force-light] textarea{
-        background:#fff !important; color:var(--ink) !important; border-color:var(--b) !important;
-      }
-    }
-
-    /* Header/subnav like the light screenshot */
-    .header-v2{ background:#fff; border-bottom:1px solid var(--b); }
-    .header-v2 .bar{ display:flex; align-items:center; gap:12px; padding:12px 0; }
-    .subnav{ background:#fff; border-top:1px solid var(--b); }
-    .subnav .rail{ display:flex; gap:18px; overflow:auto; padding:10px 0; }
-
-    /* Hero: light panels */
-    .hero{ background:#fff; border-color:var(--b); }
-    .hero-split .grid2{ display:grid; grid-template-columns:1.1fr .9fr; gap:16px; }
-    @media (max-width:980px){ .hero-split .grid2{ grid-template-columns:1fr; } }
-    .panel{ background:transparent; border-radius:14px; padding:8px; }
-    .panel.soft{ background:#ffe9dc; border:1px solid var(--b); padding:16px; }
-    .panel.soft input{ background:#fff; }
-
-    /* Promo band = orange */
-    .promo-band{ 
-      background:linear-gradient(180deg,var(--brand2),var(--brand));
-      color:#fff; 
-      border-radius:12px; 
-      margin:18px 0;
-      padding:10px 0;
-    }
-    .promo-band .container{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .promo-band .btn{ background:#fff; color:#0d1220; border-color:#fff; }
-    .promo-band .pill{ background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.35); color:#fff; }
-
-    /* Page micro tweaks */
-    .stores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-    .store .banner{position:relative;aspect-ratio:16/7;background:#f2f3f6}
-    .store .banner img{width:100%;height:100%;object-fit:cover}
-    .avatar-wrap{position:absolute;left:12px;bottom:12px;width:56px;height:56px;border-radius:999px;overflow:hidden;border:2px solid #fff;box-shadow:var(--shadow)}
-    .newsletter{background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-    .newsletter .row{display:flex;gap:10px;flex-wrap:wrap}
-    .newsletter input[type="email"]{flex:1;min-width:220px}
-    .section-title{ color:#0d1220; }
-    .lead{ color:var(--muted); }
-    .card{ background:#fff; }
-    .footer-links{display:flex;gap:12px;flex-wrap:wrap}
-  </style>
+  <link rel="preload" as="image" href="images/categories/react.webp" />
 </head>
 <body>
-  <!-- ================================================================ -->
-  <!-- Header v2                                                        -->
-  <!-- ================================================================ -->
-  <header class="header-v2">
-    <div class="container bar">
-      <a class="brand" href="index.html" aria-label="RGZTEC Home"><span class="logo-dot">RGZTEC</span></a>
-      <a class="btn pill ghost" href="products/index.html">Categories</a>
-      <form id="navSearch" class="searchbar" role="search" aria-label="Search site">
-        <input id="navQ" type="search" placeholder="Search templates, UI kits, widgets…" />
-        <button class="btn" type="submit">Search</button>
+
+  <!-- ===================================== -->
+  <!-- Header / Global Nav                   -->
+  <!-- ===================================== -->
+  <header>
+    <div class="container top" style="gap:16px">
+      <!-- Brand -->
+      <a class="logo" href="index.html" aria-label="RGZTEC home">
+        <span class="pill">RGZTEC</span>
+      </a>
+
+      <!-- Global search -->
+      <form id="globalSearchForm" class="row" style="flex:1; min-width:260px; gap:8px" role="search" aria-label="Global search">
+        <input id="global-q" type="search" class="w-100" placeholder="Search templates, UI kits, widgets…" />
+        <button type="submit" class="btn">Search</button>
       </form>
-      <nav class="main" aria-label="Primary">
-        <a href="catalog/index.html">Explore</a>
-        <a href="demo/index.html">Demo Gallery</a>
+
+      <!-- Primary actions -->
+      <nav class="nav" aria-label="Primary">
+        <a class="btn" href="explore.html">Explore</a>
+        <a class="btn" href="demo/index.html">Demo Gallery</a>
         <a class="btn" href="stores/index.html">Stores</a>
         <a class="btn" href="login.html">Login</a>
         <a class="btn primary" href="advertise.html">Become a Seller</a>
       </nav>
     </div>
-    <div class="subnav">
-      <div class="container rail" aria-label="Secondary">
+
+    <!-- Secondary categories rail -->
+    <div class="container" style="padding-bottom:8px">
+      <nav class="menu" aria-label="Categories">
         <a href="products/index.html?sort=new">New Arrivals</a>
-        <a href="products/index.html?sort=editors">Editor’s Picks</a>
-        <a href="products/category.html?cat=html">Landing Pages</a>
-        <a href="products/category.html?cat=admin">Admin Dashboards</a>
+        <a href="products/index.html?sort=featured">Editor’s Picks</a>
+        <a href="catalog/index.html#html">Landing Pages</a>
+        <a href="catalog/index.html#admin">Admin Dashboards</a>
         <a href="react.html">React Components</a>
-        <a href="js-widgets.html">JS Widgets</a>
+        <a href="products/js-widgets.html">JS Widgets</a>
         <a href="svg-icons.html">SVG Icons</a>
         <a href="email-templates.html">Email Templates</a>
-        <a href="products/category.html#freebies">Freebies</a>
-      </div>
+        <a href="products/index.html?cat=free" class="active">Freebies</a>
+      </nav>
     </div>
   </header>
 
-  <!-- ================================================================ -->
-  <!-- Hero split: heading + quick search + chips                       -->
-<!-- HERO -->
-<section class="section">
-  <div class="container">
-    <div class="hero" style="padding:22px 22px">
-      <div class="row" style="align-items:stretch">
-        <!-- Left: headline -->
-        <div style="flex:1; min-width:280px" class="stack-lg">
-          <h1 class="mt-0" style="font-size:clamp(32px,3.4vw,48px); letter-spacing:-.02em">
-            Launch faster with <br />production-ready UI
-          </h1>
-          <p class="lead">
-            HTML templates, CSS UI kits, vanilla JS widgets and React components.
-            Live demos, clean code, instant copy.
-          </p>
+  <main>
 
-          <div class="row kpis">
-            <span class="pill">20+ curated items</span>
-            <span class="pill">Lightweight &amp; semantic</span>
-            <span class="pill">MIT <span class="muted">freebies included</span></span>
-          </div>
+    <!-- ===================================== -->
+    <!-- HERO: left copy + right quick search  -->
+    <!-- ===================================== -->
+    <section class="section">
+      <div class="container">
+        <div class="hero">
+          <div class="hero-inner">
+            <div class="row" style="align-items:stretch; gap:18px">
+              <!-- Left -->
+              <div style="flex:1; min-width:280px" class="stack-lg">
+                <h1 class="mt-0" style="font-size:clamp(32px,3.4vw,48px); letter-spacing:-.02em">
+                  Launch faster with <br />production-ready UI
+                </h1>
+                <p class="lead">
+                  HTML templates, CSS UI kits, vanilla JS widgets and React components.
+                  Live demos, clean code, instant copy.
+                </p>
 
-          <div class="btn-group mt-12">
-            <a class="btn primary" href="products/index.html">Browse Products</a>
-            <a class="btn" href="stores/index.html">Our Stores</a>
-            <a class="btn" href="explore.html">Explore</a>
-          </div>
-        </div>
+                <div class="row kpis">
+                  <span class="pill">20+ curated items</span>
+                  <span class="pill">Lightweight &amp; semantic</span>
+                  <span class="pill">MIT <span class="muted">freebies included</span></span>
+                </div>
 
-        <!-- Right: quick search card -->
-        <aside style="flex:0 0 420px; max-width:100%">
-          <div class="card sm" style="padding:16px; background:#ffe7d7; border-color:#ffd3b8">
-            <div class="stack">
-              <strong class="muted" style="text-transform:uppercase; letter-spacing:.06em">Quick search</strong>
-              <div class="row">
-                <input id="home-q" type="search" class="w-100"
-                       placeholder="Search products, tags or categories…" />
-                <button id="home-search" class="btn">Search</button>
+                <div class="btn-group mt-12">
+                  <a class="btn primary" href="products/index.html">Browse Products</a>
+                  <a class="btn" href="stores/index.html">Our Stores</a>
+                  <a class="btn" href="explore.html">Explore</a>
+                </div>
               </div>
 
-              <div class="btn-group" role="group" aria-label="Quick filters">
-                <button class="chip" data-cat="free">Freebies</button>
-                <button class="chip" data-cat="html">HTML</button>
-                <button class="chip" data-cat="admin">Admin</button>
-                <button class="chip" data-cat="js">JS</button>
-                <button class="chip" data-cat="css">CSS</button>
-                <button class="chip" data-cat="react">React</button>
-                <button class="chip" data-cat="icons">Icons</button>
-                <button class="chip" data-cat="email">Email</button>
-              </div>
+              <!-- Right: quick search -->
+              <aside style="flex:0 0 420px; max-width:100%">
+                <div class="card sm" style="padding:16px; background:#ffe7d7; border-color:#ffd3b8">
+                  <div class="stack">
+                    <strong class="muted" style="text-transform:uppercase; letter-spacing:.06em">Quick search</strong>
+                    <div class="row">
+                      <input id="home-q" type="search" class="w-100"
+                             placeholder="Search products, tags or categories…" />
+                      <button id="home-search" class="btn">Search</button>
+                    </div>
 
-              <small class="muted">Tip: Press <kbd>/</kbd> to focus search.</small>
+                    <div class="btn-group" role="group" aria-label="Quick filters">
+                      <button class="chip" data-cat="free">Freebies</button>
+                      <button class="chip" data-cat="html">HTML</button>
+                      <button class="chip" data-cat="admin">Admin</button>
+                      <button class="chip" data-cat="js">JS</button>
+                      <button class="chip" data-cat="css">CSS</button>
+                      <button class="chip" data-cat="react">React</button>
+                      <button class="chip" data-cat="icons">Icons</button>
+                      <button class="chip" data-cat="email">Email</button>
+                    </div>
+
+                    <small class="muted">Tip: Press <kbd>/</kbd> to focus search.</small>
+                  </div>
+                </div>
+              </aside>
             </div>
           </div>
-        </aside>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- ================================================================ -->
-  <!-- Promo band                                                       -->
-  <!-- ================================================================ -->
-  <div class="promo-band">
-    <div class="container">
-      <span class="pill">New</span>
-      <strong>Summer picks:</strong> clean HTML starters, tiny JS widgets, and React shells — all under 25KB CSS.
-      <div class="spacer"></div>
-      <a class="btn" href="products/index.html?sort=new">See new arrivals</a>
-    </div>
-  </div>
-
-  <!-- ================================================================ -->
-  <!-- Featured (6 cards)                                               -->
-  <!-- ================================================================ -->
-  <section class="container section-lg">
-    <div class="section-head">
-      <h2 class="section-title">Featured</h2>
-      <a class="btn" href="products/category.html">View All</a>
-    </div>
-    <div class="grid">
-      <!-- 1 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
-          <img src="images/catalog/html1.webp" data-fallback="images/catalog/html1.png" alt="Landing Starter (HTML)" loading="lazy" decoding="async">
-        </a>
-        <div class="body">
-          <div class="title">Landing Starter (HTML)</div>
-          <p class="desc">Hero, features, pricing and blog sections.</p>
-          <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="images/catalog/html1.html">Preview</a>
-            <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
-            <a class="btn primary" href="cart.html?add=1">Add</a>
-          </div>
-        </div>
-      </article>
-      <!-- 2 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
-          <img src="images/catalog/html2.webp" data-fallback="images/catalog/html2.png" alt="Dashboard Lite (HTML)" loading="lazy" decoding="async">
-        </a>
-        <div class="body">
-          <div class="title">Dashboard Lite (HTML)</div>
-          <p class="desc">Sidebar + topbar & chart placeholders (vanilla JS).</p>
-          <div class="meta"><div class="price">$24</div><span class="muted">JS</span></div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="images/catalog/html2.html">Preview</a>
-            <a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a>
-            <a class="btn primary" href="cart.html?add=2">Add</a>
-          </div>
-        </div>
-      </article>
-      <!-- 3 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
-          <img src="images/catalog/html3.webp" data-fallback="images/catalog/html3.png" alt="Portfolio Mini" loading="lazy" decoding="async">
-        </a>
-        <div class="body">
-          <div class="title">Portfolio Mini</div>
-          <p class="desc">Single-page portfolio with project grid and contact form.</p>
-          <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="images/catalog/html3.html">Preview</a>
-            <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
-            <a class="btn primary" href="cart.html?add=3">Add</a>
-          </div>
-        </div>
-      </article>
-      <!-- 4 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
-          <img src="images/catalog/html6.webp" data-fallback="images/catalog/html6.png" alt="E-commerce Mini" loading="lazy" decoding="async">
-        </a>
-        <div class="body">
-          <div class="title">E-commerce Mini</div>
-          <p class="desc">Product grid, product detail and cart icons.</p>
-          <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="images/catalog/html6.html">Preview</a>
-            <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
-            <a class="btn primary" href="cart.html?add=6">Add</a>
-          </div>
-        </div>
-      </article>
-      <!-- 5 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=17&slug=react-components">
-          <img src="images/catalog/html17.webp" data-fallback="images/catalog/html17.png" alt="React Components" loading="lazy" decoding="async">
-        </a>
-        <div class="body">
-          <div class="title">React Components</div>
-          <p class="desc">Cards, modals and tabs (markup only).</p>
-          <div class="meta"><div class="price">$15</div><span class="muted">React</span></div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="images/catalog/html17.html">Preview</a>
-            <a class="btn" href="products/detail.html?id=17&slug=react-components">Details</a>
-            <a class="btn primary" href="cart.html?add=17">Add</a>
-          </div>
-        </div>
-      </article>
-      <!-- 6 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=18&slug=svg-icons">
-          <img src="images/catalog/html18.webp" data-fallback="images/catalog/html18.png" alt="SVG Icons" loading="lazy" decoding="async">
-        </a>
-        <div class="body">
-          <div class="title">SVG Icons</div>
-          <p class="desc">Curated developer icon set (inlineable).</p>
-          <div class="meta"><div class="price">$6</div><span class="muted">Icons</span></div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="images/catalog/html18.html">Preview</a>
-            <a class="btn" href="products/detail.html?id=18&slug=svg-icons">Details</a>
-            <a class="btn primary" href="cart.html?add=18">Add</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ================================================================ -->
-  <!-- Latest products (full 20-card grid)                              -->
-  <!-- ================================================================ -->
-  <section class="container section">
-    <div class="section-head">
-      <h2 class="section-title">Latest Products</h2>
-      <a class="btn" href="products/category.html">Browse All</a>
-    </div>
-    <p class="muted">Static cards below mirror your catalog; image fallback WebP→PNG→JPG is automatic.</p>
-
-    <div class="grid">
-      <!-- 1..12 HTML group -->
-      <!-- 1 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
-          <img src="images/catalog/html1.webp" data-fallback="images/catalog/html1.png" alt="Landing Starter (HTML)" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Landing Starter (HTML)</div>
-          <p class="desc">Minimal landing with hero, features, pricing and blog sections.</p>
-          <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html1.html">Preview</a><a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a><a class="btn primary" href="cart.html?add=1">Add</a></div>
-        </div>
-      </article>
-      <!-- 2 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
-          <img src="images/catalog/html2.webp" data-fallback="images/catalog/html2.png" alt="Dashboard Lite (HTML)" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Dashboard Lite (HTML)</div>
-          <p class="desc">Sidebar, topbar and chart placeholders; vanilla JS.</p>
-          <div class="meta"><div class="price">$24</div><span class="muted">JS</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html2.html">Preview</a><a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a><a class="btn primary" href="cart.html?add=2">Add</a></div>
-        </div>
-      </article>
-      <!-- 3 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
-          <img src="images/catalog/html3.webp" data-fallback="images/catalog/html3.png" alt="Portfolio Mini" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Portfolio Mini</div>
-          <p class="desc">Single-page portfolio with project grid and contact form.</p>
-          <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html3.html">Preview</a><a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a><a class="btn primary" href="cart.html?add=3">Add</a></div>
-        </div>
-      </article>
-      <!-- 4 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=4&slug=blog-lite">
-          <img src="images/catalog/html4.webp" data-fallback="images/catalog/html4.png" alt="Blog Lite" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Blog Lite</div>
-          <p class="desc">List + single post layout with clean typography.</p>
-          <div class="meta"><div class="price">$12</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html4.html">Preview</a><a class="btn" href="products/detail.html?id=4&slug=blog-lite">Details</a><a class="btn primary" href="cart.html?add=4">Add</a></div>
-        </div>
-      </article>
-      <!-- 5 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=5&slug=agency-starter">
-          <img src="images/catalog/html5.webp" data-fallback="images/catalog/html5.png" alt="Agency Starter" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Agency Starter</div>
-          <p class="desc">Services: cards, testimonials, pricing.</p>
-          <div class="meta"><div class="price">$16</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html5.html">Preview</a><a class="btn" href="products/detail.html?id=5&slug=agency-starter">Details</a><a class="btn primary" href="cart.html?add=5">Add</a></div>
-        </div>
-      </article>
-      <!-- 6 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
-          <img src="images/catalog/html6.webp" data-fallback="images/catalog/html6.png" alt="E-commerce Mini" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">E-commerce Mini</div>
-          <p class="desc">Product grid, product detail and cart icons.</p>
-          <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html6.html">Preview</a><a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a><a class="btn primary" href="cart.html?add=6">Add</a></div>
-        </div>
-      </article>
-      <!-- 7 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=7&slug=resume-card">
-          <img src="images/catalog/html7.webp" data-fallback="images/catalog/html7.png" alt="Resume Card" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Resume Card</div>
-          <p class="desc">Single-page resume with skills, experience and contact.</p>
-          <div class="meta"><div class="price">$9</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html7.html">Preview</a><a class="btn" href="products/detail.html?id=7&slug=resume-card">Details</a><a class="btn primary" href="cart.html?add=7">Add</a></div>
-        </div>
-      </article>
-      <!-- 8 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=8&slug=product-list">
-          <img src="images/catalog/html8.webp" data-fallback="images/catalog/html8.png" alt="Product List" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Product List</div>
-          <p class="desc">Filterable item list with grid/row views.</p>
-          <div class="meta"><div class="price">$11</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html8.html">Preview</a><a class="btn" href="products/detail.html?id=8&slug=product-list">Details</a><a class="btn primary" href="cart.html?add=8">Add</a></div>
-        </div>
-      </article>
-      <!-- 9 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=9&slug=pricing-tables">
-          <img src="images/catalog/html9.webp" data-fallback="images/catalog/html9.png" alt="Pricing Tables" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Pricing Tables</div>
-          <p class="desc">3–4 column pricing with featured plan and CTAs.</p>
-          <div class="meta"><div class="price">$8</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html9.html">Preview</a><a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a><a class="btn primary" href="cart.html?add=9">Add</a></div>
-        </div>
-      </article>
-      <!-- 10 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=10&slug=contact-lite">
-          <img src="images/catalog/html10.webp" data-fallback="images/catalog/html10.png" alt="Contact Lite" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Contact Lite</div>
-          <p class="desc">Contact form, map placeholder and social links.</p>
-          <div class="meta"><div class="price">$7</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html10.html">Preview</a><a class="btn" href="products/detail.html?id=10&slug=contact-lite">Details</a><a class="btn primary" href="cart.html?add=10">Add</a></div>
-        </div>
-      </article>
-      <!-- 11 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=11&slug=faq-mini">
-          <img src="images/catalog/html11.webp" data-fallback="images/catalog/html11.png" alt="FAQ Mini" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">FAQ Mini</div>
-          <p class="desc">Accordion FAQ with categories and search input.</p>
-          <div class="meta"><div class="price">$6</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html11.html">Preview</a><a class="btn" href="products/detail.html?id=11&slug=faq-mini">Details</a><a class="btn primary" href="cart.html?add=11">Add</a></div>
-        </div>
-      </article>
-      <!-- 12 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=12&slug=gallery-grid">
-          <img src="images/catalog/html12.webp" data-fallback="images/catalog/html12.png" alt="Gallery Grid" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Gallery Grid</div>
-          <p class="desc">Masonry/grid gallery with lightbox placeholder.</p>
-          <div class="meta"><div class="price">$13</div><span class="muted">HTML</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html12.html">Preview</a><a class="btn" href="products/detail.html?id=12&slug=gallery-grid">Details</a><a class="btn primary" href="cart.html?add=12">Add</a></div>
-        </div>
-      </article>
-
-      <!-- React / Icons / Email / JS + Freebies -->
-      <!-- 13 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=17&slug=react-components">
-          <img src="images/catalog/html17.webp" data-fallback="images/catalog/html17.png" alt="React Components" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">React Components</div>
-          <p class="desc">Cards, modals and tabs (markup only).</p>
-          <div class="meta"><div class="price">$15</div><span class="muted">React</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html17.html">Preview</a><a class="btn" href="products/detail.html?id=17&slug=react-components">Details</a><a class="btn primary" href="cart.html?add=17">Add</a></div>
-        </div>
-      </article>
-      <!-- 14 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=18&slug=svg-icons">
-          <img src="images/catalog/html18.webp" data-fallback="images/catalog/html18.png" alt="SVG Icons" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">SVG Icons</div>
-          <p class="desc">Curated developer icon set (inlineable).</p>
-          <div class="meta"><div class="price">$6</div><span class="muted">Icons</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html18.html">Preview</a><a class="btn" href="products/detail.html?id=18&slug=svg-icons">Details</a><a class="btn primary" href="cart.html?add=18">Add</a></div>
-        </div>
-      </article>
-      <!-- 15 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=19&slug=email-templates">
-          <img src="images/catalog/html19.webp" data-fallback="images/catalog/html19.png" alt="Email Templates" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Email Templates</div>
-          <p class="desc">Transactional email starter set.</p>
-          <div class="meta"><div class="price">$9</div><span class="muted">Email</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html19.html">Preview</a><a class="btn" href="products/detail.html?id=19&slug=email-templates">Details</a><a class="btn primary" href="cart.html?add=19">Add</a></div>
-        </div>
-      </article>
-      <!-- 16 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=20&slug=js-widgets">
-          <img src="images/catalog/html20.webp" data-fallback="images/catalog/html20.png" alt="JS Widgets" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">JS Widgets</div>
-          <p class="desc">Tabs, accordions and tooltips (vanilla).</p>
-          <div class="meta"><div class="price">$11</div><span class="muted">JS</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html20.html">Preview</a><a class="btn" href="products/detail.html?id=20&slug=js-widgets">Details</a><a class="btn primary" href="cart.html?add=20">Add</a></div>
-        </div>
-      </article>
-
-      <!-- Freebies (101..104) -->
-      <!-- 17 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=101&slug=free-ui-kit">
-          <img src="images/catalog/html5.webp" data-fallback="images/catalog/html5.png" alt="FREE UI Kit" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">FREE UI Kit</div>
-          <p class="desc">Utility-first components; MIT license.</p>
-          <div class="meta"><div class="price">$0</div><span class="muted">CSS · Free</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html5.html">Preview</a><a class="btn" href="products/detail.html?id=101&slug=free-ui-kit">Details</a><a class="btn primary" href="products/detail.html?id=101&slug=free-ui-kit#download">Download</a></div>
-        </div>
-      </article>
-      <!-- 18 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=102&slug=react-starter-free">
-          <img src="images/catalog/html17.webp" data-fallback="images/catalog/html17.png" alt="React Starter (Free)" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">React Starter (Free)</div>
-          <p class="desc">Minimal React shell with routing.</p>
-          <div class="meta"><div class="price">$0</div><span class="muted">React · Free</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html17.html">Preview</a><a class="btn" href="products/detail.html?id=102&slug=react-starter-free">Details</a><a class="btn primary" href="products/detail.html?id=102&slug=react-starter-free#download">Download</a></div>
-        </div>
-      </article>
-      <!-- 19 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=103&slug=icons-free-pack">
-          <img src="images/catalog/html18.webp" data-fallback="images/catalog/html18.png" alt="Free Icons Pack" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Free Icons Pack</div>
-          <p class="desc">Basic outline icons for prototypes.</p>
-          <div class="meta"><div class="price">$0</div><span class="muted">Icons · Free</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html18.html">Preview</a><a class="btn" href="products/detail.html?id=103&slug=icons-free-pack">Details</a><a class="btn primary" href="products/detail.html?id=103&slug=icons-free-pack#download">Download</a></div>
-        </div>
-      </article>
-      <!-- 20 -->
-      <article class="card">
-        <a class="thumb" href="products/detail.html?id=104&slug=email-free">
-          <img src="images/catalog/html19.webp" data-fallback="images/catalog/html19.png" alt="Free Email Template" loading="lazy">
-        </a>
-        <div class="body">
-          <div class="title">Free Email Template</div>
-          <p class="desc">Responsive transactional email base.</p>
-          <div class="meta"><div class="price">$0</div><span class="muted">Email · Free</span></div>
-          <div class="actions"><a class="btn" target="_blank" rel="noopener" href="images/catalog/html19.html">Preview</a><a class="btn" href="products/detail.html?id=104&slug=email-free">Details</a><a class="btn primary" href="products/detail.html?id=104&slug=email-free#download">Download</a></div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ================================================================ -->
-  <!-- Stores preview                                                    -->
-  <!-- ================================================================ -->
-  <section class="container section">
-    <div class="section-head">
-      <h2 class="section-title">Popular Stores</h2>
-      <a class="btn" href="stores/index.html">View Stores</a>
-    </div>
-    <div class="stores-grid">
-      <article class="card store">
-        <div class="banner">
-          <img src="images/catalog/html3.webp" data-fallback="images/catalog/html3.png" alt="Store banner" loading="lazy">
-          <div class="avatar-wrap"><img src="images/catalog/html1.webp" data-fallback="images/catalog/html1.png" alt="Avatar"></div>
-        </div>
-        <div class="body">
-          <div class="title">Pixel Foundry</div>
-          <p class="desc">Clean HTML starters and utility CSS kits.</p>
-          <div class="meta"><span class="muted">42 items · Top seller</span></div>
-          <div class="actions"><a class="btn" href="stores/index.html">Open store</a></div>
-        </div>
-      </article>
-
-      <article class="card store">
-        <div class="banner">
-          <img src="images/catalog/html6.webp" data-fallback="images/catalog/html6.png" alt="Store banner" loading="lazy">
-          <div class="avatar-wrap"><img src="images/catalog/html2.webp" data-fallback="images/catalog/html2.png" alt="Avatar"></div>
-        </div>
-        <div class="body">
-          <div class="title">Widget Labs</div>
-          <p class="desc">Vanilla JS widgets and tiny plugins.</p>
-          <div class="meta"><span class="muted">18 items · 4.9★</span></div>
-          <div class="actions"><a class="btn" href="stores/index.html">Open store</a></div>
-        </div>
-      </article>
-
-      <article class="card store">
-        <div class="banner">
-          <img src="images/catalog/html17.webp" data-fallback="images/catalog/html17.png" alt="Store banner" loading="lazy">
-          <div class="avatar-wrap"><img src="images/catalog/html18.webp" data-fallback="images/catalog/html18.png" alt="Avatar"></div>
-        </div>
-        <div class="body">
-          <div class="title">Vector Supply</div>
-          <p class="desc">SVG icons and UI assets for developers.</p>
-          <div class="meta"><span class="muted">23 items · Trusted</span></div>
-          <div class="actions"><a class="btn" href="stores/index.html">Open store</a></div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ================================================================ -->
-  <!-- Newsletter & CTA                                                 -->
-  <!-- ================================================================ -->
-  <section class="container section">
-    <div class="grid" style="grid-template-columns:1.3fr .7fr">
-      <div class="newsletter">
-        <h3 class="mt-0">Get product updates</h3>
-        <p class="muted mt-8">No spam. Just releases & tips.</p>
-        <form class="row mt-12" onsubmit="event.preventDefault(); alert('Thanks!');">
-          <input type="email" placeholder="you@example.com" required>
-          <button class="btn primary" type="submit">Subscribe</button>
-        </form>
-      </div>
-      <div class="hero">
-        <div class="hero-inner">
-          <h3 class="mt-0">Become a seller</h3>
-          <p class="muted">Have quality templates or components? List your products and reach developers worldwide.</p>
-          <div class="actions"><a class="btn primary" href="advertise.html">Start selling</a></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================================================================ -->
-  <!-- Footer                                                           -->
-  <!-- ================================================================ -->
-  <footer class="container section" style="padding-top:0">
-    <div class="row">
-      <div class="footer-links">
+    <!-- ===================================== -->
+    <!-- Announcement bar (orange)             -->
+    <!-- ===================================== -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-banner row" role="region" aria-label="Announcement" style="padding:14px 18px">
+          <span class="pill" aria-hidden="true">New</span>
+          <strong class="nowrap" style="margin-left:8px">Summer picks:</strong>
+          <span class="muted" style="margin-left:8px">
+            clean HTML starters, tiny JS widgets, and React shells — all under 25KB CSS.
+          </span>
+          <a class="btn ghost" href="products/index.html?sort=new" style="margin-left:auto">See new arrivals</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Featured Templates                     -->
+    <!-- ===================================== -->
+    <section class="section-lg">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Featured HTML Templates</h2>
+          <a class="btn" href="products/index.html">View all</a>
+        </div>
+
+        <div class="grid" aria-label="Featured products">
+
+          <!-- Card 1 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
+              <img src="images/catalog/html1.webp" alt="Landing Starter (HTML)" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Landing Starter (HTML)</div>
+              <div class="desc">Hero, features, pricing and blog sections.</div>
+              <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
+                <a class="btn primary" href="cart.html?add=1">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
+              <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Dashboard Lite (HTML)</div>
+              <div class="desc">Sidebar + topbar &amp; chart placeholders.</div>
+              <div class="meta"><div class="price">$24</div><span class="muted">JS</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a>
+                <a class="btn primary" href="cart.html?add=2">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
+              <img src="images/catalog/html3.webp" alt="Portfolio Mini" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Portfolio Mini</div>
+              <div class="desc">Single-page portfolio with project grid.</div>
+              <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
+                <a class="btn primary" href="cart.html?add=3">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=4&slug=blog-lite">
+              <img src="images/catalog/html4.webp" alt="Blog Lite" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Blog Lite</div>
+              <div class="desc">List + single post layout with clean typography.</div>
+              <div class="meta"><div class="price">$12</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=4&slug=blog-lite" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=4&slug=blog-lite">Details</a>
+                <a class="btn primary" href="cart.html?add=4">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=5&slug=agency-starter">
+              <img src="images/catalog/html5.webp" alt="Agency Starter" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Agency Starter</div>
+              <div class="desc">Service cards, testimonials, pricing.</div>
+              <div class="meta"><div class="price">$16</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=5&slug=agency-starter" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=5&slug=agency-starter">Details</a>
+                <a class="btn primary" href="cart.html?add=5">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
+              <img src="images/catalog/html6.webp" alt="E-commerce Mini" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">E-commerce Mini</div>
+              <div class="desc">Product grid, detail and cart icons.</div>
+              <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
+                <a class="btn primary" href="cart.html?add=6">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 7 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=7&slug=resume-card">
+              <img src="images/catalog/html7.webp" alt="Resume Card" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Resume Card</div>
+              <div class="desc">Skills, experience, contact sections.</div>
+              <div class="meta"><div class="price">$9</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=7&slug=resume-card" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=7&slug=resume-card">Details</a>
+                <a class="btn primary" href="cart.html?add=7">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 8 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=8&slug=product-list">
+              <img src="images/catalog/html8.webp" alt="Product List" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Product List</div>
+              <div class="desc">Filterable list with grid/row views.</div>
+              <div class="meta"><div class="price">$11</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=8&slug=product-list" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=8&slug=product-list">Details</a>
+                <a class="btn primary" href="cart.html?add=8">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 9 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=9&slug=pricing-tables">
+              <img src="images/catalog/html9.webp" alt="Pricing Tables" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Pricing Tables</div>
+              <div class="desc">3–4 column pricing, featured plan.</div>
+              <div class="meta"><div class="price">$8</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a>
+                <a class="btn primary" href="cart.html?add=9">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 10 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=10&slug=contact-lite">
+              <img src="images/catalog/html10.webp" alt="Contact Lite" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Contact Lite</div>
+              <div class="desc">Contact form, map, social links.</div>
+              <div class="meta"><div class="price">$7</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=10&slug=contact-lite" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=10&slug=contact-lite">Details</a>
+                <a class="btn primary" href="cart.html?add=10">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 11 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=11&slug=faq-mini">
+              <img src="images/catalog/html11.webp" alt="FAQ Mini" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">FAQ Mini</div>
+              <div class="desc">Accordion FAQ with categories.</div>
+              <div class="meta"><div class="price">$6</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=11&slug=faq-mini" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=11&slug=faq-mini">Details</a>
+                <a class="btn primary" href="cart.html?add=11">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 12 -->
+          <article class="card pop">
+            <a class="thumb" href="products/detail.html?id=12&slug=gallery-grid">
+              <img src="images/catalog/html12.webp" alt="Gallery Grid" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Gallery Grid</div>
+              <div class="desc">Masonry/grid gallery w/ lightbox placeholder.</div>
+              <div class="meta"><div class="price">$13</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=12&slug=gallery-grid" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=12&slug=gallery-grid">Details</a>
+                <a class="btn primary" href="cart.html?add=12">Add</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Top Stores                            -->
+    <!-- ===================================== -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Top Stores</h2>
+          <a class="btn" href="stores/index.html">Open catalog</a>
+        </div>
+
+        <div class="grid">
+          <article class="card h-min">
+            <div class="body">
+              <div class="title">Pixel Foundry</div>
+              <div class="desc">Clean HTML starters and utility CSS kits.</div>
+              <div class="meta"><span class="muted">42 items · Top seller</span></div>
+              <div class="actions">
+                <a class="btn" href="stores/index.html#pixelfoundry">Open store</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card h-min">
+            <div class="body">
+              <div class="title">Widget Labs</div>
+              <div class="desc">Vanilla JS widgets and tiny plugins.</div>
+              <div class="meta"><span class="muted">18 items · 4.9★</span></div>
+              <div class="actions">
+                <a class="btn" href="stores/index.html#widgetlabs">Open store</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card h-min">
+            <div class="body">
+              <div class="title">Vector Supply</div>
+              <div class="desc">SVG icons and UI assets for developers.</div>
+              <div class="meta"><span class="muted">23 items · Trusted</span></div>
+              <div class="actions">
+                <a class="btn" href="stores/index.html#vectorsupply">Open store</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================== -->
+    <!-- Newsletter + Become a seller          -->
+    <!-- ===================================== -->
+    <section class="section">
+      <div class="container grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+        <!-- Newsletter -->
+        <article class="card h-min">
+          <div class="body">
+            <div class="title">Get product updates</div>
+            <div class="desc">No spam. Just releases &amp; tips.</div>
+            <form class="row" onsubmit="event.preventDefault(); alert('Subscribed!');">
+              <input type="email" placeholder="you@example.com" required style="flex:1">
+              <button class="btn" type="submit">Subscribe</button>
+            </form>
+          </div>
+        </article>
+
+        <!-- Become a seller -->
+        <article class="card h-min" style="background:linear-gradient(180deg,#fff2e9,#fff)">
+          <div class="body">
+            <div class="title">Become a seller</div>
+            <div class="desc">Have quality templates or components? List your products and reach developers worldwide.</div>
+            <a class="btn primary" href="advertise.html">Start selling</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================== -->
+  <!-- Footer                                 -->
+  <!-- ===================================== -->
+  <footer class="section">
+    <div class="container stack">
+      <nav class="row" aria-label="Footer">
         <a href="index.html">Home</a>
         <a href="products/index.html">Catalog</a>
         <a href="stores/index.html">Stores</a>
-        <a href="catalog/index.html">Explore</a>
-        <a href="products/category.html#freebies">Freebies</a>
+        <a href="explore.html">Explore</a>
+        <a href="products/index.html?cat=free">Freebies</a>
         <a href="contact.html">Contact</a>
         <a href="privacy.html">Privacy</a>
-      </div>
-      <div class="spacer"></div>
-      <span class="muted">© <span id="year"></span> RGZTEC — All rights reserved.</span>
+      </nav>
+      <div class="muted">© 2025 RGZTEC — All rights reserved.</div>
     </div>
   </footer>
 
-  <!-- ================================================================ -->
-  <!-- Shared JS (nav search, chips routing, image fallback, cart)      -->
-  <!-- ================================================================ -->
-  <script src="assets/js/main.js"></script>
+  <!-- ===================================== -->
+  <!-- Minimal JS: search, chips, fallback    -->
+  <!-- ===================================== -->
+  <script>
+    (function(){
+      const root = location.origin + location.pathname.replace(/index\.html?$/,'');
+      const goProducts = (params = {})=>{
+        const url = new URL('products/index.html', root || location.origin);
+        Object.entries(params).forEach(([k,v])=>{
+          if(v!==undefined && v!==null && String(v).trim()!=='') url.searchParams.set(k, v);
+        });
+        location.href = url.toString();
+      };
+
+      // Header search
+      const globalForm = document.getElementById('globalSearchForm');
+      const gq = document.getElementById('global-q');
+      globalForm?.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        goProducts({ q: gq.value.trim() });
+      });
+
+      // Hero quick search
+      const qq = document.getElementById('home-q');
+      const btn = document.getElementById('home-search');
+      btn?.addEventListener('click', ()=> goProducts({ q: qq.value.trim() }) );
+      qq?.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); goProducts({ q: qq.value.trim() }); } });
+
+      // "/" focuses quick search
+      window.addEventListener('keydown', (e)=>{
+        if (e.key === '/' && document.activeElement !== qq) { e.preventDefault(); qq?.focus(); }
+      });
+
+      // Chips
+      document.querySelectorAll('.chip[data-cat]').forEach(ch=>{
+        ch.addEventListener('click', ()=>{
+          const cat = ch.getAttribute('data-cat');
+          goProducts({ cat });
+        });
+      });
+
+      // Image fallback: webp -> png -> jpg
+      document.querySelectorAll('img').forEach(img=>{
+        img.onerror = ()=>{
+          const src = img.getAttribute('src')||'';
+          if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+          if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
+          img.onerror = null;
+        };
+      });
+    })();
+  </script>
 </body>
 </html>
+
