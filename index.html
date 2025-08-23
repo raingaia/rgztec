@@ -8,7 +8,7 @@
   <meta name="description" content="Buy & sell production-ready static code: HTML templates, CSS UI kits, JS widgets, React components, SVG icon sets and email templates.">
   <link rel="stylesheet" href="assets/css/home.css" />
 
-  <!-- Home overrides (only what we need for hero / quick picks / mini-cards) -->
+  <!-- Home overrides (hero / quick picks / mini-cards / corporate footer) -->
   <style>
     :root{
       --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
@@ -16,13 +16,14 @@
       --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
       --tile:#fff7f2;
     }
-    /* Header search bar alignment */
+
+    /* Header */
     .mast{display:flex;align-items:center;gap:12px;padding:10px 0}
     .searchbar{display:flex;gap:8px;align-items:center;flex:1}
     .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
     .searchbar button{height:42px}
     .top-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .linkrow{display:flex;gap:22px;align-items:center;justify-content:center;border-top:1px solid var(--b);}
+    .linkrow{display:flex;gap:22px;align-items:center;justify-content:center;border-top:1px solid var(--b)}
 
     /* Hero */
     .hero-wrap{margin-top:10px}
@@ -42,6 +43,7 @@
     .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
     .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
     .btn.ghost{background:#fff}
+
     /* Quick search panel */
     .qs{background:#ffe6d6;border:1px solid #ffd2b9;border-radius:16px;margin:20px;box-shadow:var(--shadow)}
     .qs .inner{padding:18px}
@@ -49,9 +51,11 @@
     .qs .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .qs input{height:40px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1}
     .qs .tag{display:inline-flex;align-items:center;border:1px solid #ffd2b9;background:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
+
     /* Orange band */
     .band{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;gap:16px;align-items:center}
     .band small{opacity:.9}
+
     /* Quick picks (6 tiles) */
     .picks{margin-top:18px}
     .tiles{display:grid;gap:14px;grid-template-columns:repeat(6, minmax(160px,1fr))}
@@ -65,9 +69,9 @@
     .tile .body{padding:12px}
     .tile .t{font-weight:900}
     .tile .d{color:var(--muted);font-size:14px}
-    /* Section heads */
+
+    /* Sections / cards */
     .section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}
-    /* Product card (mini) – uses same pattern as categories.css */
     .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill, minmax(260px,1fr))}
     .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease;}
     .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
@@ -79,13 +83,41 @@
     .meta{display:flex;justify-content:space-between;align-items:center}
     .price{font-weight:900}
     .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
-    /* Footer grid */
+
+    /* Newsletter + seller cards */
     .foot-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
     .card.light{background:#fff;border:1px solid var(--b)}
     .cta-seller{background:linear-gradient(180deg,#ffe6d6,#fff2ea);border:1px solid #ffd2b9}
+
+    /* Corporate footer */
+    .site-footer{background:#0f1422;color:#c9d3f0;margin-top:24px;border-top:1px solid var(--b)}
+    .site-footer .wrap{width:min(1200px, 100% - 2*min(4vw,28px));margin-inline:auto;padding:28px 0}
+    .f-top{display:grid;gap:18px;grid-template-columns:1.4fr repeat(4, 1fr);align-items:start}
+    .brand-block .logo-pill{display:inline-flex;align-items:center;border:1px solid #223148;border-radius:999px;padding:6px 10px;background:#0f1422;font-weight:900;color:#e7ecf5}
+    .brand-block p{margin:10px 0 0;color:#a1acc5}
+    .f-col{display:grid;gap:8px}
+    .f-col h4{margin:0 0 6px;color:#e7ecf5}
+    .f-link{color:#c9d3f0}
+    .f-link:hover{color:#fff;text-decoration:underline}
+    .f-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1a2233;margin-top:18px;padding-top:12px;color:#a1acc5;font-size:14px}
+    .legal a{color:#c9d3f0}
+    .legal a:hover{text-decoration:underline}
+
+    /* Optional: subtle differentiation for free-CTA */
+    .btn.primary.cta-free { box-shadow: 0 0 0 2px rgba(255,145,77,.15) inset; }
+
     /* Responsive */
-    @media (max-width:1100px){ .tiles{grid-template-columns:repeat(3, minmax(160px,1fr))} .hero-grid{grid-template-columns:1fr} .qs{margin:0 20px 20px} }
-    @media (max-width:700px){ .tiles{grid-template-columns:repeat(2, minmax(150px,1fr))} }
+    @media (max-width:1100px){
+      .tiles{grid-template-columns:repeat(3, minmax(160px,1fr))}
+      .hero-grid{grid-template-columns:1fr}
+      .qs{margin:0 20px 20px}
+      .f-top{grid-template-columns:1fr 1fr;gap:22px}
+    }
+    @media (max-width:700px){
+      .tiles{grid-template-columns:repeat(2, minmax(150px,1fr))}
+      .f-top{grid-template-columns:1fr}
+      .f-bottom{flex-direction:column;gap:8px;align-items:flex-start}
+    }
   </style>
 </head>
 <body>
@@ -406,11 +438,11 @@
           <div class="actions">
             <a class="btn" href="demo/index.html?item=102&slug=react-starter-free" target="_blank" rel="noopener">Preview</a>
             <a class="btn" href="products/detail.html?id=102&slug=react-starter-free">Details</a>
-            <a class="btn primary" href="products/detail.html?id=102&slug=react-starter-free#download">Download</a>
+            <a class="btn primary" href="products/detail.html?id=102&slug=react-starter-free#download">Get free</a>
           </div>
         </div>
       </article>
-      <!-- two filler from HTML set to keep grid full -->
+      <!-- two filler to keep grid full -->
       <article class="card">
         <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini"><img src="images/catalog/html6.webp" alt="E-commerce Mini"></a>
         <div class="body">
@@ -468,7 +500,7 @@
           <div class="actions">
             <a class="btn" href="demo/index.html?item=103&slug=icons-free-pack" target="_blank" rel="noopener">Preview</a>
             <a class="btn" href="products/detail.html?id=103&slug=icons-free-pack">Details</a>
-            <a class="btn primary" href="products/detail.html?id=103&slug=icons-free-pack#download">Download</a>
+            <a class="btn primary" href="products/detail.html?id=103&slug=icons-free-pack#download">Get free</a>
           </div>
         </div>
       </article>
@@ -513,7 +545,7 @@
           <div class="title">Email Templates</div>
           <div class="desc">Transactional email starter set.</div>
           <div class="meta"><div class="price">$9</div><span class="muted">Email</span></div>
-        <div class="actions">
+          <div class="actions">
             <a class="btn" href="demo/index.html?item=19&slug=email-templates" target="_blank" rel="noopener">Preview</a>
             <a class="btn" href="products/detail.html?id=19&slug=email-templates">Details</a>
             <a class="btn primary" href="cart.html?add=19">Add</a>
@@ -530,7 +562,7 @@
           <div class="actions">
             <a class="btn" href="demo/index.html?item=104&slug=email-free" target="_blank" rel="noopener">Preview</a>
             <a class="btn" href="products/detail.html?id=104&slug=email-free">Details</a>
-            <a class="btn primary" href="products/detail.html?id=104&slug=email-free#download">Download</a>
+            <a class="btn primary" href="products/detail.html?id=104&slug=email-free#download">Get free</a>
           </div>
         </div>
       </article>
@@ -615,20 +647,53 @@
     </div>
   </section>
 
-  <footer class="container section">
-    <nav class="row" style="gap:14px">
-      <a href="index.html">Home</a> ·
-      <a href="products/index.html">Catalog</a> ·
-      <a href="stores/index.html">Stores</a> ·
-      <a href="catalog/index.html">Explore</a> ·
-      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
-      <a href="contact.html">Contact</a> ·
-      <a href="terms.html">Privacy</a>
-    </nav>
-    <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
+  <!-- CORPORATE FOOTER -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="f-top">
+        <div class="brand-block">
+          <span class="logo-pill">RGZTEC</span>
+          <p>Production-ready HTML, CSS, JS and React UI. Clean code, instant demos, curated delivery.</p>
+        </div>
+        <nav class="f-col">
+          <h4>Marketplace</h4>
+          <a class="f-link" href="products/index.html">Browse Products</a>
+          <a class="f-link" href="stores/index.html">Stores</a>
+          <a class="f-link" href="products/index.html?sort=popular">Trending</a>
+          <a class="f-link" href="products/index.html?cat=free#freebies">Freebies</a>
+        </nav>
+        <nav class="f-col">
+          <h4>Categories</h4>
+          <a class="f-link" href="products/index.html?cat=html">HTML</a>
+          <a class="f-link" href="products/js-widgets.html">JS Widgets</a>
+          <a class="f-link" href="products/css-ui-kits.html">CSS UI Kits</a>
+          <a class="f-link" href="react.html">React</a>
+          <a class="f-link" href="svg-icons.html">SVG Icons</a>
+          <a class="f-link" href="email-templates.html">Email</a>
+        </nav>
+        <nav class="f-col">
+          <h4>Resources</h4>
+          <a class="f-link" href="demo/index.html">Demo Gallery</a>
+          <a class="f-link" href="catalog/index.html">Catalog</a>
+          <a class="f-link" href="contact.html">Contact</a>
+          <a class="f-link" href="help.html">Help Center</a>
+        </nav>
+        <nav class="f-col">
+          <h4>Company</h4>
+          <a class="f-link" href="about.html">About</a>
+          <a class="f-link" href="advertise.html">Become a Seller</a>
+          <a class="f-link" href="terms.html">Terms</a>
+          <a class="f-link" href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+      <div class="f-bottom">
+        <div class="legal">© 2025 RGZTEC — All rights reserved.</div>
+        <div class="legal"><a href="sitemap.xml">Sitemap</a> · <a href="changelog.html">Changelog</a></div>
+      </div>
+    </div>
   </footer>
 
-  <!-- JS: webp fallback + UX niceties -->
+  <!-- JS: webp fallback + UX niceties + FREE CTA normalize -->
   <script>
     // WebP -> PNG -> JPG fallback
     document.querySelectorAll('img').forEach(img=>{
@@ -646,6 +711,22 @@
         const el = document.querySelector('input[type="search"]'); el && el.focus();
       }
     });
+    // Normalize primary CTA for FREE items across all grids (safety net)
+    (function normalizeFreeCTA(){
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card=>{
+        const priceText = card.querySelector('.price')?.textContent || card.dataset.price || '';
+        const price = Number((priceText.match(/[0-9.]+/)||['0'])[0]);
+        const primary = card.querySelector('.actions .btn.primary');
+        const details = card.querySelector('.actions a[href*="products/detail.html"]');
+        if (price === 0 && primary && details) {
+          primary.textContent = 'Get free';
+          primary.href = details.href + '#download';
+          primary.setAttribute('aria-label','Get this free item');
+          primary.classList.add('cta-free');
+        }
+      });
+    })();
   </script>
 </body>
 </html>
