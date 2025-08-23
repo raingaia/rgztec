@@ -1,91 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><!-- GitHub Pages kökü: tüm göreli yollar /rgztec/ altında çözülsün -->
-<base href="/rgztec/">
+  <meta charset="utf-8" />
+  <base href="/rgztec/">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC · Demo Gallery</title>
+  <meta name="description" content="Live demos for RGZTEC templates, widgets, components and more. Deep-link with ?item=&slug=&open=1.">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RGZTEC - HTML Templates Showcase</title>
-  <link rel="stylesheet" href="/rgztec/assets/style.css?v=16" />
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/categories.css" />
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .product-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-      transition: transform 0.2s ease;
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-    }
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .product-card h3 {
-      margin: 0.5rem;
-      font-size: 1.1rem;
-    }
-    .product-card p {
-      margin: 0.5rem;
-      font-size: 0.9rem;
-      color: #555;
-    }
-    .product-card a button {
-      margin: 1rem;
-      padding: 0.5rem 1rem;
-      background: #f97316;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .product-card a button:hover {
-      background: #ea580c;
-    }
+    .gallery-head{ margin:18px 0 8px }
+    .hint{ color:var(--muted); font-size:14px }
+    .demo-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px }
+    .card.demo{ min-height:320px }
+    .card.demo.highlight{ outline:3px solid #111; outline-offset:2px }
+    @media (max-width:520px){ .demo-grid{ grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>HTML Template Gallery</h1>
-    <div class="grid" id="product-list"></div>
-  </div>
+  <header>
+    <div class="container top">
+      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>Demo Gallery</strong></a>
+      <nav class="menu">
+        <a href="products/index.html">Products</a>
+        <a href="catalog/index.html">Catalog</a>
+        <a href="stores/index.html">Stores</a>
+      </nav>
+    </div>
+  </header>
 
-  <script src="/rgztec/data/products.js"></script>
+  <main class="container" style="margin:18px 0">
+    <h1 class="gallery-head">HTML Template Gallery</h1>
+    <p class="hint">Deep-link ready: <code>?item=&lt;id&gt;&amp;slug=&lt;slug&gt;&amp;open=1</code>. Images auto-fallback from WebP → PNG → JPG.</p>
+
+    <section id="grid" class="demo-grid" aria-label="Demo items"><!-- filled by JS --></section>
+  </main>
+
+  <footer class="container" style="margin:28px 0;color:#6b7280">
+    <small>© <span id="year"></span> RGZTEC — All rights reserved.</small>
+  </footer>
+
   <script>
-    const container = document.getElementById("product-list");
-    const products = window.RGZ_PRODUCTS || [];
+    (function(){
+      const $  = (s,root=document)=>root.querySelector(s);
+      const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
 
-    products.forEach((item) => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <img src="/rgztec/images/${item.image}" alt="${item.title}" />
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <a href="/rgztec/demos/${item.slug}.html" target="_blank">
-          <button>Live Demo</button>
-        </a>
-      `;
-      container.appendChild(card);
-    });
+      /* Year */
+      $('#year').textContent = new Date().getFullYear();
+
+      /* Data: keep ids in sync with images/catalog/html<ID>.webp|.html */
+      const ITEMS = [
+        {id:1,  slug:'landing-starter-html', title:'Landing Starter (HTML)', desc:'Minimal landing with hero, features, pricing and blog sections.'},
+        {id:2,  slug:'dashboard-lite-html',  title:'Dashboard Lite (HTML)',   desc:'Sidebar, topbar and chart placeholders; vanilla JS.'},
+        {id:3,  slug:'portfolio-mini',       title:'Portfolio Mini',          desc:'Single-page portfolio with project grid and contact form.'},
+        {id:4,  slug:'blog-lite',            title:'Blog Lite',               desc:'List + single post layout with clean typography.'},
+        {id:5,  slug:'agency-starter',       title:'Agency Starter',          desc:'Service cards, testimonials and pricing.'},
+        {id:6,  slug:'e-commerce-mini',      title:'E-commerce Mini',         desc:'Product grid, product detail and cart icons.'},
+        {id:7,  slug:'resume-card',          title:'Resume Card',             desc:'Skills, experience and contact.'},
+        {id:8,  slug:'product-list',         title:'Product List',            desc:'Filterable list with grid/row views.'},
+        {id:9,  slug:'pricing-tables',       title:'Pricing Tables',          desc:'3–4 column plans with CTA buttons.'},
+        {id:10, slug:'contact-lite',         title:'Contact Lite',            desc:'Contact form, map placeholder and social links.'},
+        {id:11, slug:'faq-mini',             title:'FAQ Mini',                desc:'Accordion FAQ with categories and search input.'},
+        {id:12, slug:'gallery-grid',         title:'Gallery Grid',            desc:'Masonry/grid gallery with lightbox placeholder.'},
+        {id:13, slug:'admin-mini',           title:'Admin Mini',              desc:'Admin shell with basic widgets.'},
+        {id:14, slug:'hero-collection',      title:'Hero Collection',         desc:'Hero sections for quick starts.'},
+        {id:15, slug:'newsletter-box',       title:'Newsletter Box',          desc:'Email subscribe section and success state.'},
+        {id:16, slug:'auth-pages',           title:'Auth Pages',              desc:'Sign in / sign up / reset password screens.'},
+        {id:17, slug:'react-components',     title:'React Components',        desc:'Cards, modals and tabs (markup only).'},
+        {id:18, slug:'svg-icons',            title:'SVG Icons',               desc:'Developer-focused inlineable icons.'},
+        {id:19, slug:'email-templates',      title:'Email Templates',         desc:'Transactional email starter set.'},
+        {id:20, slug:'js-widgets',           title:'JS Widgets',              desc:'Tabs, accordions and tooltips (vanilla).'},
+      ];
+
+      /* Build cards */
+      const grid = $('#grid');
+      grid.innerHTML = ITEMS.map(item => {
+        const img = `images/catalog/html${item.id}.webp`;
+        const demo = `images/catalog/html${item.id}.html`; // your repo already has these html files
+        const details = `products/detail.html?id=${item.id}&slug=${encodeURIComponent(item.slug)}`;
+        return `
+          <article class="card demo" data-id="${item.id}" data-slug="${item.slug}">
+            <a class="thumb" href="${details}">
+              <img src="${img}" alt="${item.title}" loading="lazy" decoding="async" data-fallback="images/catalog/html${item.id}.png">
+            </a>
+            <div class="body">
+              <div class="title">${item.title}</div>
+              <p class="desc">${item.desc}</p>
+              <div class="actions">
+                <a class="btn" target="_blank" rel="noopener" href="${demo}" data-action="live">Live Demo</a>
+                <a class="btn" href="${details}">Details</a>
+                <a class="btn primary" href="cart.html?add=${item.id}">Add</a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      /* Image fallback: .webp → .png → .jpg → custom data-fallback */
+      $$('img').forEach(img=>{
+        const base = (img.getAttribute('src')||'').replace(/\.(webp|png|jpg)$/i,'');
+        const custom = img.getAttribute('data-fallback');
+        img.onerror = ()=>{
+          if(img.src.endsWith('.webp')){ img.src = base + '.png'; return; }
+          if(img.src.endsWith('.png')) { img.src = base + '.jpg';  return; }
+          if(custom && img.src.indexOf(custom)===-1){ img.src = custom; return; }
+          img.onerror = null;
+        };
+      });
+
+      /* Deep-link handling */
+      const params = new URL(location.href).searchParams;
+      const itemParam = params.get('item');
+      const slugParam = params.get('slug');
+      const autoOpen  = params.get('open') === '1';
+
+      function focusCard(card){
+        if(!card) return;
+        card.classList.add('highlight');
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        if(autoOpen){
+          const link = card.querySelector('[data-action="live"]');
+          if(link) setTimeout(()=>window.open(link.href, '_blank', 'noopener'), 200);
+        }
+      }
+
+      let target = null;
+      if(itemParam){
+        target = $(`.card.demo[data-id="${CSS.escape(itemParam)}"]`);
+      }
+      if(!target && slugParam){
+        target = $(`.card.demo[data-slug="${CSS.escape(slugParam)}"]`);
+      }
+      if(target){ focusCard(target); }
+
+      /* Optional: keyword search via hash, e.g. #search=portfolio */
+      if(!target && location.hash.startsWith('#search=')){
+        const term = decodeURIComponent(location.hash.slice(8)).toLowerCase();
+        const first = $$('.card.demo').find(c =>
+          (c.querySelector('.title')?.textContent||'').toLowerCase().includes(term) ||
+          (c.querySelector('.desc')?.textContent||'').toLowerCase().includes(term)
+        );
+        focusCard(first);
+      }
+    })();
   </script>
 </body>
 </html>
