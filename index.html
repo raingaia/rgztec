@@ -113,54 +113,64 @@
 
   <!-- ================================================================ -->
   <!-- Hero split: heading + quick search + chips                       -->
-  <!-- ================================================================ -->
-  <section class="container section">
-    <div class="hero hero-split">
-      <div class="hero-inner">
-        <div class="grid2">
-          <!-- Left -->
-          <div class="panel">
-            <h1 class="mt-0">Launch faster with production-ready UI</h1>
-            <p class="lead">HTML templates, CSS UI kits, vanilla JS widgets and React components. Live demos, clean code, instant copy.</p>
-            <div class="kpis mt-12">
-              <div class="kpi"><strong>20+</strong> curated items</div>
-              <div class="kpi"><strong>Lightweight</strong> &amp; semantic</div>
-              <div class="kpi"><strong>MIT</strong> freebies included</div>
-            </div>
-            <div class="actions mt-12">
-              <a class="btn primary" href="products/category.html">Browse Products</a>
-              <a class="btn" href="stores/index.html">Our Stores</a>
-              <a class="btn" href="catalog/index.html">Explore</a>
-            </div>
+<!-- HERO -->
+<section class="section">
+  <div class="container">
+    <div class="hero" style="padding:22px 22px">
+      <div class="row" style="align-items:stretch">
+        <!-- Left: headline -->
+        <div style="flex:1; min-width:280px" class="stack-lg">
+          <h1 class="mt-0" style="font-size:clamp(32px,3.4vw,48px); letter-spacing:-.02em">
+            Launch faster with <br />production-ready UI
+          </h1>
+          <p class="lead">
+            HTML templates, CSS UI kits, vanilla JS widgets and React components.
+            Live demos, clean code, instant copy.
+          </p>
+
+          <div class="row kpis">
+            <span class="pill">20+ curated items</span>
+            <span class="pill">Lightweight &amp; semantic</span>
+            <span class="pill">MIT <span class="muted">freebies included</span></span>
           </div>
-          <!-- Right -->
-          <div class="panel soft">
-            <h3 class="mt-0">Quick search</h3>
-            <form id="homeSearch" class="stack" role="search" aria-label="Search catalog">
-              <input id="q" type="search" placeholder="Search products, tags or categories…" />
-              <div class="btn-group">
-                <button class="btn" type="submit">Search</button>
-                <a class="btn" href="products/category.html?cat=free">Freebies</a>
+
+          <div class="btn-group mt-12">
+            <a class="btn primary" href="products/index.html">Browse Products</a>
+            <a class="btn" href="stores/index.html">Our Stores</a>
+            <a class="btn" href="explore.html">Explore</a>
+          </div>
+        </div>
+
+        <!-- Right: quick search card -->
+        <aside style="flex:0 0 420px; max-width:100%">
+          <div class="card sm" style="padding:16px; background:#ffe7d7; border-color:#ffd3b8">
+            <div class="stack">
+              <strong class="muted" style="text-transform:uppercase; letter-spacing:.06em">Quick search</strong>
+              <div class="row">
+                <input id="home-q" type="search" class="w-100"
+                       placeholder="Search products, tags or categories…" />
+                <button id="home-search" class="btn">Search</button>
               </div>
-            </form>
-            <div class="stack mt-12">
-              <div class="row" id="chips" data-chip-group="categories" aria-label="Quick categories">
-                <button class="btn badge" data-cat="html">HTML</button>
-                <button class="btn badge" data-cat="admin">Admin</button>
-                <button class="btn badge" data-cat="js">JS</button>
-                <button class="btn badge" data-cat="css">CSS</button>
-                <button class="btn badge" data-cat="react">React</button>
-                <button class="btn badge" data-cat="icons">Icons</button>
-                <button class="btn badge" data-cat="email">Email</button>
-                <button class="btn badge" data-cat="free">Freebies</button>
+
+              <div class="btn-group" role="group" aria-label="Quick filters">
+                <button class="chip" data-cat="free">Freebies</button>
+                <button class="chip" data-cat="html">HTML</button>
+                <button class="chip" data-cat="admin">Admin</button>
+                <button class="chip" data-cat="js">JS</button>
+                <button class="chip" data-cat="css">CSS</button>
+                <button class="chip" data-cat="react">React</button>
+                <button class="chip" data-cat="icons">Icons</button>
+                <button class="chip" data-cat="email">Email</button>
               </div>
+
               <small class="muted">Tip: Press <kbd>/</kbd> to focus search.</small>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ================================================================ -->
   <!-- Promo band                                                       -->
