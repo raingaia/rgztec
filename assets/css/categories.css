@@ -1,0 +1,27 @@
+/* Categories layout fix - shared styles for all /products/*.html */
+body{background:#f7f8fb;color:#0d1220}
+header,.subnav{background:#fff}
+
+/* Force CSS Grid (disable multi-column layouts that squeeze cards) */
+.cards,.grid{
+  columns:unset !important;
+  column-gap:0 !important;
+  display:grid !important;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) !important;
+  gap:16px !important;
+  align-items:stretch;
+}
+
+/* Card */
+.card{
+  background:#fff;border:1px solid #e7ebf3;border-radius:14px;
+  display:flex;flex-direction:column;overflow:hidden;min-height:360px
+}
+.thumb{aspect-ratio:16/9;background:#f2f3f6}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+.title{font-weight:900;word-break:break-word}
+.desc{color:#5b657a;font-size:14px;min-height:44px}
+.meta{display:flex;justify-content:space-between;align-items:center}
+.price{font-weight:900}
+.actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
