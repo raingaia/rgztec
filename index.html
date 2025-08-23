@@ -4,127 +4,100 @@
   <meta charset="utf-8" />
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC · Marketplace for static code</title>
-  <meta name="description" content="Buy & sell production-ready HTML templates, CSS UI kits, JS widgets and React components. Live demos, clean code, instant copy.">
-
-  <!-- Global styles -->
+  <title>RGZTEC · Marketplace</title>
+  <meta name="description" content="Buy & sell production-ready static code: HTML templates, CSS UI kits, JS widgets, React components, SVG icon sets and email templates.">
   <link rel="stylesheet" href="assets/css/home.css" />
 
-  <!-- Page-specific polish (keeps your global system intact) -->
+  <!-- Home overrides (only what we need for hero / quick picks / mini-cards) -->
   <style>
     :root{
-      /* brighter, modern orange on white */
-      --bg:#ffffff;
-      --ink:#0d1220;
-      --muted:#5b657a;
-      --brand:#ff7d33;
-      --brand2:#ff9a57;
-      --b:#eaeef5;
-      --b2:#dfe4ee;
+      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
+      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
+      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
+      --tile:#fff7f2;
     }
+    /* Header search bar alignment */
+    .mast{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .searchbar{display:flex;gap:8px;align-items:center;flex:1}
+    .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
+    .searchbar button{height:42px}
+    .top-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .linkrow{display:flex;gap:22px;align-items:center;justify-content:center;border-top:1px solid var(--b);}
 
-    /* Header density & search bar alignment */
-    header .top{ padding:14px 0 }
-    .top .search-wrap{
-      display:flex; gap:10px; align-items:center; flex:1;
-      max-width:780px;
+    /* Hero */
+    .hero-wrap{margin-top:10px}
+    .hero-grid{
+      display:grid;gap:16px;grid-template-columns:1.35fr .85fr;
+      background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
+      background-image: radial-gradient(800px 300px at 5% -10%, #fff 0, #fff 40%, #fff6 60%, #fff0 100%),
+                        linear-gradient(180deg, #fff, #fff);
     }
-    .top .search-input{
-      flex:1; height:44px; border:1px solid var(--b); background:#fff; border-radius:12px;
-      padding:0 14px;
+    .hero-left{padding:24px 20px}
+    .hero-left h1{font-size:clamp(28px,3.6vw,46px);line-height:1.1;margin:0 0 8px;letter-spacing:-.02em}
+    .hero-left p{color:var(--muted);margin:0 0 16px}
+    .hero-badges{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px}
+    .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:12px}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease, box-shadow .08s ease, background-color .12s ease;}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+    .btn.ghost{background:#fff}
+    /* Quick search panel */
+    .qs{background:#ffe6d6;border:1px solid #ffd2b9;border-radius:16px;margin:20px;box-shadow:var(--shadow)}
+    .qs .inner{padding:18px}
+    .qs h3{margin:0 0 12px}
+    .qs .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .qs input{height:40px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1}
+    .qs .tag{display:inline-flex;align-items:center;border:1px solid #ffd2b9;background:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
+    /* Orange band */
+    .band{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+    .band small{opacity:.9}
+    /* Quick picks (6 tiles) */
+    .picks{margin-top:18px}
+    .tiles{display:grid;gap:14px;grid-template-columns:repeat(6, minmax(160px,1fr))}
+    .tile{
+      border:1px solid var(--b);background:#fff;border-radius:16px;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;overflow:hidden;transition:transform .08s ease, box-shadow .08s ease, border-color .12s ease, background-color .12s ease;
     }
-    .top .search-btn{ height:44px }
-
-    /* Subnav chips row */
-    .subnav{
-      border-top:1px solid var(--b); border-bottom:1px solid var(--b);
-      background:#fff;
-    }
-    .subnav .menu{ padding:8px 0 }
-    .subnav .menu a{ height:34px; padding:0 12px }
-
-    /* Hero layout: two-column with warm gradient panels */
-    .hero{
-      margin-top:16px;
-      background: radial-gradient(1200px 560px at -10% -20%, #fff 20%, #fff5ee 45%, #fff 85%),
-                  linear-gradient(0deg,#fff,#fff);
-      border:1px solid var(--b); border-radius:18px; box-shadow:var(--shadow);
-    }
-    .hero-inner{ display:grid; grid-template-columns: 1.2fr .9fr; gap:18px; padding:26px }
-    .hero .panel{ background:#fff6ef; border:1px solid #ffe2cf; border-radius:14px; padding:16px }
-    .hero .badges{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0 }
-    .hero .cta{ display:flex; gap:10px; flex-wrap:wrap }
-
-    /* Quick search chip style (right panel) */
-    .qchips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px }
-    .qchip{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 10px;
-      border:1px solid var(--b); border-radius:999px; background:#fff; font-weight:800; font-size:12px; cursor:pointer;
-    }
-    .qchip:hover{ border-color:#ffd0b1; background:#fff9f4 }
-
-    /* Promo band */
-    .promo{
-      margin:18px 0;
-      background:linear-gradient(180deg,#ffa363,#ff7d33);
-      color:#fff; border-radius:18px; box-shadow:var(--shadow);
-      border:1px solid #ff9a57;
-      display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 18px;
-    }
-    .promo small.pill{ background:rgba(255,255,255,.14); color:#fff; border-color:rgba(255,255,255,.25) }
-
-    /* Quick picks: tiny bright cards row */
-    .quick-picks{ margin-top:10px }
-    .quick-grid{
-      display:grid; gap:14px;
-      grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
-    }
-    .qcard{
-      background:#ffffff; border:1px solid var(--b); border-radius:14px; overflow:hidden; box-shadow:var(--shadow);
-      transition:transform .08s ease, box-shadow .08s ease;
-    }
-    .qcard:hover{ transform:translateY(-2px); box-shadow:0 16px 40px rgba(0,0,0,.08) }
-    .qthumb{ aspect-ratio:16/9; background:#fff3ea }
-    .qthumb img{ width:100%; height:100%; object-fit:cover }
-    .qbody{ padding:12px 14px; display:grid; gap:6px }
-    .qbody .title{ font-weight:900 }
-    .qbody .muted{ font-size:13px }
-
-    /* Product grid (uses global .grid + .card) */
-    .section-title{ margin-top:8px }
-    .card .title{ font-size:1rem }
-
-    /* Top stores section cards spacing */
-    .store-grid{
-      display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    }
-    .store{ background:#fff; border:1px solid var(--b); border-radius:14px; padding:14px; box-shadow:var(--shadow) }
-
-    /* Footer cleanup */
-    footer nav a{ color:#6b7280 }
-    footer nav a:hover{ color:#111 }
-
-    @media (max-width:960px){
-      .hero-inner{ grid-template-columns:1fr; }
-      .top .search-wrap{ max-width:100% }
-    }
+    .tile:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09);border-color:#ffc8a6;background:var(--tile)}
+    .tile .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .tile .thumb img{width:100%;height:100%;object-fit:cover}
+    .tile .body{padding:12px}
+    .tile .t{font-weight:900}
+    .tile .d{color:var(--muted);font-size:14px}
+    /* Section heads */
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}
+    /* Product card (mini) – uses same pattern as categories.css */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill, minmax(260px,1fr))}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease;}
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
+    .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+    .title{font-weight:900}
+    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:900}
+    .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+    /* Footer grid */
+    .foot-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+    .card.light{background:#fff;border:1px solid var(--b)}
+    .cta-seller{background:linear-gradient(180deg,#ffe6d6,#fff2ea);border:1px solid #ffd2b9}
+    /* Responsive */
+    @media (max-width:1100px){ .tiles{grid-template-columns:repeat(3, minmax(160px,1fr))} .hero-grid{grid-template-columns:1fr} .qs{margin:0 20px 20px} }
+    @media (max-width:700px){ .tiles{grid-template-columns:repeat(2, minmax(150px,1fr))} }
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
-    <div class="container top">
-      <a class="logo" href="index.html" aria-label="RGZTEC Home">
-        <span class="pill">RGZTEC</span>
-      </a>
-
-      <!-- search aligned; label removed to avoid overlap -->
-      <div class="search-wrap" role="search">
-        <input id="globalSearch" class="search-input" type="search" placeholder="Search templates, UI kits, widgets…" />
-        <button class="btn primary search-btn" id="globalSearchBtn">Search</button>
-      </div>
-
-      <nav class="nav">
+    <div class="container mast">
+      <a class="logo pill" href="index.html">RGZTEC</a>
+      <form class="searchbar" action="products/index.html">
+        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search" />
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <nav class="top-nav">
         <a class="btn ghost" href="products/index.html">Explore</a>
         <a class="btn ghost" href="demo/index.html">Demo Gallery</a>
         <a class="btn ghost" href="stores/index.html">Stores</a>
@@ -132,346 +105,548 @@
         <a class="btn primary" href="advertise.html">Become a Seller</a>
       </nav>
     </div>
-
-    <!-- Sub navigation: categories -->
-    <div class="subnav">
-      <div class="container menu" role="navigation" aria-label="Sections">
-        <a href="products/index.html?sort=new">New Arrivals</a>
-        <a href="products/index.html?sort=featured">Editor’s Picks</a>
-        <a href="products/index.html?cat=html">Landing Pages</a>
-        <a href="products/index.html?cat=admin">Admin Dashboards</a>
-        <a href="products/index.html?cat=css">CSS UI Kits</a>
-        <a href="products/index.html?cat=js">JS Widgets</a>
-        <a href="products/index.html?cat=react">React Components</a>
-        <a href="products/index.html?cat=icons">SVG Icons</a>
-        <a href="products/index.html?cat=email">Email Templates</a>
-        <a class="active" href="products/index.html?cat=free">Freebies</a>
-      </div>
+    <div class="linkrow">
+      <a class="btn badge" href="products/index.html?sort=new">New Arrivals</a>
+      <a class="btn badge" href="products/index.html?sort=featured">Editor’s Picks</a>
+      <a class="btn badge" href="catalog/index.html#html">Landing Pages</a>
+      <a class="btn badge" href="products/index.html?cat=admin">Admin Dashboards</a>
+      <a class="btn badge" href="products/css-ui-kits.html">CSS UI Kits</a>
+      <a class="btn badge" href="products/js-widgets.html">JS Widgets</a>
+      <a class="btn badge" href="react.html">React Components</a>
+      <a class="btn badge" href="svg-icons.html">SVG Icons</a>
+      <a class="btn badge" href="email-templates.html">Email Templates</a>
+      <a class="btn badge" href="products/index.html?cat=free#freebies">Freebies</a>
     </div>
   </header>
 
-  <main class="container">
-    <!-- HERO -->
-    <section class="hero pop">
-      <div class="hero-inner">
-        <!-- left -->
-        <div>
-          <h1 class="section-title" style="font-size:clamp(28px,3.6vw,48px);letter-spacing:-.02em;margin:0 0 8px">
-            Launch faster with<br>production-ready UI
-          </h1>
-          <p class="lead">HTML templates, CSS UI kits, vanilla JS widgets and React components. Live demos, clean code, instant copy.</p>
-
-          <div class="badges">
-            <span class="badge">20+ curated items</span>
-            <span class="badge">Lightweight &amp; semantic</span>
-            <span class="badge">MIT <span class="muted">freebies included</span></span>
-          </div>
-
-          <div class="cta">
-            <a class="btn primary" href="products/index.html">Browse Products</a>
-            <a class="btn" href="stores/index.html">Our Stores</a>
-            <a class="btn" href="products/index.html?sort=popular">Explore</a>
-          </div>
+  <!-- HERO -->
+  <section class="container hero-wrap">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <h1>Launch faster with <br>production-ready UI</h1>
+        <p>HTML templates, CSS UI kits, vanilla JS widgets and React components. Live demos, clean code, instant copy.</p>
+        <div class="hero-badges">
+          <span class="chip">20+ curated items</span>
+          <span class="chip">Lightweight & semantic</span>
+          <span class="chip">MIT <span class="muted">freebies included</span></span>
         </div>
-
-        <!-- right quick search panel -->
-        <aside class="panel" aria-label="Quick search">
-          <strong class="muted" style="display:block;margin-bottom:8px">Quick search</strong>
-          <div class="stack">
-            <input id="quickQ" type="search" placeholder="Search products, tags or categories…" aria-label="Quick search" />
-            <div class="row">
-              <button class="btn primary" id="quickGo">Search</button>
-            </div>
-            <div class="qchips">
-              <button class="qchip" data-cat="free">Freebies</button>
-              <button class="qchip" data-cat="html">HTML</button>
-              <button class="qchip" data-cat="admin">Admin</button>
-              <button class="qchip" data-cat="js">JS</button>
-              <button class="qchip" data-cat="css">CSS</button>
-              <button class="qchip" data-cat="react">React</button>
-              <button class="qchip" data-cat="icons">Icons</button>
-              <button class="qchip" data-cat="email">Email</button>
-            </div>
-            <small class="muted">Tip: Press <kbd>/</kbd> to focus search.</small>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- PROMO -->
-    <section class="promo">
-      <div class="row">
-        <small class="pill">New</small>
-        <strong>Summer picks:</strong>
-        <span>clean HTML starters, tiny JS widgets, and React shells — all under 25KB CSS.</span>
-      </div>
-      <a class="btn" href="products/index.html?sort=new">See new arrivals</a>
-    </section>
-
-    <!-- QUICK PICKS (small bright cards row) -->
-    <section class="section quick-picks" aria-label="Quick picks">
-      <h2 class="section-title">Quick picks</h2>
-      <div class="quick-grid">
-        <!-- category thumbnails you already have in images/categories/*.webp -->
-        <a class="qcard" href="products/index.html?cat=html">
-          <div class="qthumb"><img src="images/categories/html-templates.webp" alt="HTML Templates"></div>
-          <div class="qbody">
-            <div class="title">HTML Templates</div>
-            <div class="muted">Landing, blog, portfolio…</div>
-          </div>
-        </a>
-        <a class="qcard" href="products/index.html?cat=js">
-          <div class="qthumb"><img src="images/categories/js-widgets.webp" alt="JS Widgets"></div>
-          <div class="qbody">
-            <div class="title">JS Widgets</div>
-            <div class="muted">Tabs, accordions, tooltips</div>
-          </div>
-        </a>
-        <a class="qcard" href="products/index.html?cat=css">
-          <div class="qthumb"><img src="images/categories/css-ui-kits.webp" alt="CSS UI Kits"></div>
-          <div class="qbody">
-            <div class="title">CSS UI Kits</div>
-            <div class="muted">Utility-first components</div>
-          </div>
-        </a>
-        <a class="qcard" href="products/index.html?cat=react">
-          <div class="qthumb"><img src="images/categories/react.webp" alt="React Components"></div>
-          <div class="qbody">
-            <div class="title">React Components</div>
-            <div class="muted">Cards, modals, tabs</div>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- FEATURED GRID (same card pattern; images -> catalog/*.webp with fallback) -->
-    <section class="section">
-      <div class="section-head">
-        <h2 class="section-title">Featured HTML Templates</h2>
-        <a class="btn" href="products/index.html">View all</a>
-      </div>
-
-      <div class="grid" id="featured">
-        <!-- 1 -->
-        <article class="card" data-cat="html" data-price="18">
-          <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
-            <img src="images/catalog/html1.webp" alt="Landing Starter (HTML)" loading="lazy" decoding="async">
-          </a>
-          <div class="body">
-            <div class="title">Landing Starter (HTML)</div>
-            <div class="desc">Hero, features, pricing and blog sections.</div>
-            <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
-            <div class="actions">
-              <a class="btn" href="demo/index.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
-              <a class="btn primary" href="cart.html?add=1">Add</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 2 -->
-        <article class="card" data-cat="js" data-price="24">
-          <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
-            <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)" loading="lazy" decoding="async">
-          </a>
-          <div class="body">
-            <div class="title">Dashboard Lite (HTML)</div>
-            <div class="desc">Sidebar + topbar & chart placeholders (vanilla JS).</div>
-            <div class="meta"><div class="price">$24</div><span class="muted">JS</span></div>
-            <div class="actions">
-              <a class="btn" href="demo/index.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a>
-              <a class="btn primary" href="cart.html?add=2">Add</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 3 -->
-        <article class="card" data-cat="html" data-price="14">
-          <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
-            <img src="images/catalog/html3.webp" alt="Portfolio Mini" loading="lazy" decoding="async">
-          </a>
-          <div class="body">
-            <div class="title">Portfolio Mini</div>
-            <div class="desc">Single-page portfolio with project grid & contact form.</div>
-            <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
-            <div class="actions">
-              <a class="btn" href="demo/index.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
-              <a class="btn primary" href="cart.html?add=3">Add</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 4 -->
-        <article class="card" data-cat="html" data-price="12">
-          <a class="thumb" href="products/detail.html?id=4&slug=blog-lite">
-            <img src="images/catalog/html4.webp" alt="Blog Lite" loading="lazy" decoding="async">
-          </a>
-          <div class="body">
-            <div class="title">Blog Lite</div>
-            <div class="desc">List + single post layout with clean typography.</div>
-            <div class="meta"><div class="price">$12</div><span class="muted">HTML</span></div>
-            <div class="actions">
-              <a class="btn" href="demo/index.html?item=4&slug=blog-lite" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=4&slug=blog-lite">Details</a>
-              <a class="btn primary" href="cart.html?add=4">Add</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 5 -->
-        <article class="card" data-cat="html" data-price="16">
-          <a class="thumb" href="products/detail.html?id=5&slug=agency-starter">
-            <img src="images/catalog/html5.webp" alt="Agency Starter" loading="lazy" decoding="async">
-          </a>
-          <div class="body">
-            <div class="title">Agency Starter</div>
-            <div class="desc">Services: cards, testimonials, pricing.</div>
-            <div class="meta"><div class="price">$16</div><span class="muted">HTML</span></div>
-            <div class="actions">
-              <a class="btn" href="demo/index.html?item=5&slug=agency-starter" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=5&slug=agency-starter">Details</a>
-              <a class="btn primary" href="cart.html?add=5">Add</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- 6 -->
-        <article class="card" data-cat="html" data-price="22">
-          <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
-            <img src="images/catalog/html6.webp" alt="E-commerce Mini" loading="lazy" decoding="async">
-          </a>
-          <div class="body">
-            <div class="title">E-commerce Mini</div>
-            <div class="desc">Product grid, product detail and cart icons.</div>
-            <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
-            <div class="actions">
-              <a class="btn" href="demo/index.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
-              <a class="btn primary" href="cart.html?add=6">Add</a>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- TOP STORES -->
-    <section class="section-lg" aria-label="Top Stores">
-      <div class="section-head">
-        <h2 class="section-title">Top Stores</h2>
-        <a class="btn" href="catalog/index.html">Open catalog</a>
-      </div>
-      <div class="store-grid">
-        <div class="store">
-          <h3 style="margin:0 0 6px">Pixel Foundry</h3>
-          <p class="muted">Clean HTML starters and utility CSS kits.</p>
-          <p class="muted">42 items · Top seller</p>
-          <a class="btn" href="stores/index.html#pixel">Open store</a>
-        </div>
-        <div class="store">
-          <h3 style="margin:0 0 6px">Widget Labs</h3>
-          <p class="muted">Vanilla JS widgets and tiny plugins.</p>
-          <p class="muted">18 items · 4.9★</p>
-          <a class="btn" href="stores/index.html#widget-labs">Open store</a>
-        </div>
-        <div class="store">
-          <h3 style="margin:0 0 6px">Vector Supply</h3>
-          <p class="muted">SVG icons and UI assets for developers.</p>
-          <p class="muted">23 items · Trusted</p>
-          <a class="btn" href="stores/index.html#vector">Open store</a>
+        <div class="hero-actions">
+          <a class="btn primary" href="products/index.html">Browse Products</a>
+          <a class="btn" href="stores/index.html">Our Stores</a>
+          <a class="btn" href="products/index.html?sort=popular#grid">Explore</a>
         </div>
       </div>
-    </section>
-
-    <!-- FOOTER CTA -->
-    <section class="section">
-      <div class="grid">
-        <div class="card sm">
-          <div class="body">
-            <h3 class="title" style="margin:0">Get product updates</h3>
-            <p class="muted">No spam. Just releases & tips.</p>
-            <div class="form-row">
-              <input type="email" placeholder="you@example.com" aria-label="Email" />
-              <button class="btn">Subscribe</button>
-            </div>
+      <aside class="qs">
+        <div class="inner">
+          <h3>Quick search</h3>
+          <form class="row" action="products/index.html">
+            <input name="q" type="search" placeholder="Search products, tags or categories…" />
+            <button class="btn" type="submit">Search</button>
+          </form>
+          <div class="row" style="margin-top:10px">
+            <a class="tag" href="products/index.html?cat=free#freebies">Freebies</a>
+            <a class="tag" href="products/index.html?cat=html">HTML</a>
+            <a class="tag" href="products/index.html?cat=admin">Admin</a>
+            <a class="tag" href="products/index.html?cat=js">JS</a>
+            <a class="tag" href="products/index.html?cat=css">CSS</a>
+            <a class="tag" href="products/index.html?cat=react">React</a>
+            <a class="tag" href="products/index.html?cat=icons">Icons</a>
+            <a class="tag" href="products/index.html?cat=email">Email</a>
           </div>
+          <p class="muted" style="margin:10px 0 0">Tip: Press <strong>/</strong> to focus search.</p>
         </div>
-        <div class="card sm">
-          <div class="body">
-            <h3 class="title" style="margin:0">Become a seller</h3>
-            <p class="muted">Have quality templates or components? List your products and reach developers worldwide.</p>
-            <a class="btn primary" href="advertise.html">Start selling</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="section">
-    <div class="container">
-      <nav class="row" style="justify-content:flex-start; gap:18px">
-        <a href="index.html">Home</a>
-        <a href="products/index.html">Catalog</a>
-        <a href="stores/index.html">Stores</a>
-        <a href="products/index.html?cat=free">Freebies</a>
-        <a href="contact.html">Contact</a>
-        <a href="terms.html">Privacy</a>
-      </nav>
-      <p class="muted" style="margin-top:10px">© 2025 RGZTEC — All rights reserved.</p>
+      </aside>
     </div>
+
+    <div class="band" style="margin:16px 0 6px">
+      <div><small class="pill" style="background:#fff;color:#333;border-color:#fff">New</small> <strong>Summer picks:</strong> clean HTML starters, tiny JS widgets, and React shells — all under 25KB CSS.</div>
+      <a class="btn" href="products/index.html?sort=new">See new arrivals</a>
+    </div>
+  </section>
+
+  <!-- QUICK PICKS (6) -->
+  <section class="container picks" id="picks">
+    <h2 class="section-title">Quick picks</h2>
+    <div class="tiles">
+      <a class="tile" href="products/index.html?cat=html" aria-label="HTML Templates">
+        <div class="thumb"><img src="images/categories/html-templates.webp" alt="HTML Templates"></div>
+        <div class="body"><div class="t">HTML Templates</div><div class="d">Landing, blog, portfolio…</div></div>
+      </a>
+      <a class="tile" href="products/js-widgets.html" aria-label="JS Widgets">
+        <div class="thumb"><img src="images/categories/js-widgets.webp" alt="JS Widgets"></div>
+        <div class="body"><div class="t">JS Widgets</div><div class="d">Tabs, accordions, tooltips</div></div>
+      </a>
+      <a class="tile" href="products/css-ui-kits.html" aria-label="CSS UI Kits">
+        <div class="thumb"><img src="images/categories/css-ui-kits.webp" alt="CSS UI Kits"></div>
+        <div class="body"><div class="t">CSS UI Kits</div><div class="d">Utility-first components</div></div>
+      </a>
+      <a class="tile" href="react.html" aria-label="React Components">
+        <div class="thumb"><img src="images/categories/react.webp" alt="React Components"></div>
+        <div class="body"><div class="t">React Components</div><div class="d">Cards, modals, tabs</div></div>
+      </a>
+      <a class="tile" href="svg-icons.html" aria-label="SVG Icons">
+        <div class="thumb"><img src="images/categories/svg-icons.webp" alt="SVG Icons"></div>
+        <div class="body"><div class="t">SVG Icons</div><div class="d">Inlineable sets</div></div>
+      </a>
+      <a class="tile" href="email-templates.html" aria-label="Email Templates">
+        <div class="thumb"><img src="images/categories/email-templates.webp" alt="Email Templates"></div>
+        <div class="body"><div class="t">Email Templates</div><div class="d">Transactional base</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FEATURED GRIDS (HTML / JS / CSS / REACT / ICONS / EMAIL) -->
+  <section class="container section-lg" id="grid">
+    <div class="section-head">
+      <h2 class="section-title">Featured HTML Templates</h2>
+      <a class="btn" href="products/index.html?cat=html">View all</a>
+    </div>
+    <div class="grid">
+      <!-- HTML x4 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html"><img src="images/catalog/html1.webp" alt="Landing Starter (HTML)"></a>
+        <div class="body">
+          <div class="title">Landing Starter (HTML)</div>
+          <div class="desc">Hero, features, pricing and blog sections.</div>
+          <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
+            <a class="btn primary" href="cart.html?add=1">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html"><img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)"></a>
+        <div class="body">
+          <div class="title">Dashboard Lite (HTML)</div>
+          <div class="desc">Sidebar + topbar & chart placeholders (vanilla JS).</div>
+          <div class="meta"><div class="price">$24</div><span class="muted">JS</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a>
+            <a class="btn primary" href="cart.html?add=2">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini"><img src="images/catalog/html3.webp" alt="Portfolio Mini"></a>
+        <div class="body">
+          <div class="title">Portfolio Mini</div>
+          <div class="desc">Single-page portfolio with project grid & contact.</div>
+          <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
+            <a class="btn primary" href="cart.html?add=3">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=4&slug=blog-lite"><img src="images/catalog/html4.webp" alt="Blog Lite"></a>
+        <div class="body">
+          <div class="title">Blog Lite</div>
+          <div class="desc">List + single post layout with clean typography.</div>
+          <div class="meta"><div class="price">$12</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=4&slug=blog-lite" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=4&slug=blog-lite">Details</a>
+            <a class="btn primary" href="cart.html?add=4">Add</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- JS -->
+    <div class="section-head" style="margin-top:30px">
+      <h2 class="section-title">Featured JS Widgets</h2>
+      <a class="btn" href="products/js-widgets.html">View all</a>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=20&slug=js-widgets"><img src="images/catalog/html20.webp" alt="JS Widgets"></a>
+        <div class="body">
+          <div class="title">JS Widgets</div>
+          <div class="desc">Tabs, accordions and tooltips (vanilla).</div>
+          <div class="meta"><div class="price">$11</div><span class="muted">JS</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=20&slug=js-widgets" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=20&slug=js-widgets">Details</a>
+            <a class="btn primary" href="cart.html?add=20">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=11&slug=faq-mini"><img src="images/catalog/html11.webp" alt="FAQ Mini"></a>
+        <div class="body">
+          <div class="title">FAQ Mini</div>
+          <div class="desc">Accordion FAQ with categories and search.</div>
+          <div class="meta"><div class="price">$6</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=11&slug=faq-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=11&slug=faq-mini">Details</a>
+            <a class="btn primary" href="cart.html?add=11">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=8&slug=product-list"><img src="images/catalog/html8.webp" alt="Product List"></a>
+        <div class="body">
+          <div class="title">Product List</div>
+          <div class="desc">Filterable list with grid/row views.</div>
+          <div class="meta"><div class="price">$11</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=8&slug=product-list" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=8&slug=product-list">Details</a>
+            <a class="btn primary" href="cart.html?add=8">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=10&slug=contact-lite"><img src="images/catalog/html10.webp" alt="Contact Lite"></a>
+        <div class="body">
+          <div class="title">Contact Lite</div>
+          <div class="desc">Form, map placeholder & social links.</div>
+          <div class="meta"><div class="price">$7</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=10&slug=contact-lite" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=10&slug=contact-lite">Details</a>
+            <a class="btn primary" href="cart.html?add=10">Add</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- CSS -->
+    <div class="section-head" style="margin-top:30px">
+      <h2 class="section-title">Featured CSS UI Kits</h2>
+      <a class="btn" href="products/css-ui-kits.html">View all</a>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=9&slug=pricing-tables"><img src="images/catalog/html9.webp" alt="Pricing Tables"></a>
+        <div class="body">
+          <div class="title">Pricing Tables</div>
+          <div class="desc">3–4 column pricing with featured plan.</div>
+          <div class="meta"><div class="price">$8</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a>
+            <a class="btn primary" href="cart.html?add=9">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=5&slug=agency-starter"><img src="images/catalog/html5.webp" alt="Agency Starter"></a>
+        <div class="body">
+          <div class="title">Agency Starter</div>
+          <div class="desc">Services: cards, testimonials, pricing.</div>
+          <div class="meta"><div class="price">$16</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=5&slug=agency-starter" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=5&slug=agency-starter">Details</a>
+            <a class="btn primary" href="cart.html?add=5">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=12&slug=gallery-grid"><img src="images/catalog/html12.webp" alt="Gallery Grid"></a>
+        <div class="body">
+          <div class="title">Gallery Grid</div>
+          <div class="desc">Masonry/grid gallery (lightbox placeholder).</div>
+          <div class="meta"><div class="price">$13</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=12&slug=gallery-grid" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=12&slug=gallery-grid">Details</a>
+            <a class="btn primary" href="cart.html?add=12">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=7&slug=resume-card"><img src="images/catalog/html7.webp" alt="Resume Card"></a>
+        <div class="body">
+          <div class="title">Resume Card</div>
+          <div class="desc">Single-page resume with skills & contact.</div>
+          <div class="meta"><div class="price">$9</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=7&slug=resume-card" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=7&slug=resume-card">Details</a>
+            <a class="btn primary" href="cart.html?add=7">Add</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- REACT -->
+    <div class="section-head" style="margin-top:30px">
+      <h2 class="section-title">Featured React Components</h2>
+      <a class="btn" href="react.html">View all</a>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=17&slug=react-components"><img src="images/catalog/html17.webp" alt="React Components"></a>
+        <div class="body">
+          <div class="title">React Components</div>
+          <div class="desc">Cards, modals and tabs (markup only).</div>
+          <div class="meta"><div class="price">$15</div><span class="muted">React</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=17&slug=react-components" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=17&slug=react-components">Details</a>
+            <a class="btn primary" href="cart.html?add=17">Add</a>
+          </div>
+        </div>
+      </article>
+      <!-- Free React starter -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=102&slug=react-starter-free"><img src="images/catalog/html17.webp" alt="React Starter (Free)"></a>
+        <div class="body">
+          <div class="title">React Starter (Free)</div>
+          <div class="desc">Minimal React shell with routing.</div>
+          <div class="meta"><div class="price">$0</div><span class="muted">Free</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=102&slug=react-starter-free" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=102&slug=react-starter-free">Details</a>
+            <a class="btn primary" href="products/detail.html?id=102&slug=react-starter-free#download">Download</a>
+          </div>
+        </div>
+      </article>
+      <!-- two filler from HTML set to keep grid full -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini"><img src="images/catalog/html6.webp" alt="E-commerce Mini"></a>
+        <div class="body">
+          <div class="title">E-commerce Mini</div>
+          <div class="desc">Product grid, product detail and cart icons.</div>
+          <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
+            <a class="btn primary" href="cart.html?add=6">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=4&slug=blog-lite"><img src="images/catalog/html4.webp" alt="Blog Lite"></a>
+        <div class="body">
+          <div class="title">Blog Lite</div>
+          <div class="desc">Clean typography with list + single post.</div>
+          <div class="meta"><div class="price">$12</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=4&slug=blog-lite" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=4&slug=blog-lite">Details</a>
+            <a class="btn primary" href="cart.html?add=4">Add</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ICONS -->
+    <div class="section-head" style="margin-top:30px">
+      <h2 class="section-title">Featured SVG Icons</h2>
+      <a class="btn" href="svg-icons.html">View all</a>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=18&slug=svg-icons"><img src="images/catalog/html18.webp" alt="SVG Icons"></a>
+        <div class="body">
+          <div class="title">SVG Icons</div>
+          <div class="desc">Curated developer icon set (inlineable).</div>
+          <div class="meta"><div class="price">$6</div><span class="muted">Icons</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=18&slug=svg-icons" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=18&slug=svg-icons">Details</a>
+            <a class="btn primary" href="cart.html?add=18">Add</a>
+          </div>
+        </div>
+      </article>
+      <!-- Free icons pack -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=103&slug=icons-free-pack"><img src="images/catalog/html18.webp" alt="Free Icons Pack"></a>
+        <div class="body">
+          <div class="title">Free Icons Pack</div>
+          <div class="desc">Basic outline icons for prototypes.</div>
+          <div class="meta"><div class="price">$0</div><span class="muted">Free</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=103&slug=icons-free-pack" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=103&slug=icons-free-pack">Details</a>
+            <a class="btn primary" href="products/detail.html?id=103&slug=icons-free-pack#download">Download</a>
+          </div>
+        </div>
+      </article>
+      <!-- fill -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html"><img src="images/catalog/html1.webp" alt="Landing Starter"></a>
+        <div class="body">
+          <div class="title">Landing Starter</div>
+          <div class="desc">Fast HTML base for marketing pages.</div>
+          <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
+            <a class="btn primary" href="cart.html?add=1">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=9&slug=pricing-tables"><img src="images/catalog/html9.webp" alt="Pricing Tables"></a>
+        <div class="body">
+          <div class="title">Pricing Tables</div>
+          <div class="desc">Clean pricing blocks with CTA.</div>
+          <div class="meta"><div class="price">$8</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a>
+            <a class="btn primary" href="cart.html?add=9">Add</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="section-head" style="margin-top:30px">
+      <h2 class="section-title">Featured Email Templates</h2>
+      <a class="btn" href="email-templates.html">View all</a>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=19&slug=email-templates"><img src="images/catalog/html19.webp" alt="Email Templates"></a>
+        <div class="body">
+          <div class="title">Email Templates</div>
+          <div class="desc">Transactional email starter set.</div>
+          <div class="meta"><div class="price">$9</div><span class="muted">Email</span></div>
+        <div class="actions">
+            <a class="btn" href="demo/index.html?item=19&slug=email-templates" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=19&slug=email-templates">Details</a>
+            <a class="btn primary" href="cart.html?add=19">Add</a>
+          </div>
+        </div>
+      </article>
+      <!-- Free email -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=104&slug=email-free"><img src="images/catalog/html19.webp" alt="Free Email Template"></a>
+        <div class="body">
+          <div class="title">Free Email Template</div>
+          <div class="desc">Responsive transactional email base.</div>
+          <div class="meta"><div class="price">$0</div><span class="muted">Free</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=104&slug=email-free" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=104&slug=email-free">Details</a>
+            <a class="btn primary" href="products/detail.html?id=104&slug=email-free#download">Download</a>
+          </div>
+        </div>
+      </article>
+      <!-- fill -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini"><img src="images/catalog/html3.webp" alt="Portfolio Mini"></a>
+        <div class="body">
+          <div class="title">Portfolio Mini</div>
+          <div class="desc">One-page portfolio with grid & contact.</div>
+          <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
+            <a class="btn primary" href="cart.html?add=3">Add</a>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=8&slug=product-list"><img src="images/catalog/html8.webp" alt="Product List"></a>
+        <div class="body">
+          <div class="title">Product List</div>
+          <div class="desc">Filterable item list with grid/row views.</div>
+          <div class="meta"><div class="price">$11</div><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=8&slug=product-list" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=8&slug=product-list">Details</a>
+            <a class="btn primary" href="cart.html?add=8">Add</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TOP STORES + NEWSLETTER + SELLER -->
+  <section class="container section-lg">
+    <h2 class="section-title">Top Stores</h2>
+    <div class="grid">
+      <article class="card light sm">
+        <div class="body">
+          <div class="title">Pixel Foundry</div>
+          <div class="desc">Clean HTML starters and utility CSS kits.</div>
+          <div class="muted">42 items · Top seller</div>
+          <div class="actions"><a class="btn" href="stores/index.html#pixel-foundry">Open store</a></div>
+        </div>
+      </article>
+      <article class="card light sm">
+        <div class="body">
+          <div class="title">Widget Labs</div>
+          <div class="desc">Vanilla JS widgets and tiny plugins.</div>
+          <div class="muted">18 items · 4.9★</div>
+          <div class="actions"><a class="btn" href="stores/index.html#widget-labs">Open store</a></div>
+        </div>
+      </article>
+      <article class="card light sm">
+        <div class="body">
+          <div class="title">Vector Supply</div>
+          <div class="desc">SVG icons and UI assets for developers.</div>
+          <div class="muted">23 items · Trusted</div>
+          <div class="actions"><a class="btn" href="stores/index.html#vector-supply">Open store</a></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="foot-grid" style="margin-top:16px">
+      <article class="card light sm">
+        <div class="body">
+          <div class="title">Get product updates</div>
+          <div class="desc">No spam. Just releases & tips.</div>
+          <form class="row" onsubmit="event.preventDefault();alert('Subscribed!')">
+            <input type="email" placeholder="you@example.com" required style="flex:1;height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff">
+            <button class="btn" type="submit">Subscribe</button>
+          </form>
+        </div>
+      </article>
+      <article class="card cta-seller sm">
+        <div class="body">
+          <div class="title">Become a seller</div>
+          <div class="desc">Have quality templates or components? List your products and reach developers worldwide.</div>
+          <div class="actions"><a class="btn primary" href="advertise.html">Start selling</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container section">
+    <nav class="row" style="gap:14px">
+      <a href="index.html">Home</a> ·
+      <a href="products/index.html">Catalog</a> ·
+      <a href="stores/index.html">Stores</a> ·
+      <a href="catalog/index.html">Explore</a> ·
+      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
+      <a href="contact.html">Contact</a> ·
+      <a href="terms.html">Privacy</a>
+    </nav>
+    <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
   </footer>
 
-  <!-- Minimal JS: search routing + image fallback + keyboard focus -->
+  <!-- JS: webp fallback + UX niceties -->
   <script>
-    // WebP -> PNG -> JPG fallback (works for both big & quick cards)
+    // WebP -> PNG -> JPG fallback
     document.querySelectorAll('img').forEach(img=>{
-      img.addEventListener('error', function onerr(){
+      img.onerror = ()=>{
         const src = img.getAttribute('src') || '';
         if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
-        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg'); return; }
-        img.removeEventListener('error', onerr);
-      });
+        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
+        img.onerror = null;
+      };
     });
-
-    // Global search box
-    const gq = document.getElementById('globalSearch');
-    const gbtn = document.getElementById('globalSearchBtn');
-    function goSearch(){
-      const q = (gq.value || '').trim();
-      const url = new URL(location.origin + '/rgztec/products/index.html');
-      if(q) url.searchParams.set('q', q);
-      location.href = url.toString();
-    }
-    gbtn.addEventListener('click', goSearch);
-    gq.addEventListener('keydown', e=>{ if(e.key==='Enter') goSearch(); });
-
-    // Quick search box + chips
-    const qq = document.getElementById('quickQ');
-    document.getElementById('quickGo').addEventListener('click', ()=>{
-      const url = new URL(location.origin + '/rgztec/products/index.html');
-      const q = (qq.value || '').trim();
-      if(q) url.searchParams.set('q', q);
-      location.href = url.toString();
-    });
-    document.querySelectorAll('.qchip').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const url = new URL(location.origin + '/rgztec/products/index.html');
-        url.searchParams.set('cat', btn.dataset.cat);
-        location.href = url.toString();
-      });
-    });
-
-    // Keyboard: focus search with '/'
+    // Focus search on "/" like GitHub
     window.addEventListener('keydown', (e)=>{
-      if(e.key === '/'){
+      if(e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)){
         e.preventDefault();
-        (document.activeElement === gq ? gq : (qq || gq)).focus();
+        const el = document.querySelector('input[type="search"]'); el && el.focus();
       }
     });
   </script>
 </body>
 </html>
-
 
