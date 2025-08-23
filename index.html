@@ -7,27 +7,52 @@
   <title>RGZTEC · Marketplace</title>
   <meta name="description" content="Buy & sell production-ready static code: HTML templates, CSS UI kits, JS widgets and React components. Live demos, clean code, instant copy." />
   <link rel="stylesheet" href="assets/css/home.css" />
-  <link rel="preload" as="image" href="images/categories/react.webp" />
+
+  <!-- Home-only refinements for mini cards & spacing -->
+  <style>
+    /* tighten vertical rhythm a bit */
+    .section { padding: 22px 0; }
+    .section-lg { padding: 42px 0; }
+    /* hero polish */
+    .hero { background:
+      radial-gradient(1200px 400px at 10% -10%, #fff 0, #fff 40%, #f9fafc 60%, #fff2e9 100%);
+      border-color: var(--b);
+    }
+    /* quick picks mini cards */
+    .mini-cards .card { min-height: auto; box-shadow: var(--shadow); }
+    .mini-cards .thumb { aspect-ratio: 4/3; background: linear-gradient(180deg,#fff,#f7f8fb); }
+    .mini-cards .title { font-weight: 900; }
+    .mini-cards .desc { min-height: auto; font-size: 13px; }
+    .mini-cards .body { gap: 6px; }
+    .mini-cards .btn { padding: 8px 10px; border-radius: 10px; }
+    /* announcement bar */
+    .cta-banner { background: linear-gradient(180deg, var(--brand2), var(--brand)); color: #fff; border-radius: 14px; }
+    .cta-banner .btn { background:#fff; color:#111; border-color:#fff; }
+    /* small visual alignments */
+    header .menu a { height: 36px; }
+    .kpis .pill { background:#fff; }
+    /* dark mode care */
+    @media (prefers-color-scheme: dark){
+      .mini-cards .thumb { background: linear-gradient(180deg,#0f1422,#0b0e17); }
+      .cta-banner { background: linear-gradient(180deg,#ff9b69,#ff7d33); }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ===================================== -->
-  <!-- Header / Global Nav                   -->
-  <!-- ===================================== -->
+  <!-- ================= Header ================ -->
   <header>
     <div class="container top" style="gap:16px">
-      <!-- Brand -->
       <a class="logo" href="index.html" aria-label="RGZTEC home">
         <span class="pill">RGZTEC</span>
       </a>
 
-      <!-- Global search -->
+      <!-- global search -->
       <form id="globalSearchForm" class="row" style="flex:1; min-width:260px; gap:8px" role="search" aria-label="Global search">
         <input id="global-q" type="search" class="w-100" placeholder="Search templates, UI kits, widgets…" />
         <button type="submit" class="btn">Search</button>
       </form>
 
-      <!-- Primary actions -->
       <nav class="nav" aria-label="Primary">
         <a class="btn" href="explore.html">Explore</a>
         <a class="btn" href="demo/index.html">Demo Gallery</a>
@@ -37,7 +62,6 @@
       </nav>
     </div>
 
-    <!-- Secondary categories rail -->
     <div class="container" style="padding-bottom:8px">
       <nav class="menu" aria-label="Categories">
         <a href="products/index.html?sort=new">New Arrivals</a>
@@ -55,23 +79,20 @@
 
   <main>
 
-    <!-- ===================================== -->
-    <!-- HERO: left copy + right quick search  -->
-    <!-- ===================================== -->
+    <!-- ================= Hero ================ -->
     <section class="section">
       <div class="container">
         <div class="hero">
           <div class="hero-inner">
             <div class="row" style="align-items:stretch; gap:18px">
-              <!-- Left -->
+
+              <!-- left copy -->
               <div style="flex:1; min-width:280px" class="stack-lg">
                 <h1 class="mt-0" style="font-size:clamp(32px,3.4vw,48px); letter-spacing:-.02em">
-                  Launch faster with <br />production-ready UI
+                  Launch faster with <br/> production-ready UI
                 </h1>
-                <p class="lead">
-                  HTML templates, CSS UI kits, vanilla JS widgets and React components.
-                  Live demos, clean code, instant copy.
-                </p>
+                <p class="lead">HTML templates, CSS UI kits, vanilla JS widgets and React components.
+                  Live demos, clean code, instant copy.</p>
 
                 <div class="row kpis">
                   <span class="pill">20+ curated items</span>
@@ -86,14 +107,13 @@
                 </div>
               </div>
 
-              <!-- Right: quick search -->
+              <!-- right quick search -->
               <aside style="flex:0 0 420px; max-width:100%">
                 <div class="card sm" style="padding:16px; background:#ffe7d7; border-color:#ffd3b8">
                   <div class="stack">
                     <strong class="muted" style="text-transform:uppercase; letter-spacing:.06em">Quick search</strong>
                     <div class="row">
-                      <input id="home-q" type="search" class="w-100"
-                             placeholder="Search products, tags or categories…" />
+                      <input id="home-q" type="search" class="w-100" placeholder="Search products, tags or categories…" />
                       <button id="home-search" class="btn">Search</button>
                     </div>
 
@@ -112,31 +132,109 @@
                   </div>
                 </div>
               </aside>
+
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================================== -->
-    <!-- Announcement bar (orange)             -->
-    <!-- ===================================== -->
-    <section class="section">
+    <!-- ===== Mini Cards (bright illustrations) ===== -->
+    <section class="section" aria-label="Quick picks">
       <div class="container">
-        <div class="cta-banner row" role="region" aria-label="Announcement" style="padding:14px 18px">
-          <span class="pill" aria-hidden="true">New</span>
-          <strong class="nowrap" style="margin-left:8px">Summer picks:</strong>
-          <span class="muted" style="margin-left:8px">
-            clean HTML starters, tiny JS widgets, and React shells — all under 25KB CSS.
-          </span>
-          <a class="btn ghost" href="products/index.html?sort=new" style="margin-left:auto">See new arrivals</a>
+        <div class="section-head">
+          <h2 class="section-title">Quick picks</h2>
+        </div>
+
+        <div class="grid mini-cards" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+          <!-- HTML Templates -->
+          <article class="card h-min pop">
+            <a class="thumb" href="html-templates.html">
+              <img src="images/categories/html-templates.webp" alt="HTML Templates" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">HTML Templates</div>
+              <div class="desc">Clean landing pages, blogs &amp; minis.</div>
+              <div class="actions"><a class="btn" href="html-templates.html">Browse</a></div>
+            </div>
+          </article>
+
+          <!-- JS Widgets -->
+          <article class="card h-min pop">
+            <a class="thumb" href="products/js-widgets.html">
+              <img src="images/categories/js-widgets.webp" alt="JS Widgets" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">JS Widgets</div>
+              <div class="desc">Tabs, accordions, tooltips (vanilla).</div>
+              <div class="actions"><a class="btn" href="products/js-widgets.html">Browse</a></div>
+            </div>
+          </article>
+
+          <!-- CSS UI Kits -->
+          <article class="card h-min pop">
+            <a class="thumb" href="products/css-ui-kits.html">
+              <img src="images/categories/css-ui-kits.webp" alt="CSS UI Kits" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">CSS UI Kits</div>
+              <div class="desc">Utility-first, small &amp; fast.</div>
+              <div class="actions"><a class="btn" href="products/css-ui-kits.html">Browse</a></div>
+            </div>
+          </article>
+
+          <!-- React -->
+          <article class="card h-min pop">
+            <a class="thumb" href="react.html">
+              <img src="images/categories/react.webp" alt="React Components" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">React Components</div>
+              <div class="desc">Cards, modals, tabs (markup only).</div>
+              <div class="actions"><a class="btn" href="react.html">Browse</a></div>
+            </div>
+          </article>
+
+          <!-- SVG Icons -->
+          <article class="card h-min pop">
+            <a class="thumb" href="svg-icons.html">
+              <img src="images/categories/svg-icons.webp" alt="SVG Icons" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">SVG Icons</div>
+              <div class="desc">Inlineable developer icon sets.</div>
+              <div class="actions"><a class="btn" href="svg-icons.html">Browse</a></div>
+            </div>
+          </article>
+
+          <!-- Email Templates -->
+          <article class="card h-min pop">
+            <a class="thumb" href="email-templates.html">
+              <img src="images/categories/email-templates.webp" alt="Email Templates" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Email Templates</div>
+              <div class="desc">Transactional base layouts.</div>
+              <div class="actions"><a class="btn" href="email-templates.html">Browse</a></div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- ===================================== -->
-    <!-- Featured Templates                     -->
-    <!-- ===================================== -->
+    <!-- ===== Announcement Bar ===== -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-banner row" role="region" aria-label="Announcement" style="padding:14px 18px">
+          <span class="pill" aria-hidden="true" style="background:#fff; color:#111; border-color:#fff">New</span>
+          <strong class="nowrap" style="margin-left:8px">Summer picks:</strong>
+          <span class="muted" style="margin-left:8px; color:#fff">clean HTML starters, tiny JS widgets, and React shells — all under 25KB CSS.</span>
+          <a class="btn" href="products/index.html?sort=new" style="margin-left:auto">See new arrivals</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Featured Products (large cards) ===== -->
     <section class="section-lg">
       <div class="container">
         <div class="section-head">
@@ -146,7 +244,7 @@
 
         <div class="grid" aria-label="Featured products">
 
-          <!-- Card 1 -->
+          <!-- 1 -->
           <article class="card pop">
             <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
               <img src="images/catalog/html1.webp" alt="Landing Starter (HTML)" loading="lazy" decoding="async">
@@ -163,7 +261,7 @@
             </div>
           </article>
 
-          <!-- Card 2 -->
+          <!-- 2 -->
           <article class="card pop">
             <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
               <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)" loading="lazy" decoding="async">
@@ -180,7 +278,7 @@
             </div>
           </article>
 
-          <!-- Card 3 -->
+          <!-- 3 -->
           <article class="card pop">
             <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
               <img src="images/catalog/html3.webp" alt="Portfolio Mini" loading="lazy" decoding="async">
@@ -197,7 +295,7 @@
             </div>
           </article>
 
-          <!-- Card 4 -->
+          <!-- 4 -->
           <article class="card pop">
             <a class="thumb" href="products/detail.html?id=4&slug=blog-lite">
               <img src="images/catalog/html4.webp" alt="Blog Lite" loading="lazy" decoding="async">
@@ -214,149 +312,11 @@
             </div>
           </article>
 
-          <!-- Card 5 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=5&slug=agency-starter">
-              <img src="images/catalog/html5.webp" alt="Agency Starter" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">Agency Starter</div>
-              <div class="desc">Service cards, testimonials, pricing.</div>
-              <div class="meta"><div class="price">$16</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=5&slug=agency-starter" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=5&slug=agency-starter">Details</a>
-                <a class="btn primary" href="cart.html?add=5">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 6 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
-              <img src="images/catalog/html6.webp" alt="E-commerce Mini" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">E-commerce Mini</div>
-              <div class="desc">Product grid, detail and cart icons.</div>
-              <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
-                <a class="btn primary" href="cart.html?add=6">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 7 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=7&slug=resume-card">
-              <img src="images/catalog/html7.webp" alt="Resume Card" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">Resume Card</div>
-              <div class="desc">Skills, experience, contact sections.</div>
-              <div class="meta"><div class="price">$9</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=7&slug=resume-card" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=7&slug=resume-card">Details</a>
-                <a class="btn primary" href="cart.html?add=7">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 8 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=8&slug=product-list">
-              <img src="images/catalog/html8.webp" alt="Product List" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">Product List</div>
-              <div class="desc">Filterable list with grid/row views.</div>
-              <div class="meta"><div class="price">$11</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=8&slug=product-list" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=8&slug=product-list">Details</a>
-                <a class="btn primary" href="cart.html?add=8">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 9 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=9&slug=pricing-tables">
-              <img src="images/catalog/html9.webp" alt="Pricing Tables" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">Pricing Tables</div>
-              <div class="desc">3–4 column pricing, featured plan.</div>
-              <div class="meta"><div class="price">$8</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a>
-                <a class="btn primary" href="cart.html?add=9">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 10 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=10&slug=contact-lite">
-              <img src="images/catalog/html10.webp" alt="Contact Lite" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">Contact Lite</div>
-              <div class="desc">Contact form, map, social links.</div>
-              <div class="meta"><div class="price">$7</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=10&slug=contact-lite" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=10&slug=contact-lite">Details</a>
-                <a class="btn primary" href="cart.html?add=10">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 11 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=11&slug=faq-mini">
-              <img src="images/catalog/html11.webp" alt="FAQ Mini" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">FAQ Mini</div>
-              <div class="desc">Accordion FAQ with categories.</div>
-              <div class="meta"><div class="price">$6</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=11&slug=faq-mini" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=11&slug=faq-mini">Details</a>
-                <a class="btn primary" href="cart.html?add=11">Add</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 12 -->
-          <article class="card pop">
-            <a class="thumb" href="products/detail.html?id=12&slug=gallery-grid">
-              <img src="images/catalog/html12.webp" alt="Gallery Grid" loading="lazy" decoding="async">
-            </a>
-            <div class="body">
-              <div class="title">Gallery Grid</div>
-              <div class="desc">Masonry/grid gallery w/ lightbox placeholder.</div>
-              <div class="meta"><div class="price">$13</div><span class="muted">HTML</span></div>
-              <div class="actions">
-                <a class="btn" href="demo/index.html?item=12&slug=gallery-grid" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=12&slug=gallery-grid">Details</a>
-                <a class="btn primary" href="cart.html?add=12">Add</a>
-              </div>
-            </div>
-          </article>
-
         </div>
       </div>
     </section>
 
-    <!-- ===================================== -->
-    <!-- Top Stores                            -->
-    <!-- ===================================== -->
+    <!-- ===== Stores & Newsletter ===== -->
     <section class="section">
       <div class="container">
         <div class="section-head">
@@ -370,9 +330,7 @@
               <div class="title">Pixel Foundry</div>
               <div class="desc">Clean HTML starters and utility CSS kits.</div>
               <div class="meta"><span class="muted">42 items · Top seller</span></div>
-              <div class="actions">
-                <a class="btn" href="stores/index.html#pixelfoundry">Open store</a>
-              </div>
+              <div class="actions"><a class="btn" href="stores/index.html#pixelfoundry">Open store</a></div>
             </div>
           </article>
 
@@ -381,9 +339,7 @@
               <div class="title">Widget Labs</div>
               <div class="desc">Vanilla JS widgets and tiny plugins.</div>
               <div class="meta"><span class="muted">18 items · 4.9★</span></div>
-              <div class="actions">
-                <a class="btn" href="stores/index.html#widgetlabs">Open store</a>
-              </div>
+              <div class="actions"><a class="btn" href="stores/index.html#widgetlabs">Open store</a></div>
             </div>
           </article>
 
@@ -392,21 +348,15 @@
               <div class="title">Vector Supply</div>
               <div class="desc">SVG icons and UI assets for developers.</div>
               <div class="meta"><span class="muted">23 items · Trusted</span></div>
-              <div class="actions">
-                <a class="btn" href="stores/index.html#vectorsupply">Open store</a>
-              </div>
+              <div class="actions"><a class="btn" href="stores/index.html#vectorsupply">Open store</a></div>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- ===================================== -->
-    <!-- Newsletter + Become a seller          -->
-    <!-- ===================================== -->
     <section class="section">
       <div class="container grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-        <!-- Newsletter -->
         <article class="card h-min">
           <div class="body">
             <div class="title">Get product updates</div>
@@ -418,7 +368,6 @@
           </div>
         </article>
 
-        <!-- Become a seller -->
         <article class="card h-min" style="background:linear-gradient(180deg,#fff2e9,#fff)">
           <div class="body">
             <div class="title">Become a seller</div>
@@ -431,9 +380,7 @@
 
   </main>
 
-  <!-- ===================================== -->
-  <!-- Footer                                 -->
-  <!-- ===================================== -->
+  <!-- ================= Footer ================ -->
   <footer class="section">
     <div class="container stack">
       <nav class="row" aria-label="Footer">
@@ -449,9 +396,7 @@
     </div>
   </footer>
 
-  <!-- ===================================== -->
-  <!-- Minimal JS: search, chips, fallback    -->
-  <!-- ===================================== -->
+  <!-- ============== JS: search, chips, image fallback ============== -->
   <script>
     (function(){
       const root = location.origin + location.pathname.replace(/index\.html?$/,'');
@@ -463,7 +408,7 @@
         location.href = url.toString();
       };
 
-      // Header search
+      // header search
       const globalForm = document.getElementById('globalSearchForm');
       const gq = document.getElementById('global-q');
       globalForm?.addEventListener('submit', (e)=>{
@@ -471,26 +416,23 @@
         goProducts({ q: gq.value.trim() });
       });
 
-      // Hero quick search
+      // hero quick search
       const qq = document.getElementById('home-q');
       const btn = document.getElementById('home-search');
       btn?.addEventListener('click', ()=> goProducts({ q: qq.value.trim() }) );
       qq?.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); goProducts({ q: qq.value.trim() }); } });
 
-      // "/" focuses quick search
+      // "/" shortcut
       window.addEventListener('keydown', (e)=>{
         if (e.key === '/' && document.activeElement !== qq) { e.preventDefault(); qq?.focus(); }
       });
 
-      // Chips
+      // quick filter chips
       document.querySelectorAll('.chip[data-cat]').forEach(ch=>{
-        ch.addEventListener('click', ()=>{
-          const cat = ch.getAttribute('data-cat');
-          goProducts({ cat });
-        });
+        ch.addEventListener('click', ()=> goProducts({ cat: ch.getAttribute('data-cat') }) );
       });
 
-      // Image fallback: webp -> png -> jpg
+      // image fallback: webp -> png -> jpg
       document.querySelectorAll('img').forEach(img=>{
         img.onerror = ()=>{
           const src = img.getAttribute('src')||'';
