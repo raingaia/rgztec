@@ -343,4 +343,123 @@ footer{ color:#6b7280 }
   .btn, .menu, .hero::after{ display:none !important }
   .hero{ box-shadow:none }
 }
+/* === RGZTEC Light+Orange Theme Override (append to end of assets/css/home.css) === */
+
+/* Design tokens: modern white/orange */
+:root{
+  --bg:#ffffff;
+  --ink:#0d1220;
+  --muted:#5f687b;
+
+  --b:#eaeef6;
+  --b2:#dfe5f0;
+  --shadow:0 14px 32px rgba(13,18,32,.06);
+
+  --brand:#ff7d33;    /* orange */
+  --brand2:#ffa16a;   /* light orange */
+  --brand-ink:#ffffff;
+
+  --radius:14px;
+  --radius-sm:10px;
+}
+
+/* Global */
+body{ background:var(--bg); color:var(--ink) }
+header{ background:#fff; border-bottom:1px solid var(--b) }
+
+.menu a:hover{ background:#f6f7fb; border-color:var(--b) }
+.menu .active{
+  background:var(--brand);
+  border-color:var(--brand);
+  color:#fff;
+}
+
+/* Buttons */
+.btn{
+  background:#fff;
+  border:1px solid var(--b2);
+  box-shadow:0 1px 0 rgba(13,18,32,.02);
+}
+.btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow) }
+.btn.primary{
+  background:linear-gradient(180deg,var(--brand2),var(--brand));
+  border-color:#ff924e;
+  color:var(--brand-ink);
+}
+.btn.badge{ background:#fff }
+
+/* Chips / filters / badges */
+.chips{ gap:10px }
+.chip{
+  background:#fff;
+  border:1px solid var(--b);
+  box-shadow:inset 0 -2px 0 rgba(13,18,32,.04);
+}
+.chip[aria-pressed="true"]{
+  background:#111; border-color:#111; color:#fff;
+}
+.badge{
+  background:#f5f7ff; border:1px solid #dbe3ff; color:#213676;
+}
+
+/* Hero: açık zemin + yumuşak turuncu vinyet */
+.hero{
+  border:1px solid var(--b);
+  background:
+    radial-gradient(800px 300px at 12% -6%, #fff 0, #fff 60%, #f7f9ff 100%),
+    linear-gradient(180deg, rgba(255,125,51,.06), rgba(255,161,106,.04));
+  box-shadow:var(--shadow);
+}
+.hero h1{ color:#0c1220 }
+.hero p{ color:var(--muted) }
+
+/* “Promote” tarzı geniş turuncu şeritler (varsa) */
+.cta-banner,
+.promo,
+.announcement-bar{
+  background:linear-gradient(180deg,#ff9a5a,#ff7d33);
+  color:#fff;
+  border:1px solid #ff8e4e;
+  border-radius:14px;
+  box-shadow:0 10px 24px rgba(255,125,51,.18);
+}
+
+/* Cards */
+.card{
+  background:#fff;
+  border:1px solid var(--b);
+  box-shadow:var(--shadow);
+}
+.thumb{ background:#f5f6fa }
+.desc{ color:var(--muted) }
+
+/* Inputs */
+input[type="search"], input[type="text"], input[type="email"], select, textarea{
+  background:#fff; border:1px solid var(--b); color:var(--ink);
+}
+input::placeholder, textarea::placeholder{ color:#9aa3b1 }
+
+/* Tables */
+.table{ background:#fff; border-color:var(--b); box-shadow:var(--shadow) }
+.table thead th{ background:#f6f8fc }
+
+/* Force light theme (even if OS is dark) */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#ffffff;
+    --ink:#0d1220;
+    --muted:#5f687b;
+    --b:#eaeef6; --b2:#dfe5f0;
+    --shadow:0 14px 32px rgba(13,18,32,.06);
+  }
+  body, header, .hero, .table, .btn, .pill, .card,
+  input[type="search"], input[type="text"], input[type="email"], select, textarea{
+    background:#fff; color:#0d1220; border-color:var(--b);
+  }
+  .menu a:hover{ background:#f6f7fb }
+}
+
+/* Small polish */
+.section-title{ letter-spacing:-.015em }
+.kpi{ border-color:var(--b2) }
 
