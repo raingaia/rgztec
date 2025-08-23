@@ -1,27 +1,230 @@
-/* Categories layout fix - shared styles for all /products/*.html */
-body{background:#f7f8fb;color:#0d1220}
-header,.subnav{background:#fff}
+/* ==========================================================================
+   RGZTEC — Categories CSS (for /products/*.html and catalog pages)
+   - Enforces CSS Grid on product/category lists (kills multi-column)
+   - Solid card system, toolbar filters, search & sort styles
+   - Works alongside assets/css/home.css
+   ========================================================================== */
 
-/* Force CSS Grid (disable multi-column layouts that squeeze cards) */
-.cards,.grid{
+/* Tokens */
+:root{
+  --bg:#f7f8fb;
+  --ink:#0d1220;
+  --muted:#5b657a;
+  --b:#e7ebf3;
+  --b2:#dfe4ee;
+  --brand:#ff7d33;
+  --brand2:#ff914d;
+  --brand-ink:#ffffff;
+  --shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Base */
+*,
+*::before,
+*::after{ box-sizing:border-box }
+html{ -webkit-text-size-adjust:100% }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+}
+a{ color:inherit; text-decoration:none }
+img{ max-width:100%; height:auto; display:block }
+
+/* Layout helpers */
+.container{ width:min(1200px,92vw); margin-inline:auto }
+
+/* Header / subnav (keeps site look consistent) */
+header, .subnav{ background:#fff }
+header{ border-bottom:1px solid var(--b) }
+.subnav{ border-top:1px solid var(--b); border-bottom:1px solid var(--b) }
+
+.top{ display:flex; gap:12px; align-items:center; justify-content:space-between; padding:12px 0 }
+.logo{ display:flex; gap:10px; align-items:center; font-weight:900 }
+.pill{
+  display:inline-flex; align-items:center; gap:6px;
+  border:1px solid var(--b); border-radius:999px; padding:6px 10px;
+  font-size:12px; font-weight:800; background:#fff;
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex; gap:10px; align-items:center; justify-content:center;
+  padding:10px 14px; border:1px solid var(--b2); border-radius:12px;
+  background:#fff; font-weight:700; line-height:1; cursor:pointer;
+  transition:transform .08s ease, box-shadow .08s ease, background-color .12s ease;
+  user-select:none;
+}
+.btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow) }
+.btn:active{ transform:translateY(0) }
+.btn[disabled]{ opacity:.6; cursor:not-allowed }
+.btn.ghost{ background:#fff }
+.btn.primary{
+  background:linear-gradient(180deg,var(--brand2),var(--brand));
+  color:var(--brand-ink);
+  border-color:#ff8a3f;
+}
+
+/* Utilities */
+.muted{ color:var(--muted) }
+.badge{
+  display:inline-flex; gap:6px; align-items:center;
+  padding:6px 10px; border-radius:999px;
+  background:#eef2ff; border:1px solid #d7def5; color:#233a85;
+  font-weight:800; font-size:12px;
+}
+
+/* --------------------------------------------------------------------------
+   GRID ENFORCER — replaces any multi-column layout with a responsive CSS Grid
+   -------------------------------------------------------------------------- */
+.cards,
+.grid,
+#grid,
+.product-list,
+.products,
+.products-grid,
+.cat-grid{
+  /* kill columns */
   columns:unset !important;
   column-gap:0 !important;
+  /* enforce grid */
   display:grid !important;
   grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) !important;
   gap:16px !important;
-  align-items:stretch;
+  align-items:stretch !important;
+  width:100% !important;
+}
+/* Some legacy column layouts add break-inside; neutralize them */
+.cards > * ,
+.grid > * ,
+.product-list > * ,
+.products > * ,
+.products-grid > * ,
+.cat-grid > * {
+  break-inside:auto !important;
 }
 
-/* Card */
-.card{
-  background:#fff;border:1px solid #e7ebf3;border-radius:14px;
-  display:flex;flex-direction:column;overflow:hidden;min-height:360px
+/* Responsive tune: tighter min width on very small screens */
+@media (max-width:520px){
+  .cards, .grid, #grid, .product-list, .products, .products-grid, .cat-grid{
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) !important;
+  }
 }
-.thumb{aspect-ratio:16/9;background:#f2f3f6}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
-.title{font-weight:900;word-break:break-word}
-.desc{color:#5b657a;font-size:14px;min-height:44px}
-.meta{display:flex;justify-content:space-between;align-items:center}
-.price{font-weight:900}
-.actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+/* --------------------------------------------------------------------------
+   CARD SYSTEM
+   -------------------------------------------------------------------------- */
+.card{
+  background:#fff;
+  border:1px solid var(--b);
+  border-radius:14px;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  min-height:340px;
+  box-shadow:var(--shadow);
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+.card.product{ min-height:360px }
+.card:hover{ transform:translateY(-2px); box-shadow:0 16px 40px rgba(0,0,0,.09) }
+
+.thumb{ aspect-ratio:16/9; background:#f2f3f6 }
+.thumb img{ width:100%; height:100%; object-fit:cover; display:block }
+
+/* If aspect-ratio is unsupported, set a safe height */
+@supports not (aspect-ratio: 1){
+  .thumb{ height:200px }
+}
+
+.body{
+  padding:12px 14px;
+  display:grid; gap:8px;
+  grid-auto-rows:min-content;
+}
+.title{ font-weight:900; word-break:break-word }
+.desc{ color:var(--muted); font-size:14px; min-height:44px }
+.meta{ display:flex; justify-content:space-between; align-items:center; gap:10px }
+.price{ font-weight:900 }
+.actions{ margin-top:auto; display:flex; gap:8px; flex-wrap:wrap }
+
+/* Allow denser cards on narrow screens */
+@media (max-width:700px){
+  .desc{ min-height:auto }
+}
+
+/* --------------------------------------------------------------------------
+   TOOLBAR (filters, search, sort) — used by products/category.html
+   -------------------------------------------------------------------------- */
+.toolbar{
+  position:sticky; top:0; z-index:10;
+  background:#fff; border-bottom:1px solid var(--b);
+}
+.tools{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; padding:12px 0 }
+.chips{ display:flex; gap:8px; flex-wrap:wrap }
+.chip{
+  display:inline-flex; align-items:center; gap:6px;
+  border:1px solid var(--b); border-radius:999px;
+  padding:6px 10px; font-weight:700; background:#fff; cursor:pointer;
+  transition:background-color .12s ease, color .12s ease, border-color .12s ease, transform .08s ease;
+}
+.chip:hover{ transform:translateY(-1px); box-shadow:var(--shadow) }
+.chip[aria-pressed="true"]{ background:#111; color:#fff; border-color:#111 }
+.spacer{ flex:1 }
+.field{ display:flex; gap:8px; align-items:center }
+input[type="search"],
+select{
+  height:42px; border:1px solid var(--b); border-radius:10px; padding:0 12px; background:#fff;
+  font:inherit;
+}
+
+/* --------------------------------------------------------------------------
+   BREADCRUMBS / SECTION HEADERS
+   -------------------------------------------------------------------------- */
+.breadcrumbs{
+  display:flex; gap:6px; align-items:center;
+  color:#6b7280; font-size:14px; margin:14px 0;
+}
+.breadcrumbs a{ color:#374151 }
+.section-head{ display:flex; justify-content:space-between; align-items:center; margin:22px 0 10px }
+
+/* --------------------------------------------------------------------------
+   MISC ACCESSIBILITY & FOCUS
+   -------------------------------------------------------------------------- */
+:focus-visible{
+  outline:2px solid #111; outline-offset:2px; border-radius:6px;
+}
+.btn:focus-visible{ outline:2px solid var(--brand2) }
+.chip:focus-visible{ outline:2px solid #111 }
+
+/* --------------------------------------------------------------------------
+   DARK MODE (optional, automatic)
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b0e17;
+    --ink:#e7ecf5;
+    --muted:#a1acc5;
+    --b:#1a2233;
+    --b2:#223148;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  body{ background:var(--bg); color:var(--ink) }
+  header, .subnav, .toolbar, .btn{ background:#0f1422 }
+  .pill{ background:#0f1422 }
+  .badge{ background:#0f1422; border-color:#27324a; color:#c9d3f0 }
+  .chip{ background:#0f1422 }
+  .chip[aria-pressed="true"]{ background:#e7ecf5; color:#0b0e17; border-color:#e7ecf5 }
+  .card{ background:#0f1422 }
+  input[type="search"], select{ background:#0f1422; color:var(--ink) }
+}
+
+/* --------------------------------------------------------------------------
+   PRINT SAFE (avoid weird column behavior when printing)
+   -------------------------------------------------------------------------- */
+@media print{
+  .toolbar{ position:static }
+  .cards, .grid, #grid, .product-list, .products, .products-grid, .cat-grid{
+    display:grid !important; grid-template-columns:repeat(3, 1fr) !important; gap:12px !important;
+  }
+  .btn{ display:none }
+}
