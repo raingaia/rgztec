@@ -7,10 +7,11 @@
   <title>RGZTEC · Category</title>
   <meta name="description" content="Browse RGZTEC catalog by category, tags and popularity. Filter, search and sort static code templates.">
 
-  <!-- Optional: site-wide look -->
+  <!-- Global look -->
   <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/categories.css" />
 
-  <!-- Robust layout for category pages -->
+  <!-- Page-scoped tweaks (kept expansive as you prefer) -->
   <style>
     :root{
       --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
@@ -22,15 +23,7 @@
     a{color:inherit;text-decoration:none}
     .container{width:min(1200px,92vw);margin-inline:auto}
 
-    header{background:#fff;border-bottom:1px solid var(--b)}
-    .top{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0}
-    .logo{display:flex;gap:10px;align-items:center;font-weight:900}
-    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-size:12px}
-    .btn{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:700}
-    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
-    .btn.ghost{background:#fff}
-
-    /* Enforce CSS Grid everywhere (kill multi-columns) */
+    /* Enforce CSS Grid for any grid class encountered */
     .cards,.grid,#grid,.product-list,.products,.products-grid{
       columns:unset !important; column-gap:0 !important;
       display:grid !important; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) !important;
@@ -38,22 +31,18 @@
     }
 
     /* Toolbar */
-    .toolbar{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--b)}
+    .toolbar{position:sticky;top:0;z-index:12;background:#fff;border-bottom:1px solid var(--b)}
     .tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 0}
     .chips{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:700;background:#fff;cursor:pointer}
+    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:700;background:#fff;cursor:pointer;transition:transform .08s,box-shadow .08s}
+    .chip:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
     .chip[aria-pressed="true"]{background:#111;color:#fff;border-color:#111}
     .spacer{flex:1}
     .field{display:flex;gap:8px;align-items:center}
-    input[type="search"],select{
-      height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff
-    }
+    input[type="search"],select{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff}
 
-    /* Cards */
-    .card{
-      background:#fff;border:1px solid var(--b);border-radius:14px;
-      display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow)
-    }
+    /* Cards (kept here for category page parity) */
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow)}
     .thumb{aspect-ratio:16/9;background:#f2f3f6}
     .thumb img{width:100%;height:100%;object-fit:cover;display:block}
     .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
@@ -72,14 +61,35 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container top">
-      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>Category</strong></a>
-      <div style="display:flex;gap:8px;align-items:center">
-        <a class="btn" href="products/index.html">Catalog</a>
-        <a class="btn" href="stores/index.html">Stores</a>
+  <!-- Header v2 (unified across site) -->
+  <header class="header-v2">
+    <div class="container bar">
+      <a class="brand" href="index.html"><span class="logo-dot">RGZTEC</span></a>
+      <a class="btn pill ghost" href="products/index.html">Categories</a>
+      <form id="navSearch" class="searchbar" role="search" aria-label="Search">
+        <input id="navQ" type="search" placeholder="Search templates, UI kits, widgets…" />
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <nav class="main">
+        <a href="catalog/index.html">Explore</a>
+        <a href="demo/index.html">Demo Gallery</a>
+        <a class="btn" href="login.html">Login</a>
         <a class="btn primary" href="advertise.html">Become a Seller</a>
+      </nav>
+    </div>
+    <div class="subnav">
+      <div class="container rail">
+        <a href="stores/index.html">All Stores</a>
+        <a href="products/index.html?sort=new">New Arrivals</a>
+        <a href="products/index.html?sort=editors">Editor’s Picks</a>
+        <a href="products/category.html?cat=html">Landing Pages</a>
+        <a href="products/category.html?cat=admin">Admin Dashboards</a>
+        <a href="products/css-ui-kits.html">CSS UI Kits</a>
+        <a href="products/js-widgets.html">JS Widgets</a>
+        <a href="products/react.html">React Components</a>
+        <a href="products/svg-icons.html">SVG Icons</a>
+        <a href="products/email-templates.html">Email Templates</a>
+        <a href="products/category.html#freebies">Freebies</a>
       </div>
     </div>
   </header>
@@ -88,14 +98,14 @@
   <div class="toolbar">
     <div class="container tools">
       <nav class="chips" aria-label="Category filter" id="chips">
-        <button class="chip" data-filter="all" aria-pressed="true">All</button>
-        <button class="chip" data-filter="html">HTML</button>
-        <button class="chip" data-filter="js">JS</button>
-        <button class="chip" data-filter="css">CSS</button>
-        <button class="chip" data-filter="react">React</button>
-        <button class="chip" data-filter="icons">Icons</button>
-        <button class="chip" data-filter="email">Email</button>
-        <button class="chip" data-filter="free">Freebies</button>
+        <button class="chip" data-cat="all"  aria-pressed="true">All</button>
+        <button class="chip" data-cat="html">HTML</button>
+        <button class="chip" data-cat="js">JS</button>
+        <button class="chip" data-cat="css">CSS</button>
+        <button class="chip" data-cat="react">React</button>
+        <button class="chip" data-cat="icons">Icons</button>
+        <button class="chip" data-cat="email">Email</button>
+        <button class="chip" data-cat="free">Freebies</button>
       </nav>
       <div class="spacer"></div>
       <div class="field">
@@ -127,15 +137,10 @@
       <span class="badge" id="badge">Curated</span>
     </div>
 
-    <!-- PRODUCTS GRID -->
+    <!-- PRODUCTS GRID (kept static per your structure) -->
     <section id="grid" class="grid" aria-label="Products">
       <!-- 1 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="landing html hero pricing"
-        data-price="18"
-        data-popular="95"
-        data-new="2025-07-01">
+      <article class="card" data-cat="html" data-tags="landing html hero pricing" data-price="18" data-popular="95" data-new="2025-07-01">
         <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
           <img src="images/catalog/html1.webp" alt="Landing Starter (HTML)" loading="lazy" decoding="async">
         </a>
@@ -152,12 +157,7 @@
       </article>
 
       <!-- 2 -->
-      <article class="card"
-        data-cat="js"
-        data-tags="dashboard charts admin html js"
-        data-price="24"
-        data-popular="99"
-        data-new="2025-08-01">
+      <article class="card" data-cat="js" data-tags="dashboard charts admin html js" data-price="24" data-popular="99" data-new="2025-08-01">
         <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
           <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)" loading="lazy" decoding="async">
         </a>
@@ -174,12 +174,7 @@
       </article>
 
       <!-- 3 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="portfolio single page contact"
-        data-price="14"
-        data-popular="80"
-        data-new="2025-06-18">
+      <article class="card" data-cat="html" data-tags="portfolio single page contact" data-price="14" data-popular="80" data-new="2025-06-18">
         <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
           <img src="images/catalog/html3.webp" alt="Portfolio Mini" loading="lazy" decoding="async">
         </a>
@@ -196,12 +191,7 @@
       </article>
 
       <!-- 4 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="blog list post typography"
-        data-price="12"
-        data-popular="78"
-        data-new="2025-05-21">
+      <article class="card" data-cat="html" data-tags="blog list post typography" data-price="12" data-popular="78" data-new="2025-05-21">
         <a class="thumb" href="products/detail.html?id=4&slug=blog-lite">
           <img src="images/catalog/html4.webp" alt="Blog Lite" loading="lazy" decoding="async">
         </a>
@@ -218,12 +208,7 @@
       </article>
 
       <!-- 5 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="agency services testimonials pricing"
-        data-price="16"
-        data-popular="75"
-        data-new="2025-04-30">
+      <article class="card" data-cat="html" data-tags="agency services testimonials pricing" data-price="16" data-popular="75" data-new="2025-04-30">
         <a class="thumb" href="products/detail.html?id=5&slug=agency-starter">
           <img src="images/catalog/html5.webp" alt="Agency Starter" loading="lazy" decoding="async">
         </a>
@@ -240,12 +225,7 @@
       </article>
 
       <!-- 6 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="ecommerce grid detail cart"
-        data-price="22"
-        data-popular="83"
-        data-new="2025-03-19">
+      <article class="card" data-cat="html" data-tags="ecommerce grid detail cart" data-price="22" data-popular="83" data-new="2025-03-19">
         <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
           <img src="images/catalog/html6.webp" alt="E-commerce Mini" loading="lazy" decoding="async">
         </a>
@@ -262,12 +242,7 @@
       </article>
 
       <!-- 7 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="resume skills experience contact"
-        data-price="9"
-        data-popular="65"
-        data-new="2025-02-11">
+      <article class="card" data-cat="html" data-tags="resume skills experience contact" data-price="9" data-popular="65" data-new="2025-02-11">
         <a class="thumb" href="products/detail.html?id=7&slug=resume-card">
           <img src="images/catalog/html7.webp" alt="Resume Card" loading="lazy" decoding="async">
         </a>
@@ -284,12 +259,7 @@
       </article>
 
       <!-- 8 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="product list filters grid"
-        data-price="11"
-        data-popular="70"
-        data-new="2025-04-05">
+      <article class="card" data-cat="html" data-tags="product list filters grid" data-price="11" data-popular="70" data-new="2025-04-05">
         <a class="thumb" href="products/detail.html?id=8&slug=product-list">
           <img src="images/catalog/html8.webp" alt="Product List" loading="lazy" decoding="async">
         </a>
@@ -306,12 +276,7 @@
       </article>
 
       <!-- 9 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="pricing tables plans"
-        data-price="8"
-        data-popular="72"
-        data-new="2025-01-15">
+      <article class="card" data-cat="html" data-tags="pricing tables plans" data-price="8" data-popular="72" data-new="2025-01-15">
         <a class="thumb" href="products/detail.html?id=9&slug=pricing-tables">
           <img src="images/catalog/html9.webp" alt="Pricing Tables" loading="lazy" decoding="async">
         </a>
@@ -328,12 +293,7 @@
       </article>
 
       <!-- 10 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="contact form map socials"
-        data-price="7"
-        data-popular="60"
-        data-new="2024-12-12">
+      <article class="card" data-cat="html" data-tags="contact form map socials" data-price="7" data-popular="60" data-new="2024-12-12">
         <a class="thumb" href="products/detail.html?id=10&slug=contact-lite">
           <img src="images/catalog/html10.webp" alt="Contact Lite" loading="lazy" decoding="async">
         </a>
@@ -350,12 +310,7 @@
       </article>
 
       <!-- 11 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="faq accordion categories search"
-        data-price="6"
-        data-popular="58"
-        data-new="2024-11-20">
+      <article class="card" data-cat="html" data-tags="faq accordion categories search" data-price="6" data-popular="58" data-new="2024-11-20">
         <a class="thumb" href="products/detail.html?id=11&slug=faq-mini">
           <img src="images/catalog/html11.webp" alt="FAQ Mini" loading="lazy" decoding="async">
         </a>
@@ -372,12 +327,7 @@
       </article>
 
       <!-- 12 -->
-      <article class="card"
-        data-cat="html"
-        data-tags="gallery masonry grid lightbox"
-        data-price="13"
-        data-popular="74"
-        data-new="2025-02-07">
+      <article class="card" data-cat="html" data-tags="gallery masonry grid lightbox" data-price="13" data-popular="74" data-new="2025-02-07">
         <a class="thumb" href="products/detail.html?id=12&slug=gallery-grid">
           <img src="images/catalog/html12.webp" alt="Gallery Grid" loading="lazy" decoding="async">
         </a>
@@ -394,12 +344,7 @@
       </article>
 
       <!-- 13 -->
-      <article class="card"
-        data-cat="react"
-        data-tags="react components cards modals tabs"
-        data-price="15"
-        data-popular="82"
-        data-new="2025-08-10">
+      <article class="card" data-cat="react" data-tags="react components cards modals tabs" data-price="15" data-popular="82" data-new="2025-08-10">
         <a class="thumb" href="products/detail.html?id=17&slug=react-components">
           <img src="images/catalog/html17.webp" alt="React Components" loading="lazy" decoding="async">
         </a>
@@ -416,12 +361,7 @@
       </article>
 
       <!-- 14 -->
-      <article class="card"
-        data-cat="icons"
-        data-tags="svg icons set inline"
-        data-price="6"
-        data-popular="77"
-        data-new="2025-07-22">
+      <article class="card" data-cat="icons" data-tags="svg icons set inline" data-price="6" data-popular="77" data-new="2025-07-22">
         <a class="thumb" href="products/detail.html?id=18&slug=svg-icons">
           <img src="images/catalog/html18.webp" alt="SVG Icons" loading="lazy" decoding="async">
         </a>
@@ -438,12 +378,7 @@
       </article>
 
       <!-- 15 -->
-      <article class="card"
-        data-cat="email"
-        data-tags="email templates transactional"
-        data-price="9"
-        data-popular="73"
-        data-new="2025-06-12">
+      <article class="card" data-cat="email" data-tags="email templates transactional" data-price="9" data-popular="73" data-new="2025-06-12">
         <a class="thumb" href="products/detail.html?id=19&slug=email-templates">
           <img src="images/catalog/html19.webp" alt="Email Templates" loading="lazy" decoding="async">
         </a>
@@ -460,12 +395,7 @@
       </article>
 
       <!-- 16 -->
-      <article class="card"
-        data-cat="js"
-        data-tags="widgets tabs accordion tooltip vanilla"
-        data-price="11"
-        data-popular="79"
-        data-new="2025-05-09">
+      <article class="card" data-cat="js" data-tags="widgets tabs accordion tooltip vanilla" data-price="11" data-popular="79" data-new="2025-05-09">
         <a class="thumb" href="products/detail.html?id=20&slug=js-widgets">
           <img src="images/catalog/html20.webp" alt="JS Widgets" loading="lazy" decoding="async">
         </a>
@@ -482,12 +412,7 @@
       </article>
 
       <!-- 17 (FREE) -->
-      <article class="card"
-        data-cat="css"
-        data-tags="css ui kit free"
-        data-price="0"
-        data-popular="88"
-        data-new="2025-08-05">
+      <article class="card" data-cat="css" data-tags="css ui kit free" data-price="0" data-popular="88" data-new="2025-08-05">
         <a class="thumb" href="products/detail.html?id=101&slug=free-ui-kit">
           <img src="images/catalog/html5.webp" alt="FREE UI Kit" loading="lazy" decoding="async">
         </a>
@@ -504,12 +429,7 @@
       </article>
 
       <!-- 18 (FREE) -->
-      <article class="card"
-        data-cat="react"
-        data-tags="react components free"
-        data-price="0"
-        data-popular="84"
-        data-new="2025-07-28">
+      <article class="card" data-cat="react" data-tags="react components free" data-price="0" data-popular="84" data-new="2025-07-28">
         <a class="thumb" href="products/detail.html?id=102&slug=react-starter-free">
           <img src="images/catalog/html17.webp" alt="React Starter (Free)" loading="lazy" decoding="async">
         </a>
@@ -526,12 +446,7 @@
       </article>
 
       <!-- 19 (FREE) -->
-      <article class="card"
-        data-cat="icons"
-        data-tags="icons svg free"
-        data-price="0"
-        data-popular="76"
-        data-new="2025-06-30">
+      <article class="card" data-cat="icons" data-tags="icons svg free" data-price="0" data-popular="76" data-new="2025-06-30">
         <a class="thumb" href="products/detail.html?id=103&slug=icons-free-pack">
           <img src="images/catalog/html18.webp" alt="Free Icons Pack" loading="lazy" decoding="async">
         </a>
@@ -548,12 +463,7 @@
       </article>
 
       <!-- 20 (FREE) -->
-      <article class="card"
-        data-cat="email"
-        data-tags="email template free"
-        data-price="0"
-        data-popular="71"
-        data-new="2025-05-01">
+      <article class="card" data-cat="email" data-tags="email template free" data-price="0" data-popular="71" data-new="2025-05-01">
         <a class="thumb" href="products/detail.html?id=104&slug=email-free">
           <img src="images/catalog/html19.webp" alt="Free Email Template" loading="lazy" decoding="async">
         </a>
@@ -574,21 +484,20 @@
     <div id="freebies" style="margin-top:24px"></div>
   </main>
 
-  <!-- Minimal JS: filtering, sorting, URL/query sync, image fallback -->
+  <!-- Footer -->
+  <footer class="container" style="margin:28px 0;color:#6b7280">
+    <small>© <span id="year"></span> RGZTEC — All rights reserved.</small>
+  </footer>
+
+  <!-- Shared JS (fallbacks, cart, nav search, chips router) -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Page-local filtering/sorting with URL sync (kept, but now data-cat compatible) -->
   <script>
     (function(){
       const $ = (s,root=document)=>root.querySelector(s);
       const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
-
-      /* Image fallback: .webp -> .png -> .jpg */
-      $$('img').forEach(img=>{
-        img.onerror = ()=>{
-          const src = img.getAttribute('src')||'';
-          if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
-          if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
-          img.onerror = null;
-        };
-      });
+      const params = new URL(location.href).searchParams;
 
       const chips = $('#chips');
       const q = $('#q');
@@ -599,35 +508,34 @@
       const badge = $('#badge');
 
       function setChip(active){
-        $$('#chips .chip').forEach(c=>c.setAttribute('aria-pressed', String(c.dataset.filter===active)));
+        $$('#chips .chip').forEach(c=>c.setAttribute('aria-pressed', String((c.dataset.cat||'')===active)));
       }
 
       function applyFilters(){
-        const cat = (new URLSearchParams(location.search).get('cat') || (location.hash==='#freebies'?'free':'all')).toLowerCase();
-        const term = (new URLSearchParams(location.search).get('q') || '').toLowerCase().trim();
-        const sortBy = (new URLSearchParams(location.search).get('sort') || 'featured');
+        const cat  = (params.get('cat') || (location.hash==='#freebies'?'free':'all')).toLowerCase();
+        const term = (params.get('q')   || '').toLowerCase().trim();
+        const sortBy = (params.get('sort') || 'featured');
 
-        // UI reflect
-        setChip(cat);
-        q.value = term;
-        sort.value = sortBy;
+        // Reflect UI
+        setChip(cat); q.value = term; sort.value = sortBy;
 
         // Breadcrumb + title
         const names = {all:'All', html:'HTML', js:'JS', css:'CSS', react:'React', icons:'Icons', email:'Email', free:'Freebies'};
         bc.textContent = names[cat] || 'All';
         title.textContent = (names[cat] || 'All') + ' Products';
-        badge.textContent = (cat==='free'?'Free downloads':'Curated');
+        badge.textContent = (cat==='free' ? 'Free downloads' : 'Curated');
 
-        // Filter
+        // Filter cards
         $$('#grid .card').forEach(card=>{
           const cardCat = (card.dataset.cat||'').toLowerCase();
-          const text = ((card.dataset.tags||'') + ' ' + (card.querySelector('.title')?.textContent||'') + ' ' + (card.querySelector('.desc')?.textContent||'')).toLowerCase();
-          const matchCat = (cat==='all') ? true : (cat==='free' ? (/(^| )free( |$)/.test(card.dataset.tags||'')) : cardCat===cat);
+          const tags = (card.dataset.tags||'').toLowerCase();
+          const text = (tags + ' ' + (card.querySelector('.title')?.textContent||'') + ' ' + (card.querySelector('.desc')?.textContent||'')).toLowerCase();
+          const matchCat = (cat==='all') ? true : (cat==='free' ? /\bfree\b/.test(tags) : cardCat===cat);
           const matchText = term ? text.includes(term) : true;
           card.style.display = (matchCat && matchText) ? '' : 'none';
         });
 
-        // Sort
+        // Sort visible cards
         const cards = $$('#grid .card').filter(c=>c.style.display!=='none');
         const by = {
           featured:(a,b)=>0,
@@ -636,24 +544,22 @@
           price_asc:(a,b)=>(+a.dataset.price||0)-(+b.dataset.price||0),
           price_desc:(a,b)=>(+b.dataset.price||0)-(+a.dataset.price||0),
         }[sortBy] || ((a,b)=>0);
-
         cards.sort(by).forEach(c=>grid.appendChild(c));
       }
 
-      // Chips click -> update URL params
+      // Chips click → URL sync
       chips.addEventListener('click', (e)=>{
         const btn = e.target.closest('.chip');
         if(!btn) return;
-        const cat = btn.dataset.filter;
+        const cat = btn.dataset.cat;
         const url = new URL(location.href);
         url.searchParams.set('cat', cat);
         history.replaceState(null,'', url);
         applyFilters();
-        // Smooth scroll to top of grid
         grid.scrollIntoView({behavior:'smooth',block:'start'});
       });
 
-      // Search
+      // Search input
       q.addEventListener('input', ()=>{
         const url = new URL(location.href);
         const val = q.value.trim();
@@ -662,7 +568,7 @@
         applyFilters();
       });
 
-      // Sort
+      // Sort select
       sort.addEventListener('change', ()=>{
         const url = new URL(location.href);
         url.searchParams.set('sort', sort.value);
@@ -670,17 +576,18 @@
         applyFilters();
       });
 
-      // Initial state from URL (?cat=&q=&sort=) or hash (#freebies)
+      // Hash → freebies
       if(location.hash==='#freebies'){
         const url = new URL(location.href);
         url.hash = '';
         url.searchParams.set('cat','free');
         history.replaceState(null,'', url);
       }
+
+      // Initial mount
       applyFilters();
     })();
   </script>
 </body>
 </html>
-
 
