@@ -2,174 +2,247 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SVG / Icons - RGZTEC Store</title>
-  <meta name="description" content="Browse all available SVG and Icon packs from the RGZTEC marketplace.">
-  <link rel="stylesheet" href="../assets/css/home.css?v=12" />
+  <title>RGZTEC · SVG Icons</title>
+
+  <!-- Optional: your global styles -->
+  <link rel="stylesheet" href="assets/css/home.css" />
+
+  <!-- Strong layout patch for category pages -->
   <style>
-    /* Categories button + drawer */
-    .menu-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid #e5e7eb;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04);cursor:pointer;font-weight:600}
-    .menu-btn svg{width:18px;height:18px}
-    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:.2s;z-index:90}
-    .drawer{position:fixed;top:72px;left:18px;width:320px;max-width:92vw;background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.15);transform:translateY(-8px);opacity:0;pointer-events:none;transition:.2s;z-index:99}
-    .drawer.open,.drawer-overlay.open{opacity:1;pointer-events:auto;transform:none}
-    .drawer .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3f4f6}
-    .drawer .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
-    .drawer a.cat{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
-    .drawer a.cat img{width:28px;height:28px;border-radius:8px;object-fit:cover}
-    /* small visual tweaks */
-    .section-header .meta{margin-top:6px}
-    .card .thumb{aspect-ratio:16/10;object-fit:cover;border-radius:12px}
+    :root{--bg:#f7f8fb;--ink:#0d1220;--muted:#5b657a;--b:#e7ebf3;--b2:#dfe4ee;--brand:#ff7d33;--shadow:0 10px 30px rgba(0,0,0,.06)}
+    body{background:var(--bg);color:var(--ink)}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+    header{background:#fff;border-bottom:1px solid var(--b)}
+    .top{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0}
+    .logo{display:flex;gap:10px;align-items:center;font-weight:900}
+    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-size:12px}
+    .btn{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:700}
+    .btn.primary{background:linear-gradient(180deg,#ff914d,var(--brand));color:#fff;border-color:#ff8a3f}
+
+    /* Force CSS Grid, kill any multi-column layout */
+    .cards,.grid,#grid,.product-list,.products,.products-grid{
+      columns:unset !important;
+      column-gap:0 !important;
+      display:grid !important;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr)) !important;
+      gap:16px !important;
+      align-items:stretch !important;
+      width:100% !important;
+    }
+
+    /* Cards */
+    .card{
+      background:#fff;border:1px solid var(--b);border-radius:14px;
+      display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow)
+    }
+    .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+    .title{font-weight:900}
+    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:900}
+    .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
   </style>
 </head>
 <body>
-
-  <!-- Drawer (Categories) -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-  <div class="drawer" id="drawer" aria-label="Categories">
-    <div class="hdr">
-      <strong>Categories</strong>
-      <button id="drawerClose" class="menu-btn" aria-label="Close categories">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        Close
-      </button>
-    </div>
-    <div class="grid" role="menu">
-      <a class="cat" href="./html-templates.html"><img src="../images/categories/html-templates.webp" alt="HTML"><span>HTML Templates</span></a>
-      <a class="cat" href="./css-ui-kits.html"><img src="../images/categories/css-ui-kits.webp" alt="CSS"><span>CSS UI Kits</span></a>
-      <a class="cat" href="./js-widgets.html"><img src="../images/categories/js-widgets.webp" alt="JS"><span>JS Widgets</span></a>
-      <a class="cat" href="./react.html"><img src="../images/categories/react.webp" alt="React"><span>React Components</span></a>
-      <a class="cat" href="./svg-icons.html"><img src="../images/categories/svg-icons.webp" alt="SVG"><span>SVG / Icons</span></a>
-      <a class="cat" href="./email-templates.html"><img src="../images/categories/email-templates.webp" alt="Email"><span>Email Templates</span></a>
-    </div>
-  </div>
-
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="wrapper nav-wrapper" style="gap:12px;align-items:center;">
-      <a class="brand" href="../">RGZTEC</a>
-
-      <!-- Categories button -->
-      <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-controls="drawer">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-        Categories
-      </button>
-
-      <form class="search" role="search" aria-label="Site search" style="flex:1;">
-        <input type="search" class="search-input" placeholder="Search SVG / Icons..." />
-      </form>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="./html-templates.html">HTML Templates</a>
-        <a href="./css-ui-kits.html">CSS UI Kits</a>
-        <a href="./js-widgets.html">JS Widgets</a>
-        <a href="./react.html">React</a>
-        <a href="./svg-icons.html" aria-current="page">SVG / Icons</a>
-        <a href="./email-templates.html">Email Templates</a>
-        <a href="../demo/">Demo Gallery</a>
-      </nav>
+  <header>
+    <div class="container top">
+      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>SVG Icons</strong></a>
+      <a class="btn" href="catalog/index.html">Back to Catalog</a>
     </div>
   </header>
 
-  <main id="products-content">
-    <!-- SVG/ICONS SECTION -->
-    <section id="svg-icons" class="section page-content">
-      <div class="wrapper">
-        <div class="section-header">
-          <h2>SVG / Icons</h2>
-          <p class="meta">High-quality, scalable SVG icons for your projects.</p>
+  <main class="container" style="margin:18px 0">
+    <h1 style="margin:0 0 12px">SVG Icons</h1>
+    <p class="muted" style="margin:0 0 16px">Curated icon packs for developers. Inline-ready, customizable stroke and fill.</p>
+
+    <section id="grid" class="grid">
+      <!-- 1 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1801&slug=icons-outline-1">
+          <img src="images/categories/svg-icons.webp" alt="Outline Icons Pack 1" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Outline Icons · Set 1</div>
+          <div class="desc">Clean 24px outline system with 300 glyphs.</div>
+          <div class="meta"><div class="price">$9</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1801&slug=icons-outline-1" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1801&slug=icons-outline-1">Details</a>
+            <a class="btn primary" href="cart.html?add=1801">Add to cart</a>
+          </div>
         </div>
-        <div class="grid auto-4">
-          <!-- Mağazaya yönlendirme: Visit Store -->
-          <article class="card">
-            <img class="thumb" src="../images/html14.webp" alt="Minimalist Icon Set" loading="lazy" width="640" height="400" />
-            <h3 class="title">Minimalist Icon Set</h3>
-            <p class="meta">Scalable SVG Icons</p>
-            <div class="row">
-              <a class="btn" href="../demo/" target="_blank">Preview</a>
-              <a class="btn primary" href="./detail.html?item=minimalist-icon-set">Visit Store</a>
-            </div>
-          </article>
+      </article>
 
-          <article class="card">
-            <img class="thumb" src="../images/html15.webp" alt="Business Icon Pack" loading="lazy" width="640" height="400" />
-            <h3 class="title">Business Icon Pack</h3>
-            <p class="meta">Scalable SVG Icons</p>
-            <div class="row">
-              <a class="btn" href="../demo/" target="_blank">Preview</a>
-              <a class="btn primary" href="./detail.html?item=business-icon-pack">Visit Store</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img class="thumb" src="../images/html16.webp" alt="Social Media Icons" loading="lazy" width="640" height="400" />
-            <h3 class="title">Social Media Icons</h3>
-            <p class="meta">Scalable SVG Icons</p>
-            <div class="row">
-              <a class="btn" href="../demo/" target="_blank">Preview</a>
-              <a class="btn primary" href="./detail.html?item=social-media-icons">Visit Store</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img class="thumb" src="../images/html17.webp" alt="Animated Icons" loading="lazy" width="640" height="400" />
-            <h3 class="title">Animated Icons</h3>
-            <p class="meta">Scalable SVG Icons</p>
-            <div class="row">
-              <a class="btn" href="../demo/" target="_blank">Preview</a>
-              <a class="btn primary" href="./detail.html?item=animated-icons">Visit Store</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <img class="thumb" src="../images/html18.webp" alt="Weather Icon Set" loading="lazy" width="640" height="400" />
-            <h3 class="title">Weather Icon Set</h3>
-            <p class="meta">Scalable SVG Icons</p>
-            <div class="row">
-              <a class="btn" href="../demo/" target="_blank">Preview</a>
-              <a class="btn primary" href="./detail.html?item=weather-icon-set">Visit Store</a>
-            </div>
-          </article>
+      <!-- 2 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1802&slug=icons-outline-2">
+          <img src="images/categories/svg-icons.webp" alt="Outline Icons Pack 2" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Outline Icons · Set 2</div>
+          <div class="desc">Extended 24px outline set, 350+ glyphs.</div>
+          <div class="meta"><div class="price">$10</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1802&slug=icons-outline-2" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1802&slug=icons-outline-2">Details</a>
+            <a class="btn primary" href="cart.html?add=1802">Add to cart</a>
+          </div>
         </div>
-      </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1803&slug=icons-solid-1">
+          <img src="images/categories/svg-icons.webp" alt="Solid Icons Pack 1" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Solid Icons · Starter</div>
+          <div class="desc">Filled icon style for dashboards and apps.</div>
+          <div class="meta"><div class="price">$9</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1803&slug=icons-solid-1" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1803&slug=icons-solid-1">Details</a>
+            <a class="btn primary" href="cart.html?add=1803">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1804&slug=icons-duotone">
+          <img src="images/categories/svg-icons.webp" alt="Duotone Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Duotone Icons</div>
+          <div class="desc">Two-tone icons with layered fills.</div>
+          <div class="meta"><div class="price">$11</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1804&slug=icons-duotone" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1804&slug=icons-duotone">Details</a>
+            <a class="btn primary" href="cart.html?add=1804">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1805&slug=icons-mini-16px">
+          <img src="images/categories/svg-icons.webp" alt="Mini 16px Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Mini Icons · 16px</div>
+          <div class="desc">Compact 16px set for dense UIs.</div>
+          <div class="meta"><div class="price">$7</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1805&slug=icons-mini-16px" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1805&slug=icons-mini-16px">Details</a>
+            <a class="btn primary" href="cart.html?add=1805">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1806&slug=icons-line-animated">
+          <img src="images/categories/svg-icons.webp" alt="Animated Line Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Animated Line Icons</div>
+          <div class="desc">CSS/SMIL animated outlines.</div>
+          <div class="meta"><div class="price">$12</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1806&slug=icons-line-animated" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1806&slug=icons-line-animated">Details</a>
+            <a class="btn primary" href="cart.html?add=1806">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1807&slug=icons-flags">
+          <img src="images/categories/svg-icons.webp" alt="Country Flags Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Country Flags</div>
+          <div class="desc">All ISO country flags as SVG.</div>
+          <div class="meta"><div class="price">$10</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1807&slug=icons-flags" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1807&slug=icons-flags">Details</a>
+            <a class="btn primary" href="cart.html?add=1807">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1808&slug=icons-payments">
+          <img src="images/categories/svg-icons.webp" alt="Payment Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Payment Icons</div>
+          <div class="desc">Cards, wallets and gateway brands.</div>
+          <div class="meta"><div class="price">$8</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1808&slug=icons-payments" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1808&slug=icons-payments">Details</a>
+            <a class="btn primary" href="cart.html?add=1808">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 9 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1809&slug=icons-dev">
+          <img src="images/categories/svg-icons.webp" alt="Developer Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Developer Icons</div>
+          <div class="desc">CI/CD, cloud, terminals and more.</div>
+          <div class="meta"><div class="price">$9</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1809&slug=icons-dev" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1809&slug=icons-dev">Details</a>
+            <a class="btn primary" href="cart.html?add=1809">Add to cart</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 10 -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=1810&slug=icons-social">
+          <img src="images/categories/svg-icons.webp" alt="Social Icons" loading="lazy" decoding="async">
+        </a>
+        <div class="body">
+          <div class="title">Social Icons</div>
+          <div class="desc">Popular social networks, brand-safe.</div>
+          <div class="meta"><div class="price">$7</div></div>
+          <div class="actions">
+            <a class="btn" href="demo/index.html?item=1810&slug=icons-social" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1810&slug=icons-social">Details</a>
+            <a class="btn primary" href="cart.html?add=1810">Add to cart</a>
+          </div>
+        </div>
+      </article>
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="wrapper">
-      <div class="footer-grid">
-        <div>
-          <h3 class="title">About RGZTEC</h3>
-          <p class="meta">Static code marketplace and demo gallery. Demos are open without accounts.</p>
-        </div>
-        <div>
-          <h4 class="title">Links</h4>
-          <ul class="footer-links">
-            <li><a href="../demo/">Demo Gallery</a></li>
-            <li><a href="./html-templates.html">Explore Products</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="title">Contact</h4>
-          <p class="meta">support@rgztec.example</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Drawer JS -->
+  <!-- WebP → PNG → JPG fallback -->
   <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const drawer = document.getElementById('drawer');
-    const overlay = document.getElementById('drawerOverlay');
-    const drawerClose = document.getElementById('drawerClose');
-    const openDrawer = () => { drawer.classList.add('open'); overlay.classList.add('open'); };
-    const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('open'); };
-    menuBtn.addEventListener('click', openDrawer);
-    overlay.addEventListener('click', closeDrawer);
-    drawerClose && drawerClose.addEventListener('click', closeDrawer);
+    document.querySelectorAll('.thumb img').forEach(img=>{
+      const base = img.getAttribute('src').replace(/\.(webp|png|jpg)$/i,'');
+      img.onerror = () => {
+        if (img.src.endsWith('.webp')) img.src = base + '.png';
+        else if (img.src.endsWith('.png'))  img.src = base + '.jpg';
+        else img.onerror = null;
+      };
+    });
   </script>
-
-  <script src="../assets/js/main.js?v=3"></script>
 </body>
 </html>
+
