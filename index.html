@@ -1,198 +1,396 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
+  <!-- =========================================================
+       RGZTEC · Static Code Marketplace (Single-file Homepage)
+       – English only
+       – Works on GitHub Pages under /rgztec/
+       – No external CDNs
+       ========================================================= -->
   <meta charset="utf-8" />
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC · Static Code Marketplace</title>
-  <meta name="description" content="HTML şablonları, CSS UI kitleri, bileşen paketleri. Canlı demo ve anında indirme." />
-  <meta name="theme-color" content="#0b1220" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E">
-  <link href="assets/css/home.css" rel="stylesheet" />
+  <meta name="description" content="Buy & sell production-ready static code: HTML templates, CSS UI kits, components, and widgets. Live demos and instant downloads." />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E">
 
-  <!-- OpenGraph -->
-  <meta property="og:title" content="RGZTEC · Static Code Marketplace" />
-  <meta property="og:description" content="HTML şablonları, CSS UI kitleri, bileşen paketleri. Canlı demo ve anında indirme." />
-  <meta property="og:type" content="website" />
-
-  <!-- Structured data (optional) -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"RGZTEC","url":"https://example.com/rgztec/",
-   "potentialAction":{"@type":"SearchAction","target":"https://example.com/rgztec/?q={search_term_string}","query-input":"required name=search_term_string"}}
-  </script>
-
-  <!-- Sayfa-özel küçük stiller -->
+  <!-- ===================================================================
+       GLOBAL CSS (no external files needed; tuned to match your screenshot)
+       =================================================================== -->
   <style>
-    /* reklam placeholder’ları */
-    .ad{display:grid;place-items:center;background:linear-gradient(180deg,#0f1a31,#0a1327);border:1px dashed #2a3b61;color:#7da5ff;border-radius:12px}
+    /* -----------------------------
+       0) Design Tokens / Variables
+       ----------------------------- */
+    :root{
+      --bg:#f7f8fb;
+      --panel:#ffffff;
+      --ink:#0d1220;
+      --muted:#5b657a;
+      --link:#1a4cff;
+      --brand:#ff7d33;
+      --brand-2:#ff914d;
+      --ok:#10b981;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --b:#e6e9f2;
+      --b2:#dfe4ee;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:16px;
+      --ring:0 0 0 3px rgba(26,76,255,.22);
+      --radius-sm:10px;
+      --radius-md:12px;
+      --radius-lg:20px;
+    }
+
+    /* -----------------------------
+       1) Reset / Base
+       ----------------------------- */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font:400 16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    a.link{color:var(--link)}
+    a.link:hover{text-decoration:underline}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+    .muted{color:var(--muted)}
+    .kbd{display:inline-block;min-width:1.5em;padding:.1em .45em;border:1px solid var(--b2);border-bottom-width:2px;border-radius:6px;background:#fff;font-size:.8em}
+    .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--b);background:#fff;border-radius:999px;padding:6px 10px;font-size:12px}
+
+    /* -----------------------------
+       2) Buttons
+       ----------------------------- */
+    .btn{
+      display:inline-flex;gap:10px;align-items:center;justify-content:center;
+      padding:10px 14px;border:1px solid var(--b);border-radius:12px;background:#fff;
+      cursor:pointer;font-weight:700;transition:.15s border-color,.15s box-shadow,.15s transform;
+      user-select:none; -webkit-user-select:none;
+    }
+    .btn:hover{border-color:var(--b2)}
+    .btn:active{transform:translateY(1px)}
+    .btn:focus-visible{outline:none;box-shadow:var(--ring)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand-2),var(--brand));color:#fff;border-color:var(--brand)}
+    .btn.ghost{background:#fff;border-color:var(--b2)}
+    .btn.icon{padding:10px;width:42px;height:42px}
+    .btn.block{width:100%}
+
+    /* -----------------------------
+       3) Header & Subnav
+       ----------------------------- */
+    header{
+      position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--b);
+      backdrop-filter:saturate(120%) blur(6px);
+    }
+    .topbar{
+      display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 0;
+    }
+    .logo{display:flex;gap:10px;align-items:center;font-weight:900}
+    .logo-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
+    .searchbar{position:relative;flex:1;max-width:640px}
+    .searchbar input{
+      width:100%;height:44px;border-radius:12px;border:1px solid var(--b);background:#fff;color:var(--ink);
+      padding:0 44px 0 14px;outline:none;
+    }
+    .searchbar input:focus{border-color:#cfd5e6;box-shadow:var(--ring)}
+    .searchbar .icon{position:absolute;right:6px;top:0;bottom:0;display:grid;place-items:center;color:#7a87a8;width:40px}
+
+    .subnav{
+      display:flex;gap:16px;overflow:auto;padding:10px 0;background:#fff;border-top:1px solid var(--b);border-bottom:1px solid var(--b);
+    }
+    .subnav a{white-space:nowrap;padding:6px 10px;border-radius:999px}
+    .subnav a:hover{background:#f5f7fb}
+
+    /* -----------------------------
+       4) Hero Tiles + Banner
+       ----------------------------- */
+    .hero{margin:16px 0}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+    .tile{
+      background:#fff;border:1px solid var(--b);border-radius:16px;padding:20px;box-shadow:var(--shadow);
+    }
+    .tile h2{margin:0 0 10px}
+    .tile p{margin:0 0 10px}
+    .cta-stack{display:flex;gap:10px;flex-wrap:wrap}
+
+    .promo-banner{
+      margin:22px 0;background:var(--brand);color:#fff;border-radius:16px;padding:34px 24px;text-align:center;font-weight:900;
+      font-size:clamp(18px,2.6vw,28px);box-shadow:var(--shadow);
+    }
+
+    /* -----------------------------
+       5) Chips
+       ----------------------------- */
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{
+      display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--b);
+      color:#2c3b57;font-weight:700;font-size:13px;cursor:pointer;user-select:none
+    }
+    .chip:hover{background:#f0f3fa}
+    .chip.active{border-color:#94a3ff;background:#eef1ff}
+
+    /* -----------------------------
+       6) Grid / Cards
+       ----------------------------- */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:stretch}
+    .col-12{grid-column:span 12}
+    .col-6{grid-column:span 6}
+    .col-4{grid-column:span 4}
+    .col-3{grid-column:span 3}
+    @media (max-width:1024px){.col-3{grid-column:span 4}.col-4{grid-column:span 6}.col-6{grid-column:span 12}}
+    @media (max-width:700px){.col-3,.col-4,.col-6{grid-column:span 12}}
+    .section-head{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:22px 0 10px}
+    .section-head h2{margin:0}
+
+    .card{background:var(--panel);border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px}
+    .thumb{position:relative;background:#f2f3f6;aspect-ratio:16/9}
+    .thumb img{display:block;width:100%;height:100%;object-fit:cover;visibility:hidden}
+    .thumb .ph{position:absolute;inset:0;display:grid;place-items:center;color:#8aa0c7;font-size:13px}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+    .title{font-weight:900}
+    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:900}
+    .actions{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+
+    /* Optional flip effect (enabled on demand) */
+    .card.flip{perspective:1200px}
+    .card.flip .flip-inner{
+      position:relative;aspect-ratio:16/10;border-radius:14px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1);overflow:hidden
+    }
+    .card.flip:hover .flip-inner{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;padding:14px;display:flex;flex-direction:column;justify-content:space-between;backface-visibility:hidden}
+    .face.front{background:linear-gradient(180deg,#f7f9ff,#f2f5ff)}
+    .face.back{transform:rotateY(180deg);background:linear-gradient(180deg,#eef2ff,#e7ecff)}
+    .front .quick-actions{position:absolute;right:10px;bottom:10px;display:flex;gap:8px}
+    .front .quick-actions .btn{padding:8px 10px;font-weight:800}
+
+    /* -----------------------------
+       7) Offcanvas categories
+       ----------------------------- */
+    .drawer-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.32);opacity:0;pointer-events:none;transition:.2s opacity;z-index:60
+    }
+    .drawer{position:fixed;inset:0 auto 0 0;width:min(320px,86vw);background:#fff;border-right:1px solid var(--b);transform:translateX(-100%);transition:.25s transform;z-index:61;padding:16px}
+    .drawer.open{transform:none}
+    .drawer-backdrop.open{opacity:1;pointer-events:auto}
+    .drawer h3{margin:0 0 10px}
+    .drawer a{display:block;padding:10px;border-radius:8px}
+    .drawer a:hover{background:#f6f8fd}
+
+    /* -----------------------------
+       8) Toasts
+       ----------------------------- */
+    .toasts{position:fixed;right:16px;bottom:16px;z-index:70;display:grid;gap:10px}
+    .toast{
+      display:flex;gap:10px;align-items:center;background:#111;color:#fff;border-radius:12px;padding:10px 12px;box-shadow:var(--shadow);opacity:.98
+    }
+    .toast.ok{background:#0e9f6e}
+    .toast.warn{background:#d97706}
+    .toast.error{background:#b91c1c}
+
+    /* -----------------------------
+       9) Footer
+       ----------------------------- */
+    footer{margin:28px 0;color:var(--muted)}
+    .foot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    @media (max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+    .foot-grid a{color:#3b4b78}
+
+    /* -----------------------------
+       10) Utilities
+       ----------------------------- */
+    .row{display:flex;gap:12px;align-items:center}
+    .between{justify-content:space-between}
+    .hide{display:none !important}
+    .badge{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;background:#eef2ff;border:1px solid #d7def5;color:#233a85;font-weight:800;font-size:12px}
+    .ad{display:grid;place-items:center;background:linear-gradient(180deg,#f5f7fc,#eef1f9);border:1px dashed #cad4ee;color:#6b7aa7;border-radius:12px}
     .ad-leaderboard{height:90px}
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- =========================================================
+       HEADER
+       ========================================================= -->
   <header>
-    <div class="container row" style="justify-content:space-between; gap:12px; padding:10px 0;">
-      <a class="logo" href="#" aria-label="Ana sayfa">
-        <span class="logo-badge">RG</span><span>RGZTEC</span><span class="pill">Marketplace</span>
-      </a>
-
-      <nav aria-label="Birincil">
-        <ul>
-          <li><a class="nav-link" href="#explore">Explore</a></li>
-          <li><a class="nav-link" href="#categories">Categories</a></li>
-          <li><a class="nav-link" href="#trending">Trending</a></li>
-          <li><a class="nav-link" href="#newsletter">Newsletter</a></li>
-          <li><a class="nav-link" href="#footer">About</a></li>
-        </ul>
-      </nav>
+    <div class="container topbar" role="banner">
+      <div class="row">
+        <a class="logo" href="#" aria-label="RGZTEC Home">
+          <span class="logo-badge">RG</span> <strong>RGZTEC</strong> <span class="pill">Marketplace</span>
+        </a>
+        <button class="btn icon" id="btnCats" aria-controls="drawer" aria-expanded="false" title="Open categories">☰</button>
+      </div>
 
       <div class="searchbar" role="search">
-        <label class="sr-only" for="q">Ara</label>
-        <input id="q" name="q" placeholder="Şablon, UI kit, component ara…" autocomplete="off" list="sug">
-        <datalist id="sug">
-          <option>HTML landing</option><option>Admin dashboard</option><option>Portfolio</option>
-          <option>Pricing tables</option><option>Tailwind UI kit</option><option>Bootstrap starter</option>
-        </datalist>
+        <label for="q" class="sr-only">Search templates, UI kits, widgets</label>
+        <input id="q" name="q" placeholder="Search templates, UI kits, widgets…" autocomplete="off" />
         <span class="icon"><span class="kbd">/</span></span>
       </div>
 
-      <div class="row" style="gap:8px">
-        <button class="btn ghost" id="btnSignIn">Giriş yap</button>
-        <button class="btn primary" id="btnSell">Kodunu sat</button>
+      <div class="row">
+        <a class="btn ghost" href="#featured">Explore</a>
+        <a class="btn ghost" id="lnkDemo">Demo Gallery</a>
+        <a class="btn" id="lnkLogin">Login</a>
+        <a class="btn primary" id="lnkSeller">Become a Seller</a>
       </div>
     </div>
 
-    <div class="container" style="padding-bottom:10px">
-      <div class="ad ad-leaderboard"><div><strong>728×90</strong><br><small>Reklam alanı</small></div></div>
+    <div class="container subnav" id="cats" aria-label="Secondary">
+      <a href="stores/index.html">All Stores</a>
+      <a href="catalog/index.html">New Arrivals</a>
+      <a href="catalog/index.html#editors">Editor’s Picks</a>
+      <a data-prod="html-templates">Landing Pages</a>
+      <a data-prod="js-widgets">Admin Dashboards</a>
+      <a data-prod="css-ui-kits">CSS UI Kits</a>
+      <a data-prod="js-widgets">JS Widgets</a>
+      <a data-prod="react">React Components</a>
+      <a data-prod="svg-icons">SVG Icons</a>
+      <a data-prod="email-templates">Email Templates</a>
+      <a href="products/category.html#freebies">Freebies</a>
     </div>
   </header>
 
-  <main id="explore">
-    <!-- Hero -->
-    <section class="hero container">
-      <div class="wrap">
-        <!-- Sol kart -->
-        <div class="hero-card">
-          <span class="badge">Yeni: Flip Cards + Görsel Fallback</span>
-          <h1>Üretim seviyesinde <em>statik kod</em> al & sat.</h1>
-          <p class="muted">HTML şablonları, CSS UI kitleri, bileşen paketleri. 1 tık canlı demo, 1 tık indirme.</p>
-          <div class="cta">
-            <a href="#trending" class="btn primary" id="ctaStart">Trendleri gör</a>
-            <a href="#categories" class="btn">Kategorilere göz at</a>
-          </div>
-          <div class="divider"></div>
-          <!-- Chip bar: filtre + yönlendirme -->
-          <div class="chips" id="chipBar">
-            <button class="chip" data-chip="landing">Landing</button>
-            <button class="chip" data-chip="dashboard">Dashboard</button>
-            <button class="chip" data-chip="portfolio">Portfolio</button>
-            <button class="chip" data-chip="ecommerce">E-commerce</button>
-            <button class="chip" data-chip="components">Components</button>
-            <button class="chip" data-chip="starter">Starter</button>
-            <button class="chip" data-chip="bootstrap">Bootstrap</button>
-            <button class="chip" data-chip="tailwind">Tailwind</button>
+  <!-- Offcanvas Categories -->
+  <div id="drawerBackdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  <aside id="drawer" class="drawer" aria-label="Categories" aria-hidden="true">
+    <div class="row between">
+      <h3>Categories</h3>
+      <button class="btn icon" id="btnCloseDrawer" aria-label="Close">✕</button>
+    </div>
+    <nav style="margin-top:8px">
+      <a href="catalog/index.html">New Arrivals</a>
+      <a data-prod="html-templates">Landing Pages</a>
+      <a data-prod="js-widgets">Admin Dashboards</a>
+      <a data-prod="css-ui-kits">CSS UI Kits</a>
+      <a data-prod="js-widgets">JS Widgets</a>
+      <a data-prod="react">React Components</a>
+      <a data-prod="svg-icons">SVG Icons</a>
+      <a data-prod="email-templates">Email Templates</a>
+      <a href="products/category.html#freebies">Freebies</a>
+    </nav>
+    <div class="ad ad-leaderboard" style="margin-top:12px"><div><strong>Ad 300×250</strong></div></div>
+  </aside>
+
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- =========================================================
+       MAIN
+       ========================================================= -->
+  <main id="exploreTop">
+    <!-- Hero tiles -->
+    <section class="container hero" aria-labelledby="heroTitleA">
+      <div class="hero-grid">
+        <div class="tile" id="heroA">
+          <span class="badge">New · Flip Cards + Image Fallback</span>
+          <h2 id="heroTitleA">Refresh your codebase</h2>
+          <p class="muted">Discover HTML templates, CSS kits, and widgets from independent creators. Curated for performance.</p>
+          <div class="cta-stack">
+            <a class="btn primary" id="ctaStart" href="#featured">Get started</a>
+            <a class="btn" href="catalog/index.html">Browse Categories</a>
           </div>
         </div>
-
-        <!-- Sağ kart -->
-        <div class="hero-card promo" aria-labelledby="promoTitle">
-          <h2 id="promoTitle" style="margin:0">Kodunla kazan.</h2>
-          <p class="muted" style="margin:0">Dakikalar içinde mağaza aç. RGZTEC demo, teslimat ve güncellemeleri yönetir.</p>
-          <ul class="muted" style="margin:10px 0 0 18px">
-            <li>Canlı demo barındırma</li><li>Sürümlemeli zip teslimi</li><li>Ana sayfa vitrini</li>
+        <div class="tile" id="heroB" aria-labelledby="heroTitleB">
+          <h2 id="heroTitleB">Showcase your template</h2>
+          <p class="muted">Promote your product to developers. RGZTEC handles storefronts, demos, delivery and updates.</p>
+          <ul class="muted" style="margin:10px 0 12px 18px">
+            <li>Instant demo hosting</li>
+            <li>Versioned zip delivery</li>
+            <li>Promo slots & homepage features</li>
           </ul>
-          <div class="divider"></div>
-          <button class="btn primary" style="width:100%;justify-content:center" id="ctaSeller">Mağaza aç</button>
-          <small class="muted">Devam ederek <a href="terms.html">Şartlar</a> ve <a href="privacy.html">Gizlilik</a>'i kabul edersin.</small>
+          <a class="btn primary block" id="ctaSeller">Become a seller</a>
+          <small class="muted">By continuing, you agree to the <a class="link" href="terms.html">Terms</a> and <a class="link" href="privacy.html">Privacy</a>.</small>
         </div>
       </div>
     </section>
 
-    <!-- Kategoriler -->
-    <section id="categories" class="container">
+    <!-- Orange banner -->
+    <div class="container">
+      <div class="promo-banner">Promote Your Product to Developers</div>
+    </div>
+
+    <!-- Featured Section -->
+    <section id="featured" class="container" aria-labelledby="featTitle">
       <div class="section-head">
-        <h2>Kategoriler</h2>
-        <a class="btn ghost" href="catalog/index.html">Tümünü gör</a>
+        <h2 id="featTitle">Featured HTML Templates</h2>
+        <a class="btn" href="catalog/index.html">View all</a>
       </div>
-      <div class="grid">
-        <div class="col-3"><div class="promo"><strong>Landing</strong><span class="muted">Hero + Pricing + CTA</span><span class="tag">128 ürün</span></div></div>
-        <div class="col-3"><div class="promo"><strong>Admin</strong><span class="muted">Tablolar, grafikler</span><span class="tag">92 ürün</span></div></div>
-        <div class="col-3"><div class="promo"><strong>Portfolio</strong><span class="muted">Grid & lightbox</span><span class="tag">74 ürün</span></div></div>
-        <div class="col-3"><div class="promo"><strong>E-commerce</strong><span class="muted">Ürün, sepet, ödeme</span><span class="tag">66 ürün</span></div></div>
-      </div>
+
+      <!-- Dynamic product grid -->
+      <div id="grid" class="grid" data-limit="12"></div>
     </section>
 
-    <!-- Trending (dinamik grid) -->
-    <section id="trending" class="container">
-      <div class="section-head">
-        <h2>Bu hafta trend olanlar</h2>
-        <div class="muted">Filtre: <span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">Vanilla</span></div>
-      </div>
-
-      <!-- main.js bu gridi JSON’dan doldurur; flip kart tasarımı için data-flip="1" -->
-      <div id="grid" class="grid" data-flip="1" data-limit="12"></div>
-    </section>
-
-    <!-- Newsletter -->
-    <section id="newsletter" class="container">
-      <div class="promo">
-        <div class="row between">
+    <!-- Newsletter / Ad -->
+    <section class="container" style="margin:18px 0" aria-labelledby="newsTitle">
+      <div class="tile">
+        <div class="row between" style="flex-wrap:wrap;gap:12px">
           <div>
-            <h3 style="margin:0">Haftalık drop’ları kaçırma</h3>
-            <p class="muted" style="margin:6px 0 0">Yeni şablonları ve kampanyaları ilk sen gör.</p>
+            <h3 id="newsTitle" style="margin:0">Don’t miss weekly drops</h3>
+            <p class="muted" style="margin:6px 0 0">Get new templates and promotions in your inbox.</p>
           </div>
-          <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Bootstrap</span><span class="chip">Tailwind</span></div>
+          <div class="row" style="gap:10px">
+            <input id="newsEmail" placeholder="you@example.com" type="email" style="height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px"/>
+            <a class="btn primary" id="btnSubscribe">Get updates</a>
+          </div>
         </div>
-        <div class="row" style="gap:10px">
-          <input id="newsEmail" placeholder="you@example.com" type="email" />
-          <a class="btn primary" id="lnkDemo" title="Demo galeriyi aç">Abone ol (demo)</a>
-        </div>
-        <small class="muted">Spam yok. İstediğin an çık.</small>
       </div>
     </section>
 
-    <section class="container" style="margin-top:16px">
-      <div class="ad ad-leaderboard"><div><strong>728×90</strong><br><small>Footer reklamı</small></div></div>
+    <!-- Footer ad slot -->
+    <section class="container" style="margin:16px 0">
+      <div class="ad ad-leaderboard"><div><strong>728×90</strong><br><small>Ad placeholder</small></div></div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer id="footer" class="container">
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <footer id="footer" class="container" role="contentinfo">
     <div class="foot-grid">
       <div>
         <div class="logo"><span class="logo-badge">RG</span><span>RGZTEC</span></div>
-        <p class="muted">Statik front-end kod pazaryeri. Demo barındırma, zip teslim, adil ödeme.</p>
+        <p class="muted">Static-code marketplace with live demos and instant zip delivery.</p>
       </div>
       <div>
         <strong>Marketplace</strong>
         <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
-          <li><a class="nav-link" href="#trending">Trending</a></li>
-          <li><a class="nav-link" href="#categories">Categories</a></li>
-          <li><a href="stores/index.html">En çok satanlar</a></li>
-          <li><a href="catalog/index.html">Yeni gelenler</a></li>
+          <li><a class="link" href="#featured">Featured</a></li>
+          <li><a class="link" href="catalog/index.html">New Arrivals</a></li>
+          <li><a class="link" href="stores/index.html">Top Stores</a></li>
+          <li><a class="link" href="products/category.html#freebies">Freebies</a></li>
         </ul>
       </div>
       <div>
         <strong>Creators</strong>
         <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
-          <li><a href="advertise.html">Mağaza aç</a></li>
-          <li><a href="advertise.html#upload">Yükleme rehberi</a></li>
-          <li><a href="assets/brand.zip">Marka dosyaları</a></li>
-          <li><a href="advertise.html#payouts">Ödemeler</a></li>
+          <li><a class="link" href="advertise.html">Open a store</a></li>
+          <li><a class="link" href="advertise.html#upload">Upload guide</a></li>
+          <li><a class="link" href="advertise.html#payouts">Payouts</a></li>
+          <li><a class="link" href="assets/brand.zip">Brand kit</a></li>
         </ul>
       </div>
       <div>
         <strong>Company</strong>
         <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
-          <li><a href="privacy.html">Hakkında</a></li>
-          <li><a href="privacy.html">Belgeler</a></li>
-          <li><a href="terms.html">Şartlar</a></li>
-          <li><a href="privacy.html">Gizlilik</a></li>
+          <li><a class="link" href="privacy.html">About</a></li>
+          <li><a class="link" href="privacy.html">Docs</a></li>
+          <li><a class="link" href="terms.html">Terms</a></li>
+          <li><a class="link" href="privacy.html">Privacy</a></li>
         </ul>
       </div>
     </div>
     <div class="row between" style="margin-top:14px">
-      <small class="muted">© <span id="y"></span> RGZTEC. Tüm hakları saklıdır.</small>
+      <small class="muted">© <span id="y"></span> RGZTEC. All rights reserved.</small>
       <div class="chips">
         <a class="chip" href="https://github.com/raingaia/rgztec" target="_blank" rel="noopener">GitHub</a>
         <span class="chip">Twitter</span><span class="chip">Discord</span>
@@ -200,12 +398,329 @@
     </div>
   </footer>
 
-  <!-- Ana JS -->
-  <script src="assets/js/main.js" defer></script>
+  <!-- =========================================================
+       SCRIPT (no external dependencies)
+       – Root detection
+       – Header wiring & routes
+       – Drawer / Toast
+       – Products loader (JSON + inline fallback)
+       – Image resolver with fallback chain
+       – Search + chips
+       – Shortcuts (/, Ctrl+Shift+A)
+       – Cart counter via localStorage
+       ========================================================= -->
+  <script>
+    /* ===============================
+       0) ROOT + Helpers
+       =============================== */
+    const ROOT = (() => {
+      const parts = location.pathname.split('/').filter(Boolean);
+      return parts.length ? `/${parts[0]}/` : '/';
+    })();
+    const url = (p) => ROOT + p;
+    const $  = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+    const on = (el, ev, fn) => el && el.addEventListener(ev, fn);
+    const slug = (s) => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+
+    // Year
+    $('#y') && ($('#y').textContent = new Date().getFullYear());
+
+    /* ===============================
+       1) Drawer (Offcanvas)
+       =============================== */
+    const drawer = $('#drawer');
+    const backdrop = $('#drawerBackdrop');
+    function openDrawer(){ drawer.classList.add('open'); backdrop.classList.add('open'); drawer.setAttribute('aria-hidden','false'); backdrop.setAttribute('aria-hidden','false'); $('#btnCats')?.setAttribute('aria-expanded','true');}
+    function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); backdrop.setAttribute('aria-hidden','true'); $('#btnCats')?.setAttribute('aria-expanded','false');}
+    on($('#btnCats'),'click',openDrawer);
+    on($('#btnCloseDrawer'),'click',closeDrawer);
+    on(backdrop,'click',closeDrawer);
+    on(document,'keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+
+    /* ===============================
+       2) Routing for header / subnav
+       =============================== */
+    function wireRoutes(){
+      // main header
+      on($('#lnkDemo'), 'click', ()=> location.href = url('demo/index.html'));
+      on($('#lnkLogin'),'click', ()=> location.href = url('login.html'));
+      on($('#lnkSeller'),'click',()=> location.href = url('advertise.html'));
+      on($('#ctaSeller'),'click',()=> location.href = url('advertise.html'));
+      // subnav category routes
+      $$('#cats a[data-prod], #drawer a[data-prod]').forEach(a=>{
+        on(a,'click', ()=> location.href = url(`products/${a.dataset.prod}.html`));
+      });
+      // logo to home
+      $$('.logo').forEach(a=> on(a,'click', e=>{e.preventDefault(); location.href = url('index.html');}));
+    }
+    wireRoutes();
+
+    /* ===============================
+       3) Search + Shortcuts
+       =============================== */
+    const q = $('#q');
+    on(document,'keydown', (e)=>{
+      const tag = (document.activeElement?.tagName||'').toLowerCase();
+      if(e.key==='/' && !/input|textarea/.test(tag)){ e.preventDefault(); q?.focus(); }
+      // Admin shortcut
+      if(e.key.toLowerCase()==='a' && e.ctrlKey && e.shiftKey){ location.href = url('admin/index.html'); }
+    });
+
+    /* ===============================
+       4) Toast helper
+       =============================== */
+    const toasts = $('#toasts');
+    function toast(msg, type='ok', delay=2400){
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.innerHTML = `<span>${msg}</span>`;
+      toasts.appendChild(t);
+      setTimeout(()=>{ t.style.opacity=.0; setTimeout(()=>t.remove(),400); }, delay);
+    }
+
+    /* ===============================
+       5) Cart counter (localStorage)
+       =============================== */
+    const CART_KEY = 'rgztec_cart';
+    function getCart(){
+      try{ return JSON.parse(localStorage.getItem(CART_KEY)||'[]'); }catch{ return []; }
+    }
+    function addToCart(id){
+      const cart = getCart(); cart.push({id,ts:Date.now()});
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      toast('Added to cart', 'ok');
+    }
+
+    /* ===============================
+       6) Products: fetch JSON or fallback
+       =============================== */
+    async function loadProducts(){
+      // if page provides inline fallback (window.RGZ_PRODUCTS), prefer JSON then fallback
+      try{
+        const res = await fetch(url('assets/data/products.json'), {cache:'no-store'});
+        if(res.ok){
+          const js = await res.json();
+          if(Array.isArray(js) && js.length) return js;
+        }
+      }catch(e){ /* ignore, will fallback */ }
+      return (window.RGZ_PRODUCTS||[]).slice();
+    }
+
+    /* ===============================
+       7) Render Featured Grid
+       =============================== */
+    async function renderFeatured(){
+      const grid = $('#grid'); if(!grid) return;
+      // optional attributes
+      const limit = parseInt(grid.dataset.limit||'0', 10);
+      const useFlip = grid.dataset.flip === '1';
+
+      let items = await loadProducts();
+      if(limit>0) items = items.slice(0, limit);
+
+      grid.innerHTML = '';
+      items.forEach(p=>{
+        const s = slug(p.title);
+        const art = document.createElement('article');
+        art.className = 'col-3 card';
+        if(useFlip) art.classList.add('flip');
+
+        if(useFlip){
+          art.innerHTML = `
+            <div class="flip-inner">
+              <div class="face front">
+                <div class="thumb"><div class="ph">Loading preview…</div></div>
+                <div>
+                  <h3 class="title" style="margin:10px 0 4px">${p.title}</h3>
+                  <div class="meta"><span class="muted">${p.stack||'HTML/CSS/JS'}</span> <span class="pill">${p.version||'v1.0'}</span></div>
+                </div>
+                <div class="quick-actions">
+                  <a class="btn" href="${url(`demo/index.html?item=${p.id}&slug=${s}`)}" target="_blank" rel="noopener">Demo</a>
+                  <a class="btn primary" href="${url(`cart.html?add=${p.id}`)}">Buy</a>
+                </div>
+              </div>
+              <div class="face back">
+                <div>
+                  <div class="row" style="gap:10px"><span class="pill">${p.category||'Template'}</span><span class="pill">${p.level||'All levels'}</span></div>
+                  <p class="muted" style="margin-top:8px">${p.description}</p>
+                </div>
+                <div class="row between" style="gap:10px">
+                  <span class="price">$${p.price}</span>
+                  <div class="actions">
+                    <a class="btn ghost" href="${url(`products/detail.html?id=${p.id}&slug=${s}`)}">Details</a>
+                    <a class="btn primary add" data-id="${p.id}" href="${url(`cart.html?add=${p.id}`)}">Add to cart</a>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        } else {
+          art.innerHTML = `
+            <div class="thumb"><img alt="${p.title}" loading="lazy" decoding="async"><div class="ph">Loading preview…</div></div>
+            <div class="body">
+              <div class="title">${p.title}</div>
+              <div class="desc">${p.description}</div>
+              <div class="meta"><div class="price">$${p.price}</div></div>
+              <div class="actions">
+                <a class="btn" href="${url(`demo/index.html?item=${p.id}&slug=${s}`)}" target="_blank" rel="noopener">Live Demo</a>
+                <a class="btn" href="${url(`products/detail.html?id=${p.id}&slug=${s}`)}">Details</a>
+                <a class="btn primary add" data-id="${p.id}" href="${url(`cart.html?add=${p.id}`)}">Add to cart</a>
+              </div>
+            </div>`;
+        }
+
+        grid.appendChild(art);
+
+        // Image resolver with fallbacks
+        const thumb = art.querySelector('.thumb');
+        const imgEl = art.querySelector('.thumb img'); // present for non-flip
+        const base = url('images/catalog/');
+        const custom = (p.image||'').trim();
+        const candidates = [
+          ...(custom ? [custom] : []),
+          `html${p.id}.webp`, `${p.id}.webp`, `${s}.webp`,
+          `html${p.id}.png`,  `${p.id}.png`,  `${s}.png`,
+          `html${p.id}.jpg`,  `${p.id}.jpg`,  `${s}.jpg`
+        ];
+        (function loadN(i=0){
+          if(i>=candidates.length){ thumb.querySelector('.ph')?.textContent='No preview'; return; }
+          const src = base + candidates[i];
+          const test = new Image();
+          test.onload = ()=>{
+            if(imgEl){ imgEl.src = src; imgEl.style.visibility='visible'; }
+            else { thumb.style.background = `url('${src}') center/cover no-repeat`; }
+            thumb.querySelector('.ph')?.remove();
+          };
+          test.onerror = ()=> loadN(i+1);
+          test.src = src;
+        })();
+      });
+
+      // Delegated actions: add to cart
+      on(grid,'click', (e)=>{
+        const btn = e.target.closest('.add'); if(!btn) return;
+        e.preventDefault();
+        const id = parseInt(btn.dataset.id||'0',10);
+        addToCart(id);
+      });
+    }
+
+    /* ===============================
+       8) Chips (optional filter → also route)
+       =============================== */
+    const chipMap = {
+      landing:'products/html-templates.html',
+      dashboard:'products/js-widgets.html',
+      portfolio:'products/html-templates.html',
+      ecommerce:'products/html-templates.html',
+      components:'products/js-widgets.html',
+      starter:'products/html-templates.html',
+      bootstrap:'products/html-templates.html',
+      tailwind:'products/css-ui-kits.html'
+    };
+    function wireChips(){
+      const bar = document.createElement('div');
+      bar.className = 'chips';
+      bar.id = 'chipBar';
+      bar.style.margin = '8px 0 0';
+      bar.innerHTML = `
+        <button class="chip" data-chip="landing">Landing</button>
+        <button class="chip" data-chip="dashboard">Dashboard</button>
+        <button class="chip" data-chip="portfolio">Portfolio</button>
+        <button class="chip" data-chip="ecommerce">E-commerce</button>
+        <button class="chip" data-chip="components">Components</button>
+        <button class="chip" data-chip="starter">Starter</button>
+        <button class="chip" data-chip="bootstrap">Bootstrap</button>
+        <button class="chip" data-chip="tailwind">Tailwind</button>`;
+      $('#heroA')?.appendChild(bar);
+
+      let active = '';
+      on(bar,'click', (e)=>{
+        const chip = e.target.closest('.chip'); if(!chip) return;
+        const key = (chip.dataset.chip||'').toLowerCase();
+        if(active===key){ active=''; bar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); }
+        else { active=key; bar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); chip.classList.add('active'); }
+        // Update search field for quick filter UX
+        if(q){ q.value = active; q.dispatchEvent(new Event('input')); }
+        // Route to product page (store-like behavior)
+        const dest = chipMap[key]; if(dest) location.href = url(dest);
+      });
+    }
+
+    /* ===============================
+       9) On-page search (simple filter)
+       =============================== */
+    function wireSearch(){
+      const grid = $('#grid'); if(!grid) return;
+      on(q,'input', ()=>{
+        const t = (q.value||'').toLowerCase();
+        $$('#grid .card').forEach(card=>{
+          const title = card.querySelector('.title')?.textContent.toLowerCase() || '';
+          const desc  = card.querySelector('.desc') ?.textContent.toLowerCase() || '';
+          card.style.display = (title.includes(t) || desc.includes(t)) ? '' : 'none';
+        });
+      });
+    }
+
+    /* ===============================
+       10) Newsletter mock
+       =============================== */
+    on($('#btnSubscribe'),'click', ()=>{
+      const v = ($('#newsEmail')?.value||'').trim();
+      if(!v || !/^\S+@\S+\.\S+$/.test(v)) { toast('Enter a valid email', 'warn'); return; }
+      toast('Subscribed! Check your inbox.', 'ok');
+    });
+
+    /* ===============================
+       11) Init
+       =============================== */
+    document.addEventListener('DOMContentLoaded', async ()=>{
+      wireChips();
+      wireSearch();
+      await renderFeatured(); // builds the grid
+
+      // Focus outline only via keyboard
+      let hadMouse = false;
+      on(document,'mousedown', ()=> hadMouse=true);
+      on(document,'keydown',   ()=> hadMouse=false);
+      on(document,'focusin', (e)=>{ if(!hadMouse) e.target.classList.add('key-focused'); });
+      on(document,'focusout',(e)=> e.target.classList.remove('key-focused'));
+    });
+  </script>
+
+  <!-- =========================================================
+       INLINE FALLBACK DATA (used only if assets/data/products.json
+       cannot be fetched on GitHub Pages)
+       ========================================================= -->
+  <script>
+    window.RGZ_PRODUCTS = [
+      {"id":1,"title":"Landing Starter (HTML)","description":"Minimal landing with hero, features, pricing and blog sections.","price":18,"image":"html1.webp","category":"Landing","level":"All"},
+      {"id":2,"title":"Dashboard Lite (HTML)","description":"Sidebar, topbar and chart placeholders; vanilla JS.","price":24,"image":"html2.webp","category":"Admin","level":"All"},
+      {"id":3,"title":"Portfolio Mini","description":"Single-page portfolio with project grid and contact form.","price":14,"image":"html3.webp","category":"Portfolio","level":"All"},
+      {"id":4,"title":"Blog Lite","description":"List + single post layout with clean typography.","price":12,"image":"html4.webp","category":"Blog","level":"All"},
+      {"id":5,"title":"Agency Starter","description":"Services: cards, testimonials, pricing.","price":16,"image":"html5.webp","category":"Agency","level":"All"},
+      {"id":6,"title":"E-commerce Mini","description":"Product grid, detail, and cart icons.","price":22,"image":"html6.webp","category":"E-commerce","level":"All"},
+      {"id":7,"title":"Resume Card","description":"Single-page resume with skills, experience and contact.","price":9,"image":"html7.webp","category":"Resume","level":"All"},
+      {"id":8,"title":"Product List","description":"Filterable item list with grid/row views.","price":11,"image":"html8.webp","category":"List","level":"All"},
+      {"id":9,"title":"Pricing Tables","description":"3–4 column pricing with featured plan and CTA buttons.","price":8,"image":"html9.webp","category":"Pricing","level":"All"},
+      {"id":10,"title":"Contact Lite","description":"Contact form, map placeholder and social links.","price":7,"image":"html10.webp","category":"Contact","level":"All"},
+      {"id":11,"title":"FAQ Mini","description":"Accordion FAQ with categories and search input.","price":6,"image":"html11.webp","category":"FAQ","level":"All"},
+      {"id":12,"title":"Gallery Grid","description":"Masonry/grid gallery with lightbox placeholder.","price":13,"image":"html12.webp","category":"Gallery","level":"All"},
+      {"id":13,"title":"Hero Collection","description":"Multiple hero headers ready to drop in.","price":10,"image":"html13.webp","category":"Hero","level":"All"},
+      {"id":14,"title":"Newsletter Box","description":"Email capture sections and subscription boxes.","price":5,"image":"html14.webp","category":"Email","level":"All"},
+      {"id":15,"title":"Auth Pages","description":"Login, signup and reset flows.","price":7,"image":"html15.webp","category":"Auth","level":"All"},
+      {"id":16,"title":"Admin Mini","description":"Auth + layout + tables skeleton for admin dashboards.","price":12,"image":"html16.webp","category":"Admin","level":"All"},
+      {"id":17,"title":"React Components","description":"Cards, modals and tabs (markup only, framework-agnostic).","price":15,"image":"html17.webp","category":"Components","level":"All"},
+      {"id":18,"title":"SVG Icons","description":"Curated developer icon set (inlineable SVG).","price":6,"image":"html18.webp","category":"Icons","level":"All"},
+      {"id":19,"title":"Email Templates","description":"Transactional email starter set.","price":9,"image":"html19.webp","category":"Email","level":"All"},
+      {"id":20,"title":"JS Widgets","description":"Tabs, accordions and tooltips (vanilla).","price":11,"image":"html20.webp","category":"Widgets","level":"All"}
+    ];
+  </script>
 
   <noscript>
     <div class="container" style="margin:20px 0">
-      <div class="promo">Bu sayfa dinamik içerik için JavaScript kullanıyor. Lütfen JS'i etkinleştir.</div>
+      <div class="tile">This site uses JavaScript to render product cards. Please enable JavaScript.</div>
     </div>
   </noscript>
 </body>
