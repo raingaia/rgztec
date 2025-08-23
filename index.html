@@ -1,248 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="utf-8"/><!-- GitHub Pages kökü: tüm göreli yollar /rgztec/ altında çözülsün -->
-<base href="/rgztec/">
+  <meta charset="utf-8" />
+  <base href="/rgztec/">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC · Static Code Marketplace</title>
+  <meta name="description" content="HTML şablonları, CSS UI kitleri, bileşen paketleri. Canlı demo ve anında indirme." />
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E">
+  <link href="assets/css/home.css" rel="stylesheet" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>RGZTEC – HTML Template Gallery</title>
-  <meta name="description" content="Discover HTML templates, CSS kits and widgets from independent creators."/>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='12' fill='%23111'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Arial' font-size='34' fill='%23fff'%3ERG%3C/text%3E%3C/svg%3E"/>
+  <!-- OpenGraph -->
+  <meta property="og:title" content="RGZTEC · Static Code Marketplace" />
+  <meta property="og:description" content="HTML şablonları, CSS UI kitleri, bileşen paketleri. Canlı demo ve anında indirme." />
+  <meta property="og:type" content="website" />
 
+  <!-- Structured data (optional) -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"RGZTEC","url":"https://example.com/rgztec/",
+   "potentialAction":{"@type":"SearchAction","target":"https://example.com/rgztec/?q={search_term_string}","query-input":"required name=search_term_string"}}
+  </script>
+
+  <!-- Sayfa-özel küçük stiller -->
   <style>
-    :root{
-      --bg:#f7f8fb; --panel:#ffffff; --ink:#0d1220; --muted:#5b657a;
-      --brand:#ff7d33; --ring:0 0 0 3px rgba(255,125,51,.25);
-      --radius:16px; --b:#e5e8f0;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1200px,92vw);margin-inline:auto}
-    .row{display:flex;gap:14px;align-items:center}
-
-    /* Header */
-    header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--b)}
-    .bar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:10px 0}
-    .logo{display:flex;gap:10px;align-items:center;font-weight:900}
-    .logo-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#111;color:#fff}
-    .search{flex:1;max-width:560px;position:relative}
-    .search input{width:100%;height:42px;border-radius:999px;border:1px solid var(--b);padding:0 14px;outline:none}
-    nav{display:flex;gap:12px;overflow:auto;padding:8px 0;border-top:1px solid var(--b)}
-    nav a{white-space:nowrap;padding:6px 10px;border-radius:999px}
-    nav a:hover{background:#f1f3f8}
-
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin:16px 0}
-    .tile{background:#fff;border:1px solid var(--b);border-radius:var(--radius);padding:18px}
-    .tile h2{margin:0 0 8px 0;font-size:28px}
-    .promo{background:#ff7d3315;border:1px solid #ffd2b8}
-
-    /* Grid / Cards */
-    h1{font-size:32px;margin:16px 0}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:stretch}
-    .col-3{grid-column:span 3}
-    @media (max-width:1024px){.col-3{grid-column:span 4}}
-    @media (max-width:700px){.col-3{grid-column:span 12}}
-
-    .card{background:var(--panel);border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px}
-    .thumb{position:relative;background:#f2f3f6;aspect-ratio:16/9} /* kırılma FIX: sabit oran */
-    .thumb img{display:block;width:100%;height:100%;object-fit:cover}
-    .ph{position:absolute;inset:0;display:grid;place-items:center;color:#98a6c4;font-size:13px}
-
-    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
-    .title{font-weight:800}
-    .desc{color:var(--muted);font-size:14px;min-height:44px}
-    .meta{display:flex;justify-content:space-between;align-items:center}
-    .price{font-weight:900}
-    .actions{display:flex;gap:8px;margin-top:auto} /* butonlar alta yapışır */
-    .btn{display:inline-flex;gap:8px;align-items:center;border-radius:10px;border:1px solid var(--b);padding:8px 10px;cursor:pointer;background:#fff}
-    .btn.primary{background:linear-gradient(180deg,#ff914d,#ff7d33);color:#fff;border-color:#ff7d33}
-    .btn:focus{box-shadow:var(--ring)}
-
-    footer{margin:24px 0;color:var(--muted)}
+    /* reklam placeholder’ları */
+    .ad{display:grid;place-items:center;background:linear-gradient(180deg,#0f1a31,#0a1327);border:1px dashed #2a3b61;color:#7da5ff;border-radius:12px}
+    .ad-leaderboard{height:90px}
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <div class="container bar">
-      <a class="logo" href="#"><span class="logo-badge">RG</span> RGZTEC</a>
-      <div class="search"><input id="q" placeholder="Search templates, UI kits, widgets..."/></div>
-      <div class="row">
-        <a class="btn" id="lnkDemo">Demo Gallery</a>
-        <a class="btn" id="lnkLogin">Login</a>
-        <a class="btn primary" id="lnkSeller">Become a Seller</a>
+    <div class="container row" style="justify-content:space-between; gap:12px; padding:10px 0;">
+      <a class="logo" href="#" aria-label="Ana sayfa">
+        <span class="logo-badge">RG</span><span>RGZTEC</span><span class="pill">Marketplace</span>
+      </a>
+
+      <nav aria-label="Birincil">
+        <ul>
+          <li><a class="nav-link" href="#explore">Explore</a></li>
+          <li><a class="nav-link" href="#categories">Categories</a></li>
+          <li><a class="nav-link" href="#trending">Trending</a></li>
+          <li><a class="nav-link" href="#newsletter">Newsletter</a></li>
+          <li><a class="nav-link" href="#footer">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="searchbar" role="search">
+        <label class="sr-only" for="q">Ara</label>
+        <input id="q" name="q" placeholder="Şablon, UI kit, component ara…" autocomplete="off" list="sug">
+        <datalist id="sug">
+          <option>HTML landing</option><option>Admin dashboard</option><option>Portfolio</option>
+          <option>Pricing tables</option><option>Tailwind UI kit</option><option>Bootstrap starter</option>
+        </datalist>
+        <span class="icon"><span class="kbd">/</span></span>
+      </div>
+
+      <div class="row" style="gap:8px">
+        <button class="btn ghost" id="btnSignIn">Giriş yap</button>
+        <button class="btn primary" id="btnSell">Kodunu sat</button>
       </div>
     </div>
-    <div class="container">
-      <nav id="cats">
-        <a>All Stores</a><a>New Arrivals</a><a>Editor's Picks</a>
-        <a data-prod="html-templates">Landing Pages</a>
-        <a data-prod="js-widgets">Admin Dashboards</a>
-        <a data-prod="css-ui-kits">CSS UI Kits</a>
-        <a data-prod="js-widgets">JS Widgets</a>
-        <a data-prod="react">React Components</a>
-        <a data-prod="svg-icons">SVG Icons</a>
-        <a data-prod="email-templates">Email Templates</a>
-      </nav>
+
+    <div class="container" style="padding-bottom:10px">
+      <div class="ad ad-leaderboard"><div><strong>728×90</strong><br><small>Reklam alanı</small></div></div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="container hero">
-    <div class="tile promo">
-      <h2>Refresh your codebase</h2>
-      <p>Discover HTML templates, CSS kits, and widgets from independent creators. Curated for performance.</p>
-      <a class="btn" id="ctaStart">Get started</a>
+  <main id="explore">
+    <!-- Hero -->
+    <section class="hero container">
+      <div class="wrap">
+        <!-- Sol kart -->
+        <div class="hero-card">
+          <span class="badge">Yeni: Flip Cards + Görsel Fallback</span>
+          <h1>Üretim seviyesinde <em>statik kod</em> al & sat.</h1>
+          <p class="muted">HTML şablonları, CSS UI kitleri, bileşen paketleri. 1 tık canlı demo, 1 tık indirme.</p>
+          <div class="cta">
+            <a href="#trending" class="btn primary" id="ctaStart">Trendleri gör</a>
+            <a href="#categories" class="btn">Kategorilere göz at</a>
+          </div>
+          <div class="divider"></div>
+          <!-- Chip bar: filtre + yönlendirme -->
+          <div class="chips" id="chipBar">
+            <button class="chip" data-chip="landing">Landing</button>
+            <button class="chip" data-chip="dashboard">Dashboard</button>
+            <button class="chip" data-chip="portfolio">Portfolio</button>
+            <button class="chip" data-chip="ecommerce">E-commerce</button>
+            <button class="chip" data-chip="components">Components</button>
+            <button class="chip" data-chip="starter">Starter</button>
+            <button class="chip" data-chip="bootstrap">Bootstrap</button>
+            <button class="chip" data-chip="tailwind">Tailwind</button>
+          </div>
+        </div>
+
+        <!-- Sağ kart -->
+        <div class="hero-card promo" aria-labelledby="promoTitle">
+          <h2 id="promoTitle" style="margin:0">Kodunla kazan.</h2>
+          <p class="muted" style="margin:0">Dakikalar içinde mağaza aç. RGZTEC demo, teslimat ve güncellemeleri yönetir.</p>
+          <ul class="muted" style="margin:10px 0 0 18px">
+            <li>Canlı demo barındırma</li><li>Sürümlemeli zip teslimi</li><li>Ana sayfa vitrini</li>
+          </ul>
+          <div class="divider"></div>
+          <button class="btn primary" style="width:100%;justify-content:center" id="ctaSeller">Mağaza aç</button>
+          <small class="muted">Devam ederek <a href="terms.html">Şartlar</a> ve <a href="privacy.html">Gizlilik</a>'i kabul edersin.</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kategoriler -->
+    <section id="categories" class="container">
+      <div class="section-head">
+        <h2>Kategoriler</h2>
+        <a class="btn ghost" href="catalog/index.html">Tümünü gör</a>
+      </div>
+      <div class="grid">
+        <div class="col-3"><div class="promo"><strong>Landing</strong><span class="muted">Hero + Pricing + CTA</span><span class="tag">128 ürün</span></div></div>
+        <div class="col-3"><div class="promo"><strong>Admin</strong><span class="muted">Tablolar, grafikler</span><span class="tag">92 ürün</span></div></div>
+        <div class="col-3"><div class="promo"><strong>Portfolio</strong><span class="muted">Grid & lightbox</span><span class="tag">74 ürün</span></div></div>
+        <div class="col-3"><div class="promo"><strong>E-commerce</strong><span class="muted">Ürün, sepet, ödeme</span><span class="tag">66 ürün</span></div></div>
+      </div>
+    </section>
+
+    <!-- Trending (dinamik grid) -->
+    <section id="trending" class="container">
+      <div class="section-head">
+        <h2>Bu hafta trend olanlar</h2>
+        <div class="muted">Filtre: <span class="tag">HTML</span> <span class="tag">CSS</span> <span class="tag">Vanilla</span></div>
+      </div>
+
+      <!-- main.js bu gridi JSON’dan doldurur; flip kart tasarımı için data-flip="1" -->
+      <div id="grid" class="grid" data-flip="1" data-limit="12"></div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="container">
+      <div class="promo">
+        <div class="row between">
+          <div>
+            <h3 style="margin:0">Haftalık drop’ları kaçırma</h3>
+            <p class="muted" style="margin:6px 0 0">Yeni şablonları ve kampanyaları ilk sen gör.</p>
+          </div>
+          <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Bootstrap</span><span class="chip">Tailwind</span></div>
+        </div>
+        <div class="row" style="gap:10px">
+          <input id="newsEmail" placeholder="you@example.com" type="email" />
+          <a class="btn primary" id="lnkDemo" title="Demo galeriyi aç">Abone ol (demo)</a>
+        </div>
+        <small class="muted">Spam yok. İstediğin an çık.</small>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:16px">
+      <div class="ad ad-leaderboard"><div><strong>728×90</strong><br><small>Footer reklamı</small></div></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="logo"><span class="logo-badge">RG</span><span>RGZTEC</span></div>
+        <p class="muted">Statik front-end kod pazaryeri. Demo barındırma, zip teslim, adil ödeme.</p>
+      </div>
+      <div>
+        <strong>Marketplace</strong>
+        <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
+          <li><a class="nav-link" href="#trending">Trending</a></li>
+          <li><a class="nav-link" href="#categories">Categories</a></li>
+          <li><a href="stores/index.html">En çok satanlar</a></li>
+          <li><a href="catalog/index.html">Yeni gelenler</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Creators</strong>
+        <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
+          <li><a href="advertise.html">Mağaza aç</a></li>
+          <li><a href="advertise.html#upload">Yükleme rehberi</a></li>
+          <li><a href="assets/brand.zip">Marka dosyaları</a></li>
+          <li><a href="advertise.html#payouts">Ödemeler</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Company</strong>
+        <ul style="list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px">
+          <li><a href="privacy.html">Hakkında</a></li>
+          <li><a href="privacy.html">Belgeler</a></li>
+          <li><a href="terms.html">Şartlar</a></li>
+          <li><a href="privacy.html">Gizlilik</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="tile">
-      <h2>Showcase your template</h2>
-      <p>Promote your product to developers. Instant demo hosting and versioned zip delivery.</p>
-      <a class="btn primary" id="ctaSeller">Become a seller</a>
+    <div class="row between" style="margin-top:14px">
+      <small class="muted">© <span id="y"></span> RGZTEC. Tüm hakları saklıdır.</small>
+      <div class="chips">
+        <a class="chip" href="https://github.com/raingaia/rgztec" target="_blank" rel="noopener">GitHub</a>
+        <span class="chip">Twitter</span><span class="chip">Discord</span>
+      </div>
     </div>
-  </section>
+  </footer>
 
-  <div class="container">
-    <h1>HTML Template Gallery</h1>
-    <div id="grid" class="grid"></div>
-  </div>
+  <!-- Ana JS -->
+  <script src="assets/js/main.js" defer></script>
 
-  <footer class="container">© <span id="y"></span> RGZTEC</footer>
-
-  <script>
-  // ---------- ROOT builder (GitHub Pages /rgztec/ altında güvenli) ----------
-  const ROOT = (() => {
-    const parts = location.pathname.split('/').filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : '/';
-  })();
-  const url = p => ROOT + p;
-
-  // Yıl
-  const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();
-
-  // Kısayol: Ctrl+Shift+A → admin
-  window.addEventListener('keydown',e=>{
-    const tag=(document.activeElement?.tagName||'').toLowerCase();
-    if(e.key==='/' && !/input|textarea/.test(tag)){ e.preventDefault(); document.getElementById('q')?.focus(); }
-    if(e.key.toLowerCase()==='a' && e.ctrlKey && e.shiftKey){ location.href=url('admin/index.html'); }
-  });
-
-  // Header linkleri
-  document.querySelectorAll('.logo').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();location.href=url('index.html');}));
-  document.getElementById('btnSignIn')?.addEventListener('click',()=>location.href=url('login.html'));
-  document.getElementById('btnSell') ?.addEventListener('click',()=>location.href=url('advertise.html'));
-
-  // Üst menü (gerçek sayfalara)
-  document.querySelectorAll('nav a.nav-link').forEach(a=>{
-    const t=a.textContent.trim().toLowerCase();
-    if(t==='categories') a.href = url('catalog/index.html');
-    else if(t==='about') a.href = url('privacy.html');
-    else if(t==='explore') a.href = url('index.html');
-  });
-
-  // CTA
-  document.getElementById('btnStartSelling')?.addEventListener('click',()=>{
-    const v=(document.getElementById('sellerEmail')?.value||'').trim();
-    location.href = v ? url(`advertise.html?email=${encodeURIComponent(v)}`) : url('advertise.html');
-  });
-  document.getElementById('btnSubscribe')?.addEventListener('click',()=>{
-    const v=(document.getElementById('newsEmail')?.value||'').trim();
-    location.href = v ? url(`signup.html#newsletter=${encodeURIComponent(v)}`) : url('signup.html#newsletter');
-  });
-
-  // Chip → ürün sayfaları
-  const chipToProducts = {
-    landing:'products/html-templates.html',
-    dashboard:'products/js-widgets.html',
-    portfolio:'products/html-templates.html',
-    ecommerce:'products/html-templates.html',
-    components:'products/js-widgets.html',
-    starter:'products/html-templates.html',
-    bootstrap:'products/html-templates.html',
-    tailwind:'products/css-ui-kits.html'
-  };
-  const chipBar=document.getElementById('chipBar'); let activeChip='';
-  const grid=document.getElementById('grid'); const items=grid?[...grid.querySelectorAll('.item')]:[];
-  const q=document.getElementById('q');
-  function applyFilter(){
-    const text=(q?.value||'').toLowerCase();
-    items.forEach(it=>{
-      const tags=(it.dataset.tags||'').toLowerCase();
-      const chips=(it.dataset.chip||'').toLowerCase();
-      it.style.display = (!text || tags.includes(text)) && (!activeChip || chips.includes(activeChip)) ? '' : 'none';
-    });
-  }
-  q?.addEventListener('input',applyFilter);
-  chipBar?.addEventListener('click',e=>{
-    const c=e.target.closest('.chip'); if(!c) return;
-    const key=(c.dataset.chip||'').toLowerCase();
-    if(activeChip===key){ activeChip=''; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); }
-    else { activeChip=key; chipBar.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); c.classList.add('active'); }
-    applyFilter();
-    const prod=chipToProducts[key]; if(prod) location.href=url(prod);
-  });
-
-  // Kart aksiyonları + görsel yükleme
-  function slugify(s){return (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
-  // Ön yüze küçük aksiyonlar (Demo/Buy)
-  const style=document.createElement('style'); style.textContent=
-    `.front .quick-actions{position:absolute; right:10px; bottom:10px; display:flex; gap:8px}
-     .front .quick-actions .btn{padding:8px 10px; font-weight:700}`;
-  document.head.appendChild(style);
-
-  items.forEach(it=>{
-    const id = it.querySelector('.add')?.dataset.id || '0';
-    const title = it.querySelector('h3')?.textContent || `item-${id}`;
-    const slug = slugify(title);
-
-    const demoA = it.querySelector('.back .actions a');
-    if(demoA){ demoA.href=url(`demo/index.html?item=${id}&slug=${slug}`); demoA.target='_blank'; demoA.rel='noopener'; }
-
-    const buyBtn = it.querySelector('.back .add');
-    buyBtn?.addEventListener('click',e=>{e.preventDefault(); location.href=url(`cart.html?add=${id}`);});
-
-    const front = it.querySelector('.front');
-    if(front){
-      // ön yüzde küçük aksiyonlar
-      const qa = document.createElement('div'); qa.className='quick-actions';
-      qa.innerHTML = `<a class="btn" href="${url(`demo/index.html?item=${id}&slug=${slug}`)}" target="_blank" rel="noopener">Demo</a>
-                      <a class="btn primary" href="${url(`cart.html?add=${id}`)}">Buy</a>`;
-      front.appendChild(qa);
-      front.style.cursor='pointer';
-      front.addEventListener('click',ev=>{
-        if(!ev.target.closest('.quick-actions')) location.href = url(`products/detail.html?id=${id}&slug=${slug}`);
-      });
-    }
-
-    // Görsel çözümleyici (images/catalog/)
-    const thumb = it.querySelector('.thumb'); if(!thumb) return;
-    const custom=(it.dataset.img||'').trim();
-    const base = url('images/catalog/');
-    const candidates = [
-      ...(custom?[custom]:[]),
-      `html${id}.webp`, `${id}.webp`, `${slug}.webp`,
-      `html${id}.png`,  `${id}.png`,  `${slug}.png`,
-      `html${id}.jpg`,  `${id}.jpg`,  `${slug}.jpg`
-    ];
-    (function loadN(i=0){
-      if(i>=candidates.length) return;
-      const u = base + candidates[i];
-      const img = new Image();
-      img.onload = ()=>{ thumb.style.background=`url('${u}') center/cover no-repeat`; thumb.textContent=''; };
-      img.onerror = ()=> loadN(i+1);
-      img.src = u;
-    })();
-  });
-
-  // Mobile tap flip (ön yüz aksiyonları hariç)
-  grid?.addEventListener('click',e=>{
-    if(e.target.closest('.quick-actions')) return;
-    const inner = e.target.closest('.card-inner'); if(!inner) return;
-    inner.style.transform = getComputedStyle(inner).transform.includes('matrix3d') ? '' : 'rotateY(180deg)';
-  });
-</script>
-
+  <noscript>
+    <div class="container" style="margin:20px 0">
+      <div class="promo">Bu sayfa dinamik içerik için JavaScript kullanıyor. Lütfen JS'i etkinleştir.</div>
+    </div>
+  </noscript>
 </body>
 </html>
-
