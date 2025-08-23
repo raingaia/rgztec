@@ -2,125 +2,452 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC – Product</title>
-  <link rel="stylesheet" href="/rgztec/assets/css/main.css" />
+  <title>RGZTEC · Product Detail</title>
+  <meta name="description" content="Production-ready static code templates and UI kits. Product details, live demo, license info and changelog.">
+
+  <!-- Optional global look -->
+  <link rel="stylesheet" href="assets/css/home.css" />
+
+  <!-- Local styles: robust layout for detail page -->
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f7f7fb;margin:0}
-    .wrap{max-width:1100px;margin:auto;padding:24px}
-    .back{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;text-decoration:none}
-    .layout{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:20px}
-    .panel{background:#fff;border-radius:18px;border:1px solid #eee;box-shadow:0 6px 20px rgba(0,0,0,.06)}
-    .panel.pad{padding:18px}
-    .media{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:#eef2f7;border-radius:14px;overflow:hidden}
-    .media img{width:100%;height:100%;object-fit:cover;display:none}
-    .ghost{display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700}
-    .title{font-size:28px;font-weight:800;margin:0 0 10px}
-    .muted{color:#6b7280}
-    .row{display:flex;gap:12px;align-items:center}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:700;text-decoration:none}
-    .btn.primary{background:#ff6a3d;border-color:#ff6a3d;color:#fff}
-    .btn[aria-disabled="true"]{pointer-events:none;opacity:.55}
-    .price{font-size:22px;font-weight:800}
-    .note{font-size:12px;color:#6b7280;margin-top:10px}
-    @media (max-width:960px){.layout{grid-template-columns:1fr}}
+    :root{
+      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a; --b:#e7ebf3; --b2:#dfe4ee;
+      --brand:#ff7d33; --brand2:#ff914d; --shadow:0 10px 30px rgba(0,0,0,.06)
+    }
+    body{background:var(--bg);color:var(--ink)}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+    header{background:#fff;border-bottom:1px solid var(--b)}
+    .top{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0}
+    .logo{display:flex;gap:10px;align-items:center;font-weight:900}
+    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-size:12px}
+    .btn{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:700}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+    .btn.block{justify-content:center;width:100%}
+    a{color:inherit;text-decoration:none}
+
+    /* Grid helpers */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .col-7{grid-column:span 7} .col-5{grid-column:span 5}
+    @media (max-width:960px){.col-7,.col-5{grid-column:span 12}}
+
+    /* Breadcrumbs */
+    .breadcrumbs{display:flex;gap:6px;align-items:center;color:#6b7280;font-size:14px;margin:14px 0}
+    .breadcrumbs a{color:#374151}
+
+    /* Gallery */
+    .gallery{background:#fff;border:1px solid var(--b);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    .hero-img{aspect-ratio:16/9;background:#f2f3f6}
+    .hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+    .thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:10px;border-top:1px solid var(--b)}
+    .thumbs button{border:1px solid var(--b);background:#fff;border-radius:10px;padding:0;overflow:hidden;cursor:pointer}
+    .thumbs img{width:100%;height:70px;object-fit:cover;display:block}
+    @media (max-width:600px){.thumbs{grid-template-columns:repeat(4,1fr)}.thumbs img{height:56px}}
+
+    /* Buy box */
+    .buy{position:sticky;top:12px;background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);padding:16px;display:grid;gap:12px}
+    .title{font-size:22px;font-weight:900}
+    .muted{color:var(--muted)}
+    .price{font-weight:900;font-size:22px}
+    .row{display:flex;gap:10px;align-items:center}
+    .field{display:grid;gap:6px}
+    select,input[type="number"]{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 10px;background:#fff}
+    .kpis{display:flex;gap:12px;flex-wrap:wrap}
+    .kpi{display:flex;align-items:center;gap:8px;border:1px dashed var(--b2);border-radius:10px;padding:6px 10px;font-size:13px;color:#374151}
+
+    /* Tabs */
+    .tabs{margin-top:18px}
+    .tablist{display:flex;gap:8px;border-bottom:1px solid var(--b)}
+    .tablist a{padding:10px 12px;border:1px solid transparent;border-radius:10px 10px 0 0}
+    .tablist a[aria-selected="true"]{background:#fff;border-color:var(--b);border-bottom-color:#fff}
+    .tabpanel{background:#fff;border:1px solid var(--b);border-top:none;border-radius:0 0 16px 16px;padding:16px;box-shadow:var(--shadow)}
+    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    @media (max-width:800px){.features{grid-template-columns:1fr}}
+
+    /* Code box */
+    pre{background:#0f172a;color:#e5e7eb;border-radius:10px;padding:12px;overflow:auto}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+
+    /* Related */
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:340px;box-shadow:var(--shadow)}
+    .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <a class="back" href="/rgztec/catalog/">← Back to Category</a>
-
-    <section class="layout">
-      <div class="panel pad">
-        <div class="media">
-          <div class="ghost" id="ghost">G&ouml;rsel bulunamad&#305;</div>
-          <img id="img" alt="">
-        </div>
+  <!-- Header -->
+  <header>
+    <div class="container top">
+      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>Product</strong></a>
+      <div class="row">
+        <a class="btn" href="products/index.html">Catalog</a>
+        <a class="btn" href="stores/index.html">Stores</a>
+        <a class="btn primary" href="cart.html">Cart</a>
       </div>
+    </div>
+  </header>
 
-      <div class="panel pad">
-        <h1 class="title" id="title">Product</h1>
-        <p class="muted" id="desc">Template details and features.</p>
+  <!-- Main -->
+  <main class="container" style="margin:18px 0">
+    <!-- Breadcrumbs (static fallback; JS updates if product data found) -->
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="index.html">Home</a> ›
+      <a href="products/index.html">Catalog</a> ›
+      <a id="bc-category" href="products/html-templates.html">HTML Templates</a> ›
+      <span id="bc-name">Landing Starter (HTML)</span>
+    </nav>
 
-        <div class="row" style="margin:16px 0 6px">
-          <a id="demo" class="btn" aria-disabled="true">Live Demo</a>
-          <a id="store" class="btn primary" aria-disabled="true">Create your store</a>
-          <div class="price" id="price" style="margin-left:auto"></div>
+    <section class="grid">
+      <!-- GALLERY -->
+      <aside class="col-7">
+        <div class="gallery">
+          <div class="hero-img">
+            <img id="heroImage" src="images/catalog/html1.webp" alt="Product preview" loading="eager" decoding="async">
+          </div>
+          <div class="thumbs" id="thumbs">
+            <!-- Thumbnails (JS can extend this; these two exist as safe defaults) -->
+            <button aria-label="Preview 1"><img data-src="images/catalog/html1.webp" alt=""></button>
+            <button aria-label="Preview 2"><img data-src="images/catalog/html2.webp" alt=""></button>
+          </div>
         </div>
 
-        <p class="note">Not: Demo ve ma&#287;aza linkleri se&ccedil;ti&#287;iniz &uuml;r&uuml;ne g&ouml;re otomatik ayarlan&#305;r.</p>
-      </div>
+        <!-- Tabs -->
+        <div class="tabs" id="tabs">
+          <div class="tablist" role="tablist" aria-label="Product sections">
+            <a href="#overview" id="tab-overview" role="tab" aria-controls="panel-overview" aria-selected="true">Overview</a>
+            <a href="#features" id="tab-features" role="tab" aria-controls="panel-features" aria-selected="false">Features</a>
+            <a href="#files" id="tab-files" role="tab" aria-controls="panel-files" aria-selected="false">Files</a>
+            <a href="#changelog" id="tab-changelog" role="tab" aria-controls="panel-changelog" aria-selected="false">Changelog</a>
+          </div>
+
+          <section id="panel-overview" class="tabpanel" role="tabpanel" aria-labelledby="tab-overview">
+            <h3>Overview</h3>
+            <p id="p-overview" class="muted">
+              Minimal landing page with hero, features, pricing and blog sections. Built with semantic HTML and vanilla CSS.
+            </p>
+            <pre><code>&lt;!-- Drop the Hero section into any page --&gt;
+&lt;section class="hero"&gt;
+  &lt;h1&gt;Build faster with RGZTEC&lt;/h1&gt;
+  &lt;p&gt;Production-ready HTML blocks to ship in hours, not weeks.&lt;/p&gt;
+  &lt;a class="btn primary" href="#buy"&gt;Buy now&lt;/a&gt;
+&lt;/section&gt;</code></pre>
+          </section>
+
+          <section id="panel-features" class="tabpanel" role="tabpanel" aria-labelledby="tab-features" hidden>
+            <h3>Features</h3>
+            <div class="features" id="p-features">
+              <div>✔ Semantic, accessible markup</div>
+              <div>✔ Responsive layout, fluid type</div>
+              <div>✔ Vanilla JS (no dependencies)</div>
+              <div>✔ Sections: hero, features, pricing, blog</div>
+              <div>✔ Light/Dark-ready tokens</div>
+              <div>✔ MIT-style license</div>
+            </div>
+          </section>
+
+          <section id="panel-files" class="tabpanel" role="tabpanel" aria-labelledby="tab-files" hidden>
+            <h3>What’s included</h3>
+            <ul id="p-files">
+              <li><code>/index.html</code>, <code>/styles.css</code>, <code>/main.js</code></li>
+              <li>Assets: images, icons, favicons</li>
+              <li>README with setup tips</li>
+            </ul>
+          </section>
+
+          <section id="panel-changelog" class="tabpanel" role="tabpanel" aria-labelledby="tab-changelog" hidden>
+            <h3>Changelog</h3>
+            <ul id="p-changelog">
+              <li><strong>1.1.0</strong> – Minor CSS polish, improved a11y.</li>
+              <li><strong>1.0.0</strong> – Initial release.</li>
+            </ul>
+          </section>
+        </div>
+      </aside>
+
+      <!-- BUY BOX -->
+      <aside class="col-5">
+        <div class="buy" id="buy">
+          <div class="row" style="justify-content:space-between">
+            <span class="pill">RGZTEC</span>
+            <span class="muted" id="sku">#ID-1</span>
+          </div>
+          <h1 class="title" id="title">Landing Starter (HTML)</h1>
+          <div class="row">
+            <div aria-label="Rating" title="5.0/5" class="muted">★★★★★</div>
+            <a class="muted" href="#reviews" style="margin-left:6px">(24 reviews)</a>
+          </div>
+          <div class="price" id="price">$18</div>
+
+          <div class="kpis">
+            <div class="kpi">⚡ Instant download</div>
+            <div class="kpi">🧾 Invoice ready</div>
+            <div class="kpi">🔄 Free updates</div>
+          </div>
+
+          <div class="field">
+            <label for="license">License</label>
+            <select id="license" aria-label="License">
+              <option value="single" selected>Single Use — included</option>
+              <option value="multi">Multi Use — +$12</option>
+              <option value="extended">Extended — +$69</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="field" style="flex:1">
+              <label for="qty">Qty</label>
+              <input id="qty" type="number" min="1" value="1" />
+            </div>
+            <div class="field" style="flex:2">
+              <label>&nbsp;</label>
+              <a id="btnAdd" class="btn primary block" href="cart.html?add=1">Add to cart</a>
+            </div>
+          </div>
+
+          <div class="row">
+            <a id="btnDemo" class="btn block" href="demo/index.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+
+          <p class="muted" style="margin:0">
+            By purchasing you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy</a>.
+          </p>
+        </div>
+      </aside>
+    </section>
+
+    <!-- RELATED -->
+    <div class="section-head">
+      <h2>Related products</h2>
+      <a class="btn" href="products/index.html">View all</a>
+    </div>
+    <section class="cards" id="related">
+      <!-- a few hand-picked static fallbacks; JS may override with real relations -->
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
+          <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)">
+        </a>
+        <div class="body">
+          <div class="title">Dashboard Lite (HTML)</div>
+          <p class="muted">Sidebar, topbar and chart placeholders; vanilla JS.</p>
+          <div class="row">
+            <a class="btn" href="demo/index.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">Preview</a>
+            <a class="btn primary" href="cart.html?add=2">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
+          <img src="images/catalog/html3.webp" alt="Portfolio Mini">
+        </a>
+        <div class="body">
+          <div class="title">Portfolio Mini</div>
+          <p class="muted">Single-page portfolio with project grid and contact form.</p>
+          <div class="row">
+            <a class="btn" href="demo/index.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn primary" href="cart.html?add=3">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=5&slug=agency-starter">
+          <img src="images/catalog/html5.webp" alt="Agency Starter">
+        </a>
+        <div class="body">
+          <div class="title">Agency Starter</div>
+          <p class="muted">Services: cards, testimonials, pricing.</p>
+          <div class="row">
+            <a class="btn" href="demo/index.html?item=5&slug=agency-starter" target="_blank" rel="noopener">Preview</a>
+            <a class="btn primary" href="cart.html?add=5">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
+          <img src="images/catalog/html6.webp" alt="E-commerce Mini">
+        </a>
+        <div class="body">
+          <div class="title">E-commerce Mini</div>
+          <p class="muted">Product grid, product detail and cart icons.</p>
+          <div class="row">
+            <a class="btn" href="demo/index.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn primary" href="cart.html?add=6">Add</a>
+          </div>
+        </div>
+      </article>
     </section>
   </main>
 
-<script>
-const base = "/rgztec";
-const p = new URLSearchParams(location.search).get("item");
-if(!p) location.replace(base + "/catalog/");
+  <!-- FOOTER -->
+  <footer class="container" style="margin:28px 0;color:#6b7280">
+    <small>© <span id="year"></span> RGZTEC</small>
+  </footer>
 
-const DB = {
-  // 1–4
-  "landing-page":              {title:"Landing Page Starter",    price:19, img:"html1.webp",  desc:"Responsive, lightweight HTML/CSS starter landing page."},
-  "landing-page-starter":      {aliasOf:"landing-page"},
-  "portfolio-showcase":        {title:"Portfolio Showcase",      price:25, img:"html2.webp",  desc:"Portfolio template with filters and responsive grid."},
-  "admin-dashboard":           {title:"Admin Dashboard UI",      price:49, img:"html3.webp",  desc:"Modern admin dashboard with cards, charts and tables."},
-  "admin-dashboard-ui":        {aliasOf:"admin-dashboard"},
-  "ecommerce-homepage":        {title:"E-commerce Homepage",     price:39, img:"html4.webp",  desc:"E-commerce landing with hero and product grid."},
+  <!-- Minimal JS: URL params -> fields, optional products.json hydration, tabs, gallery, image fallback -->
+  <script>
+    (function(){
+      const $ = (s,root=document)=>root.querySelector(s);
+      const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
 
-  // 5–10
-  "product-page":              {title:"Product Page",            price:19, img:"html5.webp",  desc:"Clean and responsive product detail page."},
-  "login-page-template":       {title:"Login Page Template",     price:14, img:"html6.webp",  desc:"Minimal, responsive login page."},
-  "faq-page":                  {title:"FAQ Page",                price:12, img:"html7.webp",  desc:"FAQ/Help page layout with Q&A."},
-  "docs-site-starter":         {title:"Docs Site Starter",       price:27, img:"html8.webp",  desc:"Static docs site with search-ready structure."},
-  "auth-pages-pack":           {title:"Auth Pages Pack",         price:21, img:"html9.webp",  desc:"Login, Register, Reset pages bundle."},
-  "app-showcase":              {title:"App Showcase",            price:18, img:"html10.webp", desc:"Showcase page for apps or SaaS."},
+      /* Year */
+      $('#year').textContent = new Date().getFullYear();
 
-  // 11–20
-  "blog-starter":              {title:"Blog Starter",            price:16, img:"html11.webp", desc:"Simple blog layout, fast and clean."},
-  "pricing-page":              {title:"Pricing Page",            price:13, img:"html12.webp", desc:"Pricing tiers layout with CTAs."},
-  "dashboard-pro":             {title:"Dashboard Pro",           price:59, img:"html13.webp", desc:"Advanced dashboard UI kit."},
-  "saas-landing":              {title:"SaaS Landing",            price:22, img:"html14.webp", desc:"SaaS marketing landing page."},
-  "coming-soon":               {title:"Coming Soon",             price:8,  img:"html15.webp", desc:"Coming soon/under construction page."},
-  "error-404-page":            {title:"Error 404 Page",          price:6,  img:"html16.webp", desc:"Stylish 404 error page."},
-  "contact-page":              {title:"Contact Page",            price:9,  img:"html17.webp", desc:"Contact form and info layout."},
-  "carousel-kit":              {title:"Carousel Kit",            price:11, img:"html18.webp", desc:"Reusable carousels and sliders."},
-  "ui-cards-pack":             {title:"UI Cards Pack",           price:12, img:"html19.webp", desc:"Card components bundle."},
-  "hero-sections-pack":        {title:"Hero Sections Pack",      price:15, img:"html20.webp", desc:"Hero/banner sections collection."}
-};
+      /* Parse URL params */
+      const params = new URLSearchParams(location.search);
+      const pid = params.get('id') || '1';
+      const slug = params.get('slug') || 'landing-starter-html';
 
-// alias çöz
-const meta = DB[p] && DB[p].aliasOf ? DB[DB[p].aliasOf] : DB[p];
+      /* Set base fields (safe defaults) */
+      $('#sku').textContent = '#ID-' + pid;
+      const addHref = new URL('cart.html', location.origin + location.pathname); // base handled by <base>
+      addHref.search = 'add=' + encodeURIComponent(pid);
+      $('#btnAdd').setAttribute('href', addHref.pathname + addHref.search);
 
-// EL’ler
-const $t = document.getElementById('title');
-const $d = document.getElementById('desc');
-const $i = document.getElementById('img');
-const $g = document.getElementById('ghost');
-const $pr= document.getElementById('price');
-const $demo = document.getElementById('demo');
-const $store= document.getElementById('store');
+      const demoHref = new URL('demo/index.html', location.origin + location.pathname);
+      demoHref.search = 'item=' + encodeURIComponent(pid) + '&slug=' + encodeURIComponent(slug);
+      $('#btnDemo').setAttribute('href', demoHref.pathname + demoHref.search);
 
-function disable(){[$demo,$store].forEach(b=>{b.removeAttribute("href");b.setAttribute("aria-disabled","true");});}
+      /* Default hero image from catalog by id */
+      const hero = $('#heroImage');
+      hero.src = 'images/catalog/html' + (Number(pid)%20 || 1) + '.webp';
 
-if(!meta){
-  $t.textContent = "Product not found";
-  $d.textContent = "We couldn't find the product you are looking for.";
-  $pr.textContent = "";
-  disable();
-}else{
-  $t.textContent = meta.title;
-  $d.textContent = meta.desc;
-  $pr.textContent = `$${meta.price}`;
+      /* Thumbs switcher */
+      $$('#thumbs img').forEach(img=>{
+        const src = img.getAttribute('data-src');
+        img.src = src;
+        img.parentElement.addEventListener('click', ()=>{ hero.src = src; });
+      });
 
-  $i.onload  = ()=>{ $g.style.display="none"; $i.style.display="block"; };
-  $i.onerror = ()=>{ $i.style.display="none"; $g.style.display="flex"; };
-  $i.src = `${base}/images/${meta.img}`;
+      /* Tabs */
+      $$('.tablist a').forEach(tab=>{
+        tab.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const id = tab.getAttribute('href').replace('#','panel-');
+          $$('.tablist a').forEach(t=>t.setAttribute('aria-selected','false'));
+          tab.setAttribute('aria-selected','true');
+          $$('.tabpanel').forEach(p=>p.hidden = p.id !== id);
+          // Move focus politely
+          $('#'+id).setAttribute('tabindex','-1'); $('#'+id).focus({preventScroll:true});
+        });
+      });
 
-  $demo.href  = `${base}/demo/detail.html?p=${encodeURIComponent(p)}`;
-  $demo.target = "_blank"; $demo.rel="noopener";
-  $store.href = `${base}/stores/index.html?p=${encodeURIComponent(p)}`;
-}
-</script>
+      /* Optional: hydrate from assets/data/products.json if present */
+      fetch('assets/data/products.json').then(r=>{
+        if(!r.ok) throw 0; return r.json();
+      }).then(list=>{
+        const item = Array.isArray(list) ? list.find(x=>String(x.id)===String(pid)) : (list[pid]||null);
+        if(!item) return;
+
+        // Title, price, description
+        if(item.name) { $('#title').textContent = item.name; $('#bc-name').textContent = item.name; document.title = 'RGZTEC · ' + item.name; }
+        if(item.price){ $('#price').textContent = (item.price.startsWith('$')?item.price:('$'+item.price)); }
+        if(item.overview||item.description){ $('#p-overview').textContent = item.overview || item.description; }
+
+        // Category (breadcrumb)
+        if(item.category && item.categoryHref){
+          $('#bc-category').textContent = item.category;
+          $('#bc-category').setAttribute('href', item.categoryHref);
+        }
+
+        // Images
+        if(item.images && item.images.length){
+          // set hero
+          hero.src = item.images[0];
+          // thumbs
+          const wrap = $('#thumbs');
+          wrap.innerHTML = '';
+          item.images.forEach((url,i)=>{
+            const btn = document.createElement('button');
+            btn.setAttribute('aria-label','Preview '+(i+1));
+            const im = document.createElement('img'); im.src = url;
+            btn.appendChild(im);
+            btn.addEventListener('click', ()=>{ hero.src = url; });
+            wrap.appendChild(btn);
+          });
+        }
+
+        // Features
+        if(item.features && item.features.length){
+          const f = $('#p-features'); f.innerHTML='';
+          item.features.forEach(t=>{
+            const d = document.createElement('div'); d.textContent = '✔ ' + t; f.appendChild(d);
+          });
+        }
+
+        // Files
+        if(item.files && item.files.length){
+          const ul = $('#p-files'); ul.innerHTML='';
+          item.files.forEach(t=>{
+            const li = document.createElement('li'); li.innerHTML = '<code>'+t+'</code>'; ul.appendChild(li);
+          });
+        }
+
+        // Changelog
+        if(item.changelog && item.changelog.length){
+          const ul = $('#p-changelog'); ul.innerHTML='';
+          item.changelog.forEach(c=>{
+            const li = document.createElement('li');
+            li.innerHTML = '<strong>'+ (c.version||'') + '</strong> – ' + (c.note||'');
+            ul.appendChild(li);
+          });
+        }
+
+        // Related
+        if(item.related && item.related.length){
+          const rel = $('#related'); rel.innerHTML='';
+          item.related.forEach(rid=>{
+            const n = Number(rid)%20 || 1;
+            const card = document.createElement('article');
+            card.className='card';
+            card.innerHTML = `
+              <a class="thumb" href="products/detail.html?id=${rid}&slug=item-${rid}">
+                <img src="images/catalog/html${n}.webp" alt="Related ${rid}">
+              </a>
+              <div class="body">
+                <div class="title">Item #${rid}</div>
+                <p class="muted">You may also like this.</p>
+                <div class="row">
+                  <a class="btn" href="demo/index.html?item=${rid}&slug=item-${rid}" target="_blank" rel="noopener">Preview</a>
+                  <a class="btn primary" href="cart.html?add=${rid}">Add</a>
+                </div>
+              </div>`;
+            rel.appendChild(card);
+          });
+        }
+      }).catch(()=>{ /* products.json not present: keep fallbacks */ });
+
+      /* Image fallback: .webp -> .png -> .jpg */
+      function addFallback(el){
+        el.onerror = ()=>{
+          const src = el.getAttribute('src')||'';
+          if(src.endsWith('.webp')){ el.src = src.replace(/\.webp$/i,'.png'); return; }
+          if(src.endsWith('.png')){ el.src = src.replace(/\.png$/i,'.jpg'); return; }
+          el.onerror = null;
+        };
+      }
+      addFallback(hero);
+      $$('img').forEach(addFallback);
+
+      /* Update Add to Cart with qty */
+      const qty = $('#qty'), btnAdd = $('#btnAdd');
+      const updateCartHref = ()=> {
+        const u = new URL(btnAdd.getAttribute('href'), location.href);
+        u.searchParams.set('add', pid);
+        const q = Math.max(1, parseInt(qty.value||'1',10));
+        u.searchParams.set('qty', q);
+        btnAdd.setAttribute('href', u.pathname + '?' + u.searchParams.toString());
+      };
+      qty.addEventListener('input', updateCartHref);
+      updateCartHref();
+
+    })();
+  </script>
 </body>
 </html>
 
