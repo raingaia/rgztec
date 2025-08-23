@@ -1,169 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" /><!-- GitHub Pages kökü: tüm göreli yollar /rgztec/ altında çözülsün -->
-<base href="/rgztec/">
+  <meta charset="utf-8" />
+  <base href="/rgztec/">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC · Catalog</title>
+  <meta name="description" content="Explore the RGZTEC catalog: categories, featured items, and trending products. Search and deep-link to categories.">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RGZTEC - HTML Templates Showcase</title>
-  <link rel="stylesheet" href="/rgztec/assets/style.css?v=16" />
+  <!-- Global look & category grid styles -->
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/categories.css" />
+
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .product-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-      transition: transform 0.2s ease;
-    }
-    .product-card:hover {
-      transform: translateY(-4px);
-    }
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .product-card h3 {
-      margin: 0.5rem;
-      font-size: 1.1rem;
-    }
-    .product-card p {
-      margin: 0.5rem;
-      font-size: 0.9rem;
-      color: #555;
-    }
-    .product-card a button {
-      margin: 1rem;
-      padding: 0.5rem 1rem;
-      background: #f97316;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .product-card a button:hover {
-      background: #ea580c;
-    }
+    /* Page-specific minimal tweaks (keep code English-only) */
+    .hero .actions .btn { min-width: 160px }
+    .toolbar { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid var(--b) }
+    .tools { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 12px 0 }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap }
+    .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--b); border-radius: 999px; padding: 6px 10px; font-weight: 700; background: #fff; cursor: pointer }
+    .chip:hover { transform: translateY(-1px); box-shadow: var(--shadow) }
+    .spacer { flex: 1 }
+    .field { display: flex; gap: 8px; align-items: center }
+    .field input[type="search"] { height: 42px; border: 1px solid var(--b); border-radius: 10px; padding: 0 12px; background: #fff; width: min(360px, 56vw) }
+    .cat-grid .card .actions .btn { min-width: 110px }
+    .subtle { color: var(--muted) }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>HTML Template Gallery</h1>
-    <div class="grid" id="product-list"></div>
+  <!-- Header -->
+  <header>
+    <div class="container top">
+      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>Catalog</strong></a>
+      <nav class="menu">
+        <a href="products/index.html">Products</a>
+        <a href="stores/index.html">Stores</a>
+        <a class="active" href="catalog/index.html">Catalog</a>
+        <a class="btn primary" href="advertise.html">Become a Seller</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="section hero">
+    <div class="container hero-inner">
+      <h1>Explore the Catalog</h1>
+      <p class="lead">Hand-picked HTML, JS, CSS, React components and icon packs. Browse categories or jump to trending items.</p>
+      <div class="actions">
+        <a class="btn primary" href="#categories">Browse Categories</a>
+        <a class="btn" href="#trending">View Trending</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toolbar: quick category chips + search -->
+  <div class="toolbar">
+    <div class="container tools">
+      <nav class="chips" aria-label="Quick filters" id="chips">
+        <button class="chip" data-cat="all">All</button>
+        <button class="chip" data-cat="html">HTML</button>
+        <button class="chip" data-cat="js">JS</button>
+        <button class="chip" data-cat="css">CSS</button>
+        <button class="chip" data-cat="react">React</button>
+        <button class="chip" data-cat="icons">Icons</button>
+        <button class="chip" data-cat="email">Email</button>
+        <button class="chip" data-cat="free">Freebies</button>
+      </nav>
+      <div class="spacer"></div>
+      <form class="field" id="searchForm" role="search" aria-label="Catalog search">
+        <label class="subtle" for="q">Search</label>
+        <input id="q" name="q" type="search" placeholder="Search products…" />
+        <button class="btn" type="submit" aria-label="Search">Search</button>
+      </form>
+    </div>
   </div>
 
-  <script src="/rgztec/data/products.js"></script>
-<script>
-  // ROOT: /rgztec/ altında da /rgztec/catalog/ altında da doğru çalışsın
-  const ROOT = (() => {
-    const parts = location.pathname.split('/').filter(Boolean);
-    return parts.length ? `/${parts[0]}/` : '/';
-  })();
-  const url = p => ROOT + p;
+  <main>
+    <!-- Categories -->
+    <section id="categories" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Categories</h2>
+          <a class="btn" href="products/index.html">Open Catalog</a>
+        </div>
 
-  // Başlık/CTA linkleri (varsa id'ler)
-  const $ = s => document.querySelector(s);
-  $('.logo')?.addEventListener('click', e=>{e.preventDefault(); location.href=url('index.html');});
-  $('#lnkDemo')?.addEventListener('click', ()=> location.href=url('demo/index.html'));
-  $('#lnkLogin')?.addEventListener('click',()=> location.href=url('login.html'));
-  $('#lnkSeller')?.addEventListener('click',()=> location.href=url('advertise.html'));
-  $('#ctaStart')?.addEventListener('click', ()=> location.href=url('index.html#trending'));
-  $('#ctaSeller')?.addEventListener('click',()=> location.href=url('advertise.html'));
-  document.getElementById('y') && (document.getElementById('y').textContent=new Date().getFullYear());
+        <div class="cat-grid">
+          <!-- HTML Templates -->
+          <article class="card">
+            <a class="thumb" href="products/html-templates.html">
+              <img src="images/categories/html-templates.webp" alt="HTML Templates" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html1.webp">
+            </a>
+            <div class="body">
+              <div class="title">HTML Templates</div>
+              <p class="desc">Landings, blogs, portfolios and admin shells.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/html-templates.html">Browse</a>
+                <a class="btn" href="products/category.html?cat=html">All HTML</a>
+              </div>
+            </div>
+          </article>
 
-  // Kategori çubuğu → products
-  document.querySelectorAll('#cats a[data-prod]')?.forEach(a=>{
-    a.addEventListener('click',()=> location.href=url(`products/${a.dataset.prod}.html`));
-  });
+          <!-- JS Widgets -->
+          <article class="card">
+            <a class="thumb" href="products/js-widgets.html">
+              <img src="images/categories/js-widgets.webp" alt="JS Widgets" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html20.webp">
+            </a>
+            <div class="body">
+              <div class="title">JS Widgets</div>
+              <p class="desc">Tabs, accordions, tooltips and more.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/js-widgets.html">Browse</a>
+                <a class="btn" href="products/category.html?cat=js">All JS</a>
+              </div>
+            </div>
+          </article>
 
-  // Ürün listesi (20 adet)
-  const products=[{id:1,title:"Landing Starter (HTML)",desc:"Minimal landing with hero, features, pricing and blog sections.",price:18},
-  {id:2,title:"Dashboard Lite (HTML)",desc:"Sidebar, topbar and chart placeholders; vanilla JS.",price:24},
-  {id:3,title:"Portfolio Mini",desc:"Single-page portfolio with project grid and contact form.",price:14},
-  {id:4,title:"Blog Lite",desc:"List + single post layout with clean typography.",price:12},
-  {id:5,title:"Agency Starter",desc:"Services: cards, testimonials, pricing.",price:16},
-  {id:6,title:"E-commerce Mini",desc:"Product grid, detail, and cart icons.",price:22},
-  {id:7,title:"Resume Card",desc:"Skills, experience and contact.",price:9},
-  {id:8,title:"Product List",desc:"Filterable item list with grid/row views.",price:11},
-  {id:9,title:"Pricing Tables",desc:"3–4 column pricing with featured plan.",price:8},
-  {id:10,title:"Contact Lite",desc:"Contact form with map placeholder and socials.",price:7},
-  {id:11,title:"FAQ Mini",desc:"Accordion FAQ with categories and search.",price:6},
-  {id:12,title:"Gallery Grid",desc:"Masonry/grid gallery with lightbox placeholder.",price:13},
-  {id:13,title:"Hero Collection",desc:"Multiple hero headers ready to drop in.",price:10},
-  {id:14,title:"Newsletter Box",desc:"Email capture sections and boxes.",price:5},
-  {id:15,title:"Auth Pages",desc:"Login, signup, reset flows.",price:7},
-  {id:16,title:"Admin Mini",desc:"Auth + layout + tables skeleton.",price:12},
-  {id:17,title:"React Components",desc:"Cards, modals, tabs (markup only).",price:15},
-  {id:18,title:"SVG Icons",desc:"Curated dev icons set (inlineable).",price:6},
-  {id:19,title:"Email Templates",desc:"Transactional email starter set.",price:9},
-  {id:20,title:"JS Widgets",desc:"Tabs, accordions, tooltips (vanilla).",price:11}];
+          <!-- CSS UI Kits -->
+          <article class="card">
+            <a class="thumb" href="products/css-ui-kits.html">
+              <img src="images/categories/css-ui-kits.webp" alt="CSS UI Kits" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html5.webp">
+            </a>
+            <div class="body">
+              <div class="title">CSS UI Kits</div>
+              <p class="desc">Component libraries and utility packs.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/css-ui-kits.html">Browse</a>
+                <a class="btn" href="products/category.html?cat=css">All CSS</a>
+              </div>
+            </div>
+          </article>
 
-  const grid=document.getElementById('grid');
-  const slug=s=>(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+          <!-- React Components -->
+          <article class="card">
+            <a class="thumb" href="products/react.html">
+              <img src="images/categories/react.webp" alt="React Components" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html17.webp">
+            </a>
+            <div class="body">
+              <div class="title">React Components</div>
+              <p class="desc">Reusable UI building blocks for React apps.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/react.html">Browse</a>
+                <a class="btn" href="products/category.html?cat=react">All React</a>
+              </div>
+            </div>
+          </article>
 
-  products.forEach(p=>{
-    const el=document.createElement('article'); el.className='col-3 card';
+          <!-- SVG Icons -->
+          <article class="card">
+            <a class="thumb" href="products/svg-icons.html">
+              <img src="images/categories/svg-icons.webp" alt="SVG Icons" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html18.webp">
+            </a>
+            <div class="body">
+              <div class="title">SVG Icons</div>
+              <p class="desc">Outline, solid, duotone and brand sets.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/svg-icons.html">Browse</a>
+                <a class="btn" href="products/category.html?cat=icons">All Icons</a>
+              </div>
+            </div>
+          </article>
 
-    const th=document.createElement('div'); th.className='thumb';
-    const img=document.createElement('img'); img.alt=p.title; img.loading='lazy'; img.decoding='async'; img.style.visibility='hidden';
-    const ph=document.createElement('div'); ph.className='ph'; ph.textContent='Loading preview…';
-    th.append(img,ph);
+          <!-- Email Templates -->
+          <article class="card">
+            <a class="thumb" href="products/email-templates.html">
+              <img src="images/categories/email-templates.webp" alt="Email Templates" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html19.webp">
+            </a>
+            <div class="body">
+              <div class="title">Email Templates</div>
+              <p class="desc">Responsive transactional and marketing emails.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/email-templates.html">Browse</a>
+                <a class="btn" href="products/category.html?cat=email">All Email</a>
+              </div>
+            </div>
+          </article>
 
-    const body=document.createElement('div'); body.className='body';
-    body.innerHTML = `
-      <div class="title">${p.title}</div>
-      <div class="desc">${p.desc}</div>
-      <div class="meta"><div class="price">$${p.price}</div></div>
-      <div class="actions">
-        <a class="btn" href="${url(`demo/index.html?item=${p.id}&slug=${slug(p.title)}`)}" target="_blank" rel="noopener">Live Demo</a>
-        <a class="btn" href="${url(`products/detail.html?id=${p.id}&slug=${slug(p.title)}`)}">Details</a>
-        <a class="btn primary" href="${url(`cart.html?add=${p.id}`)}">Add to cart</a>
-      </div>`;
+          <!-- Freebies -->
+          <article class="card">
+            <a class="thumb" href="products/category.html#freebies">
+              <img src="images/categories/freebies.webp" alt="Freebies" loading="lazy" decoding="async"
+                   data-fallback="images/catalog/html14.webp">
+            </a>
+            <div class="body">
+              <div class="title">Freebies</div>
+              <p class="desc">Starter kits and snippets — free to use.</p>
+              <div class="actions">
+                <a class="btn primary" href="products/category.html#freebies">Open</a>
+                <a class="btn" href="products/category.html?cat=free">All Free</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    el.append(th,body); grid.appendChild(el);
+    <!-- Trending -->
+    <section id="trending" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Trending Products</h2>
+          <a class="btn" href="products/index.html">See all</a>
+        </div>
 
-    // Görsel çözümleyici (ROOT-safe)
-    const base = url('images/catalog/');
-    const cands = [
-      `html${p.id}.webp`, `${p.id}.webp`, `${slug(p.title)}.webp`,
-      `html${p.id}.png`,  `${p.id}.png`,  `${slug(p.title)}.png`,
-      `html${p.id}.jpg`,  `${p.id}.jpg`,  `${slug(p.title)}.jpg`
-    ];
-    (function load(i=0){
-      if(i>=cands.length){ ph.textContent='No preview'; return; }
-      const u=base+cands[i]; const t=new Image();
-      t.onload=()=>{ img.src=u; img.style.visibility='visible'; ph.remove(); };
-      t.onerror=()=>load(i+1); t.src=u;
+        <section class="grid" aria-label="Trending products">
+          <!-- 1 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=2&slug=dashboard-lite-html">
+              <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Dashboard Lite (HTML)</div>
+              <p class="desc">Sidebar, topbar and chart placeholders; vanilla JS.</p>
+              <div class="meta"><div class="price">$24</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a>
+                <a class="btn primary" href="cart.html?add=2">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=1&slug=landing-starter-html">
+              <img src="images/catalog/html1.webp" alt="Landing Starter (HTML)" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Landing Starter (HTML)</div>
+              <p class="desc">Minimal landing with hero, features, pricing and blog sections.</p>
+              <div class="meta"><div class="price">$18</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
+                <a class="btn primary" href="cart.html?add=1">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=6&slug=e-commerce-mini">
+              <img src="images/catalog/html6.webp" alt="E-commerce Mini" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">E-commerce Mini</div>
+              <p class="desc">Product grid, product detail and cart icons.</p>
+              <div class="meta"><div class="price">$22</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
+                <a class="btn primary" href="cart.html?add=6">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=17&slug=react-components">
+              <img src="images/catalog/html17.webp" alt="React Components" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">React Components</div>
+              <p class="desc">Cards, modals and tabs (markup only).</p>
+              <div class="meta"><div class="price">$15</div><span class="muted">React</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=17&slug=react-components" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=17&slug=react-components">Details</a>
+                <a class="btn primary" href="cart.html?add=17">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=18&slug=svg-icons">
+              <img src="images/catalog/html18.webp" alt="SVG Icons" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">SVG Icons</div>
+              <p class="desc">Curated developer icon set (inlineable).</p>
+              <div class="meta"><div class="price">$6</div><span class="muted">Icons</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=18&slug=svg-icons" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=18&slug=svg-icons">Details</a>
+                <a class="btn primary" href="cart.html?add=18">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=3&slug=portfolio-mini">
+              <img src="images/catalog/html3.webp" alt="Portfolio Mini" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Portfolio Mini</div>
+              <p class="desc">Single-page portfolio with project grid and contact form.</p>
+              <div class="meta"><div class="price">$14</div><span class="muted">HTML</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
+                <a class="btn primary" href="cart.html?add=3">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=19&slug=email-templates">
+              <img src="images/catalog/html19.webp" alt="Email Templates" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">Email Templates</div>
+              <p class="desc">Transactional email starter set.</p>
+              <div class="meta"><div class="price">$9</div><span class="muted">Email</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=19&slug=email-templates" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=19&slug=email-templates">Details</a>
+                <a class="btn primary" href="cart.html?add=19">Add</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 8 -->
+          <article class="card">
+            <a class="thumb" href="products/detail.html?id=20&slug=js-widgets">
+              <img src="images/catalog/html20.webp" alt="JS Widgets" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">JS Widgets</div>
+              <p class="desc">Tabs, accordions and tooltips (vanilla).</p>
+              <div class="meta"><div class="price">$11</div><span class="muted">JS</span></div>
+              <div class="actions">
+                <a class="btn" href="demo/index.html?item=20&slug=js-widgets" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="products/detail.html?id=20&slug=js-widgets">Details</a>
+                <a class="btn primary" href="cart.html?add=20">Add</a>
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="container" style="margin:28px 0">
+    <small class="subtle">© <span id="year"></span> RGZTEC — All rights reserved.</small>
+  </footer>
+
+  <!-- Minimal JS: chips route + search submit + image fallback -->
+  <script>
+    (function(){
+      const $ = (s, root=document)=>root.querySelector(s);
+      const $$ = (s, root=document)=>Array.from(root.querySelectorAll(s));
+
+      /* Year */
+      $('#year').textContent = new Date().getFullYear();
+
+      /* Image fallback: .webp -> .png -> .jpg -> custom data-fallback */
+      $$('img').forEach(img=>{
+        const base = (img.getAttribute('src')||'').replace(/\.(webp|png|jpg)$/i,'');
+        const custom = img.getAttribute('data-fallback');
+        img.onerror = ()=>{
+          if(img.src.endsWith('.webp')) { img.src = base + '.png'; return; }
+          if(img.src.endsWith('.png'))  { img.src = base + '.jpg'; return; }
+          if(custom && img.src.indexOf(custom)===-1) { img.src = custom; return; }
+          img.onerror = null;
+        };
+      });
+
+      /* Chips -> route to category page with ?cat= */
+      $('#chips')?.addEventListener('click', (e)=>{
+        const chip = e.target.closest('.chip');
+        if(!chip) return;
+        const cat = chip.dataset.cat || 'all';
+        if(cat === 'free'){
+          location.href = 'products/category.html#freebies';
+        } else if(cat === 'all'){
+          location.href = 'products/category.html';
+        } else {
+          location.href = 'products/category.html?cat=' + encodeURIComponent(cat);
+        }
+      });
+
+      /* Search -> route to category page with ?q= */
+      $('#searchForm')?.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const term = ($('#q')?.value || '').trim();
+        const url = new URL('products/category.html', location.origin + location.pathname);
+        if(term) url.search = 'q=' + encodeURIComponent(term);
+        location.href = url.pathname + url.search;
+      });
     })();
-  });
-
-  // Basit arama
-  const search=document.getElementById('q');
-  search?.addEventListener('input',()=>{
-    const t=(search.value||'').toLowerCase();
-    [...grid.children].forEach(card=>{
-      const title=card.querySelector('.title')?.textContent.toLowerCase()||'';
-      const desc =card.querySelector('.desc') ?.textContent.toLowerCase()||'';
-      card.style.display=(title.includes(t)||desc.includes(t))?'':'none';
-    });
-  });
-</script>
-
+  </script>
 </body>
 </html>
+
