@@ -5,566 +5,388 @@
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC · Stores</title>
-  <meta name="description" content="Discover RGZTEC partner stores: templates, widgets, icons, React components and more. Filter by specialization, search and sort.">
-
-  <!-- Global look & category grid styles -->
-  <link rel="stylesheet" href="assets/css/home.css" />
-  <link rel="stylesheet" href="assets/css/categories.css" />
+  <meta name="description" content="Independent developer stores — HTML templates, CSS UI kits, JS widgets, React components, SVG icon sets and email templates.">
+  <link rel="stylesheet" href="../assets/css/home.css" />
 
   <style>
-    /* Page-specific tweaks (keep code English-only) */
-    .toolbar { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid var(--b) }
-    .tools { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 12px 0 }
-    .chips { display: flex; gap: 8px; flex-wrap: wrap }
-    .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--b); border-radius: 999px; padding: 6px 10px; font-weight: 700; background: #fff; cursor: pointer; transition: transform .08s ease, box-shadow .08s ease }
-    .chip:hover { transform: translateY(-1px); box-shadow: var(--shadow) }
-    .spacer { flex: 1 }
-    .field { display: flex; gap: 8px; align-items: center }
-    .field input[type="search"], .field select { height: 42px; border: 1px solid var(--b); border-radius: 10px; padding: 0 12px; background: #fff }
-    .field input[type="search"] { width: min(360px, 56vw) }
+    :root{
+      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
+      --tile:#fff7f2;
+    }
+    header{position:sticky;top:0;z-index:20;background:#fff}
+    .mast{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .searchbar{display:flex;gap:8px;align-items:center;flex:1}
+    .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
+    .searchbar button{height:42px}
+    .top-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
-    /* Store card anatomy */
-    .store.card { min-height: 340px }
-    .banner { aspect-ratio: 16/9; background: #eef2ff; position: relative }
-    .banner img { width: 100%; height: 100%; object-fit: cover; display: block }
-    .avatar-wrap { position: absolute; left: 14px; bottom: -22px; width: 64px; height: 64px; border-radius: 999px; border: 3px solid #fff; overflow: hidden; box-shadow: var(--shadow); background: #fff }
-    .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Hero / filters */
+    .hero{
+      border:1px solid var(--b); border-radius:16px; box-shadow:var(--shadow); background:#fff;
+      background-image: radial-gradient(900px 380px at 4% -20%, #fff 0, #fff 40%, #fff6 60%, #fff0 100%);
+      padding:18px;
+    }
+    .hero h1{margin:0 0 6px;font-size:clamp(26px,3.2vw,40px);letter-spacing:-.02em}
+    .hero p{margin:0 0 14px;color:var(--muted)}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--b);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800;font-size:12px;cursor:pointer}
+    .chip[aria-pressed="true"]{background:#111;color:#fff;border-color:#111}
+    .spacer{flex:1}
+    .field{display:flex;gap:8px;align-items:center}
+    .field select,.field input{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff}
 
-    .store .body { padding-top: 32px } /* push down to make space for avatar */
-    .store .meta { gap: 8px; flex-wrap: wrap }
-    .metrics { display: flex; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 13px }
-    .metrics .dot::before { content: "•"; margin: 0 6px; color: #9aa3b2 }
-    .tags { display: flex; gap: 6px; flex-wrap: wrap }
-    .tag { border: 1px solid var(--b); border-radius: 999px; padding: 4px 8px; font-size: 12px; color: #374151; background: #fff }
+    /* Store cards */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill, minmax(300px,1fr))}
+    .card.store{background:#fff;border:1px solid var(--b);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);transition:transform .08s ease,box-shadow .08s ease,border-color .12s ease}
+    .card.store:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09);border-color:#ffc8a6}
+    .store-banner{aspect-ratio:21/9;background:#f2f3f6;position:relative;overflow:hidden}
+    .store-banner img{width:100%;height:100%;object-fit:cover}
+    .store-badges{position:absolute;left:12px;bottom:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .pill.min{padding:4px 8px;font-size:11px}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+    .title{font-weight:900;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .desc{color:var(--muted);font-size:14px}
+    .tags{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px;cursor:pointer;background:#fff}
+    .meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+    .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+    .follow[aria-pressed="true"]{background:#111;color:#fff;border-color:#111}
 
-    /* Grid names to align with categories.css enforcers */
-    .stores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px }
-    @media (max-width:520px){ .stores-grid { grid-template-columns: repeat(auto-fill,minmax(240px,1fr)) } }
+    .band{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin:16px 0 6px}
+    .band .btn{background:#fff;color:#111;border-color:#fff}
+
+    @media (max-width:920px){ .field{width:100%} .field input{flex:1} }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
-    <div class="container top">
-      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>Stores</strong></a>
-      <nav class="menu">
-        <a href="products/index.html">Products</a>
-        <a class="active" href="stores/index.html">Stores</a>
-        <a href="catalog/index.html">Catalog</a>
-        <a class="btn primary" href="advertise.html">Become a Seller</a>
+    <div class="container mast">
+      <a class="logo pill" href="../index.html">RGZTEC</a>
+      <form class="searchbar" action="">
+        <input id="q" type="search" placeholder="Search stores…" />
+        <button class="btn" id="searchBtn" type="button">Search</button>
+      </form>
+      <nav class="top-nav">
+        <a class="btn ghost" href="../products/index.html">Explore</a>
+        <a class="btn ghost" href="../demo/index.html">Demo Gallery</a>
+        <a class="btn" style="background:#111;color:#fff;border-color:#111" href="index.html">Stores</a>
+        <a class="btn primary" href="../advertise.html">Become a Seller</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero-lite -->
-  <section class="section">
-    <div class="container">
-      <div class="hero" style="border-radius:16px">
-        <div class="hero-inner">
-          <h1>Discover Partner Stores</h1>
-          <p class="lead">Explore studios and indie creators offering HTML templates, JS widgets, icon packs, React components and email templates.</p>
-          <div class="actions">
-            <a class="btn primary" href="#grid">Browse Stores</a>
-            <a class="btn" href="products/index.html">Open Catalog</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- HERO / FILTERS -->
+  <section class="container section hero">
+    <h1>Developer Stores</h1>
+    <p>Independent creators. Clean code, live demos, instant copy. Filter by stack and find your next UI building block.</p>
 
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <div class="container tools">
-      <nav class="chips" aria-label="Filter stores" id="chips">
-        <button class="chip" data-filter="all" aria-pressed="true">All</button>
-        <button class="chip" data-filter="templates">Templates</button>
-        <button class="chip" data-filter="widgets">Widgets</button>
-        <button class="chip" data-filter="icons">Icons</button>
-        <button class="chip" data-filter="react">React</button>
-        <button class="chip" data-filter="email">Email</button>
-        <button class="chip" data-filter="free">Freebies</button>
-      </nav>
+    <div class="filters" role="toolbar" aria-label="Filters">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="html">HTML</button>
+      <button class="chip" data-filter="js">JS</button>
+      <button class="chip" data-filter="css">CSS</button>
+      <button class="chip" data-filter="react">React</button>
+      <button class="chip" data-filter="icons">Icons</button>
+      <button class="chip" data-filter="email">Email</button>
+
       <div class="spacer"></div>
-      <div class="field">
-        <label class="muted" for="q">Search</label>
-        <input id="q" type="search" placeholder="Search stores…" />
-      </div>
+
       <div class="field">
         <label class="muted" for="sort">Sort</label>
         <select id="sort" aria-label="Sort">
           <option value="featured">Featured</option>
-          <option value="rating">Rating</option>
-          <option value="products">Products</option>
-          <option value="sales">Sales</option>
-          <option value="new">Newest</option>
+          <option value="items_desc">Items: High → Low</option>
+          <option value="items_asc">Items: Low → High</option>
+          <option value="rating_desc">Rating</option>
         </select>
       </div>
     </div>
-  </div>
+  </section>
 
-  <main class="container" style="margin:18px 0">
-    <!-- Breadcrumbs -->
-    <nav class="breadcrumbs" aria-label="Breadcrumb">
-      <a href="index.html">Home</a> ›
-      <span id="bc">All Stores</span>
-    </nav>
-
-    <div class="section-head">
-      <h2 class="section-title" id="title">All Stores</h2>
-      <span class="badge" id="badge">Curated</span>
+  <section class="container">
+    <div class="band">
+      <div><small class="pill min" style="background:#fff;color:#111;border-color:#fff">Tip</small> Click tags to filter stores by stack. Press <b>/</b> to focus search.</div>
+      <a class="btn" href="../products/index.html?sort=new#grid">See new arrivals</a>
     </div>
+  </section>
 
-    <!-- STORES GRID -->
-    <section id="grid" class="stores-grid" aria-label="Stores">
-      <!-- 1: RGZTEC (house) -->
-      <article class="card store"
-        data-cat="templates react widgets icons email"
-        data-tags="rgztec official templates ui kits react components widgets icons emails"
-        data-rating="5.0"
-        data-products="120"
-        data-sales="12850"
-        data-new="2023-12-01">
-        <div class="banner">
-          <img src="images/stores/rgztec-banner.webp" alt="RGZTEC Store banner" loading="lazy" decoding="async" data-fallback="images/catalog/html1.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/rgztec-avatar.webp" alt="RGZTEC avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html2.webp">
+  <!-- STORES GRID -->
+  <main class="container section-lg">
+    <div id="grid" class="grid" aria-label="Stores">
+      <!-- Pixel Foundry -->
+      <article class="card store" id="pixel-foundry" data-tags="html css" data-items="42" data-rating="5" data-popular="99">
+        <div class="store-banner">
+          <img src="../images/categories/html-templates.webp" alt="Pixel Foundry banner">
+          <div class="store-badges">
+            <span class="pill min" style="background:#fff;color:#111;border-color:#fff">Top seller</span>
+            <span class="pill min" style="background:#111;color:#fff;border-color:#111">★★★★★</span>
           </div>
         </div>
         <div class="body">
-          <div class="title">RGZTEC</div>
-          <p class="desc">Official store. Production-grade HTML, React and UI kits.</p>
-          <div class="meta">
-            <div class="metrics">
-              <span>★★★★★</span><span class="muted">(5.0)</span>
-              <span class="dot"></span><span><strong>120</strong> products</span>
-              <span class="dot"></span><span><strong>12.8k</strong> sales</span>
-            </div>
-            <div class="tags">
-              <span class="tag">Templates</span><span class="tag">React</span><span class="tag">Icons</span>
-            </div>
+          <div class="title">Pixel Foundry</div>
+          <div class="desc">Clean HTML starters and utility CSS kits.</div>
+          <div class="tags">
+            <button class="tag" data-filter="html">HTML</button>
+            <button class="tag" data-filter="css">CSS</button>
           </div>
+          <div class="meta"><span>42 items</span> · <span>Since 2021</span></div>
           <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=rgztec">Visit Store</a>
-            <a class="btn primary" href="products/index.html">View Products</a>
+            <a class="btn primary" href="../products/index.html?store=pixel-foundry">View products</a>
+            <a class="btn" href="#pixel-foundry">Open store</a>
+            <button class="btn follow" data-id="pixel-foundry" aria-pressed="false">Follow</button>
           </div>
         </div>
       </article>
 
-      <!-- 2 -->
-      <article class="card store"
-        data-cat="templates widgets"
-        data-tags="pixel forge landing pages dashboards"
-        data-rating="4.9"
-        data-products="48"
-        data-sales="6400"
-        data-new="2024-05-15">
-        <div class="banner">
-          <img src="images/stores/pixelforge-banner.webp" alt="PixelForge banner" loading="lazy" decoding="async" data-fallback="images/catalog/html4.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/pixelforge-avatar.webp" alt="PixelForge avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html3.webp">
+      <!-- Widget Labs -->
+      <article class="card store" id="widget-labs" data-tags="js html" data-items="18" data-rating="4.9" data-popular="90">
+        <div class="store-banner">
+          <img src="../images/categories/js-widgets.webp" alt="Widget Labs banner">
+          <div class="store-badges">
+            <span class="pill min" style="background:#fff;color:#111;border-color:#fff">4.9★</span>
           </div>
         </div>
         <div class="body">
-          <div class="title">PixelForge</div>
-          <p class="desc">Landing pages and dashboard shells with clean UX.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.9)</span><span class="dot"></span><span><strong>48</strong> products</span><span class="dot"></span><span><strong>6.4k</strong> sales</span></div>
-            <div class="tags"><span class="tag">Templates</span><span class="tag">Widgets</span></div>
+          <div class="title">Widget Labs</div>
+          <div class="desc">Vanilla JS widgets and tiny plugins.</div>
+          <div class="tags">
+            <button class="tag" data-filter="js">JS</button>
+            <button class="tag" data-filter="html">HTML</button>
           </div>
+          <div class="meta"><span>18 items</span> · <span>Trusted</span></div>
           <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=pixelforge">Visit Store</a>
-            <a class="btn primary" href="products/category.html?cat=html">View Products</a>
+            <a class="btn primary" href="../products/index.html?store=widget-labs">View products</a>
+            <a class="btn" href="#widget-labs">Open store</a>
+            <button class="btn follow" data-id="widget-labs" aria-pressed="false">Follow</button>
           </div>
         </div>
       </article>
 
-      <!-- 3 -->
-      <article class="card store"
-        data-cat="widgets"
-        data-tags="code craft widgets tooltips tabs accordions vanilla js"
-        data-rating="4.8"
-        data-products="36"
-        data-sales="5200"
-        data-new="2024-08-02">
-        <div class="banner">
-          <img src="images/stores/codecraft-banner.webp" alt="CodeCraft banner" loading="lazy" decoding="async" data-fallback="images/catalog/html20.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/codecraft-avatar.webp" alt="CodeCraft avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html8.webp">
+      <!-- Vector Supply -->
+      <article class="card store" id="vector-supply" data-tags="icons css" data-items="23" data-rating="4.8" data-popular="85">
+        <div class="store-banner">
+          <img src="../images/categories/svg-icons.webp" alt="Vector Supply banner">
+          <div class="store-badges">
+            <span class="pill min" style="background:#fff;color:#111;border-color:#fff">Trusted</span>
           </div>
         </div>
         <div class="body">
-          <div class="title">CodeCraft</div>
-          <p class="desc">Vanilla JS widgets: tabs, accordions, tooltips and more.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.8)</span><span class="dot"></span><span><strong>36</strong> products</span><span class="dot"></span><span><strong>5.2k</strong> sales</span></div>
-            <div class="tags"><span class="tag">Widgets</span></div>
+          <div class="title">Vector Supply</div>
+          <div class="desc">SVG icons and UI assets for developers.</div>
+          <div class="tags">
+            <button class="tag" data-filter="icons">Icons</button>
+            <button class="tag" data-filter="css">CSS</button>
           </div>
+          <div class="meta"><span>23 items</span> · <span>Global</span></div>
           <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=codecraft">Visit Store</a>
-            <a class="btn primary" href="products/category.html?cat=js">View Products</a>
+            <a class="btn primary" href="../products/index.html?store=vector-supply">View products</a>
+            <a class="btn" href="#vector-supply">Open store</a>
+            <button class="btn follow" data-id="vector-supply" aria-pressed="false">Follow</button>
           </div>
         </div>
       </article>
 
-      <!-- 4 -->
-      <article class="card store"
-        data-cat="templates css"
-        data-tags="ui kit lab css utility kits components"
-        data-rating="4.7"
-        data-products="28"
-        data-sales="3100"
-        data-new="2025-01-10">
-        <div class="banner">
-          <img src="images/stores/uikitlab-banner.webp" alt="UI Kit Lab banner" loading="lazy" decoding="async" data-fallback="images/catalog/html5.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/uikitlab-avatar.webp" alt="UI Kit Lab avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html6.webp">
-          </div>
+      <!-- React Craft -->
+      <article class="card store" id="react-craft" data-tags="react html" data-items="12" data-rating="4.7" data-popular="75">
+        <div class="store-banner">
+          <img src="../images/categories/react.webp" alt="React Craft banner">
         </div>
         <div class="body">
-          <div class="title">UI Kit Lab</div>
-          <p class="desc">Utility-first CSS kits and prebuilt components.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.7)</span><span class="dot"></span><span><strong>28</strong> products</span><span class="dot"></span><span><strong>3.1k</strong> sales</span></div>
-            <div class="tags"><span class="tag">CSS</span><span class="tag">Templates</span></div>
+          <div class="title">React Craft</div>
+          <div class="desc">Production-ready components for React apps.</div>
+          <div class="tags">
+            <button class="tag" data-filter="react">React</button>
+            <button class="tag" data-filter="html">HTML</button>
           </div>
+          <div class="meta"><span>12 items</span> · <span>4.7★</span></div>
           <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=uikit-lab">Visit Store</a>
-            <a class="btn primary" href="products/category.html?cat=css">View Products</a>
+            <a class="btn primary" href="../products/index.html?store=react-craft">View products</a>
+            <a class="btn" href="#react-craft">Open store</a>
+            <button class="btn follow" data-id="react-craft" aria-pressed="false">Follow</button>
           </div>
         </div>
       </article>
 
-      <!-- 5 -->
-      <article class="card store"
-        data-cat="templates"
-        data-tags="astro html static sites landings blogs"
-        data-rating="4.8"
-        data-products="22"
-        data-sales="2700"
-        data-new="2025-02-14">
-        <div class="banner">
-          <img src="images/stores/astrohtml-banner.webp" alt="AstroHTML banner" loading="lazy" decoding="async" data-fallback="images/catalog/html3.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/astrohtml-avatar.webp" alt="AstroHTML avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html1.webp">
-          </div>
+      <!-- Style Forge -->
+      <article class="card store" id="style-forge" data-tags="css html" data-items="15" data-rating="4.6" data-popular="72">
+        <div class="store-banner">
+          <img src="../images/categories/css-ui-kits.webp" alt="Style Forge banner">
         </div>
         <div class="body">
-          <div class="title">AstroHTML</div>
-          <p class="desc">Static-first HTML templates for landing pages and blogs.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.8)</span><span class="dot"></span><span><strong>22</strong> products</span><span class="dot"></span><span><strong>2.7k</strong> sales</span></div>
-            <div class="tags"><span class="tag">Templates</span></div>
+          <div class="title">Style Forge</div>
+          <div class="desc">Utility-first CSS components and layout kits.</div>
+          <div class="tags">
+            <button class="tag" data-filter="css">CSS</button>
+            <button class="tag" data-filter="html">HTML</button>
           </div>
+          <div class="meta"><span>15 items</span> · <span>4.6★</span></div>
           <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=astrohtml">Visit Store</a>
-            <a class="btn primary" href="products/category.html?cat=html">View Products</a>
+            <a class="btn primary" href="../products/index.html?store=style-forge">View products</a>
+            <a class="btn" href="#style-forge">Open store</a>
+            <button class="btn follow" data-id="style-forge" aria-pressed="false">Follow</button>
           </div>
         </div>
       </article>
 
-      <!-- 6 -->
-      <article class="card store"
-        data-cat="react"
-        data-tags="componentry react ui components cards modals forms"
-        data-rating="4.9"
-        data-products="40"
-        data-sales="5900"
-        data-new="2025-07-08">
-        <div class="banner">
-          <img src="images/stores/componentry-banner.webp" alt="Componentry banner" loading="lazy" decoding="async" data-fallback="images/catalog/html17.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/componentry-avatar.webp" alt="Componentry avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html12.webp">
-          </div>
+      <!-- MailBox Co. -->
+      <article class="card store" id="mailbox-co" data-tags="email html" data-items="9" data-rating="4.5" data-popular="68">
+        <div class="store-banner">
+          <img src="../images/categories/email-templates.webp" alt="MailBox Co. banner">
         </div>
         <div class="body">
-          <div class="title">Componentry</div>
-          <p class="desc">Composable React building blocks for modern apps.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.9)</span><span class="dot"></span><span><strong>40</strong> products</span><span class="dot"></span><span><strong>5.9k</strong> sales</span></div>
-            <div class="tags"><span class="tag">React</span></div>
+          <div class="title">MailBox Co.</div>
+          <div class="desc">Responsive transactional email templates.</div>
+          <div class="tags">
+            <button class="tag" data-filter="email">Email</button>
+            <button class="tag" data-filter="html">HTML</button>
           </div>
+          <div class="meta"><span>9 items</span> · <span>4.5★</span></div>
           <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=componentry">Visit Store</a>
-            <a class="btn primary" href="products/category.html?cat=react">View Products</a>
+            <a class="btn primary" href="../products/index.html?store=mailbox-co">View products</a>
+            <a class="btn" href="#mailbox-co">Open store</a>
+            <button class="btn follow" data-id="mailbox-co" aria-pressed="false">Follow</button>
           </div>
         </div>
       </article>
-
-      <!-- 7 -->
-      <article class="card store"
-        data-cat="icons"
-        data-tags="devicons svg logos brands outline solid"
-        data-rating="4.6"
-        data-products="15"
-        data-sales="2100"
-        data-new="2024-11-25">
-        <div class="banner">
-          <img src="images/stores/devicons-banner.webp" alt="DevIcons banner" loading="lazy" decoding="async" data-fallback="images/catalog/html18.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/devicons-avatar.webp" alt="DevIcons avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html9.webp">
-          </div>
-        </div>
-        <div class="body">
-          <div class="title">DevIcons</div>
-          <p class="desc">Developer-focused SVG icon packs, outline and solid.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.6)</span><span class="dot"></span><span><strong>15</strong> products</span><span class="dot"></span><span><strong>2.1k</strong> sales</span></div>
-            <div class="tags"><span class="tag">Icons</span></div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=devicons">Visit Store</a>
-            <a class="btn primary" href="products/svg-icons.html">View Products</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 8 -->
-      <article class="card store"
-        data-cat="email"
-        data-tags="mailworks email templates transactional marketing"
-        data-rating="4.7"
-        data-products="18"
-        data-sales="2600"
-        data-new="2025-03-30">
-        <div class="banner">
-          <img src="images/stores/mailworks-banner.webp" alt="MailWorks banner" loading="lazy" decoding="async" data-fallback="images/catalog/html19.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/mailworks-avatar.webp" alt="MailWorks avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html10.webp">
-          </div>
-        </div>
-        <div class="body">
-          <div class="title">MailWorks</div>
-          <p class="desc">Responsive HTML email templates for any ESP.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.7)</span><span class="dot"></span><span><strong>18</strong> products</span><span class="dot"></span><span><strong>2.6k</strong> sales</span></div>
-            <div class="tags"><span class="tag">Email</span></div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=mailworks">Visit Store</a>
-            <a class="btn primary" href="products/email-templates.html">View Products</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 9 -->
-      <article class="card store"
-        data-cat="templates free"
-        data-tags="snippet town freebies free components starters"
-        data-rating="4.5"
-        data-products="25"
-        data-sales="0"
-        data-new="2025-06-05">
-        <div class="banner">
-          <img src="images/stores/snippettown-banner.webp" alt="SnippetTown banner" loading="lazy" decoding="async" data-fallback="images/catalog/html14.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/snippettown-avatar.webp" alt="SnippetTown avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html11.webp">
-          </div>
-        </div>
-        <div class="body">
-          <div class="title">SnippetTown</div>
-          <p class="desc">Useful freebies and starter snippets for quick prototyping.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.5)</span><span class="dot"></span><span><strong>25</strong> products</span><span class="dot"></span><span><strong>Free</strong></span></div>
-            <div class="tags"><span class="tag">Freebies</span></div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=snippettown">Visit Store</a>
-            <a class="btn primary" href="products/category.html#freebies">View Freebies</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 10 -->
-      <article class="card store"
-        data-cat="react templates"
-        data-tags="neonreact react templates dashboards charts"
-        data-rating="4.6"
-        data-products="19"
-        data-sales="3300"
-        data-new="2025-07-20">
-        <div class="banner">
-          <img src="images/stores/neonreact-banner.webp" alt="NeonReact banner" loading="lazy" decoding="async" data-fallback="images/catalog/html17.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/neonreact-avatar.webp" alt="NeonReact avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html7.webp">
-          </div>
-        </div>
-        <div class="body">
-          <div class="title">NeonReact</div>
-          <p class="desc">React templates with modern charts and layouts.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.6)</span><span class="dot"></span><span><strong>19</strong> products</span><span class="dot"></span><span><strong>3.3k</strong> sales</span></div>
-            <div class="tags"><span class="tag">React</span><span class="tag">Templates</span></div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=neonreact">Visit Store</a>
-            <a class="btn primary" href="products/react.html">View Products</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 11 -->
-      <article class="card store"
-        data-cat="css templates"
-        data-tags="css smiths frameworks utilities kit"
-        data-rating="4.4"
-        data-products="14"
-        data-sales="1800"
-        data-new="2024-10-09">
-        <div class="banner">
-          <img src="images/stores/csssmiths-banner.webp" alt="CSSSmiths banner" loading="lazy" decoding="async" data-fallback="images/catalog/html5.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/csssmiths-avatar.webp" alt="CSSSmiths avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html13.webp">
-          </div>
-        </div>
-        <div class="body">
-          <div class="title">CSSSmiths</div>
-          <p class="desc">Lean CSS frameworks and utility kits.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.4)</span><span class="dot"></span><span><strong>14</strong> products</span><span class="dot"></span><span><strong>1.8k</strong> sales</span></div>
-            <div class="tags"><span class="tag">CSS</span></div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=csssmiths">Visit Store</a>
-            <a class="btn primary" href="products/css-ui-kits.html">View Products</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 12 -->
-      <article class="card store"
-        data-cat="free"
-        data-tags="openfree free components icons emails starters"
-        data-rating="4.3"
-        data-products="30"
-        data-sales="0"
-        data-new="2025-04-03">
-        <div class="banner">
-          <img src="images/stores/openfree-banner.webp" alt="OpenFree banner" loading="lazy" decoding="async" data-fallback="images/catalog/html14.webp">
-          <div class="avatar-wrap">
-            <img src="images/stores/openfree-avatar.webp" alt="OpenFree avatar" loading="lazy" decoding="async" data-fallback="images/catalog/html9.webp">
-          </div>
-        </div>
-        <div class="body">
-          <div class="title">OpenFree</div>
-          <p class="desc">Open-source freebies: components, icons and emails.</p>
-          <div class="meta">
-            <div class="metrics"><span>★★★★☆</span><span class="muted">(4.3)</span><span class="dot"></span><span><strong>30</strong> products</span><span class="dot"></span><span><strong>Free</strong></span></div>
-            <div class="tags"><span class="tag">Freebies</span></div>
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/detail.html?slug=openfree">Visit Store</a>
-            <a class="btn primary" href="products/category.html#freebies">View Freebies</a>
-          </div>
-        </div>
-      </article>
-    </section>
+    </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="container" style="margin:28px 0;color:#6b7280">
-    <small>© <span id="year"></span> RGZTEC — All rights reserved.</small>
+  <footer class="container section">
+    <div class="row" style="gap:12px;align-items:center;flex-wrap:wrap">
+      <span class="pill">RGZTEC</span>
+      <span class="muted">© 2025 — Independent developer stores.</span>
+      <div class="spacer"></div>
+      <a class="btn ghost" href="../products/index.html">Catalog</a>
+      <a class="btn ghost" href="../demo/index.html">Demo Gallery</a>
+      <a class="btn primary" href="../advertise.html">Become a Seller</a>
+    </div>
   </footer>
 
-  <!-- Minimal JS: filter, search, sort, URL sync, image fallback -->
   <script>
-    (function(){
-      const $  = (s,root=document)=>root.querySelector(s);
-      const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
-      /* Year */
-      $('#year').textContent = new Date().getFullYear();
+    // Image fallback: webp -> png -> jpg
+    $$('img').forEach(img=>{
+      img.onerror = ()=>{
+        const src = img.getAttribute('src')||'';
+        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
+        img.onerror = null;
+      };
+    });
 
-      /* Image fallback: .webp → .png → .jpg → custom data-fallback */
-      $$('img').forEach(img=>{
-        const base = (img.getAttribute('src')||'').replace(/\.(webp|png|jpg)$/i,'');
-        const custom = img.getAttribute('data-fallback');
-        img.onerror = () => {
-          if (img.src.endsWith('.webp')) { img.src = base + '.png'; return; }
-          if (img.src.endsWith('.png'))  { img.src = base + '.jpg'; return; }
-          if (custom && img.src.indexOf(custom)===-1) { img.src = custom; return; }
-          img.onerror = null;
-        };
+    const chips = $$('.chip');
+    const q = $('#q');
+    const sortSel = $('#sort');
+    const grid = $('#grid');
+
+    function setChip(active){
+      chips.forEach(c=>c.setAttribute('aria-pressed', String(c.dataset.filter===active)));
+    }
+
+    function apply(){
+      const url = new URL(location.href);
+      const cat = (url.searchParams.get('cat') || 'all').toLowerCase();
+      const term = (url.searchParams.get('q') || '').toLowerCase().trim();
+      const sort = url.searchParams.get('sort') || 'featured';
+
+      setChip(cat);
+      q.value = term;
+      sortSel.value = sort;
+
+      // filter
+      const cards = $$('#grid .store.card');
+      cards.forEach(card=>{
+        const tags = (card.dataset.tags||'').toLowerCase();
+        const text = (card.querySelector('.title')?.textContent+' '+card.querySelector('.desc')?.textContent).toLowerCase();
+        const matchCat = cat==='all' ? true : tags.split(/\s+/).includes(cat);
+        const matchText = term ? text.includes(term) : true;
+        card.style.display = (matchCat && matchText) ? '' : 'none';
       });
 
-      const chips = $('#chips');
-      const q     = $('#q');
-      const sort  = $('#sort');
-      const grid  = $('#grid');
-      const bc    = $('#bc');
-      const title = $('#title');
-      const badge = $('#badge');
+      // sort only visible
+      const visible = $$('#grid .store.card').filter(c=>c.style.display!=='none');
+      const by = {
+        featured:(a,b)=>(+b.dataset.popular||0)-(+a.dataset.popular||0),
+        items_desc:(a,b)=>(+b.dataset.items||0)-(+a.dataset.items||0),
+        items_asc:(a,b)=>(+a.dataset.items||0)-(+b.dataset.items||0),
+        rating_desc:(a,b)=>(+b.dataset.rating||0)-(+a.dataset.rating||0),
+      }[sort] || ((a,b)=>0);
+      visible.sort(by).forEach(c=>grid.appendChild(c));
+    }
 
-      function setChip(active){
-        $$('#chips .chip').forEach(c=>c.setAttribute('aria-pressed', String(c.dataset.filter===active)));
-      }
-
-      function applyFilters(){
+    // chip clicks
+    chips.forEach(chip=>{
+      chip.addEventListener('click', ()=>{
         const url = new URL(location.href);
-        const cat = (url.searchParams.get('cat') || 'all').toLowerCase();
-        const term = (url.searchParams.get('q') || '').toLowerCase().trim();
-        const sortBy = (url.searchParams.get('sort') || 'featured');
-        // UI reflect
-        setChip(cat); q.value = term; sort.value = sortBy;
-
-        // Labels
-        const names = {all:'All Stores', templates:'Templates', widgets:'Widgets', icons:'Icons', react:'React', email:'Email', free:'Freebies'};
-        bc.textContent    = names[cat] || 'All Stores';
-        title.textContent = names[cat] || 'All Stores';
-        badge.textContent = (cat==='free' ? 'Free & Open' : 'Curated');
-
-        // Filter
-        $$('#grid .store').forEach(card=>{
-          const cats  = (card.dataset.cat||'').toLowerCase();
-          const text  = ((card.dataset.tags||'') + ' ' + (card.querySelector('.title')?.textContent||'') + ' ' + (card.querySelector('.desc')?.textContent||'')).toLowerCase();
-          const matchCat  = (cat==='all') ? true : cats.split(/\s+/).includes(cat);
-          const matchTerm = term ? text.includes(term) : true;
-          card.style.display = (matchCat && matchTerm) ? '' : 'none';
-        });
-
-        // Sort (only visible cards)
-        const cards = $$('#grid .store').filter(c=>c.style.display!=='none');
-        const by = {
-          featured: (a,b)=>0,
-          rating:   (a,b)=> (+b.dataset.rating||0) - (+a.dataset.rating||0),
-          products: (a,b)=> (+b.dataset.products||0) - (+a.dataset.products||0),
-          sales:    (a,b)=> (+b.dataset.sales||0) - (+a.dataset.sales||0),
-          new:      (a,b)=> new Date(b.dataset.new||0) - new Date(a.dataset.new||0),
-        }[sortBy] || ((a,b)=>0);
-        cards.sort(by).forEach(c=>grid.appendChild(c));
-      }
-
-      // Chips click
-      chips.addEventListener('click', (e)=>{
-        const btn = e.target.closest('.chip');
-        if(!btn) return;
-        const cat = btn.dataset.filter;
-        const url = new URL(location.href);
-        url.searchParams.set('cat', cat);
-        history.replaceState(null,'', url);
-        applyFilters();
+        url.searchParams.set('cat', chip.dataset.filter);
+        history.replaceState(null,'',url);
+        apply();
         grid.scrollIntoView({behavior:'smooth',block:'start'});
       });
+    });
 
-      // Search input
-      q.addEventListener('input', ()=>{
+    // tags inside cards behave like chips
+    $$('#grid .tag').forEach(tag=>{
+      tag.addEventListener('click', ()=>{
+        const filter = tag.dataset.filter;
         const url = new URL(location.href);
-        const val = q.value.trim();
-        if(val) url.searchParams.set('q', val); else url.searchParams.delete('q');
-        history.replaceState(null,'', url);
-        applyFilters();
+        url.searchParams.set('cat', filter);
+        history.replaceState(null,'',url);
+        apply();
       });
+    });
 
-      // Sort change
-      sort.addEventListener('change', ()=>{
-        const url = new URL(location.href);
-        url.searchParams.set('sort', sort.value);
-        history.replaceState(null,'', url);
-        applyFilters();
+    // search
+    function doSearch(){
+      const url = new URL(location.href);
+      const val = q.value.trim();
+      if(val) url.searchParams.set('q',val); else url.searchParams.delete('q');
+      history.replaceState(null,'',url);
+      apply();
+    }
+    q.addEventListener('input', doSearch);
+    $('#searchBtn').addEventListener('click', doSearch);
+
+    // sort
+    sortSel.addEventListener('change', ()=>{
+      const url = new URL(location.href);
+      url.searchParams.set('sort', sortSel.value);
+      history.replaceState(null,'',url);
+      apply();
+    });
+
+    // focus search with "/"
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
+        e.preventDefault(); q.focus();
+      }
+    });
+
+    // follow state (session)
+    const state = JSON.parse(sessionStorage.getItem('rgztec_follows')||'{}');
+    function paintFollow(){
+      $$('.follow').forEach(btn=>{
+        const id = btn.dataset.id;
+        const on = !!state[id];
+        btn.setAttribute('aria-pressed', String(on));
+        btn.textContent = on ? 'Following' : 'Follow';
       });
+    }
+    paintFollow();
+    $$('.follow').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.dataset.id;
+        state[id] = !state[id];
+        sessionStorage.setItem('rgztec_follows', JSON.stringify(state));
+        paintFollow();
+      });
+    });
 
-      // Initial
-      applyFilters();
-    })();
+    // init
+    apply();
   </script>
 </body>
 </html>
