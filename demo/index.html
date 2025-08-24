@@ -5,461 +5,503 @@
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC · Demo Gallery</title>
-  <meta name="description" content="Instant previews for HTML templates, CSS kits, JS widgets, React components, SVG icons and email templates.">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../assets/css/home.css" />
+  <meta name="description" content="Instant previews for HTML templates, CSS UI kits, JS widgets, React components, SVG icons and email templates.">
+  <link rel="stylesheet" href="assets/css/home.css" />
+
+  <!-- Demo page light overrides -->
   <style>
     :root{
       --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
-      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
-      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 12px 32px rgba(0,0,0,.08);
       --tile:#fff7f2;
     }
-    body{background:var(--bg);color:var(--ink)}
-    a{color:inherit;text-decoration:none}
-
-    .container{width:min(1200px,92vw);margin-inline:auto}
-    .mast{display:flex;gap:12px;align-items:center;padding:14px 0}
-    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:900}
-
-    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease,box-shadow .08s ease,background-color .12s ease}
-    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
-    .btn.ghost{background:#fff}
-    .btn.badge{border-radius:999px;padding:6px 12px;font-size:13px}
-    .icon{width:18px;height:18px}
+    header{position:sticky;top:0;z-index:20;background:#fff}
+    .mast{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .searchbar{display:flex;gap:8px;align-items:center;flex:1}
+    .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
+    .searchbar button{height:42px}
+    .top-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
     /* Hero */
     .hero{
-      background:#fff;border:1px solid var(--b);border-radius:18px;box-shadow:var(--shadow);
-      padding:18px 18px 12px;margin:8px 0 14px;
-      background-image: radial-gradient(1000px 320px at -10% -50%, #fff, #fff 36%, #fff7 70%, #fff0 100%),
-                        linear-gradient(180deg,#fff,#fff);
+      border:1px solid var(--b); border-radius:16px; box-shadow:var(--shadow); background:#fff;
+      background-image: radial-gradient(900px 380px at 4% -20%, #fff 0, #fff 40%, #fff6 60%, #fff0 100%);
+      padding:18px;
     }
-    .hero h1{margin:2px 0 6px;font-size:clamp(26px,3.2vw,42px);letter-spacing:-.015em}
-    .hero p{margin:0;color:var(--muted)}
-    .frow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
-    .search{display:flex;gap:8px;align-items:center;flex:1}
-    .search input{height:44px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
-    .tabs{display:flex;gap:8px;flex-wrap:wrap}
-    .tab{border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px;cursor:pointer}
-    .tab.active,.tab:hover{background:var(--tile);border-color:#ffc8a6}
+    .hero h1{margin:0 0 6px; font-size:clamp(26px,3.2vw,40px); letter-spacing:-.02em}
+    .hero p{margin:0 0 14px; color:var(--muted)}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--b);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800;font-size:12px;cursor:pointer}
+    .chip[aria-pressed="true"]{background:#111;color:#fff;border-color:#111}
+    .spacer{flex:1}
+    .field{display:flex;gap:8px;align-items:center}
+    .field input,.field select{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff}
 
-    /* grid */
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill, minmax(260px,1fr));margin:14px 0 22px}
-    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease}
-    .card:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(0,0,0,.10)}
+    /* Grid cards (demo) */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill, minmax(280px,1fr))}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:380px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease,border-color .12s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09);border-color:#ffc8a6}
     .thumb{aspect-ratio:16/9;background:#f2f3f6}
     .thumb img{width:100%;height:100%;object-fit:cover}
-    .body{padding:12px 14px;display:grid;gap:8px}
-    .title{font-weight:900}
-    .desc{color:var(--muted);font-size:14px;min-height:42px}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
     .meta{display:flex;justify-content:space-between;align-items:center}
-    .price{font-weight:900}
     .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;background:#eef2ff;border:1px solid #d7def5;color:#233a85;font-weight:800;font-size:12px}
 
-    /* Drawer / viewer */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.36);backdrop-filter:saturate(140%) blur(2px);display:none}
-    .overlay.show{display:block}
-    .viewer{
-      position:fixed;top:0;right:-100%;width:min(980px,92vw);height:100dvh;background:#fff;
-      border-left:1px solid var(--b);box-shadow:-20px 0 60px rgba(0,0,0,.18);
-      transition:right .18s ease;display:grid;grid-template-columns:1.2fr .8fr;
-    }
-    .viewer.show{right:0}
-    .v-media{border-right:1px solid var(--b);display:grid;place-items:center;background:
-      radial-gradient(1200px 400px at -30% -50%, #fff, #fff 45%, #fff0 80%), #fff}
-    .device{width:92%;height:86%;border:1px solid var(--b);border-radius:14px;background:#f7f8fb;display:grid;place-items:center}
-    .device .placeholder{font-weight:900;color:#9aa3b2}
-    .v-side{padding:18px;display:grid;grid-template-rows:auto auto auto 1fr auto;gap:12px}
-    .v-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .v-title{font-size:20px;font-weight:900}
-    .badge{border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px;background:#fff}
-    .v-desc{color:var(--muted)}
-    .v-actions{display:flex;gap:8px;flex-wrap:wrap}
-    .v-meta{display:flex;gap:8px;align-items:center;color:var(--muted)}
-    .v-nav{display:flex;justify-content:space-between;gap:8px}
-    .close{appearance:none;background:#fff;border:1px solid var(--b);border-radius:10px;padding:6px 10px;font-weight:800;cursor:pointer}
-    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;border:1px solid var(--b2);border-radius:8px;padding:2px 6px;background:#fff;color:#6b7280}
+    /* Band */
+    .band{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin:16px 0 6px}
+    .band .btn{background:#fff;color:#111;border-color:#fff}
 
-    /* Footer */
-    .site-foot{background:linear-gradient(180deg,#fff,#fff4ee);border-top:1px solid var(--b);margin-top:12px}
-    .columns{display:grid;gap:22px;grid-template-columns:2fr 1fr 1fr 1fr;padding:22px 0}
-    .site-mini{border-top:1px solid var(--b);padding:10px 0;color:#6b7280}
-
-    @media (max-width:1000px){ .viewer{grid-template-columns:1fr} .v-media{display:none} }
+    /* Small helper */
+    .pill.min{padding:4px 8px;font-size:11px}
+    @media (max-width:920px){ .hero{padding:14px} .field{width:100%} .field input{flex:1} }
   </style>
 </head>
 <body>
   <!-- HEADER -->
-  <header class="container mast">
-    <a class="pill" href="../index.html">RGZTEC</a>
-    <a class="btn ghost" href="../products/index.html">Explore</a>
-    <a class="btn ghost" href="../stores/index.html">Stores</a>
-    <a class="btn primary" href="../advertise.html">Become a Seller</a>
+  <header>
+    <div class="container mast">
+      <a class="logo pill" href="index.html">RGZTEC</a>
+      <form class="searchbar" action="">
+        <input id="q" type="search" placeholder="Search titles or descriptions…" />
+        <button class="btn" id="searchBtn" type="button">Search</button>
+      </form>
+      <nav class="top-nav">
+        <a class="btn ghost" href="products/index.html">Explore</a>
+        <a class="btn ghost" href="stores/index.html">Stores</a>
+        <a class="btn primary" href="advertise.html">Become a Seller</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- HERO + CONTROLS -->
-  <section class="container hero" aria-label="Demo hero">
+  <!-- HERO / FILTERS -->
+  <section class="container section hero">
     <h1>Demo Gallery</h1>
     <p>Handpicked HTML, CSS, JS, React, icon and email items — instant preview. WebP→PNG→JPG fallback is automatic.</p>
-    <div class="frow">
-      <form class="search" onsubmit="event.preventDefault();">
-        <input id="q" type="search" placeholder="Search titles or descriptions…" aria-label="Search demos">
-        <button class="btn" type="button" onclick="applySearch()">Search</button>
-      </form>
-      <div class="tabs" id="tabs">
-        <!-- filled by JS -->
+
+    <div class="filters" role="toolbar" aria-label="Filters">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="html">HTML</button>
+      <button class="chip" data-filter="js">JS</button>
+      <button class="chip" data-filter="css">CSS</button>
+      <button class="chip" data-filter="react">React</button>
+      <button class="chip" data-filter="icons">Icons</button>
+      <button class="chip" data-filter="email">Email</button>
+      <button class="chip" data-filter="free">Freebies</button>
+
+      <div class="spacer"></div>
+
+      <div class="field">
+        <label class="muted" for="sort">Sort</label>
+        <select id="sort" aria-label="Sort">
+          <option value="featured">Featured</option>
+          <option value="newest">Newest</option>
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+        </select>
       </div>
     </div>
-    <div class="frow" style="justify-content:space-between">
-      <div class="tabs" id="sorter">
-        <button class="tab" data-sort="featured">Featured</button>
-        <button class="tab" data-sort="new">Newest</button>
-        <button class="tab" data-sort="price">Price</button>
-      </div>
-      <div class="muted" id="count"></div>
+  </section>
+
+  <section class="container">
+    <div class="band">
+      <div><small class="pill min" style="background:#fff;color:#111;border-color:#fff">Tip</small> Press <b>/</b> to focus search · Use filters to narrow down.</div>
+      <a class="btn" href="products/index.html?sort=new#grid">See new arrivals</a>
     </div>
   </section>
 
   <!-- GRID -->
-  <main class="container">
-    <div id="grid" class="grid" aria-live="polite"></div>
+  <main class="container section-lg">
+    <div id="grid" class="grid" aria-label="Demo items">
+      <!-- HTML -->
+      <article class="card" data-cat="html" data-tags="landing hero features pricing blog" data-price="18" data-new="2025-06-08" data-popular="93">
+        <a class="thumb" href="demo/detail.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">
+          <img src="images/catalog/html1.webp" alt="Landing Starter (HTML)">
+        </a>
+        <div class="body">
+          <div class="title">Landing Starter (HTML)</div>
+          <div class="desc">Minimal landing: hero, features, pricing, blog.</div>
+          <div class="meta"><span class="price">$18</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=1&slug=landing-starter-html" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=1&slug=landing-starter-html">Details</a>
+            <a class="btn primary" href="cart.html?add=1">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="js" data-tags="dashboard charts admin" data-price="24" data-new="2025-07-01" data-popular="99">
+        <a class="thumb" href="demo/detail.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">
+          <img src="images/catalog/html2.webp" alt="Dashboard Lite (HTML)">
+        </a>
+        <div class="body">
+          <div class="title">Dashboard Lite (HTML)</div>
+          <div class="desc">Sidebar + topbar & chart placeholders (vanilla).</div>
+          <div class="meta"><span class="price">$24</span><span class="muted">JS</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=2&slug=dashboard-lite-html" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=2&slug=dashboard-lite-html">Details</a>
+            <a class="btn primary" href="cart.html?add=2">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="portfolio single page contact" data-price="14" data-new="2025-05-19" data-popular="82">
+        <a class="thumb" href="demo/detail.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">
+          <img src="images/catalog/html3.webp" alt="Portfolio Mini">
+        </a>
+        <div class="body">
+          <div class="title">Portfolio Mini</div>
+          <div class="desc">One-page portfolio with project grid & contact.</div>
+          <div class="meta"><span class="price">$14</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=3&slug=portfolio-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=3&slug=portfolio-mini">Details</a>
+            <a class="btn primary" href="cart.html?add=3">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="blog list single post typography" data-price="12" data-new="2025-04-22" data-popular="76">
+        <a class="thumb" href="demo/detail.html?item=4&slug=blog-lite" target="_blank" rel="noopener">
+          <img src="images/catalog/html4.webp" alt="Blog Lite">
+        </a>
+        <div class="body">
+          <div class="title">Blog Lite</div>
+          <div class="desc">List + single post layout with clean typography.</div>
+          <div class="meta"><span class="price">$12</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=4&slug=blog-lite" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=4&slug=blog-lite">Details</a>
+            <a class="btn primary" href="cart.html?add=4">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="agency services testimonials pricing" data-price="16" data-new="2025-04-01" data-popular="74">
+        <a class="thumb" href="demo/detail.html?item=5&slug=agency-starter" target="_blank" rel="noopener">
+          <img src="images/catalog/html5.webp" alt="Agency Starter">
+        </a>
+        <div class="body">
+          <div class="title">Agency Starter</div>
+          <div class="desc">Services: cards, testimonials, pricing.</div>
+          <div class="meta"><span class="price">$16</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=5&slug=agency-starter" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=5&slug=agency-starter">Details</a>
+            <a class="btn primary" href="cart.html?add=5">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="ecommerce grid detail cart" data-price="22" data-new="2025-03-19" data-popular="83">
+        <a class="thumb" href="demo/detail.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">
+          <img src="images/catalog/html6.webp" alt="E-commerce Mini">
+        </a>
+        <div class="body">
+          <div class="title">E-commerce Mini</div>
+          <div class="desc">Product grid, product detail and cart icons.</div>
+          <div class="meta"><span class="price">$22</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=6&slug=e-commerce-mini" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=6&slug=e-commerce-mini">Details</a>
+            <a class="btn primary" href="cart.html?add=6">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="resume skills experience contact" data-price="9" data-new="2025-02-11" data-popular="65">
+        <a class="thumb" href="demo/detail.html?item=7&slug=resume-card" target="_blank" rel="noopener">
+          <img src="images/catalog/html7.webp" alt="Resume Card">
+        </a>
+        <div class="body">
+          <div class="title">Resume Card</div>
+          <div class="desc">Single-page resume with skills & contact.</div>
+          <div class="meta"><span class="price">$9</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=7&slug=resume-card" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=7&slug=resume-card">Details</a>
+            <a class="btn primary" href="cart.html?add=7">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="product list filters grid" data-price="11" data-new="2025-04-05" data-popular="70">
+        <a class="thumb" href="demo/detail.html?item=8&slug=product-list" target="_blank" rel="noopener">
+          <img src="images/catalog/html8.webp" alt="Product List">
+        </a>
+        <div class="body">
+          <div class="title">Product List</div>
+          <div class="desc">Filterable item list with grid/row views.</div>
+          <div class="meta"><span class="price">$11</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=8&slug=product-list" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=8&slug=product-list">Details</a>
+            <a class="btn primary" href="cart.html?add=8">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="pricing tables plans" data-price="8" data-new="2025-01-15" data-popular="72">
+        <a class="thumb" href="demo/detail.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">
+          <img src="images/catalog/html9.webp" alt="Pricing Tables">
+        </a>
+        <div class="body">
+          <div class="title">Pricing Tables</div>
+          <div class="desc">3–4 column pricing with featured plan.</div>
+          <div class="meta"><span class="price">$8</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a>
+            <a class="btn primary" href="cart.html?add=9">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="html" data-tags="contact form map socials" data-price="7" data-new="2024-12-12" data-popular="60">
+        <a class="thumb" href="demo/detail.html?item=10&slug=contact-lite" target="_blank" rel="noopener">
+          <img src="images/catalog/html10.webp" alt="Contact Lite">
+        </a>
+        <div class="body">
+          <div class="title">Contact Lite</div>
+          <div class="desc">Form, map placeholder and social links.</div>
+          <div class="meta"><span class="price">$7</span><span class="muted">HTML</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=10&slug=contact-lite" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=10&slug=contact-lite">Details</a>
+            <a class="btn primary" href="cart.html?add=10">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- CSS UI kits (kept under html previews but cat=css) -->
+      <article class="card" data-cat="css" data-tags="pricing css ui kit" data-price="8" data-new="2025-02-02" data-popular="74">
+        <a class="thumb" href="demo/detail.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">
+          <img src="images/catalog/html9.webp" alt="Pricing Tables">
+        </a>
+        <div class="body">
+          <div class="title">Pricing Tables</div>
+          <div class="desc">Clean blocks with CTAs.</div>
+          <div class="meta"><span class="price">$8</span><span class="muted">CSS</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=9&slug=pricing-tables" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=9&slug=pricing-tables">Details</a>
+            <a class="btn primary" href="cart.html?add=9">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- React -->
+      <article class="card" data-cat="react" data-tags="react components cards modals tabs" data-price="15" data-new="2025-08-10" data-popular="82">
+        <a class="thumb" href="demo/detail.html?item=17&slug=react-components" target="_blank" rel="noopener">
+          <img src="images/catalog/html17.webp" alt="React Components">
+        </a>
+        <div class="body">
+          <div class="title">React Components</div>
+          <div class="desc">Cards, modals and tabs (markup only).</div>
+          <div class="meta"><span class="price">$15</span><span class="muted">React</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=17&slug=react-components" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=17&slug=react-components">Details</a>
+            <a class="btn primary" href="cart.html?add=17">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Icons -->
+      <article class="card" data-cat="icons" data-tags="svg icons set inline" data-price="6" data-new="2025-07-22" data-popular="77">
+        <a class="thumb" href="demo/detail.html?item=18&slug=svg-icons" target="_blank" rel="noopener">
+          <img src="images/catalog/html18.webp" alt="SVG Icons">
+        </a>
+        <div class="body">
+          <div class="title">SVG Icons</div>
+          <div class="desc">Curated developer icon set (inlineable).</div>
+          <div class="meta"><span class="price">$6</span><span class="muted">Icons</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=18&slug=svg-icons" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=18&slug=svg-icons">Details</a>
+            <a class="btn primary" href="cart.html?add=18">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Email -->
+      <article class="card" data-cat="email" data-tags="email templates transactional" data-price="9" data-new="2025-06-12" data-popular="73">
+        <a class="thumb" href="demo/detail.html?item=19&slug=email-templates" target="_blank" rel="noopener">
+          <img src="images/catalog/html19.webp" alt="Email Templates">
+        </a>
+        <div class="body">
+          <div class="title">Email Templates</div>
+          <div class="desc">Transactional email starter set.</div>
+          <div class="meta"><span class="price">$9</span><span class="muted">Email</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=19&slug=email-templates" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=19&slug=email-templates">Details</a>
+            <a class="btn primary" href="cart.html?add=19">Add</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- FREE items -->
+      <article class="card" data-cat="css" data-tags="css ui kit free" data-price="0" data-new="2025-08-05" data-popular="88">
+        <a class="thumb" href="demo/detail.html?item=101&slug=free-ui-kit" target="_blank" rel="noopener">
+          <img src="images/catalog/html5.webp" alt="FREE UI Kit">
+        </a>
+        <div class="body">
+          <div class="title">FREE UI Kit</div>
+          <div class="desc">Utility-first components; MIT license.</div>
+          <div class="meta"><span class="price">$0</span><span class="muted">CSS · Free</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=101&slug=free-ui-kit" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=101&slug=free-ui-kit">Details</a>
+            <a class="btn primary" href="products/detail.html?id=101&slug=free-ui-kit#download">Download</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="react" data-tags="react starter free" data-price="0" data-new="2025-07-28" data-popular="84">
+        <a class="thumb" href="demo/detail.html?item=102&slug=react-starter-free" target="_blank" rel="noopener">
+          <img src="images/catalog/html17.webp" alt="React Starter (Free)">
+        </a>
+        <div class="body">
+          <div class="title">React Starter (Free)</div>
+          <div class="desc">Minimal React shell with routing.</div>
+          <div class="meta"><span class="price">$0</span><span class="muted">React · Free</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=102&slug=react-starter-free" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=102&slug=react-starter-free">Details</a>
+            <a class="btn primary" href="products/detail.html?id=102&slug=react-starter-free#download">Download</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="icons" data-tags="icons svg free pack" data-price="0" data-new="2025-06-30" data-popular="76">
+        <a class="thumb" href="demo/detail.html?item=103&slug=icons-free-pack" target="_blank" rel="noopener">
+          <img src="images/catalog/html18.webp" alt="Free Icons Pack">
+        </a>
+        <div class="body">
+          <div class="title">Free Icons Pack</div>
+          <div class="desc">Basic outline icons for prototypes.</div>
+          <div class="meta"><span class="price">$0</span><span class="muted">Icons · Free</span></div>
+          <div class="actions">
+            <a class="btn" href="demo/detail.html?item=103&slug=icons-free-pack" target="_blank" rel="noopener">Preview</a>
+            <a class="btn" href="products/detail.html?id=103&slug=icons-free-pack">Details</a>
+            <a class="btn primary" href="products/detail.html?id=103&slug=icons-free-pack#download">Download</a>
+          </div>
+        </div>
+      </article>
+    </div>
   </main>
 
-  <!-- OVERLAY + VIEWER -->
-  <div id="ovl" class="overlay" aria-hidden="true"></div>
-  <aside id="viewer" class="viewer" role="dialog" aria-modal="true" aria-labelledby="v-title">
-    <div class="v-media">
-      <div class="device">
-        <div id="v-shot" class="placeholder">Preview</div>
-      </div>
-    </div>
-    <div class="v-side">
-      <div class="v-head">
-        <div class="v-title" id="v-title">—</div>
-        <button class="close" onclick="closeViewer()" aria-label="Close (Esc)">✕</button>
-      </div>
-      <div class="v-meta" id="v-meta"></div>
-      <div class="v-desc" id="v-desc"></div>
-      <div class="v-actions" id="v-actions"></div>
-      <div class="v-nav">
-        <button class="btn" onclick="prevItem()">&larr; Prev <span class="kbd">←</span></button>
-        <button class="btn" onclick="nextItem()">Next <span class="kbd">→</span> &rarr;</button>
-      </div>
-      <div style="margin-top:6px;color:#6b7280">
-        Tip: Press <span class="kbd">Esc</span> to close, <span class="kbd">←</span>/<span class="kbd">→</span> to navigate.
-      </div>
-    </div>
-  </aside>
-
-  <!-- FOOTER -->
-  <footer class="site-foot">
-    <div class="container columns">
-      <div>
-        <h4>RGZTEC</h4>
-        <p class="muted">Production-ready HTML, CSS, JS, React and icon packs. Clean code, instant demos.</p>
-      </div>
-      <div>
-        <h4>Catalog</h4>
-        <a href="../html-templates.html">HTML Templates</a><br>
-        <a href="../js-widgets.html">JS Widgets</a><br>
-        <a href="../css-ui-kits.html">CSS UI Kits</a><br>
-        <a href="../react.html">React Components</a><br>
-        <a href="../svg-icons.html">SVG Icons</a><br>
-        <a href="../email-templates.html">Email Templates</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="../stores/index.html">Stores</a><br>
-        <a href="../contact.html">Contact</a><br>
-        <a href="../advertise.html">Become a Seller</a>
-      </div>
-      <div>
-        <h4>Legal</h4>
-        <a href="../terms.html">Terms</a><br>
-        <a href="../privacy.html">Privacy</a>
-      </div>
-    </div>
-    <div class="container site-mini">
-      © 2025 RGZTEC — All rights reserved.
+  <footer class="container section">
+    <div class="row" style="gap:12px;align-items:center;flex-wrap:wrap">
+      <span class="pill">RGZTEC</span>
+      <span class="muted">© 2025 — Instant previews for production-ready UI.</span>
+      <div class="spacer"></div>
+      <a class="btn ghost" href="products/index.html">Catalog</a>
+      <a class="btn ghost" href="stores/index.html">Stores</a>
+      <a class="btn primary" href="advertise.html">Become a Seller</a>
     </div>
   </footer>
 
+  <!-- JS: filter/search/sort + image fallback + URL sync -->
   <script>
-    // --------------------
-    // Data (keep ids/slugs consistent with index.html)
-    // --------------------
-    const ITEMS = [
-      {id:1,  slug:'landing-starter-html', title:'Landing Starter (HTML)', cat:'html',   price:18, img:'images/catalog/html1.webp',  desc:'Hero, features, pricing and blog sections.'},
-      {id:2,  slug:'dashboard-lite-html',  title:'Dashboard Lite (HTML)',  cat:'html',   price:24, img:'images/catalog/html2.webp',  desc:'Sidebar + topbar & chart placeholders (vanilla JS).'},
-      {id:3,  slug:'portfolio-mini',       title:'Portfolio Mini',         cat:'html',   price:14, img:'images/catalog/html3.webp',  desc:'Single-page portfolio with project grid & contact.'},
-      {id:4,  slug:'blog-lite',            title:'Blog Lite',              cat:'html',   price:12, img:'images/catalog/html4.webp',  desc:'List + single post layout with clean typography.'},
-      {id:5,  slug:'agency-starter',       title:'Agency Starter',         cat:'css',    price:16, img:'images/catalog/html5.webp',  desc:'Services: cards, testimonials, pricing.'},
-      {id:6,  slug:'e-commerce-mini',      title:'E-commerce Mini',        cat:'html',   price:22, img:'images/catalog/html6.webp',  desc:'Product grid, product detail and cart icons.'},
-      {id:7,  slug:'resume-card',          title:'Resume Card',            cat:'html',   price: 9, img:'images/catalog/html7.webp',  desc:'Single-page resume with skills & contact.'},
-      {id:8,  slug:'product-list',         title:'Product List',           cat:'html',   price:11, img:'images/catalog/html8.webp',  desc:'Filterable item list with grid/row views.'},
-      {id:9,  slug:'pricing-tables',       title:'Pricing Tables',         cat:'css',    price: 8, img:'images/catalog/html9.webp',  desc:'3–4 column pricing with CTA.'},
-      {id:10, slug:'contact-lite',         title:'Contact Lite',           cat:'html',   price: 7, img:'images/catalog/html10.webp', desc:'Form, map placeholder & social links.'},
-      {id:11, slug:'faq-mini',             title:'FAQ Mini',               cat:'js',     price: 6, img:'images/catalog/html11.webp', desc:'Accordion FAQ with categories and search.'},
-      {id:12, slug:'gallery-grid',         title:'Gallery Grid',           cat:'css',    price:13, img:'images/catalog/html12.webp', desc:'Masonry/grid gallery (lightbox placeholder).'},
-      {id:17, slug:'react-components',     title:'React Components',       cat:'react',  price:15, img:'images/catalog/html17.webp', desc:'Cards, modals and tabs (markup only).'},
-      {id:18, slug:'svg-icons',            title:'SVG Icons',              cat:'icons',  price: 6, img:'images/catalog/html18.webp', desc:'Curated developer icon set (inlineable).'},
-      {id:19, slug:'email-templates',      title:'Email Templates',        cat:'email',  price: 9, img:'images/catalog/html19.webp', desc:'Transactional email starter set.'},
-      {id:20, slug:'js-widgets',           title:'JS Widgets',             cat:'js',     price:11, img:'images/catalog/html20.webp', desc:'Tabs, accordions and tooltips (vanilla).'},
-      {id:102,slug:'react-starter-free',   title:'React Starter (Free)',   cat:'react',  price: 0, img:'images/catalog/html17.webp', desc:'Minimal React shell with routing.', free:true},
-      {id:103,slug:'icons-free-pack',      title:'Free Icons Pack',        cat:'icons',  price: 0, img:'images/catalog/html18.webp', desc:'Basic outline icons for prototypes.', free:true},
-      {id:104,slug:'email-free',           title:'Free Email Template',    cat:'email',  price: 0, img:'images/catalog/html19.webp', desc:'Responsive transactional email base.', free:true},
-    ];
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
-    const CATS = [
-      {id:'all',   label:'All'},
-      {id:'html',  label:'HTML'},
-      {id:'js',    label:'JS'},
-      {id:'css',   label:'CSS'},
-      {id:'react', label:'React'},
-      {id:'icons', label:'Icons'},
-      {id:'email', label:'Email'},
-      {id:'free',  label:'Freebies'},
-    ];
+    // image fallback: webp -> png -> jpg
+    $$('img').forEach(img=>{
+      img.onerror = ()=>{
+        const src = img.getAttribute('src')||'';
+        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
+        img.onerror = null;
+      };
+    });
 
-    // --------------------
-    // Helpers
-    // --------------------
-    const $  = sel => document.querySelector(sel);
-    const $$ = sel => [...document.querySelectorAll(sel)];
-    const qs = new URLSearchParams(location.search);
+    const grid = $('#grid');
+    const chips = $$('.chip');
+    const q = $('#q');
+    const sortSel = $('#sort');
+    const searchBtn = $('#searchBtn');
 
-    function fmtPrice(v){ return v===0 ? 'Free' : `$${v}`; }
+    function setChip(active){
+      chips.forEach(c=>c.setAttribute('aria-pressed', String(c.dataset.filter===active)));
+    }
 
-    function setQuery(next){
-      const params = new URLSearchParams(location.search);
-      Object.entries(next).forEach(([k,v])=>{
-        if(v===null || v===undefined || v==='') params.delete(k);
-        else params.set(k,v);
+    function apply(){
+      const url = new URL(location.href);
+      const cat = (url.searchParams.get('cat') || 'all').toLowerCase();
+      const term = (url.searchParams.get('q') || '').toLowerCase().trim();
+      const sort = url.searchParams.get('sort') || 'featured';
+
+      setChip(cat);
+      q.value = term;
+      sortSel.value = sort;
+
+      // filtering
+      const cards = $$('#grid .card');
+      cards.forEach(card=>{
+        const c = (card.dataset.cat||'').toLowerCase();
+        const text = (card.dataset.tags+' '+(card.querySelector('.title')?.textContent||'')+' '+(card.querySelector('.desc')?.textContent||'')).toLowerCase();
+        const hasFree = (+card.dataset.price||0)===0;
+        const matchCat =
+          cat==='all' ? true :
+          cat==='free' ? hasFree :
+          c===cat;
+        const matchText = term ? text.includes(term) : true;
+        card.style.display = (matchCat && matchText) ? '' : 'none';
       });
-      const url = `${location.pathname}?${params.toString()}`;
+
+      // sorting (only visible)
+      const visibles = $$('#grid .card').filter(c=>c.style.display!=='none');
+      const by = {
+        featured:(a,b)=>(+b.dataset.popular||0)-(+a.dataset.popular||0),
+        newest:(a,b)=> new Date(b.dataset.new||0) - new Date(a.dataset.new||0),
+        price_asc:(a,b)=>(+a.dataset.price||0)-(+b.dataset.price||0),
+        price_desc:(a,b)=>(+b.dataset.price||0)-(+a.dataset.price||0),
+      }[sort] || ((a,b)=>0);
+      visibles.sort(by).forEach(c=>grid.appendChild(c));
+    }
+
+    // chip clicks
+    chips.forEach(chip=>{
+      chip.addEventListener('click', ()=>{
+        const url = new URL(location.href);
+        url.searchParams.set('cat', chip.dataset.filter);
+        history.replaceState(null,'',url);
+        apply();
+        grid.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+
+    // search
+    function doSearch(){
+      const url = new URL(location.href);
+      const val = q.value.trim();
+      if(val) url.searchParams.set('q',val); else url.searchParams.delete('q');
       history.replaceState(null,'',url);
+      apply();
     }
+    q.addEventListener('input', doSearch);
+    searchBtn.addEventListener('click', doSearch);
 
-    // WebP -> PNG -> JPG fallback
-    function wireWebpFallback(ctx=document){
-      ctx.querySelectorAll('img').forEach(img=>{
-        img.onerror = ()=>{
-          const src = img.getAttribute('src')||'';
-          if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
-          if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
-          img.onerror = null;
-        };
-      });
-    }
+    // sort
+    sortSel.addEventListener('change', ()=>{
+      const url = new URL(location.href);
+      url.searchParams.set('sort', sortSel.value);
+      history.replaceState(null,'',url);
+      apply();
+    });
 
-    // --------------------
-    // UI build
-    // --------------------
-    const state = {
-      cat: qs.get('cat') || 'all',
-      sort: (qs.get('sort')||'featured'),
-      q: qs.get('q') || '',
-      open: qs.get('open')==='1',
-      item: +(qs.get('item')||0),
-    };
-
-    function buildTabs(){
-      const wrap = $('#tabs');
-      wrap.innerHTML = CATS.map(c=>{
-        const active = state.cat===c.id ? 'active' : '';
-        return `<button class="tab ${active}" data-cat="${c.id}">${c.label}</button>`;
-      }).join('');
-      wrap.addEventListener('click', e=>{
-        const b = e.target.closest('.tab'); if(!b) return;
-        state.cat = b.dataset.cat; setQuery({cat:state.cat});
-        render();
-      });
-
-      // sorter
-      const sorter = $('#sorter');
-      sorter.querySelectorAll('.tab').forEach(t=>{
-        if(t.dataset.sort === state.sort) t.classList.add('active');
-        t.addEventListener('click',()=>{
-          state.sort = t.dataset.sort; setQuery({sort:state.sort});
-          sorter.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active', x===t));
-          render();
-        });
-      });
-
-      // search
-      $('#q').value = state.q;
-      $('#q').addEventListener('input', e=>{
-        state.q = e.target.value; setQuery({q:state.q||null}); render();
-      });
-    }
-    function applySearch(){ render(); }
-
-    function filterItems(){
-      let arr = ITEMS.slice();
-
-      // category
-      if(state.cat!=='all'){
-        if(state.cat==='free') arr = arr.filter(x=>x.price===0 || x.free);
-        else arr = arr.filter(x=>x.cat===state.cat);
+    // focus search with "/"
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
+        e.preventDefault(); q.focus();
       }
+    });
 
-      // query
-      const q = (state.q||'').trim().toLowerCase();
-      if(q){
-        arr = arr.filter(x =>
-          x.title.toLowerCase().includes(q) ||
-          x.desc.toLowerCase().includes(q) ||
-          x.slug.toLowerCase().includes(q)
-        );
-      }
-
-      // sort
-      if(state.sort==='price') arr.sort((a,b)=>a.price-b.price || a.title.localeCompare(b.title));
-      else if(state.sort==='new') arr.sort((a,b)=>b.id-a.id);
-      else arr.sort((a,b)=>a.title.localeCompare(b.title)); // featured (stable)
-
-      return arr;
-    }
-
-    function gridCard(it){
-      const href = `index.html?item=${it.id}&slug=${it.slug}&open=1${state.cat&&state.cat!=='all'?'&cat='+state.cat:''}${state.q?'&q='+encodeURIComponent(state.q):''}`;
-      return `
-        <article class="card">
-          <a class="thumb" href="${href}" data-open="${it.id}">
-            <img src="../${it.img}" alt="${it.title}">
-          </a>
-          <div class="body">
-            <div class="title">${it.title}</div>
-            <div class="desc">${it.desc}</div>
-            <div class="meta"><div class="price">${fmtPrice(it.price)}</div><span class="muted">${it.cat.toUpperCase()}</span></div>
-            <div class="actions">
-              <a class="btn" href="${href}" data-open="${it.id}">Preview</a>
-              <a class="btn" href="../products/detail.html?id=${it.id}&slug=${it.slug}">Details</a>
-              ${it.price===0
-                ? `<a class="btn primary" href="../products/detail.html?id=${it.id}&slug=${it.slug}#download">Download</a>`
-                : `<a class="btn primary" href="../cart.html?add=${it.id}">Add</a>`}
-            </div>
-          </div>
-        </article>
-      `;
-    }
-
-    function render(){
-      const items = filterItems();
-      $('#count').textContent = `${items.length} item${items.length!==1?'s':''}`;
-      const html = items.map(gridCard).join('');
-      const grid = $('#grid');
-      grid.innerHTML = html;
-      wireWebpFallback(grid);
-
-      grid.querySelectorAll('[data-open]').forEach(a=>{
-        a.addEventListener('click', (e)=>{
-          e.preventDefault();
-          const id = +a.getAttribute('data-open');
-          openViewer(id, items);
-        });
-      });
-
-      // if deep-link asks to open
-      if(state.open && state.item){
-        const list = items;
-        const exists = list.some(x=>x.id===state.item);
-        if(exists) openViewer(state.item, list, true);
-        else closeViewer(); // clear invalid
-      }else{
-        closeViewer(true);
-      }
-    }
-
-    // --------------------
-    // Viewer / Drawer
-    // --------------------
-    let currentList = [];
-    function getIndexById(id){ return currentList.findIndex(x=>x.id===id); }
-
-    function openViewer(id, list, fromDeepLink=false){
-      currentList = list;
-      const it = list.find(x=>x.id===id) || ITEMS.find(x=>x.id===id);
-      if(!it) return;
-
-      // fill content
-      $('#v-title').textContent = it.title;
-      $('#v-meta').innerHTML = `
-        <span class="badge">${it.cat.toUpperCase()}</span>
-        <span class="badge">${fmtPrice(it.price)}</span>
-      `;
-      $('#v-desc').textContent = it.desc;
-
-      // media (big preview image as placeholder)
-      const shot = document.createElement('img');
-      shot.src = `../${it.img}`;
-      shot.alt = it.title;
-      const vshot = document.getElementById('v-shot');
-      vshot.replaceWith(shot);
-      shot.id = 'v-shot';
-      wireWebpFallback();
-
-      // actions
-      const actions = $('#v-actions');
-      actions.innerHTML = `
-        <a class="btn primary" href="../products/detail.html?id=${it.id}&slug=${it.slug}">Open product page</a>
-        ${it.price===0
-          ? `<a class="btn" href="../products/detail.html?id=${it.id}&slug=${it.slug}#download">Download</a>`
-          : `<a class="btn" href="../cart.html?add=${it.id}">Add to cart</a>`}
-        <button class="btn" onclick="copyLink()">Copy demo link</button>
-      `;
-
-      // show
-      $('#ovl').classList.add('show'); $('#ovl').onclick = closeViewer;
-      $('#viewer').classList.add('show');
-      $('#viewer').setAttribute('aria-hidden','false');
-
-      // push query
-      state.item = it.id; state.open = true;
-      if(!fromDeepLink) setQuery({item:it.id, slug:it.slug, open:'1'});
-
-      // focus for esc/arrow keys
-      document.addEventListener('keydown', keyNav);
-    }
-
-    function closeViewer(silent=false){
-      $('#ovl').classList.remove('show');
-      $('#viewer').classList.remove('show');
-      $('#viewer').setAttribute('aria-hidden','true');
-      document.removeEventListener('keydown', keyNav);
-      state.open = false; state.item = 0;
-      if(!silent) setQuery({open:null, item:null, slug:null});
-    }
-
-    function keyNav(e){
-      if(e.key==='Escape'){ closeViewer(); }
-      if(e.key==='ArrowRight'){ nextItem(); }
-      if(e.key==='ArrowLeft'){ prevItem(); }
-    }
-    function prevItem(){
-      if(!currentList.length) return;
-      const i = getIndexById(state.item);
-      const j = (i-1+currentList.length)%currentList.length;
-      openViewer(currentList[j].id, currentList);
-    }
-    function nextItem(){
-      if(!currentList.length) return;
-      const i = getIndexById(state.item);
-      const j = (i+1)%currentList.length;
-      openViewer(currentList[j].id, currentList);
-    }
-
-    async function copyLink(){
-      const url = location.href;
-      try{ await navigator.clipboard.writeText(url); alert('Demo link copied'); }
-      catch{ prompt('Copy this link:', url); }
-    }
-
-    // init
-    buildTabs();
-    render();
+    // init from URL
+    apply();
   </script>
 </body>
 </html>
