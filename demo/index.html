@@ -5,145 +5,462 @@
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC · Demo Gallery</title>
-  <meta name="description" content="Live demos for RGZTEC templates, widgets, components and more. Deep-link with ?item=&slug=&open=1.">
-
-  <link rel="stylesheet" href="assets/css/home.css" />
-  <link rel="stylesheet" href="assets/css/categories.css" />
+  <meta name="description" content="Instant previews for HTML templates, CSS kits, JS widgets, React components, SVG icons and email templates.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../assets/css/home.css" />
   <style>
-    .gallery-head{ margin:18px 0 8px }
-    .hint{ color:var(--muted); font-size:14px }
-    .demo-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px }
-    .card.demo{ min-height:320px }
-    .card.demo.highlight{ outline:3px solid #111; outline-offset:2px }
-    @media (max-width:520px){ .demo-grid{ grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) } }
+    :root{
+      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
+      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
+      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 12px 32px rgba(0,0,0,.08);
+      --tile:#fff7f2;
+    }
+    body{background:var(--bg);color:var(--ink)}
+    a{color:inherit;text-decoration:none}
+
+    .container{width:min(1200px,92vw);margin-inline:auto}
+    .mast{display:flex;gap:12px;align-items:center;padding:14px 0}
+    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:900}
+
+    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease,box-shadow .08s ease,background-color .12s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+    .btn.ghost{background:#fff}
+    .btn.badge{border-radius:999px;padding:6px 12px;font-size:13px}
+    .icon{width:18px;height:18px}
+
+    /* Hero */
+    .hero{
+      background:#fff;border:1px solid var(--b);border-radius:18px;box-shadow:var(--shadow);
+      padding:18px 18px 12px;margin:8px 0 14px;
+      background-image: radial-gradient(1000px 320px at -10% -50%, #fff, #fff 36%, #fff7 70%, #fff0 100%),
+                        linear-gradient(180deg,#fff,#fff);
+    }
+    .hero h1{margin:2px 0 6px;font-size:clamp(26px,3.2vw,42px);letter-spacing:-.015em}
+    .hero p{margin:0;color:var(--muted)}
+    .frow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .search{display:flex;gap:8px;align-items:center;flex:1}
+    .search input{height:44px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px;cursor:pointer}
+    .tab.active,.tab:hover{background:var(--tile);border-color:#ffc8a6}
+
+    /* grid */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill, minmax(260px,1fr));margin:14px 0 22px}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(0,0,0,.10)}
+    .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .body{padding:12px 14px;display:grid;gap:8px}
+    .title{font-weight:900}
+    .desc{color:var(--muted);font-size:14px;min-height:42px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:900}
+    .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+    /* Drawer / viewer */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.36);backdrop-filter:saturate(140%) blur(2px);display:none}
+    .overlay.show{display:block}
+    .viewer{
+      position:fixed;top:0;right:-100%;width:min(980px,92vw);height:100dvh;background:#fff;
+      border-left:1px solid var(--b);box-shadow:-20px 0 60px rgba(0,0,0,.18);
+      transition:right .18s ease;display:grid;grid-template-columns:1.2fr .8fr;
+    }
+    .viewer.show{right:0}
+    .v-media{border-right:1px solid var(--b);display:grid;place-items:center;background:
+      radial-gradient(1200px 400px at -30% -50%, #fff, #fff 45%, #fff0 80%), #fff}
+    .device{width:92%;height:86%;border:1px solid var(--b);border-radius:14px;background:#f7f8fb;display:grid;place-items:center}
+    .device .placeholder{font-weight:900;color:#9aa3b2}
+    .v-side{padding:18px;display:grid;grid-template-rows:auto auto auto 1fr auto;gap:12px}
+    .v-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .v-title{font-size:20px;font-weight:900}
+    .badge{border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px;background:#fff}
+    .v-desc{color:var(--muted)}
+    .v-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .v-meta{display:flex;gap:8px;align-items:center;color:var(--muted)}
+    .v-nav{display:flex;justify-content:space-between;gap:8px}
+    .close{appearance:none;background:#fff;border:1px solid var(--b);border-radius:10px;padding:6px 10px;font-weight:800;cursor:pointer}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;border:1px solid var(--b2);border-radius:8px;padding:2px 6px;background:#fff;color:#6b7280}
+
+    /* Footer */
+    .site-foot{background:linear-gradient(180deg,#fff,#fff4ee);border-top:1px solid var(--b);margin-top:12px}
+    .columns{display:grid;gap:22px;grid-template-columns:2fr 1fr 1fr 1fr;padding:22px 0}
+    .site-mini{border-top:1px solid var(--b);padding:10px 0;color:#6b7280}
+
+    @media (max-width:1000px){ .viewer{grid-template-columns:1fr} .v-media{display:none} }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container top">
-      <a class="logo" href="index.html"><span class="pill">RGZTEC</span><strong>Demo Gallery</strong></a>
-      <nav class="menu">
-        <a href="products/index.html">Products</a>
-        <a href="catalog/index.html">Catalog</a>
-        <a href="stores/index.html">Stores</a>
-      </nav>
-    </div>
+  <!-- HEADER -->
+  <header class="container mast">
+    <a class="pill" href="../index.html">RGZTEC</a>
+    <a class="btn ghost" href="../products/index.html">Explore</a>
+    <a class="btn ghost" href="../stores/index.html">Stores</a>
+    <a class="btn primary" href="../advertise.html">Become a Seller</a>
   </header>
 
-  <main class="container" style="margin:18px 0">
-    <h1 class="gallery-head">HTML Template Gallery</h1>
-    <p class="hint">Deep-link ready: <code>?item=&lt;id&gt;&amp;slug=&lt;slug&gt;&amp;open=1</code>. Images auto-fallback from WebP → PNG → JPG.</p>
+  <!-- HERO + CONTROLS -->
+  <section class="container hero" aria-label="Demo hero">
+    <h1>Demo Gallery</h1>
+    <p>Handpicked HTML, CSS, JS, React, icon and email items — instant preview. WebP→PNG→JPG fallback is automatic.</p>
+    <div class="frow">
+      <form class="search" onsubmit="event.preventDefault();">
+        <input id="q" type="search" placeholder="Search titles or descriptions…" aria-label="Search demos">
+        <button class="btn" type="button" onclick="applySearch()">Search</button>
+      </form>
+      <div class="tabs" id="tabs">
+        <!-- filled by JS -->
+      </div>
+    </div>
+    <div class="frow" style="justify-content:space-between">
+      <div class="tabs" id="sorter">
+        <button class="tab" data-sort="featured">Featured</button>
+        <button class="tab" data-sort="new">Newest</button>
+        <button class="tab" data-sort="price">Price</button>
+      </div>
+      <div class="muted" id="count"></div>
+    </div>
+  </section>
 
-    <section id="grid" class="demo-grid" aria-label="Demo items"><!-- filled by JS --></section>
+  <!-- GRID -->
+  <main class="container">
+    <div id="grid" class="grid" aria-live="polite"></div>
   </main>
 
-  <footer class="container" style="margin:28px 0;color:#6b7280">
-    <small>© <span id="year"></span> RGZTEC — All rights reserved.</small>
+  <!-- OVERLAY + VIEWER -->
+  <div id="ovl" class="overlay" aria-hidden="true"></div>
+  <aside id="viewer" class="viewer" role="dialog" aria-modal="true" aria-labelledby="v-title">
+    <div class="v-media">
+      <div class="device">
+        <div id="v-shot" class="placeholder">Preview</div>
+      </div>
+    </div>
+    <div class="v-side">
+      <div class="v-head">
+        <div class="v-title" id="v-title">—</div>
+        <button class="close" onclick="closeViewer()" aria-label="Close (Esc)">✕</button>
+      </div>
+      <div class="v-meta" id="v-meta"></div>
+      <div class="v-desc" id="v-desc"></div>
+      <div class="v-actions" id="v-actions"></div>
+      <div class="v-nav">
+        <button class="btn" onclick="prevItem()">&larr; Prev <span class="kbd">←</span></button>
+        <button class="btn" onclick="nextItem()">Next <span class="kbd">→</span> &rarr;</button>
+      </div>
+      <div style="margin-top:6px;color:#6b7280">
+        Tip: Press <span class="kbd">Esc</span> to close, <span class="kbd">←</span>/<span class="kbd">→</span> to navigate.
+      </div>
+    </div>
+  </aside>
+
+  <!-- FOOTER -->
+  <footer class="site-foot">
+    <div class="container columns">
+      <div>
+        <h4>RGZTEC</h4>
+        <p class="muted">Production-ready HTML, CSS, JS, React and icon packs. Clean code, instant demos.</p>
+      </div>
+      <div>
+        <h4>Catalog</h4>
+        <a href="../html-templates.html">HTML Templates</a><br>
+        <a href="../js-widgets.html">JS Widgets</a><br>
+        <a href="../css-ui-kits.html">CSS UI Kits</a><br>
+        <a href="../react.html">React Components</a><br>
+        <a href="../svg-icons.html">SVG Icons</a><br>
+        <a href="../email-templates.html">Email Templates</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="../stores/index.html">Stores</a><br>
+        <a href="../contact.html">Contact</a><br>
+        <a href="../advertise.html">Become a Seller</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="../terms.html">Terms</a><br>
+        <a href="../privacy.html">Privacy</a>
+      </div>
+    </div>
+    <div class="container site-mini">
+      © 2025 RGZTEC — All rights reserved.
+    </div>
   </footer>
 
   <script>
-    (function(){
-      const $  = (s,root=document)=>root.querySelector(s);
-      const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+    // --------------------
+    // Data (keep ids/slugs consistent with index.html)
+    // --------------------
+    const ITEMS = [
+      {id:1,  slug:'landing-starter-html', title:'Landing Starter (HTML)', cat:'html',   price:18, img:'images/catalog/html1.webp',  desc:'Hero, features, pricing and blog sections.'},
+      {id:2,  slug:'dashboard-lite-html',  title:'Dashboard Lite (HTML)',  cat:'html',   price:24, img:'images/catalog/html2.webp',  desc:'Sidebar + topbar & chart placeholders (vanilla JS).'},
+      {id:3,  slug:'portfolio-mini',       title:'Portfolio Mini',         cat:'html',   price:14, img:'images/catalog/html3.webp',  desc:'Single-page portfolio with project grid & contact.'},
+      {id:4,  slug:'blog-lite',            title:'Blog Lite',              cat:'html',   price:12, img:'images/catalog/html4.webp',  desc:'List + single post layout with clean typography.'},
+      {id:5,  slug:'agency-starter',       title:'Agency Starter',         cat:'css',    price:16, img:'images/catalog/html5.webp',  desc:'Services: cards, testimonials, pricing.'},
+      {id:6,  slug:'e-commerce-mini',      title:'E-commerce Mini',        cat:'html',   price:22, img:'images/catalog/html6.webp',  desc:'Product grid, product detail and cart icons.'},
+      {id:7,  slug:'resume-card',          title:'Resume Card',            cat:'html',   price: 9, img:'images/catalog/html7.webp',  desc:'Single-page resume with skills & contact.'},
+      {id:8,  slug:'product-list',         title:'Product List',           cat:'html',   price:11, img:'images/catalog/html8.webp',  desc:'Filterable item list with grid/row views.'},
+      {id:9,  slug:'pricing-tables',       title:'Pricing Tables',         cat:'css',    price: 8, img:'images/catalog/html9.webp',  desc:'3–4 column pricing with CTA.'},
+      {id:10, slug:'contact-lite',         title:'Contact Lite',           cat:'html',   price: 7, img:'images/catalog/html10.webp', desc:'Form, map placeholder & social links.'},
+      {id:11, slug:'faq-mini',             title:'FAQ Mini',               cat:'js',     price: 6, img:'images/catalog/html11.webp', desc:'Accordion FAQ with categories and search.'},
+      {id:12, slug:'gallery-grid',         title:'Gallery Grid',           cat:'css',    price:13, img:'images/catalog/html12.webp', desc:'Masonry/grid gallery (lightbox placeholder).'},
+      {id:17, slug:'react-components',     title:'React Components',       cat:'react',  price:15, img:'images/catalog/html17.webp', desc:'Cards, modals and tabs (markup only).'},
+      {id:18, slug:'svg-icons',            title:'SVG Icons',              cat:'icons',  price: 6, img:'images/catalog/html18.webp', desc:'Curated developer icon set (inlineable).'},
+      {id:19, slug:'email-templates',      title:'Email Templates',        cat:'email',  price: 9, img:'images/catalog/html19.webp', desc:'Transactional email starter set.'},
+      {id:20, slug:'js-widgets',           title:'JS Widgets',             cat:'js',     price:11, img:'images/catalog/html20.webp', desc:'Tabs, accordions and tooltips (vanilla).'},
+      {id:102,slug:'react-starter-free',   title:'React Starter (Free)',   cat:'react',  price: 0, img:'images/catalog/html17.webp', desc:'Minimal React shell with routing.', free:true},
+      {id:103,slug:'icons-free-pack',      title:'Free Icons Pack',        cat:'icons',  price: 0, img:'images/catalog/html18.webp', desc:'Basic outline icons for prototypes.', free:true},
+      {id:104,slug:'email-free',           title:'Free Email Template',    cat:'email',  price: 0, img:'images/catalog/html19.webp', desc:'Responsive transactional email base.', free:true},
+    ];
 
-      /* Year */
-      $('#year').textContent = new Date().getFullYear();
+    const CATS = [
+      {id:'all',   label:'All'},
+      {id:'html',  label:'HTML'},
+      {id:'js',    label:'JS'},
+      {id:'css',   label:'CSS'},
+      {id:'react', label:'React'},
+      {id:'icons', label:'Icons'},
+      {id:'email', label:'Email'},
+      {id:'free',  label:'Freebies'},
+    ];
 
-      /* Data: keep ids in sync with images/catalog/html<ID>.webp|.html */
-      const ITEMS = [
-        {id:1,  slug:'landing-starter-html', title:'Landing Starter (HTML)', desc:'Minimal landing with hero, features, pricing and blog sections.'},
-        {id:2,  slug:'dashboard-lite-html',  title:'Dashboard Lite (HTML)',   desc:'Sidebar, topbar and chart placeholders; vanilla JS.'},
-        {id:3,  slug:'portfolio-mini',       title:'Portfolio Mini',          desc:'Single-page portfolio with project grid and contact form.'},
-        {id:4,  slug:'blog-lite',            title:'Blog Lite',               desc:'List + single post layout with clean typography.'},
-        {id:5,  slug:'agency-starter',       title:'Agency Starter',          desc:'Service cards, testimonials and pricing.'},
-        {id:6,  slug:'e-commerce-mini',      title:'E-commerce Mini',         desc:'Product grid, product detail and cart icons.'},
-        {id:7,  slug:'resume-card',          title:'Resume Card',             desc:'Skills, experience and contact.'},
-        {id:8,  slug:'product-list',         title:'Product List',            desc:'Filterable list with grid/row views.'},
-        {id:9,  slug:'pricing-tables',       title:'Pricing Tables',          desc:'3–4 column plans with CTA buttons.'},
-        {id:10, slug:'contact-lite',         title:'Contact Lite',            desc:'Contact form, map placeholder and social links.'},
-        {id:11, slug:'faq-mini',             title:'FAQ Mini',                desc:'Accordion FAQ with categories and search input.'},
-        {id:12, slug:'gallery-grid',         title:'Gallery Grid',            desc:'Masonry/grid gallery with lightbox placeholder.'},
-        {id:13, slug:'admin-mini',           title:'Admin Mini',              desc:'Admin shell with basic widgets.'},
-        {id:14, slug:'hero-collection',      title:'Hero Collection',         desc:'Hero sections for quick starts.'},
-        {id:15, slug:'newsletter-box',       title:'Newsletter Box',          desc:'Email subscribe section and success state.'},
-        {id:16, slug:'auth-pages',           title:'Auth Pages',              desc:'Sign in / sign up / reset password screens.'},
-        {id:17, slug:'react-components',     title:'React Components',        desc:'Cards, modals and tabs (markup only).'},
-        {id:18, slug:'svg-icons',            title:'SVG Icons',               desc:'Developer-focused inlineable icons.'},
-        {id:19, slug:'email-templates',      title:'Email Templates',         desc:'Transactional email starter set.'},
-        {id:20, slug:'js-widgets',           title:'JS Widgets',              desc:'Tabs, accordions and tooltips (vanilla).'},
-      ];
+    // --------------------
+    // Helpers
+    // --------------------
+    const $  = sel => document.querySelector(sel);
+    const $$ = sel => [...document.querySelectorAll(sel)];
+    const qs = new URLSearchParams(location.search);
 
-      /* Build cards */
-      const grid = $('#grid');
-      grid.innerHTML = ITEMS.map(item => {
-        const img = `images/catalog/html${item.id}.webp`;
-        const demo = `images/catalog/html${item.id}.html`; // your repo already has these html files
-        const details = `products/detail.html?id=${item.id}&slug=${encodeURIComponent(item.slug)}`;
-        return `
-          <article class="card demo" data-id="${item.id}" data-slug="${item.slug}">
-            <a class="thumb" href="${details}">
-              <img src="${img}" alt="${item.title}" loading="lazy" decoding="async" data-fallback="images/catalog/html${item.id}.png">
-            </a>
-            <div class="body">
-              <div class="title">${item.title}</div>
-              <p class="desc">${item.desc}</p>
-              <div class="actions">
-                <a class="btn" target="_blank" rel="noopener" href="${demo}" data-action="live">Live Demo</a>
-                <a class="btn" href="${details}">Details</a>
-                <a class="btn primary" href="cart.html?add=${item.id}">Add</a>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
+    function fmtPrice(v){ return v===0 ? 'Free' : `$${v}`; }
 
-      /* Image fallback: .webp → .png → .jpg → custom data-fallback */
-      $$('img').forEach(img=>{
-        const base = (img.getAttribute('src')||'').replace(/\.(webp|png|jpg)$/i,'');
-        const custom = img.getAttribute('data-fallback');
+    function setQuery(next){
+      const params = new URLSearchParams(location.search);
+      Object.entries(next).forEach(([k,v])=>{
+        if(v===null || v===undefined || v==='') params.delete(k);
+        else params.set(k,v);
+      });
+      const url = `${location.pathname}?${params.toString()}`;
+      history.replaceState(null,'',url);
+    }
+
+    // WebP -> PNG -> JPG fallback
+    function wireWebpFallback(ctx=document){
+      ctx.querySelectorAll('img').forEach(img=>{
         img.onerror = ()=>{
-          if(img.src.endsWith('.webp')){ img.src = base + '.png'; return; }
-          if(img.src.endsWith('.png')) { img.src = base + '.jpg';  return; }
-          if(custom && img.src.indexOf(custom)===-1){ img.src = custom; return; }
+          const src = img.getAttribute('src')||'';
+          if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+          if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
           img.onerror = null;
         };
       });
+    }
 
-      /* Deep-link handling */
-      const params = new URL(location.href).searchParams;
-      const itemParam = params.get('item');
-      const slugParam = params.get('slug');
-      const autoOpen  = params.get('open') === '1';
+    // --------------------
+    // UI build
+    // --------------------
+    const state = {
+      cat: qs.get('cat') || 'all',
+      sort: (qs.get('sort')||'featured'),
+      q: qs.get('q') || '',
+      open: qs.get('open')==='1',
+      item: +(qs.get('item')||0),
+    };
 
-      function focusCard(card){
-        if(!card) return;
-        card.classList.add('highlight');
-        card.scrollIntoView({behavior:'smooth', block:'center'});
-        if(autoOpen){
-          const link = card.querySelector('[data-action="live"]');
-          if(link) setTimeout(()=>window.open(link.href, '_blank', 'noopener'), 200);
-        }
+    function buildTabs(){
+      const wrap = $('#tabs');
+      wrap.innerHTML = CATS.map(c=>{
+        const active = state.cat===c.id ? 'active' : '';
+        return `<button class="tab ${active}" data-cat="${c.id}">${c.label}</button>`;
+      }).join('');
+      wrap.addEventListener('click', e=>{
+        const b = e.target.closest('.tab'); if(!b) return;
+        state.cat = b.dataset.cat; setQuery({cat:state.cat});
+        render();
+      });
+
+      // sorter
+      const sorter = $('#sorter');
+      sorter.querySelectorAll('.tab').forEach(t=>{
+        if(t.dataset.sort === state.sort) t.classList.add('active');
+        t.addEventListener('click',()=>{
+          state.sort = t.dataset.sort; setQuery({sort:state.sort});
+          sorter.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active', x===t));
+          render();
+        });
+      });
+
+      // search
+      $('#q').value = state.q;
+      $('#q').addEventListener('input', e=>{
+        state.q = e.target.value; setQuery({q:state.q||null}); render();
+      });
+    }
+    function applySearch(){ render(); }
+
+    function filterItems(){
+      let arr = ITEMS.slice();
+
+      // category
+      if(state.cat!=='all'){
+        if(state.cat==='free') arr = arr.filter(x=>x.price===0 || x.free);
+        else arr = arr.filter(x=>x.cat===state.cat);
       }
 
-      let target = null;
-      if(itemParam){
-        target = $(`.card.demo[data-id="${CSS.escape(itemParam)}"]`);
-      }
-      if(!target && slugParam){
-        target = $(`.card.demo[data-slug="${CSS.escape(slugParam)}"]`);
-      }
-      if(target){ focusCard(target); }
-
-      /* Optional: keyword search via hash, e.g. #search=portfolio */
-      if(!target && location.hash.startsWith('#search=')){
-        const term = decodeURIComponent(location.hash.slice(8)).toLowerCase();
-        const first = $$('.card.demo').find(c =>
-          (c.querySelector('.title')?.textContent||'').toLowerCase().includes(term) ||
-          (c.querySelector('.desc')?.textContent||'').toLowerCase().includes(term)
+      // query
+      const q = (state.q||'').trim().toLowerCase();
+      if(q){
+        arr = arr.filter(x =>
+          x.title.toLowerCase().includes(q) ||
+          x.desc.toLowerCase().includes(q) ||
+          x.slug.toLowerCase().includes(q)
         );
-        focusCard(first);
       }
-    })();
+
+      // sort
+      if(state.sort==='price') arr.sort((a,b)=>a.price-b.price || a.title.localeCompare(b.title));
+      else if(state.sort==='new') arr.sort((a,b)=>b.id-a.id);
+      else arr.sort((a,b)=>a.title.localeCompare(b.title)); // featured (stable)
+
+      return arr;
+    }
+
+    function gridCard(it){
+      const href = `index.html?item=${it.id}&slug=${it.slug}&open=1${state.cat&&state.cat!=='all'?'&cat='+state.cat:''}${state.q?'&q='+encodeURIComponent(state.q):''}`;
+      return `
+        <article class="card">
+          <a class="thumb" href="${href}" data-open="${it.id}">
+            <img src="../${it.img}" alt="${it.title}">
+          </a>
+          <div class="body">
+            <div class="title">${it.title}</div>
+            <div class="desc">${it.desc}</div>
+            <div class="meta"><div class="price">${fmtPrice(it.price)}</div><span class="muted">${it.cat.toUpperCase()}</span></div>
+            <div class="actions">
+              <a class="btn" href="${href}" data-open="${it.id}">Preview</a>
+              <a class="btn" href="../products/detail.html?id=${it.id}&slug=${it.slug}">Details</a>
+              ${it.price===0
+                ? `<a class="btn primary" href="../products/detail.html?id=${it.id}&slug=${it.slug}#download">Download</a>`
+                : `<a class="btn primary" href="../cart.html?add=${it.id}">Add</a>`}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function render(){
+      const items = filterItems();
+      $('#count').textContent = `${items.length} item${items.length!==1?'s':''}`;
+      const html = items.map(gridCard).join('');
+      const grid = $('#grid');
+      grid.innerHTML = html;
+      wireWebpFallback(grid);
+
+      grid.querySelectorAll('[data-open]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const id = +a.getAttribute('data-open');
+          openViewer(id, items);
+        });
+      });
+
+      // if deep-link asks to open
+      if(state.open && state.item){
+        const list = items;
+        const exists = list.some(x=>x.id===state.item);
+        if(exists) openViewer(state.item, list, true);
+        else closeViewer(); // clear invalid
+      }else{
+        closeViewer(true);
+      }
+    }
+
+    // --------------------
+    // Viewer / Drawer
+    // --------------------
+    let currentList = [];
+    function getIndexById(id){ return currentList.findIndex(x=>x.id===id); }
+
+    function openViewer(id, list, fromDeepLink=false){
+      currentList = list;
+      const it = list.find(x=>x.id===id) || ITEMS.find(x=>x.id===id);
+      if(!it) return;
+
+      // fill content
+      $('#v-title').textContent = it.title;
+      $('#v-meta').innerHTML = `
+        <span class="badge">${it.cat.toUpperCase()}</span>
+        <span class="badge">${fmtPrice(it.price)}</span>
+      `;
+      $('#v-desc').textContent = it.desc;
+
+      // media (big preview image as placeholder)
+      const shot = document.createElement('img');
+      shot.src = `../${it.img}`;
+      shot.alt = it.title;
+      const vshot = document.getElementById('v-shot');
+      vshot.replaceWith(shot);
+      shot.id = 'v-shot';
+      wireWebpFallback();
+
+      // actions
+      const actions = $('#v-actions');
+      actions.innerHTML = `
+        <a class="btn primary" href="../products/detail.html?id=${it.id}&slug=${it.slug}">Open product page</a>
+        ${it.price===0
+          ? `<a class="btn" href="../products/detail.html?id=${it.id}&slug=${it.slug}#download">Download</a>`
+          : `<a class="btn" href="../cart.html?add=${it.id}">Add to cart</a>`}
+        <button class="btn" onclick="copyLink()">Copy demo link</button>
+      `;
+
+      // show
+      $('#ovl').classList.add('show'); $('#ovl').onclick = closeViewer;
+      $('#viewer').classList.add('show');
+      $('#viewer').setAttribute('aria-hidden','false');
+
+      // push query
+      state.item = it.id; state.open = true;
+      if(!fromDeepLink) setQuery({item:it.id, slug:it.slug, open:'1'});
+
+      // focus for esc/arrow keys
+      document.addEventListener('keydown', keyNav);
+    }
+
+    function closeViewer(silent=false){
+      $('#ovl').classList.remove('show');
+      $('#viewer').classList.remove('show');
+      $('#viewer').setAttribute('aria-hidden','true');
+      document.removeEventListener('keydown', keyNav);
+      state.open = false; state.item = 0;
+      if(!silent) setQuery({open:null, item:null, slug:null});
+    }
+
+    function keyNav(e){
+      if(e.key==='Escape'){ closeViewer(); }
+      if(e.key==='ArrowRight'){ nextItem(); }
+      if(e.key==='ArrowLeft'){ prevItem(); }
+    }
+    function prevItem(){
+      if(!currentList.length) return;
+      const i = getIndexById(state.item);
+      const j = (i-1+currentList.length)%currentList.length;
+      openViewer(currentList[j].id, currentList);
+    }
+    function nextItem(){
+      if(!currentList.length) return;
+      const i = getIndexById(state.item);
+      const j = (i+1)%currentList.length;
+      openViewer(currentList[j].id, currentList);
+    }
+
+    async function copyLink(){
+      const url = location.href;
+      try{ await navigator.clipboard.writeText(url); alert('Demo link copied'); }
+      catch{ prompt('Copy this link:', url); }
+    }
+
+    // init
+    buildTabs();
+    render();
   </script>
 </body>
 </html>
+
