@@ -5,249 +5,418 @@
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC · Store</title>
-  <meta name="description" content="Independent creator store profile on RGZTEC. Products, ratings and details.">
+  <meta name="description" content="Browse a creator's store on RGZTEC: products, stacks, filters, live demo links and more.">
+
+  <!-- Site-wide CSS -->
   <link rel="stylesheet" href="assets/css/home.css" />
+
+  <!-- Store detail overrides -->
   <style>
     :root{
-      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
-      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
-      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
+      --brand:#ff7d33; --brand2:#ff914d; --ink:#0d1220; --muted:#5b657a;
+      --bg:#f7f8fb; --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06)
     }
     body{background:var(--bg);color:var(--ink)}
+    .muted{color:var(--muted)}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+
+    /* Header */
     .mast{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .pill.logo{font-weight:900;border:1px solid var(--b);border-radius:999px;padding:8px 12px;background:#fff}
     .searchbar{display:flex;gap:8px;align-items:center;flex:1}
     .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
-    .searchbar button{height:42px}
-    .top-nav{display:flex;gap:8px;align-items:center}
-
-    .header-card{
-      background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
-      overflow:hidden;margin-top:12px
-    }
-    .banner{aspect-ratio:16/6;background:#f2f3f6}
-    .banner img{width:100%;height:100%;object-fit:cover;display:block}
-    .store-body{display:grid;gap:14px;padding:16px}
-    .store-title{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-    .title{font-weight:900;font-size:clamp(22px,3vw,34px);letter-spacing:-.02em}
-    .stacks{display:flex;gap:8px;flex-wrap:wrap}
-    .stack{font-size:12px;font-weight:800;border:1px solid var(--b);border-radius:999px;padding:4px 10px;background:#fff}
-    .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted)}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer}
+    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease, box-shadow .08s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
     .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+    .ghost{background:#fff}
+    header{background:#fff;border-bottom:1px solid var(--b)}
+    .top-links{display:flex;gap:8px;flex-wrap:wrap}
 
-    .section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}
+    /* Breadcrumbs */
+    .breadcrumbs{display:flex;gap:6px;align-items:center;color:#6b7280;font-size:14px;margin:14px 0}
+    .breadcrumbs a{color:#374151}
+
+    /* Store hero */
+    .hero{
+      border:1px solid var(--b);border-radius:16px;overflow:hidden;background:#fff;box-shadow:var(--shadow)
+    }
+    .banner{aspect-ratio: 21/6;background:linear-gradient(90deg,#fff5ee,#fff);}
+    .banner img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero-body{padding:18px;display:grid;gap:10px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;background:#eef2ff;border:1px solid #d7def5;color:#233a85;font-weight:800;font-size:12px}
+    .meta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;color:var(--muted)}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+
+    /* Toolbar */
+    .toolbar{position:sticky;top:0;z-index:7;background:#fff;border-bottom:1px solid var(--b)}
+    .tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 0}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:800;background:#fff;cursor:pointer}
+    .chip[aria-pressed="true"]{background:#111;color:#fff;border-color:#111}
+    .spacer{flex:1}
+    select,input[type="search"]{height:40px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff}
+
+    /* Products grid/cards */
     .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow)}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
     .thumb{aspect-ratio:16/9;background:#f2f3f6}
     .thumb img{width:100%;height:100%;object-fit:cover;display:block}
     .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
-    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .title{font-weight:900}
+    .desc{font-size:14px;min-height:44px;color:var(--muted)}
     .meta-row{display:flex;justify-content:space-between;align-items:center}
     .price{font-weight:900}
-    .actions-row{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+    .cta-row{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
 
-    .band{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;gap:16px;align-items:center;margin-top:18px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}
+
+    /* Footer note */
+    .footnote{color:var(--muted);font-size:13px;margin:18px 0}
+
+    @media (max-width:900px){
+      .banner{aspect-ratio: 16/7}
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
     <div class="container mast">
-      <a class="logo pill" href="index.html">RGZTEC</a>
+      <a class="pill logo" href="index.html">RGZTEC</a>
       <form class="searchbar" action="products/index.html">
-        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" />
+        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search site" />
         <button class="btn" type="submit">Search</button>
       </form>
-      <nav class="top-nav">
-        <a class="btn" href="products/index.html">Explore</a>
-        <a class="btn" href="demo/index.html">Demo Gallery</a>
-        <a class="btn" href="stores/index.html">Stores</a>
-        <a class="btn" href="login.html">Login</a>
+      <nav class="top-links">
+        <a class="btn ghost" href="products/index.html">Explore</a>
+        <a class="btn ghost" href="demo/index.html">Demo Gallery</a>
+        <a class="btn ghost" href="stores/index.html">Stores</a>
+        <a class="btn ghost" href="login.html">Login</a>
         <a class="btn primary" href="advertise.html">Become a Seller</a>
       </nav>
     </div>
   </header>
 
-  <!-- Store header -->
-  <section class="container header-card" id="storeHeader" hidden>
-    <div class="banner"><img id="storeBanner" alt=""></div>
-    <div class="store-body">
-      <div class="store-title">
-        <h1 class="title" id="storeName"></h1>
-        <div class="stacks" id="storeStacks"></div>
-      </div>
-      <p id="storeDesc" class="muted" style="margin:0"></p>
-      <div class="meta" id="storeMeta"></div>
-      <div class="actions">
-        <a class="btn primary" id="viewProductsBtn">View products</a>
-        <button class="btn" id="followBtn" type="button">Follow</button>
-        <a class="btn" href="stores/index.html">All stores</a>
-      </div>
-    </div>
-  </section>
+  <main class="container" style="margin:18px 0 28px">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="index.html">Home</a> ›
+      <a href="stores/index.html">Stores</a> ›
+      <span id="bc">Store</span>
+    </nav>
 
-  <!-- Products -->
-  <main class="container section-lg">
-    <div class="section-head">
-      <h2 class="section-title" id="gridTitle">Store products</h2>
-      <a class="btn" id="browseAllBtn">Browse all</a>
+    <!-- STORE HERO -->
+    <section class="hero" id="hero">
+      <div class="banner"><img id="banner" src="" alt="" loading="lazy" decoding="async"></div>
+      <div class="hero-body">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <h1 id="storeName" style="margin:0;font-size:clamp(24px,3vw,34px);letter-spacing:-.01em">Store</h1>
+          <div class="badges" id="stacks"></div>
+          <div class="actions">
+            <button id="follow" class="btn">Follow</button>
+            <button id="share" class="btn">Share</button>
+            <a id="openSite" class="btn ghost" target="_blank" rel="noopener">Open website</a>
+          </div>
+        </div>
+        <div class="meta" id="meta"></div>
+        <p id="desc" class="muted" style="margin:4px 0 0"></p>
+      </div>
+    </section>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="container tools">
+        <nav class="chips" aria-label="Filter">
+          <button class="chip" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip" data-filter="html">HTML</button>
+          <button class="chip" data-filter="js">JS</button>
+          <button class="chip" data-filter="css">CSS</button>
+          <button class="chip" data-filter="react">React</button>
+          <button class="chip" data-filter="icons">Icons</button>
+          <button class="chip" data-filter="email">Email</button>
+          <button class="chip" data-filter="free">Free</button>
+        </nav>
+        <div class="spacer"></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="q" type="search" placeholder="Search in this store…" />
+          <select id="sort" aria-label="Sort products">
+            <option value="featured">Featured</option>
+            <option value="popular">Most popular</option>
+            <option value="new">Newest</option>
+            <option value="price_asc">Price: Low → High</option>
+            <option value="price_desc">Price: High → Low</option>
+          </select>
+        </div>
+      </div>
     </div>
+
+    <div class="section-head">
+      <h2 id="sectionTitle">Products</h2>
+      <span class="badge" id="counter">0 items</span>
+    </div>
+
+    <!-- PRODUCTS -->
     <section id="grid" class="grid" aria-label="Products"></section>
 
-    <div class="band">
-      <div><strong>Are you a creator?</strong> List your products and reach developers worldwide.</div>
-      <a class="btn" href="advertise.html">Start selling</a>
-    </div>
+    <p class="footnote">Tip: Press <strong>/</strong> to focus search • Images auto-fallback: WebP → PNG → JPG • Prices are placeholders for demo.</p>
   </main>
 
-  <footer class="container section">
-    <nav class="row" style="gap:14px">
-      <a href="index.html">Home</a> ·
-      <a href="products/index.html">Catalog</a> ·
-      <a href="stores/index.html">Stores</a> ·
-      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
-      <a href="contact.html">Contact</a> ·
-      <a href="terms.html">Privacy</a>
-    </nav>
-    <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
-  </footer>
-
   <script>
-  // ---- Minimal store + product dataset (slug tabanlı) ----
-  const STORES = {
-    "pixel-foundry": {
-      name:"Pixel Foundry",
-      desc:"Clean HTML starters and utility CSS kits.",
-      stacks:["HTML","CSS"],
-      items:42, rating:"Top seller", since:"Since 2021",
-      banner:"images/stores/pixel-foundry-banner.webp"
-    },
-    "widget-labs": {
-      name:"Widget Labs",
-      desc:"Vanilla JS widgets and tiny plugins.",
-      stacks:["JS","HTML"],
-      items:18, rating:"4.9★", since:"Trusted",
-      banner:"images/stores/widget-labs-banner.webp"
-    },
-    "react-craft": {
-      name:"React Craft",
-      desc:"Production-ready components for React apps.",
-      stacks:["React","HTML"],
-      items:12, rating:"4.7★", since:"Since 2023",
-      banner:"images/stores/react-craft-banner.webp"
-    },
-    "style-forge": {
-      name:"Style Forge",
-      desc:"Utility-first CSS components and layout kits.",
-      stacks:["CSS","HTML"],
-      items:15, rating:"4.6★", since:"—",
-      banner:"images/stores/style-forge-banner.webp"
-    },
-    "vector-supply": {
-      name:"Vector Supply",
-      desc:"SVG icons and UI assets for developers.",
-      stacks:["Icons"],
-      items:23, rating:"4.8★", since:"Trusted",
-      banner:"images/stores/vector-supply-banner.webp"
-    },
-    "mailbox-co": {
-      name:"Mailbox Co",
-      desc:"Responsive email bases & transactional templates.",
-      stacks:["Email","HTML"],
-      items:9, rating:"—", since:"Since 2021",
-      banner:"images/stores/mailbox-co-banner.webp"
-    }
-  };
+    (function(){
+      const $ = (s,root=document)=>root.querySelector(s);
+      const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
 
-  // Not: Bu küçük liste, ana sitedeki ürünlerle aynı id/slug desenini izler.
-  const PRODUCTS = [
-    {id:1,  slug:"landing-starter-html", title:"Landing Starter (HTML)", desc:"Hero, features, pricing and blog sections.", price:18, tag:"HTML", img:"images/catalog/html1.webp", store:"pixel-foundry"},
-    {id:2,  slug:"dashboard-lite-html",  title:"Dashboard Lite (HTML)",  desc:"Sidebar + topbar & chart placeholders (vanilla JS).", price:24, tag:"JS",   img:"images/catalog/html2.webp", store:"pixel-foundry"},
-    {id:3,  slug:"portfolio-mini",       title:"Portfolio Mini",        desc:"One-page portfolio with grid & contact.", price:14, tag:"HTML", img:"images/catalog/html3.webp", store:"pixel-foundry"},
-    {id:4,  slug:"blog-lite",            title:"Blog Lite",             desc:"List + single post layout with clean typography.", price:12, tag:"HTML", img:"images/catalog/html4.webp", store:"pixel-foundry"},
-    {id:5,  slug:"agency-starter",       title:"Agency Starter",        desc:"Services: cards, testimonials, pricing.", price:16, tag:"HTML", img:"images/catalog/html5.webp", store:"style-forge"},
-    {id:6,  slug:"e-commerce-mini",      title:"E-commerce Mini",       desc:"Product grid, product detail and cart icons.", price:22, tag:"HTML", img:"images/catalog/html6.webp", store:"pixel-foundry"},
-    {id:7,  slug:"resume-card",          title:"Resume Card",           desc:"Single-page resume with skills & contact.", price:9,  tag:"HTML", img:"images/catalog/html7.webp", store:"style-forge"},
-    {id:8,  slug:"product-list",         title:"Product List",          desc:"Filterable list with grid/row views.", price:11, tag:"HTML", img:"images/catalog/html8.webp", store:"style-forge"},
-    {id:9,  slug:"pricing-tables",       title:"Pricing Tables",        desc:"3–4 column pricing with featured plan.", price:8,  tag:"HTML", img:"images/catalog/html9.webp", store:"style-forge"},
-    {id:10, slug:"contact-lite",         title:"Contact Lite",          desc:"Form, map placeholder & social links.", price:7,  tag:"HTML", img:"images/catalog/html10.webp", store:"widget-labs"},
-    {id:11, slug:"faq-mini",             title:"FAQ Mini",              desc:"Accordion FAQ with categories and search.", price:6,  tag:"JS",   img:"images/catalog/html11.webp", store:"widget-labs"},
-    {id:12, slug:"gallery-grid",         title:"Gallery Grid",          desc:"Masonry/grid gallery (lightbox placeholder).", price:13, tag:"HTML", img:"images/catalog/html12.webp", store:"style-forge"},
-    {id:17, slug:"react-components",     title:"React Components",      desc:"Cards, modals and tabs (markup only).", price:15, tag:"React", img:"images/catalog/html17.webp", store:"react-craft"},
-    {id:18, slug:"svg-icons",            title:"SVG Icons",             desc:"Curated developer icon set (inlineable).", price:6, tag:"Icons", img:"images/catalog/html18.webp", store:"vector-supply"},
-    {id:19, slug:"email-templates",      title:"Email Templates",       desc:"Transactional email starter set.", price:9,  tag:"Email", img:"images/catalog/html19.webp", store:"mailbox-co"},
-    {id:20, slug:"js-widgets",           title:"JS Widgets",            desc:"Tabs, accordions and tooltips (vanilla).", price:11, tag:"JS", img:"images/catalog/html20.webp", store:"widget-labs"},
-    {id:101,slug:"free-ui-kit",          title:"FREE UI Kit",           desc:"Utility-first components; MIT license.", price:0,  tag:"Free",  img:"images/catalog/html5.webp",  store:"style-forge"},
-    {id:102,slug:"react-starter-free",   title:"React Starter (Free)",  desc:"Minimal React shell with routing.", price:0,  tag:"Free",  img:"images/catalog/html17.webp", store:"react-craft"},
-    {id:103,slug:"icons-free-pack",      title:"Free Icons Pack",       desc:"Basic outline icons for prototypes.", price:0,  tag:"Free",  img:"images/catalog/html18.webp", store:"vector-supply"},
-    {id:104,slug:"email-free",           title:"Free Email Template",   desc:"Responsive transactional email base.", price:0,  tag:"Free",  img:"images/catalog/html19.webp", store:"mailbox-co"},
-  ];
-
-  // Utility
-  const $ = (s,root=document)=>root.querySelector(s);
-  const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
-
-  // WebP -> PNG -> JPG fallback
-  const installImageFallback = ()=>{
-    $$('img').forEach(img=>{
-      img.onerror = ()=>{
-        const src = img.getAttribute('src')||'';
-        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
-        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
-        img.onerror = null;
+      /* ---------- Minimal catalog (IDs -> your routes) ---------- */
+      const catalog = {
+        1:{slug:'landing-starter-html', title:'Landing Starter (HTML)', desc:'Hero, features, pricing and blog sections.', price:18, cat:'html', img:'images/catalog/html1.webp', popular:95, date:'2025-07-01'},
+        2:{slug:'dashboard-lite-html', title:'Dashboard Lite (HTML)', desc:'Sidebar + topbar & chart placeholders (vanilla JS).', price:24, cat:'js', img:'images/catalog/html2.webp', popular:99, date:'2025-08-01'},
+        3:{slug:'portfolio-mini', title:'Portfolio Mini', desc:'Single-page portfolio with project grid & contact.', price:14, cat:'html', img:'images/catalog/html3.webp', popular:80, date:'2025-06-18'},
+        4:{slug:'blog-lite', title:'Blog Lite', desc:'List + single post layout with clean typography.', price:12, cat:'html', img:'images/catalog/html4.webp', popular:78, date:'2025-05-21'},
+        5:{slug:'agency-starter', title:'Agency Starter', desc:'Services: cards, testimonials, pricing.', price:16, cat:'html', img:'images/catalog/html5.webp', popular:75, date:'2025-04-30'},
+        6:{slug:'e-commerce-mini', title:'E-commerce Mini', desc:'Product grid, product detail and cart icons.', price:22, cat:'html', img:'images/catalog/html6.webp', popular:83, date:'2025-03-19'},
+        7:{slug:'resume-card', title:'Resume Card', desc:'Single-page resume with skills & contact.', price:9, cat:'html', img:'images/catalog/html7.webp', popular:65, date:'2025-02-11'},
+        8:{slug:'product-list', title:'Product List', desc:'Filterable item list with grid/row views.', price:11, cat:'html', img:'images/catalog/html8.webp', popular:70, date:'2025-04-05'},
+        9:{slug:'pricing-tables', title:'Pricing Tables', desc:'3–4 column pricing with featured plan and CTAs.', price:8, cat:'html', img:'images/catalog/html9.webp', popular:72, date:'2025-01-15'},
+        10:{slug:'contact-lite', title:'Contact Lite', desc:'Form, map placeholder & social links.', price:7, cat:'html', img:'images/catalog/html10.webp', popular:60, date:'2024-12-12'},
+        11:{slug:'faq-mini', title:'FAQ Mini', desc:'Accordion FAQ with categories and search.', price:6, cat:'html', img:'images/catalog/html11.webp', popular:58, date:'2024-11-20'},
+        12:{slug:'gallery-grid', title:'Gallery Grid', desc:'Masonry/grid gallery with lightbox placeholder.', price:13, cat:'html', img:'images/catalog/html12.webp', popular:74, date:'2025-02-07'},
+        17:{slug:'react-components', title:'React Components', desc:'Cards, modals and tabs (markup only).', price:15, cat:'react', img:'images/catalog/html17.webp', popular:82, date:'2025-08-10'},
+        18:{slug:'svg-icons', title:'SVG Icons', desc:'Curated developer icon set (inlineable).', price:6, cat:'icons', img:'images/catalog/html18.webp', popular:77, date:'2025-07-22'},
+        19:{slug:'email-templates', title:'Email Templates', desc:'Transactional email starter set.', price:9, cat:'email', img:'images/catalog/html19.webp', popular:73, date:'2025-06-12'},
+        20:{slug:'js-widgets', title:'JS Widgets', desc:'Tabs, accordions and tooltips (vanilla).', price:11, cat:'js', img:'images/catalog/html20.webp', popular:79, date:'2025-05-09'},
+        101:{slug:'free-ui-kit', title:'FREE UI Kit', desc:'Utility-first components; MIT license.', price:0, cat:'css', img:'images/catalog/html5.webp', popular:88, date:'2025-08-05'},
+        102:{slug:'react-starter-free', title:'React Starter (Free)', desc:'Minimal React shell with routing.', price:0, cat:'react', img:'images/catalog/html17.webp', popular:84, date:'2025-07-28'},
+        103:{slug:'icons-free-pack', title:'Free Icons Pack', desc:'Basic outline icons for prototypes.', price:0, cat:'icons', img:'images/catalog/html18.webp', popular:76, date:'2025-06-30'},
+        104:{slug:'email-free', title:'Free Email Template', desc:'Responsive transactional email base.', price:0, cat:'email', img:'images/catalog/html19.webp', popular:71, date:'2025-05-01'},
       };
-    });
-  };
 
-  (function init(){
-    const slug = new URLSearchParams(location.search).get('slug')||'';
-    const store = STORES[slug];
-    if(!store){ location.replace('stores/index.html'); return; }
+      /* ---------- Stores dataset ---------- */
+      const stores = {
+        'pixel-foundry':{
+          name:'Pixel Foundry',
+          stacks:['HTML','CSS'],
+          desc:'Clean HTML starters and utility CSS kits.',
+          since:2021, rating:4.9, items:[1,5,9,3,4,6,7,12]
+        },
+        'widget-labs':{
+          name:'Widget Labs',
+          stacks:['JS','HTML'],
+          desc:'Vanilla JS widgets and tiny plugins.',
+          since:2022, rating:4.9, items:[20,11,8,10,2]
+        },
+        'react-craft':{
+          name:'React Craft',
+          stacks:['React','HTML'],
+          desc:'Production-ready components for React apps.',
+          since:2023, rating:4.7, items:[17,102,6,4]
+        },
+        'style-forge':{
+          name:'Style Forge',
+          stacks:['CSS','HTML'],
+          desc:'Utility-first CSS components and layout kits.',
+          since:2021, rating:4.6, items:[9,5,12,7,101]
+        },
+        'vector-supply':{
+          name:'Vector Supply',
+          stacks:['Icons'],
+          desc:'SVG icons and UI assets for developers.',
+          since:2020, rating:4.8, items:[18,103]
+        },
+        'mailbox-co':{
+          name:'Mailbox Co.',
+          stacks:['Email','HTML'],
+          desc:'Responsive email bases & transactional templates.',
+          since:2020, rating:4.7, items:[19,104]
+        }
+      };
 
-    // Header bind
-    $('#storeHeader').hidden = false;
-    $('#storeBanner').src = store.banner;
-    $('#storeBanner').alt = `${store.name} banner`;
-    $('#storeName').textContent = store.name;
-    $('#storeDesc').textContent = store.desc;
-    $('#storeMeta').textContent = `${store.items} items · ${store.rating} · ${store.since}`;
-    $('#storeStacks').innerHTML = store.stacks.map(s=>`<span class="stack">${s}</span>`).join('');
-    $('#viewProductsBtn').href = `products/index.html?store=${encodeURIComponent(slug)}`;
-    $('#browseAllBtn').href = `products/index.html?store=${encodeURIComponent(slug)}`;
-    $('#gridTitle').textContent = `${store.name} · Products`;
+      /* ---------- DOM refs ---------- */
+      const bc = $('#bc');
+      const banner = $('#banner');
+      const storeName = $('#storeName');
+      const stacksEl = $('#stacks');
+      const meta = $('#meta');
+      const desc = $('#desc');
+      const openSite = $('#openSite');
+      const follow = $('#follow');
+      const share = $('#share');
+      const grid = $('#grid');
+      const q = $('#q');
+      const sort = $('#sort');
+      const counter = $('#counter');
 
-    $('#followBtn').addEventListener('click', ()=>{ alert('Followed!'); });
+      /* ---------- Helpers ---------- */
+      function getParams(){
+        const p = new URLSearchParams(location.search);
+        return {
+          slug: (p.get('slug')||'').toLowerCase(),
+          cat: (p.get('cat')||'all').toLowerCase(),
+          q: (p.get('q')||'').toLowerCase().trim(),
+          sort: p.get('sort')||'featured'
+        };
+      }
+      function setChip(active){
+        $$('.chips .chip').forEach(c=>c.setAttribute('aria-pressed', String(c.dataset.filter===active)));
+      }
+      function fmt(n){return '$'+n}
+      function productURL(id){
+        const item = catalog[id];
+        return `products/detail.html?id=${id}&slug=${item.slug}`;
+      }
+      function demoURL(id){
+        const item = catalog[id];
+        return `demo/index.html?item=${id}&slug=${item.slug}`;
+      }
 
-    // Render products for this store
-    const grid = $('#grid');
-    const items = PRODUCTS.filter(p=>p.store===slug);
-    if(items.length===0){
-      grid.innerHTML = `<p class="muted">No products yet.</p>`;
-    }else{
-      grid.innerHTML = items.map(p=>`
-        <article class="card">
-          <a class="thumb" href="products/detail.html?id=${p.id}&slug=${p.slug}">
-            <img src="${p.img}" alt="${p.title}">
-          </a>
-          <div class="body">
-            <div class="title">${p.title}</div>
-            <div class="desc">${p.desc}</div>
-            <div class="meta-row"><div class="price">$${p.price}</div><span class="muted">${p.tag}</span></div>
-            <div class="actions-row">
-              <a class="btn" href="demo/index.html?item=${p.id}&slug=${p.slug}" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="products/detail.html?id=${p.id}&slug=${p.slug}">Details</a>
-              ${p.price===0
-                ? `<a class="btn primary" href="products/detail.html?id=${p.id}&slug=${p.slug}#download">Download</a>`
-                : `<a class="btn primary" href="cart.html?add=${p.id}">Add</a>`}
+      /* ---------- Render store ---------- */
+      function renderStore(slug){
+        const store = stores[slug];
+        if(!store){
+          storeName.textContent = 'Store not found';
+          desc.textContent = 'The requested store does not exist.';
+          $('#sectionTitle').textContent = 'No products';
+          return;
+        }
+        document.title = `RGZTEC · ${store.name}`;
+        bc.textContent = store.name;
+        storeName.textContent = store.name;
+        banner.src = `images/stores/${slug}-banner.webp`;
+        banner.alt = `${store.name} banner`;
+        stacksEl.innerHTML = store.stacks.map(s=>`<span class="badge">${s}</span>`).join('');
+        meta.innerHTML = `<span>${store.items.length} items</span> · <span>Since ${store.since}</span> · <span>⭐ ${store.rating}</span>`;
+        desc.textContent = store.desc;
+        openSite.href = `https://example.com/${slug}`; // placeholder
+
+        // follow toggle (local only)
+        let following = localStorage.getItem('follow:'+slug)==='1';
+        const setFollowUI = ()=>follow.textContent = following?'Following':'Follow';
+        follow.addEventListener('click', ()=>{
+          following = !following;
+          localStorage.setItem('follow:'+slug, following?'1':'0');
+          setFollowUI();
+        });
+        setFollowUI();
+
+        // share
+        share.addEventListener('click', async ()=>{
+          const url = location.href;
+          if(navigator.share){
+            try{ await navigator.share({title:store.name, url}); }catch{}
+          }else{
+            await navigator.clipboard.writeText(url);
+            share.textContent = 'Link copied';
+            setTimeout(()=>share.textContent='Share',1200);
+          }
+        });
+
+        renderProducts(slug);
+      }
+
+      function renderProducts(slug){
+        const store = stores[slug];
+        if(!store) return;
+
+        const p = getParams();
+        setChip(p.cat);
+        q.value = p.q;
+        sort.value = p.sort;
+
+        // filter by chip + search
+        let items = store.items.map(id=>({id, ...catalog[id]}));
+        items = items.filter(it=>{
+          const matchCat = (p.cat==='all') ? true
+                        : (p.cat==='free' ? it.price===0 : it.cat===p.cat);
+          const text = `${it.title} ${it.desc} ${it.cat}`.toLowerCase();
+          const matchQ = p.q ? text.includes(p.q) : true;
+          return matchCat && matchQ;
+        });
+
+        // sort
+        const cmp = {
+          featured:(a,b)=>0,
+          popular:(a,b)=>(b.popular||0)-(a.popular||0),
+          new:(a,b)=> new Date(b.date||0) - new Date(a.date||0),
+          price_asc:(a,b)=>(a.price||0)-(b.price||0),
+          price_desc:(a,b)=>(b.price||0)-(a.price||0),
+        }[p.sort] || ((a,b)=>0);
+        items.sort(cmp);
+
+        // render
+        grid.innerHTML = items.map(it=>`
+          <article class="card">
+            <a class="thumb" href="${productURL(it.id)}">
+              <img src="${it.img}" alt="${it.title}" loading="lazy" decoding="async">
+            </a>
+            <div class="body">
+              <div class="title">${it.title}</div>
+              <div class="desc">${it.desc}</div>
+              <div class="meta-row"><div class="price">${it.price===0? 'Free' : fmt(it.price)}</div><span class="muted">${it.cat.toUpperCase()}</span></div>
+              <div class="cta-row">
+                <a class="btn" href="${demoURL(it.id)}" target="_blank" rel="noopener">Preview</a>
+                <a class="btn" href="${productURL(it.id)}">Details</a>
+                ${
+                  it.price===0
+                  ? `<a class="btn primary" href="products/detail.html?id=${it.id}&slug=${it.slug}#download">Download</a>`
+                  : `<a class="btn primary" href="cart.html?add=${it.id}">Add</a>`
+                }
+              </div>
             </div>
-          </div>
-        </article>
-      `).join('');
-    }
+          </article>
+        `).join('');
 
-    installImageFallback();
-  })();
+        counter.textContent = `${items.length} item${items.length!==1?'s':''}`;
+      }
+
+      /* ---------- UI events + URL sync ---------- */
+      // chip clicks
+      $('.chips').addEventListener('click', (e)=>{
+        const btn = e.target.closest('.chip'); if(!btn) return;
+        const url = new URL(location.href);
+        url.searchParams.set('cat', btn.dataset.filter);
+        history.replaceState(null,'', url);
+        renderProducts(getParams().slug);
+        grid.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+
+      // search
+      q.addEventListener('input', ()=>{
+        const url = new URL(location.href);
+        const v = q.value.trim();
+        if(v) url.searchParams.set('q', v); else url.searchParams.delete('q');
+        history.replaceState(null,'', url);
+        renderProducts(getParams().slug);
+      });
+
+      // sort
+      sort.addEventListener('change', ()=>{
+        const url = new URL(location.href);
+        url.searchParams.set('sort', sort.value);
+        history.replaceState(null,'', url);
+        renderProducts(getParams().slug);
+      });
+
+      // Keyboard “/”
+      window.addEventListener('keydown', (e)=>{
+        if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
+          e.preventDefault(); q.focus();
+        }
+      });
+
+      // Image fallback: .webp -> .png -> .jpg
+      document.addEventListener('error', (e)=>{
+        const img = e.target;
+        if(img.tagName!=='IMG') return;
+        const src = img.getAttribute('src')||'';
+        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); }
+        else if(src.endsWith('.png')){ img.src = src.replace(/\.png$/i,'.jpg'); }
+      }, true);
+
+      // init
+      const {slug} = getParams();
+      renderStore(slug || 'pixel-foundry');
+    })();
   </script>
 </body>
 </html>
