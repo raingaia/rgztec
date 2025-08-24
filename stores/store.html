@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <base href="/rgztec/">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC · Store</title>
+  <meta name="description" content="Independent creator store profile on RGZTEC. Products, ratings and details.">
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <style>
+    :root{
+      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
+      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
+      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
+    }
+    body{background:var(--bg);color:var(--ink)}
+    .mast{display:flex;align-items:center;gap:12px;padding:10px 0}
+    .searchbar{display:flex;gap:8px;align-items:center;flex:1}
+    .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
+    .searchbar button{height:42px}
+    .top-nav{display:flex;gap:8px;align-items:center}
+
+    .header-card{
+      background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
+      overflow:hidden;margin-top:12px
+    }
+    .banner{aspect-ratio:16/6;background:#f2f3f6}
+    .banner img{width:100%;height:100%;object-fit:cover;display:block}
+    .store-body{display:grid;gap:14px;padding:16px}
+    .store-title{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .title{font-weight:900;font-size:clamp(22px,3vw,34px);letter-spacing:-.02em}
+    .stacks{display:flex;gap:8px;flex-wrap:wrap}
+    .stack{font-size:12px;font-weight:800;border:1px solid var(--b);border-radius:999px;padding:4px 10px;background:#fff}
+    .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 10px}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow)}
+    .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .meta-row{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:900}
+    .actions-row{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+    .band{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;gap:16px;align-items:center;margin-top:18px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container mast">
+      <a class="logo pill" href="index.html">RGZTEC</a>
+      <form class="searchbar" action="products/index.html">
+        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" />
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <nav class="top-nav">
+        <a class="btn" href="products/index.html">Explore</a>
+        <a class="btn" href="demo/index.html">Demo Gallery</a>
+        <a class="btn" href="stores/index.html">Stores</a>
+        <a class="btn" href="login.html">Login</a>
+        <a class="btn primary" href="advertise.html">Become a Seller</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Store header -->
+  <section class="container header-card" id="storeHeader" hidden>
+    <div class="banner"><img id="storeBanner" alt=""></div>
+    <div class="store-body">
+      <div class="store-title">
+        <h1 class="title" id="storeName"></h1>
+        <div class="stacks" id="storeStacks"></div>
+      </div>
+      <p id="storeDesc" class="muted" style="margin:0"></p>
+      <div class="meta" id="storeMeta"></div>
+      <div class="actions">
+        <a class="btn primary" id="viewProductsBtn">View products</a>
+        <button class="btn" id="followBtn" type="button">Follow</button>
+        <a class="btn" href="stores/index.html">All stores</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <main class="container section-lg">
+    <div class="section-head">
+      <h2 class="section-title" id="gridTitle">Store products</h2>
+      <a class="btn" id="browseAllBtn">Browse all</a>
+    </div>
+    <section id="grid" class="grid" aria-label="Products"></section>
+
+    <div class="band">
+      <div><strong>Are you a creator?</strong> List your products and reach developers worldwide.</div>
+      <a class="btn" href="advertise.html">Start selling</a>
+    </div>
+  </main>
+
+  <footer class="container section">
+    <nav class="row" style="gap:14px">
+      <a href="index.html">Home</a> ·
+      <a href="products/index.html">Catalog</a> ·
+      <a href="stores/index.html">Stores</a> ·
+      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
+      <a href="contact.html">Contact</a> ·
+      <a href="terms.html">Privacy</a>
+    </nav>
+    <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
+  </footer>
+
+  <script>
+  // ---- Minimal store + product dataset (slug tabanlı) ----
+  const STORES = {
+    "pixel-foundry": {
+      name:"Pixel Foundry",
+      desc:"Clean HTML starters and utility CSS kits.",
+      stacks:["HTML","CSS"],
+      items:42, rating:"Top seller", since:"Since 2021",
+      banner:"images/stores/pixel-foundry-banner.webp"
+    },
+    "widget-labs": {
+      name:"Widget Labs",
+      desc:"Vanilla JS widgets and tiny plugins.",
+      stacks:["JS","HTML"],
+      items:18, rating:"4.9★", since:"Trusted",
+      banner:"images/stores/widget-labs-banner.webp"
+    },
+    "react-craft": {
+      name:"React Craft",
+      desc:"Production-ready components for React apps.",
+      stacks:["React","HTML"],
+      items:12, rating:"4.7★", since:"Since 2023",
+      banner:"images/stores/react-craft-banner.webp"
+    },
+    "style-forge": {
+      name:"Style Forge",
+      desc:"Utility-first CSS components and layout kits.",
+      stacks:["CSS","HTML"],
+      items:15, rating:"4.6★", since:"—",
+      banner:"images/stores/style-forge-banner.webp"
+    },
+    "vector-supply": {
+      name:"Vector Supply",
+      desc:"SVG icons and UI assets for developers.",
+      stacks:["Icons"],
+      items:23, rating:"4.8★", since:"Trusted",
+      banner:"images/stores/vector-supply-banner.webp"
+    },
+    "mailbox-co": {
+      name:"Mailbox Co",
+      desc:"Responsive email bases & transactional templates.",
+      stacks:["Email","HTML"],
+      items:9, rating:"—", since:"Since 2021",
+      banner:"images/stores/mailbox-co-banner.webp"
+    }
+  };
+
+  // Not: Bu küçük liste, ana sitedeki ürünlerle aynı id/slug desenini izler.
+  const PRODUCTS = [
+    {id:1,  slug:"landing-starter-html", title:"Landing Starter (HTML)", desc:"Hero, features, pricing and blog sections.", price:18, tag:"HTML", img:"images/catalog/html1.webp", store:"pixel-foundry"},
+    {id:2,  slug:"dashboard-lite-html",  title:"Dashboard Lite (HTML)",  desc:"Sidebar + topbar & chart placeholders (vanilla JS).", price:24, tag:"JS",   img:"images/catalog/html2.webp", store:"pixel-foundry"},
+    {id:3,  slug:"portfolio-mini",       title:"Portfolio Mini",        desc:"One-page portfolio with grid & contact.", price:14, tag:"HTML", img:"images/catalog/html3.webp", store:"pixel-foundry"},
+    {id:4,  slug:"blog-lite",            title:"Blog Lite",             desc:"List + single post layout with clean typography.", price:12, tag:"HTML", img:"images/catalog/html4.webp", store:"pixel-foundry"},
+    {id:5,  slug:"agency-starter",       title:"Agency Starter",        desc:"Services: cards, testimonials, pricing.", price:16, tag:"HTML", img:"images/catalog/html5.webp", store:"style-forge"},
+    {id:6,  slug:"e-commerce-mini",      title:"E-commerce Mini",       desc:"Product grid, product detail and cart icons.", price:22, tag:"HTML", img:"images/catalog/html6.webp", store:"pixel-foundry"},
+    {id:7,  slug:"resume-card",          title:"Resume Card",           desc:"Single-page resume with skills & contact.", price:9,  tag:"HTML", img:"images/catalog/html7.webp", store:"style-forge"},
+    {id:8,  slug:"product-list",         title:"Product List",          desc:"Filterable list with grid/row views.", price:11, tag:"HTML", img:"images/catalog/html8.webp", store:"style-forge"},
+    {id:9,  slug:"pricing-tables",       title:"Pricing Tables",        desc:"3–4 column pricing with featured plan.", price:8,  tag:"HTML", img:"images/catalog/html9.webp", store:"style-forge"},
+    {id:10, slug:"contact-lite",         title:"Contact Lite",          desc:"Form, map placeholder & social links.", price:7,  tag:"HTML", img:"images/catalog/html10.webp", store:"widget-labs"},
+    {id:11, slug:"faq-mini",             title:"FAQ Mini",              desc:"Accordion FAQ with categories and search.", price:6,  tag:"JS",   img:"images/catalog/html11.webp", store:"widget-labs"},
+    {id:12, slug:"gallery-grid",         title:"Gallery Grid",          desc:"Masonry/grid gallery (lightbox placeholder).", price:13, tag:"HTML", img:"images/catalog/html12.webp", store:"style-forge"},
+    {id:17, slug:"react-components",     title:"React Components",      desc:"Cards, modals and tabs (markup only).", price:15, tag:"React", img:"images/catalog/html17.webp", store:"react-craft"},
+    {id:18, slug:"svg-icons",            title:"SVG Icons",             desc:"Curated developer icon set (inlineable).", price:6, tag:"Icons", img:"images/catalog/html18.webp", store:"vector-supply"},
+    {id:19, slug:"email-templates",      title:"Email Templates",       desc:"Transactional email starter set.", price:9,  tag:"Email", img:"images/catalog/html19.webp", store:"mailbox-co"},
+    {id:20, slug:"js-widgets",           title:"JS Widgets",            desc:"Tabs, accordions and tooltips (vanilla).", price:11, tag:"JS", img:"images/catalog/html20.webp", store:"widget-labs"},
+    {id:101,slug:"free-ui-kit",          title:"FREE UI Kit",           desc:"Utility-first components; MIT license.", price:0,  tag:"Free",  img:"images/catalog/html5.webp",  store:"style-forge"},
+    {id:102,slug:"react-starter-free",   title:"React Starter (Free)",  desc:"Minimal React shell with routing.", price:0,  tag:"Free",  img:"images/catalog/html17.webp", store:"react-craft"},
+    {id:103,slug:"icons-free-pack",      title:"Free Icons Pack",       desc:"Basic outline icons for prototypes.", price:0,  tag:"Free",  img:"images/catalog/html18.webp", store:"vector-supply"},
+    {id:104,slug:"email-free",           title:"Free Email Template",   desc:"Responsive transactional email base.", price:0,  tag:"Free",  img:"images/catalog/html19.webp", store:"mailbox-co"},
+  ];
+
+  // Utility
+  const $ = (s,root=document)=>root.querySelector(s);
+  const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+
+  // WebP -> PNG -> JPG fallback
+  const installImageFallback = ()=>{
+    $$('img').forEach(img=>{
+      img.onerror = ()=>{
+        const src = img.getAttribute('src')||'';
+        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
+        img.onerror = null;
+      };
+    });
+  };
+
+  (function init(){
+    const slug = new URLSearchParams(location.search).get('slug')||'';
+    const store = STORES[slug];
+    if(!store){ location.replace('stores/index.html'); return; }
+
+    // Header bind
+    $('#storeHeader').hidden = false;
+    $('#storeBanner').src = store.banner;
+    $('#storeBanner').alt = `${store.name} banner`;
+    $('#storeName').textContent = store.name;
+    $('#storeDesc').textContent = store.desc;
+    $('#storeMeta').textContent = `${store.items} items · ${store.rating} · ${store.since}`;
+    $('#storeStacks').innerHTML = store.stacks.map(s=>`<span class="stack">${s}</span>`).join('');
+    $('#viewProductsBtn').href = `products/index.html?store=${encodeURIComponent(slug)}`;
+    $('#browseAllBtn').href = `products/index.html?store=${encodeURIComponent(slug)}`;
+    $('#gridTitle').textContent = `${store.name} · Products`;
+
+    $('#followBtn').addEventListener('click', ()=>{ alert('Followed!'); });
+
+    // Render products for this store
+    const grid = $('#grid');
+    const items = PRODUCTS.filter(p=>p.store===slug);
+    if(items.length===0){
+      grid.innerHTML = `<p class="muted">No products yet.</p>`;
+    }else{
+      grid.innerHTML = items.map(p=>`
+        <article class="card">
+          <a class="thumb" href="products/detail.html?id=${p.id}&slug=${p.slug}">
+            <img src="${p.img}" alt="${p.title}">
+          </a>
+          <div class="body">
+            <div class="title">${p.title}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="meta-row"><div class="price">$${p.price}</div><span class="muted">${p.tag}</span></div>
+            <div class="actions-row">
+              <a class="btn" href="demo/index.html?item=${p.id}&slug=${p.slug}" target="_blank" rel="noopener">Preview</a>
+              <a class="btn" href="products/detail.html?id=${p.id}&slug=${p.slug}">Details</a>
+              ${p.price===0
+                ? `<a class="btn primary" href="products/detail.html?id=${p.id}&slug=${p.slug}#download">Download</a>`
+                : `<a class="btn primary" href="cart.html?add=${p.id}">Add</a>`}
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    installImageFallback();
+  })();
+  </script>
+</body>
+</html>
