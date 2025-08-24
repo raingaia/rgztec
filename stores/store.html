@@ -1,267 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <base href="/rgztec/">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Store · RGZTEC</title>
-  <meta name="description" content="Store page with banner, meta, filters and products.">
-  <style>
-    :root{
-      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
-      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
-      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
-      --tile:#fff7f2;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial;color:var(--ink);background:#fff}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:0 16px}
-    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--b);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800}
-    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--b);border-radius:12px;padding:10px 14px;background:#fff;font-weight:800;cursor:pointer;transition:.12s}
-    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));border-color:#ff8a3f;color:#fff}
-    header .mast{display:flex;gap:12px;align-items:center;padding:12px 0}
-    header .searchbar{display:flex;gap:8px;align-items:center;flex:1}
-    header .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
+<meta charset="utf-8">
+<base href="/rgztec/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Store · RGZTEC</title>
+<meta name="description" content="Developer store on RGZTEC — products, live demos and details.">
+<link rel="stylesheet" href="assets/css/home.css">
+<style>
+  :root{
+    --brand:#ff7d33; --brand2:#ff914d; --ink:#0d1220; --muted:#5b657a;
+    --b:#e7ebf3; --tile:#fff7f2; --shadow:0 10px 30px rgba(0,0,0,.06);
+  }
+  .container{max-width:1180px;margin:0 auto;padding:0 18px}
+  header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);z-index:10}
+  .mast{display:flex;gap:12px;align-items:center;padding:10px 0}
+  .pill.logo{font-weight:900}
+  .search{display:flex;gap:8px;align-items:center;flex:1}
+  .search input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;flex:1;background:#fff}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--b);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease, box-shadow .08s ease}
+  .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+  .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
 
-    .banner{aspect-ratio:21/7;background:linear-gradient(180deg,#fff,#fff2ea);border:1px solid var(--b);border-radius:16px;margin:10px 0;overflow:hidden;box-shadow:var(--shadow)}
-    .banner img{width:100%;height:100%;object-fit:cover}
+  .crumbs{font-size:14px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--b);background:#f9fafc}
+  .crumbs a{color:inherit}
+  .banner{border:1px solid var(--b);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(180deg,#fff,#fff)}
+  .banner .img{aspect-ratio:16/5;background:linear-gradient(180deg,#fff,#fff0), radial-gradient(900px 300px at 5% -10%, #fff 0, #fff 40%, #fff6 60%, #fff0 100%), var(--tile)}
+  .banner img{width:100%;height:100%;object-fit:cover;display:block}
 
-    .headline{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    h1{font-size:clamp(26px,3.2vw,38px);margin:12px 0 0}
-    .muted{color:var(--muted)}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-    .chip{display:inline-flex;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:7px 12px;font-weight:800}
-    .chip.active{background:var(--tile);border-color:#ffc8a6}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:10px}
+  .title h1{margin:0;font-size:clamp(24px,3.4vw,40px);letter-spacing:-.02em}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .chip{display:inline-flex;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
+  .tools{display:flex;gap:10px;flex-wrap:wrap}
 
-    .toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:12px 0}
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin:8px 0 40px}
-    .card{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.12s}
-    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
-    .thumb{aspect-ratio:16/9;background:#f2f3f6}
-    .thumb img{width:100%;height:100%;object-fit:cover}
-    .body{padding:12px 14px;display:grid;gap:8px}
-    .title{font-weight:900}
-    .meta{display:flex;justify-content:space-between;align-items:center}
-    .price{font-weight:900}
-    .footnote{color:var(--muted);font-size:13px;margin:22px 0}
-  </style>
+  .filterbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+  .filterbar .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .filterbar input{height:40px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1;min-width:240px}
+
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
+  .thumb{aspect-ratio:16/9;background:#f2f3f6}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+  .title{font-weight:900}
+  .desc{color:var(--muted);font-size:14px;min-height:44px}
+  .meta{display:flex;justify-content:space-between;align-items:center}
+  .price{font-weight:900}
+  .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+  .footnote{color:var(--muted);font-size:13px;margin:18px 0}
+  @media (max-width:900px){ .banner .img{aspect-ratio:16/7} }
+</style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
     <div class="container mast">
-      <a class="pill" href="index.html">RGZTEC</a>
-      <form class="searchbar" action="products/index.html">
-        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" />
+      <a class="pill logo" href="index.html">RGZTEC</a>
+      <form class="search" action="products/index.html">
+        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search site">
         <button class="btn" type="submit">Search</button>
       </form>
-      <nav>
-        <a class="btn" href="stores/index.html">Stores</a>
+      <nav class="top-links">
+        <a class="btn" href="products/index.html">Explore</a>
         <a class="btn" href="demo/index.html">Demo Gallery</a>
+        <a class="btn" href="stores/index.html">Stores</a>
+        <a class="btn" href="login.html">Login</a>
         <a class="btn primary" href="advertise.html">Become a Seller</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <div class="banner" id="banner"><img id="bannerImg" alt="Store banner"></div>
+  <!-- CRUMBS -->
+  <div class="crumbs">
+    <div class="container">
+      <a href="index.html">Home</a> › <a href="stores/index.html">Stores</a> › <span id="crumbName">Store</span>
+    </div>
+  </div>
 
-    <div class="headline">
-      <div>
+  <main class="container">
+    <!-- BANNER -->
+    <section class="banner" style="margin:16px 0">
+      <div class="img"><img id="bannerImg" alt=""></div>
+    </section>
+
+    <!-- HEAD -->
+    <section class="head">
+      <div class="title">
         <h1 id="storeName">Store</h1>
-        <div class="chips" id="storeStacks"></div>
-        <p class="muted" id="storeDesc"></p>
-        <p class="muted" id="storeMeta"></p>
+        <div class="tags" id="storeTags"></div>
+        <p id="storeDesc" class="footnote"></p>
+        <p id="storeMeta" class="footnote"></p>
       </div>
-      <div class="actions">
+      <div class="tools">
         <button class="btn" id="btnFollow">Follow</button>
         <button class="btn" id="btnShare">Share</button>
         <a class="btn" id="btnWebsite" target="_blank" rel="noopener">Open website</a>
       </div>
-    </div>
+    </section>
 
-    <!-- Local filters -->
-    <div class="chips" id="stackFilter"></div>
-    <div class="toolbar">
-      <input class="pill" id="q" placeholder="Search in this store… (Press / to focus)">
-      <select class="pill" id="sort">
+    <!-- FILTERS -->
+    <section class="filterbar">
+      <div class="chips" id="stackChips"></div>
+      <input id="q" type="search" placeholder="Search in this store…">
+      <select id="sort" class="btn" style="height:40px">
         <option value="featured">Featured</option>
         <option value="price-asc">Price ↑</option>
         <option value="price-desc">Price ↓</option>
-        <option value="alpha">A → Z</option>
+        <option value="az">A → Z</option>
       </select>
-    </div>
+    </section>
 
-    <section class="grid" id="grid" aria-live="polite"></section>
-    <p class="footnote">Tip: press <b>/</b> to focus search • Images auto-fallback from WebP→PNG→JPG.</p>
+    <!-- PRODUCTS -->
+    <section>
+      <div class="grid" id="grid"></div>
+      <p class="footnote" id="count"></p>
+    </section>
   </main>
 
   <script>
-    // ---------- Store data (same slugs as list) ----------
-    const STORES = [
-      { slug:'pixel-foundry', name:'Pixel Foundry', stacks:['html','css'], since:2021, items:42, rating:4.9, top:true, website:'https://example.com/pixel', desc:'Clean HTML starters and utility CSS kits.', banner:'images/stores/pixel-foundry-banner.webp',
-        products:[
-          {id:1, slug:'landing-starter-html', title:'Landing Starter (HTML)', desc:'Hero, features, pricing and blog sections.', price:18, tag:'html', img:'images/catalog/html1.webp'},
-          {id:5, slug:'agency-starter', title:'Agency Starter', desc:'Services: cards, testimonials, pricing.', price:16, tag:'html', img:'images/catalog/html5.webp'},
-          {id:9, slug:'pricing-tables', title:'Pricing Tables', desc:'3–4 column pricing with featured plan.', price:8, tag:'html', img:'images/catalog/html9.webp'},
-          {id:7, slug:'resume-card', title:'Resume Card', desc:'Single-page resume with skills & contact.', price:9, tag:'html', img:'images/catalog/html7.webp'},
-        ]
-      },
-      { slug:'widget-labs', name:'Widget Labs', stacks:['js','html'], since:2022, items:18, rating:4.9, website:'https://example.com/widgetlabs', desc:'Vanilla JS widgets and tiny plugins.', banner:'images/stores/widget-labs-banner.webp',
-        products:[
-          {id:20, slug:'js-widgets', title:'JS Widgets', desc:'Tabs, accordions and tooltips (vanilla).', price:11, tag:'js', img:'images/catalog/html20.webp'},
-          {id:11, slug:'faq-mini', title:'FAQ Mini', desc:'Accordion FAQ with categories and search.', price:6, tag:'js', img:'images/catalog/html11.webp'},
-          {id:8, slug:'product-list', title:'Product List', desc:'Filterable list with grid/row views.', price:11, tag:'html', img:'images/catalog/html8.webp'},
-          {id:10, slug:'contact-lite', title:'Contact Lite', desc:'Form, map placeholder & social links.', price:7, tag:'html', img:'images/catalog/html10.webp'},
-        ]
-      },
-      { slug:'react-craft', name:'React Craft', stacks:['react','html'], since:2023, items:12, rating:4.7, website:'https://example.com/reactcraft', desc:'Production-ready components for React apps.', banner:'images/stores/react-craft-banner.webp',
-        products:[
-          {id:17, slug:'react-components', title:'React Components', desc:'Cards, modals and tabs (markup only).', price:15, tag:'react', img:'images/catalog/html17.webp'},
-          {id:102, slug:'react-starter-free', title:'React Starter (Free)', desc:'Minimal React shell with routing.', price:0, tag:'react', img:'images/catalog/html17.webp'},
-          {id:6, slug:'e-commerce-mini', title:'E-commerce Mini', desc:'Product grid, product detail and cart icons.', price:22, tag:'html', img:'images/catalog/html6.webp'},
-          {id:4, slug:'blog-lite', title:'Blog Lite', desc:'Clean typography with list + single post.', price:12, tag:'html', img:'images/catalog/html4.webp'},
-        ]
-      },
-      { slug:'style-forge', name:'Style Forge', stacks:['css','html'], since:2020, items:15, rating:4.6, website:'https://example.com/styleforge', desc:'Utility-first CSS components and layout kits.', banner:'images/stores/style-forge-banner.webp',
-        products:[
-          {id:9, slug:'pricing-tables', title:'Pricing Tables', desc:'Clean pricing blocks with CTA.', price:8, tag:'html', img:'images/catalog/html9.webp'},
-          {id:12, slug:'gallery-grid', title:'Gallery Grid', desc:'Masonry/grid gallery (lightbox placeholder).', price:13, tag:'html', img:'images/catalog/html12.webp'},
-          {id:5, slug:'agency-starter', title:'Agency Starter', desc:'Services: cards, testimonials, pricing.', price:16, tag:'css', img:'images/catalog/html5.webp'},
-        ]
-      },
-      { slug:'vector-supply', name:'Vector Supply', stacks:['icons'], since:2019, items:23, rating:4.8, website:'https://example.com/vectorsupply', desc:'SVG icons and UI assets for developers.', banner:'images/stores/vector-supply-banner.webp',
-        products:[
-          {id:18, slug:'svg-icons', title:'SVG Icons', desc:'Curated developer icon set (inlineable).', price:6, tag:'icons', img:'images/catalog/html18.webp'},
-          {id:103, slug:'icons-free-pack', title:'Free Icons Pack', desc:'Basic outline icons for prototypes.', price:0, tag:'icons', img:'images/catalog/html18.webp'},
-          {id:1, slug:'landing-starter-html', title:'Landing Starter', desc:'Fast HTML base for marketing pages.', price:18, tag:'html', img:'images/catalog/html1.webp'},
-        ]
-      },
-      { slug:'mailbox-co', name:'Mailbox Co.', stacks:['email','html'], since:2022, items:14, rating:4.5, website:'https://example.com/mailbox', desc:'Responsive email bases & transactional templates.', banner:'images/stores/mailbox-co-banner.webp',
-        products:[
-          {id:19, slug:'email-templates', title:'Email Templates', desc:'Transactional email starter set.', price:9, tag:'email', img:'images/catalog/html19.webp'},
-          {id:104, slug:'email-free', title:'Free Email Template', desc:'Responsive transactional email base.', price:0, tag:'email', img:'images/catalog/html19.webp'},
-          {id:3, slug:'portfolio-mini', title:'Portfolio Mini', desc:'One-page portfolio with grid & contact.', price:14, tag:'html', img:'images/catalog/html3.webp'}
-        ]
-      }
-    ];
+  /* ---------- Image fallback (webp→png→jpg) ---------- */
+  document.addEventListener('error', function(e){
+    const img = e.target;
+    if(img.tagName !== 'IMG') return;
+    const src = img.getAttribute('src') || '';
+    if(src.endsWith('.webp'))      img.src = src.replace(/\.webp$/i, '.png');
+    else if(src.endsWith('.png'))  img.src = src.replace(/\.png$/i, '.jpg');
+  }, true);
 
-    // ---- Helpers ----
-    const $ = (s,root=document)=>root.querySelector(s);
-    const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
-    const money = v => v===0 ? 'Free' : `$${v}`;
-    function esc(s){ return (s||'').toLowerCase(); }
+  /* ---------- Data ---------- */
+  const PRODUCTS = [
+    {id:1, slug:'landing-starter-html',     title:'Landing Starter (HTML)', desc:'Hero, features, pricing and blog sections.', price:18, stack:['html'],  thumb:'images/catalog/html1.webp'},
+    {id:2, slug:'dashboard-lite-html',      title:'Dashboard Lite (HTML)',  desc:'Sidebar + topbar & chart placeholders (vanilla JS).', price:24, stack:['js'],    thumb:'images/catalog/html2.webp'},
+    {id:3, slug:'portfolio-mini',           title:'Portfolio Mini',         desc:'Single-page portfolio with project grid & contact.',  price:14, stack:['html'],  thumb:'images/catalog/html3.webp'},
+    {id:4, slug:'blog-lite',                title:'Blog Lite',              desc:'List + single post layout with clean typography.',    price:12, stack:['html'],  thumb:'images/catalog/html4.webp'},
+    {id:5, slug:'agency-starter',           title:'Agency Starter',         desc:'Services: cards, testimonials, pricing.',             price:16, stack:['css'],   thumb:'images/catalog/html5.webp'},
+    {id:6, slug:'e-commerce-mini',          title:'E-commerce Mini',        desc:'Product grid, product detail and cart icons.',        price:22, stack:['html'],  thumb:'images/catalog/html6.webp'},
+    {id:7, slug:'resume-card',              title:'Resume Card',            desc:'Single-page resume with skills & contact.',           price:9,  stack:['html'],  thumb:'images/catalog/html7.webp'},
+    {id:8, slug:'product-list',             title:'Product List',           desc:'Filterable item list with grid/row views.',           price:11, stack:['html'],  thumb:'images/catalog/html8.webp'},
+    {id:9, slug:'pricing-tables',           title:'Pricing Tables',         desc:'Clean pricing blocks with CTA.',                      price:8,  stack:['html'],  thumb:'images/catalog/html9.webp'},
+    {id:10,slug:'contact-lite',             title:'Contact Lite',           desc:'Form, map placeholder & social links.',               price:7,  stack:['html'],  thumb:'images/catalog/html10.webp'},
+    {id:17,slug:'react-components',         title:'React Components',       desc:'Cards, modals and tabs (markup only).',               price:15, stack:['react'], thumb:'images/catalog/html17.webp'},
+    {id:18,slug:'svg-icons',                title:'SVG Icons',              desc:'Curated developer icon set (inlineable).',           price:6,  stack:['icons'], thumb:'images/catalog/html18.webp'},
+    {id:19,slug:'email-templates',          title:'Email Templates',        desc:'Transactional email starter set.',                    price:9,  stack:['email'], thumb:'images/catalog/html19.webp'},
+    // Free samples
+    {id:102,slug:'react-starter-free',      title:'React Starter (Free)',   desc:'Minimal React shell with routing.',                  price:0,  stack:['react','free'], thumb:'images/catalog/html17.webp'},
+    {id:103,slug:'icons-free-pack',         title:'Free Icons Pack',        desc:'Basic outline icons for prototypes.',                 price:0,  stack:['icons','free'], thumb:'images/catalog/html18.webp'},
+    {id:104,slug:'email-free',              title:'Free Email Template',    desc:'Responsive transactional email base.',                price:0,  stack:['email','free'], thumb:'images/catalog/html19.webp'}
+  ];
 
-    // Image fallback
-    addEventListener('error', e=>{
-      const img = e.target;
-      if(img.tagName!=='IMG') return;
-      img.onerror = null;
-      const src = img.getAttribute('src')||'';
-      if(src.endsWith('.webp')) img.src = src.replace(/\.webp$/i,'.png');
-      else if(src.endsWith('.png')) img.src = src.replace(/\.png$/i,'.jpg');
-    }, true);
+  const STORES = [
+    {
+      slug:'pixel-foundry',
+      name:'Pixel Foundry',
+      stacks:['html','css'],
+      desc:'Clean HTML starters and utility CSS kits.',
+      banner:'images/stores/pixel-foundry-banner.webp',
+      website:'#',
+      since:2021, rating:4.9, items:[1,2,4,6,7,8,9,10]
+    },
+    {
+      slug:'widget-labs',
+      name:'Widget Labs',
+      stacks:['js','html'],
+      desc:'Vanilla JS widgets and tiny plugins.',
+      banner:'images/stores/widget-labs-banner.webp',
+      website:'#',
+      since:2022, rating:4.9, items:[2,8,10,9,7]
+    },
+    {
+      slug:'react-craft',
+      name:'React Craft',
+      stacks:['react','html'],
+      desc:'Production-ready components for React apps.',
+      banner:'images/stores/react-craft-banner.webp',
+      website:'#',
+      since:2023, rating:4.7, items:[17,102,1,4]
+    },
+    {
+      slug:'style-forge',
+      name:'Style Forge',
+      stacks:['css','html'],
+      desc:'Utility-first CSS components and layout kits.',
+      banner:'images/stores/style-forge-banner.webp',
+      website:'#',
+      since:2020, rating:4.6, items:[5,9,7,1]
+    },
+    {
+      slug:'vector-supply',
+      name:'Vector Supply',
+      stacks:['icons'],
+      desc:'SVG icons and UI assets for developers.',
+      banner:'images/stores/vector-supply-banner.webp',
+      website:'#',
+      since:2021, rating:4.8, items:[18,103]
+    },
+    {
+      slug:'mailbox-co',
+      name:'Mailbox Co.',
+      stacks:['email','html'],
+      desc:'Responsive email bases & transactional templates.',
+      banner:'images/stores/mailbox-co-banner.webp',
+      website:'#',
+      since:2021, rating:4.7, items:[19,104]
+    }
+  ];
 
-    // ---- Init ----
-    (function init(){
-      const u = new URL(location.href);
-      let slug = (u.searchParams.get('slug') || location.hash.replace('#','') || '').toLowerCase();
-      if(!slug) slug = 'pixel-foundry'; // fallback
+  /* ---------- Helpers ---------- */
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-      const store = STORES.find(s=>s.slug===slug);
-      if(!store){ document.title='Store not found'; $('#storeName').textContent='Store not found'; return; }
+  function chip(label){ const s=document.createElement('span'); s.className='chip'; s.textContent=label; return s; }
 
-      // Headline
-      document.title = `${store.name} · Store · RGZTEC`;
-      $('#storeName').textContent = store.name;
-      $('#storeDesc').textContent = store.desc;
-      $('#storeMeta').textContent = `${store.items} items · Since ${store.since} · ${store.rating.toFixed(1)}★`;
-      $('#bannerImg').src = store.banner;
-      $('#bannerImg').alt = `${store.name} banner`;
-      $('#btnWebsite').href = store.website || '#';
-      if(!store.website) $('#btnWebsite').classList.add('muted');
+  function productCard(p){
+    const el = document.createElement('article');
+    el.className='card';
+    el.innerHTML = `
+      <a class="thumb" href="products/detail.html?id=${p.id}&slug=${p.slug}">
+        <img src="${p.thumb}" alt="${p.title}">
+      </a>
+      <div class="body">
+        <div class="title">${p.title}</div>
+        <div class="desc">${p.desc}</div>
+        <div class="meta"><div class="price">${p.price ? '$'+p.price : 'Free'}</div>
+          <div>${p.stack.map(s=>`<span class="chip">${s.toUpperCase()}</span>`).join(' ')}</div>
+        </div>
+        <div class="actions">
+          <a class="btn" href="demo/index.html?item=${p.id}&slug=${p.slug}" target="_blank" rel="noopener">Preview</a>
+          <a class="btn" href="products/detail.html?id=${p.id}&slug=${p.slug}">Details</a>
+          ${p.price===0
+            ? `<a class="btn primary" href="products/detail.html?id=${p.id}&slug=${p.slug}#download">Download</a>`
+            : `<a class="btn primary" href="cart.html?add=${p.id}">Add</a>`}
+        </div>
+      </div>`;
+    return el;
+  }
 
-      // Stacks under title
-      $('#storeStacks').innerHTML = store.stacks.map(t=>`<span class="chip">${t.toUpperCase()}</span>`).join('');
+  /* ---------- Page init ---------- */
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug') || '';
+    const store = STORES.find(s=>s.slug===slug);
 
-      // Local stack filter chips + Free
-      const availTags = [...new Set(store.products.map(p=>p.tag))];
-      const chips = ['all', ...availTags, 'free'];
-      $('#stackFilter').innerHTML = chips.map(t=>`<button class="chip" data-tag="${t}">${t.toUpperCase()}</button>`).join('');
-      $('#stackFilter .chip').classList.add('active');
+    // 404 guard
+    if(!store){
+      $('#storeName').textContent = 'Store';
+      $('#storeDesc').textContent  = 'Store not found. Go back to the stores directory.';
+      $('#bannerImg').alt = '';
+      $('#count').textContent = '0 items';
+      return;
+    }
 
-      // Control events
-      $('#btnShare').addEventListener('click', async ()=>{
-        try{
-          await navigator.clipboard.writeText(location.href);
-          $('#btnShare').textContent='Copied!';
-          setTimeout(()=>$('#btnShare').textContent='Share', 1200);
-        }catch(e){ alert('Link copied: ' + location.href); }
+    // Head content
+    $('#crumbName').textContent = store.name;
+    $('#storeName').textContent = store.name;
+    $('#storeDesc').textContent  = store.desc;
+    $('#storeMeta').textContent  = `${store.items.length} items · ${store.rating.toFixed ? store.rating.toFixed(1) : store.rating}★ · Since ${store.since}`;
+    $('#bannerImg').src = store.banner;
+    $('#bannerImg').alt = `${store.name} banner`;
+    const tags = $('#storeTags'); store.stacks.forEach(s=>tags.appendChild(chip(s.toUpperCase())));
+    $('#btnWebsite').href = store.website || '#';
+
+    // Stack chips
+    const uniqueStacks = Array.from(new Set(store.items.flatMap(id => (PRODUCTS.find(p=>p.id===id)||{}).stack || [])));
+    const chipsBox = $('#stackChips');
+    const stacks = ['all', ...uniqueStacks, 'free'];
+    stacks.forEach(s=>{
+      const c = chip(s==='all' ? 'All' : s.toUpperCase());
+      c.dataset.stack = s;
+      c.addEventListener('click', ()=>{
+        params.set('stack', s);
+        history.replaceState(null,'',`?${params.toString()}`);
+        render();
       });
-      $('#btnFollow').addEventListener('click', ()=>{
-        $('#btnFollow').textContent = $('#btnFollow').textContent==='Follow' ? 'Following' : 'Follow';
-      });
+      chipsBox.appendChild(c);
+    });
 
-      // Search & sort & chips
-      const q = $('#q'), sort = $('#sort');
-      $('#stackFilter').addEventListener('click', (e)=>{
-        const b = e.target.closest('.chip'); if(!b) return;
-        $$('#stackFilter .chip').forEach(x=>x.classList.remove('active'));
-        b.classList.add('active'); render();
-      });
-      q.addEventListener('input', render);
-      sort.addEventListener('change', render);
-      window.addEventListener('keydown', (e)=>{
-        if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
-          e.preventDefault(); q.focus();
-        }
-      });
-
-      function render(){
-        const tag = $('#stackFilter .chip.active')?.dataset.tag || 'all';
-        const query = esc(q.value.trim());
-        const order = sort.value;
-
-        let list = store.products.slice();
-        if(tag!=='all'){
-          if(tag==='free') list = list.filter(p=>p.price===0);
-          else list = list.filter(p=>p.tag===tag);
-        }
-        if(query) list = list.filter(p=> esc(p.title+' '+p.desc).includes(query));
-
-        switch(order){
-          case 'price-asc': list.sort((a,b)=>a.price-b.price); break;
-          case 'price-desc': list.sort((a,b)=>b.price-a.price); break;
-          case 'alpha': list.sort((a,b)=>a.title.localeCompare(b.title)); break;
-          default: /* featured */ list.sort((a,b)=>(a.price===0? -1:0) - (b.price===0? -1:0));
-        }
-
-        $('#grid').innerHTML = list.map(p=>`
-          <article class="card">
-            <a class="thumb" href="products/detail.html?id=${p.id}&slug=${p.slug}">
-              <img src="${p.img}" alt="${p.title}">
-            </a>
-            <div class="body">
-              <a class="title" href="products/detail.html?id=${p.id}&slug=${p.slug}">${p.title}</a>
-              <div class="muted">${p.desc}</div>
-              <div class="meta">
-                <span class="muted">${p.tag.toUpperCase()}</span>
-                <span class="price">${money(p.price)}</span>
-              </div>
-              <div class="actions" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-                <a class="btn" href="demo/index.html?item=${p.id}&slug=${p.slug}" target="_blank" rel="noopener">Preview</a>
-                <a class="btn" href="products/detail.html?id=${p.id}&slug=${p.slug}">Details</a>
-                <a class="btn primary" href="cart.html?add=${p.id}">${p.price===0?'Download':'Add'}</a>
-              </div>
-            </div>
-          </article>
-        `).join('') || `<p class="muted">No products matched your filters.</p>`;
-      }
-
+    // Events
+    $('#btnShare').addEventListener('click', async ()=>{
+      const url = location.href;
+      try{ await navigator.clipboard.writeText(url); alert('Link copied'); }
+      catch{ prompt('Copy link:', url); }
+    });
+    $('#btnFollow').addEventListener('click', (e)=>{
+      e.target.textContent = e.target.textContent === 'Follow' ? 'Following ✓' : 'Follow';
+    });
+    $('#q').addEventListener('input', ()=>{
+      params.set('q', $('#q').value.trim());
+      history.replaceState(null,'',`?${params.toString()}`);
       render();
-    })();
+    });
+    $('#sort').addEventListener('change', ()=>{
+      params.set('sort', $('#sort').value);
+      history.replaceState(null,'',`?${params.toString()}`);
+      render();
+    });
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
+        e.preventDefault(); $('#q').focus();
+      }
+    });
+
+    function render(){
+      const q = (params.get('q')||'').toLowerCase();
+      const stack = (params.get('stack')||'all').toLowerCase();
+      const sort = params.get('sort')||'featured';
+
+      let list = store.items.map(id=>PRODUCTS.find(p=>p.id===id)).filter(Boolean);
+
+      if(stack!=='all'){
+        if(stack==='free'){ list = list.filter(p=>p.price===0); }
+        else { list = list.filter(p=>p.stack.includes(stack)); }
+      }
+      if(q){ list = list.filter(p=> (p.title+p.desc).toLowerCase().includes(q)); }
+
+      if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+      else if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+      else if(sort==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
+      // featured: store order
+
+      const grid = $('#grid'); grid.innerHTML='';
+      list.forEach(p=> grid.appendChild(productCard(p)));
+      $('#count').textContent = `${list.length} item${list.length===1?'':'s'}`;
+      $('#q').value = q;
+      $('#sort').value = sort;
+      // highlight active chip
+      $$('#stackChips .chip').forEach(ch=>ch.style.outline = ch.dataset.stack===stack ? '2px solid #ffb288' : '0');
+    }
+
+    // init from URL
+    render();
+  })();
   </script>
 </body>
 </html>
