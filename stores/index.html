@@ -426,5 +426,17 @@
       apply();
     })();
   </script>
+  // Store banner görselleri için WebP→PNG→JPG fallback
+  document.querySelectorAll('.banner img').forEach(img=>{
+    img.addEventListener('error', ()=>{
+      const s = img.getAttribute('src') || '';
+      if (/\.webp$/i.test(s)) img.src = s.replace(/\.webp$/i,'.png');
+      else if (/\.png$/i.test(s)) img.src = s.replace(/\.png$/i,'.jpg');
+      else img.src = 'images/stores/_placeholder.jpg';
+      img.onerror = null;
+    }, { once:true });
+  });
+</script>
+
 </body>
 </html>
