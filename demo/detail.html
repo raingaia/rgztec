@@ -2,160 +2,323 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC – Product</title>
-  <link rel="stylesheet" href="/rgztec/assets/css/main.css" />
+  <title>RGZTEC · Live Demo</title>
+  <meta name="description" content="Live preview for HTML templates, CSS kits, JS widgets, React components, SVG icons and email templates.">
+  <link rel="stylesheet" href="assets/css/home.css" />
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f7f7fb;margin:0}
-    .wrap{max-width:1100px;margin:auto;padding:24px}
-    .back{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;text-decoration:none}
-    .layout{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;margin-top:20px}
-    .panel{background:#fff;border-radius:18px;border:1px solid #eee;box-shadow:0 6px 20px rgba(0,0,0,.06)}
-    .panel.pad{padding:18px}
-    .media{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:#eef2f7;border-radius:14px;overflow:hidden}
-    .media img{width:100%;height:100%;object-fit:cover;display:none}
-    .ghost{display:flex;align-items:center;justify-content:center;color:#94a3b8;font-weight:700}
-    .title{font-size:28px;font-weight:800;margin:0 0 10px}
-    .muted{color:#6b7280}
-    .row{display:flex;gap:12px;align-items:center}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;border:1px solid #e5e7eb;background:#fff;font-weight:700;text-decoration:none}
-    .btn.primary{background:#ff6a3d;border-color:#ff6a3d;color:#fff}
-    .btn[aria-disabled="true"]{pointer-events:none;opacity:.55}
-    .price{font-size:22px;font-weight:800}
-    .note{font-size:12px;color:#6b7280;margin-top:10px}
-    @media (max-width:960px){.layout{grid-template-columns:1fr}}
+    :root{
+      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
+      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
+      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 12px 32px rgba(0,0,0,.08);
+      --tile:#fff7f2;
+    }
+    body{background:var(--bg);color:var(--ink)}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+
+    /* header */
+    .mast{display:flex;gap:12px;align-items:center;padding:14px 0}
+    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:6px 10px;font-weight:900}
+    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease,box-shadow .08s ease,background-color .12s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+    .btn.ghost{background:#fff}
+    .btn.badge{border-radius:999px;padding:6px 12px;font-size:13px}
+
+    /* layout */
+    .wrap{display:grid;gap:16px;grid-template-columns:1.2fr .8fr}
+    @media (max-width:1024px){ .wrap{grid-template-columns:1fr} }
+
+    .viewer{
+      background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
+      overflow:hidden;display:grid;grid-template-rows:auto 1fr;
+    }
+    .bar{
+      display:flex;gap:8px;align-items:center;justify-content:space-between;
+      padding:10px 12px;border-bottom:1px solid var(--b);background:
+      radial-gradient(900px 300px at -10% -50%, #fff, #fff 40%, #fff0 100%), #fff;
+    }
+    .left, .right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .seg{display:flex;gap:4px;padding:4px;border:1px solid var(--b2);border-radius:10px;background:#fff}
+    .seg button{border:1px solid transparent;background:#fff;border-radius:8px;padding:6px 10px;font-weight:800;cursor:pointer}
+    .seg button[aria-pressed="true"]{background:var(--tile);border-color:#ffc8a6}
+
+    .stage{display:grid;place-items:center;background:#f7f8fb}
+    .device{background:#fff;border:1px solid var(--b);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.09);overflow:hidden}
+    .device iframe{width:100%;height:100%;border:0;background:#fff}
+    .fallback{display:grid;place-items:center;inset:0}
+    .fallback .shot{max-width:92%;max-height:80%;border:1px solid var(--b);border-radius:12px;background:#fff}
+    .note{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:#111;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;opacity:.9}
+
+    .panel{
+      background:#fff;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
+      padding:16px;display:grid;gap:12px;height:100%;
+    }
+    .title{font-size:22px;font-weight:900}
+    .muted{color:var(--muted)}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{border:1px solid var(--b);background:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
+    .meta{display:flex;gap:10px;align-items:center}
+    .price{font-weight:900}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .row{display:flex;gap:10px;justify-content:space-between;align-items:center}
+    .divider{height:1px;background:var(--b);margin:2px 0}
+
+    .nav{display:flex;gap:8px;justify-content:space-between}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;border:1px solid var(--b2);border-radius:8px;padding:2px 6px;background:#fff;color:#6b7280}
+
+    /* footer mini */
+    .site-foot{margin-top:16px;border-top:1px solid var(--b);background:linear-gradient(180deg,#fff,#fff4ee)}
+    .site-mini{padding:10px 0;color:#6b7280}
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <a class="back" href="/rgztec/catalog/">← Back to Category</a>
+  <!-- HEADER -->
+  <header class="container mast">
+    <a class="pill" href="index.html">RGZTEC</a>
+    <a class="btn ghost" href="demo/index.html">Back to gallery</a>
+    <a class="btn ghost" href="products/index.html">Explore catalog</a>
+    <a class="btn primary" href="advertise.html">Become a Seller</a>
+  </header>
 
-    <section class="layout">
-      <!-- Sol: Görsel -->
-      <div class="panel pad">
-        <div class="media">
-          <div class="ghost" id="ghostLabel">G&ouml;rsel bulunamad&#305;</div>
-          <img id="product-image" alt="">
+  <!-- CONTENT -->
+  <div class="container wrap" id="app">
+    <!-- PREVIEW -->
+    <section class="viewer" aria-label="Live preview">
+      <div class="bar">
+        <div class="left">
+          <div class="seg" role="tablist" aria-label="Device size">
+            <button id="btn-m" role="tab" aria-pressed="false" title="Mobile (390px)">M</button>
+            <button id="btn-t" role="tab" aria-pressed="true"  title="Tablet (834px)">T</button>
+            <button id="btn-d" role="tab" aria-pressed="false" title="Desktop (1280px)">D</button>
+          </div>
+          <button class="btn" id="btn-refresh" title="Refresh preview">Refresh</button>
+          <a class="btn" id="btn-open" target="_blank" rel="noopener">Open in new tab</a>
+        </div>
+        <div class="right">
+          <button class="btn" id="btn-copy">Copy link</button>
         </div>
       </div>
-
-      <!-- Sağ: İçerik -->
-      <div class="panel pad">
-        <h1 class="title" id="product-title">Product</h1>
-        <p class="muted" id="product-desc">Template details and features.</p>
-
-        <div class="row" style="margin:16px 0 6px">
-          <a id="btn-demo" class="btn" aria-disabled="true">Live Demo</a>
-          <a id="btn-store" class="btn primary" aria-disabled="true">Create your store</a>
-          <div class="price" id="product-price" style="margin-left:auto"></div>
+      <div class="stage" id="stage" style="position:relative">
+        <!-- device container -->
+        <div class="device" id="device" style="width:834px;height:560px">
+          <iframe id="frame" title="Live demo"></iframe>
         </div>
-
-        <p class="note">Not: Demo ve ma&#287;aza linkleri se&ccedil;ti&#287;iniz &uuml;r&uuml;ne g&ouml;re otomatik ayarlan&#305;r.</p>
+        <!-- fallback -->
+        <div id="fallback" class="fallback" hidden>
+          <img id="shot" class="shot" alt="Preview image">
+          <div class="note">Live demo not available — showing screenshot</div>
+        </div>
       </div>
     </section>
-  </main>
+
+    <!-- SIDE PANEL -->
+    <aside class="panel" aria-labelledby="ttl">
+      <div class="row">
+        <div>
+          <div class="title" id="ttl">—</div>
+          <div class="meta">
+            <span class="chip" id="chip-cat">—</span>
+            <span class="chip" id="chip-price">—</span>
+          </div>
+        </div>
+        <div class="price" id="price">—</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="muted" id="desc">—</p>
+
+      <div class="chips" id="chips">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="actions" id="actions">
+        <!-- actions -->
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="nav">
+        <button class="btn" id="btn-prev">&larr; Prev <span class="kbd">←</span></button>
+        <button class="btn" id="btn-next">Next <span class="kbd">→</span> &rarr;</button>
+      </div>
+
+      <div class="muted" style="margin-top:8px">Tip: Press <span class="kbd">Esc</span> to close preview tab, <span class="kbd">←</span>/<span class="kbd">→</span> to switch items.</div>
+    </aside>
+  </div>
+
+  <!-- FOOTER MINI -->
+  <footer class="site-foot">
+    <div class="container site-mini">© 2025 RGZTEC — All rights reserved.</div>
+  </footer>
 
   <script>
-    // URL parametresi
-    const params = new URLSearchParams(location.search);
-    const slug = params.get("item");
+    // ----------------------
+    // Dataset (mirror of demo/index.html)
+    // ----------------------
+    const ITEMS = [
+      {id:1,  slug:'landing-starter-html', title:'Landing Starter (HTML)', cat:'html',   price:18, img:'images/catalog/html1.webp',  desc:'Hero, features, pricing and blog sections.', tags:['Landing','Marketing','Clean']},
+      {id:2,  slug:'dashboard-lite-html',  title:'Dashboard Lite (HTML)',  cat:'html',   price:24, img:'images/catalog/html2.webp',  desc:'Sidebar + topbar & chart placeholders (vanilla JS).', tags:['Admin','Charts','Vanilla JS']},
+      {id:3,  slug:'portfolio-mini',       title:'Portfolio Mini',         cat:'html',   price:14, img:'images/catalog/html3.webp',  desc:'Single-page portfolio with project grid & contact.', tags:['Portfolio','Grid','Contact']},
+      {id:4,  slug:'blog-lite',            title:'Blog Lite',              cat:'html',   price:12, img:'images/catalog/html4.webp',  desc:'List + single post layout with clean typography.', tags:['Blog','Typography']},
+      {id:5,  slug:'agency-starter',       title:'Agency Starter',         cat:'css',    price:16, img:'images/catalog/html5.webp',  desc:'Services: cards, testimonials, pricing.', tags:['CSS Kit','Cards']},
+      {id:6,  slug:'e-commerce-mini',      title:'E-commerce Mini',        cat:'html',   price:22, img:'images/catalog/html6.webp',  desc:'Product grid, product detail and cart icons.', tags:['Shop','Grid']},
+      {id:7,  slug:'resume-card',          title:'Resume Card',            cat:'html',   price: 9, img:'images/catalog/html7.webp',  desc:'Single-page resume with skills & contact.', tags:['Resume']},
+      {id:8,  slug:'product-list',         title:'Product List',           cat:'html',   price:11, img:'images/catalog/html8.webp',  desc:'Filterable list with grid/row views.', tags:['Filters','List']},
+      {id:9,  slug:'pricing-tables',       title:'Pricing Tables',         cat:'css',    price: 8, img:'images/catalog/html9.webp',  desc:'3–4 column pricing with CTA.', tags:['Pricing','CTA']},
+      {id:10, slug:'contact-lite',         title:'Contact Lite',           cat:'html',   price: 7, img:'images/catalog/html10.webp', desc:'Form, map placeholder & social links.', tags:['Contact','Form']},
+      {id:11, slug:'faq-mini',             title:'FAQ Mini',               cat:'js',     price: 6, img:'images/catalog/html11.webp', desc:'Accordion FAQ with categories and search.', tags:['Accordion','Search']},
+      {id:12, slug:'gallery-grid',         title:'Gallery Grid',           cat:'css',    price:13, img:'images/catalog/html12.webp', desc:'Masonry/grid gallery (lightbox placeholder).', tags:['Gallery','Masonry']},
+      {id:17, slug:'react-components',     title:'React Components',       cat:'react',  price:15, img:'images/catalog/html17.webp', desc:'Cards, modals and tabs (markup only).', tags:['React','Components']},
+      {id:18, slug:'svg-icons',            title:'SVG Icons',              cat:'icons',  price: 6, img:'images/catalog/html18.webp', desc:'Curated developer icon set (inlineable).', tags:['Icons','SVG']},
+      {id:19, slug:'email-templates',      title:'Email Templates',        cat:'email',  price: 9, img:'images/catalog/html19.webp', desc:'Transactional email starter set.', tags:['Email','Transactional']},
+      {id:20, slug:'js-widgets',           title:'JS Widgets',             cat:'js',     price:11, img:'images/catalog/html20.webp', desc:'Tabs, accordions and tooltips (vanilla).', tags:['Tabs','Tooltips']},
+      {id:102,slug:'react-starter-free',   title:'React Starter (Free)',   cat:'react',  price: 0, img:'images/catalog/html17.webp', desc:'Minimal React shell with routing.', tags:['React','Starter'], free:true},
+      {id:103,slug:'icons-free-pack',      title:'Free Icons Pack',        cat:'icons',  price: 0, img:'images/catalog/html18.webp', desc:'Basic outline icons for prototypes.', tags:['Icons','Free'], free:true},
+      {id:104,slug:'email-free',           title:'Free Email Template',    cat:'email',  price: 0, img:'images/catalog/html19.webp', desc:'Responsive transactional email base.', tags:['Email','Free'], free:true},
+    ];
 
-    // Ürün veritabanı (alias'lı)
-    const DB = {
-      // Landing Page
-      "landing-page": {
-        title: "Landing Page Starter",
-        desc: "Responsive, lightweight HTML/CSS starter landing page.",
-        price: 19,
-        image: "/rgztec/images/landing-page.png",
-        demo:  "/rgztec/demo/detail.html?p=landing-page",
-        store: "/rgztec/stores/index.html?p=landing-page"
-      },
-      "landing-page-starter": {
-        title: "Landing Page Starter",
-        desc: "Responsive, lightweight HTML/CSS starter landing page.",
-        price: 19,
-        image: "/rgztec/images/landing-page.png",
-        demo:  "/rgztec/demo/detail.html?p=landing-page",
-        store: "/rgztec/stores/index.html?p=landing-page"
-      },
+    // ----------------------
+    // Utility
+    // ----------------------
+    const $  = s => document.querySelector(s);
+    function fmtPrice(v){return v===0?'Free':`$${v}`;}
+    function getParam(name){
+      const u = new URLSearchParams(location.search);
+      return u.get(name);
+    }
+    function setParams(next){
+      const u = new URLSearchParams(location.search);
+      Object.entries(next).forEach(([k,v])=>{
+        if(v===null || v===undefined) u.delete(k); else u.set(k,v);
+      });
+      history.replaceState(null,'', `${location.pathname}?${u.toString()}`);
+    }
+    function webpFallback(ctx=document){
+      ctx.querySelectorAll('img').forEach(img=>{
+        img.onerror = ()=>{
+          const s = img.getAttribute('src')||'';
+          if(s.endsWith('.webp')){ img.src = s.replace(/\.webp$/i,'.png'); return; }
+          if(s.endsWith('.png')) { img.src = s.replace(/\.png$/i,'.jpg');  return; }
+          img.onerror = null;
+        };
+      });
+    }
 
-      // Portfolio
-      "portfolio-showcase": {
-        title: "Portfolio Showcase",
-        desc: "Clean portfolio template with filters and responsive grid.",
-        price: 25,
-        image: "/rgztec/images/portfolio.png",
-        demo:  "/rgztec/demo/detail.html?p=portfolio-showcase",
-        store: "/rgztec/stores/index.html?p=portfolio-showcase"
-      },
-
-      // Admin Dashboard
-      "admin-dashboard": {
-        title: "Admin Dashboard UI",
-        desc: "Modern admin dashboard with cards, charts and tables.",
-        price: 49,
-        image: "/rgztec/images/dashboard.png",
-        demo:  "/rgztec/demo/detail.html?p=admin-dashboard",
-        store: "/rgztec/stores/index.html?p=admin-dashboard"
-      },
-      "admin-dashboard-ui": {
-        title: "Admin Dashboard UI",
-        desc: "Modern admin dashboard with cards, charts and tables.",
-        price: 49,
-        image: "/rgztec/images/dashboard.png",
-        demo:  "/rgztec/demo/detail.html?p=admin-dashboard",
-        store: "/rgztec/stores/index.html?p=admin-dashboard"
-      },
-
-      // E-commerce
-      "ecommerce-homepage": {
-        title: "E-commerce Homepage",
-        desc: "E-commerce landing with hero, categories and product grid.",
-        price: 39,
-        image: "/rgztec/images/ecommerce.png",
-        demo:  "/rgztec/demo/detail.html?p=ecommerce-homepage",
-        store: "/rgztec/stores/index.html?p=ecommerce-homepage"
-      }
+    // ----------------------
+    // Page wiring
+    // ----------------------
+    const state = {
+      id: +(getParam('item') || getParam('id') || 0),
+      slug: getParam('slug') || '',
+      idx: 0, // index in ITEMS
+      liveOk: false
     };
 
-    // DOM
-    const $title = document.getElementById("product-title");
-    const $desc  = document.getElementById("product-desc");
-    const $img   = document.getElementById("product-image");
-    const $ghost = document.getElementById("ghostLabel");
-    const $price = document.getElementById("product-price");
-    const $demo  = document.getElementById("btn-demo");
-    const $store = document.getElementById("btn-store");
-
-    function disableButtons(){[$demo,$store].forEach(b=>{b.removeAttribute("href");b.setAttribute("aria-disabled","true");});}
-    function enableButtons(){[$demo,$store].forEach(b=>b.removeAttribute("aria-disabled"));}
-
-    if(!slug){ location.replace("/rgztec/catalog/"); }
-
-    const data = DB[slug];
-
-    if (!data) {
-      $title.textContent = "Product not found";
-      $desc.textContent  = "We couldn't find the product you are looking for.";
-      $price.textContent = "";
-      disableButtons();
-    } else {
-      $title.textContent = data.title;
-      $desc.textContent  = data.desc;
-      $price.textContent = `$${data.price}`;
-
-      // Görsel
-      $img.onload  = ()=>{ $ghost.style.display="none"; $img.style.display="block"; };
-      $img.onerror = ()=>{ $img.style.display="none"; $ghost.style.display="flex"; };
-      $img.src = data.image;
-
-      // Linkler
-      $demo.href  = data.demo;  $demo.target = "_blank"; $demo.rel = "noopener";
-      $store.href = data.store;
-      enableButtons();
+    function resolveItem(){
+      let it = null;
+      if(state.id) it = ITEMS.find(x=>x.id===state.id);
+      if(!it && state.slug) it = ITEMS.find(x=>x.slug===state.slug);
+      if(!it) it = ITEMS[0];
+      state.id = it.id; state.slug = it.slug;
+      state.idx = ITEMS.findIndex(x=>x.id===it.id);
+      return it;
     }
+
+    async function load(){
+      const it = resolveItem();
+
+      // header meta
+      $('#ttl').textContent = it.title;
+      $('#chip-cat').textContent = it.cat.toUpperCase();
+      $('#chip-price').textContent = fmtPrice(it.price);
+      $('#price').textContent = fmtPrice(it.price);
+      $('#desc').textContent = it.desc;
+      $('#chips').innerHTML = (it.tags||[]).map(t=>`<span class="chip">${t}</span>`).join('');
+
+      // actions
+      $('#actions').innerHTML = `
+        <a class="btn primary" href="products/detail.html?id=${it.id}&slug=${it.slug}">Open product page</a>
+        ${it.price===0
+          ? `<a class="btn" href="products/detail.html?id=${it.id}&slug=${it.slug}#download">Download</a>`
+          : `<a class="btn" href="cart.html?add=${it.id}">Add to cart</a>`}
+        <a class="btn" href="demo/index.html?item=${it.id}&slug=${it.slug}&open=1">Open in gallery</a>
+      `;
+
+      // preview URL (same-origin)
+      const liveURL = `demo/live/${it.slug}/index.html`;
+      $('#btn-open').href = liveURL;
+
+      // load with HEAD check; if missing, show screenshot fallback
+      try{
+        const r = await fetch(liveURL, {method:'HEAD'});
+        state.liveOk = r.ok;
+      }catch{ state.liveOk = false; }
+
+      const frame = $('#frame'); const fb = $('#fallback'); const shot = $('#shot');
+      if(state.liveOk){
+        frame.src = liveURL;
+        fb.hidden = true;
+      }else{
+        frame.removeAttribute('src');
+        fb.hidden = false;
+        shot.src = it.img; shot.alt = it.title;
+        webpFallback();
+      }
+
+      // set query canonical
+      setParams({item:it.id, slug:it.slug});
+
+      // device default tablet
+      setDevice('t');
+
+      // keyboard
+      document.addEventListener('keydown', keyNav);
+    }
+
+    // device controls
+    function setPressed(id){
+      ['btn-m','btn-t','btn-d'].forEach(i=>document.getElementById(i).setAttribute('aria-pressed', String(i===id)));
+    }
+    function setDevice(mode){
+      const box = $('#device');
+      if(mode==='m'){ box.style.width='390px'; box.style.height='700px'; setPressed('btn-m'); }
+      else if(mode==='t'){ box.style.width='834px'; box.style.height='560px'; setPressed('btn-t'); }
+      else { box.style.width='1280px'; box.style.height='740px'; setPressed('btn-d'); }
+    }
+
+    // navigation
+    function prev(){ state.idx = (state.idx-1+ITEMS.length)%ITEMS.length; const n=ITEMS[state.idx]; state.id=n.id; state.slug=n.slug; load(); }
+    function next(){ state.idx = (state.idx+1)%ITEMS.length; const n=ITEMS[state.idx]; state.id=n.id; state.slug=n.slug; load(); }
+    function keyNav(e){
+      if(e.key==='ArrowLeft') prev();
+      if(e.key==='ArrowRight') next();
+    }
+
+    // copy link
+    async function copyLink(){
+      const url = location.href;
+      try{ await navigator.clipboard.writeText(url); alert('Link copied'); }
+      catch{ prompt('Copy this link:', url); }
+    }
+
+    // events
+    document.getElementById('btn-m').onclick = ()=>setDevice('m');
+    document.getElementById('btn-t').onclick = ()=>setDevice('t');
+    document.getElementById('btn-d').onclick = ()=>setDevice('d');
+    document.getElementById('btn-prev').onclick = prev;
+    document.getElementById('btn-next').onclick = next;
+    document.getElementById('btn-copy').onclick = copyLink;
+    document.getElementById('btn-refresh').onclick = ()=>{
+      if(state.liveOk){ const f=$('#frame'); f.src=f.src; }
+    };
+
+    // init
+    webpFallback();
+    load();
   </script>
 </body>
 </html>
-
