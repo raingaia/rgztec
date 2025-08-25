@@ -4,415 +4,470 @@
   <meta charset="utf-8" />
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Developer Stores · RGZTEC</title>
-  <meta name="description" content="Independent creator stores. Clean code, live demos, instant copy. Discover HTML, CSS, JS, React, icon and email stores." />
+  <title>Store · RGZTEC</title>
+  <meta name="description" content="Discover developer stores on RGZTEC. Browse production-ready HTML templates, CSS UI kits, JS widgets, React components, SVG icons and email templates." />
+
+  <!-- Page styles (kept local to this file) -->
   <style>
     :root{
-      --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
-      --ink:#0d1220; --muted:#5b657a; --bg:#ffffff;
-      --b:#e7ebf3; --b2:#dfe4ee; --tile:#fff7f2;
-      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --brand:#ff7d33; --brand2:#ff914d; --ink:#0d1220; --muted:#5b657a;
+      --bg:#f7f8fb; --card:#fff; --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
+      --tile:#fff7f2; --ok:#2bb673;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Inter,Roboto,"Helvetica Neue",Arial}
+    html,body{margin:0;padding:0;background:#fff;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
     a{color:inherit;text-decoration:none}
-    .container{max-width:1200px;margin:0 auto;padding:0 16px}
-    .muted{color:var(--muted)}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .pill{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--b);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800}
-    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s, box-shadow .08s}
-    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
-    .btn.ghost{background:#fff}
-    header{border-bottom:1px solid var(--b)}
-    .mast{display:flex;align-items:center;gap:12px;padding:12px 0}
-    .logo{font-weight:900}
+    img{display:block;max-width:100%;height:auto}
+    .container{max-width:1180px;margin:0 auto;padding:0 16px}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid var(--b)}
+    .mast{display:flex;gap:12px;align-items:center;min-height:64px}
+    .pill{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 12px;border:1px solid var(--b);border-radius:999px;background:#fff;font-weight:800}
+    .pill.logo{font-weight:900}
     .searchbar{display:flex;gap:8px;align-items:center;flex:1}
     .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
-    .searchbar button{height:42px}
-    .top-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;height:42px;padding:0 14px;border:1px solid var(--b);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:.12s ease;white-space:nowrap}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));border-color:#ff8a3f;color:#fff}
+    .btn.soft{background:#fff;border-color:var(--b2)}
+    .btn.badge{height:auto;padding:6px 10px;border-radius:999px;font-size:12px}
 
-    /* HERO */
-    .hero{margin:16px 0 10px}
-    .hero-card{
-      position:relative;overflow:hidden;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
-      background:
-       radial-gradient(1200px 400px at 10% -10%, #fff 0, #fff 50%, #fff6 70%, #fff0 100%),
-       linear-gradient(180deg,#fff,#fff);
-      display:grid;grid-template-columns:1.3fr .9fr;gap:10px;
-    }
-    .hero-left{padding:22px}
-    .hero-left h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.02em}
-    .hero-left p{margin:0 0 12px;color:var(--muted)}
-    .hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-    .metric{display:flex;gap:8px;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800}
-    .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+    /* Breadcrumbs */
+    .crumbs{background:#f9fafc;border-bottom:1px solid var(--b)}
+    .crumbs .row{display:flex;gap:8px;align-items:center;min-height:44px}
+    .crumbs a{color:#445}
 
-    .hero-right{padding:18px}
-    .qs{background:#ffe6d6;border:1px solid #ffd2b9;border-radius:14px;padding:14px;height:100%;display:grid;gap:12px}
-    .qs h3{margin:0}
-    .qs .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    .qs input{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1}
-    .chip{display:inline-flex;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
-    .chip.active{background:var(--tile);border-color:#ffc8a6}
+    /* Hero / banner */
+    .hero{margin:18px 0 10px;border:1px solid var(--b);border-radius:16px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+    .banner{aspect-ratio: 16/5;background:linear-gradient(180deg,#fff,#fff);position:relative;overflow:hidden}
+    .banner img{width:100%;height:100%;object-fit:cover}
+    .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.0) 0%, rgba(255,255,255,.8) 70%, #fff 100%)}
+    .store-head{display:flex;justify-content:space-between;gap:12px;padding:12px 16px}
+    .store-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .title{font-size:clamp(22px,3vw,30px);font-weight:900;margin:0}
+    .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:12px}
+    .chip.ok{border-color:#cdebdc;background:#f4fbf6}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
 
-    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
-    select,input[type="search"]{height:42px;border:1px solid var(--b);border-radius:10px;background:#fff;padding:0 12px}
-    .tip{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border:1px solid #ffb487;border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+    /* Filters + tools */
+    .tools{display:grid;gap:10px;grid-template-columns:1fr 220px}
+    .tags{display:flex;flex-wrap:wrap;gap:8px}
+    .tag{display:inline-flex;padding:8px 12px;border:1px solid var(--b);border-radius:999px;background:#fff;font-weight:800;font-size:12px;cursor:pointer}
+    .tag.active{background:var(--tile);border-color:#ffc8a6}
+    .note{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;gap:16px;align-items:center}
 
-    /* STORE GRID */
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));margin:16px 0 26px}
-    .card{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .08s, box-shadow .08s}
+    /* Grid & cards */
+    .section{margin:16px 0}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease}
     .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
-    .banner{position:relative;aspect-ratio:16/9;background:#f2f4f8}
-    .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .banner.noimg{display:grid;place-items:center;background:linear-gradient(120deg,#fff,#fff7f2)}
-    .banner.noimg::after{content:attr(data-name);color:#9aa3b5;font-weight:900}
-    .body{padding:12px 14px;display:grid;gap:10px}
-    .title{font-weight:900}
-    .badges{display:flex;gap:6px;flex-wrap:wrap}
-    .stats{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:14px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .thumb{aspect-ratio:16/9;background:#f2f3f6}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
+    .desc{color:var(--muted);font-size:14px;min-height:44px}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:900}
+    .muted{color:var(--muted)}
+    .actions-row{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
 
-    /* SPOTLIGHT */
-    .spotlight{margin:10px 0 24px}
-    .spot-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}
-    .rail{display:flex;gap:12px;overflow:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
-    .rail .item{min-width:280px;scroll-snap-align:start}
-    .rail .item .banner{aspect-ratio:21/9}
+    /* Footer note / CTA */
+    .cta{margin:24px 0;border:1px solid #ffd2b9;background:linear-gradient(180deg,#ffe6d6,#fff2ea);border-radius:16px;padding:16px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .cta strong{display:block}
 
-    /* HOW IT WORKS / WHY SELL */
-    .tiles3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-    .tile{border:1px solid var(--b);border-radius:14px;padding:14px;background:#fff;box-shadow:var(--shadow)}
-    .tile h3{margin:0 0 6px}
-    .nums{display:flex;gap:14px;flex-wrap:wrap}
-    .num{border:1px solid var(--b);border-radius:12px;padding:10px 12px;background:#fff;font-weight:900}
-
-    /* NEWSLETTER */
-    .newsletter{margin:18px 0;border:1px solid var(--b);border-radius:14px;padding:16px;background:linear-gradient(180deg,#fff,#fff8f3);box-shadow:var(--shadow);display:grid;gap:10px}
-    .newsletter form{display:flex;gap:10px;flex-wrap:wrap}
-    .newsletter input{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1}
-
-    footer{border-top:1px solid var(--b);margin-top:24px;padding:22px 0}
-    .footgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .footgrid h4{margin:0 0 8px}
-    @media (max-width:1000px){ .hero-card{grid-template-columns:1fr} }
+    /* Responsive */
+    @media (max-width:900px){
+      .tools{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
     <div class="container mast">
-      <a class="logo pill" href="index.html">RGZTEC</a>
+      <a class="pill logo" href="index.html">RGZTEC</a>
       <form class="searchbar" action="products/index.html">
-        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search" />
+        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search site" />
         <button class="btn" type="submit">Search</button>
       </form>
-      <nav class="top-nav">
-        <a class="btn ghost" href="products/index.html">Explore</a>
-        <a class="btn ghost" href="demo/index.html">Demo Gallery</a>
-        <a class="btn ghost" href="stores/index.html">Stores</a>
-        <a class="btn ghost" href="login.html">Login</a>
-        <a class="btn primary" href="advertise.html#start-selling">Become a Seller</a>
+      <nav class="topnav" style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn soft" href="products/index.html">Explore</a>
+        <a class="btn soft" href="demo/index.html">Demo Gallery</a>
+        <a class="btn soft" href="stores/index.html">Stores</a>
+        <a class="btn soft" href="login.html">Login</a>
+        <a class="btn primary" href="advertise.html">Become a Seller</a>
       </nav>
     </div>
   </header>
 
+  <!-- BREADCRUMBS -->
+  <nav class="crumbs">
+    <div class="container row">
+      <a href="index.html">Home</a> ›
+      <a href="stores/index.html">Stores</a> ›
+      <span id="crumbStore" class="muted">Store</span>
+    </div>
+  </nav>
+
   <!-- HERO -->
-  <section class="container hero">
-    <div class="hero-card">
-      <div class="hero-left">
-        <h1>Discover creator stores</h1>
-        <p class="muted">Clean HTML, CSS, JS, React components, SVG icons and email starters. Live demos, instant copy, generous licenses.</p>
-        <div class="hero-stats">
-          <span class="metric"><strong id="metricStores">–</strong>&nbsp;stores</span>
-          <span class="metric"><strong>100+</strong>&nbsp;products</span>
-          <span class="metric"><strong>4.7★</strong>&nbsp;avg rating</span>
-        </div>
-        <div class="hero-actions">
-          <a class="btn primary" href="advertise.html#start-selling">Create a Store</a>
-          <a class="btn" href="products/index.html?sort=new">See new arrivals</a>
-          <a class="btn" href="demo/index.html">Try live demos</a>
-        </div>
-      </div>
-      <aside class="hero-right">
-        <div class="qs">
-          <h3>Quick search</h3>
-          <div class="row">
-            <input id="qHero" type="search" placeholder="Search stores…">
-            <button class="btn" id="btnHeroSearch">Search</button>
-          </div>
-          <div class="row" id="chipsHero">
-            <button class="chip" data-stack="">All</button>
-            <button class="chip" data-stack="html">HTML</button>
-            <button class="chip" data-stack="js">JS</button>
-            <button class="chip" data-stack="css">CSS</button>
-            <button class="chip" data-stack="react">React</button>
-            <button class="chip" data-stack="icons">Icons</button>
-            <button class="chip" data-stack="email">Email</button>
-          </div>
-          <p class="muted" style="margin:0">Tip: press <strong>/</strong> to focus search.</p>
-        </div>
-      </aside>
+  <section class="container hero" id="hero">
+    <div class="banner">
+      <img id="bannerImg" alt="">
     </div>
+    <div class="store-head">
+      <div class="store-meta">
+        <h1 class="title" id="storeTitle">Store</h1>
+        <span class="chip" id="stackBadges"></span>
+        <span class="chip"><span class="muted">Since</span> <span id="sinceVal">—</span></span>
+        <span class="chip ok">★ <span id="ratingVal">–</span></span>
+        <span class="chip" id="trustBadge"></span>
+      </div>
+      <div class="actions">
+        <button class="btn soft" id="btnFollow" aria-pressed="false">Follow</button>
+        <button class="btn soft" id="btnShare">Share</button>
+        <a id="btnWebsite" class="btn soft" href="#" target="_blank" rel="noopener">Open website</a>
+      </div>
+    </div>
+  </section>
 
-    <!-- Controls under hero -->
-    <div class="controls">
-      <input id="q" type="search" placeholder="Search stores…" style="flex:1">
-      <select id="sort">
+  <!-- FILTERS / TOOLS -->
+  <section class="container section">
+    <div class="tags" id="stackTags">
+      <!-- dynamic tags -->
+    </div>
+    <div class="tools" style="margin-top:10px">
+      <input id="q" class="pill" style="height:42px;border-radius:12px;width:100%;border:1px solid var(--b);padding:0 12px" type="search" placeholder="Search in this store…" />
+      <select id="sort" class="pill" style="height:42px;border-radius:12px;border:1px solid var(--b)">
         <option value="featured">Featured</option>
+        <option value="az">A–Z</option>
+        <option value="priceAsc">Price: Low to High</option>
+        <option value="priceDesc">Price: High to Low</option>
         <option value="newest">Newest</option>
-        <option value="items">Items (desc)</option>
-        <option value="rating">Rating (desc)</option>
       </select>
-      <div class="row" id="chips">
-        <button class="chip" data-stack="">All</button>
-        <button class="chip" data-stack="html">HTML</button>
-        <button class="chip" data-stack="js">JS</button>
-        <button class="chip" data-stack="css">CSS</button>
-        <button class="chip" data-stack="react">React</button>
-        <button class="chip" data-stack="icons">Icons</button>
-        <button class="chip" data-stack="email">Email</button>
-      </div>
     </div>
 
-    <div class="tip">
-      <span><strong>Pro tip:</strong> Click any stack tag to filter. Use <strong>/</strong> to jump to search. Your filters are saved in the URL.</span>
-      <div class="row">
-        <a class="btn" href="products/index.html?sort=new">New arrivals</a>
-        <a class="btn primary" href="advertise.html#start-selling">Create a Store</a>
-      </div>
+    <div class="note" style="margin-top:12px">
+      <div>Tip: Press <strong>/</strong> to focus search • Click a stack to filter within this store</div>
+      <div><span id="count" style="font-weight:900">0 items</span></div>
     </div>
   </section>
 
-  <!-- GRID -->
-  <section class="container">
-    <div id="grid" class="grid" aria-live="polite"></div>
+  <!-- PRODUCTS -->
+  <section class="container section">
+    <div class="grid" id="grid"></div>
   </section>
 
-  <!-- SPOTLIGHT -->
-  <section class="container spotlight" id="spot">
-    <div class="spot-head">
-      <h2 style="margin:0">Spotlight stores</h2>
-      <a class="btn" href="#top">Back to top</a>
+  <!-- CTA: Create a store -->
+  <section class="container cta">
+    <div>
+      <strong>Create a Store</strong>
+      Have quality templates or components? List your products and reach developers worldwide.
     </div>
-    <div class="rail" id="rail"></div>
+    <a class="btn primary" href="advertise.html">Start selling</a>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="container" style="margin:6px 0 20px">
-    <h2 style="margin:0 0 8px">How it works</h2>
-    <div class="tiles3">
-      <article class="tile">
-        <h3>1) Browse & filter</h3>
-        <p class="muted">Use tags (HTML, CSS, JS, React, Icons, Email), live demos and screenshots to evaluate.</p>
-      </article>
-      <article class="tile">
-        <h3>2) Instant copy</h3>
-        <p class="muted">Copy clean, semantic markup & CSS. MIT freebies included for quick prototypes.</p>
-      </article>
-      <article class="tile">
-        <h3>3) Ship faster</h3>
-        <p class="muted">Focus on product logic — let creators handle the UI building blocks.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- WHY SELL -->
-  <section class="container" style="margin:6px 0 20px">
-    <div class="tile">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <h2 style="margin:0">Why sell on RGZTEC?</h2>
-        <a class="btn primary" href="advertise.html#start-selling">Start selling</a>
-      </div>
-      <p class="muted" style="margin:6px 0 12px">Reach developers worldwide. Live demos, instant previews and a clean checkout help your work convert.</p>
-      <div class="nums">
-        <span class="num">Fast listing</span>
-        <span class="num">No lock-in</span>
-        <span class="num">Creator-first</span>
-        <span class="num">Generous payouts</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEWSLETTER -->
-  <section class="container newsletter">
-    <h3 style="margin:0">Get product updates</h3>
-    <p class="muted" style="margin:0">No spam. Just releases & tips.</p>
-    <form onsubmit="event.preventDefault();alert('Subscribed!')">
-      <input type="email" placeholder="you@example.com" required>
-      <button class="btn">Subscribe</button>
-    </form>
-  </section>
-
-  <footer class="container">
-    <div class="footgrid">
-      <div>
-        <h4>RGZTEC</h4>
-        <p class="muted">Production-ready HTML, CSS, JS, React and icon packs. Clean code, instant demos.</p>
-      </div>
-      <div>
-        <h4>Catalog</h4>
-        <div class="row">
-          <a href="products/index.html?cat=html">HTML</a> ·
-          <a href="products/js-widgets.html">JS</a> ·
-          <a href="products/css-ui-kits.html">CSS</a> ·
-          <a href="react.html">React</a> ·
-          <a href="svg-icons.html">Icons</a> ·
-          <a href="email-templates.html">Email</a>
-        </div>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <div class="row">
-          <a href="stores/index.html">Stores</a> ·
-          <a href="contact.html">Contact</a> ·
-          <a href="advertise.html#start-selling">Become a Seller</a>
-        </div>
-      </div>
-      <div>
-        <h4>Legal</h4>
-        <div class="row">
-          <a href="terms.html">Terms</a> ·
-          <a href="privacy.html">Privacy</a>
-        </div>
-      </div>
+  <!-- FOOTER -->
+  <footer class="container" style="padding:20px 0 40px;color:var(--muted);border-top:1px solid var(--b)">
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <a href="index.html">Home</a> ·
+      <a href="products/index.html">Catalog</a> ·
+      <a href="stores/index.html">Stores</a> ·
+      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
+      <a href="contact.html">Contact</a> ·
+      <a href="terms.html">Privacy</a>
     </div>
     <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
   </footer>
 
+  <!-- DATA + LOGIC -->
   <script>
-  // ---------- DATA (can move to /data later)
-  const STORES = [
-    { slug:'pixel-foundry', name:'Pixel Foundry',
-      stacks:['html','css'], since:2021, rating:4.8, items:42, trust:'Top seller',
-      website:'https://example.com/pixel', banner:'images/stores/pixel-foundry-banner.webp'
-    },
-    { slug:'widget-labs', name:'Widget Labs',
-      stacks:['js','html'], since:2022, rating:4.9, items:18, trust:'Trusted',
-      website:'https://example.com/widgets', banner:'images/stores/widget-labs-banner.webp'
-    },
-    { slug:'react-craft', name:'React Craft',
-      stacks:['react','html'], since:2023, rating:4.7, items:12, trust:'',
-      website:'https://example.com/react', banner:'images/stores/react-craft-banner.webp'
-    },
-    { slug:'style-forge', name:'Style Forge',
-      stacks:['css','html'], since:2020, rating:4.6, items:15, trust:'',
-      website:'https://example.com/style', banner:'images/stores/style-forge-banner.webp'
-    },
-    { slug:'vector-supply', name:'Vector Supply',
-      stacks:['icons'], since:2019, rating:4.5, items:23, trust:'Trusted',
-      website:'https://example.com/icons', banner:'images/stores/vector-supply-banner.webp'
-    },
-    { slug:'mailbox-co', name:'MailBox Co.',
-      stacks:['email','html'], since:2021, rating:4.4, items:11, trust:'',
-      website:'https://example.com/email', banner:'images/stores/mailbox-co-banner.webp'
-    },
-  ];
-
-  const $ = s => document.querySelector(s);
-  const $$ = s => Array.from(document.querySelectorAll(s));
-  const grid = $('#grid'); const rail = $('#rail');
-  const params = new URLSearchParams(location.search);
-  const q = $('#q'); const sort = $('#sort');
-
-  // Excel-proof image fallback
-  function fallback(img, container){
-    img.onerror = ()=>{
-      const src = img.getAttribute('src')||'';
-      if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
-      if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
-      img.remove(); container.classList.add('noimg');
+    // ---------- Data (mock) ----------
+    // Image conventions:
+    // - store banner: images/stores/<slug>-banner.webp
+    // - product thumb: images/catalog/html<n>.webp (fallbacks applied)
+    const STORES = {
+      "pixel-foundry": {
+        name: "Pixel Foundry",
+        stacks: ["HTML","CSS"],
+        since: 2021,
+        rating: 4.8,
+        trust: "Top seller",
+        website: "stores/index.html#pixel-foundry",
+        products: [
+          { id:1,  slug:"landing-starter-html", title:"Landing Starter (HTML)",  desc:"Hero, features, pricing and blog sections.",  price:18, stack:"HTML",  thumb:"images/catalog/html1.webp" },
+          { id:2,  slug:"dashboard-lite-html",   title:"Dashboard Lite (HTML)",   desc:"Sidebar + topbar & chart placeholders (vanilla JS).", price:24, stack:"JS",     thumb:"images/catalog/html2.webp" },
+          { id:3,  slug:"portfolio-mini",        title:"Portfolio Mini",          desc:"Single-page portfolio with project grid & contact.", price:14, stack:"HTML",  thumb:"images/catalog/html3.webp" },
+          { id:4,  slug:"blog-lite",             title:"Blog Lite",               desc:"List + single post layout with clean typography.",   price:12, stack:"HTML",  thumb:"images/catalog/html4.webp" },
+          { id:6,  slug:"e-commerce-mini",       title:"E-commerce Mini",         desc:"Product grid, product detail and cart icons.",       price:22, stack:"HTML",  thumb:"images/catalog/html6.webp" }
+        ]
+      },
+      "widget-labs": {
+        name: "Widget Labs",
+        stacks: ["JS","HTML"],
+        since: 2022,
+        rating: 4.9,
+        trust: "Trusted",
+        website: "stores/index.html#widget-labs",
+        products: [
+          { id:20, slug:"js-widgets",       title:"JS Widgets",       desc:"Tabs, accordions and tooltips (vanilla).",       price:11, stack:"JS",    thumb:"images/catalog/html20.webp" },
+          { id:11, slug:"faq-mini",         title:"FAQ Mini",         desc:"Accordion FAQ with categories and search.",      price:6,  stack:"HTML",  thumb:"images/catalog/html11.webp" },
+          { id:8,  slug:"product-list",     title:"Product List",     desc:"Filterable item list with grid/row views.",      price:11, stack:"HTML",  thumb:"images/catalog/html8.webp" },
+          { id:10, slug:"contact-lite",     title:"Contact Lite",     desc:"Form, map placeholder & social links.",          price:7,  stack:"HTML",  thumb:"images/catalog/html10.webp" }
+        ]
+      },
+      "react-craft": {
+        name: "React Craft",
+        stacks: ["React","HTML"],
+        since: 2023,
+        rating: 4.7,
+        trust: "—",
+        website: "stores/index.html#react-craft",
+        products: [
+          { id:17,  slug:"react-components",   title:"React Components",     desc:"Cards, modals and tabs (markup only).",          price:15, stack:"React", thumb:"images/catalog/html17.webp" },
+          { id:102, slug:"react-starter-free", title:"React Starter (Free)", desc:"Minimal React shell with routing.",               price:0,  stack:"Free",  thumb:"images/catalog/html17.webp" },
+          { id:4,   slug:"blog-lite",          title:"Blog Lite",            desc:"Clean typography: list + single post.",          price:12, stack:"HTML",  thumb:"images/catalog/html4.webp" }
+        ]
+      },
+      "style-forge": {
+        name: "Style Forge",
+        stacks: ["CSS","HTML"],
+        since: 2020,
+        rating: 4.6,
+        trust: "Trusted",
+        website: "stores/index.html#style-forge",
+        products: [
+          { id:9,  slug:"pricing-tables",  title:"Pricing Tables",  desc:"Clean pricing blocks with CTA.",                     price:8,  stack:"HTML", thumb:"images/catalog/html9.webp" },
+          { id:5,  slug:"agency-starter",  title:"Agency Starter",  desc:"Services: cards, testimonials, pricing.",            price:16, stack:"HTML", thumb:"images/catalog/html5.webp" },
+          { id:12, slug:"gallery-grid",    title:"Gallery Grid",    desc:"Masonry/grid gallery (lightbox placeholder).",       price:13, stack:"HTML", thumb:"images/catalog/html12.webp" },
+          { id:7,  slug:"resume-card",     title:"Resume Card",     desc:"Single-page resume with skills & contact.",          price:9,  stack:"HTML", thumb:"images/catalog/html7.webp" }
+        ]
+      },
+      "vector-supply": {
+        name: "Vector Supply",
+        stacks: ["Icons"],
+        since: 2019,
+        rating: 4.5,
+        trust: "Trusted",
+        website: "stores/index.html#vector-supply",
+        products: [
+          { id:18,  slug:"svg-icons",        title:"SVG Icons",        desc:"Curated developer icon set (inlineable).",        price:6, stack:"Icons", thumb:"images/catalog/html18.webp" },
+          { id:103, slug:"icons-free-pack",  title:"Free Icons Pack",  desc:"Basic outline icons for prototypes.",             price:0, stack:"Free",  thumb:"images/catalog/html18.webp" }
+        ]
+      },
+      "mailbox-co": {
+        name: "Mailbox Co.",
+        stacks: ["Email","HTML"],
+        since: 2021,
+        rating: 4.4,
+        trust: "—",
+        website: "stores/index.html#mailbox-co",
+        products: [
+          { id:19,  slug:"email-templates", title:"Email Templates",      desc:"Transactional email starter set.",                price:9,  stack:"Email", thumb:"images/catalog/html19.webp" },
+          { id:104, slug:"email-free",      title:"Free Email Template",  desc:"Responsive transactional email base.",            price:0,  stack:"Free",  thumb:"images/catalog/html19.webp" }
+        ]
+      }
     };
-  }
 
-  function card(s){
-    const stacks = s.stacks.map(x=>`<span class="chip" data-stack="${x}">${x.toUpperCase()}</span>`).join('');
-    return `
-      <article class="card">
-        <a class="banner" data-name="${s.name}" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">
-          <img loading="lazy" alt="${s.name} banner" src="${s.banner}">
-        </a>
-        <div class="body">
-          <div class="title">${s.name}</div>
-          <div class="badges">${stacks}</div>
-          <div class="stats">
-            <span>${s.items} items</span> · <span>Since ${s.since}</span> · <span>★ ${s.rating}</span> ${s.trust?`· <span>${s.trust}</span>`:''}
-          </div>
-          <div class="actions">
-            <a class="btn" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">Open store</a>
-            <a class="btn" href="${s.website}" target="_blank" rel="noopener">Website</a>
-          </div>
-        </div>
-      </article>`;
-  }
-
-  function render(){
-    const stack = (params.get('stack')||'').toLowerCase();
-    const query = (params.get('q')||'').trim().toLowerCase();
-    const order = params.get('sort')||'featured';
-
-    // UI state
-    q.value = query;
-    sort.value = order;
-    // activate chips
-    for (const root of ['#chips','#chipsHero']){
-      $$(root+' .chip').forEach(ch=>{
-        const v = (ch.dataset.stack||'').toLowerCase();
-        ch.classList.toggle('active', v===stack);
-        if(!stack && v==='') ch.classList.add('active');
-      });
+    // ---------- Helpers ----------
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    function param(name){ return new URLSearchParams(location.search).get(name); }
+    function html(strings, ...vals){ return strings.map((s,i)=>s+(vals[i]??"")).join(""); }
+    function currency(n){ return n===0 ? "Free" : `$${n}`; }
+    function fallback(img){
+      img.onerror = ()=>{
+        const src = img.getAttribute('src')||"";
+        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg'); return; }
+        img.onerror = null;
+      };
     }
 
-    let list = STORES.slice();
-    if(stack) list = list.filter(s=>s.stacks.includes(stack));
-    if(query) list = list.filter(s=> s.name.toLowerCase().includes(query));
-    if(order==='items') list.sort((a,b)=>b.items-a.items);
-    else if(order==='rating') list.sort((a,b)=>b.rating-a.rating);
-    else if(order==='newest') list.sort((a,b)=>b.since-a.since);
+    // ---------- Render ----------
+    const slug = (param('slug')||"").toLowerCase();
+    const store = STORES[slug];
 
-    grid.innerHTML = list.map(card).join('') || `<div class="muted">No stores found.</div>`;
-    $$('#grid .banner').forEach(b=>{ const img=b.querySelector('img'); if(img) fallback(img,b); });
+    function render404(){
+      $('#storeTitle').textContent = 'Store not found';
+      document.title = 'Store not found · RGZTEC';
+      $('#bannerImg').style.display='none';
+      $('#stackBadges').innerHTML='';
+      $('#sinceVal').textContent='—';
+      $('#ratingVal').textContent='—';
+      $('#trustBadge').style.display='none';
+      $('#btnWebsite').style.display='none';
+      $('#stackTags').innerHTML='';
+      $('#grid').innerHTML = `
+        <article class="card">
+          <div class="body">
+            <h3 class="title" style="font-size:20px">Store not found</h3>
+            <p class="desc">The store you're looking for doesn't exist or the slug is incorrect.</p>
+            <div class="actions-row">
+              <a class="btn" href="stores/index.html">Back to Stores</a>
+            </div>
+          </div>
+        </article>`;
+      $('#count').textContent = "0 items";
+      $('#crumbStore').textContent = 'Store not found';
+    }
 
-    // Spotlight (first 6 featured)
-    rail.innerHTML = STORES.slice(0,6).map(s=>`
-      <a class="item card" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">
-        <div class="banner" data-name="${s.name}">
-          <img loading="lazy" alt="${s.name} banner" src="${s.banner}">
-        </div>
-        <div class="body"><div class="title">${s.name}</div>
-          <div class="stats"><span>${s.items} items</span> · <span>★ ${s.rating}</span></div>
-        </div>
-      </a>
-    `).join('');
-    $$('#rail .banner').forEach(b=>{ const img=b.querySelector('img'); if(img) fallback(img,b); });
+    function buildStackTags(uniqueStacks){
+      const stacks = ["All", ...uniqueStacks, "Free"];
+      $('#stackTags').innerHTML = stacks.map((t,i)=>`<button class="tag ${i===0?"active":""}" data-stack="${t}">${t}</button>`).join('');
+    }
 
-    // metric
-    $('#metricStores').textContent = STORES.length;
-    // clickable stack badges inside cards
-    grid.querySelectorAll('.chip[data-stack]').forEach(ch=>{
-      ch.addEventListener('click', (e)=>{
-        params.set('stack', ch.dataset.stack); params.delete('q');
-        history.replaceState(null,'','?'+params.toString()); render(); e.preventDefault();
+    function buildHero(){
+      $('#storeTitle').textContent = store.name;
+      $('#crumbStore').textContent = store.name;
+      document.title = store.name + " · RGZTEC";
+
+      // badges
+      $('#stackBadges').outerHTML = store.stacks.map(s=>`<span class="chip">${s}</span>`).join('');
+      $('#sinceVal').textContent = store.since || "—";
+      $('#ratingVal').textContent = store.rating || "—";
+      const trust = $('#trustBadge');
+      if(store.trust && store.trust !== "—"){ trust.textContent = store.trust; } else { trust.style.display="none"; }
+
+      // banner
+      const banner = `images/stores/${slug}-banner.webp`;
+      const img = $('#bannerImg');
+      img.src = banner;
+      img.alt = `${store.name} banner`;
+      fallback(img);
+
+      // website
+      $('#btnWebsite').href = store.website || '#';
+    }
+
+    // product render with link wiring
+    function cardMarkup(p){
+      const price = currency(p.price);
+      const isFree = p.price === 0;
+      const demoLink = `demo/index.html?item=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(p.slug)}#open=1`;
+      const detailsLink = `products/detail.html?id=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(p.slug)}`;
+      const addLink = isFree ? `${detailsLink}#download` : `cart.html?add=${encodeURIComponent(p.id)}`;
+
+      return html`
+        <article class="card" data-stack="${p.stack}" data-title="${p.title.toLowerCase()}">
+          <a class="thumb" href="${detailsLink}" aria-label="${p.title}">
+            <img src="${p.thumb}" alt="${p.title}">
+          </a>
+          <div class="body">
+            <div class="title">${p.title}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="meta">
+              <div class="price">${price}</div>
+              <span class="muted">${p.stack}</span>
+            </div>
+            <div class="actions-row">
+              <a class="btn" href="${demoLink}" target="_blank" rel="noopener">Preview</a>
+              <a class="btn" href="${detailsLink}">Details</a>
+              <a class="btn ${isFree?"":"primary"}" href="${addLink}">${isFree?"Download":"Add"}</a>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    function apply(){
+      const activeTag = $('.tag.active')?.dataset.stack || "All";
+      const q = ($('#q').value||"").trim().toLowerCase();
+
+      // items clone
+      let items = [...store.products];
+
+      // filter by stack
+      if(activeTag !== "All"){
+        if(activeTag === "Free") items = items.filter(p=>p.price===0);
+        else items = items.filter(p=> (p.stack||"").toLowerCase() === activeTag.toLowerCase());
+      }
+
+      // search
+      if(q){
+        items = items.filter(p=>
+          p.title.toLowerCase().includes(q) || (p.desc||"").toLowerCase().includes(q)
+        );
+      }
+
+      // sort
+      const sort = $('#sort').value;
+      if(sort==='az') items.sort((a,b)=>a.title.localeCompare(b.title));
+      if(sort==='priceAsc') items.sort((a,b)=>(a.price)-(b.price));
+      if(sort==='priceDesc') items.sort((a,b)=>(b.price)-(a.price));
+      if(sort==='newest') items.sort((a,b)=>(b.id)-(a.id)); // proxy
+
+      // render
+      $('#grid').innerHTML = items.map(cardMarkup).join('') || `
+        <article class="card"><div class="body">
+          <div class="title">No matches</div>
+          <p class="desc">Try removing filters or changing your search.</p>
+        </div></article>`;
+      // attach image fallbacks
+      $$('#grid img').forEach(fallback);
+
+      // count
+      $('#count').textContent = `${items.length} ${items.length===1?'item':'items'}`;
+    }
+
+    function initEvents(){
+      // tag switching
+      $('#stackTags').addEventListener('click', (e)=>{
+        const btn = e.target.closest('.tag'); if(!btn) return;
+        $$('#stackTags .tag').forEach(t=>t.classList.remove('active'));
+        btn.classList.add('active');
+        apply();
       });
-    });
-  }
 
-  // events
-  function setStack(val){ if(val) params.set('stack',val); else params.delete('stack'); params.delete('q'); history.replaceState(null,'','?'+params.toString()); render(); }
-  $('#chips').addEventListener('click',e=>{const t=e.target.closest('.chip'); if(t) setStack(t.dataset.stack||'');});
-  $('#chipsHero').addEventListener('click',e=>{const t=e.target.closest('.chip'); if(t) setStack(t.dataset.stack||'');});
+      // search & sort
+      $('#q').addEventListener('input', apply);
+      $('#sort').addEventListener('change', apply);
 
-  q.addEventListener('input', ()=>{ const v=q.value.trim(); if(v) params.set('q',v); else params.delete('q'); history.replaceState(null,'','?'+params.toString()); render(); });
-  $('#btnHeroSearch').addEventListener('click', ()=>{ const v=$('#qHero').value.trim(); if(v) params.set('q',v); else params.delete('q'); history.replaceState(null,'','?'+params.toString()); render(); });
-  sort.addEventListener('change', ()=>{ params.set('sort',sort.value); history.replaceState(null,'','?'+params.toString()); render(); });
+      // follow
+      const followBtn = $('#btnFollow');
+      followBtn.addEventListener('click', ()=>{
+        const on = followBtn.getAttribute('aria-pressed')==='true';
+        followBtn.setAttribute('aria-pressed', String(!on));
+        followBtn.textContent = !on ? 'Following ✓' : 'Follow';
+      });
 
-  window.addEventListener('keydown', (e)=>{ if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); q.focus(); }});
+      // share
+      $('#btnShare').addEventListener('click', async ()=>{
+        const text = `Check out ${store.name} on RGZTEC`;
+        try{
+          if(navigator.share){
+            await navigator.share({title:document.title,text, url:location.href});
+          }else{
+            await navigator.clipboard.writeText(location.href);
+            alert('Link copied to clipboard!');
+          }
+        }catch(e){/* noop */}
+      });
 
-  // init
-  if(!params.has('sort')) params.set('sort','featured');
-  history.replaceState(null,'','?'+params.toString());
-  render();
+      // "/" focus search like GitHub
+      window.addEventListener('keydown',(e)=>{
+        if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
+          e.preventDefault(); $('#q').focus();
+        }
+      });
+
+      // webp → png → jpg for all imgs
+      [$('img#bannerImg'), ...$$('#grid img')].forEach(fallback);
+    }
+
+    // ---------- Boot ----------
+    if(!store){ render404(); }
+    else{
+      buildHero();
+
+      // unique stacks from products + store.stacks
+      const unique = Array.from(new Set([...(store.stacks||[]), ...store.products.map(p=>p.stack)]));
+      buildStackTags(unique);
+      // first render
+      $('#grid').innerHTML = store.products.map(cardMarkup).join('');
+      $$('#grid img').forEach(fallback);
+      $('#count').textContent = `${store.products.length} items`;
+      initEvents();
+      apply();
+    }
   </script>
 </body>
 </html>
