@@ -5,69 +5,107 @@
   <base href="/rgztec/">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Developer Stores · RGZTEC</title>
-  <meta name="description" content="Independent developer stores. Clean code, live demos, instant copy. Filter by stack and discover your next UI building block." />
-  <link rel="stylesheet" href="assets/css/home.css" />
-
+  <meta name="description" content="Independent creator stores. Clean code, live demos, instant copy. Discover HTML, CSS, JS, React, icon and email stores." />
   <style>
     :root{
       --brand:#ff7d33; --brand2:#ff914d; --brand-ink:#fff;
-      --bg:#f7f8fb; --ink:#0d1220; --muted:#5b657a;
-      --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 14px 40px rgba(0,0,0,.08);
-      --tile:#fff7f2;
+      --ink:#0d1220; --muted:#5b657a; --bg:#ffffff;
+      --b:#e7ebf3; --b2:#dfe4ee; --tile:#fff7f2;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
     }
-    /* header */
-    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);z-index:10}
-    .mast{display:flex;gap:12px;align-items:center;padding:10px 0}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Inter,Roboto,"Helvetica Neue",Arial}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 16px}
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--b);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800}
+    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s, box-shadow .08s}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
+    .btn.ghost{background:#fff}
+    header{border-bottom:1px solid var(--b)}
+    .mast{display:flex;align-items:center;gap:12px;padding:12px 0}
+    .logo{font-weight:900}
     .searchbar{display:flex;gap:8px;align-items:center;flex:1}
     .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
     .searchbar button{height:42px}
     .top-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .container{max-width:1100px;margin:0 auto;padding:0 18px}
 
-    .btn{display:inline-flex;gap:10px;align-items:center;justify-content:center;padding:10px 14px;border:1px solid var(--b2);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:transform .08s ease, box-shadow .08s ease, background-color .12s ease;}
-    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-color:#ff8a3f}
-    .btn.ghost{background:#fff}
+    /* HERO */
+    .hero{margin:16px 0 10px}
+    .hero-card{
+      position:relative;overflow:hidden;border:1px solid var(--b);border-radius:16px;box-shadow:var(--shadow);
+      background:
+       radial-gradient(1200px 400px at 10% -10%, #fff 0, #fff 50%, #fff6 70%, #fff0 100%),
+       linear-gradient(180deg,#fff,#fff);
+      display:grid;grid-template-columns:1.3fr .9fr;gap:10px;
+    }
+    .hero-left{padding:22px}
+    .hero-left h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.02em}
+    .hero-left p{margin:0 0 12px;color:var(--muted)}
+    .hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+    .metric{display:flex;gap:8px;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
 
-    /* page head */
-    .head{padding:18px 0 6px}
-    .h1{font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-.02em;margin:0 0 8px}
-    .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .chip{display:inline-flex;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px;cursor:pointer}
+    .hero-right{padding:18px}
+    .qs{background:#ffe6d6;border:1px solid #ffd2b9;border-radius:14px;padding:14px;height:100%;display:grid;gap:12px}
+    .qs h3{margin:0}
+    .qs .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .qs input{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1}
+    .chip{display:inline-flex;align-items:center;border:1px solid var(--b);background:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
     .chip.active{background:var(--tile);border-color:#ffc8a6}
 
-    /* tip band */
-    .tipband{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;gap:16px;align-items:center;margin:12px 0}
-    .tipband small{opacity:.92}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+    select,input[type="search"]{height:42px;border:1px solid var(--b);border-radius:10px;background:#fff;padding:0 12px}
+    .tip{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border:1px solid #ffb487;border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center}
 
-    /* grid + card */
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .card{background:#fff;border:1px solid var(--b);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .08s ease, box-shadow .08s ease}
-    .card:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(0,0,0,.09)}
-    .banner{aspect-ratio:21/9;background:#f2f3f6}
-    .banner img{width:100%;height:100%;object-fit:cover}
-    .body{padding:12px;display:grid;gap:8px;grid-auto-rows:min-content}
+    /* STORE GRID */
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));margin:16px 0 26px}
+    .card{background:#fff;border:1px solid var(--b);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .08s, box-shadow .08s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
+    .banner{position:relative;aspect-ratio:16/9;background:#f2f4f8}
+    .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .banner.noimg{display:grid;place-items:center;background:linear-gradient(120deg,#fff,#fff7f2)}
+    .banner.noimg::after{content:attr(data-name);color:#9aa3b5;font-weight:900}
+    .body{padding:12px 14px;display:grid;gap:10px}
     .title{font-weight:900}
-    .pill{display:inline-flex;align-items:center;border:1px solid var(--b);border-radius:999px;padding:4px 10px;font-size:12px;margin-right:6px}
-    .muted{color:var(--muted)}
-    .meta{display:flex;gap:6px;flex-wrap:wrap}
-    .actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
-    .count{color:var(--muted);font-weight:700}
+    .badges{display:flex;gap:6px;flex-wrap:wrap}
+    .stats{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:14px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
 
-    /* selector row */
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0}
-    .select{height:40px;border:1px solid var(--b);border-radius:10px;padding:0 10px;background:#fff}
+    /* SPOTLIGHT */
+    .spotlight{margin:10px 0 24px}
+    .spot-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}
+    .rail{display:flex;gap:12px;overflow:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+    .rail .item{min-width:280px;scroll-snap-align:start}
+    .rail .item .banner{aspect-ratio:21/9}
 
-    @media (max-width:860px){ .searchbar{order:2} .top-nav{order:3} }
+    /* HOW IT WORKS / WHY SELL */
+    .tiles3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .tile{border:1px solid var(--b);border-radius:14px;padding:14px;background:#fff;box-shadow:var(--shadow)}
+    .tile h3{margin:0 0 6px}
+    .nums{display:flex;gap:14px;flex-wrap:wrap}
+    .num{border:1px solid var(--b);border-radius:12px;padding:10px 12px;background:#fff;font-weight:900}
+
+    /* NEWSLETTER */
+    .newsletter{margin:18px 0;border:1px solid var(--b);border-radius:14px;padding:16px;background:linear-gradient(180deg,#fff,#fff8f3);box-shadow:var(--shadow);display:grid;gap:10px}
+    .newsletter form{display:flex;gap:10px;flex-wrap:wrap}
+    .newsletter input{height:42px;border:1px solid var(--b);border-radius:10px;padding:0 12px;background:#fff;flex:1}
+
+    footer{border-top:1px solid var(--b);margin-top:24px;padding:22px 0}
+    .footgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .footgrid h4{margin:0 0 8px}
+    @media (max-width:1000px){ .hero-card{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
     <div class="container mast">
-      <a class="btn" href="index.html">RGZTEC</a>
-      <form class="searchbar" id="siteSearch" action="products/index.html">
-        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search site" />
+      <a class="logo pill" href="index.html">RGZTEC</a>
+      <form class="searchbar" action="products/index.html">
+        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search" />
         <button class="btn" type="submit">Search</button>
       </form>
       <nav class="top-nav">
@@ -75,43 +113,74 @@
         <a class="btn ghost" href="demo/index.html">Demo Gallery</a>
         <a class="btn ghost" href="stores/index.html">Stores</a>
         <a class="btn ghost" href="login.html">Login</a>
-        <a class="btn primary" href="stores/create.html">Become a Seller</a>
+        <a class="btn primary" href="advertise.html#start-selling">Become a Seller</a>
       </nav>
     </div>
   </header>
 
-  <!-- PAGE HEAD -->
-  <section class="container head">
-    <h1 class="h1">Developer Stores</h1>
-    <p class="muted" style="margin:0 0 10px">Independent creators. Clean code, live demos, instant copy.</p>
-
-    <div class="bar">
-      <button class="chip" data-stack="all">All</button>
-      <button class="chip" data-stack="html">HTML</button>
-      <button class="chip" data-stack="js">JS</button>
-      <button class="chip" data-stack="css">CSS</button>
-      <button class="chip" data-stack="react">React</button>
-      <button class="chip" data-stack="icons">Icons</button>
-      <button class="chip" data-stack="email">Email</button>
-
-      <div style="flex:1"></div>
-
-      <input id="q" type="search" placeholder="Search stores…" class="select" style="min-width:260px" />
-      <select id="sort" class="select">
-        <option value="featured">Featured</option>
-        <option value="newest">Newest</option>
-        <option value="items">Most items</option>
-        <option value="rating">Top rated</option>
-        <option value="name">Name A–Z</option>
-      </select>
-      <span id="storeCount" class="count">0 stores</span>
+  <!-- HERO -->
+  <section class="container hero">
+    <div class="hero-card">
+      <div class="hero-left">
+        <h1>Discover creator stores</h1>
+        <p class="muted">Clean HTML, CSS, JS, React components, SVG icons and email starters. Live demos, instant copy, generous licenses.</p>
+        <div class="hero-stats">
+          <span class="metric"><strong id="metricStores">–</strong>&nbsp;stores</span>
+          <span class="metric"><strong>100+</strong>&nbsp;products</span>
+          <span class="metric"><strong>4.7★</strong>&nbsp;avg rating</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn primary" href="advertise.html#start-selling">Create a Store</a>
+          <a class="btn" href="products/index.html?sort=new">See new arrivals</a>
+          <a class="btn" href="demo/index.html">Try live demos</a>
+        </div>
+      </div>
+      <aside class="hero-right">
+        <div class="qs">
+          <h3>Quick search</h3>
+          <div class="row">
+            <input id="qHero" type="search" placeholder="Search stores…">
+            <button class="btn" id="btnHeroSearch">Search</button>
+          </div>
+          <div class="row" id="chipsHero">
+            <button class="chip" data-stack="">All</button>
+            <button class="chip" data-stack="html">HTML</button>
+            <button class="chip" data-stack="js">JS</button>
+            <button class="chip" data-stack="css">CSS</button>
+            <button class="chip" data-stack="react">React</button>
+            <button class="chip" data-stack="icons">Icons</button>
+            <button class="chip" data-stack="email">Email</button>
+          </div>
+          <p class="muted" style="margin:0">Tip: press <strong>/</strong> to focus search.</p>
+        </div>
+      </aside>
     </div>
 
-    <div class="tipband">
-      <small>Tip: Click tags to filter by stack. Press <b>/</b> to focus search.</small>
-      <div class="bar">
-        <a class="btn" href="products/index.html?sort=new">See new arrivals</a>
-        <a class="btn primary" href="stores/create.html">Create a Store</a>
+    <!-- Controls under hero -->
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search stores…" style="flex:1">
+      <select id="sort">
+        <option value="featured">Featured</option>
+        <option value="newest">Newest</option>
+        <option value="items">Items (desc)</option>
+        <option value="rating">Rating (desc)</option>
+      </select>
+      <div class="row" id="chips">
+        <button class="chip" data-stack="">All</button>
+        <button class="chip" data-stack="html">HTML</button>
+        <button class="chip" data-stack="js">JS</button>
+        <button class="chip" data-stack="css">CSS</button>
+        <button class="chip" data-stack="react">React</button>
+        <button class="chip" data-stack="icons">Icons</button>
+        <button class="chip" data-stack="email">Email</button>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span><strong>Pro tip:</strong> Click any stack tag to filter. Use <strong>/</strong> to jump to search. Your filters are saved in the URL.</span>
+      <div class="row">
+        <a class="btn" href="products/index.html?sort=new">New arrivals</a>
+        <a class="btn primary" href="advertise.html#start-selling">Create a Store</a>
       </div>
     </div>
   </section>
@@ -121,242 +190,229 @@
     <div id="grid" class="grid" aria-live="polite"></div>
   </section>
 
-  <footer class="container" style="padding:22px 0 30px">
-    <nav class="row" style="gap:14px">
-      <a href="index.html">Home</a> ·
-      <a href="products/index.html">Catalog</a> ·
-      <a href="stores/index.html">Stores</a> ·
-      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
-      <a href="contact.html">Contact</a> ·
-      <a href="terms.html">Privacy</a>
-    </nav>
+  <!-- SPOTLIGHT -->
+  <section class="container spotlight" id="spot">
+    <div class="spot-head">
+      <h2 style="margin:0">Spotlight stores</h2>
+      <a class="btn" href="#top">Back to top</a>
+    </div>
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="container" style="margin:6px 0 20px">
+    <h2 style="margin:0 0 8px">How it works</h2>
+    <div class="tiles3">
+      <article class="tile">
+        <h3>1) Browse & filter</h3>
+        <p class="muted">Use tags (HTML, CSS, JS, React, Icons, Email), live demos and screenshots to evaluate.</p>
+      </article>
+      <article class="tile">
+        <h3>2) Instant copy</h3>
+        <p class="muted">Copy clean, semantic markup & CSS. MIT freebies included for quick prototypes.</p>
+      </article>
+      <article class="tile">
+        <h3>3) Ship faster</h3>
+        <p class="muted">Focus on product logic — let creators handle the UI building blocks.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- WHY SELL -->
+  <section class="container" style="margin:6px 0 20px">
+    <div class="tile">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Why sell on RGZTEC?</h2>
+        <a class="btn primary" href="advertise.html#start-selling">Start selling</a>
+      </div>
+      <p class="muted" style="margin:6px 0 12px">Reach developers worldwide. Live demos, instant previews and a clean checkout help your work convert.</p>
+      <div class="nums">
+        <span class="num">Fast listing</span>
+        <span class="num">No lock-in</span>
+        <span class="num">Creator-first</span>
+        <span class="num">Generous payouts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="container newsletter">
+    <h3 style="margin:0">Get product updates</h3>
+    <p class="muted" style="margin:0">No spam. Just releases & tips.</p>
+    <form onsubmit="event.preventDefault();alert('Subscribed!')">
+      <input type="email" placeholder="you@example.com" required>
+      <button class="btn">Subscribe</button>
+    </form>
+  </section>
+
+  <footer class="container">
+    <div class="footgrid">
+      <div>
+        <h4>RGZTEC</h4>
+        <p class="muted">Production-ready HTML, CSS, JS, React and icon packs. Clean code, instant demos.</p>
+      </div>
+      <div>
+        <h4>Catalog</h4>
+        <div class="row">
+          <a href="products/index.html?cat=html">HTML</a> ·
+          <a href="products/js-widgets.html">JS</a> ·
+          <a href="products/css-ui-kits.html">CSS</a> ·
+          <a href="react.html">React</a> ·
+          <a href="svg-icons.html">Icons</a> ·
+          <a href="email-templates.html">Email</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="row">
+          <a href="stores/index.html">Stores</a> ·
+          <a href="contact.html">Contact</a> ·
+          <a href="advertise.html#start-selling">Become a Seller</a>
+        </div>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <div class="row">
+          <a href="terms.html">Terms</a> ·
+          <a href="privacy.html">Privacy</a>
+        </div>
+      </div>
+    </div>
     <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
   </footer>
 
   <script>
-    // ---------------- Data ----------------
-    // Banner yoksa placeholder kullanılacak (aşağıdaki fallback bunu otomatik yapar)
-    const STORES = [
-      {
-        slug: 'pixel-foundry',
-        name: 'Pixel Foundry',
-        stacks: ['html','css'],
-        items: 42,
-        since: 2021,
-        rating: 4.8,
-        trust: 'Top seller',
-        website: 'https://example.com/',
-        banner: 'images/stores/pixel-foundry-banner.webp'
-      },
-      {
-        slug: 'widget-labs',
-        name: 'Widget Labs',
-        stacks: ['js','html'],
-        items: 18,
-        since: 2022,
-        rating: 4.9,
-        trust: 'Trusted',
-        website: 'https://example.com/',
-        banner: 'images/stores/widget-labs-banner.webp'
-      },
-      {
-        slug: 'react-craft',
-        name: 'React Craft',
-        stacks: ['react','html'],
-        items: 12,
-        since: 2023,
-        rating: 4.7,
-        trust: '—',
-        website: 'https://example.com/',
-        banner: 'images/stores/react-craft-banner.webp'
-      },
-      {
-        slug: 'style-forge',
-        name: 'Style Forge',
-        stacks: ['css','html'],
-        items: 15,
-        since: 2020,
-        rating: 4.6,
-        trust: '—',
-        website: 'https://example.com/',
-        banner: 'images/stores/style-forge-banner.webp'
-      },
-      {
-        slug: 'vector-supply',
-        name: 'Vector Supply',
-        stacks: ['icons'],
-        items: 23,
-        since: 2019,
-        rating: 4.5,
-        trust: 'Trusted',
-        website: 'https://example.com/',
-        banner: 'images/stores/vector-supply-banner.webp'
-      },
-      {
-        slug: 'mailbox-co',
-        name: 'MailBox Co.',
-        stacks: ['email','html'],
-        items: 9,
-        since: 2024,
-        rating: 4.6,
-        trust: '—',
-        website: 'https://example.com/',
-        banner: 'images/stores/mailbox-co-banner.webp'
-      }
-    ];
+  // ---------- DATA (can move to /data later)
+  const STORES = [
+    { slug:'pixel-foundry', name:'Pixel Foundry',
+      stacks:['html','css'], since:2021, rating:4.8, items:42, trust:'Top seller',
+      website:'https://example.com/pixel', banner:'images/stores/pixel-foundry-banner.webp'
+    },
+    { slug:'widget-labs', name:'Widget Labs',
+      stacks:['js','html'], since:2022, rating:4.9, items:18, trust:'Trusted',
+      website:'https://example.com/widgets', banner:'images/stores/widget-labs-banner.webp'
+    },
+    { slug:'react-craft', name:'React Craft',
+      stacks:['react','html'], since:2023, rating:4.7, items:12, trust:'',
+      website:'https://example.com/react', banner:'images/stores/react-craft-banner.webp'
+    },
+    { slug:'style-forge', name:'Style Forge',
+      stacks:['css','html'], since:2020, rating:4.6, items:15, trust:'',
+      website:'https://example.com/style', banner:'images/stores/style-forge-banner.webp'
+    },
+    { slug:'vector-supply', name:'Vector Supply',
+      stacks:['icons'], since:2019, rating:4.5, items:23, trust:'Trusted',
+      website:'https://example.com/icons', banner:'images/stores/vector-supply-banner.webp'
+    },
+    { slug:'mailbox-co', name:'MailBox Co.',
+      stacks:['email','html'], since:2021, rating:4.4, items:11, trust:'',
+      website:'https://example.com/email', banner:'images/stores/mailbox-co-banner.webp'
+    },
+  ];
 
-    // ------------- Helpers ---------------
-    const $ = (s, r=document)=> r.querySelector(s);
-    const $$ = (s, r=document)=> [...r.querySelectorAll(s)];
-    const PLACEHOLDER_BANNER = 'images/stores/placeholder.webp';
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const grid = $('#grid'); const rail = $('#rail');
+  const params = new URLSearchParams(location.search);
+  const q = $('#q'); const sort = $('#sort');
 
-    // Global state (URL ile senkron)
-    const state = {
-      stack: 'all',
-      q: '',
-      sort: 'featured'
+  // Excel-proof image fallback
+  function fallback(img, container){
+    img.onerror = ()=>{
+      const src = img.getAttribute('src')||'';
+      if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
+      if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg');  return; }
+      img.remove(); container.classList.add('noimg');
     };
+  }
 
-    // Image fallback: webp -> png -> jpg -> placeholder
-    document.addEventListener('error', (e)=>{
-      const img = e.target;
-      if (img.tagName !== 'IMG') return;
-      const src = img.getAttribute('src') || '';
-      if (src.endsWith('.webp')) { img.src = src.replace(/\.webp$/i, '.png'); return; }
-      if (src.endsWith('.png'))  { img.src = src.replace(/\.png$/i,  '.jpg'); return; }
-      img.onerror = null; // loop kır
-      img.src = PLACEHOLDER_BANNER;
-    }, true);
-
-    // Chip aktifliği
-    function setActiveChip(stack){
-      $$('.chip').forEach(c=> c.classList.toggle('active', c.dataset.stack === stack));
-    }
-
-    // URL güncelle
-    function syncUrl(){
-      const url = new URL(location.href);
-      if (state.stack && state.stack !== 'all') url.searchParams.set('stack', state.stack); else url.searchParams.delete('stack');
-      if (state.q) url.searchParams.set('q', state.q); else url.searchParams.delete('q');
-      if (state.sort && state.sort!=='featured') url.searchParams.set('sort', state.sort); else url.searchParams.delete('sort');
-      history.replaceState(null, '', url);
-    }
-
-    // Filtre + sıralama
-    function apply(){
-      let rows = [...STORES];
-
-      // stack filtresi
-      if (state.stack && state.stack !== 'all') {
-        rows = rows.filter(s => s.stacks.includes(state.stack));
-      }
-
-      // arama
-      const q = state.q.trim().toLowerCase();
-      if (q) {
-        rows = rows.filter(s =>
-          s.name.toLowerCase().includes(q) ||
-          s.stacks.join(' ').toLowerCase().includes(q) ||
-          (s.trust||'').toLowerCase().includes(q)
-        );
-      }
-
-      // sıralama
-      const sort = state.sort || 'featured';
-      const by = {
-        featured: (a,b)=>{
-          const t = (x)=> (x.trust==='Top seller'? 2 : x.trust==='Trusted'? 1 : 0);
-          if (t(b)!==t(a)) return t(b)-t(a);
-          if (b.rating!==a.rating) return b.rating-a.rating;
-          if (b.items!==a.items) return b.items-a.items;
-          return a.name.localeCompare(b.name);
-        },
-        newest: (a,b)=> (b.since-a.since) || a.name.localeCompare(b.name),
-        items:  (a,b)=> (b.items-a.items) || a.name.localeCompare(b.name),
-        rating: (a,b)=> (b.rating-a.rating) || a.name.localeCompare(b.name),
-        name:   (a,b)=> a.name.localeCompare(b.name)
-      }[sort];
-      rows.sort(by);
-
-      // yaz
-      render(rows);
-      $('#storeCount').textContent = `${rows.length} ${rows.length===1?'store':'stores'}`;
-    }
-
-    // Kart üretimi
-    function card(s){
-      const stacks = s.stacks.map(x=>`<span class="pill">${x.toUpperCase()}</span>`).join(' ');
-      return `
-        <article class="card">
-          <a class="banner" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">
-            <img src="${s.banner || PLACEHOLDER_BANNER}" alt="${s.name} banner">
-          </a>
-          <div class="body">
-            <div class="title">${s.name}</div>
-            <div class="meta">${stacks}</div>
-            <div class="meta">
-              <span class="pill">${s.items} items</span>
-              <span class="pill">Since ${s.since}</span>
-              <span class="pill">★ ${s.rating}</span>
-              ${s.trust && s.trust!=='—' ? `<span class="pill">${s.trust}</span>`:''}
-            </div>
-            <div class="actions">
-              <a class="btn" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">Open store</a>
-              <a class="btn" href="${s.website || '#'}" target="_blank" rel="noopener">Website</a>
-            </div>
+  function card(s){
+    const stacks = s.stacks.map(x=>`<span class="chip" data-stack="${x}">${x.toUpperCase()}</span>`).join('');
+    return `
+      <article class="card">
+        <a class="banner" data-name="${s.name}" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">
+          <img loading="lazy" alt="${s.name} banner" src="${s.banner}">
+        </a>
+        <div class="body">
+          <div class="title">${s.name}</div>
+          <div class="badges">${stacks}</div>
+          <div class="stats">
+            <span>${s.items} items</span> · <span>Since ${s.since}</span> · <span>★ ${s.rating}</span> ${s.trust?`· <span>${s.trust}</span>`:''}
           </div>
-        </article>
-      `;
-    }
+          <div class="actions">
+            <a class="btn" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">Open store</a>
+            <a class="btn" href="${s.website}" target="_blank" rel="noopener">Website</a>
+          </div>
+        </div>
+      </article>`;
+  }
 
-    function render(rows){
-      $('#grid').innerHTML = rows.map(card).join('');
-    }
+  function render(){
+    const stack = (params.get('stack')||'').toLowerCase();
+    const query = (params.get('q')||'').trim().toLowerCase();
+    const order = params.get('sort')||'featured';
 
-    // Etkileşimler
-    function wire(){
-      // URL'den init
-      const url = new URL(location.href);
-      state.stack = url.searchParams.get('stack') || 'all';
-      state.q     = url.searchParams.get('q') || '';
-      state.sort  = url.searchParams.get('sort') || 'featured';
-
-      setActiveChip(state.stack);
-      $('#q').value = state.q;
-      $('#sort').value = state.sort;
-
-      // chip tıklama
-      $$('.chip').forEach(ch=>{
-        ch.addEventListener('click', ()=>{
-          state.stack = ch.dataset.stack;
-          setActiveChip(state.stack);
-          syncUrl(); apply();
-        });
-      });
-
-      // arama
-      $('#q').addEventListener('input', e=>{
-        state.q = e.target.value;
-        syncUrl(); apply();
-      });
-
-      // sıralama
-      $('#sort').addEventListener('change', e=>{
-        state.sort = e.target.value;
-        syncUrl(); apply();
-      });
-
-      // "/" kısayolu (site araması değil, store içi)
-      window.addEventListener('keydown', (e)=>{
-        if(e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)){
-          e.preventDefault(); $('#q').focus();
-        }
+    // UI state
+    q.value = query;
+    sort.value = order;
+    // activate chips
+    for (const root of ['#chips','#chipsHero']){
+      $$(root+' .chip').forEach(ch=>{
+        const v = (ch.dataset.stack||'').toLowerCase();
+        ch.classList.toggle('active', v===stack);
+        if(!stack && v==='') ch.classList.add('active');
       });
     }
 
-    // go
-    wire();
-    apply();
+    let list = STORES.slice();
+    if(stack) list = list.filter(s=>s.stacks.includes(stack));
+    if(query) list = list.filter(s=> s.name.toLowerCase().includes(query));
+    if(order==='items') list.sort((a,b)=>b.items-a.items);
+    else if(order==='rating') list.sort((a,b)=>b.rating-a.rating);
+    else if(order==='newest') list.sort((a,b)=>b.since-a.since);
+
+    grid.innerHTML = list.map(card).join('') || `<div class="muted">No stores found.</div>`;
+    $$('#grid .banner').forEach(b=>{ const img=b.querySelector('img'); if(img) fallback(img,b); });
+
+    // Spotlight (first 6 featured)
+    rail.innerHTML = STORES.slice(0,6).map(s=>`
+      <a class="item card" href="stores/store.html?slug=${encodeURIComponent(s.slug)}">
+        <div class="banner" data-name="${s.name}">
+          <img loading="lazy" alt="${s.name} banner" src="${s.banner}">
+        </div>
+        <div class="body"><div class="title">${s.name}</div>
+          <div class="stats"><span>${s.items} items</span> · <span>★ ${s.rating}</span></div>
+        </div>
+      </a>
+    `).join('');
+    $$('#rail .banner').forEach(b=>{ const img=b.querySelector('img'); if(img) fallback(img,b); });
+
+    // metric
+    $('#metricStores').textContent = STORES.length;
+    // clickable stack badges inside cards
+    grid.querySelectorAll('.chip[data-stack]').forEach(ch=>{
+      ch.addEventListener('click', (e)=>{
+        params.set('stack', ch.dataset.stack); params.delete('q');
+        history.replaceState(null,'','?'+params.toString()); render(); e.preventDefault();
+      });
+    });
+  }
+
+  // events
+  function setStack(val){ if(val) params.set('stack',val); else params.delete('stack'); params.delete('q'); history.replaceState(null,'','?'+params.toString()); render(); }
+  $('#chips').addEventListener('click',e=>{const t=e.target.closest('.chip'); if(t) setStack(t.dataset.stack||'');});
+  $('#chipsHero').addEventListener('click',e=>{const t=e.target.closest('.chip'); if(t) setStack(t.dataset.stack||'');});
+
+  q.addEventListener('input', ()=>{ const v=q.value.trim(); if(v) params.set('q',v); else params.delete('q'); history.replaceState(null,'','?'+params.toString()); render(); });
+  $('#btnHeroSearch').addEventListener('click', ()=>{ const v=$('#qHero').value.trim(); if(v) params.set('q',v); else params.delete('q'); history.replaceState(null,'','?'+params.toString()); render(); });
+  sort.addEventListener('change', ()=>{ params.set('sort',sort.value); history.replaceState(null,'','?'+params.toString()); render(); });
+
+  window.addEventListener('keydown', (e)=>{ if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); q.focus(); }});
+
+  // init
+  if(!params.has('sort')) params.set('sort','featured');
+  history.replaceState(null,'','?'+params.toString());
+  render();
   </script>
 </body>
 </html>
