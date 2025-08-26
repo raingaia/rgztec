@@ -106,6 +106,62 @@
   .f-col a{display:block;color:#fff;opacity:.9;margin:4px 0}
   .footnote{text-align:center;margin-top:16px;color:#9CA3AF;font-size:14px}
   @media(max-width:768px){.f-grid{grid-template-columns:1fr 1fr}}
+
+  
+  /* --- YENİ EKLENEN KAPI EFEKTİ KODLARI (BURADAN BAŞLIYOR) --- */
+
+  /* Kartın hero alanını yeni efektlere hazırlıyoruz */
+  .card__hero {
+    position: relative; /* İçine ekleyeceğimiz sanal katmanları konumlandırmak için */
+    overflow: hidden;   /* Taşan elementleri gizle */
+  }
+
+  /* 1. Sanal Katman: Üzerine gelince belirecek olan yarı şeffaf siyah perde */
+  .card__hero::before {
+    content: ''; /* Pseudo-element için zorunlu */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Yarı şeffaf siyah */
+    opacity: 0; /* Başlangıçta görünmez */
+    transition: opacity 0.2s ease-in-out; /* Yumuşak geçiş efekti */
+  }
+
+  /* 2. Sanal Katman: Üzerine gelince belirecek olan "Mağazaya Gir" yazısı */
+  .card__hero::after {
+    content: 'View Store →'; /* Görünecek metin */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95); /* Ortala ve başlangıçta biraz küçük olsun */
+    
+    color: #fff;
+    background: rgba(0, 0, 0, 0.2); /* Buton arkasına hafif koyu bir fon */
+    backdrop-filter: blur(4px); /* Arka planı hafifçe bulanıklaştır (Modern görünüm) */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px; /* Yuvarlak kenarlar */
+    padding: 8px 18px;
+    font-size: 16px;
+    font-weight: 700;
+    
+    opacity: 0; /* Başlangıçta görünmez */
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out; /* Yumuşak geçiş efekti */
+  }
+
+  /* Fare ile kartın üzerine gelindiğinde... */
+  .card:hover .card__hero::before,
+  .card:hover .card__hero::after {
+    opacity: 1; /* Siyah perdeyi ve yazıyı görünür yap */
+  }
+
+  /* Yazının büyüme efektini tamamla */
+  .card:hover .card__hero::after {
+      transform: translate(-50%, -50%) scale(1);
+  }
+  /* --- YENİ EKLENEN KAPI EFEKTİ KODLARI (BURADA BİTİYOR) --- */
+
 </style>
 </head>
 <body>
@@ -287,4 +343,3 @@
 
 </body>
 </html>
-
