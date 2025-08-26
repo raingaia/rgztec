@@ -1,473 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <base href="/rgztec/">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Store · RGZTEC</title>
-  <meta name="description" content="Discover developer stores on RGZTEC. Browse production-ready HTML templates, CSS UI kits, JS widgets, React components, SVG icons and email templates." />
-
-  <!-- Page styles (kept local to this file) -->
-  <style>
-    :root{
-      --brand:#ff7d33; --brand2:#ff914d; --ink:#0d1220; --muted:#5b657a;
-      --bg:#f7f8fb; --card:#fff; --b:#e7ebf3; --b2:#dfe4ee; --shadow:0 10px 30px rgba(0,0,0,.06);
-      --tile:#fff7f2; --ok:#2bb673;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:#fff;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-    a{color:inherit;text-decoration:none}
-    img{display:block;max-width:100%;height:auto}
-    .container{max-width:1180px;margin:0 auto;padding:0 16px}
-
-    /* Header */
-    header{position:sticky;top:0;z-index:9;background:#fff;border-bottom:1px solid var(--b)}
-    .mast{display:flex;gap:12px;align-items:center;min-height:64px}
-    .pill{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 12px;border:1px solid var(--b);border-radius:999px;background:#fff;font-weight:800}
-    .pill.logo{font-weight:900}
-    .searchbar{display:flex;gap:8px;align-items:center;flex:1}
-    .searchbar input{height:42px;border:1px solid var(--b);border-radius:12px;padding:0 14px;background:#fff;flex:1}
-    .btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;height:42px;padding:0 14px;border:1px solid var(--b);border-radius:12px;background:#fff;font-weight:800;cursor:pointer;transition:.12s ease;white-space:nowrap}
-    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand2),var(--brand));border-color:#ff8a3f;color:#fff}
-    .btn.soft{background:#fff;border-color:var(--b2)}
-    .btn.badge{height:auto;padding:6px 10px;border-radius:999px;font-size:12px}
-
-    /* Breadcrumbs */
-    .crumbs{background:#f9fafc;border-bottom:1px solid var(--b)}
-    .crumbs .row{display:flex;gap:8px;align-items:center;min-height:44px}
-    .crumbs a{color:#445}
-
-    /* Hero / banner */
-    .hero{margin:18px 0 10px;border:1px solid var(--b);border-radius:16px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
-    .banner{aspect-ratio: 16/5;background:linear-gradient(180deg,#fff,#fff);position:relative;overflow:hidden}
-    .banner img{width:100%;height:100%;object-fit:cover}
-    .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.0) 0%, rgba(255,255,255,.8) 70%, #fff 100%)}
-    .store-head{display:flex;justify-content:space-between;gap:12px;padding:12px 16px}
-    .store-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .title{font-size:clamp(22px,3vw,30px);font-weight:900;margin:0}
-    .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--b);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;font-size:12px}
-    .chip.ok{border-color:#cdebdc;background:#f4fbf6}
-    .actions{display:flex;gap:8px;flex-wrap:wrap}
-
-    /* Filters + tools */
-    .tools{display:grid;gap:10px;grid-template-columns:1fr 220px}
-    .tags{display:flex;flex-wrap:wrap;gap:8px}
-    .tag{display:inline-flex;padding:8px 12px;border:1px solid var(--b);border-radius:999px;background:#fff;font-weight:800;font-size:12px;cursor:pointer}
-    .tag.active{background:var(--tile);border-color:#ffc8a6}
-    .note{background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;gap:16px;align-items:center}
-
-    /* Grid & cards */
-    .section{margin:16px 0}
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .card{background:#fff;border:1px solid var(--b);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:transform .08s ease, box-shadow .08s ease}
-    .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
-    .thumb{aspect-ratio:16/9;background:#f2f3f6}
-    .thumb img{width:100%;height:100%;object-fit:cover}
-    .body{padding:12px 14px;display:grid;gap:8px;grid-auto-rows:min-content}
-    .desc{color:var(--muted);font-size:14px;min-height:44px}
-    .meta{display:flex;justify-content:space-between;align-items:center}
-    .price{font-weight:900}
-    .muted{color:var(--muted)}
-    .actions-row{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
-
-    /* Footer note / CTA */
-    .cta{margin:24px 0;border:1px solid #ffd2b9;background:linear-gradient(180deg,#ffe6d6,#fff2ea);border-radius:16px;padding:16px;display:flex;justify-content:space-between;gap:12px;align-items:center}
-    .cta strong{display:block}
-
-    /* Responsive */
-    @media (max-width:900px){
-      .tools{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stores • RGZTEC</title>
+<style>
+  :root{--brand:#FF6A00;--dark:#0F172A;--light:#F9FAFB;--line:#E5E7EB;--muted:#6B7280;--radius:16px;--shadow:0 10px 28px rgba(0,0,0,.07)}
+  *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;background:var(--light);color:var(--dark)}
+  header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
+  .row{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
+  .logo{font-weight:900} .spacer{flex:1}
+  .sub{color:var(--muted);font-size:14px}
+  .toolbar{max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;gap:10px;align-items:center}
+  .search{flex:1;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .search input{flex:1;border:0;padding:10px 12px} .search button{background:var(--brand);border:0;color:#fff;font-weight:800;padding:10px 16px}
+  h1{max-width:1200px;margin:18px auto 0;padding:0 20px}
+  .grid{max-width:1200px;margin:12px auto 30px;padding:0 20px;display:grid;gap:18px;grid-template-columns:repeat(4,1fr)}
+  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .12s, box-shadow .12s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(0,0,0,.12)}
+  .hero{height:150px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:28px}
+  .body{padding:14px;text-align:center}
+  .name{font-weight:900} .desc{color:var(--muted);font-size:14px;margin-top:6px;min-height:40px}
+  @media(max-width:992px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.grid{grid-template-columns:1fr}.toolbar{flex-direction:column;align-items:stretch}}
+</style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="container mast">
-      <a class="pill logo" href="index.html">RGZTEC</a>
-      <form class="searchbar" action="products/index.html">
-        <input type="search" name="q" placeholder="Search templates, UI kits, widgets…" aria-label="Search site" />
-        <button class="btn" type="submit">Search</button>
-      </form>
-      <nav class="topnav" style="display:flex;gap:8px;flex-wrap:wrap">
-        <a class="btn soft" href="products/index.html">Explore</a>
-        <a class="btn soft" href="demo/index.html">Demo Gallery</a>
-        <a class="btn soft" href="stores/index.html">Stores</a>
-        <a class="btn soft" href="login.html">Login</a>
-        <a class="btn primary" href="advertise.html">Become a Seller</a>
-      </nav>
-    </div>
-  </header>
+<header>
+  <div class="row">
+    <a class="logo" href="/">RGZTEC</a><div class="spacer"></div>
+    <span class="sub">Curated developer stores</span>
+  </div>
+</header>
 
-  <!-- BREADCRUMBS -->
-  <nav class="crumbs">
-    <div class="container row">
-      <a href="index.html">Home</a> ›
-      <a href="stores/index.html">Stores</a> ›
-      <span id="crumbStore" class="muted">Store</span>
-    </div>
-  </nav>
+<div class="toolbar">
+  <form class="search" onsubmit="return false">
+    <input id="q" placeholder="Search stores… (name or description)">
+    <button onclick="doSearch()">Search</button>
+  </form>
+</div>
 
-  <!-- HERO -->
-  <section class="container hero" id="hero">
-    <div class="banner">
-      <img id="bannerImg" alt="">
-    </div>
-    <div class="store-head">
-      <div class="store-meta">
-        <h1 class="title" id="storeTitle">Store</h1>
-        <span class="chip" id="stackBadges"></span>
-        <span class="chip"><span class="muted">Since</span> <span id="sinceVal">—</span></span>
-        <span class="chip ok">★ <span id="ratingVal">–</span></span>
-        <span class="chip" id="trustBadge"></span>
+<h1>All Stores</h1>
+<div id="grid" class="grid" aria-live="polite"></div>
+
+<script>
+let STORES=[];
+function render(list){
+  const grid=document.getElementById('grid');
+  grid.innerHTML = list.map(s=>`
+    <a class="card" href="/stores/${s.slug}/">
+      <div class="hero" style="background:${s.color}">${s.name}</div>
+      <div class="body">
+        <div class="name">${s.name}</div>
+        <div class="desc">${s.desc}</div>
       </div>
-      <div class="actions">
-        <button class="btn soft" id="btnFollow" aria-pressed="false">Follow</button>
-        <button class="btn soft" id="btnShare">Share</button>
-        <a id="btnWebsite" class="btn soft" href="#" target="_blank" rel="noopener">Open website</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FILTERS / TOOLS -->
-  <section class="container section">
-    <div class="tags" id="stackTags">
-      <!-- dynamic tags -->
-    </div>
-    <div class="tools" style="margin-top:10px">
-      <input id="q" class="pill" style="height:42px;border-radius:12px;width:100%;border:1px solid var(--b);padding:0 12px" type="search" placeholder="Search in this store…" />
-      <select id="sort" class="pill" style="height:42px;border-radius:12px;border:1px solid var(--b)">
-        <option value="featured">Featured</option>
-        <option value="az">A–Z</option>
-        <option value="priceAsc">Price: Low to High</option>
-        <option value="priceDesc">Price: High to Low</option>
-        <option value="newest">Newest</option>
-      </select>
-    </div>
-
-    <div class="note" style="margin-top:12px">
-      <div>Tip: Press <strong>/</strong> to focus search • Click a stack to filter within this store</div>
-      <div><span id="count" style="font-weight:900">0 items</span></div>
-    </div>
-  </section>
-
-  <!-- PRODUCTS -->
-  <section class="container section">
-    <div class="grid" id="grid"></div>
-  </section>
-
-  <!-- CTA: Create a store -->
-  <section class="container cta">
-    <div>
-      <strong>Create a Store</strong>
-      Have quality templates or components? List your products and reach developers worldwide.
-    </div>
-    <a class="btn primary" href="advertise.html">Start selling</a>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="container" style="padding:20px 0 40px;color:var(--muted);border-top:1px solid var(--b)">
-    <div style="display:flex;gap:14px;flex-wrap:wrap">
-      <a href="index.html">Home</a> ·
-      <a href="products/index.html">Catalog</a> ·
-      <a href="stores/index.html">Stores</a> ·
-      <a href="products/index.html?cat=free#freebies">Freebies</a> ·
-      <a href="contact.html">Contact</a> ·
-      <a href="terms.html">Privacy</a>
-    </div>
-    <p class="muted" style="margin:8px 0 0">© 2025 RGZTEC — All rights reserved.</p>
-  </footer>
-
-  <!-- DATA + LOGIC -->
-  <script>
-    // ---------- Data (mock) ----------
-    // Image conventions:
-    // - store banner: images/stores/<slug>-banner.webp
-    // - product thumb: images/catalog/html<n>.webp (fallbacks applied)
-    const STORES = {
-      "pixel-foundry": {
-        name: "Pixel Foundry",
-        stacks: ["HTML","CSS"],
-        since: 2021,
-        rating: 4.8,
-        trust: "Top seller",
-        website: "stores/index.html#pixel-foundry",
-        products: [
-          { id:1,  slug:"landing-starter-html", title:"Landing Starter (HTML)",  desc:"Hero, features, pricing and blog sections.",  price:18, stack:"HTML",  thumb:"images/catalog/html1.webp" },
-          { id:2,  slug:"dashboard-lite-html",   title:"Dashboard Lite (HTML)",   desc:"Sidebar + topbar & chart placeholders (vanilla JS).", price:24, stack:"JS",     thumb:"images/catalog/html2.webp" },
-          { id:3,  slug:"portfolio-mini",        title:"Portfolio Mini",          desc:"Single-page portfolio with project grid & contact.", price:14, stack:"HTML",  thumb:"images/catalog/html3.webp" },
-          { id:4,  slug:"blog-lite",             title:"Blog Lite",               desc:"List + single post layout with clean typography.",   price:12, stack:"HTML",  thumb:"images/catalog/html4.webp" },
-          { id:6,  slug:"e-commerce-mini",       title:"E-commerce Mini",         desc:"Product grid, product detail and cart icons.",       price:22, stack:"HTML",  thumb:"images/catalog/html6.webp" }
-        ]
-      },
-      "widget-labs": {
-        name: "Widget Labs",
-        stacks: ["JS","HTML"],
-        since: 2022,
-        rating: 4.9,
-        trust: "Trusted",
-        website: "stores/index.html#widget-labs",
-        products: [
-          { id:20, slug:"js-widgets",       title:"JS Widgets",       desc:"Tabs, accordions and tooltips (vanilla).",       price:11, stack:"JS",    thumb:"images/catalog/html20.webp" },
-          { id:11, slug:"faq-mini",         title:"FAQ Mini",         desc:"Accordion FAQ with categories and search.",      price:6,  stack:"HTML",  thumb:"images/catalog/html11.webp" },
-          { id:8,  slug:"product-list",     title:"Product List",     desc:"Filterable item list with grid/row views.",      price:11, stack:"HTML",  thumb:"images/catalog/html8.webp" },
-          { id:10, slug:"contact-lite",     title:"Contact Lite",     desc:"Form, map placeholder & social links.",          price:7,  stack:"HTML",  thumb:"images/catalog/html10.webp" }
-        ]
-      },
-      "react-craft": {
-        name: "React Craft",
-        stacks: ["React","HTML"],
-        since: 2023,
-        rating: 4.7,
-        trust: "—",
-        website: "stores/index.html#react-craft",
-        products: [
-          { id:17,  slug:"react-components",   title:"React Components",     desc:"Cards, modals and tabs (markup only).",          price:15, stack:"React", thumb:"images/catalog/html17.webp" },
-          { id:102, slug:"react-starter-free", title:"React Starter (Free)", desc:"Minimal React shell with routing.",               price:0,  stack:"Free",  thumb:"images/catalog/html17.webp" },
-          { id:4,   slug:"blog-lite",          title:"Blog Lite",            desc:"Clean typography: list + single post.",          price:12, stack:"HTML",  thumb:"images/catalog/html4.webp" }
-        ]
-      },
-      "style-forge": {
-        name: "Style Forge",
-        stacks: ["CSS","HTML"],
-        since: 2020,
-        rating: 4.6,
-        trust: "Trusted",
-        website: "stores/index.html#style-forge",
-        products: [
-          { id:9,  slug:"pricing-tables",  title:"Pricing Tables",  desc:"Clean pricing blocks with CTA.",                     price:8,  stack:"HTML", thumb:"images/catalog/html9.webp" },
-          { id:5,  slug:"agency-starter",  title:"Agency Starter",  desc:"Services: cards, testimonials, pricing.",            price:16, stack:"HTML", thumb:"images/catalog/html5.webp" },
-          { id:12, slug:"gallery-grid",    title:"Gallery Grid",    desc:"Masonry/grid gallery (lightbox placeholder).",       price:13, stack:"HTML", thumb:"images/catalog/html12.webp" },
-          { id:7,  slug:"resume-card",     title:"Resume Card",     desc:"Single-page resume with skills & contact.",          price:9,  stack:"HTML", thumb:"images/catalog/html7.webp" }
-        ]
-      },
-      "vector-supply": {
-        name: "Vector Supply",
-        stacks: ["Icons"],
-        since: 2019,
-        rating: 4.5,
-        trust: "Trusted",
-        website: "stores/index.html#vector-supply",
-        products: [
-          { id:18,  slug:"svg-icons",        title:"SVG Icons",        desc:"Curated developer icon set (inlineable).",        price:6, stack:"Icons", thumb:"images/catalog/html18.webp" },
-          { id:103, slug:"icons-free-pack",  title:"Free Icons Pack",  desc:"Basic outline icons for prototypes.",             price:0, stack:"Free",  thumb:"images/catalog/html18.webp" }
-        ]
-      },
-      "mailbox-co": {
-        name: "Mailbox Co.",
-        stacks: ["Email","HTML"],
-        since: 2021,
-        rating: 4.4,
-        trust: "—",
-        website: "stores/index.html#mailbox-co",
-        products: [
-          { id:19,  slug:"email-templates", title:"Email Templates",      desc:"Transactional email starter set.",                price:9,  stack:"Email", thumb:"images/catalog/html19.webp" },
-          { id:104, slug:"email-free",      title:"Free Email Template",  desc:"Responsive transactional email base.",            price:0,  stack:"Free",  thumb:"images/catalog/html19.webp" }
-        ]
-      }
-    };
-
-    // ---------- Helpers ----------
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => Array.from(document.querySelectorAll(sel));
-    function param(name){ return new URLSearchParams(location.search).get(name); }
-    function html(strings, ...vals){ return strings.map((s,i)=>s+(vals[i]??"")).join(""); }
-    function currency(n){ return n===0 ? "Free" : `$${n}`; }
-    function fallback(img){
-      img.onerror = ()=>{
-        const src = img.getAttribute('src')||"";
-        if(src.endsWith('.webp')){ img.src = src.replace(/\.webp$/i,'.png'); return; }
-        if(src.endsWith('.png')) { img.src = src.replace(/\.png$/i,'.jpg'); return; }
-        img.onerror = null;
-      };
-    }
-
-    // ---------- Render ----------
-    const slug = (param('slug')||"").toLowerCase();
-    const store = STORES[slug];
-
-    function render404(){
-      $('#storeTitle').textContent = 'Store not found';
-      document.title = 'Store not found · RGZTEC';
-      $('#bannerImg').style.display='none';
-      $('#stackBadges').innerHTML='';
-      $('#sinceVal').textContent='—';
-      $('#ratingVal').textContent='—';
-      $('#trustBadge').style.display='none';
-      $('#btnWebsite').style.display='none';
-      $('#stackTags').innerHTML='';
-      $('#grid').innerHTML = `
-        <article class="card">
-          <div class="body">
-            <h3 class="title" style="font-size:20px">Store not found</h3>
-            <p class="desc">The store you're looking for doesn't exist or the slug is incorrect.</p>
-            <div class="actions-row">
-              <a class="btn" href="stores/index.html">Back to Stores</a>
-            </div>
-          </div>
-        </article>`;
-      $('#count').textContent = "0 items";
-      $('#crumbStore').textContent = 'Store not found';
-    }
-
-    function buildStackTags(uniqueStacks){
-      const stacks = ["All", ...uniqueStacks, "Free"];
-      $('#stackTags').innerHTML = stacks.map((t,i)=>`<button class="tag ${i===0?"active":""}" data-stack="${t}">${t}</button>`).join('');
-    }
-
-    function buildHero(){
-      $('#storeTitle').textContent = store.name;
-      $('#crumbStore').textContent = store.name;
-      document.title = store.name + " · RGZTEC";
-
-      // badges
-      $('#stackBadges').outerHTML = store.stacks.map(s=>`<span class="chip">${s}</span>`).join('');
-      $('#sinceVal').textContent = store.since || "—";
-      $('#ratingVal').textContent = store.rating || "—";
-      const trust = $('#trustBadge');
-      if(store.trust && store.trust !== "—"){ trust.textContent = store.trust; } else { trust.style.display="none"; }
-
-      // banner
-      const banner = `images/stores/${slug}-banner.webp`;
-      const img = $('#bannerImg');
-      img.src = banner;
-      img.alt = `${store.name} banner`;
-      fallback(img);
-
-      // website
-      $('#btnWebsite').href = store.website || '#';
-    }
-
-    // product render with link wiring
-    function cardMarkup(p){
-      const price = currency(p.price);
-      const isFree = p.price === 0;
-      const demoLink = `demo/index.html?item=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(p.slug)}#open=1`;
-      const detailsLink = `products/detail.html?id=${encodeURIComponent(p.id)}&slug=${encodeURIComponent(p.slug)}`;
-      const addLink = isFree ? `${detailsLink}#download` : `cart.html?add=${encodeURIComponent(p.id)}`;
-
-      return html`
-        <article class="card" data-stack="${p.stack}" data-title="${p.title.toLowerCase()}">
-          <a class="thumb" href="${detailsLink}" aria-label="${p.title}">
-            <img src="${p.thumb}" alt="${p.title}">
-          </a>
-          <div class="body">
-            <div class="title">${p.title}</div>
-            <div class="desc">${p.desc}</div>
-            <div class="meta">
-              <div class="price">${price}</div>
-              <span class="muted">${p.stack}</span>
-            </div>
-            <div class="actions-row">
-              <a class="btn" href="${demoLink}" target="_blank" rel="noopener">Preview</a>
-              <a class="btn" href="${detailsLink}">Details</a>
-              <a class="btn ${isFree?"":"primary"}" href="${addLink}">${isFree?"Download":"Add"}</a>
-            </div>
-          </div>
-        </article>`;
-    }
-
-    function apply(){
-      const activeTag = $('.tag.active')?.dataset.stack || "All";
-      const q = ($('#q').value||"").trim().toLowerCase();
-
-      // items clone
-      let items = [...store.products];
-
-      // filter by stack
-      if(activeTag !== "All"){
-        if(activeTag === "Free") items = items.filter(p=>p.price===0);
-        else items = items.filter(p=> (p.stack||"").toLowerCase() === activeTag.toLowerCase());
-      }
-
-      // search
-      if(q){
-        items = items.filter(p=>
-          p.title.toLowerCase().includes(q) || (p.desc||"").toLowerCase().includes(q)
-        );
-      }
-
-      // sort
-      const sort = $('#sort').value;
-      if(sort==='az') items.sort((a,b)=>a.title.localeCompare(b.title));
-      if(sort==='priceAsc') items.sort((a,b)=>(a.price)-(b.price));
-      if(sort==='priceDesc') items.sort((a,b)=>(b.price)-(a.price));
-      if(sort==='newest') items.sort((a,b)=>(b.id)-(a.id)); // proxy
-
-      // render
-      $('#grid').innerHTML = items.map(cardMarkup).join('') || `
-        <article class="card"><div class="body">
-          <div class="title">No matches</div>
-          <p class="desc">Try removing filters or changing your search.</p>
-        </div></article>`;
-      // attach image fallbacks
-      $$('#grid img').forEach(fallback);
-
-      // count
-      $('#count').textContent = `${items.length} ${items.length===1?'item':'items'}`;
-    }
-
-    function initEvents(){
-      // tag switching
-      $('#stackTags').addEventListener('click', (e)=>{
-        const btn = e.target.closest('.tag'); if(!btn) return;
-        $$('#stackTags .tag').forEach(t=>t.classList.remove('active'));
-        btn.classList.add('active');
-        apply();
-      });
-
-      // search & sort
-      $('#q').addEventListener('input', apply);
-      $('#sort').addEventListener('change', apply);
-
-      // follow
-      const followBtn = $('#btnFollow');
-      followBtn.addEventListener('click', ()=>{
-        const on = followBtn.getAttribute('aria-pressed')==='true';
-        followBtn.setAttribute('aria-pressed', String(!on));
-        followBtn.textContent = !on ? 'Following ✓' : 'Follow';
-      });
-
-      // share
-      $('#btnShare').addEventListener('click', async ()=>{
-        const text = `Check out ${store.name} on RGZTEC`;
-        try{
-          if(navigator.share){
-            await navigator.share({title:document.title,text, url:location.href});
-          }else{
-            await navigator.clipboard.writeText(location.href);
-            alert('Link copied to clipboard!');
-          }
-        }catch(e){/* noop */}
-      });
-
-      // "/" focus search like GitHub
-      window.addEventListener('keydown',(e)=>{
-        if(e.key==='/' && !/input|textarea/i.test(document.activeElement.tagName)){
-          e.preventDefault(); $('#q').focus();
-        }
-      });
-
-      // webp → png → jpg for all imgs
-      [$('img#bannerImg'), ...$$('#grid img')].forEach(fallback);
-    }
-
-    // ---------- Boot ----------
-    if(!store){ render404(); }
-    else{
-      buildHero();
-
-      // unique stacks from products + store.stacks
-      const unique = Array.from(new Set([...(store.stacks||[]), ...store.products.map(p=>p.stack)]));
-      buildStackTags(unique);
-      // first render
-      $('#grid').innerHTML = store.products.map(cardMarkup).join('');
-      $$('#grid img').forEach(fallback);
-      $('#count').textContent = `${store.products.length} items`;
-      initEvents();
-      apply();
-    }
-  </script>
+    </a>`).join('');
+}
+function doSearch(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  if(!q) return render(STORES);
+  render(STORES.filter(s=>(s.name+s.desc).toLowerCase().includes(q)));
+}
+(async function(){
+  const data=await fetch('/data/stores.json').then(r=>r.json());
+  STORES = data.stores||[];
+  render(STORES);
+})();
+</script>
 </body>
 </html>
