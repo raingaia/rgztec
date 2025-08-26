@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(function(){
+  function base(){
+    var p = location.pathname.split('/').filter(Boolean);
+    // Proje sayfası ise ilk parça repo adıdır (ör. rgztec)
+    if (p.length && p[0] !== 'store' && p[0] !== 'stores' && p[0] !== 'data' && !p[0].endsWith('.html')) {
+      return '/' + p[0] + '/';  // /rgztec/
+    }
+    return '/';
+  }
+  var p = location.pathname.replace(/\/+$/,'').split('/').filter(Boolean);
+  // /<repo?>/store/<slug>  veya  /<repo?>/stores/<slug>
+  var iStore  = p.indexOf('store');
+  var iStores = p.indexOf('stores');
+  var i = (iStore >= 0 ? iStore : iStores);
+  if (i >= 0 && p[i+1]) {
+    var slug = p[i+1];
+    location.replace(base() + 'store.html?slug=' + slug);
+    return;
+  }
+  // başka bir 404 ise ana sayfaya
+  location.replace(base());
+})();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=./"></noscript>
+</head><body><p>Redirecting…</p></body></html>
