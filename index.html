@@ -79,19 +79,18 @@
   }
   @media (max-width:480px){
     .header-row{gap:10px}
-    .searchbar{display:none} /* istersen ikon arama açarsın */
+    .searchbar{display:none}
     .cat-grid{grid-template-columns:repeat(2,1fr)}
     .grid{grid-template-columns:1fr}
   }
 
-  /* Testimonials / Newsletter / Footer (kısaltılmış, aynı) */
+  /* Testimonials / Newsletter / Footer */
   .testimonials{background:#fff;padding:60px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .testimonials h2{text-align:center;font-size:24px;margin-bottom:28px}
   .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1200px;margin:0 auto}
   .t-card{background:var(--light);border:1px solid var(--line);border-radius:16px;padding:18px}
   .t-card p{font-style:italic;margin-bottom:8px}
   .t-card span{font-weight:800}
-
   @media(max-width:992px){.t-grid{grid-template-columns:1fr 1fr}}
   @media(max-width:600px){.t-grid{grid-template-columns:1fr}}
 
@@ -113,14 +112,14 @@
 
 <header class="site-header" id="header">
   <div class="header-row">
-    <a class="logo" href="/">RGZTEC</a>
-    <form class="searchbar" action="/search">
+    <a class="logo" href="./">RGZTEC</a>
+    <form class="searchbar" action="search">
       <input type="text" name="q" placeholder="Search stores or products…">
       <button type="submit">Search</button>
     </form>
     <nav class="actions">
-      <a href="/login">Sign in</a>
-      <a href="/cart" aria-label="Cart">Cart 🛒</a>
+      <a href="login">Sign in</a>
+      <a href="cart" aria-label="Cart">Cart 🛒</a>
     </nav>
   </div>
 </header>
@@ -128,26 +127,26 @@
 <section class="hero">
   <h1>Discover Amazing Stores</h1>
   <p>Explore developer shops, creative studios, and independent creators. Each store is a gateway to unique digital products.</p>
-  <a class="btn primary" href="/stores">Browse Stores</a>
-  <a class="btn ghost" href="/become-seller">Open a Store</a>
+  <a class="btn primary" href="stores/">Browse Stores</a>
+  <a class="btn ghost" href="become-seller">Open a Store</a>
 </section>
 
 <section class="categories">
   <h2>Popular Categories</h2>
   <div class="cat-grid">
-    <a class="cat-card" href="/categories/html"><img src="https://placehold.co/60x60/FF6A00/FFF?text=HTML" alt="HTML"><span>HTML Templates</span></a>
-    <a class="cat-card" href="/categories/js"><img src="https://placehold.co/60x60/0F172A/FFF?text=JS" alt="JS"><span>JS Widgets</span></a>
-    <a class="cat-card" href="/categories/react"><img src="https://placehold.co/60x60/10B981/FFF?text=React" alt="React"><span>React Components</span></a>
-    <a class="cat-card" href="/categories/mobile"><img src="https://placehold.co/60x60/FACC15/000?text=Game" alt="Mobile Games"><span>Mobile Games</span></a>
-    <a class="cat-card" href="/categories/wp"><img src="https://placehold.co/60x60/6B7280/FFF?text=WP" alt="WordPress"><span>WordPress Plugins</span></a>
-    <a class="cat-card" href="/categories/ai"><img src="https://placehold.co/60x60/38BDF8/FFF?text=AI" alt="AI"><span>AI Tools</span></a>
+    <a class="cat-card" href="categories/html"><img src="https://placehold.co/60x60/FF6A00/FFF?text=HTML" alt="HTML"><span>HTML Templates</span></a>
+    <a class="cat-card" href="categories/js"><img src="https://placehold.co/60x60/0F172A/FFF?text=JS" alt="JS"><span>JS Widgets</span></a>
+    <a class="cat-card" href="categories/react"><img src="https://placehold.co/60x60/10B981/FFF?text=React" alt="React"><span>React Components</span></a>
+    <a class="cat-card" href="categories/mobile"><img src="https://placehold.co/60x60/FACC15/000?text=Game" alt="Mobile Games"><span>Mobile Games</span></a>
+    <a class="cat-card" href="categories/wp"><img src="https://placehold.co/60x60/6B7280/FFF?text=WP" alt="WordPress"><span>WordPress Plugins</span></a>
+    <a class="cat-card" href="categories/ai"><img src="https://placehold.co/60x60/38BDF8/FFF?text=AI" alt="AI"><span>AI Tools</span></a>
   </div>
 </section>
 
 <section class="section" id="featured">
   <h2>Featured Stores</h2>
   <div class="grid">
-    <a class="card" href="/store/dev-studio-one/">
+    <a class="card" href="store.html?slug=dev-studio-one">
       <div class="card__hero hero--dev">Dev Studio One</div>
       <div class="card__body">
         <div class="title">Dev Studio One</div>
@@ -155,7 +154,7 @@
       </div>
     </a>
 
-    <a class="card" href="/store/game-makers/">
+    <a class="card" href="store.html?slug=game-makers">
       <div class="card__hero hero--game">Game Makers</div>
       <div class="card__body">
         <div class="title">Game Makers</div>
@@ -163,7 +162,7 @@
       </div>
     </a>
 
-    <a class="card" href="/store/ai-tools-hub/">
+    <a class="card" href="store.html?slug=ai-tools-hub">
       <div class="card__hero hero--ai">AI Tools Hub</div>
       <div class="card__body">
         <div class="title">AI Tools Hub</div>
@@ -171,7 +170,7 @@
       </div>
     </a>
 
-    <a class="card" href="/store/wp-plugins/">
+    <a class="card" href="store.html?slug=wp-plugins">
       <div class="card__hero hero--wp">WP Plugins</div>
       <div class="card__body">
         <div class="title">WP Plugins</div>
@@ -184,28 +183,28 @@
 <section class="section" id="new">
   <h2>New Arrivals</h2>
   <div class="grid">
-    <a class="card" href="/store/dev-studio-one/">
+    <a class="card" href="store.html?slug=dev-studio-one">
       <div class="card__hero hero--blue">New HTML</div>
       <div class="card__body">
         <div class="title">HTML Pack</div>
         <div class="desc">Fresh templates and landing pages.</div>
       </div>
     </a>
-    <a class="card" href="/store/tiny-js-lab/">
+    <a class="card" href="store.html?slug=tiny-js-lab">
       <div class="card__hero hero--ink">JS Lab</div>
       <div class="card__body">
         <div class="title">JS Lab</div>
         <div class="desc">Lightweight JavaScript widgets.</div>
       </div>
     </a>
-    <a class="card" href="/store/reactorium/">
+    <a class="card" href="store.html?slug=reactorium">
       <div class="card__hero hero--game">React Store</div>
       <div class="card__body">
         <div class="title">React Store</div>
         <div class="desc">Hooks, tables, components.</div>
       </div>
     </a>
-    <a class="card" href="/store/icon-smith/">
+    <a class="card" href="store.html?slug=icon-smith">
       <div class="card__hero hero--ai">Icons</div>
       <div class="card__body">
         <div class="title">Icon Vault</div>
@@ -218,28 +217,28 @@
 <section class="section" id="trending">
   <h2>Trending Now</h2>
   <div class="grid">
-    <a class="card" href="/store/unity-hub/">
+    <a class="card" href="store.html?slug=unity-hub">
       <div class="card__hero hero--wp">Unity Kits</div>
       <div class="card__body">
         <div class="title">Unity Kits</div>
         <div class="desc">Hyper-casual mobile games.</div>
       </div>
     </a>
-    <a class="card" href="/store/wp-plugins/">
+    <a class="card" href="store.html?slug=wp-plugins">
       <div class="card__hero hero--ink">Ecom Themes</div>
       <div class="card__body">
         <div class="title">E-commerce Themes</div>
         <div class="desc">Shopify & WooCommerce designs.</div>
       </div>
     </a>
-    <a class="card" href="/store/ai-tools-hub/">
+    <a class="card" href="store.html?slug=ai-tools-hub">
       <div class="card__hero hero--blue">AI Prompts</div>
       <div class="card__body">
         <div class="title">AI Prompt Kits</div>
         <div class="desc">Boost productivity with AI.</div>
       </div>
     </a>
-    <a class="card" href="/store/email-forge/">
+    <a class="card" href="store.html?slug=email-forge">
       <div class="card__hero hero--dev">Email Forge</div>
       <div class="card__body">
         <div class="title">Email Forge</div>
@@ -261,7 +260,7 @@
 <section class="newsletter">
   <h2>Join our newsletter</h2>
   <p>Get weekly updates on new stores, products, and exclusive offers.</p>
-  <form action="/subscribe">
+  <form action="subscribe">
     <input type="email" name="email" placeholder="Enter your email" required>
     <button type="submit">Subscribe</button>
   </form>
@@ -269,10 +268,10 @@
 
 <footer>
   <div class="f-grid">
-    <div class="f-col"><h4>Marketplace</h4><a href="/categories">All categories</a><a href="/stores">Stores</a><a href="/become-seller">Become a Seller</a></div>
-    <div class="f-col"><h4>Support</h4><a href="/support">Help Center</a><a href="/refunds">Refund Policy</a><a href="/dmca">DMCA</a></div>
-    <div class="f-col"><h4>Docs</h4><a href="/docs/publishing">Publishing Guide</a><a href="/docs/licenses">Licenses</a><a href="/docs/api">API</a></div>
-    <div class="f-col"><h4>RGZTEC</h4><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+    <div class="f-col"><h4>Marketplace</h4><a href="categories">All categories</a><a href="stores">Stores</a><a href="become-seller">Become a Seller</a></div>
+    <div class="f-col"><h4>Support</h4><a href="support">Help Center</a><a href="refunds">Refund Policy</a><a href="dmca">DMCA</a></div>
+    <div class="f-col"><h4>Docs</h4><a href="docs/publishing">Publishing Guide</a><a href="docs/licenses">Licenses</a><a href="docs/api">API</a></div>
+    <div class="f-col"><h4>RGZTEC</h4><a href="about">About</a><a href="privacy">Privacy</a><a href="terms">Terms</a></div>
   </div>
   <p class="footnote">© <span id="y"></span> RGZTEC — All rights reserved.</p>
 </footer>
