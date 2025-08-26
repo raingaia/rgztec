@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<script>
+  (function () {
+    // Proje tabanını bul
+    function base() {
+      var parts = location.pathname.split('/').filter(Boolean);
+      if (parts.length && parts[0] !== 'store' && parts[0] !== 'stores' && parts[0] !== 'data') {
+        return '/' + parts[0] + '/';  // /rgztec/
+      }
+      return '/';
+    }
+
+    // /store/<slug>/ -> slug yakala
+    var segs = location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+    var slug = segs[segs.length - 1];
+
+    if (!slug || slug === 'store') {
+      location.replace(base() + 'stores/');
+      return;
+    }
+
+    location.replace(base() + 'store.html?slug=' + slug);
+  })();
+</script>
+<noscript>
+  <meta http-equiv="refresh" content="0; url=../store.html">
+</noscript>
+</head><body>
+<p>Redirecting…</p>
+</body></html>
+
