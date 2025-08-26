@@ -1,198 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>RGZTEC Marketplace</title>
-  <meta name="description" content="Multi-vendor marketplace for templates, plugins, mobile games, and digital assets."/>
-  <style>
-    :root{
-      --brand:#FF6A00;
-      --dark:#0F172A;
-      --light:#F9FAFB;
-      --white:#FFFFFF;
-      --muted:#6B7280;
-      --line:#E5E7EB;
-      --success:#10B981;
-      --radius:14px;
-      --shadow:0 10px 30px rgba(0,0,0,.07);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--light);color:var(--dark)}
-    a{text-decoration:none;color:inherit}
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RGZTEC Marketplace</title>
+<meta name="description" content="Multi-vendor marketplace for templates, plugins, mobile games, and digital assets."/>
 
-    /* Header */
-    .site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);transition:.2s}
-    .site-header.solid{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-    .header-row{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:12px 20px}
-    .logo{font-weight:900;font-size:22px;color:var(--dark)}
-    .searchbar{flex:1;margin:0 20px;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px}
-    .searchbar input{flex:1;border:0;padding:10px;border-radius:999px 0 0 999px;outline:none}
-    .searchbar button{background:var(--brand);border:0;color:#fff;padding:10px 20px;border-radius:0 999px 999px 0;font-weight:700;cursor:pointer}
-    .actions a{margin-left:16px;font-weight:700;color:var(--dark)}
+<style>
+  :root{
+    --brand:#FF6A00; --dark:#0F172A; --light:#F9FAFB; --white:#ffffff;
+    --muted:#6B7280; --line:#E5E7EB; --ok:#10B981; --focus:#2563EB;
+    --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--light);color:var(--dark)}
+  a{text-decoration:none;color:inherit}
 
-    /* Hero */
-    .hero{padding:60px 20px;text-align:center;background:#fff;border-bottom:1px solid var(--line)}
-    .hero h1{font-size:42px;margin-bottom:12px}
-    .hero p{color:var(--muted);font-size:18px;max-width:680px;margin:0 auto 24px}
-    .btn{display:inline-block;padding:12px 22px;border-radius:12px;font-weight:700}
-    .btn.primary{background:var(--brand);color:#fff}
-    .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--dark);margin-left:12px}
+  /* Header */
+  .site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);
+    backdrop-filter:blur(8px);transition:background .2s, box-shadow .2s, border-color .2s;border-bottom:1px solid var(--line)}
+  .site-header.solid{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+  .header-row{display:flex;align-items:center;gap:16px;max-width:1200px;margin:0 auto;padding:12px 20px}
+  .logo{font-weight:900;font-size:22px;color:var(--dark)}
+  .searchbar{flex:1;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .searchbar input{flex:1;border:0;padding:10px 14px;outline:none;font-size:16px}
+  .searchbar button{background:var(--brand);border:0;color:#fff;padding:10px 18px;font-weight:800;cursor:pointer;border-radius:0 999px 999px 0}
+  .actions a{font-weight:800;margin-left:14px}
 
-    /* Categories */
-    .categories{padding:40px 20px;max-width:1200px;margin:0 auto}
-    .categories h2{font-size:24px;margin-bottom:20px}
-    .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
-    .cat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow);transition:.2s}
-    .cat-card:hover{transform:translateY(-3px);box-shadow:0 15px 25px rgba(0,0,0,.1)}
-    .cat-card img{width:60px;height:60px;object-fit:contain;margin-bottom:10px}
-    .cat-card span{font-weight:700;font-size:15px}
+  /* Focus styles (a11y) */
+  a:focus-visible, button:focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:10px}
 
-    /* Store grids */
-    .section{padding:50px 20px;max-width:1200px;margin:0 auto}
-    .section h2{font-size:24px;margin-bottom:20px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.2s}
-    .card:hover{transform:translateY(-2px);box-shadow:0 15px 25px rgba(0,0,0,.1)}
-    .card img{width:100%;height:160px;object-fit:cover}
-    .card-body{padding:16px;text-align:center}
-    .card-body h3{font-size:18px;margin-bottom:8px}
-    .card-body p{font-size:14px;color:var(--muted)}
+  /* Hero */
+  .hero{padding:54px 20px;text-align:center;background:#fff;border-bottom:1px solid #eef2f7}
+  .hero h1{font-size:42px;margin-bottom:10px}
+  .hero p{color:var(--muted);font-size:18px;max-width:680px;margin:0 auto 22px}
+  .btn{display:inline-block;padding:12px 22px;border-radius:12px;font-weight:800;transition:filter .12s}
+  .btn.primary{background:var(--brand);color:#fff;min-width:160px}
+  .btn.primary:hover{filter:brightness(.95)}
+  .btn.ghost{background:#fff;border:1px solid var(--line);color:#111;margin-left:12px}
 
-    /* Testimonials */
-    .testimonials{background:#fff;padding:60px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .testimonials h2{text-align:center;font-size:24px;margin-bottom:30px}
-    .t-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1200px;margin:0 auto}
-    .t-card{background:var(--light);border-radius:var(--radius);padding:20px;border:1px solid var(--line)}
-    .t-card p{font-style:italic;margin-bottom:10px}
-    .t-card span{font-weight:700;color:var(--dark)}
+  /* Categories */
+  .categories{padding:40px 20px;max-width:1200px;margin:0 auto}
+  .categories h2{font-size:24px;margin-bottom:18px}
+  .cat-grid{display:grid;gap:16px;grid-template-columns:repeat(6,1fr)}
+  .cat-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center;
+    box-shadow:0 8px 18px rgba(0,0,0,.06);transition:transform .12s, box-shadow .12s}
+  .cat-card:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(0,0,0,.08)}
+  .cat-card img{width:60px;height:60px;object-fit:cover;margin-bottom:8px}
+  .cat-card span{font-weight:800;font-size:15px;display:block}
 
-    /* Newsletter */
-    .newsletter{padding:50px 20px;text-align:center;background:var(--brand);color:#fff}
-    .newsletter h2{font-size:26px;margin-bottom:12px}
-    .newsletter p{margin-bottom:20px}
-    .newsletter form{max-width:500px;margin:0 auto;display:flex;background:#fff;border-radius:999px;overflow:hidden}
-    .newsletter input{flex:1;padding:12px;border:0;font-size:16px;outline:none}
-    .newsletter button{background:var(--dark);color:#fff;border:0;padding:12px 20px;font-weight:700;cursor:pointer}
+  /* Sections / Grids */
+  .section{padding:46px 20px;max-width:1200px;margin:0 auto}
+  .section h2{font-size:24px;margin-bottom:16px}
+  .grid{display:grid;gap:20px;grid-template-columns:repeat(4,1fr)}
+  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    box-shadow:var(--shadow);transition:transform .12s, box-shadow .12s}
+  .card:hover, .card:focus-within{transform:translateY(-3px);box-shadow:0 16px 30px rgba(0,0,0,.12)}
+  .card__hero{height:170px;display:flex;align-items:center;justify-content:center;font-size:36px;
+    color:#fff;font-weight:900}
+  /* renkli mağaza kapıları */
+  .hero--dev{background:#0f172a}
+  .hero--game{background:#ff6a00}
+  .hero--ai{background:#10b981}
+  .hero--wp{background:#facc15;color:#111}
+  .hero--blue{background:#38bdf8}
+  .hero--ink{background:#111827}
+  .card__body{padding:16px;text-align:center}
+  .title{font-size:18px;font-weight:900;line-height:1.25;min-height:28px;margin-bottom:6px}
+  .desc{font-size:14px;color:var(--muted);line-height:1.35;min-height:40px}
 
-    /* Footer */
-    footer{background:var(--dark);color:#fff;padding:50px 20px;margin-top:40px}
-    .f-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;max-width:1200px;margin:0 auto}
-    .f-col h4{margin-bottom:12px}
-    .f-col a{display:block;color:#fff;margin-bottom:6px;font-size:14px}
-    .socials a{margin-right:12px;font-size:18px}
-    .footnote{text-align:center;margin-top:20px;color:#9CA3AF;font-size:14px}
-  </style>
+  /* Responsive */
+  @media (max-width:1200px){ .cat-grid{grid-template-columns:repeat(5,1fr)} .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (max-width:992px){ .cat-grid{grid-template-columns:repeat(4,1fr)} }
+  @media (max-width:768px){
+    .hero h1{font-size:32px}
+    .cat-grid{grid-template-columns:repeat(3,1fr)}
+    .grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:480px){
+    .header-row{gap:10px}
+    .searchbar{display:none} /* istersen ikon arama açarsın */
+    .cat-grid{grid-template-columns:repeat(2,1fr)}
+    .grid{grid-template-columns:1fr}
+  }
+
+  /* Testimonials / Newsletter / Footer (kısaltılmış, aynı) */
+  .testimonials{background:#fff;padding:60px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .testimonials h2{text-align:center;font-size:24px;margin-bottom:28px}
+  .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1200px;margin:0 auto}
+  .t-card{background:var(--light);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .t-card p{font-style:italic;margin-bottom:8px}
+  .t-card span{font-weight:800}
+
+  @media(max-width:992px){.t-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.t-grid{grid-template-columns:1fr}}
+
+  .newsletter{padding:50px 20px;text-align:center;background:var(--brand);color:#fff}
+  .newsletter h2{font-size:26px;margin-bottom:10px}
+  .newsletter form{max-width:520px;margin:12px auto 0;display:flex;background:#fff;border-radius:999px;overflow:hidden}
+  .newsletter input{flex:1;padding:12px;border:0;font-size:16px}
+  .newsletter button{background:var(--dark);color:#fff;border:0;padding:12px 20px;font-weight:800}
+
+  footer{background:var(--dark);color:#fff;padding:44px 20px;margin-top:40px}
+  .f-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:1200px;margin:0 auto}
+  .f-col h4{margin-bottom:10px}
+  .f-col a{display:block;color:#fff;opacity:.9;margin:4px 0}
+  .footnote{text-align:center;margin-top:16px;color:#9CA3AF;font-size:14px}
+  @media(max-width:768px){.f-grid{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="site-header" id="header">
-    <div class="header-row">
-      <a class="logo" href="/">RGZTEC</a>
-      <form class="searchbar">
-        <input type="text" placeholder="Search stores or products...">
-        <button type="submit">Search</button>
-      </form>
-      <nav class="actions">
-        <a href="/login">Sign in</a>
-        <a href="/cart">Cart 🛒</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Discover Amazing Stores</h1>
-    <p>Explore developer shops, creative studios, and independent creators. Each store is a gateway to unique digital products.</p>
-    <a href="/browse" class="btn primary">Browse Stores</a>
-    <a href="/become-seller" class="btn ghost">Open a Store</a>
-  </section>
-
-  <!-- Categories -->
-  <section class="categories">
-    <h2>Popular Categories</h2>
-    <div class="cat-grid">
-      <a class="cat-card" href="/categories/html"><img src="https://placehold.co/60x60/FF6A00/FFF?text=HTML"><span>HTML Templates</span></a>
-      <a class="cat-card" href="/categories/js"><img src="https://placehold.co/60x60/0F172A/FFF?text=JS"><span>JS Widgets</span></a>
-      <a class="cat-card" href="/categories/react"><img src="https://placehold.co/60x60/10B981/FFF?text=React"><span>React Components</span></a>
-      <a class="cat-card" href="/categories/mobile"><img src="https://placehold.co/60x60/FACC15/000?text=Game"><span>Mobile Games</span></a>
-      <a class="cat-card" href="/categories/wp"><img src="https://placehold.co/60x60/6B7280/FFF?text=WP"><span>WordPress Plugins</span></a>
-      <a class="cat-card" href="/categories/ai"><img src="https://placehold.co/60x60/38BDF8/FFF?text=AI"><span>AI Tools</span></a>
-    </div>
-  </section>
-
-  <!-- Featured Stores -->
-  <section class="section">
-    <h2>Featured Stores</h2>
-    <div class="grid">
-      <div class="card"><img src="https://placehold.co/400x180/111827/FFF?text=Dev+Studio+One"><div class="card-body"><h3>Dev Studio One</h3><p>Modern HTML, CSS, and React templates.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/FF6A00/FFF?text=Game+Makers"><div class="card-body"><h3>Game Makers</h3><p>Unity and Unreal mobile game source codes.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/10B981/FFF?text=AI+Tools+Hub"><div class="card-body"><h3>AI Tools Hub</h3><p>LLM prompts, AI integrations, automation kits.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/FACC15/000?text=WP+Plugins"><div class="card-body"><h3>WP Plugins</h3><p>WordPress plugins and e-commerce solutions.</p></div></div>
-    </div>
-  </section>
-
-  <!-- New Arrivals -->
-  <section class="section">
-    <h2>New Arrivals</h2>
-    <div class="grid">
-      <div class="card"><img src="https://placehold.co/400x180/38BDF8/FFF?text=New+HTML"><div class="card-body"><h3>HTML Pack</h3><p>Fresh templates and landing pages.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/111827/FFF?text=JS+Lab"><div class="card-body"><h3>JS Lab</h3><p>Lightweight JavaScript widgets.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/FF6A00/FFF?text=React+Store"><div class="card-body"><h3>React Store</h3><p>Hooks, tables, components.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/10B981/FFF?text=Icons"><div class="card-body"><h3>Icon Vault</h3><p>SVG icons in outline & fill.</p></div></div>
-    </div>
-  </section>
-
-  <!-- Trending -->
-  <section class="section">
-    <h2>Trending Now</h2>
-    <div class="grid">
-      <div class="card"><img src="https://placehold.co/400x180/FACC15/000?text=Unity+Kits"><div class="card-body"><h3>Unity Kits</h3><p>Hyper-casual mobile games.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/6B7280/FFF?text=Ecom+Themes"><div class="card-body"><h3>Ecom Themes</h3><p>Shopify & WooCommerce designs.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/38BDF8/FFF?text=AI+Prompts"><div class="card-body"><h3>AI Prompt Kits</h3><p>Boost productivity with AI.</p></div></div>
-      <div class="card"><img src="https://placehold.co/400x180/111827/FFF?text=Email+Forge"><div class="card-body"><h3>Email Forge</h3><p>Responsive MJML templates.</p></div></div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="testimonials">
-    <h2>What our users say</h2>
-    <div class="t-grid">
-      <div class="t-card"><p>“RGZTEC marketplace helped us launch our SaaS in days instead of weeks.”</p><span>— Alex, Startup Founder</span></div>
-      <div class="t-card"><p>“The quality of templates and plugins is amazing, and I love supporting indie devs.”</p><span>— Maria, Designer</span></div>
-      <div class="t-card"><p>“I sold my Unity game kits here and reached global buyers easily.”</p><span>— Chen, Game Dev</span></div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="newsletter">
-    <h2>Join our newsletter</h2>
-    <p>Get weekly updates on new stores, products, and exclusive offers.</p>
-    <form>
-      <input type="email" placeholder="Enter your email">
-      <button type="submit">Subscribe</button>
+<header class="site-header" id="header">
+  <div class="header-row">
+    <a class="logo" href="/">RGZTEC</a>
+    <form class="searchbar" action="/search">
+      <input type="text" name="q" placeholder="Search stores or products…">
+      <button type="submit">Search</button>
     </form>
-  </section>
+    <nav class="actions">
+      <a href="/login">Sign in</a>
+      <a href="/cart" aria-label="Cart">Cart 🛒</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- Footer -->
-  <footer>
-    <div class="f-grid">
-      <div class="f-col"><h4>Marketplace</h4><a href="#">All categories</a><a href="#">Stores</a><a href="#">Become a Seller</a></div>
-      <div class="f-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Refund Policy</a><a href="#">DMCA</a></div>
-      <div class="f-col"><h4>Docs</h4><a href="#">Publishing Guide</a><a href="#">Licenses</a><a href="#">API</a></div>
-      <div class="f-col"><h4>RGZTEC</h4><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a></div>
-    </div>
-    <div class="socials" style="text-align:center;margin-top:20px">
-      <a href="#">🐦</a><a href="#">📘</a><a href="#">📸</a>
-    </div>
-    <p class="footnote">© 2025 RGZTEC — All rights reserved.</p>
-  </footer>
+<section class="hero">
+  <h1>Discover Amazing Stores</h1>
+  <p>Explore developer shops, creative studios, and independent creators. Each store is a gateway to unique digital products.</p>
+  <a class="btn primary" href="/stores">Browse Stores</a>
+  <a class="btn ghost" href="/become-seller">Open a Store</a>
+</section>
 
-  <script>
-    // Header scroll effect
-    const header=document.getElementById("header");
-    window.addEventListener("scroll",()=>{if(window.scrollY>40){header.classList.add("solid")}else{header.classList.remove("solid")}})
-  </script>
+<section class="categories">
+  <h2>Popular Categories</h2>
+  <div class="cat-grid">
+    <a class="cat-card" href="/categories/html"><img src="https://placehold.co/60x60/FF6A00/FFF?text=HTML" alt="HTML"><span>HTML Templates</span></a>
+    <a class="cat-card" href="/categories/js"><img src="https://placehold.co/60x60/0F172A/FFF?text=JS" alt="JS"><span>JS Widgets</span></a>
+    <a class="cat-card" href="/categories/react"><img src="https://placehold.co/60x60/10B981/FFF?text=React" alt="React"><span>React Components</span></a>
+    <a class="cat-card" href="/categories/mobile"><img src="https://placehold.co/60x60/FACC15/000?text=Game" alt="Mobile Games"><span>Mobile Games</span></a>
+    <a class="cat-card" href="/categories/wp"><img src="https://placehold.co/60x60/6B7280/FFF?text=WP" alt="WordPress"><span>WordPress Plugins</span></a>
+    <a class="cat-card" href="/categories/ai"><img src="https://placehold.co/60x60/38BDF8/FFF?text=AI" alt="AI"><span>AI Tools</span></a>
+  </div>
+</section>
+
+<section class="section" id="featured">
+  <h2>Featured Stores</h2>
+  <div class="grid">
+    <a class="card" href="/store/dev-studio-one/">
+      <div class="card__hero hero--dev">Dev Studio One</div>
+      <div class="card__body">
+        <div class="title">Dev Studio One</div>
+        <div class="desc">Modern HTML, CSS, and React templates.</div>
+      </div>
+    </a>
+
+    <a class="card" href="/store/game-makers/">
+      <div class="card__hero hero--game">Game Makers</div>
+      <div class="card__body">
+        <div class="title">Game Makers</div>
+        <div class="desc">Unity and Unreal mobile game source codes.</div>
+      </div>
+    </a>
+
+    <a class="card" href="/store/ai-tools-hub/">
+      <div class="card__hero hero--ai">AI Tools Hub</div>
+      <div class="card__body">
+        <div class="title">AI Tools Hub</div>
+        <div class="desc">LLM prompts, AI integrations, automation kits.</div>
+      </div>
+    </a>
+
+    <a class="card" href="/store/wp-plugins/">
+      <div class="card__hero hero--wp">WP Plugins</div>
+      <div class="card__body">
+        <div class="title">WP Plugins</div>
+        <div class="desc">WordPress plugins and e-commerce solutions.</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="new">
+  <h2>New Arrivals</h2>
+  <div class="grid">
+    <a class="card" href="/store/dev-studio-one/">
+      <div class="card__hero hero--blue">New HTML</div>
+      <div class="card__body">
+        <div class="title">HTML Pack</div>
+        <div class="desc">Fresh templates and landing pages.</div>
+      </div>
+    </a>
+    <a class="card" href="/store/tiny-js-lab/">
+      <div class="card__hero hero--ink">JS Lab</div>
+      <div class="card__body">
+        <div class="title">JS Lab</div>
+        <div class="desc">Lightweight JavaScript widgets.</div>
+      </div>
+    </a>
+    <a class="card" href="/store/reactorium/">
+      <div class="card__hero hero--game">React Store</div>
+      <div class="card__body">
+        <div class="title">React Store</div>
+        <div class="desc">Hooks, tables, components.</div>
+      </div>
+    </a>
+    <a class="card" href="/store/icon-smith/">
+      <div class="card__hero hero--ai">Icons</div>
+      <div class="card__body">
+        <div class="title">Icon Vault</div>
+        <div class="desc">SVG icons in outline & fill.</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="trending">
+  <h2>Trending Now</h2>
+  <div class="grid">
+    <a class="card" href="/store/unity-hub/">
+      <div class="card__hero hero--wp">Unity Kits</div>
+      <div class="card__body">
+        <div class="title">Unity Kits</div>
+        <div class="desc">Hyper-casual mobile games.</div>
+      </div>
+    </a>
+    <a class="card" href="/store/wp-plugins/">
+      <div class="card__hero hero--ink">Ecom Themes</div>
+      <div class="card__body">
+        <div class="title">E-commerce Themes</div>
+        <div class="desc">Shopify & WooCommerce designs.</div>
+      </div>
+    </a>
+    <a class="card" href="/store/ai-tools-hub/">
+      <div class="card__hero hero--blue">AI Prompts</div>
+      <div class="card__body">
+        <div class="title">AI Prompt Kits</div>
+        <div class="desc">Boost productivity with AI.</div>
+      </div>
+    </a>
+    <a class="card" href="/store/email-forge/">
+      <div class="card__hero hero--dev">Email Forge</div>
+      <div class="card__body">
+        <div class="title">Email Forge</div>
+        <div class="desc">Responsive MJML templates.</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="testimonials">
+  <h2>What our users say</h2>
+  <div class="t-grid">
+    <div class="t-card"><p>“Launched our MVP in days thanks to RGZTEC.”</p><span>— Alex, Founder</span></div>
+    <div class="t-card"><p>“Top quality assets and great indie stores.”</p><span>— Maria, Designer</span></div>
+    <div class="t-card"><p>“Sold Unity kits worldwide with ease.”</p><span>— Chen, Game Dev</span></div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <h2>Join our newsletter</h2>
+  <p>Get weekly updates on new stores, products, and exclusive offers.</p>
+  <form action="/subscribe">
+    <input type="email" name="email" placeholder="Enter your email" required>
+    <button type="submit">Subscribe</button>
+  </form>
+</section>
+
+<footer>
+  <div class="f-grid">
+    <div class="f-col"><h4>Marketplace</h4><a href="/categories">All categories</a><a href="/stores">Stores</a><a href="/become-seller">Become a Seller</a></div>
+    <div class="f-col"><h4>Support</h4><a href="/support">Help Center</a><a href="/refunds">Refund Policy</a><a href="/dmca">DMCA</a></div>
+    <div class="f-col"><h4>Docs</h4><a href="/docs/publishing">Publishing Guide</a><a href="/docs/licenses">Licenses</a><a href="/docs/api">API</a></div>
+    <div class="f-col"><h4>RGZTEC</h4><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
+  </div>
+  <p class="footnote">© <span id="y"></span> RGZTEC — All rights reserved.</p>
+</footer>
+
+<script>
+  // year
+  document.getElementById('y').textContent = new Date().getFullYear();
+  // header solid on scroll
+  const header = document.getElementById('header');
+  const apply = () => { if (scrollY>40) header.classList.add('solid'); else header.classList.remove('solid'); };
+  apply(); addEventListener('scroll', apply);
+</script>
+
 </body>
 </html>
+
