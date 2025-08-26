@@ -2,471 +2,197 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RGZTEC — Launch faster with production-ready UI</title>
-  <meta name="description" content="Multi-vendor marketplace for code: HTML templates, CSS UI kits, JS widgets, React components, icons, email templates, plugins & mobile games."/>
-  <link rel="icon" href="data:;base64,iVBORw0KGgo="/>
-
-  <!-- ====== BASE STYLES (minimal, component-first) ====== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>RGZTEC Marketplace</title>
+  <meta name="description" content="Multi-vendor marketplace for templates, plugins, mobile games, and digital assets."/>
   <style>
     :root{
-      --bg:#f7f8fa;
-      --card:#fff;
-      --ink:#111827;
-      --muted:#6b7280;
-      --line:#e5e7eb;
-      --brand:#ff6a00;
-      --brand-ink:#ffffff;
+      --brand:#FF6A00;
+      --dark:#0F172A;
+      --light:#F9FAFB;
+      --white:#FFFFFF;
+      --muted:#6B7280;
+      --line:#E5E7EB;
+      --success:#10B981;
       --radius:14px;
       --shadow:0 10px 30px rgba(0,0,0,.07);
-      --container:1200px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial,sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-    }
-    .container{max-width:var(--container);margin:0 auto;padding:0 20px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--light);color:var(--dark)}
+    a{text-decoration:none;color:inherit}
 
-    /* ===== Etsy-like transparent sticky header ===== */
-    .site-header{position:sticky;top:0;z-index:50;
-      backdrop-filter:saturate(180%) blur(10px);
-      transition:background .2s ease, box-shadow .2s ease, border-color .2s ease}
-    .site-header.transparent{background:rgba(255,255,255,.38); border-bottom:1px solid transparent}
-    .site-header.solid{background:#fff; box-shadow:0 2px 14px rgba(0,0,0,.06); border-bottom:1px solid var(--line)}
-    .header-row{display:flex;align-items:center;gap:12px;padding:10px 0}
-    .logo{font-weight:900;font-size:22px;letter-spacing:.3px;text-decoration:none;color:var(--ink)}
-    .actions{display:flex;align-items:center;gap:14px}
-    .actions a{font-weight:700;color:var(--ink);text-decoration:none}
-    .actions a:hover{opacity:.85}
+    /* Header */
+    .site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);transition:.2s}
+    .site-header.solid{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+    .header-row{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:12px 20px}
+    .logo{font-weight:900;font-size:22px;color:var(--dark)}
+    .searchbar{flex:1;margin:0 20px;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px}
+    .searchbar input{flex:1;border:0;padding:10px;border-radius:999px 0 0 999px;outline:none}
+    .searchbar button{background:var(--brand);border:0;color:#fff;padding:10px 20px;border-radius:0 999px 999px 0;font-weight:700;cursor:pointer}
+    .actions a{margin-left:16px;font-weight:700;color:var(--dark)}
 
-    /* Categories dropdown */
-    .cats{position:relative}
-    .cats-btn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:9px 12px;border:1px solid var(--line);background:#fff;border-radius:12px;
-      cursor:pointer;font-weight:700;color:var(--ink)
-    }
-    .burger{font-size:18px;line-height:1}
-    .cats-menu{
-      position:absolute;left:0;top:110%;width:320px;background:#fff;border:1px solid var(--line);
-      border-radius:14px;box-shadow:var(--shadow);padding:8px;display:none;max-height:70vh;overflow:auto
-    }
-    .cats-menu a{display:block;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink)}
-    .cats-menu a:hover{background:#f3f4f6}
-    .cats.open .cats-menu{display:block}
-
-    /* Searchbar */
-    .searchbar{flex:1 1 auto;display:flex;align-items:center;background:#fff;border:1px solid var(--line);
-      border-radius:999px;padding:6px 8px;min-width:180px}
-    .searchbar input{flex:1;border:0;background:transparent;outline:none;font-size:16px;padding:10px}
-    .searchbar button{border:0;border-radius:999px;padding:10px 16px;background:var(--brand);color:var(--brand-ink);
-      font-weight:800;cursor:pointer}
-    .searchbar button:hover{filter:brightness(.95)}
-
-    /* Secondary nav row */
-    .nav-row{display:flex;gap:22px;padding:6px 0 12px;overflow:auto}
-    .nav-row a{color:var(--muted);text-decoration:none;font-weight:800;white-space:nowrap}
-    .nav-row a:hover{color:var(--ink)}
-
-    @media (max-width:980px){ .nav-row{display:none} .cats-btn span:not(.burger){display:none} }
-
-    /* ===== HERO ===== */
-    .hero{padding:32px 0 6px}
-    .hero-wrap{
-      background:linear-gradient(180deg,#ffffff 0%, #ffffffcc 38%, #fff 60%);
-      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
-      display:grid; grid-template-columns:1.3fr .9fr; gap:24px; padding:26px;
-    }
-    .hero h1{font-size:44px;line-height:1.08;margin:0 0 10px}
-    .hero p{color:var(--muted);margin:0 0 18px}
-    .chipbar{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 18px}
-    .chip{padding:6px 10px;border:1px dashed var(--line);border-radius:999px;font-weight:700;color:#374151;background:#fff}
-    .cta-row{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;justify-content:center;font-weight:900;text-decoration:none;cursor:pointer;border-radius:12px;padding:11px 14px}
+    /* Hero */
+    .hero{padding:60px 20px;text-align:center;background:#fff;border-bottom:1px solid var(--line)}
+    .hero h1{font-size:42px;margin-bottom:12px}
+    .hero p{color:var(--muted);font-size:18px;max-width:680px;margin:0 auto 24px}
+    .btn{display:inline-block;padding:12px 22px;border-radius:12px;font-weight:700}
     .btn.primary{background:var(--brand);color:#fff}
-    .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
-    .hero-card{
-      background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 14px 10px
-    }
-    .hero-card h3{margin:6px 0 10px}
-    .tag-row{display:flex;flex-wrap:wrap;gap:8px}
-    .tag{font-size:12px;border:1px solid var(--line);padding:4px 8px;border-radius:999px;color:#374151;background:#fff}
+    .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--dark);margin-left:12px}
 
-    @media (max-width:960px){
-      .hero-wrap{grid-template-columns:1fr;padding:16px}
-      .hero h1{font-size:34px}
-    }
+    /* Categories */
+    .categories{padding:40px 20px;max-width:1200px;margin:0 auto}
+    .categories h2{font-size:24px;margin-bottom:20px}
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+    .cat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow);transition:.2s}
+    .cat-card:hover{transform:translateY(-3px);box-shadow:0 15px 25px rgba(0,0,0,.1)}
+    .cat-card img{width:60px;height:60px;object-fit:contain;margin-bottom:10px}
+    .cat-card span{font-weight:700;font-size:15px}
 
-    /* ===== TABS (New / Editor's Picks / Trending / Freebies) ===== */
-    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
-    .tab{background:#fff;border:1px solid var(--line);padding:10px 12px;border-radius:12px;font-weight:800;color:#374151;text-decoration:none}
-    .tab.active{background:#111827;color:#fff;border-color:#111827}
+    /* Store grids */
+    .section{padding:50px 20px;max-width:1200px;margin:0 auto}
+    .section h2{font-size:24px;margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.2s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 15px 25px rgba(0,0,0,.1)}
+    .card img{width:100%;height:160px;object-fit:cover}
+    .card-body{padding:16px;text-align:center}
+    .card-body h3{font-size:18px;margin-bottom:8px}
+    .card-body p{font-size:14px;color:var(--muted)}
 
-    /* ===== PRODUCT GRIDS ===== */
-    .section{margin:18px 0 28px}
-    .section h2{margin:0 0 12px;font-size:20px}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-    @media (max-width:1000px){ .grid{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:720px){ .grid{grid-template-columns:repeat(2,1fr)} }
-    @media (max-width:460px){ .grid{grid-template-columns:1fr} }
+    /* Testimonials */
+    .testimonials{background:#fff;padding:60px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .testimonials h2{text-align:center;font-size:24px;margin-bottom:30px}
+    .t-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+    .t-card{background:var(--light);border-radius:var(--radius);padding:20px;border:1px solid var(--line)}
+    .t-card p{font-style:italic;margin-bottom:10px}
+    .t-card span{font-weight:700;color:var(--dark)}
 
-    .card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-    .thumb{aspect-ratio:16/9;background:#eef1f5;display:block}
-    .card-body{padding:12px}
-    .title{font-weight:800;margin:2px 0 6px;font-size:15px}
-    .meta{font-size:12px;color:var(--muted)}
-    .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
-    .price{font-weight:900}
-    .badge{font-size:11px;background:#10b981;color:#fff;border-radius:8px;padding:3px 8px}
+    /* Newsletter */
+    .newsletter{padding:50px 20px;text-align:center;background:var(--brand);color:#fff}
+    .newsletter h2{font-size:26px;margin-bottom:12px}
+    .newsletter p{margin-bottom:20px}
+    .newsletter form{max-width:500px;margin:0 auto;display:flex;background:#fff;border-radius:999px;overflow:hidden}
+    .newsletter input{flex:1;padding:12px;border:0;font-size:16px;outline:none}
+    .newsletter button{background:var(--dark);color:#fff;border:0;padding:12px 20px;font-weight:700;cursor:pointer}
 
-    /* ===== FOOTER ===== */
-    footer{margin:36px 0 28px;color:var(--muted)}
-    footer .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-    footer a{color:var(--muted);text-decoration:none}
-    footer a:hover{color:var(--ink)}
-    @media (max-width:800px){ footer .cols{grid-template-columns:repeat(2,1fr)} }
-
-    /* Utility */
-    .hide{display:none!important}
+    /* Footer */
+    footer{background:var(--dark);color:#fff;padding:50px 20px;margin-top:40px}
+    .f-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+    .f-col h4{margin-bottom:12px}
+    .f-col a{display:block;color:#fff;margin-bottom:6px;font-size:14px}
+    .socials a{margin-right:12px;font-size:18px}
+    .footnote{text-align:center;margin-top:20px;color:#9CA3AF;font-size:14px}
   </style>
 </head>
 <body>
 
-  <!-- ======= HEADER (Etsy style transparent) ======= -->
-  <header class="site-header transparent">
-    <div class="container">
-      <div class="header-row">
-        <a class="logo" href="/">RGZTEC</a>
-
-        <div class="cats">
-          <button class="cats-btn" aria-expanded="false" aria-haspopup="true">
-            <span class="burger" aria-hidden="true">☰</span><span>Categories</span>
-          </button>
-          <div class="cats-menu" role="menu">
-            <a role="menuitem" href="/categories/html">HTML Templates</a>
-            <a role="menuitem" href="/categories/js">JS Widgets</a>
-            <a role="menuitem" href="/categories/css">CSS UI Kits</a>
-            <a role="menuitem" href="/categories/react">React Components</a>
-            <a role="menuitem" href="/categories/icons">SVG Icons</a>
-            <a role="menuitem" href="/categories/email">Email Templates</a>
-            <a role="menuitem" href="/categories/plugins">Plugins</a>
-            <a role="menuitem" href="/categories/mobile">Mobile / Games</a>
-            <a role="menuitem" href="/categories/wordpress">WordPress</a>
-            <a role="menuitem" href="/categories/ai-tools">AI Tools</a>
-          </div>
-        </div>
-
-        <form class="searchbar" action="/search" method="GET">
-          <input name="q" placeholder="Search for anything" aria-label="Search" />
-          <button type="submit">Search</button>
-        </form>
-
-        <nav class="actions" aria-label="User actions">
-          <a href="/login">Sign in</a>
-          <a href="/favorites" aria-label="Favorites">♡</a>
-          <a href="/cart" aria-label="Cart">🛒 Cart</a>
-        </nav>
-      </div>
-
-      <div class="nav-row">
-        <a href="/gifts">Gifts</a>
-        <a href="/personalization">The Personalization Shop</a>
-        <a href="/home-favorites">Home Favorites</a>
-        <a href="/fashion-finds">Fashion Finds</a>
-        <a href="/registry">Registry</a>
-        <a href="/new">New Arrivals</a>
-      </div>
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <div class="header-row">
+      <a class="logo" href="/">RGZTEC</a>
+      <form class="searchbar">
+        <input type="text" placeholder="Search stores or products...">
+        <button type="submit">Search</button>
+      </form>
+      <nav class="actions">
+        <a href="/login">Sign in</a>
+        <a href="/cart">Cart 🛒</a>
+      </nav>
     </div>
   </header>
 
-  <!-- ======= HERO ======= -->
+  <!-- Hero -->
   <section class="hero">
-    <div class="container">
-      <div class="hero-wrap">
-        <div>
-          <h1>Launch faster with <br/>production-ready UI</h1>
-          <p>HTML templates, CSS UI kits, vanilla JS widgets & React components. Clean code,
-            live demos, instant copy. Multi-vendor marketplace.</p>
+    <h1>Discover Amazing Stores</h1>
+    <p>Explore developer shops, creative studios, and independent creators. Each store is a gateway to unique digital products.</p>
+    <a href="/browse" class="btn primary">Browse Stores</a>
+    <a href="/become-seller" class="btn ghost">Open a Store</a>
+  </section>
 
-          <div class="chipbar">
-            <span class="chip">20+ curated items</span>
-            <span class="chip">Lightweight & semantic</span>
-            <span class="chip">MIT freebies included</span>
-          </div>
-
-          <div class="cta-row">
-            <a class="btn primary" href="/browse">Browse Products</a>
-            <a class="btn ghost" href="/stores">Our Stores</a>
-            <a class="btn ghost" href="/explore">Explore</a>
-          </div>
-        </div>
-
-        <div class="hero-card">
-          <h3>Quick search</h3>
-          <form class="searchbar" action="/search" method="GET" style="margin:10px 0 12px">
-            <input name="q" placeholder="Search products, tags or categories"/>
-            <button type="submit">Search</button>
-          </form>
-          <div class="tag-row">
-            <a class="tag" href="/tag/freebies">Freebies</a>
-            <a class="tag" href="/tag/html">HTML</a>
-            <a class="tag" href="/tag/js">JS</a>
-            <a class="tag" href="/tag/css">CSS</a>
-            <a class="tag" href="/tag/react">React</a>
-            <a class="tag" href="/tag/icons">Icons</a>
-            <a class="tag" href="/tag/email">Email</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tabs -->
-      <div class="tabs">
-        <a class="tab active" href="#new">New arrivals</a>
-        <a class="tab" href="#editors">Editor’s Picks</a>
-        <a class="tab" href="#trending">Trending</a>
-        <a class="tab" href="#freebies">Freebies</a>
-      </div>
+  <!-- Categories -->
+  <section class="categories">
+    <h2>Popular Categories</h2>
+    <div class="cat-grid">
+      <a class="cat-card" href="/categories/html"><img src="https://placehold.co/60x60/FF6A00/FFF?text=HTML"><span>HTML Templates</span></a>
+      <a class="cat-card" href="/categories/js"><img src="https://placehold.co/60x60/0F172A/FFF?text=JS"><span>JS Widgets</span></a>
+      <a class="cat-card" href="/categories/react"><img src="https://placehold.co/60x60/10B981/FFF?text=React"><span>React Components</span></a>
+      <a class="cat-card" href="/categories/mobile"><img src="https://placehold.co/60x60/FACC15/000?text=Game"><span>Mobile Games</span></a>
+      <a class="cat-card" href="/categories/wp"><img src="https://placehold.co/60x60/6B7280/FFF?text=WP"><span>WordPress Plugins</span></a>
+      <a class="cat-card" href="/categories/ai"><img src="https://placehold.co/60x60/38BDF8/FFF?text=AI"><span>AI Tools</span></a>
     </div>
   </section>
 
-  <!-- ======= PRODUCT SECTIONS (NO "Quick picks") ======= -->
-  <section class="section" id="new">
-    <div class="container">
-      <h2>New arrivals</h2>
-      <div class="grid">
-        <!-- Sample cards (seed). Replace with real items / loop render -->
-        <article class="card">
-          <a class="thumb" href="/p/html-starter"></a>
-          <div class="card-body">
-            <div class="title">Minimal HTML Starter</div>
-            <div class="meta">HTML • 25KB • MIT</div>
-            <div class="price-row"><span class="price">$12</span><span class="badge">NEW</span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <a class="thumb" href="/p/tiny-js-range"></a>
-          <div class="card-body">
-            <div class="title">Tiny JS Range Slider</div>
-            <div class="meta">Vanilla JS • 3KB • A11y</div>
-            <div class="price-row"><span class="price">$9</span><span></span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <a class="thumb" href="/p/react-shell"></a>
-          <div class="card-body">
-            <div class="title">React App Shell</div>
-            <div class="meta">React • Vite • Tailwind</div>
-            <div class="price-row"><span class="price">$19</span><span></span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <a class="thumb" href="/p/icon-pack"></a>
-          <div class="card-body">
-            <div class="title">SVG Icon Pack (120)</div>
-            <div class="meta">SVG • Outline/Fill</div>
-            <div class="price-row"><span class="price">$14</span><span></span></div>
-          </div>
-        </article>
-      </div>
+  <!-- Featured Stores -->
+  <section class="section">
+    <h2>Featured Stores</h2>
+    <div class="grid">
+      <div class="card"><img src="https://placehold.co/400x180/111827/FFF?text=Dev+Studio+One"><div class="card-body"><h3>Dev Studio One</h3><p>Modern HTML, CSS, and React templates.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/FF6A00/FFF?text=Game+Makers"><div class="card-body"><h3>Game Makers</h3><p>Unity and Unreal mobile game source codes.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/10B981/FFF?text=AI+Tools+Hub"><div class="card-body"><h3>AI Tools Hub</h3><p>LLM prompts, AI integrations, automation kits.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/FACC15/000?text=WP+Plugins"><div class="card-body"><h3>WP Plugins</h3><p>WordPress plugins and e-commerce solutions.</p></div></div>
     </div>
   </section>
 
-  <section class="section" id="editors">
-    <div class="container">
-      <h2>Editor’s Picks</h2>
-      <div class="grid">
-        <article class="card">
-          <a class="thumb" href="/p/email-kit"></a>
-          <div class="card-body">
-            <div class="title">Responsive Email Kit</div>
-            <div class="meta">MJML • 20 templates</div>
-            <div class="price-row"><span class="price">$24</span><span class="badge">PICK</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/css-ui"></a>
-          <div class="card-body">
-            <div class="title">CSS UI Kit</div>
-            <div class="meta">SCSS • Utility-first</div>
-            <div class="price-row"><span class="price">$17</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/react-tables"></a>
-          <div class="card-body">
-            <div class="title">React Data Tables</div>
-            <div class="meta">React • Headless + UI</div>
-            <div class="price-row"><span class="price">$22</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/wordpress-widget"></a>
-          <div class="card-body">
-            <div class="title">WordPress Widget Pack</div>
-            <div class="meta">WP • 8 widgets</div>
-            <div class="price-row"><span class="price">$29</span></div>
-          </div>
-        </article>
-      </div>
+  <!-- New Arrivals -->
+  <section class="section">
+    <h2>New Arrivals</h2>
+    <div class="grid">
+      <div class="card"><img src="https://placehold.co/400x180/38BDF8/FFF?text=New+HTML"><div class="card-body"><h3>HTML Pack</h3><p>Fresh templates and landing pages.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/111827/FFF?text=JS+Lab"><div class="card-body"><h3>JS Lab</h3><p>Lightweight JavaScript widgets.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/FF6A00/FFF?text=React+Store"><div class="card-body"><h3>React Store</h3><p>Hooks, tables, components.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/10B981/FFF?text=Icons"><div class="card-body"><h3>Icon Vault</h3><p>SVG icons in outline & fill.</p></div></div>
     </div>
   </section>
 
-  <section class="section" id="trending">
-    <div class="container">
-      <h2>Trending</h2>
-      <div class="grid">
-        <article class="card">
-          <a class="thumb" href="/p/unity-hyper"></a>
-          <div class="card-body">
-            <div class="title">Unity Hyper-Casual Kit</div>
-            <div class="meta">Unity • C# • Mobile</div>
-            <div class="price-row"><span class="price">$39</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/shopify-theme"></a>
-          <div class="card-body">
-            <div class="title">Shopify Clean Theme</div>
-            <div class="meta">Liquid • Perf-ready</div>
-            <div class="price-row"><span class="price">$49</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/flutter-app"></a>
-          <div class="card-body">
-            <div class="title">Flutter App Starter</div>
-            <div class="meta">Flutter • Firebase</div>
-            <div class="price-row"><span class="price">$35</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/ai-prompt-kit"></a>
-          <div class="card-body">
-            <div class="title">AI Prompt Kit</div>
-            <div class="meta">LLM • 300 prompts</div>
-            <div class="price-row"><span class="price">$15</span></div>
-          </div>
-        </article>
-      </div>
+  <!-- Trending -->
+  <section class="section">
+    <h2>Trending Now</h2>
+    <div class="grid">
+      <div class="card"><img src="https://placehold.co/400x180/FACC15/000?text=Unity+Kits"><div class="card-body"><h3>Unity Kits</h3><p>Hyper-casual mobile games.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/6B7280/FFF?text=Ecom+Themes"><div class="card-body"><h3>Ecom Themes</h3><p>Shopify & WooCommerce designs.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/38BDF8/FFF?text=AI+Prompts"><div class="card-body"><h3>AI Prompt Kits</h3><p>Boost productivity with AI.</p></div></div>
+      <div class="card"><img src="https://placehold.co/400x180/111827/FFF?text=Email+Forge"><div class="card-body"><h3>Email Forge</h3><p>Responsive MJML templates.</p></div></div>
     </div>
   </section>
 
-  <section class="section" id="freebies">
-    <div class="container">
-      <h2>Freebies</h2>
-      <div class="grid">
-        <article class="card">
-          <a class="thumb" href="/p/free-html"></a>
-          <div class="card-body">
-            <div class="title">Free HTML Landing</div>
-            <div class="meta">MIT • 18KB</div>
-            <div class="price-row"><span class="price">$0</span><span class="badge">FREE</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/free-icons"></a>
-          <div class="card-body">
-            <div class="title">Free SVG Icons (48)</div>
-            <div class="meta">SVG • MIT</div>
-            <div class="price-row"><span class="price">$0</span><span class="badge">FREE</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/free-js"></a>
-          <div class="card-body">
-            <div class="title">Free JS Tooltip</div>
-            <div class="meta">Vanilla • A11y</div>
-            <div class="price-row"><span class="price">$0</span><span class="badge">FREE</span></div>
-          </div>
-        </article>
-        <article class="card">
-          <a class="thumb" href="/p/free-email"></a>
-          <div class="card-body">
-            <div class="title">Free Email Template</div>
-            <div class="meta">MJML</div>
-            <div class="price-row"><span class="price">$0</span><span class="badge">FREE</span></div>
-          </div>
-        </article>
-      </div>
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What our users say</h2>
+    <div class="t-grid">
+      <div class="t-card"><p>“RGZTEC marketplace helped us launch our SaaS in days instead of weeks.”</p><span>— Alex, Startup Founder</span></div>
+      <div class="t-card"><p>“The quality of templates and plugins is amazing, and I love supporting indie devs.”</p><span>— Maria, Designer</span></div>
+      <div class="t-card"><p>“I sold my Unity game kits here and reached global buyers easily.”</p><span>— Chen, Game Dev</span></div>
     </div>
   </section>
 
-  <!-- ======= FOOTER ======= -->
+  <!-- Newsletter -->
+  <section class="newsletter">
+    <h2>Join our newsletter</h2>
+    <p>Get weekly updates on new stores, products, and exclusive offers.</p>
+    <form>
+      <input type="email" placeholder="Enter your email">
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <div class="container">
-      <div class="cols">
-        <div>
-          <h4>Marketplace</h4>
-          <div><a href="/categories">All categories</a></div>
-          <div><a href="/freebies">Freebies</a></div>
-          <div><a href="/become-a-seller">Become a Seller</a></div>
-        </div>
-        <div>
-          <h4>Support</h4>
-          <div><a href="/support">Help Center</a></div>
-          <div><a href="/refunds">Refund Policy</a></div>
-          <div><a href="/dmca">DMCA</a></div>
-        </div>
-        <div>
-          <h4>Docs</h4>
-          <div><a href="/docs/publishing">Publishing guide</a></div>
-          <div><a href="/docs/licenses">Licenses</a></div>
-          <div><a href="/docs/api">API</a></div>
-        </div>
-        <div>
-          <h4>RGZTEC</h4>
-          <div><a href="/about">About</a></div>
-          <div><a href="/privacy">Privacy</a></div>
-          <div><a href="/terms">Terms</a></div>
-        </div>
-      </div>
-      <p style="margin-top:18px">© <span id="y"></span> RGZTEC — Made for builders.</p>
+    <div class="f-grid">
+      <div class="f-col"><h4>Marketplace</h4><a href="#">All categories</a><a href="#">Stores</a><a href="#">Become a Seller</a></div>
+      <div class="f-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Refund Policy</a><a href="#">DMCA</a></div>
+      <div class="f-col"><h4>Docs</h4><a href="#">Publishing Guide</a><a href="#">Licenses</a><a href="#">API</a></div>
+      <div class="f-col"><h4>RGZTEC</h4><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a></div>
     </div>
+    <div class="socials" style="text-align:center;margin-top:20px">
+      <a href="#">🐦</a><a href="#">📘</a><a href="#">📸</a>
+    </div>
+    <p class="footnote">© 2025 RGZTEC — All rights reserved.</p>
   </footer>
 
-  <!-- ======= SCRIPTS ======= -->
   <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // Header transparency toggle
-    const header = document.querySelector('.site-header');
-    function applyHeaderMode(){
-      if(window.scrollY > 40){ header.classList.add('solid'); header.classList.remove('transparent'); }
-      else{ header.classList.add('transparent'); header.classList.remove('solid'); }
-    }
-    applyHeaderMode();
-    window.addEventListener('scroll', applyHeaderMode);
-
-    // Categories dropdown
-    const cats = document.querySelector('.cats');
-    const btn = document.querySelector('.cats-btn');
-    if(btn && cats){
-      btn.addEventListener('click', (e)=>{ e.preventDefault(); cats.classList.toggle('open'); });
-      document.addEventListener('click', (e)=>{ if(!cats.contains(e.target)) cats.classList.remove('open'); });
-      // keyboard esc
-      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') cats.classList.remove('open'); });
-    }
-
-    // Tabs (demo: sadece scroll-to)
-    document.querySelectorAll('.tab').forEach(t=>{
-      t.addEventListener('click', (e)=>{
-        const href = t.getAttribute('href');
-        if(href && href.startsWith('#')){
-          e.preventDefault();
-          document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-          t.classList.add('active');
-          document.querySelector(href)?.scrollIntoView({behavior:'smooth',block:'start'});
-        }
-      });
-    });
+    // Header scroll effect
+    const header=document.getElementById("header");
+    window.addEventListener("scroll",()=>{if(window.scrollY>40){header.classList.add("solid")}else{header.classList.remove("solid")}})
   </script>
 </body>
 </html>
