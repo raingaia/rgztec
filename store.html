@@ -1,147 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Store • RGZTEC</title>
-<meta name="description" content="Store page on RGZTEC marketplace"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>RGZTEC • Store</title>
 <style>
-  :root{--brand:#FF6A00;--dark:#0F172A;--light:#F9FAFB;--white:#fff;
-    --line:#E5E7EB;--muted:#6B7280;--radius:16px;--shadow:0 10px 28px rgba(0,0,0,.07)}
+  :root{
+    --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#d1d5db;
+    --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c;
+  }
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;background:var(--light);color:var(--dark)}
-  header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:10}
-  .row{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
-  .logo{font-weight:900} .spacer{flex:1}
-  .wrap{max-width:1200px;margin:0 auto;padding:16px 20px}
-  .hero{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:center;padding:18px}
-  .banner{width:110px;height:110px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;color:#fff}
-  .muted{color:var(--muted)}
-  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-  .chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#fff;font-weight:800}
-  .tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
-  .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-  .btn.primary{background:var(--brand);color:#fff;border:0}
-  .search{flex:1;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden;min-width:220px}
-  .search input{flex:1;border:0;padding:10px 12px}
-  .search button{background:var(--brand);border:0;color:#fff;padding:10px 14px;font-weight:900}
-  h2{margin:18px 0 10px}
-  .grid{display:grid;gap:18px;grid-template-columns:repeat(4,1fr)}
-  .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
-        transition:transform .12s, box-shadow .12s;display:flex;flex-direction:column}
-  .card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 16px 30px rgba(0,0,0,.12)}
-  .thumb{height:160px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff}
-  .body{padding:14px}
-  .title{font-weight:900}
-  .desc{color:var(--muted);font-size:14px;margin-top:6px;min-height:36px}
-  @media(max-width:992px){.grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:480px){.grid{grid-template-columns:1fr}.search{width:100%}}
+  body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:#fff}
+
+  /* Top bar (NO border-bottom) */
+  .topbar{background:#fff}
+  .wrap{max-width:1200px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:16px}
+  .brand{font-weight:800; font-size:22px; color:var(--rgztec); text-decoration:none}
+  .studio{font-weight:600; font-size:16px; background:var(--studio-bg); color:#fff; padding:4px 10px; border-radius:8px; line-height:1}
+
+  .search{flex:1; display:flex; gap:8px; max-width:760px; margin-left:6px;
+    border:2px solid #111827; border-radius:999px; padding:6px 8px 6px 12px; background:#fff}
+  .search input{flex:1; border:0; outline:0; font-size:15px; padding:6px 8px}
+  .search button{border:0; background:none; color:var(--icon); font-size:16px; cursor:pointer; padding:0 10px}
+
+  .icons{display:flex; gap:14px; align-items:center}
+  .icons a{text-decoration:none; color:var(--icon); font-size:16px}
+  .open-store{background:var(--rgztec); color:#fff !important; font-weight:600; padding:7px 18px; border-radius:999px;
+    box-shadow:0 2px 4px rgba(0,0,0,.1); transition:all .2s}
+  .open-store:hover{background:var(--rgztec-dark); transform:translateY(-1px); box-shadow:0 4px 6px rgba(0,0,0,.15)}
+
+  /* Categories under search (Etsy spacing) */
+  .categories{max-width:1200px; margin:0 auto; display:flex; justify-content:center; flex-wrap:wrap; gap:28px; padding:6px 16px 10px}
+  .categories a{color:var(--text); text-decoration:none; font-weight:500; font-size:15px; position:relative; padding:4px; transition:.2s}
+  .categories a:hover{color:var(--hover)}
+  .categories a::after{content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px; background:transparent; transition:.2s}
+  .categories a:hover::after{background:var(--hover)}
+  .categories a.active{color:var(--hover)}
+  .categories a.active::after{background:var(--hover)}
+
+  .divider{border:none; border-top:1px solid #d1d5db; margin:0; width:100%}
+
+  /* Store header card */
+  .store-hero{max-width:1200px; margin:16px auto; padding:16px}
+  .card{background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 10px 28px rgba(0,0,0,.07); padding:18px; display:flex; align-items:center; gap:16px}
+  .avatar{width:64px; height:64px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:900; color:#fff; font-size:22px}
+  .sh-title{font-size:28px; font-weight:800; margin:0}
+  .sh-desc{margin:6px 0 0; color:#6b7280}
+  .inline-search{margin-top:10px; display:flex; gap:10px}
+  .inline-search input{flex:1; border:1px solid var(--line); border-radius:999px; padding:10px 12px}
+  .btn{background:var(--rgztec); color:#fff; border:0; border-radius:999px; padding:10px 16px; font-weight:700; cursor:pointer}
+  .btn:hover{background:var(--rgztec-dark)}
+  .ghost{background:#fff; color:var(--rgztec); border:2px solid var(--rgztec)}
+  .ghost:hover{background:#fff; color:var(--rgztec-dark); border-color:var(--rgztec-dark)}
+
+  .main{max-width:1200px; margin:20px auto; padding:0 16px 32px}
+  .products-grid{display:grid; gap:16px; grid-template-columns:repeat(4,1fr)}
+  @media(max-width:992px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.products-grid{grid-template-columns:1fr}}
+  .product{border:1px solid var(--line); border-radius:12px; padding:12px}
 </style>
 </head>
 <body>
-<header>
-  <div class="row">
-    <a id="homeLink" class="logo" href="#">RGZTEC</a>
-    <div class="spacer"></div>
-    <a id="storesLink" href="#">All Stores</a>
-  </div>
-</header>
 
-<div class="wrap">
-  <div id="hero" class="hero" aria-live="polite">
-    <div id="banner" class="banner">RG</div>
-    <div style="flex:1">
-      <h1 id="name" style="margin:0 0 6px">Store</h1>
-      <div id="desc" class="muted">Description</div>
-      <div id="chips" class="chips"></div>
-      <div class="tools">
-        <form class="search" onsubmit="return false">
-          <input id="q" placeholder="Search within this store…">
-          <button onclick="doSearch()">Search</button>
-        </form>
-        <button class="btn primary" onclick="scrollToProducts()">View Products</button>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/rgztec/">RGZTEC</a>
+      <span class="studio">Dev One Studio</span>
+
+      <form class="search" onsubmit="return false;">
+        <input type="search" placeholder="Search for anything" aria-label="Search" />
+        <button type="submit" aria-label="Search">🔍</button>
+      </form>
+
+      <nav class="icons" aria-label="Quick actions">
+        <a href="#" aria-label="Sign in">Sign in</a>
+        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
+        <a href="#" title="Cart" aria-label="Cart">🛒</a>
+        <a href="/rgztec/open-store.html" class="open-store" aria-label="Open your store">Open Store</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CATEGORIES -->
+  <nav class="categories" aria-label="Dev One Studio Categories">
+    <a data-key="web" href="/rgztec/stores/dev-studio-one/">Web Templates</a>
+    <a data-key="ecom" href="/rgztec/stores/ecommerce/">E-commerce / Marketplace</a>
+    <a data-key="widgets" href="/rgztec/stores/widgets/">Widgets & Components</a>
+    <a data-key="software" href="/rgztec/stores/software/">Software & Automation</a>
+    <a data-key="niche" href="/rgztec/stores/niche/">Niche / Specialized Packs</a>
+  </nav>
+  <hr class="divider" />
+
+  <!-- STORE HERO (slug'a göre doluyor) -->
+  <section class="store-hero">
+    <div class="card">
+      <div id="avatar" class="avatar" style="background:#10b981">DS</div>
+      <div style="flex:1">
+        <h1 id="storeName" class="sh-title">Store</h1>
+        <p id="storeDesc" class="sh-desc">Store description…</p>
+        <div class="inline-search">
+          <input id="storeSearch" placeholder="Search within this store…" />
+          <button class="btn" onclick="alert('Search inside store')">Search</button>
+          <button class="btn ghost" onclick="location.hash='#products'">View Products</button>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <h2>Products</h2>
-  <div id="grid" class="grid"></div>
-  <p id="err" class="muted" style="display:none;margin-top:12px"></p>
-</div>
+  <!-- PRODUCTS -->
+  <main class="main">
+    <h2 id="products">Products</h2>
+    <div id="productsGrid" class="products-grid"></div>
+  </main>
 
 <script>
-  // --- BASE (repo uyumlu) ---
-  function getBase(){
-    const parts = location.pathname.split('/').filter(Boolean);
-    if (parts.length && parts[0] !== 'stores' && parts[0] !== 'data' && !parts[0].endsWith('.html')) {
-      return '/' + parts[0] + '/'; // /rgztec/
-    }
-    return '/';
+/* kategori çubuğunda aktif olanı işaretle */
+(function(){
+  const path = location.pathname.toLowerCase();
+  const map = [
+    {key:'web',      match:['dev-studio-one','web-templates']},
+    {key:'ecom',     match:['ecommerce','e-commerce','marketplace']},
+    {key:'widgets',  match:['widgets','icon-smith','ai-tools-hub','wp-plugins','tiny-js-lab']},
+    {key:'software', match:['reactorium','game-makers','unity-hub','software']},
+    {key:'niche',    match:['email-forge','niche']}
+  ];
+  const activeKey = (map.find(m => m.match.some(seg => path.includes(seg)))||{}).key;
+  if (activeKey){
+    const el = document.querySelector(`.categories a[data-key="${activeKey}"]`);
+    if (el) el.classList.add('active');
   }
-  const BASE = getBase();
-  document.getElementById('homeLink').href   = BASE;
-  document.getElementById('storesLink').href = BASE + 'stores/';
+})();
 
-  // --- SLUG ---
-  function getSlug(){
-    const url = new URL(location.href);
-    if (url.searchParams.get('slug')) return url.searchParams.get('slug');
-    const parts = location.pathname.split('/').filter(Boolean);
-    const i = parts.indexOf('stores');
-    return (i > -1 && parts[i+1]) ? parts[i+1] : null;
-  }
-  function initials(name){return name.split(' ').slice(0,2).map(s=>s[0]).join('').toUpperCase()}
-
-  async function load(){
-    const slug = getSlug();
-    const err  = document.getElementById('err');
-    if(!slug){ err.style.display='block'; err.textContent='Slug bulunamadı.'; return; }
-
-    let data;
-    try{
-      const res = await fetch(BASE + 'data/stores.json', {cache:'no-store'});
-      if(!res.ok) throw new Error('JSON yüklenemedi: '+res.status);
-      data = await res.json();
-    }catch(e){
-      err.style.display='block';
-      err.textContent = 'Veri yüklenemedi: ' + e.message + ' → ' + BASE + 'data/stores.json';
-      return;
-    }
-
+/* slug'a göre mağaza bilgilerini çek */
+(async function(){
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug') || 'dev-studio-one';
+  try{
+    const data = await fetch('/rgztec/data/stores.json', {cache:'no-store'}).then(r=>r.json());
     const store = (data.stores||[]).find(s=>s.slug===slug);
-    if(!store){ err.style.display='block'; err.textContent='Mağaza bulunamadı: '+slug; return; }
-
-    document.title = `${store.name} • RGZTEC Store`;
-    document.getElementById('name').textContent = store.name;
-    document.getElementById('desc').textContent = store.desc || '';
-    const ban = document.getElementById('banner');
-    ban.style.background = store.color || '#0F172A';
-    ban.textContent = initials(store.name);
-
-    document.getElementById('chips').innerHTML = (store.badges||[])
-      .map(b=>`<span class="chip">${b}</span>`).join('');
-
-    const grid = document.getElementById('grid');
-    grid.innerHTML = (store.products||[]).map(p=>`
-      <a class="card" href="${p.href || '#'}">
-        <div class="thumb" style="background:${store.color || '#0F172A'}">${p.title}</div>
-        <div class="body">
-          <div class="title">${p.title}</div>
-          <div class="desc">${p.note || ''}</div>
-        </div>
-      </a>
-    `).join('');
-  }
-
-  function scrollToProducts(){ document.getElementById('grid').scrollIntoView({behavior:'smooth'}) }
-  function doSearch(){
-    const q = (document.getElementById('q').value || '').toLowerCase();
-    document.querySelectorAll('#grid .card').forEach(c=>{
-      c.style.display = c.textContent.toLowerCase().includes(q) ? '' : 'none';
-    });
-  }
-  load();
+    if(store){
+      document.title = `RGZTEC • ${store.name}`;
+      document.getElementById('storeName').textContent = store.name;
+      document.getElementById('storeDesc').textContent = store.desc || '';
+      document.getElementById('avatar').style.background = store.color || '#111827';
+      document.getElementById('avatar').textContent = (store.short || (store.name||'').split(' ').map(w=>w[0]).slice(0,2).join('')).toUpperCase();
+    }
+    // (Opsiyonel) Ürünleri doldurmak:
+    // const prods = store.products || [];
+    // document.getElementById('productsGrid').innerHTML = prods.map(p=>`<div class="product">${p.name}</div>`).join('');
+  }catch(e){ console.error(e); }
+})();
 </script>
 </body>
 </html>
+
