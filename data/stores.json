@@ -1,112 +1,60 @@
 {
   "stores": [
     {
-      "slug": "dev-studio-one",
-      "name": "Dev Studio One",
-      "color": "#0F172A",
-      "desc": "Modern HTML, CSS, and React templates. Clean code, accessible components.",
-      "badges": ["28 items", "Updated weekly", "Verified"],
-      "products": [
-        {"title":"Landing Kit","note":"HTML • 20 sections","tags":["html","ui"], "href":"/products/landing-kit/"},
-        {"title":"Admin UI (React)","note":"Vite • Tailwind","tags":["react","ui"], "href":"/products/admin-react/"},
-        {"title":"Email Pack","note":"MJML • responsive","tags":["email","html"], "href":"/products/email-pack/"}
-      ]
-    },
-    {
-      "slug": "game-makers",
-      "name": "Game Makers",
-      "color": "#FF6A00",
-      "desc": "Unity and Unreal mobile game source codes and tools.",
-      "badges": ["14 items", "Mobile kits"],
-      "products": [
-        {"title":"Hyper Casual Kit","note":"Unity C#","tags":["unity"], "href":"/products/hc-kit/"},
-        {"title":"Endless Runner","note":"Unity • Ads ready","tags":["unity"], "href":"/products/endless-runner/"},
-        {"title":"2D Platformer","note":"Complete project","tags":["unity"], "href":"/products/2d-platformer/"}
-      ]
-    },
-    {
-      "slug": "ai-tools-hub",
-      "name": "AI Tools Hub",
-      "color": "#10B981",
-      "desc": "LLM prompts, AI integrations, and automation kits.",
-      "badges": ["6 items", "LLM tooling"],
-      "products": [
-        {"title":"Prompt Kit Pro","note":"300+ prompts","tags":["ai"], "href":"/products/prompt-kit/"},
-        {"title":"Chatbot Starter","note":"JS • API","tags":["ai","js"], "href":"/products/chatbot-starter/"},
-        {"title":"Automations Pack","note":"scripts","tags":["ai"], "href":"/products/automations-pack/"}
-      ]
-    },
-    {
-      "slug": "wp-plugins",
-      "name": "WP Plugins",
-      "color": "#FACC15",
-      "desc": "WordPress plugins and e-commerce solutions.",
-      "badges": ["18 items", "Woo/SEO"],
-      "products": [
-        {"title":"Woo Booster","note":"WooCommerce","tags":["wp"], "href":"/products/woo-booster/"},
-        {"title":"SEO Pro","note":"Schema • Sitemaps","tags":["wp"], "href":"/products/seo-pro/"},
-        {"title":"Security Guard","note":"Firewall","tags":["wp"], "href":"/products/security-guard/"}
-      ]
-    },
-    {
-      "slug": "tiny-js-lab",
-      "name": "Tiny JS Lab",
-      "color": "#111827",
-      "desc": "Lightweight JavaScript widgets & utilities (a11y first).",
-      "badges": ["16 items", "3KB–8KB"],
-      "products": [
-        {"title":"Range Slider","note":"3KB • A11y","tags":["js"], "href":"/products/range-slider/"},
-        {"title":"Tooltip","note":"Vanilla • A11y","tags":["js"], "href":"/products/tooltip/"},
-        {"title":"Modal","note":"No deps","tags":["js"], "href":"/products/modal/"}
-      ]
-    },
-    {
-      "slug": "reactorium",
-      "name": "Reactorium",
-      "color": "#FF6A00",
-      "desc": "React hooks, tables, headless + UI components.",
-      "badges": ["22 items", "Vite/TW"],
-      "products": [
-        {"title":"Data Tables","note":"React","tags":["react"], "href":"/products/react-tables/"},
-        {"title":"Form Wizard","note":"React • RHF","tags":["react"], "href":"/products/form-wizard/"},
-        {"title":"Charts","note":"Headless + UI","tags":["react"], "href":"/products/charts/"}
-      ]
+      "slug": "email-forge",
+      "name": "Email Forge",
+      "desc": "Tools for automated email design and delivery.",
+      "color": "#ef4444"
     },
     {
       "slug": "icon-smith",
       "name": "Icon Smith",
-      "color": "#0F172A",
-      "desc": "SVG icon packs — outline & fill styles.",
-      "badges": ["1200+ icons"],
-      "products": [
-        {"title":"Outline Set","note":"SVG • 600","tags":["icons"], "href":"/products/outline-icons/"},
-        {"title":"Fill Set","note":"SVG • 600","tags":["icons"], "href":"/products/fill-icons/"},
-        {"title":"Figma File","note":"Bonus","tags":["icons"], "href":"/products/figma-icons/"}
-      ]
+      "desc": "Beautiful handcrafted icons for developers.",
+      "color": "#3b82f6"
+    },
+    {
+      "slug": "ai-tools-hub",
+      "name": "AI Tools Hub",
+      "desc": "Scripts and kits powered by AI.",
+      "color": "#8b5cf6"
+    },
+    {
+      "slug": "dev-studio-one",
+      "name": "Dev Studio One",
+      "desc": "Complete developer starter kits.",
+      "color": "#10b981"
+    },
+    {
+      "slug": "game-makers",
+      "name": "Game Makers",
+      "desc": "Unity & Unreal game templates.",
+      "color": "#f59e0b"
+    },
+    {
+      "slug": "reactorium",
+      "name": "Reactorium",
+      "desc": "React components and dashboards.",
+      "color": "#06b6d4"
+    },
+    {
+      "slug": "tiny-js-lab",
+      "name": "Tiny JS Lab",
+      "desc": "Small but powerful JavaScript utilities.",
+      "color": "#84cc16"
     },
     {
       "slug": "unity-hub",
       "name": "Unity Hub",
-      "color": "#FACC15",
-      "desc": "Hyper-casual kits and mobile templates.",
-      "badges": ["Mobile"],
-      "products": [
-        {"title":"Runner Kit","note":"Unity","tags":["unity"], "href":"/products/runner-kit/"},
-        {"title":"Stack Builder","note":"Unity","tags":["unity"], "href":"/products/stack-builder/"},
-        {"title":"Merge 2","note":"Unity","tags":["unity"], "href":"/products/merge-2/"}
-      ]
+      "desc": "Unity game engine extensions and templates.",
+      "color": "#dc2626"
     },
     {
-      "slug": "email-forge",
-      "name": "Email Forge",
-      "color": "#0F172A",
-      "desc": "Responsive MJML email templates.",
-      "badges": ["Campaign-ready"],
-      "products": [
-        {"title":"Newsletter Pack","note":"MJML","tags":["email"], "href":"/products/newsletter-pack/"},
-        {"title":"Promo Kit","note":"MJML","tags":["email"], "href":"/products/promo-kit/"},
-        {"title":"Transactional","note":"MJML","tags":["email"], "href":"/products/transactional/"}
-      ]
+      "slug": "wp-plugins",
+      "name": "WP Plugins",
+      "desc": "WordPress plugins ready for production.",
+      "color": "#9333ea"
     }
   ]
 }
+
+
