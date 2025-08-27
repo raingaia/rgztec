@@ -1,20 +1,19 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8">
-<title>Redirecting…</title>
-<script>
-  (function(){
-    function base(){
-      const parts = location.pathname.split('/').filter(Boolean);
-      if (parts.length && parts[0] !== 'stores' && parts[0] !== 'data' && !parts[0].endsWith('.html')) {
-        return '/' + parts[0] + '/';
-      }
-      return '/';
-    }
-    var slug = 'dev-studio-one';
-    location.replace(base() + 'store.html?slug=' + slug);
-  })();
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RGZTEC • Dev One Studio • Web Templates</title>
+  <link rel="stylesheet" href="/rgztec/assets/css/base.css" />
+  <script defer src="/rgztec/assets/js/layout.js"></script>
 </head>
 <body>
-<p>Redirecting to Dev Studio One…</p>
-</body></html>
+  <!-- header & categories buraya JS ile otomatik eklenecek -->
+
+  <main class="main">
+    <h1>Web Templates</h1>
+    <p>Page content starts here...</p>
+    <!-- bu mağazanın gerçek içeriğini buraya koyacağız -->
+  </main>
+</body>
+</html>
