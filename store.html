@@ -1,158 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RGZTEC • Store</title>
-<style>
-  :root{
-    --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#d1d5db;
-    --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c;
-  }
-  *{box-sizing:border-box}
-  body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:#fff}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RGZTEC • Store</title>
 
-  /* Top bar (NO border-bottom) */
-  .topbar{background:#fff}
-  .wrap{max-width:1200px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:16px}
-  .brand{font-weight:800; font-size:22px; color:var(--rgztec); text-decoration:none}
-  .studio{font-weight:600; font-size:16px; background:var(--studio-bg); color:#fff; padding:4px 10px; border-radius:8px; line-height:1}
+  <!-- Ortak stiller (header, arama, kategoriler, CTA vs.) -->
+  <link rel="stylesheet" href="/rgztec/assets/css/base.css" />
+  <!-- Ortak header + kategorileri enjekte eder ve aktif sekmeyi işaretler -->
+  <script defer src="/rgztec/assets/js/layout.js"></script>
 
-  .search{flex:1; display:flex; gap:8px; max-width:760px; margin-left:6px;
-    border:2px solid #111827; border-radius:999px; padding:6px 8px 6px 12px; background:#fff}
-  .search input{flex:1; border:0; outline:0; font-size:15px; padding:6px 8px}
-  .search button{border:0; background:none; color:var(--icon); font-size:16px; cursor:pointer; padding:0 10px}
+  <style>
+    /* Mağaza sayfasına özel ufak stiller */
+    :root{
+      --line:#E5E7EB; --muted:#6B7280; --brand:#f97316; --brandDark:#ea580c;
+    }
+    .store-hero{max-width:1200px; margin:16px auto; padding:16px}
+    .s-card{
+      background:#fff; border:1px solid var(--line); border-radius:16px;
+      box-shadow:0 10px 28px rgba(0,0,0,.07);
+      padding:18px; display:flex; align-items:center; gap:16px;
+    }
+    .s-avatar{
+      width:64px; height:64px; border-radius:12px; display:flex;
+      align-items:center; justify-content:center; font-weight:900; color:#fff; font-size:22px;
+    }
+    .s-title{font-size:28px; font-weight:800; margin:0}
+    .s-desc{margin:6px 0 0; color:var(--muted)}
+    .inline-search{margin-top:10px; display:flex; gap:10px}
+    .inline-search input{flex:1; border:1px solid var(--line); border-radius:999px; padding:10px 12px}
+    .btn{background:var(--brand); color:#fff; border:0; border-radius:999px; padding:10px 16px; font-weight:700; cursor:pointer}
+    .btn:hover{background:var(--brandDark)}
+    .btn.ghost{background:#fff; color:var(--brand); border:2px solid var(--brand)}
+    .btn.ghost:hover{color:var(--brandDark); border-color:var(--brandDark)}
 
-  .icons{display:flex; gap:14px; align-items:center}
-  .icons a{text-decoration:none; color:var(--icon); font-size:16px}
-  .open-store{background:var(--rgztec); color:#fff !important; font-weight:600; padding:7px 18px; border-radius:999px;
-    box-shadow:0 2px 4px rgba(0,0,0,.1); transition:all .2s}
-  .open-store:hover{background:var(--rgztec-dark); transform:translateY(-1px); box-shadow:0 4px 6px rgba(0,0,0,.15)}
-
-  /* Categories under search (Etsy spacing) */
-  .categories{max-width:1200px; margin:0 auto; display:flex; justify-content:center; flex-wrap:wrap; gap:28px; padding:6px 16px 10px}
-  .categories a{color:var(--text); text-decoration:none; font-weight:500; font-size:15px; position:relative; padding:4px; transition:.2s}
-  .categories a:hover{color:var(--hover)}
-  .categories a::after{content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px; background:transparent; transition:.2s}
-  .categories a:hover::after{background:var(--hover)}
-  .categories a.active{color:var(--hover)}
-  .categories a.active::after{background:var(--hover)}
-
-  .divider{border:none; border-top:1px solid #d1d5db; margin:0; width:100%}
-
-  /* Store header card */
-  .store-hero{max-width:1200px; margin:16px auto; padding:16px}
-  .card{background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 10px 28px rgba(0,0,0,.07); padding:18px; display:flex; align-items:center; gap:16px}
-  .avatar{width:64px; height:64px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:900; color:#fff; font-size:22px}
-  .sh-title{font-size:28px; font-weight:800; margin:0}
-  .sh-desc{margin:6px 0 0; color:#6b7280}
-  .inline-search{margin-top:10px; display:flex; gap:10px}
-  .inline-search input{flex:1; border:1px solid var(--line); border-radius:999px; padding:10px 12px}
-  .btn{background:var(--rgztec); color:#fff; border:0; border-radius:999px; padding:10px 16px; font-weight:700; cursor:pointer}
-  .btn:hover{background:var(--rgztec-dark)}
-  .ghost{background:#fff; color:var(--rgztec); border:2px solid var(--rgztec)}
-  .ghost:hover{background:#fff; color:var(--rgztec-dark); border-color:var(--rgztec-dark)}
-
-  .main{max-width:1200px; margin:20px auto; padding:0 16px 32px}
-  .products-grid{display:grid; gap:16px; grid-template-columns:repeat(4,1fr)}
-  @media(max-width:992px){.products-grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:480px){.products-grid{grid-template-columns:1fr}}
-  .product{border:1px solid var(--line); border-radius:12px; padding:12px}
-</style>
+    .main{max-width:1200px; margin:20px auto; padding:0 16px 32px}
+    .products-grid{display:grid; gap:16px; grid-template-columns:repeat(4,1fr)}
+    @media(max-width:992px){.products-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.products-grid{grid-template-columns:1fr}}
+    .product{
+      border:1px solid var(--line); border-radius:12px; padding:12px; background:#fff;
+      transition:transform .12s, box-shadow .12s;
+    }
+    .product:hover{transform:translateY(-2px); box-shadow:0 12px 22px rgba(0,0,0,.08)}
+    .p-title{font-weight:700; margin:6px 0 2px}
+    .p-desc{color:var(--muted); font-size:14px}
+  </style>
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="wrap">
-      <a class="brand" href="/rgztec/">RGZTEC</a>
-      <span class="studio">Dev One Studio</span>
+  <!-- Header + Kategori barı JS ile otomatik eklenecek -->
 
-      <form class="search" onsubmit="return false;">
-        <input type="search" placeholder="Search for anything" aria-label="Search" />
-        <button type="submit" aria-label="Search">🔍</button>
-      </form>
-
-      <nav class="icons" aria-label="Quick actions">
-        <a href="#" aria-label="Sign in">Sign in</a>
-        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
-        <a href="#" title="Cart" aria-label="Cart">🛒</a>
-        <a href="/rgztec/open-store.html" class="open-store" aria-label="Open your store">Open Store</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- CATEGORIES -->
-  <nav class="categories" aria-label="Dev One Studio Categories">
-    <a data-key="web" href="/rgztec/stores/dev-studio-one/">Web Templates</a>
-    <a data-key="ecom" href="/rgztec/stores/ecommerce/">E-commerce / Marketplace</a>
-    <a data-key="widgets" href="/rgztec/stores/widgets/">Widgets & Components</a>
-    <a data-key="software" href="/rgztec/stores/software/">Software & Automation</a>
-    <a data-key="niche" href="/rgztec/stores/niche/">Niche / Specialized Packs</a>
-  </nav>
-  <hr class="divider" />
-
-  <!-- STORE HERO (slug'a göre doluyor) -->
+  <!-- ===== Mağaza Kartı (slug'a göre dolar) ===== -->
   <section class="store-hero">
-    <div class="card">
-      <div id="avatar" class="avatar" style="background:#10b981">DS</div>
+    <div class="s-card">
+      <div id="avatar" class="s-avatar" style="background:#111827">ST</div>
       <div style="flex:1">
-        <h1 id="storeName" class="sh-title">Store</h1>
-        <p id="storeDesc" class="sh-desc">Store description…</p>
+        <h1 id="storeName" class="s-title">Store</h1>
+        <p id="storeDesc" class="s-desc">Store description…</p>
+
         <div class="inline-search">
           <input id="storeSearch" placeholder="Search within this store…" />
-          <button class="btn" onclick="alert('Search inside store')">Search</button>
+          <button class="btn" onclick="onStoreSearch()">Search</button>
           <button class="btn ghost" onclick="location.hash='#products'">View Products</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PRODUCTS -->
+  <!-- ===== Ürünler ===== -->
   <main class="main">
     <h2 id="products">Products</h2>
     <div id="productsGrid" class="products-grid"></div>
   </main>
 
 <script>
-/* kategori çubuğunda aktif olanı işaretle */
-(function(){
-  const path = location.pathname.toLowerCase();
-  const map = [
-    {key:'web',      match:['dev-studio-one','web-templates']},
-    {key:'ecom',     match:['ecommerce','e-commerce','marketplace']},
-    {key:'widgets',  match:['widgets','icon-smith','ai-tools-hub','wp-plugins','tiny-js-lab']},
-    {key:'software', match:['reactorium','game-makers','unity-hub','software']},
-    {key:'niche',    match:['email-forge','niche']}
-  ];
-  const activeKey = (map.find(m => m.match.some(seg => path.includes(seg)))||{}).key;
-  if (activeKey){
-    const el = document.querySelector(`.categories a[data-key="${activeKey}"]`);
-    if (el) el.classList.add('active');
-  }
-})();
+/* Basit mağaza içi arama örneği (grid filtreler) */
+function onStoreSearch(){
+  const q = (document.getElementById('storeSearch').value || '').toLowerCase();
+  if(!window.__PRODUCTS__){ return; }
+  renderProducts(q ? window.__PRODUCTS__.filter(p => (p.name+p.desc).toLowerCase().includes(q)) : window.__PRODUCTS__);
+}
 
-/* slug'a göre mağaza bilgilerini çek */
+function renderProducts(list){
+  const grid = document.getElementById('productsGrid');
+  if(!list || !list.length){
+    grid.innerHTML = `<div style="grid-column:1/-1;color:#6B7280">No products yet.</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="product">
+      <div style="height:120px;border-radius:10px;background:${p.color||'#f3f4f6'};display:flex;align-items:center;justify-content:center;font-weight:800;">
+        ${p.short || p.name.substring(0,2).toUpperCase()}
+      </div>
+      <div class="p-title">${p.name}</div>
+      <div class="p-desc">${p.desc || ''}</div>
+    </div>
+  `).join('');
+}
+
+/* Mağaza verisini slug'a göre yükle */
 (async function(){
   const params = new URLSearchParams(location.search);
-  const slug = params.get('slug') || 'dev-studio-one';
+  const slug   = params.get('slug') || 'dev-studio-one';
+
   try{
-    const data = await fetch('/rgztec/data/stores.json', {cache:'no-store'}).then(r=>r.json());
-    const store = (data.stores||[]).find(s=>s.slug===slug);
+    // Mağazalar dosyası
+    const data  = await fetch('/rgztec/data/stores.json', {cache:'no-store'}).then(r=>r.json());
+    const store = (data.stores||[]).find(s => s.slug === slug);
+
     if(store){
       document.title = `RGZTEC • ${store.name}`;
       document.getElementById('storeName').textContent = store.name;
       document.getElementById('storeDesc').textContent = store.desc || '';
       document.getElementById('avatar').style.background = store.color || '#111827';
       document.getElementById('avatar').textContent = (store.short || (store.name||'').split(' ').map(w=>w[0]).slice(0,2).join('')).toUpperCase();
+
+      // Ürünler (varsa)
+      window.__PRODUCTS__ = store.products || [];
+      renderProducts(window.__PRODUCTS__);
+    } else {
+      document.getElementById('storeName').textContent = 'Store not found';
+      renderProducts([]);
     }
-    // (Opsiyonel) Ürünleri doldurmak:
-    // const prods = store.products || [];
-    // document.getElementById('productsGrid').innerHTML = prods.map(p=>`<div class="product">${p.name}</div>`).join('');
-  }catch(e){ console.error(e); }
+  }catch(e){
+    console.error(e);
+    renderProducts([]);
+  }
 })();
 </script>
 </body>
 </html>
-
