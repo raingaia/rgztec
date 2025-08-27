@@ -1,12 +1,11 @@
 (async function(){
-  // header.html'i çek ve body'nin başına yerleştir
+  // Header'ı yükle
   const res = await fetch('/rgztec/assets/partials/header.html', {cache:'no-store'});
   const html = await res.text();
   document.body.insertAdjacentHTML('afterbegin', html);
 
-  // aktif kategori: URL path'e göre data-key eşle
+  // Aktif kategori
   const path = location.pathname.toLowerCase();
-
   const map = [
     {key:'web',      match:['/dev-studio-one','/web-templates']},
     {key:'ecom',     match:['/ecommerce','/e-commerce','/marketplace']},
@@ -14,7 +13,6 @@
     {key:'software', match:['/reactorium','/game-makers','/unity-hub','/software']},
     {key:'niche',    match:['/email-forge','/niche']}
   ];
-
   const activeKey = (map.find(m => m.match.some(seg => path.includes(seg))) || {}).key;
   if (activeKey) {
     const el = document.querySelector(`.categories a[data-key="${activeKey}"]`);
