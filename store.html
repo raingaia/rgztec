@@ -5,15 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RGZTEC • Store</title>
 
-  <!-- Ortak stil + header enjeksiyonu (cache-bust v=4) -->
-  <link rel="stylesheet" href="/rgztec/assets/css/base.css?v=4" />
-  <script defer src="/rgztec/assets/js/layout.js?v=4"></script>
+  <!-- Ortak stil + header/kategori enjeksiyonu -->
+  <link rel="stylesheet" href="/rgztec/assets/css/base.css?v=6" />
+  <script defer src="/rgztec/assets/js/layout.js?v=6"></script>
+  <!-- İsteğe bağlı yardımcılar (çift header temizlik vs.) -->
+  <script defer src="/rgztec/assets/js/app.js?v=6"></script>
 
   <style>
     :root{ --line:#E5E7EB; --muted:#6B7280; --brand:#f97316; --brandDark:#ea580c; }
     .store-hero{max-width:1200px;margin:16px auto;padding:16px}
-    .s-card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.07);padding:18px;display:flex;align-items:center;gap:16px}
-    .s-avatar{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:22px}
+    .s-card{
+      background:#fff;border:1px solid var(--line);border-radius:16px;
+      box-shadow:0 10px 28px rgba(0,0,0,.07);
+      padding:18px;display:flex;align-items:center;gap:16px
+    }
+    .s-avatar{
+      width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+      font-weight:900;color:#fff;font-size:22px
+    }
     .s-title{font-size:28px;font-weight:800;margin:0}
     .s-desc{margin:6px 0 0;color:var(--muted)}
     .inline-search{margin-top:10px;display:flex;gap:10px}
@@ -22,6 +31,7 @@
     .btn:hover{background:var(--brandDark)}
     .btn.ghost{background:#fff;color:var(--brand);border:2px solid var(--brand)}
     .btn.ghost:hover{color:var(--brandDark);border-color:var(--brandDark)}
+
     .main{max-width:1200px;margin:20px auto;padding:0 16px 32px}
     .products-grid{display:grid;gap:16px;grid-template-columns:repeat(4,1fr)}
     @media(max-width:992px){.products-grid{grid-template-columns:repeat(3,1fr)}}
@@ -37,7 +47,7 @@
 
   <!-- Header + kategori barı layout.js ile otomatik eklenecek -->
 
-  <!-- Store Hero -->
+  <!-- ===== Store hero (slug'a göre doldurulur) ===== -->
   <section class="store-hero">
     <div class="s-card">
       <div id="avatar" class="s-avatar" style="background:#111827">ST</div>
@@ -54,49 +64,64 @@
     </div>
   </section>
 
-  <!-- Products -->
+  <!-- ===== Products ===== -->
   <main class="main">
     <h2 id="products">Products</h2>
     <div id="productsGrid" class="products-grid"></div>
   </main>
 
 <script>
+/* Basit mağaza içi arama */
 function onStoreSearch(){
   const q=(document.getElementById('storeSearch').value||'').toLowerCase();
   if(!window.__PRODUCTS__) return;
-  renderProducts(q? window.__PRODUCTS__.filter(p=>(p.name+p.desc).toLowerCase().includes(q)) : window.__PRODUCTS__);
+  renderProducts(q ? window.__PRODUCTS__.filter(p=> (p.name+p.desc).toLowerCase().includes(q)) : window.__PRODUCTS__);
 }
+
 function renderProducts(list){
   const grid=document.getElementById('productsGrid');
-  if(!list||!list.length){ grid.innerHTML=`<div style="grid-column:1/-1;color:#6B7280">No products yet.</div>`; return; }
-  grid.innerHTML=list.map(p=>`
+  if(!list || !list.length){
+    grid.innerHTML = `<div style="grid-column:1/-1;color:#6B7280">No products yet.</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p=>`
     <div class="product">
-      <div style="height:120px;border-radius:10px;background:${p.color||'#f3f4f6'};display:flex;align-items:center;justify-content:center;font-weight:800;">
+      <div style="height:120px;border-radius:10px;background:${p.color||'#f3f4f6'};
+                  display:flex;align-items:center;justify-content:center;font-weight:800;">
         ${p.short || p.name.substring(0,2).toUpperCase()}
       </div>
       <div class="p-title">${p.name}</div>
       <div class="p-desc">${p.desc||''}</div>
     </div>`).join('');
 }
+
+/* slug'a göre mağaza verisini yükle */
 (async function(){
-  const params=new URLSearchParams(location.search);
-  const slug=params.get('slug')||'dev-studio-one';
+  const params = new URLSearchParams(location.search);
+  const slug   = params.get('slug') || 'dev-studio-one';
+
   try{
-    const data=await fetch('/rgztec/data/stores.json?v=4',{cache:'no-store'}).then(r=>r.json());
-    const store=(data.stores||[]).find(s=>s.slug===slug);
+    const data  = await fetch('/rgztec/data/stores.json?v=6', {cache:'no-store'}).then(r=>r.json());
+    const store = (data.stores||[]).find(s=>s.slug===slug);
+
     if(store){
-      document.title=`RGZTEC • ${store.name}`;
-      document.getElementById('storeName').textContent=store.name;
-      document.getElementById('storeDesc').textContent=store.desc||'';
-      document.getElementById('avatar').style.background=store.color||'#111827';
-      document.getElementById('avatar').textContent=(store.short||(store.name||'').split(' ').map(w=>w[0]).slice(0,2).join('')).toUpperCase();
-      window.__PRODUCTS__=store.products||[];
+      document.title = `RGZTEC • ${store.name}`;
+      document.getElementById('storeName').textContent = store.name;
+      document.getElementById('storeDesc').textContent = store.desc || '';
+      document.getElementById('avatar').style.background = store.color || '#111827';
+      document.getElementById('avatar').textContent =
+        (store.short || (store.name||'').split(' ').map(w=>w[0]).slice(0,2).join('')).toUpperCase();
+
+      window.__PRODUCTS__ = store.products || [];
       renderProducts(window.__PRODUCTS__);
-    }else{
-      document.getElementById('storeName').textContent='Store not found';
+    } else {
+      document.getElementById('storeName').textContent = 'Store not found';
       renderProducts([]);
     }
-  }catch(e){ console.error(e); renderProducts([]); }
+  }catch(e){
+    console.error(e);
+    renderProducts([]);
+  }
 })();
 </script>
 </body>
