@@ -1,10 +1,11 @@
 (async function(){
-  // Header'ı yükle
-  const res = await fetch('/rgztec/assets/partials/header.html', {cache:'no-store'});
-  const html = await res.text();
-  document.body.insertAdjacentHTML('afterbegin', html);
+  try{
+    const res = await fetch('/rgztec/assets/partials/header.html?v=4', {cache:'no-store'});
+    const html = await res.text();
+    document.body.insertAdjacentHTML('afterbegin', html);
+  }catch(e){ console.error('header load failed', e); }
 
-  // Aktif kategori
+  // aktif kategori işaretle
   const path = location.pathname.toLowerCase();
   const map = [
     {key:'web',      match:['/dev-studio-one','/web-templates']},
@@ -13,8 +14,8 @@
     {key:'software', match:['/reactorium','/game-makers','/unity-hub','/software']},
     {key:'niche',    match:['/email-forge','/niche']}
   ];
-  const activeKey = (map.find(m => m.match.some(seg => path.includes(seg))) || {}).key;
-  if (activeKey) {
+  const activeKey = (map.find(m => m.match.some(seg => path.includes(seg)))||{}).key;
+  if (activeKey){
     const el = document.querySelector(`.categories a[data-key="${activeKey}"]`);
     if (el) el.classList.add('active');
   }
