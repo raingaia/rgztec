@@ -8,11 +8,11 @@
 
 <style>
   :root { --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#d1d5db;
-          --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c; --light:#fff; }
+          --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c; }
 
   *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* ===== Global Header (index.html ile aynı görünüm) ===== */
+  /* ===== GLOBAL HEADER (index.html ile aynı görünüm) ===== */
   .topbar{background:#fff}
   .wrap{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
   .brand{font-weight:800;font-size:22px;color:var(--rgztec);text-decoration:none}
@@ -26,17 +26,15 @@
               box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .2s}
   .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
 
-  /* Global kategori barı (index header’ındaki satır) */
+  /* Global kategori barı (index header altı) */
   .global-cats{max-width:1200px;margin:0 auto;display:flex;justify-content:center;flex-wrap:wrap;gap:28px;padding:6px 16px 10px;border-bottom:1px solid var(--line)}
   .global-cats a{color:var(--text);text-decoration:none;font-weight:500;font-size:15px;position:relative;padding:4px;transition:.2s}
   .global-cats a:hover{color:var(--hover)}
   .global-cats a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;background:transparent;transition:.2s}
   .global-cats a:hover::after{background:var(--hover)}
 
-  /* Üst açıklama (store tagline) */
+  /* Mağaza üst açıklama ve mağazaya özel kategoriler */
   .intro{max-width:1200px;margin:14px auto 0;padding:0 16px;color:#475569;font-size:15px}
-
-  /* Store’a özel kategori linkleri */
   .categories{max-width:1200px;margin:8px auto 0;display:flex;justify-content:center;flex-wrap:wrap;gap:28px;padding:6px 16px 10px}
   .categories a{color:var(--text);text-decoration:none;font-weight:500;font-size:15px;position:relative;padding:4px;transition:.2s}
   .categories a:hover{color:var(--hover)}
@@ -71,12 +69,12 @@
 </head>
 <body>
 
-<!-- ===== GLOBAL HEADER ===== -->
+<!-- ===== GLOBAL HEADER (index ile aynı) ===== -->
 <header class="topbar">
   <div class="wrap">
     <a class="brand" href="./">RGZTEC</a>
 
-    <!-- Bu pill slug’a göre değişecek -->
+    <!-- slug’a göre değişen pill -->
     <span id="studioName" class="studio">Dev One Studio</span>
 
     <form class="search" onsubmit="return false;">
@@ -105,7 +103,7 @@
 <!-- Mağaza açıklaması (slug’a göre) -->
 <p id="intro" class="intro"></p>
 
-<!-- Store’a özel kategoriler -->
+<!-- Mağazaya özel kategoriler -->
 <nav id="catNav" class="categories" aria-label="Store Categories"></nav>
 
 <hr class="divider"/>
@@ -140,7 +138,7 @@
 </div>
 
 <script>
-  // ------- CONFIG & HELPERS -------
+  /* ----- CONFIG & HELPERS ----- */
   const LS_PRODUCTS = 'rgz_products_user';
   const getUserProducts = () => JSON.parse(localStorage.getItem(LS_PRODUCTS) || '[]');
   const setUserProducts = v => localStorage.setItem(LS_PRODUCTS, JSON.stringify(v));
@@ -150,22 +148,22 @@
     const map = { 'ç':'c','ğ':'g','ı':'i','i':'i','ö':'o','ş':'s','ü':'u',
                   'Ç':'c','Ğ':'g','İ':'i','I':'i','Ö':'o','Ş':'s','Ü':'u' };
     return text.toString()
-      .replace(/[\u00C0-\u024F]/g, ch => map[ch] || ch) // temel dönüştürme
+      .replace(/[\u00C0-\u024F]/g, ch => map[ch] || ch)
       .toLowerCase()
       .replace(/\s+/g,'-')
-      .replace(/[^\w\-]+/g,'')   // \w: a-z0-9_ (Türkçe harfler artık dönüştüğü için sorun yok)
+      .replace(/[^\w\-]+/g,'')
       .replace(/\-\-+/g,'-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '');
+      .replace(/^-+/, '').replace(/-+$/, '');
   }
 
   const params = new URLSearchParams(location.search);
   const storeSlug = (params.get('slug') || '').trim();
 
-  // ------- HEADER + CONTENT BY SLUG -------
+  /* ----- HEADER + STORE CONTENT ----- */
   (async function initHeader(){
     if (!storeSlug) return;
     try {
+      // stores.json → isim + renk
       const sres = await fetch('data/stores.json', { cache: 'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
@@ -177,6 +175,7 @@
           document.title = `RGZTEC • ${meta.name || meta.slug}`;
         }
       }
+      // store-content.json → tagline + mağaza kategorileri
       const cres = await fetch('data/store-content.json', { cache: 'no-store' });
       if (cres.ok){
         const content = await cres.json();
@@ -188,7 +187,7 @@
     } catch(e){ console.warn(e); }
   })();
 
-  // ------- PRODUCTS -------
+  /* ----- PRODUCTS ----- */
   function listProducts(){
     const staticList = Array.isArray(window.products) ? window.products : [];
     const userList = getUserProducts();
@@ -199,10 +198,7 @@
     const grid = document.getElementById('productGrid');
     const empty = document.getElementById('emptyState');
     grid.innerHTML = '';
-    if (!items.length){
-      empty.style.display = 'block';
-      return;
-    }
+    if (!items.length){ empty.style.display = 'block'; return; }
     empty.style.display = 'none';
     for (const p of items){
       const card = document.createElement('article');
@@ -220,7 +216,7 @@
 
   function escapeHtml(s=''){return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 
-  // Search
+  // Arama (store içi)
   function applySearch(){
     const q = (document.getElementById('searchInput').value || '').toLowerCase();
     const list = listProducts().filter(p =>
@@ -230,14 +226,14 @@
     renderProducts(list);
   }
 
-  // ------- MODAL + CREATE PRODUCT -------
+  /* ----- MODAL + CREATE PRODUCT ----- */
   const productModal = document.getElementById('productModal');
   function openProductModal(show){ productModal.classList.toggle('show', !!show); }
   function prefillProductModal(){
     document.getElementById('pStore').value = storeSlug;
     document.getElementById('pTitle').value = '';
-    document.getElementById('pSlug').value = '';
-    document.getElementById('pDesc').value = '';
+    document.getElementById('pSlug').value  = '';
+    document.getElementById('pDesc').value  = '';
     document.getElementById('pImage').value = '';
   }
   function createProduct(){
@@ -259,16 +255,15 @@
     renderProducts(listProducts());
   }
 
-  // ------- WIRE UI -------
+  /* ----- WIRE UI ----- */
   (function init(){
-    // İlk render
-    renderProducts(listProducts());
+    renderProducts(listProducts()); // ilk render
 
-    // Search
+    // mağaza içi arama
     document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key==='Enter') applySearch(); });
     document.getElementById('qBtn').addEventListener('click', e => { e.preventDefault(); applySearch(); });
 
-    // Add Product
+    // ürün ekleme
     document.getElementById('addProductBtn').addEventListener('click', () => { prefillProductModal(); openProductModal(true); });
     document.getElementById('pCancel').addEventListener('click', () => openProductModal(false));
     document.getElementById('pCreate').addEventListener('click', createProduct);
