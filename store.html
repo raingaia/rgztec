@@ -7,8 +7,8 @@
 
 <style>
   :root{
-    --wrap:    1280px;   /* Sayfa ana genişliği */
-    --searchw: 900px;    /* Search + kategori genişliği (aynı) */
+    --wrap:    1280px;   /* sayfa ana genişliği */
+    --searchw: 900px;    /* search + kategori bandı genişliği (aynı) */
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#e5e7eb;
     --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c;
   }
@@ -18,13 +18,11 @@
   /* ===== HEADER ===== */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 4px;}
-  .hdr{
-    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px;
-  }
+  .hdr{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px}
   .brand{font-weight:900;font-size:24px;color:var(--rgztec);text-decoration:none;margin-right:8px}
   .studio{font-weight:600;font-size:16px;background:var(--studio-bg);color:#fff;padding:4px 10px;border-radius:8px;line-height:1}
 
-  /* SEARCH: ortada, sabit genişlik, sade ikon */
+  /* SEARCH */
   .search{
     justify-self:center; width:var(--searchw); max-width:100%;
     display:flex; align-items:center; gap:10px;
@@ -48,41 +46,46 @@
   }
   .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
 
-  /* ===== KATEGORİLER: Search ile aynı genişlik, HEMEN altında, tek çizgi ===== */
-  .cats-wrap{max-width:var(--wrap); margin:0 auto;}
+  /* ===== KATEGORİLER: Search ile TAM hizalı, eşit kolonlar, tek çizgi ===== */
+  .cats-wrap{max-width:var(--wrap); margin:0 auto}
   .store-bar{
-    width:var(--searchw); max-width:100%; margin:4px auto 0;   /* aralık 4px */
-    padding:8px 0; border-bottom:1px solid var(--line);        /* TEK çizgi */
-    display:flex; justify-content:center; flex-wrap:wrap; gap:28px;
+    --cols: 5;                                  /* JS bunu gerçek sayıyla güncelliyor */
+    width:var(--searchw); max-width:100%;
+    margin:4px auto 0;                          /* arama – kategori boşluğu: 4px */
+    padding:8px 0;
+    border-bottom:1px solid var(--line);        /* tek çizgi */
+    display:grid; grid-template-columns: repeat(var(--cols), 1fr);
+    align-items:center; justify-items:center;   /* her hücrede ortala */
+    column-gap:0; row-gap:0;                    /* tek satırda eşit yayılım */
   }
   .store-bar a{
-    color:var(--text); text-decoration:none; font-weight:600; font-size:14px;
-    position:relative; padding:6px 4px; transition:.2s;
+    width:100%; text-align:center;
+    color:var(--text); text-decoration:none; font-weight:700;
+    font-size:clamp(12px, 1.7vw, 14px);
+    padding:6px 0; line-height:1;
+    position:relative; transition:.15s;
   }
   .store-bar a:hover{ color:var(--hover) }
-  .store-bar a::after{
-    content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-    background:transparent; transition:.2s;
-  }
-  .store-bar a:hover::after{ background:var(--hover); }
 
   /* ===== İçerik (placeholder) ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
   .empty{ color:#6b7280; font-size:14px }
 
-  /* ===== Responsive: Search genişliğini kademeli küçült ===== */
-  @media (max-width:1320px){ :root{ --searchw: 820px; } }
-  @media (max-width:1180px){ :root{ --searchw: 720px; } }
-  @media (max-width:1040px){ :root{ --searchw: 600px; } }
+  /* ===== Responsive ===== */
+  @media (max-width:1320px){ :root{ --searchw: 820px } }
+  @media (max-width:1180px){ :root{ --searchw: 720px } }
+  @media (max-width:1040px){ :root{ --searchw: 600px } }
   @media (max-width:920px){
-    :root{ --searchw: 520px; }
-    .icons a:not(.open-store){ display:none; } /* sağdakileri sadeleştir */
+    :root{ --searchw: 520px }
+    .icons a:not(.open-store){ display:none }
   }
   @media (max-width:760px){
-    :root{ --searchw: 100%; }                     /* mobil: tam genişlik */
-    .hdr{ grid-template-columns: 1fr; row-gap:10px; }
-    .icons{ justify-self:start; }
-    .search{ justify-self:stretch; }
+    :root{ --searchw: 100% }
+    .hdr{ grid-template-columns:1fr; row-gap:10px }
+    .icons{ justify-self:start }
+    .search{ justify-self:stretch }
+    /* mobilde çok kategori olursa küçülmesin diye iki satıra izin ver */
+    .store-bar{ grid-template-columns: repeat(auto-fit, minmax(110px,1fr)); row-gap:4px }
   }
 </style>
 </head>
@@ -150,14 +153,17 @@
         }
       }
 
-      // store-content.json => kategori etiketi
+      // store-content.json => kategoriler
       const cres = await fetch('data/store-content.json', { cache: 'no-store' });
       if (cres.ok){
         const content = await cres.json();
         const entry = content[storeSlug] || {};
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
-        document.getElementById('storeBar').innerHTML =
-          cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
+
+        const bar = document.getElementById('storeBar');
+        bar.innerHTML = cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
+        // kolon sayısını eşitle (kenardan kenara)
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
       }
     } catch(e){ console.warn(e); }
   })();
