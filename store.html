@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-<meta name="description" content="Store page with global header and per-store categories placed directly under the search bar."/>
+<meta name="description" content="Store page with global header and a single full-width divider under the per-store categories."/>
 
 <style>
   :root{
@@ -28,36 +28,40 @@
               box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .2s}
   .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
 
-  /* Search çubuğu ile kategori barı arasındaki mesafeyi kısalt */
-  .topbar .wrap { padding-bottom: 6px; }
+  /* Search çubuğu ile kategori satırı arası kısa boşluk */
+  .topbar .wrap{padding-bottom:6px}
 
-  /* ===== STORE CATEGORIES BAR (search altındaki ince bant) ===== */
+  /* ===== KATEGORİ SATIRI (Etsy gibi) ===== */
+  /* Tam genişlikli bant: altına tek çizgi */
+  .store-bar-wrap{
+    width:100%;
+    border-bottom:1px solid var(--line);  /* TEK çizgi: full width */
+    background:#fff;
+  }
+  /* İçerik 1200px içinde ortalı */
   .store-bar{
     max-width:1200px;
-    margin:2px auto 0;                /* üst boşluk ↓ */
-    padding:8px 16px;                 /* bant yüksekliği */
-    display:flex; justify-content:center; flex-wrap:wrap; gap:28px;
-    border-top:1px solid var(--line);  /* ince üst çizgi */
-    border-bottom:1px solid var(--line);
-    background:#fff;
+    margin:0 auto;
+    padding:8px 16px;                    /* bant yüksekliği */
+    display:flex;justify-content:center;flex-wrap:wrap;gap:28px;
   }
   .store-bar a{
     color:var(--text);
     text-decoration:none;
-    font-weight:600;
+    font-weight:600;                     /* Etsy hissi */
     font-size:14px;
     position:relative;
-    padding:6px 4px;                  /* dikey ritim */
+    padding:6px 4px;                     /* dikey ritim */
     transition:.2s;
   }
+  .store-bar a:hover{color:var(--hover)}
   .store-bar a::after{
-    content:"";
-    position:absolute; left:0; right:0; bottom:-3px;
-    height:2px; background:transparent; transition:.2s;
+    content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
+    background:transparent; transition:.2s;
   }
   .store-bar a:hover::after{ background:var(--hover); }
 
-  /* İçerik placeholder – şimdilik boş */
+  /* İçerik alanı (şimdilik boş) */
   main{max-width:1200px;margin:16px auto;padding:0 16px}
   .empty{color:#6b7280;font-size:14px}
 </style>
@@ -86,8 +90,10 @@
   </div>
 </header>
 
-<!-- ===== STORE CATEGORIES (search altındaki çizgi alanı) ===== -->
-<nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+<!-- ===== KATEGORİ SATIRI (tek alt çizgi, full width) ===== -->
+<div class="store-bar-wrap">
+  <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+</div>
 
 <!-- ===== Şimdilik boş içerik alanı ===== -->
 <main>
@@ -138,3 +144,4 @@
 </script>
 </body>
 </html>
+
