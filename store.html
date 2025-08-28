@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-<meta name="description" content="Store page template. Header name changes by slug; categories and texts are store-specific."/>
+<meta name="description" content="Store page. Header & categories from slug; products added by sellers via localStorage."/>
 
 <style>
   :root { --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#d1d5db;
@@ -36,9 +36,28 @@
 
   .divider{border:none;border-top:1px solid var(--line);margin:10px 0 0;width:100%}
 
-  /* İçerik alanı şimdilik boş */
-  main{max-width:1200px;margin:20px auto;padding:16px}
-  .empty{border:2px dashed var(--line);border-radius:12px;padding:24px;text-align:center;color:#6b7280}
+  /* Toolbar + grid */
+  .container{max-width:1200px;margin:0 auto;padding:16px}
+  .toolbar{display:flex;gap:10px;align-items:center;margin:18px 0 10px}
+  .toolbar input{flex:1 1 320px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;cursor:pointer}
+  .btn.primary{background:var(--rgztec);border-color:var(--rgztec);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(220px,1fr));gap:16px}
+  .card{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .thumb{aspect-ratio:16/10;background:#f1f5f9;background-size:cover;background-position:center}
+  .card-body{padding:12px;display:flex;flex-direction:column;gap:6px}
+  .card h3{font-size:16px;margin:0}
+  .muted{color:#6b7280;font-size:13px}
+  .empty{border:2px dashed var(--line);border-radius:12px;padding:24px;text-align:center;color:#6b7280;margin-top:10px}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;padding:16px}
+  .modal.show{display:flex}
+  .sheet{background:#fff;max-width:560px;width:100%;border-radius:16px;padding:18px;border:1px solid var(--line)}
+  .sheet h2{margin:0 0 10px}
+  .form{display:grid;gap:10px;margin-top:6px}
+  .form input,.form textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;width:100%}
+  .row{display:flex;gap:10px}
 </style>
 </head>
 <body>
@@ -49,8 +68,8 @@
     <a class="brand" href="./">RGZTEC</a>
     <span id="studioName" class="studio">Store</span>
     <form class="search" onsubmit="return false;">
-      <input type="search" placeholder="Search for anything" aria-label="Search"/>
-      <button type="submit" aria-label="Search">🔍</button>
+      <input id="q" type="search" placeholder="Search within this store…" aria-label="Search"/>
+      <button type="submit" aria-label="Search" id="qBtn">🔍</button>
     </form>
     <nav class="icons" aria-label="Quick actions">
       <a href="login" aria-label="Sign in">Sign in</a>
@@ -68,67 +87,158 @@
 
 <hr class="divider"/>
 
-<!-- İÇERİK – ŞİMDİLİK BOŞ -->
-<main>
-  <div class="empty">
-    This store has no products yet. Use <b>Open Store</b> or seller tools to add products here.
+<!-- TOOLBAR + GRID -->
+<section class="container">
+  <div class="toolbar">
+    <input id="searchInput" placeholder="Search products…"/>
+    <button id="addProductBtn" class="btn">Add Product</button>
   </div>
-</main>
+
+  <div id="productGrid" class="grid"></div>
+  <div id="emptyState" class="empty">No products yet. Click <b>Add Product</b> to create one.</div>
+</section>
+
+<!-- Add Product Modal -->
+<div id="productModal" class="modal" aria-hidden="true">
+  <div class="sheet">
+    <h2>Add Product</h2>
+    <div class="form">
+      <input id="pStore" placeholder="Store slug" readonly />
+      <input id="pTitle" placeholder="Product title"/>
+      <input id="pSlug" placeholder="Product slug (auto if empty)"/>
+      <textarea id="pDesc" placeholder="Short description"></textarea>
+      <input id="pImage" placeholder="Image URL (e.g., images/placeholder.png)"/>
+      <div class="row" style="justify-content:flex-end">
+        <button class="btn" id="pCancel">Cancel</button>
+        <button class="btn primary" id="pCreate">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  (async function () {
-    const params = new URLSearchParams(location.search);
-    const slug = (params.get('slug') || '').trim();
-    const nameEl = document.getElementById('studioName');
-    const introEl = document.getElementById('intro');
-    const catNav = document.getElementById('catNav');
+  // ------- CONFIG & HELPERS -------
+  const LS_PRODUCTS = 'rgz_products_user';
+  const getUserProducts = () => JSON.parse(localStorage.getItem(LS_PRODUCTS) || '[]');
+  const setUserProducts = v => localStorage.setItem(LS_PRODUCTS, JSON.stringify(v));
+  function slugify(text=''){
+    return text.toString().toLowerCase()
+      .replace(/\s+/g,'-').replace(/[^\w\-]+/g,'')
+      .replace(/\-\-+/g,'-').replace(/^-+/, '').replace(/-+$/, '');
+  }
+  const params = new URLSearchParams(location.search);
+  const storeSlug = (params.get('slug') || '').trim();
 
-    if (!slug) return; // slug yoksa varsayılan kalsın
-
+  // ------- HEADER + CONTENT BY SLUG -------
+  (async function initHeader(){
+    if (!storeSlug) return;
     try {
-      // 1) stores.json → başlık + renk
       const sres = await fetch('data/stores.json', { cache: 'no-store' });
-      if (!sres.ok) throw new Error('stores.json not found');
-      const { stores = [] } = await sres.json();
-      const meta = stores.find(s => s.slug === slug);
-
-      if (meta) {
-        if (nameEl) {
+      if (sres.ok){
+        const { stores=[] } = await sres.json();
+        const meta = stores.find(s=>s.slug===storeSlug);
+        if (meta){
+          const nameEl = document.getElementById('studioName');
           nameEl.textContent = meta.name || meta.slug;
           if (meta.color) nameEl.style.background = meta.color;
+          document.title = `RGZTEC • ${meta.name || meta.slug}`;
         }
-        document.title = `RGZTEC • ${meta.name || meta.slug}`;
-      } else {
-        if (nameEl) nameEl.textContent = slug;
-        document.title = `RGZTEC • ${slug}`;
       }
-
-      // 2) store-content.json → tagline + categories
       const cres = await fetch('data/store-content.json', { cache: 'no-store' });
-      if (cres.ok) {
+      if (cres.ok){
         const content = await cres.json();
-        const entry = content[slug];
-
-        // Tagline
-        introEl.textContent = (entry && entry.tagline) ? entry.tagline : (meta?.desc || '');
-
-        // Categories render
-        const cats = (entry && Array.isArray(entry.categories)) ? entry.categories : [];
-        catNav.innerHTML = cats.length
-          ? cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('')
-          : ''; // hiç yoksa boş bırak
-      } else {
-        // content dosyası yoksa, intro'ya desc yaz, kategorileri boş bırak
-        introEl.textContent = meta?.desc || '';
+        const entry = content[storeSlug] || {};
+        document.getElementById('intro').textContent = entry.tagline || '';
+        const cats = Array.isArray(entry.categories) ? entry.categories : [];
+        document.getElementById('catNav').innerHTML = cats.map(c=>`<a href="#">${escapeHtml(c)}</a>`).join('');
       }
+    } catch(e){ console.warn(e); }
+  })();
 
-    } catch (e) {
-      console.warn(e);
-    }
+  // ------- PRODUCTS -------
+  function listProducts(){
+    const staticList = Array.isArray(window.products) ? window.products : [];
+    const userList = getUserProducts();
+    return [...staticList, ...userList].filter(p => p.store === storeSlug);
+  }
 
-    function escapeHtml(s=''){
-      return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function renderProducts(items){
+    const grid = document.getElementById('productGrid');
+    const empty = document.getElementById('emptyState');
+    grid.innerHTML = '';
+    if (!items.length){
+      empty.style.display = 'block';
+      return;
     }
+    empty.style.display = 'none';
+    for (const p of items){
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="thumb" style="background-image:url('${p.image || ''}')"></div>
+        <div class="card-body">
+          <h3>${escapeHtml(p.title || 'Untitled')}</h3>
+          <div class="muted">${escapeHtml(p.desc || '')}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+  }
+
+  function escapeHtml(s=''){return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+  // Search
+  function applySearch(){
+    const q = (document.getElementById('searchInput').value || '').toLowerCase();
+    const list = listProducts().filter(p =>
+      (p.title||'').toLowerCase().includes(q) ||
+      (p.desc||'').toLowerCase().includes(q)
+    );
+    renderProducts(list);
+  }
+
+  // ------- MODAL + CREATE PRODUCT -------
+  const productModal = document.getElementById('productModal');
+  function openProductModal(show){ productModal.classList.toggle('show', !!show); }
+  function prefillProductModal(){
+    document.getElementById('pStore').value = storeSlug;
+    document.getElementById('pTitle').value = '';
+    document.getElementById('pSlug').value = '';
+    document.getElementById('pDesc').value = '';
+    document.getElementById('pImage').value = '';
+  }
+  function createProduct(){
+    const store = document.getElementById('pStore').value.trim();
+    const title = document.getElementById('pTitle').value.trim();
+    let   pslug = document.getElementById('pSlug').value.trim();
+    const desc  = document.getElementById('pDesc').value.trim();
+    const image = document.getElementById('pImage').value.trim() || 'images/placeholder.png';
+
+    if (!store || !title){ alert('Store slug and title are required.'); return; }
+    if (!pslug) pslug = slugify(title);
+
+    const list = getUserProducts();
+    const id = `${store}-${Date.now()}`;
+    list.push({ id, store, slug: pslug, title, desc, image });
+    setUserProducts(list);
+
+    openProductModal(false);
+    renderProducts(listProducts());
+  }
+
+  // ------- WIRE UI -------
+  (function init(){
+    // İlk render
+    renderProducts(listProducts());
+
+    // Search
+    document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key==='Enter') applySearch(); });
+    document.getElementById('qBtn').addEventListener('click', e => { e.preventDefault(); applySearch(); });
+
+    // Add Product
+    document.getElementById('addProductBtn').addEventListener('click', () => { prefillProductModal(); openProductModal(true); });
+    document.getElementById('pCancel').addEventListener('click', () => openProductModal(false));
+    document.getElementById('pCreate').addEventListener('click', createProduct);
   })();
 </script>
 </body>
