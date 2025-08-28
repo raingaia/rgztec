@@ -7,35 +7,25 @@
 
 <style>
   :root{
-    --wrap:    1280px;          /* sayfa ana genişlik */
-    --searchw: 960px;           /* search + kategori bandı genişlik (AYNI) */
+    --wrap:    1280px;        /* ana içerik genişliği */
+    --searchw: 960px;         /* arama ve kategori barı genişliği (aynı kalacak) */
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#e5e7eb;
     --rgztec:#f97316; --rgztec-dark:#ea580c;
-    --studio-bg:#22c3dc;        /* mağaza pili default (stores.json varsa onu basarız) */
+    --pill:#22c3dc;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
   /* ===== HEADER ===== */
-  .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{
-    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px;
-  }
-
-  /* Sol grup: RGZTEC + pill */
+  .hdr{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px}
+  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
   .left{ display:flex; align-items:center; gap:10px }
-  .brand{
-    font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none;
-  }
-  .studio{
-    white-space:nowrap; line-height:1;                /* asla 2 satır olmaz */
-    font-weight:800; font-size:15px; color:#fff;
-    background:var(--studio-bg);
-    padding:6px 12px; border-radius:999px;
-    display:inline-flex; align-items:center;
+  .pill{
+    background:var(--pill); color:#fff; font-weight:800; font-size:15px; line-height:1;
+    padding:6px 12px; border-radius:999px; white-space:nowrap;
     box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
-    transform:translateY(2px);                         /* görsel hizalama */
+    transform:translateY(2px);
   }
 
   /* SEARCH */
@@ -45,95 +35,83 @@
     height:56px; padding:6px 8px 6px 16px;
     border:2px solid #111827; border-radius:999px; background:#fff;
   }
-  .search input{ flex:1; border:0; outline:0; font-size:16px; padding:10px 6px }
+  .search input{flex:1;border:0;outline:0;font-size:16px;padding:10px 6px}
   .search button{
-    display:grid; place-items:center; width:40px; height:40px; border-radius:999px;
-    border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
+    width:40px;height:40px;border:0;border-radius:999px;background:var(--rgztec);
+    display:grid;place-items:center;cursor:pointer;transition:transform .12s,filter .12s
   }
-  .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
-  .search svg{ width:20px; height:20px; stroke:#fff; stroke-width:2; fill:none }
+  .search button:hover{transform:translateY(-1px);filter:brightness(.95)}
+  .search svg{width:20px;height:20px;stroke:#fff;stroke-width:2;fill:none}
 
-  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
-  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
-  .open-store{
-    background:var(--rgztec); color:#fff !important; font-weight:700;
-    padding:8px 18px; border-radius:999px; height:40px;
-    display:inline-flex; align-items:center; white-space:nowrap;
-    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
+  .icons{display:flex;gap:14px;align-items:center;justify-self:end}
+  .icons a{color:var(--icon);text-decoration:none}
+  .cta{background:var(--rgztec);color:#fff!important;font-weight:700;padding:8px 18px;border-radius:999px;display:inline-flex;align-items:center;height:40px}
+
+  /* ===== KATEGORİ SATIRI =====
+     Çizgi tam genişlikte; içerik wrap hizasında. */
+  .cats-wrap{
+    border-bottom:2px solid var(--line);
+    /* içeriği wrap’a kilitle: sağ/sol padding = (100% - wrap)/2 */
+    padding-inline: max(0px, calc((100% - var(--wrap))/2));
+    margin-top:6px;
   }
-  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
-
-  /* ===== KATEGORİ: search ile TAM hizalı, eşit kolonlar, tek çizgi ===== */
-  .cats-wrap{ max-width:var(--wrap); margin:0 auto }
   .store-bar{
-    --cols:5;                                            /* JS gerçek sayıya çeviriyor */
+    --cols:5;
     width:var(--searchw); max-width:100%;
-    margin:4px auto 0;                                   /* search’le 4px aralık */
-    height:44px; padding:0;
-    border-bottom:1px solid var(--line);
+    margin:0 auto;                 /* arama ile aynı merkez */
+    height:46px;
     display:grid; grid-template-columns:repeat(var(--cols),1fr);
     align-items:center; justify-items:center;
   }
   .store-bar a{
-    width:100%; text-align:center;
-    font-size:15px; font-weight:600; letter-spacing:.1px;
-    line-height:44px; color:var(--text); text-decoration:none;
-    transition:color .15s;
+    width:100%; text-align:center; line-height:46px;
+    font-size:15px; font-weight:600; text-decoration:none; color:var(--text);
   }
   .store-bar a:hover{ color:var(--hover) }
 
-  /* ===== İçerik (boş placeholder gizli kalsın) ===== */
-  main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ display:none; }
+  /* İçerik */
+  main{max-width:var(--wrap);margin:16px auto;padding:0 18px}
+  .empty{color:#64748b}
 
-  /* ===== Responsive ===== */
+  /* Responsive */
   @media (max-width:1180px){ :root{ --searchw: 860px } }
   @media (max-width:1040px){ :root{ --searchw: 720px } }
   @media (max-width:900px){
     :root{ --searchw: 100% }
     .hdr{ grid-template-columns:1fr; row-gap:10px }
-    .icons a:not(.open-store){ display:none }
-    .search{ justify-self:stretch }
-    /* mobilde fazla kategori iki satıra düşsün ama hizası bozulmasın */
-    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
+    .icons a:not(.cta){ display:none }
+    .store-bar{ grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
+    .cats-wrap{ padding-inline:18px } /* mobilde wrap yerine güvenli padding */
   }
 </style>
 </head>
 <body>
 
-<header class="topbar">
+<header>
   <div class="wrap">
     <div class="hdr">
-      <!-- Sol: RGZTEC + yapışık mağaza pili -->
       <div class="left">
-        <a class="brand" href="./">RGZTEC</a>
-        <span id="studioName" class="studio">Store</span>
+        <a href="./" class="brand">RGZTEC</a>
+        <span id="storeName" class="pill">Store</span>
       </div>
 
-      <!-- Orta: Search -->
       <form class="search" onsubmit="return false;">
         <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
-        <button type="submit" aria-label="Search" id="qBtn">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="11" cy="11" r="6"></circle>
-            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-          </svg>
+        <button type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
         </button>
       </form>
 
-      <!-- Sağ: Aksiyonlar -->
       <nav class="icons" aria-label="Quick actions">
-        <a href="login" aria-label="Sign in">Sign in</a>
-        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
-        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
-        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+        <a href="login">Sign in</a><a href="#" title="Gifts">🎁</a><a href="cart" title="Cart">🛒</a>
+        <a href="become-seller" class="cta">Open Store</a>
       </nav>
     </div>
   </div>
 </header>
 
-<!-- KATEGORİLER (tam search genişliği) -->
+<!-- Tam genişlik çizgi + wrap hizalı içerik -->
 <div class="cats-wrap">
   <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
@@ -146,42 +124,42 @@
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
 
-  const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-  (async function init(){
-    if (!slug) return;
+  (async function(){
+    if(!slug) return;
 
-    try {
-      /* 1) stores.json => başlık + renk */
-      const sres = await fetch('data/stores.json', { cache:'no-store' });
-      if (sres.ok){
-        const { stores=[] } = await sres.json();
-        const meta = stores.find(s => s.slug === slug);
-        const pill = document.getElementById('studioName');
-
-        if (meta){
+    try{
+      // mağaza adı + renk
+      const sres = await fetch('data/stores.json', {cache:'no-store'});
+      if(sres.ok){
+        const {stores=[]} = await sres.json();
+        const meta = stores.find(s => s.slug===slug);
+        const pill = document.getElementById('storeName');
+        if(meta){
           pill.textContent = meta.name || meta.slug;
-          if (meta.color) pill.style.background = meta.color;  // mağaza rengi pille gelsin
+          if(meta.color) pill.style.background = meta.color;
           document.title = `RGZTEC • ${meta.name || meta.slug}`;
-        } else {
+        }else{
           pill.textContent = slug;
           document.title = `RGZTEC • ${slug}`;
         }
       }
 
-      /* 2) store-content.json => kategoriler */
-      const cres = await fetch('data/store-content.json', { cache:'no-store' });
-      if (cres.ok){
+      // kategori içerikleri
+      const cres = await fetch('data/store-content.json', {cache:'no-store'});
+      if(cres.ok){
         const content = await cres.json();
         const entry = content[slug] || {};
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
-
-        const bar = document.getElementById('storeBar');
-        bar.innerHTML = cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
-        bar.style.setProperty('--cols', String(Math.max(1, cats.length))); // kenardan kenara eşit dağıt
+        const bar  = document.getElementById('storeBar');
+        bar.innerHTML = cats.map(c => `<a href="#">${esc(c)}</a>`).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
       }
-    } catch(e){ console.warn(e); }
+    }catch(e){ console.warn(e); }
   })();
 </script>
+
 </body>
 </html>
+
