@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-<meta name="description" content="Store page with global header, per-store tagline & categories, and local product management."/>
+<meta name="description" content="Store page with global header, per-store categories under the search bar, and local product management."/>
 
 <style>
   :root{
@@ -28,19 +28,26 @@
               box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .2s}
   .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
 
-  /* header ile içerik arası ince ayraç */
-  .header-divider{border:none;border-top:1px solid var(--line);margin:0}
+  /* ===== STORE CATEGORIES BAR (search altı, ince çizgi içinde) ===== */
+  .store-bar{
+    max-width:1200px;
+    margin:6px auto 0;
+    padding:6px 16px 10px;
+    display:flex;justify-content:center;flex-wrap:wrap;gap:28px;
+    border-bottom:1px solid var(--line);
+  }
+  .store-bar a{
+    color:var(--text);text-decoration:none;font-weight:500;font-size:15px;
+    position:relative;padding:4px;transition:.2s;
+  }
+  .store-bar a:hover{color:var(--hover)}
+  .store-bar a::after{
+    content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;
+    background:transparent;transition:.2s;
+  }
+  .store-bar a:hover::after{background:var(--hover)}
 
-  /* Store intro + store’a özel kategori linkleri */
-  .container-narrow{max-width:1200px;margin:0 auto;padding:0 16px;text-align:center}
-  .intro{color:#475569;font-size:15px;margin:14px 0 10px}
-  .store-cats{display:flex;justify-content:center;flex-wrap:wrap;gap:28px;padding:0 0 12px}
-  .store-cats a{color:var(--text);text-decoration:none;font-weight:500;font-size:15px;position:relative;padding:4px;transition:.2s}
-  .store-cats a:hover{color:var(--hover)}
-  .store-cats a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;background:transparent;transition:.2s}
-  .store-cats a:hover::after{background:var(--hover)}
-
-  /* Toolbar + product grid */
+  /* ===== TOOLBAR + GRID ===== */
   .container{max-width:1200px;margin:0 auto;padding:16px}
   .toolbar{display:flex;gap:10px;align-items:center;margin:18px 0 10px}
   .toolbar input{flex:1 1 320px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
@@ -88,15 +95,10 @@
   </div>
 </header>
 
-<hr class="header-divider"/>
+<!-- ===== STORE CATEGORIES (search altındaki çizgi alanında) ===== -->
+<nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 
-<!-- ===== STORE-SPECIFIC HEADER ===== -->
-<div class="container-narrow">
-  <p id="intro" class="intro"></p>
-  <nav id="catNav" class="store-cats" aria-label="Store Categories"></nav>
-</div>
-
-<!-- ===== TOOLBAR + GRID (Add Product geri geldi) ===== -->
+<!-- ===== TOOLBAR + GRID ===== -->
 <section class="container">
   <div class="toolbar">
     <input id="searchInput" placeholder="Search products…"/>
@@ -125,7 +127,7 @@
   </div>
 </div>
 
-<!-- statik ürün kaynağı (boş dizi olabilir) -->
+<!-- static products (may be empty) -->
 <script src="data/products.js"></script>
 <script>
   /* ===== CONFIG & HELPERS ===== */
@@ -146,10 +148,9 @@
   }
   const params = new URLSearchParams(location.search);
   const storeSlug = (params.get('slug') || '').trim();
-
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-  /* ===== HEADER + STORE CONTENT BY SLUG ===== */
+  /* ===== HEADER + STORE CATEGORIES BY SLUG ===== */
   (async function initHeader(){
     if (!storeSlug) return;
     try {
@@ -165,14 +166,13 @@
           document.title = `RGZTEC • ${meta.name || meta.slug}`;
         }
       }
-      // store-content.json → tagline + store categories
+      // store-content.json → store categories (tagline KULLANMIYORUZ)
       const cres = await fetch('data/store-content.json', { cache: 'no-store' });
       if (cres.ok){
         const content = await cres.json();
         const entry = content[storeSlug] || {};
-        document.getElementById('intro').textContent = entry.tagline || '';
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
-        document.getElementById('catNav').innerHTML = cats.map(c=>`<a href="#">${escapeHtml(c)}</a>`).join('');
+        document.getElementById('storeBar').innerHTML = cats.map(c=>`<a href="#">${escapeHtml(c)}</a>`).join('');
       }
     } catch(e){ console.warn(e); }
   })();
@@ -205,8 +205,7 @@
   function applySearch(){
     const q = (document.getElementById('searchInput').value || '').toLowerCase();
     const list = listProducts().filter(p =>
-      (p.title||'').toLowerCase().includes(q) ||
-      (p.desc||'').toLowerCase().includes(q)
+      (p.title||'').toLowerCase().includes(q) || (p.desc||'').toLowerCase().includes(q)
     );
     renderProducts(list);
   }
@@ -243,10 +242,8 @@
   /* ===== WIRE UI ===== */
   (function init(){
     renderProducts(listProducts()); // first render
-
     document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key==='Enter') applySearch(); });
     document.getElementById('qBtn').addEventListener('click', e => { e.preventDefault(); applySearch(); });
-
     document.getElementById('addProductBtn').addEventListener('click', () => { prefillProductModal(); openProductModal(true); });
     document.getElementById('pCancel').addEventListener('click', () => openProductModal(false));
     document.getElementById('pCreate').addEventListener('click', createProduct);
