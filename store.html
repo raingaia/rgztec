@@ -9,10 +9,10 @@
   :root{
     --wrap:    1280px;          /* sayfa ana genişlik */
     --searchw: 960px;           /* search + kategori bandı genişlik (AYNI) */
-    --line-w:  1px;             /* alt çizgi kalınlığı */
-    --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#e5e7eb;
+    --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
+    --line:#e5e7eb; --line-strong:#cbd5e1;   /* çizgi daha belirgin */
     --rgztec:#f97316; --rgztec-dark:#ea580c;
-    --studio-bg:#22c3dc;        /* mağaza pili default (stores.json varsa onu basarız) */
+    --studio-bg:#22c3dc;        /* mağaza pili (stores.json gelirse override) */
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
@@ -20,21 +20,27 @@
   /* ===== HEADER ===== */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px }
-
-  /* Sol grup: RGZTEC + pill */
-  .left{ display:flex; align-items:center; gap:10px }
-  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
-  .studio{
-    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
-    background:var(--studio-bg); padding:6px 12px; border-radius:999px;
-    display:inline-flex; align-items:center;
-    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
-    transform:translateY(2px); /* RGZTEC ile hizalama */
+  .hdr{
+    /* ARAMA KUTUSUNU GERÇEK ORTAYA KİTLEME */
+    display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:16px;
   }
 
-  /* SEARCH */
+  /* Sol grup: RGZTEC + pill */
+  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
+  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
+  .studio{
+    white-space:nowrap; line-height:1;
+    font-weight:800; font-size:15px; color:#fff;
+    background:var(--studio-bg);
+    padding:6px 12px; border-radius:999px;
+    display:inline-flex; align-items:center;
+    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
+    transform:translateY(2px);
+  }
+
+  /* SEARCH (orta sütun) */
   .search{
+    grid-column:2;                 /* tam orta sütun */
     justify-self:center; width:var(--searchw); max-width:100%;
     display:flex; align-items:center; gap:10px;
     height:56px; padding:6px 8px 6px 16px;
@@ -48,6 +54,7 @@
   .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
   .search svg{ width:20px; height:20px; stroke:#fff; stroke-width:2; fill:none }
 
+  /* Sağ aksiyonlar */
   .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
   .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
   .open-store{
@@ -58,24 +65,22 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== KATEGORİ: search ile TAM hizalı ===== */
+  /* ===== KATEGORİ: search ile TAM hizalı; çizgi tam sayfa ===== */
   .cats-wrap{
-    max-width:var(--wrap); margin:0 auto; position:relative;
+    max-width:100%;               /* ÇİZGİ TAM GENİŞLİK */
+    border-bottom:2px solid var(--line-strong);
   }
-  /* tam sayfa (100vw) ince ayırıcı çizgi */
-  .cats-wrap::after{
-    content:""; position:absolute; left:50%; bottom:0; transform:translateX(-50%);
-    width:100vw; border-bottom:var(--line-w) solid var(--line);
-    pointer-events:none;
+  .cats-inner{                    /* kategorileri ortalamak için iç sarmal */
+    max-width:var(--wrap); margin:0 auto;
   }
-
   .store-bar{
-    --cols:5;                                        /* JS gerçek sayıya çeviriyor */
+    --cols:5; /* JS gerçek sayıya çeviriyor */
     width:var(--searchw); max-width:100%;
-    margin:4px auto 0;                               /* search’le 4px aralık */
+    margin:6px auto 0;            /* search’le 6px aralık */
     height:44px; padding:0;
     display:grid; grid-template-columns:repeat(var(--cols),1fr);
     align-items:center; justify-items:center;
+    /* çizgi artık üst sarmalda, burada yok */
   }
   .store-bar a{
     width:100%; text-align:center;
@@ -85,9 +90,9 @@
   }
   .store-bar a:hover{ color:var(--hover) }
 
-  /* ===== İçerik (placeholder gizli) ===== */
+  /* ===== İçerik (şimdilik boş) ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ display:none }
+  .empty{ display:none; }
 
   /* ===== Responsive ===== */
   @media (max-width:1180px){ :root{ --searchw: 860px } }
@@ -95,9 +100,9 @@
   @media (max-width:900px){
     :root{ --searchw: 100% }
     .hdr{ grid-template-columns:1fr; row-gap:10px }
-    .icons a:not(.open-store){ display:none }       /* mobilde sadeleşsin */
-    .search{ justify-self:stretch }
-    /* mobilde fazla kategori iki satıra düşsün ama hizası bozulmasın */
+    .icons a:not(.open-store){ display:none }
+    .search{ grid-column:1; justify-self:stretch }
+    .cats-wrap{ border-bottom-width:1px }        /* mobilde biraz incelt */
     .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
   }
@@ -136,9 +141,11 @@
   </div>
 </header>
 
-<!-- KATEGORİLER (search ile hizalı) -->
+<!-- KATEGORİLER -->
 <div class="cats-wrap">
-  <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+  <div class="cats-inner">
+    <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+  </div>
 </div>
 
 <main>
@@ -148,23 +155,21 @@
 <script>
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
-
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   (async function init(){
     if (!slug) return;
 
     try {
-      /* 1) stores.json => başlık + renk */
+      // 1) stores.json → mağaza adı + renk (pill)
       const sres = await fetch('data/stores.json', { cache:'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
         const meta = stores.find(s => s.slug === slug);
         const pill = document.getElementById('studioName');
-
         if (meta){
           pill.textContent = meta.name || meta.slug;
-          if (meta.color) pill.style.background = meta.color;  // mağaza rengi pille gelsin
+          if (meta.color) pill.style.background = meta.color;
           document.title = `RGZTEC • ${meta.name || meta.slug}`;
         } else {
           pill.textContent = slug;
@@ -172,7 +177,7 @@
         }
       }
 
-      /* 2) store-content.json => kategoriler */
+      // 2) store-content.json → kategoriler
       const cres = await fetch('data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
@@ -181,11 +186,10 @@
 
         const bar = document.getElementById('storeBar');
         bar.innerHTML = cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
-        bar.style.setProperty('--cols', String(Math.max(1, cats.length))); // eşit dağıt
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
       }
     } catch(e){ console.warn(e); }
   })();
 </script>
 </body>
 </html>
-
