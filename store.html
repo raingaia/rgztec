@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-<meta name="description" content="Store page. Header & categories from slug; products added by sellers via localStorage."/>
+<meta name="description" content="Store page. Global header + store-specific content; products added by sellers via localStorage."/>
 
 <style>
   :root { --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#d1d5db;
-          --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c; }
+          --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c; --light:#fff; }
+
   *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* Top bar (index.html ile uyumlu) */
-  .topbar{background:#fff;border-bottom:1px solid var(--line)}
+  /* ===== Global Header (index.html ile aynı görünüm) ===== */
+  .topbar{background:#fff}
   .wrap{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
   .brand{font-weight:800;font-size:22px;color:var(--rgztec);text-decoration:none}
   .studio{font-weight:600;font-size:16px;background:var(--studio-bg);color:#fff;padding:4px 10px;border-radius:8px;line-height:1}
@@ -21,13 +22,21 @@
   .search button{border:0;background:none;color:var(--icon);font-size:16px;cursor:pointer;padding:0 10px}
   .icons{display:flex;gap:14px;align-items:center}
   .icons a{text-decoration:none;color:var(--icon);font-size:16px}
-  .open-store{background:var(--rgztec);color:#fff !important;font-weight:600;padding:7px 18px;border-radius:999px;box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .2s}
+  .open-store{background:var(--rgztec);color:#fff !important;font-weight:600;padding:7px 18px;border-radius:999px;
+              box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .2s}
   .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
 
-  /* Üst açıklama (tagline) */
+  /* Global kategori barı (index header’ındaki satır) */
+  .global-cats{max-width:1200px;margin:0 auto;display:flex;justify-content:center;flex-wrap:wrap;gap:28px;padding:6px 16px 10px;border-bottom:1px solid var(--line)}
+  .global-cats a{color:var(--text);text-decoration:none;font-weight:500;font-size:15px;position:relative;padding:4px;transition:.2s}
+  .global-cats a:hover{color:var(--hover)}
+  .global-cats a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;background:transparent;transition:.2s}
+  .global-cats a:hover::after{background:var(--hover)}
+
+  /* Üst açıklama (store tagline) */
   .intro{max-width:1200px;margin:14px auto 0;padding:0 16px;color:#475569;font-size:15px}
 
-  /* Kategoriler: mağazaya özel doldurulacak */
+  /* Store’a özel kategori linkleri */
   .categories{max-width:1200px;margin:8px auto 0;display:flex;justify-content:center;flex-wrap:wrap;gap:28px;padding:6px 16px 10px}
   .categories a{color:var(--text);text-decoration:none;font-weight:500;font-size:15px;position:relative;padding:4px;transition:.2s}
   .categories a:hover{color:var(--hover)}
@@ -62,27 +71,41 @@
 </head>
 <body>
 
-<!-- TOP BAR -->
+<!-- ===== GLOBAL HEADER ===== -->
 <header class="topbar">
   <div class="wrap">
     <a class="brand" href="./">RGZTEC</a>
-    <span id="studioName" class="studio">Store</span>
+
+    <!-- Bu pill slug’a göre değişecek -->
+    <span id="studioName" class="studio">Dev One Studio</span>
+
     <form class="search" onsubmit="return false;">
-      <input id="q" type="search" placeholder="Search within this store…" aria-label="Search"/>
+      <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
       <button type="submit" aria-label="Search" id="qBtn">🔍</button>
     </form>
+
     <nav class="icons" aria-label="Quick actions">
       <a href="login" aria-label="Sign in">Sign in</a>
+      <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
       <a href="cart" title="Cart" aria-label="Cart">🛒</a>
       <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
     </nav>
   </div>
+
+  <!-- Global kategori satırı -->
+  <nav class="global-cats" aria-label="Global Categories">
+    <a href="#">Web Templates</a>
+    <a href="#">E-commerce / Marketplace</a>
+    <a href="#">Widgets & Components</a>
+    <a href="#">Software & Automation</a>
+    <a href="#">Niche / Specialized Packs</a>
+  </nav>
 </header>
 
 <!-- Mağaza açıklaması (slug’a göre) -->
 <p id="intro" class="intro"></p>
 
-<!-- KATEGORİLER (slug’a göre) -->
+<!-- Store’a özel kategoriler -->
 <nav id="catNav" class="categories" aria-label="Store Categories"></nav>
 
 <hr class="divider"/>
@@ -121,11 +144,21 @@
   const LS_PRODUCTS = 'rgz_products_user';
   const getUserProducts = () => JSON.parse(localStorage.getItem(LS_PRODUCTS) || '[]');
   const setUserProducts = v => localStorage.setItem(LS_PRODUCTS, JSON.stringify(v));
+
+  // Türkçe karakter dostu slugify
   function slugify(text=''){
-    return text.toString().toLowerCase()
-      .replace(/\s+/g,'-').replace(/[^\w\-]+/g,'')
-      .replace(/\-\-+/g,'-').replace(/^-+/, '').replace(/-+$/, '');
+    const map = { 'ç':'c','ğ':'g','ı':'i','i':'i','ö':'o','ş':'s','ü':'u',
+                  'Ç':'c','Ğ':'g','İ':'i','I':'i','Ö':'o','Ş':'s','Ü':'u' };
+    return text.toString()
+      .replace(/[\u00C0-\u024F]/g, ch => map[ch] || ch) // temel dönüştürme
+      .toLowerCase()
+      .replace(/\s+/g,'-')
+      .replace(/[^\w\-]+/g,'')   // \w: a-z0-9_ (Türkçe harfler artık dönüştüğü için sorun yok)
+      .replace(/\-\-+/g,'-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
   }
+
   const params = new URLSearchParams(location.search);
   const storeSlug = (params.get('slug') || '').trim();
 
