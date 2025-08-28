@@ -7,14 +7,14 @@
 
 <style>
   :root{
-    --wrap:    1280px;     /* sayfa ana genişlik */
-    --rail-w:  980px;      /* arama + kategori bandı sabit genişlik */
-    --search-h:44px;       /* arama yüksekliği (ince) */
+    --wrap:    1280px;
+    --rail-w:  980px;
+    --search-h:44px;
 
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
-    --line:#e5e7eb; --line-strong:#cbd5e1; /* kategori alt çizgisi */
+    --line:#e5e7eb; --line-strong:#cbd5e1;
     --rgztec:#f97316; --rgztec-dark:#ea580c;
-    --studio-bg:#22c3dc; /* mağaza pili default (stores.json varsa override) */
+    --studio-bg:#22c3dc;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
@@ -22,10 +22,8 @@
   /* ===== HEADER ===== */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  /* rayı ortalamak için orta kolon sabit, kenarlar 1fr */
   .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
 
-  /* Sol grup: RGZTEC + pill */
   .left{ display:flex; align-items:center; gap:10px; justify-self:start }
   .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
   .studio{
@@ -35,7 +33,6 @@
     transform:translateY(2px);
   }
 
-  /* SEARCH (orta kolon = ray) */
   .rail{display:flex; align-items:center; justify-content:center}
   .search{
     width:var(--rail-w); max-width:100%;
@@ -51,7 +48,6 @@
   .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
   .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
 
-  /* Sağ aksiyonlar */
   .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
   .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
   .open-store{
@@ -62,30 +58,29 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== KATEGORİ =====
-     - Kategori linkleri RAY ile aynı genişlikte (.store-bar)
-     - ÇİZGİ ise TAM SAYFA: .cats-wrap::after ile çiziliyor
-  */
+  /* ===== KATEGORİ ===== */
   .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
-  /* Tam sayfa alt çizgi (scrollbar genişliğini düşürerek taşmasız full-width) */
+
+  /* TAM SAYFA alt çizgi — full-bleed (negatif 50vw marjin) */
   .cats-wrap::after{
     content:"";
     position:absolute;
     left:50%;
-    transform:translateX(-50%);
-    bottom:0; /* kategori bloğunun altına yapışık */
-    width:calc(100vw - (100vw - 100%));
-    height:2px;
-    background:var(--line-strong);
+    right:50%;
+    margin-left:-50vw;           /* sola taşır */
+    margin-right:-50vw;          /* sağa taşır */
+    bottom:0;
+    border-bottom:2px solid var(--line-strong);
+    height:0;
     pointer-events:none;
   }
 
   .store-bar{
     --cols:5;
     width:var(--rail-w); max-width:100%;
-    margin:2px auto 0;       /* aramaya 2px yakın */
+    margin:2px auto 0;           /* aramaya yakın */
     height:44px; padding:0;
-    border-bottom:none;      /* çizgiyi pseudo-element veriyor */
+    border-bottom:none;          /* çizgiyi pseudo-element veriyor */
     display:grid; grid-template-columns:repeat(var(--cols),1fr);
     align-items:center; justify-items:center;
     background:transparent;
@@ -120,13 +115,11 @@
 <header class="topbar">
   <div class="wrap">
     <div class="hdr">
-      <!-- sol -->
       <div class="left">
         <a class="brand" href="./">RGZTEC</a>
         <span id="studioName" class="studio">Store</span>
       </div>
 
-      <!-- orta / ray -->
       <div class="rail">
         <form class="search" onsubmit="return false;">
           <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
@@ -139,7 +132,6 @@
         </form>
       </div>
 
-      <!-- sağ -->
       <nav class="icons" aria-label="Quick actions">
         <a href="login" aria-label="Sign in">Sign in</a>
         <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
@@ -150,7 +142,6 @@
   </div>
 </header>
 
-<!-- KATEGORİLER (ray ile aynı genişlikte) -->
 <div class="cats-wrap">
   <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
@@ -201,4 +192,3 @@
 </script>
 </body>
 </html>
-
