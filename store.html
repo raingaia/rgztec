@@ -7,33 +7,45 @@
 
 <style>
   :root{
-    --wrap: 1280px;      /* sayfa genişliği */
-    --searchw: 900px; /* search + kategori genişliği -> istersen 860/920 yap */
+    --wrap:    1280px;          /* sayfa ana genişlik */
+    --searchw: 960px;           /* search + kategori bandı genişlik (AYNI) */
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#e5e7eb;
-    --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c;
+    --rgztec:#f97316; --rgztec-dark:#ea580c;
+    --studio-bg:#22c3dc;        /* mağaza pili default (stores.json varsa onu basarız) */
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
   /* ===== HEADER ===== */
   .topbar{background:#fff}
-  .wrap{
-    max-width:var(--wrap); margin:0 auto;
-    padding:12px 18px 4px;          /* alt boşluk ↓ 4px */
-    display:flex; align-items:center; gap:16px;
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
+  .hdr{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px;
   }
-  .brand{font-weight:900;font-size:24px;color:var(--rgztec);text-decoration:none}
-  .studio{font-weight:600;font-size:16px;background:var(--studio-bg);color:#fff;padding:4px 10px;border-radius:8px;line-height:1}
 
-  /* SEARCH: geniş & sade ikon */
+  /* Sol grup: RGZTEC + pill */
+  .left{ display:flex; align-items:center; gap:10px }
+  .brand{
+    font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none;
+  }
+  .studio{
+    white-space:nowrap; line-height:1;                /* asla 2 satır olmaz */
+    font-weight:800; font-size:15px; color:#fff;
+    background:var(--studio-bg);
+    padding:6px 12px; border-radius:999px;
+    display:inline-flex; align-items:center;
+    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
+    transform:translateY(2px);                         /* görsel hizalama */
+  }
+
+  /* SEARCH */
   .search{
-    width:100%; max-width:var(--searchw);
-    margin-left:6px; margin-right:auto;      /* soldan logo, sağda ikonlara kadar */
+    justify-self:center; width:var(--searchw); max-width:100%;
     display:flex; align-items:center; gap:10px;
     height:56px; padding:6px 8px 6px 16px;
     border:2px solid #111827; border-radius:999px; background:#fff;
   }
-  .search input{flex:1;border:0;outline:0;font-size:16px;padding:10px 6px}
+  .search input{ flex:1; border:0; outline:0; font-size:16px; padding:10px 6px }
   .search button{
     display:grid; place-items:center; width:40px; height:40px; border-radius:999px;
     border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
@@ -41,117 +53,90 @@
   .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
   .search svg{ width:20px; height:20px; stroke:#fff; stroke-width:2; fill:none }
 
-  .icons{display:flex;gap:14px;align-items:center}
-  .icons a{text-decoration:none;color:var(--icon);font-size:16px}
+  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
+  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
   .open-store{
     background:var(--rgztec); color:#fff !important; font-weight:700;
-    padding:8px 18px; border-radius:999px; box-shadow:0 2px 4px rgba(0,0,0,.1);
-    transition:all .2s;
+    padding:8px 18px; border-radius:999px; height:40px;
+    display:inline-flex; align-items:center; white-space:nowrap;
+    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
   }
-  .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
+  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== KATEGORİLER: Search ile aynı genişlik, HEMEN altında, tek çizgi ===== */
+  /* ===== KATEGORİ: search ile TAM hizalı, eşit kolonlar, tek çizgi ===== */
+  .cats-wrap{ max-width:var(--wrap); margin:0 auto }
   .store-bar{
-    width:100%; max-width:var(--searchw);         /* search ile birebir */
-    margin:4px auto 0;                            /* aradaki boşluk 4px */
-    padding:8px 18px;                             /* bant yüksekliği */
-    display:flex; justify-content:center; flex-wrap:wrap; gap:28px;
-    border-bottom:1px solid var(--line);          /* tek çizgi (dar) */
+    --cols:5;                                            /* JS gerçek sayıya çeviriyor */
+    width:var(--searchw); max-width:100%;
+    margin:4px auto 0;                                   /* search’le 4px aralık */
+    height:44px; padding:0;
+    border-bottom:1px solid var(--line);
+    display:grid; grid-template-columns:repeat(var(--cols),1fr);
+    align-items:center; justify-items:center;
   }
   .store-bar a{
-    color:var(--text); text-decoration:none;
-    font-weight:600; font-size:14px;
-    position:relative; padding:6px 4px; transition:.2s;
+    width:100%; text-align:center;
+    font-size:15px; font-weight:600; letter-spacing:.1px;
+    line-height:44px; color:var(--text); text-decoration:none;
+    transition:color .15s;
   }
   .store-bar a:hover{ color:var(--hover) }
-  .store-bar a::after{
-    content:""; position:absolute; left:0; right:0; bottom:-3px; height:2px;
-    background:transparent; transition:.2s;
-  }
-  .store-bar a:hover::after{ background:var(--hover); }
 
-  /* ===== İçerik (placeholder) ===== */
+  /* ===== İçerik (boş placeholder gizli kalsın) ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ color:#6b7280; font-size:14px }
+  .empty{ display:none; }
 
-
-/* ===== ETSY-STİLİ GÜNCELLEMELERİ (BURADAN BAŞLIYOR) ===== */
-
-/* --- 1. Header (Üst Kısım) --- */
-/* Header'ın altını ince bir çizgiyle daha belirgin hale getiriyoruz */
-.topbar {
-  border-bottom: 1px solid var(--line);
-}
-.wrap {
-  padding: 12px 18px; /* Dikey boşlukları eşitleyerek daha ferah bir görünüm sağlıyoruz */
-}
-
-/* --- 2. Arama Çubuğu (En Önemli Değişiklik) --- */
-/* Etsy gibi yumuşak ve minimalist bir arama çubuğu oluşturuyoruz */
-.search {
-  border: 1px solid #d1d5db; /* Sert siyah çerçeveyi kaldırıp, yumuşak gri bir çerçeve ekliyoruz */
-  box-shadow: 0 1px 3px rgba(0,0,0,.05); /* Çok hafif bir gölge ekliyoruz */
-  transition: box-shadow .2s, border-color .2s;
-  height: 52px; /* Yüksekliği biraz azaltarak daha zarif hale getiriyoruz */
-}
-/* Arama çubuğuna tıklandığında (focus) daha belirgin hale gelmesi için */
-.search:focus-within {
-  border-color: #a5b4fc;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-}
-
-/* Arama butonunu Etsy'deki gibi içeriye gömülü hale getiriyoruz */
-.search button {
-  width: 48px;  /* Genişliği artırıyoruz */
-  height: 100%; /* Yüksekliği ebeveyni ile aynı yapıyoruz */
-  border-radius: 0 999px 999px 0; /* Sadece sağ kenarları yuvarlak yapıyoruz */
-  margin: -6px -8px -6px 0; /* Butonu sağa yaslamak için negatif margin kullanıyoruz */
-}
-
-/* --- 3. Kategori Menüsü --- */
-/* Etsy gibi, kategorileri sadece yazıdan oluşan sade bir menüye dönüştürüyoruz */
-.store-bar {
-  border-bottom: none; /* Altındaki çizgiyi tamamen kaldırıyoruz */
-  margin-top: 10px;    /* Üst kısımla arasına biraz daha boşluk ekliyoruz */
-  gap: 32px;           /* Linkler arasına daha fazla boşluk koyuyoruz */
-}
-/* Linklerin altındaki hover efektini marka rengimizle güncelliyoruz */
-.store-bar a:hover::after {
-  background: var(--rgztec); /* Siyah yerine turuncu çizgi */
-  bottom: -6px; /* Çizgiyi biraz daha aşağı alıyoruz */
-  height: 3px;  /* Çizgiyi daha belirgin yapıyoruz */
-}
-
-/* ===== GÜNCELLEMELER (BURADA BİTİYOR) ===== */
+  /* ===== Responsive ===== */
+  @media (max-width:1180px){ :root{ --searchw: 860px } }
+  @media (max-width:1040px){ :root{ --searchw: 720px } }
+  @media (max-width:900px){
+    :root{ --searchw: 100% }
+    .hdr{ grid-template-columns:1fr; row-gap:10px }
+    .icons a:not(.open-store){ display:none }
+    .search{ justify-self:stretch }
+    /* mobilde fazla kategori iki satıra düşsün ama hizası bozulmasın */
+    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
+    .store-bar a{ line-height:38px }
+  }
 </style>
 </head>
 <body>
 
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="./">RGZTEC</a>
-    <span id="studioName" class="studio">Dev One Studio</span>
+    <div class="hdr">
+      <!-- Sol: RGZTEC + yapışık mağaza pili -->
+      <div class="left">
+        <a class="brand" href="./">RGZTEC</a>
+        <span id="studioName" class="studio">Store</span>
+      </div>
 
-    <form class="search" onsubmit="return false;">
-      <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
-      <button type="submit" aria-label="Search" id="qBtn">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="11" cy="11" r="6"></circle>
-          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-        </svg>
-      </button>
-    </form>
+      <!-- Orta: Search -->
+      <form class="search" onsubmit="return false;">
+        <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
+        <button type="submit" aria-label="Search" id="qBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+        </button>
+      </form>
 
-    <nav class="icons" aria-label="Quick actions">
-      <a href="login" aria-label="Sign in">Sign in</a>
-      <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
-      <a href="cart" title="Cart" aria-label="Cart">🛒</a>
-      <a href="become-seller" class="open-store" aria-label="Open your store">Open your store</a>
-    </nav>
+      <!-- Sağ: Aksiyonlar -->
+      <nav class="icons" aria-label="Quick actions">
+        <a href="login" aria-label="Sign in">Sign in</a>
+        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
+        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
+        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+      </nav>
+    </div>
   </div>
 </header>
 
-<nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+<!-- KATEGORİLER (tam search genişliği) -->
+<div class="cats-wrap">
+  <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+</div>
 
 <main>
   <p class="empty">Page content starts here…</p>
@@ -159,41 +144,46 @@
 
 <script>
   const params = new URLSearchParams(location.search);
-  const storeSlug = (params.get('slug') || '').trim();
+  const slug = (params.get('slug') || '').trim();
+
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   (async function init(){
-    if (!storeSlug) return;
+    if (!slug) return;
 
     try {
-      // stores.json => pill title + renk
-      const sres = await fetch('data/stores.json', { cache: 'no-store' });
+      /* 1) stores.json => başlık + renk */
+      const sres = await fetch('data/stores.json', { cache:'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
-        const meta = stores.find(s => s.slug === storeSlug);
-        const el = document.getElementById('studioName');
+        const meta = stores.find(s => s.slug === slug);
+        const pill = document.getElementById('studioName');
+
         if (meta){
-          el.textContent = meta.name || meta.slug;
-          if (meta.color) el.style.background = meta.color;
+          pill.textContent = meta.name || meta.slug;
+          if (meta.color) pill.style.background = meta.color;  // mağaza rengi pille gelsin
           document.title = `RGZTEC • ${meta.name || meta.slug}`;
         } else {
-          el.textContent = storeSlug;
-          document.title = `RGZTEC • ${storeSlug}`;
+          pill.textContent = slug;
+          document.title = `RGZTEC • ${slug}`;
         }
       }
 
-      // store-content.json => kategoriler
-      const cres = await fetch('data/store-content.json', { cache: 'no-store' });
+      /* 2) store-content.json => kategoriler */
+      const cres = await fetch('data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
-        const entry = content[storeSlug] || {};
+        const entry = content[slug] || {};
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
-        document.getElementById('storeBar').innerHTML =
-          cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
+
+        const bar = document.getElementById('storeBar');
+        bar.innerHTML = cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length))); // kenardan kenara eşit dağıt
       }
     } catch(e){ console.warn(e); }
   })();
 </script>
 </body>
 </html>
+
 
