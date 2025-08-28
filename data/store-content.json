@@ -1,0 +1,92 @@
+{
+  "email-forge": {
+    "tagline": "Responsive MJML ve otomasyon odaklı e-posta şablonları.",
+    "categories": [
+      "Transactional",
+      "Marketing",
+      "Drip Flows",
+      "MJML Blocks",
+      "ESP Integrations"
+    ]
+  },
+  "icon-smith": {
+    "tagline": "Geliştiriciler için el işçiliği ikon setleri.",
+    "categories": [
+      "Outline",
+      "Solid",
+      "3D",
+      "Flags",
+      "Brand"
+    ]
+  },
+  "ai-tools-hub": {
+    "tagline": "LLM destekli script ve otomasyon kitleri.",
+    "categories": [
+      "Prompts",
+      "Agents",
+      "Integrations",
+      "Workflows",
+      "Analytics"
+    ]
+  },
+  "dev-studio-one": {
+    "tagline": "Modern HTML, CSS ve React starter’ları.",
+    "categories": [
+      "HTML Templates",
+      "React Components",
+      "Auth & API",
+      "Dashboards",
+      "E-commerce"
+    ]
+  },
+  "game-makers": {
+    "tagline": "Unity & Unreal oyun şablonları ve kitler.",
+    "categories": [
+      "Unity 2D",
+      "Unity 3D",
+      "Unreal",
+      "Controllers",
+      "VFX / SFX"
+    ]
+  },
+  "reactorium": {
+    "tagline": "React bileşenleri, tablolar ve grafikler.",
+    "categories": [
+      "UI Kit",
+      "Tables",
+      "Charts",
+      "Forms",
+      "Hooks"
+    ]
+  },
+  "tiny-js-lab": {
+    "tagline": "Küçük ama güçlü JavaScript yardımcıları.",
+    "categories": [
+      "Dates",
+      "Validation",
+      "Fetch",
+      "Storage",
+      "DOM Utils"
+    ]
+  },
+  "unity-hub": {
+    "tagline": "Unity eklentileri, prefablar ve template’ler.",
+    "categories": [
+      "2D Platformer",
+      "FPS",
+      "Racing",
+      "Multiplayer",
+      "VR / AR"
+    ]
+  },
+  "wp-plugins": {
+    "tagline": "Üretime hazır WordPress eklentileri.",
+    "categories": [
+      "SEO",
+      "Security",
+      "Performance",
+      "Forms",
+      "WooCommerce"
+    ]
+  }
+}
