@@ -1,285 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Store</title>
-  <link rel="stylesheet" href="../assets/styles.css" />
-  <style>
-    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
-    .hero{background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:24px;display:flex;gap:16px;align-items:center}
-    .badge{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:700}
-    .title{font-size:28px;font-weight:800;margin:0}
-    .desc{color:#475569;margin:6px 0 0}
-    .toolbar{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-    .toolbar input{flex:1 1 280px;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px}
-    .btn{padding:10px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
-    .btn.primary{background:#ff6a00;border-color:#ff6a00;color:#fff}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-top:22px}
-    .card{border:1px solid #e5e7eb;border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
-    .thumb{aspect-ratio:16/10;background:#f1f5f9}
-    .card-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-    .card h3{font-size:16px;margin:0}
-    .muted{color:#6b7280;font-size:13px}
-    .price{font-weight:700;margin-top:auto}
-    .empty{border:2px dashed #e5e7eb;border-radius:14px;padding:28px;text-align:center;color:#6b7280}
-    /* Modal */
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;padding:16px}
-    .modal.show{display:flex}
-    .sheet{background:#fff;max-width:560px;width:100%;border-radius:16px;padding:18px;border:1px solid #e5e7eb}
-    .sheet h2{margin:0 0 10px}
-    .form{display:grid;gap:10px;margin-top:6px}
-    .form input,.form textarea,.form select{padding:10px 12px;border:1px solid #e5e7eb;border-radius:10px;width:100%}
-    .row{display:flex;gap:10px}
-    .right{margin-left:auto}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Store</title>
+<meta name="description" content="Store page template. Header name changes by slug; categories and texts are store-specific."/>
+
+<style>
+  :root { --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#d1d5db;
+          --studio-bg:#1f2937; --rgztec:#f97316; --rgztec-dark:#ea580c; }
+  *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
+
+  /* Top bar (index.html ile uyumlu) */
+  .topbar{background:#fff;border-bottom:1px solid var(--line)}
+  .wrap{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px}
+  .brand{font-weight:800;font-size:22px;color:var(--rgztec);text-decoration:none}
+  .studio{font-weight:600;font-size:16px;background:var(--studio-bg);color:#fff;padding:4px 10px;border-radius:8px;line-height:1}
+  .search{flex:1;display:flex;gap:8px;max-width:760px;margin-left:6px;border:2px solid #111827;border-radius:999px;padding:6px 8px 6px 12px;background:#fff}
+  .search input{flex:1;border:0;outline:0;font-size:15px;padding:6px 8px}
+  .search button{border:0;background:none;color:var(--icon);font-size:16px;cursor:pointer;padding:0 10px}
+  .icons{display:flex;gap:14px;align-items:center}
+  .icons a{text-decoration:none;color:var(--icon);font-size:16px}
+  .open-store{background:var(--rgztec);color:#fff !important;font-weight:600;padding:7px 18px;border-radius:999px;box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .2s}
+  .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px);box-shadow:0 4px 6px rgba(0,0,0,.15)}
+
+  /* Üst açıklama (tagline) */
+  .intro{max-width:1200px;margin:14px auto 0;padding:0 16px;color:#475569;font-size:15px}
+
+  /* Kategoriler: mağazaya özel doldurulacak */
+  .categories{max-width:1200px;margin:8px auto 0;display:flex;justify-content:center;flex-wrap:wrap;gap:28px;padding:6px 16px 10px}
+  .categories a{color:var(--text);text-decoration:none;font-weight:500;font-size:15px;position:relative;padding:4px;transition:.2s}
+  .categories a:hover{color:var(--hover)}
+  .categories a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;background:transparent;transition:.2s}
+  .categories a:hover::after{background:var(--hover)}
+
+  .divider{border:none;border-top:1px solid var(--line);margin:10px 0 0;width:100%}
+
+  /* İçerik alanı şimdilik boş */
+  main{max-width:1200px;margin:20px auto;padding:16px}
+  .empty{border:2px dashed var(--line);border-radius:12px;padding:24px;text-align:center;color:#6b7280}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header class="hero">
-      <div id="storeBadge" class="badge">ST</div>
-      <div style="flex:1">
-        <h1 class="title" id="storeTitle">Store</h1>
-        <p class="desc" id="storeDesc">Loading…</p>
-        <div class="toolbar">
-          <input id="searchInput" placeholder="Search within this store…"/>
-          <button id="searchBtn" class="btn">Search</button>
-          <span class="right"></span>
-          <button id="addProductBtn" class="btn">Add Product</button>
-          <button id="openStoreBtn" class="btn primary">Open Store</button>
-        </div>
-      </div>
-    </header>
 
-    <section>
-      <h2 style="margin:22px 0 10px;font-size:20px">Products</h2>
-      <div id="productGrid" class="grid"></div>
-      <div id="emptyState" class="empty" style="display:none">
-        No products yet. Click <b>Add Product</b> to create one.
-      </div>
-    </section>
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./">RGZTEC</a>
+    <span id="studioName" class="studio">Store</span>
+    <form class="search" onsubmit="return false;">
+      <input type="search" placeholder="Search for anything" aria-label="Search"/>
+      <button type="submit" aria-label="Search">🔍</button>
+    </form>
+    <nav class="icons" aria-label="Quick actions">
+      <a href="login" aria-label="Sign in">Sign in</a>
+      <a href="cart" title="Cart" aria-label="Cart">🛒</a>
+      <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+    </nav>
   </div>
+</header>
 
-  <!-- Open Store Modal -->
-  <div id="storeModal" class="modal" aria-hidden="true">
-    <div class="sheet">
-      <h2>Open a New Store</h2>
-      <div class="form">
-        <input id="mStoreName" placeholder="Store name (e.g., WP Plugins)"/>
-        <input id="mStoreSlug" placeholder="Slug (e.g., wp-plugins)"/>
-        <textarea id="mStoreDesc" placeholder="Short description"></textarea>
-        <div class="row">
-          <input id="mStoreColor" type="color" value="#9333ea" style="width:120px"/>
-          <span class="muted" style="align-self:center">Pick a badge color</span>
-        </div>
-        <div class="row" style="justify-content:flex-end">
-          <button class="btn" id="mStoreCancel">Cancel</button>
-          <button class="btn primary" id="mStoreCreate">Create</button>
-        </div>
-      </div>
-    </div>
+<!-- Mağaza açıklaması (slug’a göre) -->
+<p id="intro" class="intro"></p>
+
+<!-- KATEGORİLER (slug’a göre) -->
+<nav id="catNav" class="categories" aria-label="Store Categories"></nav>
+
+<hr class="divider"/>
+
+<!-- İÇERİK – ŞİMDİLİK BOŞ -->
+<main>
+  <div class="empty">
+    This store has no products yet. Use <b>Open Store</b> or seller tools to add products here.
   </div>
+</main>
 
-  <!-- Add Product Modal -->
-  <div id="productModal" class="modal" aria-hidden="true">
-    <div class="sheet">
-      <h2>Add Product</h2>
-      <div class="form">
-        <input id="pStore" placeholder="Store slug (auto-filled)"/>
-        <input id="pTitle" placeholder="Product title"/>
-        <textarea id="pDesc" placeholder="Short description"></textarea>
-        <div class="row">
-          <input id="pPrice" type="number" step="0.01" placeholder="Price"/>
-          <select id="pCurrency">
-            <option>USD</option><option>EUR</option><option>TRY</option>
-          </select>
-        </div>
-        <input id="pImage" placeholder="Image path (e.g., images/placeholder.png)"/>
-        <div class="row" style="justify-content:flex-end">
-          <button class="btn" id="pCancel">Cancel</button>
-          <button class="btn primary" id="pCreate">Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Data files -->
-  <script src="../data/products.js"></script>
-  <script>
-    // ---------- Helpers ----------
-    const qs = s => document.querySelector(s);
-    const byId = id => document.getElementById(id);
+<script>
+  (async function () {
     const params = new URLSearchParams(location.search);
     const slug = (params.get('slug') || '').trim();
+    const nameEl = document.getElementById('studioName');
+    const introEl = document.getElementById('intro');
+    const catNav = document.getElementById('catNav');
 
-    const LS_STORES = 'rgz_stores_user';
-    const LS_PRODUCTS = 'rgz_products_user';
+    if (!slug) return; // slug yoksa varsayılan kalsın
 
-    const getUserStores = () => JSON.parse(localStorage.getItem(LS_STORES) || '[]');
-    const setUserStores = v => localStorage.setItem(LS_STORES, JSON.stringify(v));
-    const getUserProducts = () => JSON.parse(localStorage.getItem(LS_PRODUCTS) || '[]');
-    const setUserProducts = v => localStorage.setItem(LS_PRODUCTS, JSON.stringify(v));
+    try {
+      // 1) stores.json → başlık + renk
+      const sres = await fetch('data/stores.json', { cache: 'no-store' });
+      if (!sres.ok) throw new Error('stores.json not found');
+      const { stores = [] } = await sres.json();
+      const meta = stores.find(s => s.slug === slug);
 
-    const money = (n, c='USD') => `${c} ${Number(n).toFixed(2)}`;
-
-    // ---------- Load & Merge Store ----------
-    async function loadStoreMeta(slug){
-      // 1) static stores.json
-      const res = await fetch('../data/stores.json');
-      const json = await res.json();
-      const staticStore = (json.stores || []).find(s => s.slug === slug);
-
-      // 2) user stores (localStorage)
-      const userStore = getUserStores().find(s => s.slug === slug);
-
-      return userStore || staticStore || null;
-    }
-
-    // ---------- Load & Merge Products ----------
-    function loadProductsFor(slug){
-      // 1) static products from products.js (global const products)
-      const staticList = (Array.isArray(window.products) ? window.products : []).filter(p => p.store === slug);
-
-      // 2) user products from localStorage
-      const userList = getUserProducts().filter(p => p.store === slug);
-
-      return [...staticList, ...userList];
-    }
-
-    // ---------- Render ----------
-    function renderStoreHeader(meta){
-      if(!meta){ 
-        byId('storeTitle').textContent = 'Store not found';
-        byId('storeDesc').textContent = 'Check the slug in the URL.';
-        byId('storeBadge').style.background = '#9ca3af';
-        return;
+      if (meta) {
+        if (nameEl) {
+          nameEl.textContent = meta.name || meta.slug;
+          if (meta.color) nameEl.style.background = meta.color;
+        }
+        document.title = `RGZTEC • ${meta.name || meta.slug}`;
+      } else {
+        if (nameEl) nameEl.textContent = slug;
+        document.title = `RGZTEC • ${slug}`;
       }
-      byId('storeTitle').textContent = meta.name || meta.slug;
-      byId('storeDesc').textContent = meta.desc || '';
-      byId('storeBadge').style.background = meta.color || '#6366f1';
-      byId('storeBadge').textContent = (meta.name || meta.slug || 'ST').split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();
-    }
 
-    function renderProducts(list){
-      const grid = byId('productGrid');
-      grid.innerHTML = '';
-      if(!list.length){
-        byId('emptyState').style.display = 'block';
-        return;
+      // 2) store-content.json → tagline + categories
+      const cres = await fetch('data/store-content.json', { cache: 'no-store' });
+      if (cres.ok) {
+        const content = await cres.json();
+        const entry = content[slug];
+
+        // Tagline
+        introEl.textContent = (entry && entry.tagline) ? entry.tagline : (meta?.desc || '');
+
+        // Categories render
+        const cats = (entry && Array.isArray(entry.categories)) ? entry.categories : [];
+        catNav.innerHTML = cats.length
+          ? cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('')
+          : ''; // hiç yoksa boş bırak
+      } else {
+        // content dosyası yoksa, intro'ya desc yaz, kategorileri boş bırak
+        introEl.textContent = meta?.desc || '';
       }
-      byId('emptyState').style.display = 'none';
-      for(const p of list){
-        const el = document.createElement('article');
-        el.className = 'card';
-        el.innerHTML = `
-          <div class="thumb" style="background-image:url('${p.image||''}');background-size:cover;background-position:center"></div>
-          <div class="card-body">
-            <h3>${escapeHtml(p.title||'Untitled')}</h3>
-            <div class="muted">${escapeHtml(p.desc||'')}</div>
-            <div class="price">${money(p.price||0, p.currency||'USD')}</div>
-          </div>
-        `;
-        grid.appendChild(el);
-      }
+
+    } catch (e) {
+      console.warn(e);
     }
 
     function escapeHtml(s=''){
       return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
     }
-
-    // ---------- Search ----------
-    function applySearch(){
-      const q = byId('searchInput').value.toLowerCase();
-      const list = loadProductsFor(slug).filter(p =>
-        (p.title||'').toLowerCase().includes(q) ||
-        (p.desc||'').toLowerCase().includes(q)
-      );
-      renderProducts(list);
-    }
-
-    // ---------- Open Store Modal Logic ----------
-    function openStoreModal(show){
-      byId('storeModal').classList.toggle('show', !!show);
-    }
-    function openProductModal(show){
-      byId('productModal').classList.toggle('show', !!show);
-    }
-
-    // Prefill product modal store
-    function prefillProductModal(){
-      byId('pStore').value = slug || '';
-    }
-
-    // ---------- Create Store / Product ----------
-    function createStore(){
-      const name = byId('mStoreName').value.trim();
-      const s = byId('mStoreSlug').value.trim();
-      const desc = byId('mStoreDesc').value.trim();
-      const color = byId('mStoreColor').value;
-
-      if(!name || !s){ alert('Name and slug are required.'); return; }
-
-      // Uniqueness (local)
-      const all = getUserStores();
-      if(all.some(x => x.slug === s)){
-        alert('This slug already exists in your local stores.');
-        return;
-      }
-      all.push({slug:s, name, desc, color});
-      setUserStores(all);
-
-      openStoreModal(false);
-      location.href = `store.html?slug=${encodeURIComponent(s)}`;
-    }
-
-    function createProduct(){
-      const store = byId('pStore').value.trim();
-      const title = byId('pTitle').value.trim();
-      const desc = byId('pDesc').value.trim();
-      const price = parseFloat(byId('pPrice').value || '0');
-      const currency = byId('pCurrency').value || 'USD';
-      const image = byId('pImage').value.trim() || 'images/placeholder.png';
-
-      if(!store || !title){ alert('Store slug and title are required.'); return; }
-
-      const list = getUserProducts();
-      const id = `${store}-${Date.now()}`;
-      list.push({ id, store, title, desc, price, currency, image });
-      setUserProducts(list);
-
-      openProductModal(false);
-      // Re-render
-      renderProducts(loadProductsFor(slug));
-    }
-
-    // ---------- Init ----------
-    (async function init(){
-      if(!slug){
-        byId('storeTitle').textContent = 'Pick a store';
-        byId('storeDesc').textContent = 'Use the Open Store button to create one, or navigate with ?slug=...';
-        renderProducts([]);
-        return;
-      }
-
-      const meta = await loadStoreMeta(slug);
-      renderStoreHeader(meta);
-
-      const list = loadProductsFor(slug);
-      renderProducts(list);
-
-      // wire UI
-      byId('searchBtn').onclick = applySearch;
-      byId('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') applySearch(); });
-
-      byId('openStoreBtn').onclick = () => openStoreModal(true);
-      byId('mStoreCancel').onclick = () => openStoreModal(false);
-      byId('mStoreCreate').onclick = createStore;
-
-      byId('addProductBtn').onclick = () => { prefillProductModal(); openProductModal(true); };
-      byId('pCancel').onclick = () => openProductModal(false);
-      byId('pCreate').onclick = createProduct;
-    })();
-  </script>
+  })();
+</script>
 </body>
 </html>
