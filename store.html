@@ -11,7 +11,7 @@
     --searchw: 960px;           /* search + kategori bandı genişlik (AYNI) */
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b; --line:#e5e7eb;
     --rgztec:#f97316; --rgztec-dark:#ea580c;
-    --studio-bg:#22c3dc;        /* mağaza pili default (stores.json varsa override) */
+    --studio-bg:#22c3dc;        /* mağaza pili default (stores.json varsa onu basarız) */
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
@@ -19,17 +19,23 @@
   /* ===== HEADER ===== */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px}
+  .hdr{
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px;
+  }
 
-  /* Sol: RGZTEC + yapışık mağaza pili */
+  /* Sol grup: RGZTEC + pill */
   .left{ display:flex; align-items:center; gap:10px }
-  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
+  .brand{
+    font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none;
+  }
   .studio{
-    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
-    background:var(--studio-bg); padding:6px 12px; border-radius:999px;
+    white-space:nowrap; line-height:1;                /* asla 2 satır olmaz */
+    font-weight:800; font-size:15px; color:#fff;
+    background:var(--studio-bg);
+    padding:6px 12px; border-radius:999px;
     display:inline-flex; align-items:center;
     box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
-    transform:translateY(2px);
+    transform:translateY(2px);                         /* görsel hizalama */
   }
 
   /* SEARCH */
@@ -57,39 +63,28 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== KATEGORİ: search ile TAM hizalı; alt çizgi tam genişlik & daha kalın ===== */
-  .cats-wrap{
-    max-width:none;                 /* çizgi için full width kapsayıcı */
-    position:relative;
-  }
-  .cats-wrap::after{
-    content:"";
-    position:absolute; left:0; right:0; bottom:0;
-    height:2px;                      /* “biraz daha kalın” */
-    background:var(--line);
-  }
-
+  /* ===== KATEGORİ: search ile TAM hizalı, eşit kolonlar, tek çizgi ===== */
+  .cats-wrap{ max-width:var(--wrap); margin:0 auto }
   .store-bar{
-    --cols:5;                        /* JS gerçek sayıya çevirir */
+    --cols:5;                                            /* JS gerçek sayıya çeviriyor */
     width:var(--searchw); max-width:100%;
-    margin:6px auto 0;               /* search ile dengeli mesafe */
-    height:46px; padding:0;
+    margin:4px auto 0;                                   /* search’le 4px aralık */
+    height:44px; padding:0;
+    border-bottom:1px solid var(--line);
     display:grid; grid-template-columns:repeat(var(--cols),1fr);
     align-items:center; justify-items:center;
-    /* alt çizgi artık cats-wrap'ta; burada YOK */
-    border-bottom:none;
   }
   .store-bar a{
     width:100%; text-align:center;
     font-size:15px; font-weight:600; letter-spacing:.1px;
-    line-height:46px; color:var(--text); text-decoration:none;
+    line-height:44px; color:var(--text); text-decoration:none;
     transition:color .15s;
   }
   .store-bar a:hover{ color:var(--hover) }
 
-  /* ===== İçerik ===== */
+  /* ===== İçerik (boş placeholder gizli kalsın) ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ display:none; }            /* placeholder gizli */
+  .empty{ display:none; }
 
   /* ===== Responsive ===== */
   @media (max-width:1180px){ :root{ --searchw: 860px } }
@@ -99,6 +94,7 @@
     .hdr{ grid-template-columns:1fr; row-gap:10px }
     .icons a:not(.open-store){ display:none }
     .search{ justify-self:stretch }
+    /* mobilde fazla kategori iki satıra düşsün ama hizası bozulmasın */
     .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
   }
@@ -137,7 +133,7 @@
   </div>
 </header>
 
-<!-- KATEGORİLER (search genişliğinde merkezde) + full-width alt çizgi -->
+<!-- KATEGORİLER (tam search genişliği) -->
 <div class="cats-wrap">
   <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
