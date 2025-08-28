@@ -9,10 +9,10 @@
   :root{
     --wrap:    1280px;     /* sayfa ana genişlik */
     --rail-w:  980px;      /* arama + kategori bandı sabit genişlik */
-    --search-h:44px;       /* arama yüksekliği (incelttik) */
+    --search-h:44px;       /* arama yüksekliği (ince) */
 
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
-    --line:#e5e7eb; --line-strong:#cbd5e1; /* kategori alt çizgisi daha belirgin */
+    --line:#e5e7eb; --line-strong:#cbd5e1; /* kategori alt çizgisi */
     --rgztec:#f97316; --rgztec-dark:#ea580c;
     --studio-bg:#22c3dc; /* mağaza pili default (stores.json varsa override) */
   }
@@ -43,9 +43,9 @@
     height:var(--search-h); padding:6px 8px 6px 16px;
     border:2px solid #111827; border-radius:999px; background:#fff;
   }
-  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px } /* 16→15, incelttik */
+  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
   .search button{
-    display:grid; place-items:center; width:34px; height:34px; border-radius:999px; /* 36→34 */
+    display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
     border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
   }
   .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
@@ -62,16 +62,33 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== KATEGORİ: ray ile tam aynı genişlik, tek çizgi ve çok yakın ===== */
-  .cats-wrap{ max-width:var(--wrap); margin:0 auto }
+  /* ===== KATEGORİ =====
+     - Kategori linkleri RAY ile aynı genişlikte (.store-bar)
+     - ÇİZGİ ise TAM SAYFA: .cats-wrap::after ile çiziliyor
+  */
+  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
+  /* Tam sayfa alt çizgi (scrollbar genişliğini düşürerek taşmasız full-width) */
+  .cats-wrap::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0; /* kategori bloğunun altına yapışık */
+    width:calc(100vw - (100vw - 100%));
+    height:2px;
+    background:var(--line-strong);
+    pointer-events:none;
+  }
+
   .store-bar{
     --cols:5;
     width:var(--rail-w); max-width:100%;
-    margin:2px auto 0; /* aramaya 2px yaklaştırdık */
+    margin:2px auto 0;       /* aramaya 2px yakın */
     height:44px; padding:0;
-    border-bottom:2px solid var(--line-strong); /* daha belirgin çizgi */
+    border-bottom:none;      /* çizgiyi pseudo-element veriyor */
     display:grid; grid-template-columns:repeat(var(--cols),1fr);
     align-items:center; justify-items:center;
+    background:transparent;
   }
   .store-bar a{
     width:100%; text-align:center;
@@ -96,22 +113,6 @@
     .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
   }
-
-  /* === Only-line patch: tek, wrap genişliğinde çizgi; yapı aynen korunur === */
-  .cats-wrap { position: relative; }
-  .store-bar { border-bottom: 0; }                     /* alt çizgiyi bar’dan kaldır */
-  .cats-wrap::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:0;
-    width:min(100%, var(--wrap));                      /* wrap kadar */
-    height:2px;                                        /* istersen 3px yap */
-    background:var(--line-strong);
-    pointer-events:none;
-  }
-  /* === /Only-line patch === */
 </style>
 </head>
 <body>
