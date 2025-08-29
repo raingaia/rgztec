@@ -1,35 +1,29 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><title>Routing…</title></head>
-<body>
+<body> 
 <script>
 (function(){
+  // 1) Eğer doğrudan bir dosyaya gidiliyorsa (…/.html, .css, .js) ASLA yönlendirme yapma
+  if (/\.[a-zA-Z0-9]+$/.test(location.pathname)) return;
+
+  // 2) Repo alt-kökünü belirle (/rgztec/ gibi)
   function base(){
     const segs = location.pathname.split('/').filter(Boolean);
-    return (segs.length && segs[0] !== 'store' && segs[0] !== 'stores' && segs[0] !== 'data')
+    return (segs.length && !['store','stores','data'].includes(segs[0]))
       ? '/' + segs[0] + '/' : '/';
   }
-  const raw = location.pathname.replace(/\/+$/,'');
+
+  const raw  = location.pathname.replace(/\/+$/,'');
   const segs = raw.split('/').filter(Boolean);
-  const hasRepo = (segs.length && segs[0] !== 'store' && segs[0] !== 'stores' && segs[0] !== 'data');
+  const hasRepo = (segs.length && !['store','stores','data'].includes(segs[0]));
   const i = hasRepo ? 1 : 0;
   const b = base();
 
-  // /store/<slug>  -> store.html?slug=<slug>
-  if (segs[i] === 'store' && segs[i+1]) {
-    location.replace(b + 'store.html?slug=' + encodeURIComponent(segs[i+1])); return;
-  }
+  // 3) Sadece SPA yollarını çevir
+  if (segs[i] === 'store'  && segs[i+1]) { location.replace(b + 'store.html?slug=' + encodeURIComponent(segs[i+1])); return; }
+  if (segs[i] === 'stores' && segs[i+1] === 'open') { location.replace(b + 'open-store.html'); return; }
+  if (segs[i] === 'stores' && !segs[i+1]) { location.replace(b + 'stores/'); return; }
 
-  // /stores/open   -> open-store.html
-  if (segs[i] === 'stores' && segs[i+1] === 'open') {
-    location.replace(b + 'open-store.html'); return;
-  }
-
-  // /stores/       -> stores/ (liste)
-  if (segs[i] === 'stores' && !segs[i+1]) {
-    location.replace(b + 'stores/'); return;
-  }
-
-  // Kök değilse ana sayfaya
-  location.replace(b);
+  // Diğer her şey için hiç dokunma (index normal açılsın)
 })();
 </script>
 </body></html>
