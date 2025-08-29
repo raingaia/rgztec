@@ -1,70 +1,35 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8">
-<title>Redirecting…</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Routing…</title></head>
+<body>
 <script>
 (function(){
-  // /rgztec/ gibi repo alt-kökünü otomatik bul
   function base(){
-    const parts = location.pathname.split('/').filter(Boolean);
-    return (parts.length && parts[0] !== 'store' && parts[0] !== 'stores' && parts[0] !== 'data')
-      ? '/' + parts[0] + '/' : '/';
+    const segs = location.pathname.split('/').filter(Boolean);
+    return (segs.length && segs[0] !== 'store' && segs[0] !== 'stores' && segs[0] !== 'data')
+      ? '/' + segs[0] + '/' : '/';
+  }
+  const raw = location.pathname.replace(/\/+$/,'');
+  const segs = raw.split('/').filter(Boolean);
+  const hasRepo = (segs.length && segs[0] !== 'store' && segs[0] !== 'stores' && segs[0] !== 'data');
+  const i = hasRepo ? 1 : 0;
+  const b = base();
+
+  // /store/<slug>  -> store.html?slug=<slug>
+  if (segs[i] === 'store' && segs[i+1]) {
+    location.replace(b + 'store.html?slug=' + encodeURIComponent(segs[i+1])); return;
   }
 
-  // Yol çözümleyici: /store/<slug> ve /stores/open gibi yolları gerçek dosyalara çevirir
-  function route(){
-    const raw = location.pathname.replace(/\/+$/,'');
-    const segs = raw.split('/').filter(Boolean);
-
-    // repo alt kökü varsa (ör. rgztec) onu atla
-    const hasRepo = (segs.length && segs[0] !== 'store' && segs[0] !== 'stores' && segs[0] !== 'data');
-    const i = hasRepo ? 1 : 0;
-
-    const b = base();
-
-    // /store/<slug>  -> store.html?slug=<slug>
-    if (segs[i] === 'store' && segs[i+1]) {
-      location.replace(b + 'store.html?slug=' + encodeURIComponent(segs[i+1]));
-      return;
-    }
-
-    // /stores/open   -> open-store.html
-    if (segs[i] === 'stores' && segs[i+1] === 'open') {
-      location.replace(b + 'open-store.html');
-      return;
-    }
-
-    // /stores/       -> stores/ (liste sayfan)
-    if (segs[i] === 'stores' && !segs[i+1]) {
-      location.replace(b + 'stores/');
-      return;
-    }
+  // /stores/open   -> open-store.html
+  if (segs[i] === 'stores' && segs[i+1] === 'open') {
+    location.replace(b + 'open-store.html'); return;
   }
 
-  route();
-})();
-(function(){
-  function base(){
-    var p = location.pathname.split('/').filter(Boolean);
-    // Proje sayfası ise ilk parça repo adıdır (ör. rgztec)
-    if (p.length && p[0] !== 'store' && p[0] !== 'stores' && p[0] !== 'data' && !p[0].endsWith('.html')) {
-      return '/' + p[0] + '/';  // /rgztec/
-    }
-    return '/';
+  // /stores/       -> stores/ (liste)
+  if (segs[i] === 'stores' && !segs[i+1]) {
+    location.replace(b + 'stores/'); return;
   }
-  var p = location.pathname.replace(/\/+$/,'').split('/').filter(Boolean);
-  // /<repo?>/store/<slug>  veya  /<repo?>/stores/<slug>
-  var iStore  = p.indexOf('store');
-  var iStores = p.indexOf('stores');
-  var i = (iStore >= 0 ? iStore : iStores);
-  if (i >= 0 && p[i+1]) {
-    var slug = p[i+1];
-    location.replace(base() + 'store.html?slug=' + slug);
-    return;
-  }
-  // başka bir 404 ise ana sayfaya
-  location.replace(base());
+
+  // Kök değilse ana sayfaya
+  location.replace(b);
 })();
 </script>
-<noscript><meta http-equiv="refresh" content="0; url=./"></noscript>
-</head><body><p>Redirecting…</p></body></html>
+</body></html>
