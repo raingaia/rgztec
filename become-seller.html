@@ -31,17 +31,27 @@
   <!-- Header -->
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-line">
     <div class="wrap px-4 py-3 flex items-center gap-4">
-      <a id="linkHome" href="#" class="font-semibold tracking-tight text-lg">RGZTEC</a>
+      <a id="linkHome" href="#" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
+      <span class="hidden md:inline-flex items-center text-xs text-sub border-l border-line pl-3">Satıcı Kayıt • Mağaza Aç</span>
       <nav class="ml-auto flex items-center gap-3 text-sm">
         <a id="linkStores" class="text-sub hover:text-ink">Stores</a>
         <a id="linkOpen" class="text-sub hover:text-ink inline-flex items-center gap-1"><span>Open Store</span><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
       </nav>
     </div>
+    <div class="wrap px-4 pb-3">
+      <div class="flex items-center gap-4 text-sm text-sub overflow-x-auto">
+        <a href="#actions" class="hover:text-ink">Aksiyonlar</a>
+        <span class="select-none">•</span>
+        <a href="#fees" class="hover:text-ink">Ücretler</a>
+        <span class="select-none">•</span>
+        <a href="#faq" class="hover:text-ink">SSS</a>
+      </div>
+    </div>
   </header>
 
   <main>
     <!-- HERO -->
-    <section class="relative overflow-hidden">
+    <section id="hero" class="relative overflow-hidden">
       <div class="absolute inset-0 -z-10 bg-gradient-to-br from-brand-50 to-white"></div>
       <div class="wrap px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
         <div>
@@ -84,7 +94,7 @@
     </section>
 
     <!-- VALUE GRID -->
-    <section class="wrap px-4 py-12 md:py-16">
+    <section id="actions" class="wrap px-4 py-12 md:py-16">
       <div class="grid md:grid-cols-3 gap-5">
         <div class="p-6 border border-line rounded-2xl hover:shadow-soft transition">
           <div class="text-brand-700 font-semibold mb-1">1. Sign up</div>
@@ -105,7 +115,7 @@
     </section>
 
     <!-- FEES / PRICING CARD -->
-    <section class="wrap px-4">
+    <section id="fees" class="wrap px-4">
       <div class="p-6 md:p-8 border border-line rounded-3xl grid md:grid-cols-2 gap-8 items-center bg-white shadow-soft">
         <div>
           <h2 class="text-2xl font-bold tracking-tight">Clear fees, no surprises</h2>
@@ -151,7 +161,7 @@
     </section>
 
     <!-- FAQ -->
-    <section class="wrap px-4 pb-16">
+    <section id="faq" class="wrap px-4 pb-16">
       <h2 class="text-2xl font-bold tracking-tight">FAQ</h2>
       <div class="mt-4 divide-y divide-line">
         <details class="group py-3">
@@ -219,4 +229,3 @@
   </script>
 </body>
 </html>
-
