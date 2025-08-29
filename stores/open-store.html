@@ -42,10 +42,10 @@
   <!-- Top bar -->
   <header class="border-b border-line sticky top-0 bg-white/80 backdrop-blur z-40">
     <div class="wrap px-4 py-3 flex items-center gap-4">
-      <a href="/" class="font-semibold tracking-tight text-lg">RGZTEC</a>
+      <a id="linkHome" href="#" class="font-semibold tracking-tight text-lg">RGZTEC</a>
       <div class="ml-auto flex items-center gap-2">
-        <a href="/stores/" class="text-sm text-icon hover:text-text">Stores</a>
-        <a href="/store/new" class="text-sm text-icon hover:text-text">My Store</a>
+        <a id="linkStores" href="#" class="text-sm text-icon hover:text-text">Stores</a>
+        <a id="linkOpenStore" href="#" class="text-sm text-icon hover:text-text">Open Store</a>
       </div>
     </div>
   </header>
@@ -269,6 +269,16 @@
     const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
     const state = JSON.parse(localStorage.getItem('openStore')||'{}');
 
+    // Resolve base path whether deployed at / or /rgztec/
+    function base(){
+      const parts = location.pathname.split('/').filter(Boolean);
+      // If project lives under /<repo>/ (e.g., /rgztec/) return that as base
+      if(parts.length && parts[0] !== 'store' && parts[0] !== 'stores' && parts[0] !== 'data'){
+        return '/' + parts[0] + '/';
+      }
+      return '/';
+    }
+
     function save(part){
       localStorage.setItem('openStore', JSON.stringify(state));
       showToast(part? part+" saved" : 'Saved');
@@ -391,12 +401,18 @@
       localStorage.setItem('store:'+state.storeSlug, JSON.stringify(state));
       showToast('Published');
       // Redirect to your existing store page route
-      const base = location.pathname.split('/').includes('store') ? '/' : '/';
-      location.href = base + 'store.html?slug=' + encodeURIComponent(state.storeSlug);
+      location.href = base() + 'store.html?slug=' + encodeURIComponent(state.storeSlug);
     }
 
     // Init
     document.addEventListener('DOMContentLoaded', ()=>{
+      // set header links based on base path
+      const bh = base();
+      const home = $('#linkHome'); const stores = $('#linkStores'); const open = $('#linkOpenStore');
+      if(home) home.href = bh;
+      if(stores) stores.href = bh + 'stores/';
+      if(open) open.href = bh + 'open-store.html';
+
       // bind step 1
       bind('sellerName'); bind('sellerEmail'); bind('sellerPhone'); bind('sellerCountry');
       // step 2
