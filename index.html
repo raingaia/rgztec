@@ -179,6 +179,10 @@
     </nav>
   </div>
 </header>
+<!-- Open Store route (başta gizli) -->
+<section id="route-open-store" class="hidden">
+  <!-- Buraya benim hazırladığım Open Store wizard HTML'ini komple yapıştır -->
+</section>
 
 <section class="hero">
   <h1>Discover Amazing Stores</h1>
@@ -333,7 +337,21 @@
 </footer>
 
 <script>
-  // year
+// basit hash router
+function show(routeId){
+  document.querySelectorAll('[id^="route-"]').forEach(el=>el.classList.add('hidden'));
+  const el = document.getElementById(routeId);
+  if(el) el.classList.remove('hidden');
+}
+
+function resolve(){
+  const h = (location.hash || '').replace(/^#\/?/,''); // ör: "open-store"
+  if(h === 'open-store') return show('route-open-store');
+  // default: ana sayfa (route-home varsa onu göster, yoksa hepsini gizle)
+  show('route-home'); // yoksa bu satır opsiyonel
+}
+window.addEventListener('hashchange', resolve);
+document.addEventListener('DOMContentLoaded', resolve);
   document.getElementById('y').textContent = new Date().getFullYear();
   // header solid on scroll
   const header = document.getElementById('header');
