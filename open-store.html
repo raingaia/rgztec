@@ -50,9 +50,9 @@
           <p id="errEmail" class="mt-1 text-xs text-red-600 hidden">Please enter a valid email.</p>
         </label>
         <label class="block text-sm">Phone (optional)
-          <input id="sellerPhone" type="tel" inputmode="tel" placeholder="+1 415 555 0199"
+          <input id="sellerPhone" type="tel" inputmode="tel" placeholder="+1 555 0100 000"
                  class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
-          <p class="mt-1 text-xs text-gray-500">Use E.164 format if possible (e.g., +14155550199).</p>
+          <p class="mt-1 text-xs text-gray-500">Use E.164 format if possible (e.g., +15550100000). We don’t store this field locally.</p>
         </label>
         <label class="block text-sm">Country
           <select id="sellerCountry" class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
@@ -151,10 +151,10 @@ function refreshStep1(){
   b.disabled=!can; b.classList.toggle('opacity-50',!can); b.classList.toggle('cursor-not-allowed',!can);
 }
 function saveStep1(){
+  // privacy-first: phone is intentionally NOT persisted
   window.state=window.state||{};
   state.sellerName=trim($('#sellerName').value);
   state.sellerEmail=trim($('#sellerEmail').value);
-  state.sellerPhone=trim($('#sellerPhone').value);
   state.sellerCountry=$('#sellerCountry').value;
   localStorage.setItem('openStore',JSON.stringify(state));
 }
@@ -168,16 +168,24 @@ function refreshPayments(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
+  // optional clear shortcut: ?clear=1 wipes local state
+  const params = new URLSearchParams(location.search);
+  if (params.get('clear') === '1') { localStorage.removeItem('openStore'); }
+
+  // restore minimal state (no phone)
   try{
     const saved=JSON.parse(localStorage.getItem('openStore')||'{}');
     if(saved.sellerName)$('#sellerName').value=saved.sellerName;
     if(saved.sellerEmail)$('#sellerEmail').value=saved.sellerEmail;
-    if(saved.sellerPhone)$('#sellerPhone').value=saved.sellerPhone;
     if(saved.sellerCountry)$('#sellerCountry').value=saved.sellerCountry;
     window.state=saved;
   }catch(e){window.state={}}
 
-  ['sellerName','sellerEmail','sellerPhone','sellerCountry'].forEach(id=>{
+  // always blank out phone for privacy
+  const phoneEl = document.getElementById('sellerPhone');
+  if (phoneEl) phoneEl.value = '';
+
+  ['sellerName','sellerEmail','sellerCountry'].forEach(id=>{
     const el=document.getElementById(id);
     el&&el.addEventListener('input',refreshStep1);
     el&&el.addEventListener('blur',refreshStep1);
@@ -185,8 +193,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   $('#btnReset')?.addEventListener('click',()=>{
     localStorage.removeItem('openStore');
-    ['sellerName','sellerEmail','sellerPhone'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
+    ['sellerName','sellerEmail'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
     $('#sellerCountry').value='United States';
+    if (phoneEl) phoneEl.value = ''; // keep empty
     refreshStep1();
   });
 
