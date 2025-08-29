@@ -11,7 +11,8 @@
         extend: {
           colors: {
             brand: { 50:'#eef2ff',100:'#e0e7ff',200:'#c7d2fe',300:'#a5b4fc',400:'#818cf8',500:'#6366f1',600:'#4f46e5',700:'#4338ca',800:'#3730a3',900:'#312e81' },
-            ink:'#0b1220', sub:'#64748b', line:'#e5e7eb', card:'#0b122005'
+            ink:'#0b1220', sub:'#64748b', line:'#e5e7eb', card:'#0b122005',
+            accent: { 50:'#fff7ed',100:'#ffedd5',200:'#fed7aa',300:'#fdba74',400:'#fb923c',500:'#f97316',600:'#ea580c',700:'#c2410c',800:'#9a3412',900:'#7c2d12' }
           },
           boxShadow: {
             soft:'0 10px 30px rgba(0,0,0,.08)',
@@ -23,8 +24,10 @@
     }
   </script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap&subset=latin-ext');
     :root{ --wrap: 1200px }
     .wrap{ max-width: var(--wrap); margin-inline: auto }
+    body{ font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
   </style>
 </head>
 <body class="bg-white text-ink selection:bg-brand-200/70 selection:text-ink">
@@ -32,19 +35,19 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-line">
     <div class="wrap px-4 py-3 flex items-center gap-4">
       <a id="linkHome" href="#" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
-      <span class="hidden md:inline-flex items-center text-xs text-sub border-l border-line pl-3">Satıcı Kayıt • Mağaza Aç</span>
+      <span class="hidden md:inline-flex items-center text-xs text-sub border-l border-line pl-3">Seller Onboarding • Open a Store</span>
       <nav class="ml-auto flex items-center gap-3 text-sm">
-        <a id="linkStores" class="text-sub hover:text-ink">Stores</a>
-        <a id="linkOpen" class="text-sub hover:text-ink inline-flex items-center gap-1"><span>Open Store</span><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
+        <a id="linkStores" href="stores/" class="text-sub hover:text-ink">Stores</a>
+        <a id="linkOpen" href="open-store.html" class="text-sub hover:text-ink inline-flex items-center gap-1"><span>Open Store</span><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>
       </nav>
     </div>
     <div class="wrap px-4 pb-3">
       <div class="flex items-center gap-4 text-sm text-sub overflow-x-auto">
-        <a href="#actions" class="hover:text-ink">Aksiyonlar</a>
+        <a href="#actions" class="hover:text-ink">Steps</a>
         <span class="select-none">•</span>
-        <a href="#fees" class="hover:text-ink">Ücretler</a>
+        <a href="#fees" class="hover:text-ink">Fees</a>
         <span class="select-none">•</span>
-        <a href="#faq" class="hover:text-ink">SSS</a>
+        <a href="#faq" class="hover:text-ink">FAQ</a>
       </div>
     </div>
   </header>
@@ -62,7 +65,7 @@
           <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">Become a Seller on RGZTEC</h1>
           <p class="mt-4 text-lg text-sub max-w-xl">Launch your shop, connect payouts, and publish products — without code. Designed for developers, creators, and niche marketplaces.</p>
           <div class="mt-6 flex flex-wrap items-center gap-3">
-            <a id="ctaOpen" class="inline-flex items-center justify-center h-11 px-6 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">Get Started — Open Store</a>
+            <a id="ctaOpen" href="open-store.html" class=\"inline-flex items-center justify-center h-11 px-6 rounded-2xl bg-orange-600 text-white hover:bg-orange-700 shadow-soft\">Get Started — Open Store</a>
             <a id="ctaStores" class="h-11 px-5 rounded-2xl border border-line hover:bg-gray-50 inline-flex items-center">Explore Stores</a>
           </div>
           <div class="mt-6 flex items-center gap-6 text-xs text-sub">
@@ -187,7 +190,7 @@
         </details>
       </div>
       <div class="mt-6">
-        <a id="ctaBottom" class="inline-flex items-center justify-center h-11 px-6 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">Open Your Store</a>
+        <a id="ctaBottom" href="open-store.html" class=\"inline-flex items-center justify-center h-11 px-6 rounded-2xl bg-orange-600 text-white hover:bg-orange-700 shadow-soft\">Get Started — Open Store</a>
       </div>
     </section>
   </main>
@@ -227,5 +230,21 @@
       calc();
     });
   </script>
+<script>
+// Active subnav highlight on scroll
+(function(){
+  const hdrLinks = Array.from(document.querySelectorAll('header .wrap .flex a[href^="#"]'));
+  const ids = ['actions','fees','faq'];
+  const obs = new IntersectionObserver((entries)=>{
+    const visible = entries.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top)[0];
+    if(!visible) return;
+    const id = '#' + visible.target.id;
+    hdrLinks.forEach(a=>a.classList.remove('text-ink'));
+    const active = hdrLinks.find(a=>a.getAttribute('href')===id);
+    if(active) active.classList.add('text-ink');
+  },{rootMargin:'-40% 0px -55% 0px', threshold:0.01});
+  ids.forEach(id=>{ const el=document.getElementById(id); if(el) obs.observe(el); });
+})();
+</script>
 </body>
 </html>
