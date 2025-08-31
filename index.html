@@ -74,8 +74,10 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
 
 /* ===== SON ANA SAYFA DÜZENLEMELERİ (BURADAN BAŞLIYOR) ===== */
 
-/* --- 1. Filtrelerin Yeni Kurumsal Stili --- */
-/* "Balon" (chip) stilini kaldırıp yerine sade metin linkleri getiriyoruz. */
+/* --- 1. Filtrelerin Yeni Kurumsal Stili ve Hizalanması --- */
+.chips.wrap {
+  padding-left: 120px; /* Filtreleri "Categories" butonu ile hizalamak için eklendi */
+}
 .chip {
   height: auto;
   padding: 8px 4px;
@@ -110,12 +112,14 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
 }
 
 
-/* --- 2. Öne Çıkan Mağazaların Düzenlenmesi ve Canlandırılması --- */
+/* --- 2. Öne Çıkan Mağazaların Düzenlenmesi, Canlandırılması ve Noktaların Kaldırılması --- */
 .stores {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--tile), 1fr));
   overflow-x: visible;
-  padding-bottom: 20px;
+  padding: 8px 0 20px 0;
+  margin: 0;
+  list-style: none; /* Madde imi noktalarını kaldırır */
 }
 .store-tile {
   transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -128,9 +132,10 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
 }
 
 /* --- 3. Mobil Cihazlar İçin Hizalama Ayarı --- */
-/* Not: Filtre hizalaması için eklenen padding'e artık gerek kalmadı, bu yüzden sildik. */
 @media (max-width:780px) {
-  /* Bu bölüm mobildeki diğer özel kurallar için boş bırakıldı. */
+  .chips.wrap {
+    padding-left: 0; /* Mobilde hizalama sorun olmasın diye boşluğu sıfırlıyoruz */
+  }
 }
 
 /* ===== DÜZENLEMELER (BURADA BİTİYOR) ===== */
