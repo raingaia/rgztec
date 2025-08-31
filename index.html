@@ -21,9 +21,10 @@
     :root{ --wrap:1280px }
     .wrap{ max-width:var(--wrap); margin-inline:auto }
     .scrollbar-hide{ scrollbar-width:none } .scrollbar-hide::-webkit-scrollbar{ display:none }
+    body{ background: linear-gradient(180deg,#ffffff 0%,#fafafa 100%) fixed; }
   </style>
 </head>
-<body class="bg-white text-ink">
+<body class="text-ink">
 
   <!-- ===== HEADER ===== -->
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-line">
@@ -60,7 +61,7 @@
       </nav>
     </div>
 
-    <!-- Quick actions (clickable filter pills) -->
+    <!-- Quick actions -->
     <div class="border-t border-line">
       <div class="wrap px-4 py-2 flex gap-2 overflow-x-auto scrollbar-hide">
         <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=new">New</a>
@@ -81,21 +82,44 @@
   <!-- Categories Drawer -->
   <div id="drawer" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/30" id="drawerBack"></div>
-    <aside class="absolute left-0 top-0 h-full w-[320px] bg-white border-r border-line p-4 overflow-y-auto">
+    <aside class="absolute left-0 top-0 h-full w-[340px] bg-white border-r border-line p-4 overflow-y-auto">
       <div class="flex items-center justify-between">
-        <div class="font-semibold">Categories</div>
+        <div class="font-semibold">Browse categories</div>
         <button id="drawerClose" class="p-2 hover:bg-gray-50 rounded-lg">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
+
+      <!-- Primary -->
       <nav class="mt-3 grid gap-1 text-sm">
         <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=html-templates">HTML Templates</a>
         <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=react-components">React Components</a>
         <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=auth-api">Auth &amp; API</a>
         <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=dashboards">Dashboards</a>
         <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=ecommerce">E-commerce</a>
-        <div class="border-t border-line my-2"></div>
-        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="stores/">All stores</a>
+      </nav>
+
+      <div class="border-t border-line my-3"></div>
+
+      <!-- Extended -->
+      <div class="text-xs uppercase tracking-wide text-sub mb-1">More</div>
+      <nav class="grid gap-1 text-sm">
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=ai">AI tools</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=games">Games</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=unity">Unity</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=unreal">Unreal</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=icons">Icons</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=plugins">Plugins</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=wordpress">WordPress</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=js-utils">JavaScript Utils</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=branding">Branding & Assets</a>
+      </nav>
+
+      <div class="border-t border-line my-3"></div>
+
+      <nav class="grid gap-1 text-sm">
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="stores/">All stores</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="open-store.html">Open a store</a>
       </nav>
     </aside>
   </div>
@@ -121,6 +145,7 @@
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <!-- elegant placeholders -->
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
@@ -148,6 +173,7 @@
       <div>
         <div class="font-extrabold text-orange-600 text-lg">RGZTEC</div>
         <p class="text-sub mt-2">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
+        <p class="text-sub mt-2 text-xs">Built by <a href="#" class="text-ink hover:underline font-medium">RainGaia</a>.</p>
       </div>
       <div>
         <div class="font-semibold mb-2">Company</div>
@@ -205,10 +231,10 @@
     closeBtn?.addEventListener('click', closeDrawer);
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-    // ----- Featured stores (10 items, HQ cards, same line on xl) -----
+    // ----- Featured stores (10 items) -----
     const grid = document.getElementById('storeGrid');
 
-    // 10-item fallback including HTML Templates
+    // fallback (includes HTML Templates so we always have 10)
     const FALLBACK = [
       { slug: 'html-templates', name: 'HTML Templates', color: '#2563eb' },
       { slug: 'email-forge',    name: 'Email Forge',    color: '#ef4444' },
