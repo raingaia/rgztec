@@ -11,10 +11,10 @@
   --wrap:1280px; --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
   --brand:#f97316; --brand-dark:#ea580c;
-  --search-h:44px; --chip-h:36px; --tile:94px;
+  --search-h:44px; --chip-h:36px;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f8fafc}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
 
 /* ===== HEADER ===== */
@@ -27,30 +27,24 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color
 .search input{flex:1;border:0;outline:0;font-size:15px;padding:10px 8px;background:transparent}
 .go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
 .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;align-items:center;gap:10px}
+.hdr-right{display:flex;align-items:center;gap:12px}
 .icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:#fff}
 .pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
 .pill-open:hover{background:var(--brand-dark)}
 
 /* ===== CHIPS ===== */
-.chips{display:flex;gap:18px;flex-wrap:wrap;align-items:center;padding:8px 0 10px}
+.chips{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:12px 0 14px}
+.chip{color:var(--sub);font-weight:600;font-size:14px;text-decoration:none;transition:color .2s}
+.chip:hover{color:var(--brand)}
 .chips-divider{border-bottom:1.5px solid var(--line-strong);}
 
 /* ===== FEATURED ===== */
-.hero{background:linear-gradient(180deg,#eef2f7 0%,#ffffff 60%)}
-.section-h{font-weight:800;font-size:22px;margin:18px 0 8px}
+.section-h{font-weight:800;font-size:22px;margin:24px 0 12px}
 .stores::-webkit-scrollbar{height:8px}
-.store-tile{display:inline-flex;flex-direction:column;align-items:center;gap:8px;color:inherit;text-decoration:none;scroll-snap-align:start;white-space:nowrap}
-.badge{width:var(--tile);height:var(--tile);border-radius:24px;display:grid;place-items:center;
-  box-shadow:0 12px 24px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.55)}
-.letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.15)}
-.sname{font-size:12px;color:var(--sub);max-width:var(--tile);text-align:center;overflow:hidden;text-overflow:ellipsis}
 
 /* ===== GALLERY ===== */
 main{padding-bottom:28px}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8px}
-.card{height:180px;border-radius:18px;background:#eef2f7;border:1px solid #e9edf3;position:relative}
-.card::after{content:"";position:absolute;left:16px;right:16px;bottom:12px;height:10px;border-radius:8px;background:#dde3ec}
 
 /* ===== DRAWER ===== */
 .drawer{position:fixed;inset:0;display:none}
@@ -62,83 +56,100 @@ main{padding-bottom:28px}
 .panel a:hover{background:#f5f7fa}
 
 /* ===== FOOTER ===== */
-footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%);border-top:1px solid var(--line)}
-.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding:28px 0}
+footer{margin-top:40px;background:#fff;border-top:1px solid var(--line)}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding:32px 0}
 .foot h4{margin:0 0 8px;font-size:14px}
 .foot a{color:var(--sub);text-decoration:none;font-size:14px}
-.copy{border-top:1px solid var(--line);font-size:12px;color:var(--sub);padding:10px 0;text-align:center}
+.copy{border-top:1px solid var(--line);font-size:12px;color:var(--sub);padding:12px 0;text-align:center}
 
 @media (max-width:1024px){ .grid{grid-template-columns:repeat(3,1fr)} }
-@media (max-width:780px){ .hdr{grid-template-columns:1fr} .hdr-right{justify-content:flex-end} .grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:780px){ .hdr{grid-template-columns:auto auto;justify-content:space-between} .search{display:none} .grid{grid-template-columns:repeat(2,1fr)} }
 
 
-/* ===== SON ANA SAYFA DÜZENLEMELERİ (BURADAN BAŞLIYOR) ===== */
+/* ===== BÜYÜK TASARIM GÜNCELLEMESİ (BURADAN BAŞLIYOR) ===== */
 
-/* --- 1. Filtrelerin Yeni Kurumsal Stili ve Hizalanması --- */
-.chips.wrap {
-  padding-left: 120px; /* Filtreleri "Categories" butonu ile hizalamak için eklendi */
-}
-.chip {
-  height: auto;
-  padding: 8px 4px;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  color: var(--sub);
+/* --- 1. Header'a "Sign In" linki eklendi ve stili belirlendi --- */
+.signin-link {
+  color: var(--ink);
+  text-decoration: none;
   font-weight: 600;
   font-size: 14px;
-  position: relative;
+  white-space: nowrap;
+}
+.signin-link:hover {
+  color: var(--brand);
+}
+
+
+/* --- 2. Öne Çıkan Mağazalar ("Featured Stores") Yeniden Tasarlandı --- */
+/* Tek harfli kutular yerine, tam isimli, kaliteli, dikdörtgen kartlar ve yatay kaydırma */
+.stores {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 4px 24px 4px; /* Kartların gölgesi için boşluk */
+  margin: 0;
+  list-style: none; /* Noktaları kaldırır */
+}
+/* Yeni Kart Stili */
+.store-card-new {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Yazıyı aşağı yaslar */
+  flex-shrink: 0; /* Kartların küçülmesini engeller */
+  width: 150px;
+  height: 200px;
+  border-radius: 16px;
+  padding: 14px;
+  color: #fff;
   text-decoration: none;
-  transition: color .2s;
+  font-weight: 800;
+  box-shadow: 0 8px 20px -4px rgba(0,0,0,.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  scroll-snap-align: start;
 }
-.chip:hover {
-  color: var(--ink);
+/* Yeni "canlı" hover efekti */
+.store-card-new:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px -8px rgba(0,0,0,.2);
 }
-.chip::after {
+.store-card-name {
+  font-size: 17px;
+  line-height: 1.25;
+  text-shadow: 0 2px 4px rgba(0,0,0,.3);
+}
+
+/* --- 3. Boş Galeri Kartlarına "Canlılık" eklendi --- */
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+.card {
+  height: 220px; /* Diğer kartlarla daha uyumlu bir yükseklik */
+  border-radius: 16px;
+  background: #eef2f7;
+  border: 1px solid #e9edf3;
+  position: relative;
+  overflow: hidden; /* Animasyon için önemli */
+}
+/* Shimmer (parlama) efekti */
+.card::after {
   content: '';
   position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--brand);
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
-}
-.chip:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: shimmer 1.8s infinite linear;
 }
 
-
-/* --- 2. Öne Çıkan Mağazaların Düzenlenmesi, Canlandırılması ve Noktaların Kaldırılması --- */
-.stores {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--tile), 1fr));
-  overflow-x: visible;
-  padding: 8px 0 20px 0;
-  margin: 0;
-  list-style: none; /* Madde imi noktalarını kaldırır */
+/* --- 4. Genel Sayfa Düzenini Ferahlatma --- */
+.hero, main.wrap {
+  padding-top: 24px;
 }
-.store-tile {
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.chips.wrap {
+  padding-bottom: 16px;
 }
-.store-tile:hover {
-  transform: translateY(-6px) scale(1.02);
-}
-.store-tile:hover .badge {
-  box-shadow: 0 18px 32px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.55);
-}
-
-/* --- 3. Mobil Cihazlar İçin Hizalama Ayarı --- */
-@media (max-width:780px) {
-  .chips.wrap {
-    padding-left: 0; /* Mobilde hizalama sorun olmasın diye boşluğu sıfırlıyoruz */
-  }
-}
-
-/* ===== DÜZENLEMELER (BURADA BİTİYOR) ===== */
+/* ===== GÜNCELLEMELER (BURADA BİTİYOR) ===== */
 </style>
 </head>
 <body>
@@ -162,7 +173,7 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
       </form>
 
       <div class="hdr-right">
-        <button class="icon-btn" title="LinkedIn">in</button>
+        <a href="#" class="signin-link">Sign in</a>
         <button class="icon-btn" title="Gift">🎁</button>
         <button class="icon-btn" title="Cart">🛒</button>
         <a class="pill-open" href="open-store.html">Open Store</a>
@@ -185,15 +196,13 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap">
+<div class="wrap hero">
     <h2 class="section-h">Featured stores</h2>
     <ul id="storeRow" class="stores" aria-label="Featured stores"></ul>
-  </div>
-</section>
+</div>
 
 <main class="wrap">
-  <h2 class="section-h" style="margin-top:14px">Marketplace gallery</h2>
+  <h2 class="section-h">Marketplace gallery</h2>
   <div class="grid" id="gallery">
     <div class="card"></div><div class="card"></div><div class="card"></div><div class="card"></div>
     <div class="card"></div><div class="card"></div><div class="card"></div><div class="card"></div>
@@ -246,16 +255,9 @@ document.getElementById('y').textContent = new Date().getFullYear();
 
 /* vivid color map per store (keeps gradients consistent) */
 const COLOR = {
- 'html-templates':'#60a5fa',
- 'email-forge':'#ef4444',
- 'icon-smith':'#3b82f6',
- 'ai-tools-hub':'#a855f7',
- 'dev-studio-one':'#10b981',
- 'game-makers':'#f59e0b',
- 'reactorium':'#06b6d4',
- 'tiny-js-lab':'#84cc16',
- 'unity-hub':'#ef4444',
- 'wp-plugins':'#8b5cf6'
+ 'html-templates':'#60a5fa', 'email-forge':'#ef4444', 'icon-smith':'#3b82f6', 'ai-tools-hub':'#a855f7',
+ 'dev-studio-one':'#10b981', 'game-makers':'#f59e0b', 'reactorium':'#06b6d4', 'tiny-js-lab':'#84cc16',
+ 'unity-hub':'#ef4444', 'wp-plugins':'#8b5cf6'
 };
 function lighten(hex,p){
   const v=parseInt(hex.slice(1),16),
@@ -263,19 +265,21 @@ function lighten(hex,p){
   const L=(c)=>Math.min(255,Math.round(c+(255-c)*p));
   return `rgb(${L(r)},${L(g)},${L(b)})`;
 }
+
+// YENİ, DAHA KALİTELİ MAĞAZA KARTI OLUŞTURMA FONKSİYONU
 function tile(s){
-  const name=s.name||s.slug, letter=(name||'?')[0].toUpperCase();
-  const base=COLOR[s.slug]||s.color||'#60a5fa';
-  const t1=lighten(base,.45), t2=lighten(base,.22);
+  const name = s.name || s.slug;
+  const base = COLOR[s.slug] || s.color || '#60a5fa';
+  const t1 = lighten(base, .45);
+  const t2 = lighten(base, .22);
   return `<li>
-    <a class="store-tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
-      <div class="badge" style="background:radial-gradient(120% 120% at 30% 20%, ${t1} 0%, ${t2} 45%, ${base} 100%)">
-        <div class="letter">${letter}</div>
-      </div>
-      <div class="sname">${name}</div>
+    <a class="store-card-new" href="store.html?slug=${encodeURIComponent(s.slug)}"
+       style="background:radial-gradient(120% 120% at 30% 20%, ${t1} 0%, ${t2} 45%, ${base} 100%)">
+      <div class="store-card-name">${name}</div>
     </a>
   </li>`;
 }
+
 
 /* keep HTML Templates first; DO NOT pad with 'coming soon' */
 const ORDER=['html-templates','email-forge','icon-smith','ai-tools-hub','dev-studio-one','game-makers','reactorium','tiny-js-lab','unity-hub','wp-plugins'];
