@@ -21,10 +21,11 @@
     :root{ --wrap:1280px }
     .wrap{ max-width:var(--wrap); margin-inline:auto }
     .scrollbar-hide{ scrollbar-width:none } .scrollbar-hide::-webkit-scrollbar{ display:none }
-    body{ background: linear-gradient(180deg,#ffffff 0%,#fafafa 100%) fixed; }
+    /* Soft Amazon-like background (bir tık daha açık) */
+    body{ background:linear-gradient(180deg,#E6ECEF 0%,#F3F6F8 60%,#FFFFFF 100%) fixed }
   </style>
 </head>
-<body class="text-ink">
+<body class="bg-transparent text-ink">
 
   <!-- ===== HEADER ===== -->
   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-line">
@@ -32,13 +33,13 @@
       <!-- Logo -->
       <a href="index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
 
-      <!-- Categories (drawer trigger) -->
+      <!-- Categories -->
       <button id="btnCats" class="hidden md:inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl hover:bg-gray-50 border border-line">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <span>Categories</span>
       </button>
 
-      <!-- Search -->
+      <!-- Mega Search -->
       <form action="store.html" method="GET" role="search"
             class="flex-1 flex items-center gap-2 border border-line rounded-full bg-white pl-4 pr-2 h-11">
         <input name="q" type="search" placeholder="Search for anything" aria-label="Search"
@@ -53,28 +54,27 @@
       </form>
 
       <!-- Right actions -->
-      <nav class="ml-auto flex items-center gap-3">
+      <nav class="ml-auto flex items-center gap-2">
         <a href="login.html" class="hidden md:inline text-sm text-sub hover:text-ink">Sign in</a>
-        <a href="#" title="Gifts" aria-label="Gifts" class="text-lg">🎁</a>
-        <a href="cart.html" title="Cart" aria-label="Cart" class="text-lg">🛒</a>
+        <a href="#" class="hidden sm:inline-flex px-3 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm" title="Gifts" aria-label="Gifts">🎁</a>
+        <a href="cart.html" class="hidden sm:inline-flex px-3 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm" title="Cart" aria-label="Cart">🛒</a>
         <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-orange-600 text-white hover:bg-orange-700 shadow-soft text-sm">Open Store</a>
       </nav>
     </div>
 
-    <!-- Quick actions -->
-    <div class="border-t border-line">
-      <div class="wrap px-4 py-2 flex gap-2 overflow-x-auto scrollbar-hide">
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=new">New</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=trending">Trending</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=top">Top sellers</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=deals">Deals</a>
-        <span class="mx-2 text-line select-none">|</span>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=html-templates">HTML Templates</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=react-components">React</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=ai">AI</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=games">Games</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=icons">Icons</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=plugins">Plugins</a>
+    <!-- Quick filters (clickable chips) — çizgi YOK -->
+    <div>
+      <div class="wrap px-4 py-2 flex flex-wrap gap-3">
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=new">New</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=trending">Trending</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=top-sellers">Top sellers</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=deals">Deals</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=html-templates">HTML Templates</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=react">React</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=ai">AI</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=games">Games</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=icons">Icons</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=plugins">Plugins</a>
       </div>
     </div>
   </header>
@@ -82,135 +82,95 @@
   <!-- Categories Drawer -->
   <div id="drawer" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/30" id="drawerBack"></div>
-    <aside class="absolute left-0 top-0 h-full w-[340px] bg-white border-r border-line p-4 overflow-y-auto">
+    <aside class="absolute left-0 top-0 h-full w-[320px] bg-white border-r border-line p-4 overflow-y-auto">
       <div class="flex items-center justify-between">
-        <div class="font-semibold">Browse categories</div>
+        <div class="font-semibold">Categories</div>
         <button id="drawerClose" class="p-2 hover:bg-gray-50 rounded-lg">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
-
-      <!-- Primary -->
       <nav class="mt-3 grid gap-1 text-sm">
-        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=html-templates">HTML Templates</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=react-components">React Components</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=auth-api">Auth &amp; API</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=dashboards">Dashboards</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=ecommerce">E-commerce</a>
-      </nav>
-
-      <div class="border-t border-line my-3"></div>
-
-      <!-- Extended -->
-      <div class="text-xs uppercase tracking-wide text-sub mb-1">More</div>
-      <nav class="grid gap-1 text-sm">
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=ai">AI tools</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=games">Games</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=unity">Unity</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=unreal">Unreal</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=icons">Icons</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=plugins">Plugins</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=wordpress">WordPress</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=js-utils">JavaScript Utils</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=branding">Branding & Assets</a>
-      </nav>
-
-      <div class="border-t border-line my-3"></div>
-
-      <nav class="grid gap-1 text-sm">
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=html-templates">HTML Templates</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=react-components">React Components</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=auth-api">Auth &amp; API</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=dashboards">Dashboards</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=ecommerce">E-commerce</a>
+        <div class="border-t border-line my-2"></div>
         <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="stores/">All stores</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="open-store.html">Open a store</a>
       </nav>
     </aside>
   </div>
 
-  <!-- ===== FEATURED STORES ===== -->
-  <section class="wrap px-4 mt-6">
+  <!-- ===== FEATURED STRIP ===== -->
+  <section class="wrap px-4 mt-5">
     <div class="flex items-center justify-between">
       <h2 class="text-base font-semibold">Featured stores</h2>
       <a href="stores/" class="text-sm text-sub hover:text-ink">View all</a>
     </div>
 
-    <!-- 10 items same line on xl; responsive grid below -->
-    <div id="storeGrid" class="mt-3 grid gap-6 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
-      <!-- JS fills here -->
-    </div>
+    <div id="storeStrip" class="mt-3 flex gap-8 overflow-x-auto scrollbar-hide py-2"></div>
   </section>
 
-  <!-- ===== MARKETPLACE GALLERY ===== -->
-  <section class="wrap px-4 mt-10">
-    <div class="flex items-center justify-between mb-3">
-      <h2 class="text-base font-semibold">Marketplace gallery</h2>
-      <a href="open-store.html" class="text-sm text-orange-600 hover:text-orange-700">Submit your work →</a>
-    </div>
+  <!-- ===== MARKETPLACE GALLERY PLACEHOLDERS ===== -->
+  <section class="wrap px-4 my-8 grid gap-6 md:grid-cols-3">
+    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
+    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
+    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
+    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
+    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
+    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
+  </section>
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <!-- elegant placeholders -->
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
-    </div>
-
-    <!-- colored info strip -->
-    <div class="mt-6 p-4 rounded-2xl border border-orange-200 bg-orange-50 text-sm text-orange-700 flex items-start gap-3">
-      <span>🧩</span>
-      <p>Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM. Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.</p>
+  <!-- Creator note -->
+  <section class="wrap px-4">
+    <div class="p-4 rounded-2xl bg-orange-50 border border-orange-200 text-sm text-orange-900">
+      Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM.
+      Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.
     </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="mt-12 border-t border-line">
-    <div class="wrap px-4 py-10 grid gap-8 md:grid-cols-4 text-sm">
+  <footer class="mt-8 border-t border-line py-10">
+    <div class="wrap px-4 grid md:grid-cols-4 gap-8 text-sm">
       <div>
-        <div class="font-extrabold text-orange-600 text-lg">RGZTEC</div>
-        <p class="text-sub mt-2">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
-        <p class="text-sub mt-2 text-xs">Built by <a href="#" class="text-ink hover:underline font-medium">RainGaia</a>.</p>
+        <div class="font-extrabold text-orange-600">RGZTEC</div>
+        <p class="mt-2 text-sub">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
+        <p class="mt-3 text-xs text-sub">Built by <strong>RainGaia</strong>.</p>
       </div>
       <div>
         <div class="font-semibold mb-2">Company</div>
         <ul class="space-y-2 text-sub">
-          <li><a href="#" class="hover:text-ink">About</a></li>
-          <li><a href="#" class="hover:text-ink">Press</a></li>
-          <li><a href="#" class="hover:text-ink">Careers</a></li>
-          <li><a href="#" class="hover:text-ink">Contact</a></li>
+          <li><a class="hover:underline" href="#">About</a></li>
+          <li><a class="hover:underline" href="#">Press</a></li>
+          <li><a class="hover:underline" href="#">Careers</a></li>
+          <li><a class="hover:underline" href="#">Contact</a></li>
         </ul>
       </div>
       <div>
         <div class="font-semibold mb-2">For creators</div>
         <ul class="space-y-2 text-sub">
-          <li><a href="open-store.html" class="hover:text-ink">Open a store</a></li>
-          <li><a href="become-seller.html#fees" class="hover:text-ink">Fees & payouts</a></li>
-          <li><a href="#" class="hover:text-ink">Brand guidelines</a></li>
-          <li><a href="#" class="hover:text-ink">Support</a></li>
+          <li><a class="hover:underline" href="open-store.html">Open a store</a></li>
+          <li><a class="hover:underline" href="become-seller.html#fees">Fees &amp; payouts</a></li>
+          <li><a class="hover:underline" href="become-seller.html">Brand guidelines</a></li>
+          <li><a class="hover:underline" href="#">Support</a></li>
         </ul>
       </div>
       <div>
         <div class="font-semibold mb-2">Resources</div>
         <ul class="space-y-2 text-sub">
-          <li><a href="stores/" class="hover:text-ink">Browse stores</a></li>
-          <li><a href="#" class="hover:text-ink">API & docs</a></li>
-          <li><a href="#" class="hover:text-ink">Privacy policy</a></li>
-          <li><a href="#" class="hover:text-ink">Terms of use</a></li>
+          <li><a class="hover:underline" href="stores/">Browse stores</a></li>
+          <li><a class="hover:underline" href="#">API &amp; docs</a></li>
+          <li><a class="hover:underline" href="privacy.html">Privacy policy</a></li>
+          <li><a class="hover:underline" href="terms.html">Terms of use</a></li>
         </ul>
       </div>
     </div>
-    <div class="border-t border-line">
-      <div class="wrap px-4 py-6 text-xs text-sub flex items-center justify-between">
-        <span>© <span id="y"></span> RGZTEC — All rights reserved.</span>
-        <div class="flex items-center gap-4">
-          <a href="#" class="hover:text-ink">Twitter/X</a>
-          <a href="#" class="hover:text-ink">GitHub</a>
-          <a href="#" class="hover:text-ink">YouTube</a>
-        </div>
+    <div class="wrap px-4 mt-6 text-xs text-sub flex items-center justify-between">
+      <span>© <span id="y"></span> RGZTEC — All rights reserved.</span>
+      <div class="flex gap-4">
+        <a href="#" class="hover:underline">Twitter/X</a>
+        <a href="#" class="hover:underline">GitHub</a>
+        <a href="#" class="hover:underline">YouTube</a>
       </div>
     </div>
   </footer>
@@ -224,72 +184,60 @@
     const openBtn  = document.getElementById('btnCats');
     const back     = document.getElementById('drawerBack');
     const closeBtn = document.getElementById('drawerClose');
-    function openDrawer(){ drawer.classList.remove('hidden'); document.body.style.overflow='hidden'; }
-    function closeDrawer(){ drawer.classList.add('hidden'); document.body.style.overflow=''; }
+    const openDrawer  = ()=>{ drawer.classList.remove('hidden'); document.body.style.overflow='hidden' }
+    const closeDrawer = ()=>{ drawer.classList.add('hidden'); document.body.style.overflow='' }
     openBtn?.addEventListener('click', openDrawer);
     back?.addEventListener('click', closeDrawer);
     closeBtn?.addEventListener('click', closeDrawer);
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer() });
 
-    // ----- Featured stores (10 items) -----
-    const grid = document.getElementById('storeGrid');
+    // ----- Featured stores strip (always 10) -----
+    const strip = document.getElementById('storeStrip');
 
-    // fallback (includes HTML Templates so we always have 10)
     const FALLBACK = [
-      { slug: 'html-templates', name: 'HTML Templates', color: '#2563eb' },
-      { slug: 'email-forge',    name: 'Email Forge',    color: '#ef4444' },
-      { slug: 'icon-smith',     name: 'Icon Smith',     color: '#3b82f6' },
-      { slug: 'ai-tools-hub',   name: 'AI Tools Hub',   color: '#8b5cf6' },
-      { slug: 'dev-studio-one', name: 'Dev Studio One', color: '#10b981' },
-      { slug: 'game-makers',    name: 'Game Makers',    color: '#f59e0b' },
-      { slug: 'reactorium',     name: 'Reactorium',     color: '#06b6d4' },
-      { slug: 'tiny-js-lab',    name: 'Tiny JS Lab',    color: '#84cc16' },
-      { slug: 'unity-hub',      name: 'Unity Hub',      color: '#dc2626' },
-      { slug: 'wp-plugins',     name: 'WP Plugins',     color: '#9333ea' }
+      {slug:'html-templates', name:'HTML Templates', color:'#1D4ED8'},
+      {slug:'email-forge',    name:'Email Forge',    color:'#ef4444'},
+      {slug:'icon-smith',     name:'Icon Smith',     color:'#3b82f6'},
+      {slug:'ai-tools-hub',   name:'AI Tools Hub',   color:'#8b5cf6'},
+      {slug:'dev-studio-one', name:'Dev Studio One', color:'#10b981'},
+      {slug:'game-makers',    name:'Game Makers',    color:'#f59e0b'},
+      {slug:'reactorium',     name:'Reactorium',     color:'#06b6d4'},
+      {slug:'tiny-js-lab',    name:'Tiny JS Lab',    color:'#84cc16'},
+      {slug:'unity-hub',      name:'Unity Hub',      color:'#dc2626'},
+      {slug:'wp-plugins',     name:'WP Plugins',     color:'#9333ea'}
     ];
 
-    function normalizeStores(json) {
-      if (Array.isArray(json)) return json;
-      if (Array.isArray(json?.stores)) return json.stores;
-      if (json && typeof json === 'object') {
-        return Object.entries(json).map(([slug, v]) =>
-          typeof v === 'string' ? { slug, name: v } : { slug, ...v }
-        );
-      }
-      return [];
-    }
+    const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    const initial = s => (s||'')[0]?.toUpperCase() || '?';
 
-    function storeCard(s) {
-      const href  = `store.html?slug=${encodeURIComponent(s.slug)}`;
-      const name  = s.name || s.slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      const avatar = s.avatar || s.logo || s.image;
-      const color  = s.color || '#111827';
+    function tile(store){
+      const {slug,name,color} = store;
+      const link = `store.html?slug=${encodeURIComponent(slug)}`;
       return `
-        <a href="${href}" class="group block" title="${name}">
-          <div class="w-full aspect-square rounded-2xl border border-line bg-gray-100 overflow-hidden shadow-soft transition-transform duration-150 group-hover:-translate-y-0.5">
-            ${ avatar
-                ? `<img src="${avatar}" alt="${name}" loading="lazy" decoding="async" class="w-full h-full object-cover">`
-                : `<div class="w-full h-full grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>` }
+        <a href="${link}" class="group shrink-0 w-[100px]">
+          <div class="w-[100px] h-[100px] rounded-2xl overflow-hidden grid place-items-center"
+               style="background: radial-gradient(120px 120px at 30% 30%, rgba(255,255,255,.25), transparent 60%), ${color||'#94a3b8'};">
+            <span class="text-white text-2xl font-bold drop-shadow-sm">${initial(name)}</span>
           </div>
-          <div class="mt-2 text-center text-xs truncate">${name}</div>
+          <div class="mt-2 text-center text-xs truncate">${escapeHtml(name)}</div>
         </a>
       `;
     }
 
-    function render(list) {
-      const seen = new Set();
-      const unique = [];
-      (list && list.length ? list : FALLBACK).forEach(s=>{ if(!seen.has(s.slug)){ seen.add(s.slug); unique.push(s); }});
-      if(!seen.has('html-templates')) unique.unshift(FALLBACK[0]);
-      const items = unique.slice(0, 10);
-      grid.innerHTML = items.map(storeCard).join('');
-    }
+    function render(list){ strip.innerHTML = list.map(tile).join('') }
 
     fetch('data/stores.json')
-      .then(r => r.json())
-      .then(json => render(normalizeStores(json)))
-      .catch(() => render(FALLBACK));
+      .then(r=>r.ok ? r.json() : FALLBACK)
+      .then(data=>{
+        // data may be {stores:[...]} OR array; normalize
+        const arr = Array.isArray(data) ? data : Array.isArray(data?.stores) ? data.stores : [];
+        if(!arr.length){ render(FALLBACK); return; }
+        // order by FALLBACK slugs to guarantee 10 & alignment
+        const bySlug = Object.fromEntries(arr.map(s=>[s.slug,s]));
+        const ordered = FALLBACK.map(f=> ({...f, ...(bySlug[f.slug]||{})}));
+        render(ordered.slice(0,10));
+      })
+      .catch(()=> render(FALLBACK));
   </script>
 </body>
 </html>
-
