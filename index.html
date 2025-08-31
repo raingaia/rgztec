@@ -59,6 +59,23 @@
         <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-orange-600 text-white hover:bg-orange-700 shadow-soft text-sm">Open Store</a>
       </nav>
     </div>
+
+    <!-- Quick actions (clickable filter pills) -->
+    <div class="border-t border-line">
+      <div class="wrap px-4 py-2 flex gap-2 overflow-x-auto scrollbar-hide">
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=new">New</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=trending">Trending</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=top">Top sellers</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=deals">Deals</a>
+        <span class="mx-2 text-line select-none">|</span>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=html-templates">HTML Templates</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=react-components">React</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=ai">AI</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=games">Games</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=icons">Icons</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=plugins">Plugins</a>
+      </div>
+    </div>
   </header>
 
   <!-- Categories Drawer -->
@@ -72,13 +89,13 @@
         </button>
       </div>
       <nav class="mt-3 grid gap-1 text-sm">
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=html-templates">HTML Templates</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=react-components">React Components</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=auth-api">Auth &amp; API</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=dashboards">Dashboards</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=ecommerce">E-commerce</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=html-templates">HTML Templates</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=react-components">React Components</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=auth-api">Auth &amp; API</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=dashboards">Dashboards</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="store.html?tag=ecommerce">E-commerce</a>
         <div class="border-t border-line my-2"></div>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="stores/">All stores</a>
+        <a class="px-3 py-2 rounded-lg hover:bg-orange-50" href="stores/">All stores</a>
       </nav>
     </aside>
   </div>
@@ -90,23 +107,20 @@
       <a href="stores/" class="text-sm text-sub hover:text-ink">View all</a>
     </div>
 
-    <!-- horizontal scroll cards -->
-    <div id="storeStrip" class="mt-3 flex gap-8 overflow-x-auto scrollbar-hide py-2">
+    <!-- 10 items same line on xl; responsive grid below -->
+    <div id="storeGrid" class="mt-3 grid gap-6 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
       <!-- JS fills here -->
     </div>
   </section>
 
-  <!-- ===== MARKETPLACE GALLERY (for creators) ===== -->
+  <!-- ===== MARKETPLACE GALLERY ===== -->
   <section class="wrap px-4 mt-10">
     <div class="flex items-center justify-between mb-3">
       <h2 class="text-base font-semibold">Marketplace gallery</h2>
       <a href="open-store.html" class="text-sm text-orange-600 hover:text-orange-700">Submit your work →</a>
     </div>
 
-    <!-- responsive grid, creators will populate -->
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <!-- placeholders (16:9) -->
-      ${''/* 12 elegant placeholders to look professional */}
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
@@ -121,14 +135,14 @@
       <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
     </div>
 
-    <!-- info strip -->
-    <div class="mt-6 p-4 border border-line rounded-2xl text-sm text-sub">
-      Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM.  
-      Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.
+    <!-- colored info strip -->
+    <div class="mt-6 p-4 rounded-2xl border border-orange-200 bg-orange-50 text-sm text-orange-700 flex items-start gap-3">
+      <span>🧩</span>
+      <p>Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM. Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.</p>
     </div>
   </section>
 
-  <!-- ===== CORPORATE FOOTER ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="mt-12 border-t border-line">
     <div class="wrap px-4 py-10 grid gap-8 md:grid-cols-4 text-sm">
       <div>
@@ -191,8 +205,8 @@
     closeBtn?.addEventListener('click', closeDrawer);
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-    // ----- Featured stores (10 items, HQ cards) -----
-    const strip = document.getElementById('storeStrip');
+    // ----- Featured stores (10 items, HQ cards, same line on xl) -----
+    const grid = document.getElementById('storeGrid');
 
     // 10-item fallback including HTML Templates
     const FALLBACK = [
@@ -219,22 +233,17 @@
       return [];
     }
 
-    function storeTile(s) {
+    function storeCard(s) {
       const href  = `store.html?slug=${encodeURIComponent(s.slug)}`;
       const name  = s.name || s.slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       const avatar = s.avatar || s.logo || s.image;
       const color  = s.color || '#111827';
-
-      // bigger, HQ thumbnail; gentle hover
       return `
-        <a href="${href}" class="group shrink-0 w-[112px]" title="${name}">
-          <div class="w-[112px] aspect-square rounded-2xl border border-line bg-gray-100 overflow-hidden shadow-soft transition-transform duration-150 group-hover:-translate-y-0.5">
-            ${
-              avatar
-                ? `<img src="${avatar}" alt="${name}" loading="lazy" decoding="async"
-                        class="w-full h-full object-cover [image-rendering:auto]">`
-                : `<div class="w-full h-full grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>`
-            }
+        <a href="${href}" class="group block" title="${name}">
+          <div class="w-full aspect-square rounded-2xl border border-line bg-gray-100 overflow-hidden shadow-soft transition-transform duration-150 group-hover:-translate-y-0.5">
+            ${ avatar
+                ? `<img src="${avatar}" alt="${name}" loading="lazy" decoding="async" class="w-full h-full object-cover">`
+                : `<div class="w-full h-full grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>` }
           </div>
           <div class="mt-2 text-center text-xs truncate">${name}</div>
         </a>
@@ -242,16 +251,12 @@
     }
 
     function render(list) {
-      const unique = []; // ensure HTML Templates exists once
       const seen = new Set();
-      (list && list.length ? list : FALLBACK).forEach(s=>{
-        if(!seen.has(s.slug)){ seen.add(s.slug); unique.push(s); }
-      });
-      // ensure html-templates present
+      const unique = [];
+      (list && list.length ? list : FALLBACK).forEach(s=>{ if(!seen.has(s.slug)){ seen.add(s.slug); unique.push(s); }});
       if(!seen.has('html-templates')) unique.unshift(FALLBACK[0]);
-
       const items = unique.slice(0, 10);
-      strip.innerHTML = items.map(storeTile).join('');
+      grid.innerHTML = items.map(storeCard).join('');
     }
 
     fetch('data/stores.json')
