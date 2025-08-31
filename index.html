@@ -37,7 +37,7 @@
         <span>Categories</span>
       </button>
 
-      <!-- Mega Search -->
+      <!-- Search -->
       <form action="store.html" method="GET" role="search"
             class="flex-1 flex items-center gap-2 border border-line rounded-full bg-white pl-4 pr-2 h-11">
         <input name="q" type="search" placeholder="Search for anything" aria-label="Search"
@@ -51,10 +51,11 @@
         </button>
       </form>
 
-      <!-- Sağ aksiyonlar -->
-      <nav class="ml-auto flex items-center gap-2">
+      <!-- Right actions -->
+      <nav class="ml-auto flex items-center gap-3">
         <a href="login.html" class="hidden md:inline text-sm text-sub hover:text-ink">Sign in</a>
-        <a href="become-seller.html" class="hidden sm:inline-flex px-4 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm">Mağaza Kayıt</a>
+        <a href="#" title="Gifts" aria-label="Gifts" class="text-lg">🎁</a>
+        <a href="cart.html" title="Cart" aria-label="Cart" class="text-lg">🛒</a>
         <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-orange-600 text-white hover:bg-orange-700 shadow-soft text-sm">Open Store</a>
       </nav>
     </div>
@@ -82,31 +83,100 @@
     </aside>
   </div>
 
-  <!-- ===== MAĞAZALAR ŞERİDİ ===== -->
-  <section class="wrap px-4 mt-5">
+  <!-- ===== FEATURED STORES ===== -->
+  <section class="wrap px-4 mt-6">
     <div class="flex items-center justify-between">
-      <h2 class="text-base font-semibold">Öne çıkan mağazalar</h2>
-      <a href="stores/" class="text-sm text-sub hover:text-ink">Tümünü gör</a>
+      <h2 class="text-base font-semibold">Featured stores</h2>
+      <a href="stores/" class="text-sm text-sub hover:text-ink">View all</a>
     </div>
 
-    <!-- yatay kaydırmalı kare kartlar -->
-    <div id="storeStrip" class="mt-3 flex gap-12 overflow-x-auto scrollbar-hide py-2">
-      <!-- JS dolduracak -->
+    <!-- horizontal scroll cards -->
+    <div id="storeStrip" class="mt-3 flex gap-8 overflow-x-auto scrollbar-hide py-2">
+      <!-- JS fills here -->
     </div>
   </section>
 
-  <!-- (İsteğe bağlı) Alt bölümler -->
-  <section class="wrap px-4 my-8 space-y-6">
-    <div class="h-24 rounded-2xl border border-dashed border-line bg-gray-50"></div>
-    <div class="h-24 rounded-2xl border border-dashed border-line bg-gray-50"></div>
+  <!-- ===== MARKETPLACE GALLERY (for creators) ===== -->
+  <section class="wrap px-4 mt-10">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-base font-semibold">Marketplace gallery</h2>
+      <a href="open-store.html" class="text-sm text-orange-600 hover:text-orange-700">Submit your work →</a>
+    </div>
+
+    <!-- responsive grid, creators will populate -->
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <!-- placeholders (16:9) -->
+      ${''/* 12 elegant placeholders to look professional */}
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+      <div class="rounded-2xl border border-line bg-gray-50 overflow-hidden aspect-video"></div>
+    </div>
+
+    <!-- info strip -->
+    <div class="mt-6 p-4 border border-line rounded-2xl text-sm text-sub">
+      Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM.  
+      Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.
+    </div>
   </section>
 
-  <footer class="border-t border-line py-8 text-center text-sm text-sub">
-    © <span id="y"></span> RGZTEC — All rights reserved.
+  <!-- ===== CORPORATE FOOTER ===== -->
+  <footer class="mt-12 border-t border-line">
+    <div class="wrap px-4 py-10 grid gap-8 md:grid-cols-4 text-sm">
+      <div>
+        <div class="font-extrabold text-orange-600 text-lg">RGZTEC</div>
+        <p class="text-sub mt-2">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
+      </div>
+      <div>
+        <div class="font-semibold mb-2">Company</div>
+        <ul class="space-y-2 text-sub">
+          <li><a href="#" class="hover:text-ink">About</a></li>
+          <li><a href="#" class="hover:text-ink">Press</a></li>
+          <li><a href="#" class="hover:text-ink">Careers</a></li>
+          <li><a href="#" class="hover:text-ink">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold mb-2">For creators</div>
+        <ul class="space-y-2 text-sub">
+          <li><a href="open-store.html" class="hover:text-ink">Open a store</a></li>
+          <li><a href="become-seller.html#fees" class="hover:text-ink">Fees & payouts</a></li>
+          <li><a href="#" class="hover:text-ink">Brand guidelines</a></li>
+          <li><a href="#" class="hover:text-ink">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold mb-2">Resources</div>
+        <ul class="space-y-2 text-sub">
+          <li><a href="stores/" class="hover:text-ink">Browse stores</a></li>
+          <li><a href="#" class="hover:text-ink">API & docs</a></li>
+          <li><a href="#" class="hover:text-ink">Privacy policy</a></li>
+          <li><a href="#" class="hover:text-ink">Terms of use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-line">
+      <div class="wrap px-4 py-6 text-xs text-sub flex items-center justify-between">
+        <span>© <span id="y"></span> RGZTEC — All rights reserved.</span>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-ink">Twitter/X</a>
+          <a href="#" class="hover:text-ink">GitHub</a>
+          <a href="#" class="hover:text-ink">YouTube</a>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <script>
-    // yıl
+    // year
     document.getElementById('y').textContent = new Date().getFullYear();
 
     // Drawer
@@ -121,10 +191,10 @@
     closeBtn?.addEventListener('click', closeDrawer);
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-    // ----- Featured store strip (10 items) -----
+    // ----- Featured stores (10 items, HQ cards) -----
     const strip = document.getElementById('storeStrip');
 
-    // Fallback 10'luk liste (HTML Templates dahil)
+    // 10-item fallback including HTML Templates
     const FALLBACK = [
       { slug: 'html-templates', name: 'HTML Templates', color: '#2563eb' },
       { slug: 'email-forge',    name: 'Email Forge',    color: '#ef4444' },
@@ -150,18 +220,21 @@
     }
 
     function storeTile(s) {
-      // DOĞRUDAN store.html?slug=<slug> — boş sayfa olmaz
       const href  = `store.html?slug=${encodeURIComponent(s.slug)}`;
       const name  = s.name || s.slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       const avatar = s.avatar || s.logo || s.image;
       const color  = s.color || '#111827';
 
+      // bigger, HQ thumbnail; gentle hover
       return `
-        <a href="${href}" class="group shrink-0 w-[88px]" title="${name}">
-          <div class="w-[88px] h-[88px] rounded-2xl border border-line bg-gray-100 overflow-hidden grid place-items-center">
-            ${ avatar
-                ? `<img src="${avatar}" alt="${name}" class="w-full h-full object-cover">`
-                : `<div class="w-10 h-10 rounded-xl grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>` }
+        <a href="${href}" class="group shrink-0 w-[112px]" title="${name}">
+          <div class="w-[112px] aspect-square rounded-2xl border border-line bg-gray-100 overflow-hidden shadow-soft transition-transform duration-150 group-hover:-translate-y-0.5">
+            ${
+              avatar
+                ? `<img src="${avatar}" alt="${name}" loading="lazy" decoding="async"
+                        class="w-full h-full object-cover [image-rendering:auto]">`
+                : `<div class="w-full h-full grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>`
+            }
           </div>
           <div class="mt-2 text-center text-xs truncate">${name}</div>
         </a>
@@ -169,7 +242,15 @@
     }
 
     function render(list) {
-      const items = (list && list.length ? list : FALLBACK).slice(0, 10);
+      const unique = []; // ensure HTML Templates exists once
+      const seen = new Set();
+      (list && list.length ? list : FALLBACK).forEach(s=>{
+        if(!seen.has(s.slug)){ seen.add(s.slug); unique.push(s); }
+      });
+      // ensure html-templates present
+      if(!seen.has('html-templates')) unique.unshift(FALLBACK[0]);
+
+      const items = unique.slice(0, 10);
       strip.innerHTML = items.map(storeTile).join('');
     }
 
