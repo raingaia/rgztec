@@ -58,32 +58,24 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== KATEGORİ ===== */
+  /* ===== CATEGORIES ===== */
   .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
-
-  /* TAM SAYFA alt çizgi — full-bleed (negatif 50vw marjin) */
   .cats-wrap::after{
     content:"";
     position:absolute;
     left:50%;
     right:50%;
-    margin-left:-50vw;           /* sola taşır */
-    margin-right:-50vw;          /* sağa taşır */
-    bottom:0;
-    border-bottom:2px solid var(--line-strong);
-    height:0;
-    pointer-events:none;
+    margin-left:-50vw; margin-right:-50vw;
+    bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
   }
 
   .store-bar{
     --cols:5;
     width:var(--rail-w); max-width:100%;
-    margin:2px auto 0;           /* aramaya yakın */
-    height:44px; padding:0;
-    border-bottom:none;          /* çizgiyi pseudo-element veriyor */
+    margin:2px auto 0; height:44px; padding:0;
+    border-bottom:none;
     display:grid; grid-template-columns:repeat(var(--cols),1fr);
-    align-items:center; justify-items:center;
-    background:transparent;
+    align-items:center; justify-items:center; background:transparent;
   }
   .store-bar a{
     width:100%; text-align:center;
@@ -92,6 +84,9 @@
     transition:color .15s;
   }
   .store-bar a:hover{ color:var(--hover) }
+  .store-bar a.active, .store-bar a[aria-current="page"]{ /* ADDED */
+    color:var(--rgztec-dark); text-decoration:underline;
+  }
 
   /* ===== Content ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
@@ -121,7 +116,7 @@
       </div>
 
       <div class="rail">
-        <form class="search" onsubmit="return false;">
+        <form class="search" id="searchForm">
           <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
           <button type="submit" aria-label="Search" id="qBtn">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -154,12 +149,13 @@
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); // ADDED
 
   (async function init(){
     if (!slug) return;
 
     try {
-      /* 1) stores.json => başlık + renk */
+      /* 1) stores.json => title + color */
       const sres = await fetch('data/stores.json', { cache:'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
@@ -176,7 +172,7 @@
         }
       }
 
-      /* 2) store-content.json => kategoriler */
+      /* 2) store-content.json => categories */
       const cres = await fetch('data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
@@ -184,11 +180,44 @@
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
         const bar = document.getElementById('storeBar');
-        bar.innerHTML = cats.map(c => `<a href="#">${escapeHtml(c)}</a>`).join('');
+        // build links that keep the slug and deep-link by hash  // ADDED
+        bar.innerHTML = cats.map(c => {
+          const h = slugify(c);
+          const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
+          return `<a href="${href}" data-hash="${h}">${escapeHtml(c)}</a>`;
+        }).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
+
+        // activate current tab from ?cat= or location.hash            // ADDED
+        const fromParam = params.get('cat');
+        if (fromParam && !location.hash) {
+          location.hash = '#' + slugify(fromParam);
+        }
+        const current = (location.hash || '').replace('#','');
+        if (current) {
+          const active = bar.querySelector(`[data-hash="${CSS.escape(current)}"]`);
+          if (active){ active.classList.add('active'); active.setAttribute('aria-current','page'); }
+        }
+
+        // keep active state on click                                   // ADDED
+        bar.addEventListener('click', (e)=>{
+          const a = e.target.closest('a[href]');
+          if(!a) return;
+          bar.querySelectorAll('a').forEach(x=>{ x.classList.remove('active'); x.removeAttribute('aria-current'); });
+          a.classList.add('active'); a.setAttribute('aria-current','page');
+        });
       }
     } catch(e){ console.warn(e); }
   })();
+
+  // search keeps the current slug + hash                               // ADDED
+  document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const q = (document.getElementById('q')?.value || '').trim();
+    const hash = location.hash || '';
+    const url = `store.html?slug=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}${hash}`;
+    location.href = url;
+  });
 </script>
 </body>
 </html>
