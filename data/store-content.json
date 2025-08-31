@@ -1,4 +1,8 @@
 {
+  "html-templates": {
+    "tagline": "Polished HTML/CSS templates and starters.",
+    "categories": ["Landing Pages", "Portfolio", "Admin & Dashboards", "E-commerce", "Email Templates"]
+  },
   "email-forge": {
     "tagline": "Responsive MJML templates and automation-focused email kits.",
     "categories": ["Transactional", "Marketing", "Drip Flows", "MJML Blocks", "ESP Integrations"]
