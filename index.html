@@ -18,7 +18,7 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
 
 /* ===== HEADER ===== */
-.topbar{position:sticky;top:0;z-index:50;background:#fff;backdrop-filter:saturate(120%) blur(6px);border-bottom:1px solid var(--line)}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(120%) blur(6px);border-bottom:1px solid var(--line)}
 .hdr{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 0}
 .brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none}
 .btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
@@ -72,6 +72,58 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
 
 @media (max-width:1024px){ .grid{grid-template-columns:repeat(3,1fr)} }
 @media (max-width:780px){ .hdr{grid-template-columns:1fr} .hdr-right{justify-content:flex-end} .grid{grid-template-columns:repeat(2,1fr)} }
+
+
+/* ===== ANA SAYFA DÜZENLEMELERİ (BURADAN BAŞLIYOR) ===== */
+
+/* --- 1. Filtrelerin Arama Çubuğu Altına Hizalanması --- */
+/*
+  "New, Trending..." gibi filtreleri sola dayalı olmak yerine, 
+  arama çubuğuyla daha hizalı ve ilişkili görünmesi için 
+  içeriden bir boşluk vererek sağa kaydırıyoruz.
+*/
+.chips.wrap {
+  padding-left: 170px; /* Logo ve Kategori butonunun genişliğine göre ayarlandı */
+  padding-right: 0;
+}
+
+
+/* --- 2. Öne Çıkan Mağazaların Düzenlenmesi ve Canlandırılması --- */
+/*
+  Mağaza kutularının yatayda kayan yapısını kaldırıp,
+  ekran genişliğine göre kendini ayarlayan modern bir grid (ızgara)
+  yapısına geçiriyoruz. Bu sayede daha düzenli görünecekler.
+*/
+.stores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--tile), 1fr));
+  overflow-x: visible; /* Yatay kaydırmayı kapatıyoruz */
+  padding-bottom: 20px;
+}
+.store-tile {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Yumuşak geçiş efekti ekliyoruz */
+}
+
+/*
+  Mağaza kutularını "canlı" hale getirmek için, üzerlerine
+  fare ile gelince hafifçe büyüyen ve gölgesi artan şık bir
+  animasyon ekliyoruz.
+*/
+.store-tile:hover {
+  transform: translateY(-6px) scale(1.02); /* Kutu yukarı kalkıp hafifçe büyüsün */
+}
+.store-tile:hover .badge {
+  box-shadow: 0 18px 32px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.55); /* Gölge daha belirgin olsun */
+}
+
+/* --- Mobil Cihazlar İçin Hizalama Ayarı --- */
+@media (max-width:780px) {
+  .chips.wrap {
+    padding-left: 0; /* Mobilde hizalama sorun olmasın diye boşluğu sıfırlıyoruz */
+  }
+}
+
+/* ===== DÜZENLEMELER (BURADA BİTİYOR) ===== */
 </style>
 </head>
 <body>
@@ -102,7 +154,6 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
       </div>
     </div>
 
-    <!-- chips -->
     <nav class="chips wrap" aria-label="Quick filters" style="padding-left:0;padding-right:0">
       <a class="chip" href="store.html?tag=new">New</a>
       <a class="chip" href="store.html?tag=trending">Trending</a>
@@ -157,7 +208,6 @@ footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%
   <div class="copy">© <span id="y"></span> RGZTEC — All rights reserved.</div>
 </footer>
 
-<!-- Categories Drawer -->
 <div id="drawer" class="drawer" aria-hidden="true">
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
@@ -239,4 +289,3 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 </script>
 </body>
 </html>
-
