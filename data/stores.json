@@ -1,6 +1,12 @@
 {
   "stores": [
     {
+      "slug": "html-templates",
+      "name": "HTML Templates",
+      "desc": "Responsive HTML & MJML templates.",
+      "color": "#60a5fa"
+    },
+    {
       "slug": "email-forge",
       "name": "Email Forge",
       "desc": "Tools for automated email design and delivery.",
@@ -56,5 +62,6 @@
     }
   ]
 }
+
 
 
