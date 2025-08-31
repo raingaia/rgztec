@@ -104,7 +104,7 @@
 
     <!-- yatay kaydırmalı kare kartlar -->
     <div id="storeStrip" class="mt-3 flex gap-12 overflow-x-auto scrollbar-hide py-2">
-      <!-- JS dolduracak; yoksa placeholders -->
+      <!-- JS dolduracak -->
     </div>
   </section>
 
@@ -134,39 +134,64 @@
     closeBtn?.addEventListener('click', closeDrawer);
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-    // ----- Mağaza şeridi -----
+    // ----- Featured store strip (10 items, names + correct links) -----
     const strip = document.getElementById('storeStrip');
 
-    function storeTile(s, i){
-      const href = s ? `store.html?store=${encodeURIComponent(s.slug)}` : '#';
-      const title = s ? s.name : `Mağaza ${i}`;
-      const img = s?.avatar || '';
+    // Fallback list (10 adet, 'html-templates' dahil)
+    const FALLBACK = [
+      { slug: 'html-templates', name: 'HTML Templates', color: '#2563eb' },
+      { slug: 'email-forge',    name: 'Email Forge',    color: '#ef4444' },
+      { slug: 'icon-smith',     name: 'Icon Smith',     color: '#3b82f6' },
+      { slug: 'ai-tools-hub',   name: 'AI Tools Hub',   color: '#8b5cf6' },
+      { slug: 'dev-studio-one', name: 'Dev Studio One', color: '#10b981' },
+      { slug: 'game-makers',    name: 'Game Makers',    color: '#f59e0b' },
+      { slug: 'reactorium',     name: 'Reactorium',     color: '#06b6d4' },
+      { slug: 'tiny-js-lab',    name: 'Tiny JS Lab',    color: '#84cc16' },
+      { slug: 'unity-hub',      name: 'Unity Hub',      color: '#dc2626' },
+      { slug: 'wp-plugins',     name: 'WP Plugins',     color: '#9333ea' }
+    ];
+
+    // stores.json farklı şemalar için normalize
+    function normalizeStores(json) {
+      if (Array.isArray(json)) return json;
+      if (Array.isArray(json?.stores)) return json.stores;
+      if (json && typeof json === 'object') {
+        return Object.entries(json).map(([slug, v]) =>
+          typeof v === 'string' ? { slug, name: v } : { slug, ...v }
+        );
+      }
+      return [];
+    }
+
+    function storeTile(s) {
+      const href  = `stores/${encodeURIComponent(s.slug)}/`;  // folder-based mağaza sayfası (20 satırlık redirect ile uyumlu)
+      const name  = s.name || s.slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const avatar = s.avatar || s.logo || s.image;
+      const color  = s.color || '#111827';
+
       return `
-        <a href="${href}" class="group shrink-0 w-[88px]">
+        <a href="${href}" class="group shrink-0 w-[88px]" title="${name}">
           <div class="w-[88px] h-[88px] rounded-2xl border border-line bg-gray-100 overflow-hidden grid place-items-center">
-            ${img ? `<img src="${img}" alt="" class="w-full h-full object-cover">`
-                   : `<span class="text-xl text-sub">${i}</span>`}
+            ${
+              avatar
+                ? `<img src="${avatar}" alt="${name}" class="w-full h-full object-cover">`
+                : `<div class="w-10 h-10 rounded-xl grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>`
+            }
           </div>
-          <div class="mt-2 text-center text-xs truncate">${title}</div>
+          <div class="mt-2 text-center text-xs truncate">${name}</div>
         </a>
       `;
     }
 
-    function renderPlaceholders(){
-      strip.innerHTML = Array.from({length:9}, (_,k)=>storeTile(null, k+1)).join('');
+    function render(list) {
+      const items = (list && list.length ? list : FALLBACK).slice(0, 10); // tam 10 kutu
+      strip.innerHTML = items.map(storeTile).join('');
     }
 
     fetch('data/stores.json')
-      .then(r=>r.json())
-      .then(list=>{
-        if(Array.isArray(list) && list.length){
-          // ilk 12 mağazayı göster
-          strip.innerHTML = list.slice(0,12).map((s,i)=>storeTile(s,i+1)).join('');
-        } else {
-          renderPlaceholders();
-        }
-      })
-      .catch(()=> renderPlaceholders());
+      .then(r => r.json())
+      .then(json => render(normalizeStores(json)))
+      .catch(() => render(FALLBACK));
   </script>
 </body>
 </html>
