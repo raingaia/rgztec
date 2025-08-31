@@ -18,12 +18,10 @@
   }
   *{box-sizing:border-box}
   body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink); background:#fff}
-
-  /* ===== WRAP ===== */
   .wrap{max-width:var(--wrap); margin-inline:auto; padding-inline:16px}
 
-  /* ===== HEADER (dokunma: mevcut düzen korunur) ===== */
-  .top{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:saturate(1.2) blur(6px); border-bottom:1px solid transparent}
+  /* ===== HEADER (korundu) ===== */
+  .top{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:saturate(1.2) blur(6px)}
   .hdr{display:flex; align-items:center; gap:12px; height:64px}
   .brand{font-weight:900; color:var(--brand); text-decoration:none; font-size:22px; letter-spacing:.3px}
   .pill{display:inline-flex; align-items:center; gap:8px; height:36px; padding:0 14px; border:1px solid var(--line); border-radius:12px; background:#fff; cursor:pointer; font-weight:600}
@@ -35,17 +33,23 @@
   .ghost{display:grid; place-items:center; width:32px; height:32px; border:1px solid var(--line); border-radius:10px; background:#fff}
   .cta{display:inline-flex; align-items:center; justify-content:center; height:40px; padding:0 18px; border-radius:999px; background:var(--brand); color:#fff; font-weight:800; text-decoration:none}
 
-  /* ===== FILTER STRIP (yalnızca ALT çizgi) ===== */
+  /* Filters: üst çizgi yok, ALT çizgi var */
+  .filters-wrap{border-bottom:1px solid var(--line-strong)}
   .filters{display:flex; gap:10px; padding:10px 0 12px}
-  .chip{height:34px; padding:0 14px; border:1px solid var(--line); border-radius:100px; display:inline-flex; align-items:center; background:#fff; font-weight:600; font-size:14px}
-  .filters-wrap{border-bottom:1px solid var(--line-strong)} /* alt çizgi eklendi */
+  .chip{height:34px; padding:0 14px; border:1px solid var(--line); border-radius:100px; display:inline-flex; align-items:center; background:#fff; font-weight:600; font-size:14px; text-decoration:none; color:inherit}
 
-  /* ===== FEATURED STORES BAND ===== */
-  .band{background:linear-gradient(#f6f8fb, #ffffff 55%); /* yumuşak arkaplan */
-        /* üst çizgi YOK */ }
+  /* ===== CATEGORY DRAWER (geri eklendi) ===== */
+  .drawer{position:fixed; inset:0; z-index:60; display:none}
+  .drawer.show{display:block}
+  .shade{position:absolute; inset:0; background:rgba(0,0,0,.35)}
+  .panel{position:absolute; left:0; top:0; height:100%; width:320px; background:#fff; border-right:1px solid var(--line); padding:16px; overflow:auto}
+  .panel h4{margin:6px 0 10px; font-size:15px}
+  .link{display:block; padding:10px 12px; border-radius:10px; color:inherit; text-decoration:none}
+  .link:hover{background:#f6f7f9}
+
+  /* ===== FEATURED STORES ===== */
+  .band{background:linear-gradient(#f6f8fb, #ffffff 55%)}
   .band h3{margin:16px 0 10px; font-size:15px}
-
-  /* Mağaza kutuları grid – soldan başlar, sağda boşluk bırakmaz */
   .stores-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit, minmax(124px, 1fr));
@@ -56,14 +60,16 @@
   .blob{
     height:90px; border-radius:22px; display:grid; place-items:center;
     box-shadow:0 12px 22px rgba(16,24,40,.06), inset 0 -2px 0 rgba(0,0,0,.08);
-    background:#e5e7eb; /* JS ile gradyan set edilir */
+    background:#e5e7eb;
   }
   .letter{font-size:28px; font-weight:900; color:#fff; text-shadow:0 1px 0 rgba(0,0,0,.12)}
   .label{margin-top:8px; font-size:12px; text-align:center}
 
-  /* ===== GALLERY PLACEHOLDERS ===== */
+  /* ===== GALLERY ===== */
   .gallery{padding:16px 0 32px}
+  .gallery-head{display:flex; align-items:center; justify-content:space-between}
   .gallery h3{margin:8px 0 12px; font-size:15px}
+  .submit{color:var(--brand); text-decoration:none; font-size:14px}
   .cards{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -78,17 +84,17 @@
     border-radius:6px; background:#dde5ee;
   }
 
-  /* ===== FOOTER (değişmedi) ===== */
+  /* creators note (geri eklendi) */
+  .note{margin:20px 0; padding:12px 14px; border:1px solid #fed7aa; background:#fff7ed; color:#9a3412; border-radius:12px; font-size:13px}
+
+  /* ===== FOOTER ===== */
   footer{border-top:1px solid var(--line); padding:32px 0; color:var(--sub); font-size:14px}
   .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:24px}
   .foot h4{margin:0 0 10px; font-size:14px; color:#0f1626}
   .foot a{display:block; color:inherit; text-decoration:none; margin:6px 0}
   .muted{margin-top:16px; font-size:12px}
 
-  /* ===== Responsive ===== */
-  @media (max-width:1024px){
-    .cards{grid-template-columns:repeat(3,1fr)}
-  }
+  @media (max-width:1024px){ .cards{grid-template-columns:repeat(3,1fr)} }
   @media (max-width:768px){
     .hdr{flex-wrap:wrap; height:auto; gap:10px; padding:10px 0}
     .cards{grid-template-columns:repeat(2,1fr)}
@@ -101,16 +107,19 @@
 <div class="top">
   <div class="wrap hdr">
     <a class="brand" href="./">RGZTEC</a>
-    <button class="pill" type="button" aria-label="Categories">
+
+    <button id="openDrawer" class="pill" type="button" aria-label="Categories">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       <span>Categories</span>
     </button>
+
     <form class="search" role="search" onsubmit="location='store.html?q='+encodeURIComponent(q.value);return false;">
       <input id="q" name="q" type="search" placeholder="Search for anything" aria-label="Search">
       <button class="sbtn" type="submit" aria-label="Search">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
       </button>
     </form>
+
     <div class="icons">
       <a class="ghost" href="login" aria-label="Sign in">in</a>
       <a class="ghost" href="#" title="Gifts" aria-label="Gifts">🎁</a>
@@ -119,7 +128,7 @@
     </div>
   </div>
 
-  <!-- Filter chips + ALT çizgi -->
+  <!-- Filter chips (sadece ALT çizgi) -->
   <div class="wrap filters-wrap">
     <nav class="filters" aria-label="Filters">
       <a class="chip" href="store.html?tag=new">New</a>
@@ -136,7 +145,29 @@
   </div>
 </div>
 
-<!-- ===== FEATURED STORES ===== -->
+<!-- ===== CATEGORY DRAWER ===== -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div id="shade" class="shade" role="button" aria-label="Close"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <h4>Categories</h4>
+      <button id="closeDrawer" class="ghost" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <nav>
+      <a class="link" href="store.html?tag=html-templates">HTML Templates</a>
+      <a class="link" href="store.html?tag=react-components">React Components</a>
+      <a class="link" href="store.html?tag=auth-api">Auth &amp; API</a>
+      <a class="link" href="store.html?tag=dashboards">Dashboards</a>
+      <a class="link" href="store.html?tag=ecommerce">E-commerce</a>
+      <div style="border-top:1px solid var(--line); margin:8px 0"></div>
+      <a class="link" href="stores/">All stores</a>
+    </nav>
+  </aside>
+</div>
+
+<!-- ===== FEATURED STORES (sol hizalı, boşluksuz) ===== -->
 <section class="band">
   <div class="wrap">
     <h3>Featured stores</h3>
@@ -146,10 +177,19 @@
 
 <!-- ===== GALLERY ===== -->
 <section class="wrap gallery">
-  <h3>Marketplace gallery</h3>
+  <div class="gallery-head">
+    <h3>Marketplace gallery</h3>
+    <a class="submit" href="submit">Submit your work →</a>
+  </div>
+
   <div class="cards">
     <div class="card"></div><div class="card"></div><div class="card"></div><div class="card"></div>
     <div class="card"></div><div class="card"></div><div class="card"></div><div class="card"></div>
+  </div>
+
+  <div class="note">
+    Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM.
+    Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.
   </div>
 </section>
 
@@ -182,27 +222,34 @@
   const $ = s => document.querySelector(s);
   $('#year').textContent = new Date().getFullYear();
 
-  // light/darken helper
-  function tint(hex, amt=20){
-    hex = hex.replace('#','');
+  // Drawer controls (geri eklendi)
+  const drawer = $('#drawer'), openBtn = $('#openDrawer'), closeBtn = $('#closeDrawer'), shade = $('#shade');
+  const open = ()=>{ drawer.classList.add('show'); document.body.style.overflow='hidden'; };
+  const close= ()=>{ drawer.classList.remove('show'); document.body.style.overflow=''; };
+  openBtn?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', close);
+  shade?.addEventListener('click', close);
+  window.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+
+  // utility: lighten color
+  function tint(hex, amt=48){
+    hex = (hex||'#3b82f6').replace('#','');
     if(hex.length===3){ hex = hex.split('').map(c=>c+c).join(''); }
     const num = parseInt(hex,16);
-    let r = (num>>16) + amt, g = ((num>>8)&0x00FF) + amt, b = (num&0x0000FF) + amt;
-    r = Math.max(0, Math.min(255, r));
-    g = Math.max(0, Math.min(255, g));
-    b = Math.max(0, Math.min(255, b));
+    let r=(num>>16)+amt, g=((num>>8)&255)+amt, b=(num&255)+amt;
+    r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b));
     return '#'+(r<<16|g<<8|b).toString(16).padStart(6,'0');
   }
 
-  // Build featured stores from data/stores.json (html-templates dahil)
+  // Featured stores (10 kutu, html-templates dahil)
   async function buildStores(){
     try{
       const res = await fetch('data/stores.json', {cache:'no-store'});
       const {stores=[]} = await res.json();
-      const list = stores.slice(0, 10); // 10 kutu
-      const html = list.map(s=>{
+      const list = stores.slice(0, 10);
+      $('#stores').innerHTML = list.map(s=>{
         const c = s.color || '#3b82f6';
-        const c2 = tint(c, 48);
+        const c2 = tint(c, 56);
         const letter = (s.name||s.slug||'?').trim().charAt(0).toUpperCase();
         const bg = `
           radial-gradient(140px 120px at 28% 22%, rgba(255,255,255,.92) 0%, rgba(255,255,255,0) 60%),
@@ -214,18 +261,11 @@
               <div class="blob" style="background:${bg}"><span class="letter">${letter}</span></div>
               <div class="label">${s.name}</div>
             </a>
-          </li>
-        `;
+          </li>`;
       }).join('');
-      $('#stores').innerHTML = html;
     }catch(e){
       console.warn(e);
-      // graceful fallback (boş grid)
-      $('#stores').innerHTML = Array.from({length:10},(_,i)=>`
-        <li class="tile">
-          <div class="blob" style="background:linear-gradient(#dbeafe,#60a5fa)"><span class="letter">${i+1}</span></div>
-          <div class="label">Store ${i+1}</div>
-        </li>`).join('');
+      $('#stores').innerHTML = '';
     }
   }
   buildStores();
