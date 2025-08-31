@@ -31,13 +31,13 @@
       <!-- Logo -->
       <a href="index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
 
-      <!-- Categories -->
+      <!-- Categories (drawer trigger) -->
       <button id="btnCats" class="hidden md:inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl hover:bg-gray-50 border border-line">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         <span>Categories</span>
       </button>
 
-      <!-- Mega Search (uzun) -->
+      <!-- Mega Search -->
       <form action="store.html" method="GET" role="search"
             class="flex-1 flex items-center gap-2 border border-line rounded-full bg-white pl-4 pr-2 h-11">
         <input name="q" type="search" placeholder="Search for anything" aria-label="Search"
@@ -57,19 +57,6 @@
         <a href="become-seller.html" class="hidden sm:inline-flex px-4 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm">Mağaza Kayıt</a>
         <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-orange-600 text-white hover:bg-orange-700 shadow-soft text-sm">Open Store</a>
       </nav>
-    </div>
-
-    <!-- Sekme/katagori şeridi -->
-    <div class="border-t border-line">
-      <div class="wrap px-4 py-2 flex gap-6 text-sm overflow-x-auto scrollbar-hide">
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=html-templates">HTML Templates</a>
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=react-components">React Components</a>
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=auth-api">Auth &amp; API</a>
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=dashboards">Dashboards</a>
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=ecommerce">E-commerce</a>
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=icons">Icons</a>
-        <a class="whitespace-nowrap hover:underline" href="store.html?tag=plugins">Plugins</a>
-      </div>
     </div>
   </header>
 
@@ -108,7 +95,7 @@
     </div>
   </section>
 
-  <!-- (İsteğe bağlı) Alt bölümler için yer tutucu çizgiler -->
+  <!-- (İsteğe bağlı) Alt bölümler -->
   <section class="wrap px-4 my-8 space-y-6">
     <div class="h-24 rounded-2xl border border-dashed border-line bg-gray-50"></div>
     <div class="h-24 rounded-2xl border border-dashed border-line bg-gray-50"></div>
@@ -134,10 +121,10 @@
     closeBtn?.addEventListener('click', closeDrawer);
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-    // ----- Featured store strip (10 items, names + correct links) -----
+    // ----- Featured store strip (10 items) -----
     const strip = document.getElementById('storeStrip');
 
-    // Fallback list (10 adet, 'html-templates' dahil)
+    // Fallback 10'luk liste (HTML Templates dahil)
     const FALLBACK = [
       { slug: 'html-templates', name: 'HTML Templates', color: '#2563eb' },
       { slug: 'email-forge',    name: 'Email Forge',    color: '#ef4444' },
@@ -151,7 +138,6 @@
       { slug: 'wp-plugins',     name: 'WP Plugins',     color: '#9333ea' }
     ];
 
-    // stores.json farklı şemalar için normalize
     function normalizeStores(json) {
       if (Array.isArray(json)) return json;
       if (Array.isArray(json?.stores)) return json.stores;
@@ -164,7 +150,8 @@
     }
 
     function storeTile(s) {
-      const href  = `stores/${encodeURIComponent(s.slug)}/`;  // folder-based mağaza sayfası (20 satırlık redirect ile uyumlu)
+      // DOĞRUDAN store.html?slug=<slug> — boş sayfa olmaz
+      const href  = `store.html?slug=${encodeURIComponent(s.slug)}`;
       const name  = s.name || s.slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       const avatar = s.avatar || s.logo || s.image;
       const color  = s.color || '#111827';
@@ -172,11 +159,9 @@
       return `
         <a href="${href}" class="group shrink-0 w-[88px]" title="${name}">
           <div class="w-[88px] h-[88px] rounded-2xl border border-line bg-gray-100 overflow-hidden grid place-items-center">
-            ${
-              avatar
+            ${ avatar
                 ? `<img src="${avatar}" alt="${name}" class="w-full h-full object-cover">`
-                : `<div class="w-10 h-10 rounded-xl grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>`
-            }
+                : `<div class="w-10 h-10 rounded-xl grid place-items-center font-semibold text-white" style="background:${color}">${name.charAt(0)}</div>` }
           </div>
           <div class="mt-2 text-center text-xs truncate">${name}</div>
         </a>
@@ -184,7 +169,7 @@
     }
 
     function render(list) {
-      const items = (list && list.length ? list : FALLBACK).slice(0, 10); // tam 10 kutu
+      const items = (list && list.length ? list : FALLBACK).slice(0, 10);
       strip.innerHTML = items.map(storeTile).join('');
     }
 
