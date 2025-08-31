@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Home</title>
   <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
   <link rel="icon" href="images/favicon.png"/>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { line:'#e5e7eb', ink:'#0b1220', sub:'#64748b' },
-          boxShadow: { soft:'0 10px 30px rgba(0,0,0,.08)' }
+          colors: { line:'#e5e7eb', ink:'#0b1220', sub:'#64748b', brand:'#f97316' },
+          boxShadow:{ soft:'0 10px 30px rgba(0,0,0,.08)' }
         }
       }
     }
@@ -20,28 +21,34 @@
   <style>
     :root{ --wrap:1280px }
     .wrap{ max-width:var(--wrap); margin-inline:auto }
-    .scrollbar-hide{ scrollbar-width:none } .scrollbar-hide::-webkit-scrollbar{ display:none }
-    /* Soft Amazon-like background (bir tık daha açık) */
-    body{ background:linear-gradient(180deg,#E6ECEF 0%,#F3F6F8 60%,#FFFFFF 100%) fixed }
+    .no-scrollbar{ scrollbar-width:none } .no-scrollbar::-webkit-scrollbar{ display:none }
+    /* soft amazon-like canvas */
+    .canvas {
+      background:
+        radial-gradient(1200px 380px at 50% 0%, #e8eff2 0%, #eef3f6 40%, #f8fafb 70%, #ffffff 100%);
+    }
   </style>
 </head>
-<body class="bg-transparent text-ink">
+<body class="text-ink bg-white">
 
   <!-- ===== HEADER ===== -->
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-line">
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-[0_2px_10px_rgba(0,0,0,0.04)]">
     <div class="wrap px-4 py-3 flex items-center gap-3">
       <!-- Logo -->
-      <a href="index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
+      <a href="./" class="font-extrabold tracking-tight text-lg text-brand hover:text-[#ea580c]">RGZTEC</a>
 
-      <!-- Categories -->
-      <button id="btnCats" class="hidden md:inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl hover:bg-gray-50 border border-line">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <!-- Categories (drawer trigger) -->
+      <button id="btnCats"
+              class="hidden md:inline-flex items-center gap-2 text-sm px-3 h-10 rounded-xl border border-line hover:bg-gray-50">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
         <span>Categories</span>
       </button>
 
-      <!-- Mega Search -->
+      <!-- Search -->
       <form action="store.html" method="GET" role="search"
-            class="flex-1 flex items-center gap-2 border border-line rounded-full bg-white pl-4 pr-2 h-11">
+            class="flex-1 flex items-center gap-2 rounded-full bg-white border border-line pl-4 pr-2 h-11">
         <input name="q" type="search" placeholder="Search for anything" aria-label="Search"
                class="flex-1 h-full outline-none bg-transparent text-[15px]"/>
         <button type="submit" aria-label="Search"
@@ -56,25 +63,27 @@
       <!-- Right actions -->
       <nav class="ml-auto flex items-center gap-2">
         <a href="login.html" class="hidden md:inline text-sm text-sub hover:text-ink">Sign in</a>
-        <a href="#" class="hidden sm:inline-flex px-3 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm" title="Gifts" aria-label="Gifts">🎁</a>
-        <a href="cart.html" class="hidden sm:inline-flex px-3 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm" title="Cart" aria-label="Cart">🛒</a>
-        <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-orange-600 text-white hover:bg-orange-700 shadow-soft text-sm">Open Store</a>
+        <a href="#" class="hidden sm:inline text-lg" title="Gifts" aria-label="Gifts">🎁</a>
+        <a href="cart.html" class="hidden sm:inline text-lg" title="Cart" aria-label="Cart">🛒</a>
+        <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-brand text-white hover:bg-[#ea580c] shadow-soft text-sm">
+          Open Store
+        </a>
       </nav>
     </div>
 
-    <!-- Quick filters (clickable chips) — çizgi YOK -->
-    <div>
-      <div class="wrap px-4 py-2 flex flex-wrap gap-3">
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=new">New</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=trending">Trending</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=top-sellers">Top sellers</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=deals">Deals</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=html-templates">HTML Templates</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=react">React</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=ai">AI</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=games">Games</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=icons">Icons</a>
-        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line bg-white hover:bg-gray-50 text-sm" href="store.html?tag=plugins">Plugins</a>
+    <!-- Action chips (no dividing line) -->
+    <div class="wrap px-4 pb-3">
+      <div class="flex flex-wrap gap-3">
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=new">New</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=trending">Trending</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=top-sellers">Top sellers</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=deals">Deals</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=html-templates">HTML Templates</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=react">React</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=ai">AI</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=games">Games</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=icons">Icons</a>
+        <a class="px-3 h-8 inline-flex items-center rounded-full border border-line hover:bg-gray-50 text-sm" href="store.html?tag=plugins">Plugins</a>
       </div>
     </div>
   </header>
@@ -101,76 +110,100 @@
     </aside>
   </div>
 
-  <!-- ===== FEATURED STRIP ===== -->
-  <section class="wrap px-4 mt-5">
-    <div class="flex items-center justify-between">
-      <h2 class="text-base font-semibold">Featured stores</h2>
-      <a href="stores/" class="text-sm text-sub hover:text-ink">View all</a>
-    </div>
+  <!-- ===== SURFACE (amazon-like soft background) ===== -->
+  <div class="canvas">
+    <!-- ===== FEATURED STORES ===== -->
+    <section class="wrap px-4 pt-6">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-base font-semibold">Featured stores</h2>
+        <a href="stores/" class="text-sm text-sub hover:text-ink">View all</a>
+      </div>
 
-    <div id="storeStrip" class="mt-3 flex gap-8 overflow-x-auto scrollbar-hide py-2"></div>
-  </section>
+      <!-- fixed single row of 10 items -->
+      <div id="storeRow"
+           class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-x-6 gap-y-3">
+        <!-- JS will render 10 tiles -->
+      </div>
+    </section>
 
-  <!-- ===== MARKETPLACE GALLERY PLACEHOLDERS ===== -->
-  <section class="wrap px-4 my-8 grid gap-6 md:grid-cols-3">
-    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
-    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
-    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
-    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
-    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
-    <div class="h-40 rounded-2xl border border-dashed border-line bg-white/60"></div>
-  </section>
+    <!-- ===== MARKETPLACE GALLERY (dense, not 16:9) ===== -->
+    <section class="wrap px-4 mt-8">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-semibold">Marketplace gallery</h3>
+        <a href="open-store.html" class="text-sm text-brand hover:underline">Submit your work →</a>
+      </div>
 
-  <!-- Creator note -->
-  <section class="wrap px-4">
-    <div class="p-4 rounded-2xl bg-orange-50 border border-orange-200 text-sm text-orange-900">
-      Creators can upload previews, product shots, and animations here. Accepted formats: PNG, JPG, MP4, WebM.
-      Keep assets 16:9 or 4:5, min width 1200px. Branding guidelines and templates are available in the seller docs.
-    </div>
-  </section>
+      <!-- dense grid: many smaller slots -->
+      <div class="mt-3 grid gap-4
+                  grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        <!-- 18 lightweight placeholders -->
+        <!-- aspect-[3/2] yields compact cards; feel free to replace with real content -->
+        <template id="ph">
+          <div class="rounded-2xl border border-line bg-white/70 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)]">
+            <div class="aspect-[3/2] rounded-t-2xl bg-gray-100"></div>
+            <div class="p-3">
+              <div class="h-3 w-2/3 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- info band -->
+      <div class="mt-6 p-4 rounded-2xl border border-[#ffd8b4] bg-[#fff4e9] text-sm text-[#8a4b10]">
+        Creators can upload previews, product shots, and animations here.
+        Accepted formats: PNG, JPG, MP4, WebM. Keep assets 16:9 or 4:5, min width 1200px.
+        Branding guidelines and templates are available in the seller docs.
+      </div>
+    </section>
+  </div>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="mt-8 border-t border-line py-10">
-    <div class="wrap px-4 grid md:grid-cols-4 gap-8 text-sm">
+  <footer class="mt-10 border-t border-line/70 bg-white">
+    <div class="wrap px-4 py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
       <div>
-        <div class="font-extrabold text-orange-600">RGZTEC</div>
+        <div class="text-lg font-extrabold text-brand">RGZTEC</div>
         <p class="mt-2 text-sub">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
-        <p class="mt-3 text-xs text-sub">Built by <strong>RainGaia</strong>.</p>
+        <p class="mt-3 text-sm text-sub">Built by <strong>RAINGAIA LLC</strong>.</p>
       </div>
+
       <div>
         <div class="font-semibold mb-2">Company</div>
-        <ul class="space-y-2 text-sub">
-          <li><a class="hover:underline" href="#">About</a></li>
-          <li><a class="hover:underline" href="#">Press</a></li>
-          <li><a class="hover:underline" href="#">Careers</a></li>
-          <li><a class="hover:underline" href="#">Contact</a></li>
+        <ul class="space-y-2 text-sub text-sm">
+          <li><a class="hover:text-ink" href="#">About</a></li>
+          <li><a class="hover:text-ink" href="#">Press</a></li>
+          <li><a class="hover:text-ink" href="#">Careers</a></li>
+          <li><a class="hover:text-ink" href="#">Contact</a></li>
         </ul>
       </div>
+
       <div>
         <div class="font-semibold mb-2">For creators</div>
-        <ul class="space-y-2 text-sub">
-          <li><a class="hover:underline" href="open-store.html">Open a store</a></li>
-          <li><a class="hover:underline" href="become-seller.html#fees">Fees &amp; payouts</a></li>
-          <li><a class="hover:underline" href="become-seller.html">Brand guidelines</a></li>
-          <li><a class="hover:underline" href="#">Support</a></li>
+        <ul class="space-y-2 text-sub text-sm">
+          <li><a class="hover:text-ink" href="open-store.html">Open a store</a></li>
+          <li><a class="hover:text-ink" href="become-seller.html#fees">Fees &amp; payouts</a></li>
+          <li><a class="hover:text-ink" href="become-seller.html#brand">Brand guidelines</a></li>
+          <li><a class="hover:text-ink" href="#">Support</a></li>
         </ul>
       </div>
+
       <div>
         <div class="font-semibold mb-2">Resources</div>
-        <ul class="space-y-2 text-sub">
-          <li><a class="hover:underline" href="stores/">Browse stores</a></li>
-          <li><a class="hover:underline" href="#">API &amp; docs</a></li>
-          <li><a class="hover:underline" href="privacy.html">Privacy policy</a></li>
-          <li><a class="hover:underline" href="terms.html">Terms of use</a></li>
+        <ul class="space-y-2 text-sub text-sm">
+          <li><a class="hover:text-ink" href="stores/">Browse stores</a></li>
+          <li><a class="hover:text-ink" href="#">API &amp; docs</a></li>
+          <li><a class="hover:text-ink" href="privacy.html">Privacy policy</a></li>
+          <li><a class="hover:text-ink" href="terms.html">Terms of use</a></li>
         </ul>
       </div>
     </div>
-    <div class="wrap px-4 mt-6 text-xs text-sub flex items-center justify-between">
-      <span>© <span id="y"></span> RGZTEC — All rights reserved.</span>
-      <div class="flex gap-4">
-        <a href="#" class="hover:underline">Twitter/X</a>
-        <a href="#" class="hover:underline">GitHub</a>
-        <a href="#" class="hover:underline">YouTube</a>
+    <div class="border-t border-line">
+      <div class="wrap px-4 py-4 text-xs text-sub flex items-center justify-between">
+        <span>© <span id="y"></span> RGZTEC — All rights reserved.</span>
+        <div class="space-x-4">
+          <a class="hover:text-ink" href="#">Twitter/X</a>
+          <a class="hover:text-ink" href="#">GitHub</a>
+          <a class="hover:text-ink" href="#">YouTube</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -184,60 +217,55 @@
     const openBtn  = document.getElementById('btnCats');
     const back     = document.getElementById('drawerBack');
     const closeBtn = document.getElementById('drawerClose');
-    const openDrawer  = ()=>{ drawer.classList.remove('hidden'); document.body.style.overflow='hidden' }
-    const closeDrawer = ()=>{ drawer.classList.add('hidden'); document.body.style.overflow='' }
+    function openDrawer(){ drawer.classList.remove('hidden'); document.body.style.overflow='hidden'; }
+    function closeDrawer(){ drawer.classList.add('hidden'); document.body.style.overflow=''; }
     openBtn?.addEventListener('click', openDrawer);
     back?.addEventListener('click', closeDrawer);
     closeBtn?.addEventListener('click', closeDrawer);
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer() });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-    // ----- Featured stores strip (always 10) -----
-    const strip = document.getElementById('storeStrip');
+    // ===== Featured stores: 10 in a single row (from data/stores.json) =====
+    const row = document.getElementById('storeRow');
 
-    const FALLBACK = [
-      {slug:'html-templates', name:'HTML Templates', color:'#1D4ED8'},
-      {slug:'email-forge',    name:'Email Forge',    color:'#ef4444'},
-      {slug:'icon-smith',     name:'Icon Smith',     color:'#3b82f6'},
-      {slug:'ai-tools-hub',   name:'AI Tools Hub',   color:'#8b5cf6'},
-      {slug:'dev-studio-one', name:'Dev Studio One', color:'#10b981'},
-      {slug:'game-makers',    name:'Game Makers',    color:'#f59e0b'},
-      {slug:'reactorium',     name:'Reactorium',     color:'#06b6d4'},
-      {slug:'tiny-js-lab',    name:'Tiny JS Lab',    color:'#84cc16'},
-      {slug:'unity-hub',      name:'Unity Hub',      color:'#dc2626'},
-      {slug:'wp-plugins',     name:'WP Plugins',     color:'#9333ea'}
-    ];
-
-    const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    const initial = s => (s||'')[0]?.toUpperCase() || '?';
-
-    function tile(store){
-      const {slug,name,color} = store;
-      const link = `store.html?slug=${encodeURIComponent(slug)}`;
+    function letterTile(store){
+      const bg = store.color || '#64748b';
+      const letter = (store.name||'?').trim()[0]?.toUpperCase() || '?';
+      const url = `store.html?slug=${encodeURIComponent(store.slug)}`;
       return `
-        <a href="${link}" class="group shrink-0 w-[100px]">
-          <div class="w-[100px] h-[100px] rounded-2xl overflow-hidden grid place-items-center"
-               style="background: radial-gradient(120px 120px at 30% 30%, rgba(255,255,255,.25), transparent 60%), ${color||'#94a3b8'};">
-            <span class="text-white text-2xl font-bold drop-shadow-sm">${initial(name)}</span>
+        <a href="${url}" class="group flex flex-col items-center gap-2">
+          <div class="w-[88px] h-[88px] rounded-2xl shadow-soft"
+               style="background:${bg}; display:grid; place-items:center; color:#fff;">
+            <span class="text-2xl font-bold">${letter}</span>
           </div>
-          <div class="mt-2 text-center text-xs truncate">${escapeHtml(name)}</div>
+          <div class="text-xs text-center truncate w-[100px]">${store.name}</div>
         </a>
       `;
     }
 
-    function render(list){ strip.innerHTML = list.map(tile).join('') }
-
     fetch('data/stores.json')
-      .then(r=>r.ok ? r.json() : FALLBACK)
-      .then(data=>{
-        // data may be {stores:[...]} OR array; normalize
-        const arr = Array.isArray(data) ? data : Array.isArray(data?.stores) ? data.stores : [];
-        if(!arr.length){ render(FALLBACK); return; }
-        // order by FALLBACK slugs to guarantee 10 & alignment
-        const bySlug = Object.fromEntries(arr.map(s=>[s.slug,s]));
-        const ordered = FALLBACK.map(f=> ({...f, ...(bySlug[f.slug]||{})}));
-        render(ordered.slice(0,10));
+      .then(r=>r.json())
+      .then(({stores})=>{
+        // ensure html-templates exists if provided separately
+        const list = Array.isArray(stores) ? stores.slice() : [];
+        // render first 10
+        row.innerHTML = list.slice(0,10).map(letterTile).join('');
       })
-      .catch(()=> render(FALLBACK));
+      .catch(()=>{
+        // graceful fallback (10 placeholders)
+        row.innerHTML = Array.from({length:10}).map((_,i)=>`
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-[88px] h-[88px] rounded-2xl border border-line bg-gray-100 grid place-items-center">
+              <span class="text-xl text-sub">${i+1}</span>
+            </div>
+            <div class="text-xs text-center text-sub">Store ${i+1}</div>
+          </div>
+        `).join('');
+      });
+
+    // Populate dense gallery placeholders (18)
+    const grid = document.querySelector('.grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-4.xl\\:grid-cols-6');
+    const tpl  = document.getElementById('ph').content.firstElementChild;
+    for(let i=0;i<18;i++){ grid.appendChild(tpl.cloneNode(true)); }
   </script>
 </body>
 </html>
