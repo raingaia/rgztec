@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>HTML Templates — RGZTEC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{line:'#e5e7eb',ink:'#0b1220',sub:'#64748b'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.08)'}}}}</script>
+<style>:root{--wrap:1280px}.wrap{max-width:var(--wrap);margin-inline:auto}</style>
+</head>
+<body class="bg-white text-ink">
+
+<!-- Header (keep exact RGZTEC header) -->
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-line">
+  <div class="wrap px-4 py-3 flex items-center gap-3">
+    <a href="../../index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
+    <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">HTML Templates</span>
+
+    <form action="./" method="GET" role="search"
+          class="flex-1 flex items-center gap-2 border border-line rounded-full bg-white pl-4 pr-2 h-11">
+      <input name="q" type="search" placeholder="Search in HTML Templates" class="flex-1 h-full outline-none bg-transparent text-[15px]"/>
+      <button class="grid place-items-center w-10 h-10 rounded-full border border-line hover:bg-gray-50" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+
+    <nav class="ml-auto flex items-center gap-2">
+      <a href="../../login.html" class="hidden md:inline text-sm text-sub hover:text-ink">Sign in</a>
+      <a href="../../become-seller.html" class="hidden sm:inline-flex px-4 h-10 items-center rounded-full border border-line hover:bg-gray-50 text-sm">Become a Seller</a>
+      <a href="../../open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-orange-600 text-white hover:bg-orange-700 shadow-soft text-sm">Open Store</a>
+    </nav>
+  </div>
+
+  <!-- Tabs -->
+  <div class="border-t border-line">
+    <div id="tabBar" class="wrap px-4 py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-sm"></div>
+  </div>
+</header>
+
+<!-- Products -->
+<section class="wrap px-4 mt-6">
+  <div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+  <div id="empty" class="hidden text-sub">No products yet.</div>
+</section>
+
+<footer class="border-t border-line py-8 text-center text-sm text-sub mt-8">
+  © <span id="y"></span> RGZTEC — All rights reserved.
+</footer>
+
+<script>
+  document.getElementById('y').textContent=new Date().getFullYear();
+
+  const params=new URLSearchParams(location.search);
+  const q=(params.get('q')||'').toLowerCase();
+  const grid=document.getElementById('grid');
+  const empty=document.getElementById('empty');
+  const tabBar=document.getElementById('tabBar');
+
+  const makeTab = label => `<a href="#${label.toLowerCase().replace(/[^a-z0-9]+/g,'-')}" class="text-center py-2 rounded-lg hover:bg-gray-50">${label}</a>`;
+  const card = p => `
+    <article class="border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+      <div class="relative h-40 bg-gray-100 overflow-hidden">
+        ${p.image?`<img src="../../${p.image}" alt="" class="w-full h-full object-cover">`:''}
+        ${p.badge?`<span class="absolute left-2 top-2 text-[11px] px-2 py-0.5 rounded-full bg-white/90 border border-line">${p.badge}</span>`:''}
+      </div>
+      <div class="p-3">
+        <div class="font-semibold truncate">${p.name}</div>
+        <div class="text-sm text-sub">$${(p.price??0).toFixed(2)}</div>
+      </div>
+    </article>`;
+
+  fetch('../../data/stores/html-templates.json')
+    .then(r=>r.json())
+    .then(data=>{
+      // tabs
+      (data.tabs||["Landing Pages","Portfolio","Admin & Dashboards","E-commerce","Email Templates"])
+        .forEach(t=>tabBar.insertAdjacentHTML('beforeend', makeTab(t)));
+
+      // products + search filter
+      let prods = data.products || [];
+      if(q) prods = prods.filter(p => (p.name+p.tags).toLowerCase().includes(q));
+      if(prods.length){ grid.innerHTML = prods.map(card).join(''); }
+      else { empty.classList.remove('hidden'); }
+    })
+    .catch(()=>{ empty.classList.remove('hidden'); });
+</script>
+</body>
+</html>
