@@ -2,81 +2,76 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Home</title>
 <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
-<link rel="icon" href="images/favicon.png"/>
 
 <style>
-  :root{
-    --wrap:1280px;
-    --ink:#0b1220; --sub:#64748b;
-    --line:#e5e7eb; --line-strong:#d7dbe3;
-    --brand:#f97316; --brand-dark:#ea580c;
-    --chip-h:36px; --search-h:44px;
-    --tile:94px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
-  .wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
+:root{
+  --wrap:1280px; --ink:#0b1220; --sub:#64748b;
+  --line:#e5e7eb; --line-strong:#d7dbe3;
+  --brand:#f97316; --brand-dark:#ea580c;
+  --search-h:44px; --chip-h:36px; --tile:94px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
 
-  /* ================= HEADER ================= */
-  .topbar{position:sticky;top:0;z-index:50;background:#fff;backdrop-filter:saturate(120%) blur(6px);border-bottom:1px solid var(--line)}
-  .hdr{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 0}
-  .hdr-left{display:flex;align-items:center;gap:12px}
-  .brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;line-height:1}
-  .btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
-  .btn-cats svg{width:18px;height:18px}
-  .search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;padding:0 8px 0 14px}
-  .search input{flex:1;border:0;outline:0;font-size:15px;padding:10px 8px;background:transparent}
-  .search .go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
-  .search .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-  .hdr-right{display:flex;align-items:center;gap:10px}
-  .icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:#fff}
-  .pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
-  .pill-open:hover{background:var(--brand-dark)}
+/* ===== HEADER ===== */
+.topbar{position:sticky;top:0;z-index:50;background:#fff;backdrop-filter:saturate(120%) blur(6px);border-bottom:1px solid var(--line)}
+.hdr{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 0}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none}
+.btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer}
+.btn-cats svg{width:18px;height:18px}
+.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;padding:0 8px 0 14px}
+.search input{flex:1;border:0;outline:0;font-size:15px;padding:10px 8px;background:transparent}
+.go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
+.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
+.pill-open:hover{background:var(--brand-dark)}
 
-  /* ================= CHIPS ================= */
-  .chips{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:8px 0 12px}
-  .chip{height:var(--chip-h);display:inline-flex;align-items:center;gap:8px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:#fff;text-decoration:none;color:inherit}
-  /* NOTE: arama kutusunun altındaki çizgi YOK; çizgi chip'lerin ALTINDA */
-  .chips-divider{border-bottom:1.5px solid var(--line-strong)}
+/* ===== CHIPS ===== */
+.chips{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:8px 0 10px}
+.chip{height:var(--chip-h);display:inline-flex;align-items:center;gap:8px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:#fff;text-decoration:none;color:inherit}
+.chips-divider{border-bottom:1.5px solid var(--line-strong);}
 
-  /* =============== FEATURED strip =============== */
-  .hero{background:linear-gradient(180deg,#eef2f7 0%,#ffffff 60%)}
-  .section-h{font-weight:700;margin:18px 0 8px}
-  .stores{display:flex;gap:18px;overflow-x:auto;padding:8px 0 6px;scroll-snap-type:x mandatory}
-  .stores::-webkit-scrollbar{height:8px}
-  .stores li{list-style:none}   /* noktalar yok */
-  .store-tile{text-decoration:none;color:inherit;display:inline-flex;flex-direction:column;align-items:center;gap:8px;scroll-snap-align:start}
-  .badge{
-    width:var(--tile);height:var(--tile);border-radius:24px;
-    display:grid;place-items:center;
-    box-shadow:0 12px 24px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.55);
-    background:linear-gradient(180deg,#9cc9ff 0%,#72b4fe 60%,#4695fa 100%);
-  }
-  .letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.15)}
-  .sname{font-size:12px;color:var(--sub);max-width:var(--tile);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ===== FEATURED ===== */
+.hero{background:linear-gradient(180deg,#eef2f7 0%,#ffffff 60%)}
+.section-h{font-weight:800;font-size:22px;margin:18px 0 8px}
+.stores{display:flex;gap:18px;overflow-x:auto;padding:8px 0 10px;margin:0;list-style:none;scroll-snap-type:x mandatory}
+.stores::-webkit-scrollbar{height:8px}
+.store-tile{display:inline-flex;flex-direction:column;align-items:center;gap:8px;color:inherit;text-decoration:none;scroll-snap-align:start;white-space:nowrap}
+.badge{width:var(--tile);height:var(--tile);border-radius:24px;display:grid;place-items:center;
+  box-shadow:0 12px 24px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.55)}
+.letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.15)}
+.sname{font-size:12px;color:var(--sub);max-width:var(--tile);text-align:center;overflow:hidden;text-overflow:ellipsis}
 
-  /* =============== GALLERY grid =============== */
-  main{padding-bottom:28px}
-  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8px}
-  .card{height:180px;border-radius:18px;background:#eef2f7;border:1px solid #e9edf3;position:relative}
-  .card::after{content:"";position:absolute;left:16px;right:16px;bottom:12px;height:10px;border-radius:8px;background:#dde3ec}
+/* ===== GALLERY ===== */
+main{padding-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:8px}
+.card{height:180px;border-radius:18px;background:#eef2f7;border:1px solid #e9edf3;position:relative}
+.card::after{content:"";position:absolute;left:16px;right:16px;bottom:12px;height:10px;border-radius:8px;background:#dde3ec}
 
-  /* =============== FOOTER =============== */
-  footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%);border-top:1px solid var(--line)}
-  .foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding:28px 0}
-  .foot h4{margin:0 0 8px;font-size:14px}
-  .foot a{color:var(--sub);text-decoration:none;font-size:14px}
-  .copy{border-top:1px solid var(--line);font-size:12px;color:var(--sub);padding:10px 0;text-align:center}
+/* ===== DRAWER ===== */
+.drawer{position:fixed;inset:0;display:none}
+.drawer.open{display:block}
+.back{position:absolute;inset:0;background:#0006}
+.panel{position:absolute;left:0;top:0;height:100%;width:320px;background:#fff;border-right:1px solid var(--line);padding:14px;overflow:auto}
+.panel h3{margin:6px 0 10px}
+.panel a{display:block;padding:10px;border-radius:10px;color:inherit;text-decoration:none}
+.panel a:hover{background:#f5f7fa}
 
-  @media (max-width:1024px){ .grid{grid-template-columns:repeat(3,1fr)} }
-  @media (max-width:780px){
-    .hdr{grid-template-columns:1fr}
-    .hdr-right{justify-content:flex-end}
-    .grid{grid-template-columns:repeat(2,1fr)}
-  }
+/* ===== FOOTER ===== */
+footer{margin-top:28px;background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%);border-top:1px solid var(--line)}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding:28px 0}
+.foot h4{margin:0 0 8px;font-size:14px}
+.foot a{color:var(--sub);text-decoration:none;font-size:14px}
+.copy{border-top:1px solid var(--line);font-size:12px;color:var(--sub);padding:10px 0;text-align:center}
+
+@media (max-width:1024px){ .grid{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:780px){ .hdr{grid-template-columns:1fr} .hdr-right{justify-content:flex-end} .grid{grid-template-columns:repeat(2,1fr)} }
 </style>
 </head>
 <body>
@@ -86,7 +81,7 @@
     <div class="hdr">
       <div class="hdr-left">
         <a class="brand" href="./">RGZTEC</a>
-        <button class="btn-cats" id="btnCats" aria-haspopup="dialog" aria-controls="drawer">
+        <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           <span>Categories</span>
         </button>
@@ -108,7 +103,7 @@
     </div>
 
     <!-- chips -->
-    <nav class="chips" aria-label="Quick filters">
+    <nav class="chips wrap" aria-label="Quick filters" style="padding-left:0;padding-right:0">
       <a class="chip" href="store.html?tag=new">New</a>
       <a class="chip" href="store.html?tag=trending">Trending</a>
       <a class="chip" href="store.html?tag=top-sellers">Top sellers</a>
@@ -120,8 +115,6 @@
       <a class="chip" href="store.html?tag=icons">Icons</a>
       <a class="chip" href="store.html?tag=plugins">Plugins</a>
     </nav>
-
-    <!-- divider BELOW chips (search ile araya çizgi koymuyoruz) -->
     <div class="chips-divider"></div>
   </div>
 </header>
@@ -164,70 +157,86 @@
   <div class="copy">© <span id="y"></span> RGZTEC — All rights reserved.</div>
 </footer>
 
-<!-- optional drawer shell -->
-<div id="drawer" hidden></div>
+<!-- Categories Drawer -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h3>Categories</h3>
+      <button id="closeDrawer" class="icon-btn" aria-label="Close">✕</button>
+    </div>
+    <nav>
+      <a href="store.html?tag=html-templates">HTML Templates</a>
+      <a href="store.html?tag=react">React Components</a>
+      <a href="store.html?tag=auth-api">Auth &amp; API</a>
+      <a href="store.html?tag=dashboards">Dashboards</a>
+      <a href="store.html?tag=ecommerce">E-commerce</a>
+      <a href="stores/">All stores</a>
+    </nav>
+  </aside>
+</div>
 
 <script>
-  // year
-  document.getElementById('y').textContent = new Date().getFullYear();
+document.getElementById('y').textContent = new Date().getFullYear();
 
-  // gradient helper
-  function lift(hex, p){
-    try{
-      const n = hex.replace('#','');
-      const v = parseInt(n,16);
-      let r=(v>>16)&255,g=(v>>8)&255,b=v&255;
-      r=Math.min(255,Math.round(r+(255-r)*p));
-      g=Math.min(255,Math.round(g+(255-g)*p));
-      b=Math.min(255,Math.round(b+(255-b)*p));
-      return `rgb(${r},${g},${b})`;
-    }catch(e){ return '#9db7ff' }
-  }
+/* vivid color map per store (keeps gradients consistent) */
+const COLOR = {
+ 'html-templates':'#60a5fa',
+ 'email-forge':'#ef4444',
+ 'icon-smith':'#3b82f6',
+ 'ai-tools-hub':'#a855f7',
+ 'dev-studio-one':'#10b981',
+ 'game-makers':'#f59e0b',
+ 'reactorium':'#06b6d4',
+ 'tiny-js-lab':'#84cc16',
+ 'unity-hub':'#ef4444',
+ 'wp-plugins':'#8b5cf6'
+};
+function lighten(hex,p){
+  const v=parseInt(hex.slice(1),16),
+        r=(v>>16)&255, g=(v>>8)&255, b=v&255;
+  const L=(c)=>Math.min(255,Math.round(c+(255-c)*p));
+  return `rgb(${L(r)},${L(g)},${L(b)})`;
+}
+function tile(s){
+  const name=s.name||s.slug, letter=(name||'?')[0].toUpperCase();
+  const base=COLOR[s.slug]||s.color||'#60a5fa';
+  const t1=lighten(base,.45), t2=lighten(base,.22);
+  return `<li>
+    <a class="store-tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
+      <div class="badge" style="background:radial-gradient(120% 120% at 30% 20%, ${t1} 0%, ${t2} 45%, ${base} 100%)">
+        <div class="letter">${letter}</div>
+      </div>
+      <div class="sname">${name}</div>
+    </a>
+  </li>`;
+}
 
-  // Desired order (HTML Templates önde)
-  const ORDER = [
-    'html-templates','email-forge','icon-smith','ai-tools-hub','dev-studio-one',
-    'game-makers','reactorium','tiny-js-lab','unity-hub','wp-plugins'
-  ];
+/* keep HTML Templates first; DO NOT pad with 'coming soon' */
+const ORDER=['html-templates','email-forge','icon-smith','ai-tools-hub','dev-studio-one','game-makers','reactorium','tiny-js-lab','unity-hub','wp-plugins'];
+const row=document.getElementById('storeRow');
 
-  const row = document.getElementById('storeRow');
+fetch('data/stores.json',{cache:'no-store'})
+  .then(r=>r.ok?r.json():{stores:[]})
+  .then(({stores=[]})=>{
+    const map=Object.fromEntries(stores.map(s=>[s.slug,s]));
+    const ordered=ORDER.map(s=>map[s]).filter(Boolean);
+    const rest=stores.filter(s=>!ORDER.includes(s.slug));
+    const list=ordered.concat(rest);
+    row.innerHTML=list.map(tile).join('');
+  })
+  .catch(()=>{ row.innerHTML=''; });
 
-  function tile(s){
-    const name = s.name || s.slug;
-    const letter = (name||'?').charAt(0).toUpperCase();
-    const base = s.color || '#60a5fa';
-    const top = lift(base,.35), mid = lift(base,.15);
-    return `
-      <li>
-        <a class="store-tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
-          <div class="badge" style="background:linear-gradient(180deg, ${top} 0%, ${mid} 60%, ${base} 100%);">
-            <div class="letter">${letter}</div>
-          </div>
-          <div class="sname">${name}</div>
-        </a>
-      </li>`;
-  }
-
-  // fetch stores.json and render in single row (no bullets)
-  fetch('data/stores.json',{cache:'no-store'})
-    .then(r=>r.ok?r.json():{stores:[]})
-    .then(({stores=[]})=>{
-      const bySlug = Object.fromEntries(stores.map(s=>[s.slug,s]));
-      const ordered = ORDER.map(sl=>bySlug[sl]).filter(Boolean);
-      const rest = stores.filter(s=>!ORDER.includes(s.slug));
-      let list = ordered.concat(rest);
-      // fill to at least 10 tiles
-      while(list.length<10) list.push({slug:'coming-soon',name:'Coming soon',color:'#e5e7eb'});
-      row.innerHTML = list.slice(0,10).map(tile).join('');
-    })
-    .catch(()=>{ row.innerHTML=''; });
-
-  // rudimentary drawer toggle (istenirse genişletilir)
-  const btnCats = document.getElementById('btnCats');
-  const drawer = document.getElementById('drawer');
-  btnCats?.addEventListener('click', ()=>{ if(drawer) drawer.hidden = !drawer.hidden; });
+/* Drawer */
+const drawer=document.getElementById('drawer'), back=document.getElementById('backdrop');
+const openBtn=document.getElementById('btnCats'), closeBtn=document.getElementById('closeDrawer');
+function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+openBtn?.addEventListener('click',openDrawer);
+back?.addEventListener('click',closeDrawer);
+closeBtn?.addEventListener('click',closeDrawer);
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 </script>
 </body>
 </html>
-
 
