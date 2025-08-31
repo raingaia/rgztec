@@ -1,311 +1,274 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC • Code Marketplace</title>
-  <meta name="description" content="RGZTEC — scripts, templates, plugins, and AI tools for developers." />
-  <style>
-    :root{
-      --bg:#0b1220;             /* koyu arka plan (alt nav için) */
-      --bg-2:#0e1627;
-      --page:#ffffff;           /* sayfa & header arka planı (açık) */
-      --text:#111827;
-      --muted:#6b7280;
-      --line:#e5e7eb;
-      --card:#ffffff;
-      --pill:#f3f4f6;
-      --brand:#ff5a1f;          /* Etsy turuncusu */
-      --brand-2:#f97316;
-      --radius:16px;
-      --wrap:1280px;
-    }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>RGZTEC • Home</title>
+<meta name="description" content="Open Store marketplace for creators and sellers. Explore products, open your shop, and grow with RGZTEC."/>
+<link rel="icon" href="images/favicon.png"/>
+<style>
+  :root{
+    --wrap:1280px;          /* sayfa ana genişlik */
+    --text:#111827; --muted:#6b7280;
+    --line:#e5e7eb; --hover:rgba(0,0,0,.05);
+    --chip:#f3f4f6; --chipb:#e5e7eb;
+    --brand:#0ea5e9;        /* buton vurgusu */
+    --bg:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  a{color:inherit}
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:#f7f7f9;color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
-    .container{max-width:var(--wrap);margin:0 auto;padding:0 16px}
+  /* ===== HEADER ===== */
+  .rgz-header{
+    position:sticky; top:0; z-index:60;
+    background:rgba(255,255,255,.86);
+    -webkit-backdrop-filter:saturate(1.1) blur(6px);
+    backdrop-filter:saturate(1.1) blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .rgz-header .wrap{
+    max-width:var(--wrap); margin:0 auto; padding:10px 16px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .logo{
+    font-weight:800; letter-spacing:.4px; text-decoration:none; color:var(--text);
+    font-size:1.18rem;
+  }
+  .cat-btn{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:12px;
+    color:var(--text); text-decoration:none; white-space:nowrap;
+  }
+  .cat-btn:hover{ background:var(--hover); }
+  .cat-btn svg{opacity:.9}
 
-    /* ===== HEADER (Açık tema) ===== */
-    .topbar{
-      background:var(--page);
-      color:var(--text);
-      border-bottom:1px solid var(--line);
-      position:sticky;top:0;z-index:40;
-      backdrop-filter:saturate(140%) blur(6px);
-    }
-    .topbar .row{display:grid;grid-template-columns: 180px 1fr 280px;gap:16px;align-items:center;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand .logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#1f2a44,#0b1220);display:grid;place-items:center;border:1px solid #d1d5db}
-    .brand .logo svg{width:18px;height:18px;fill:#fff;opacity:.95}
-    .brand .name{font-weight:800;letter-spacing:.3px}
-    .brand .tag{display:inline-block;margin-left:6px;padding:3px 8px;border-radius:999px;background:#11182708;color:#111827;font-size:12px;border:1px solid #d1d5db}
+  /* Search */
+  .search{
+    flex:1; display:flex; align-items:center; gap:8px;
+    padding:6px 8px; border:1px solid var(--line); border-radius:9999px; background:#fff;
+  }
+  .search input{
+    flex:1; border:none; outline:none; font-size:.98rem; background:transparent; color:var(--text);
+    padding:6px 10px;
+  }
+  .search button{
+    display:grid; place-items:center; width:36px; height:36px; border-radius:9999px;
+    border:1px solid var(--line); background:#fff; cursor:pointer;
+  }
+  .search button:hover{ background:var(--hover); }
 
-    .search{display:flex;align-items:center;background:#fff;border-radius:999px;overflow:hidden;border:1px solid #d1d5db}
-    .search input{flex:1;padding:12px 14px;border:0;outline:0;font-size:15px}
-    .search button{padding:10px 16px;border:0;background:var(--brand);color:#fff;font-weight:700;cursor:pointer}
-    .search button:hover{background:var(--brand-2)}
-    .actions{display:flex;justify-content:flex-end;gap:12px;align-items:center}
-    .action{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;color:#374151;border:1px solid #e5e7eb;background:#f9fafb}
-    .action:hover{background:#f3f4f6}
-    .action svg{width:18px;height:18px;fill:#374151}
+  /* Right */
+  .right{ display:flex; align-items:center; gap:10px; margin-left:6px; white-space:nowrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:600;
+    padding:9px 14px; border-radius:12px; border:1px solid var(--line); background:#fff;
+  }
+  .btn:hover{ background:var(--hover); }
+  .btn-primary{ background:linear-gradient(180deg,#38bdf8,#0ea5e9); color:#fff; border-color:#0ea5e9; }
+  .btn-primary:hover{ filter:brightness(.97); }
+  .pill{ border-radius:9999px; }
 
-    /* alt kategori (koyu bar, Etsy vibe + açık header kontrastı) */
-    .subnav{background:var(--bg);border-bottom:1px solid rgba(255,255,255,.08)}
-    .subnav .pills{display:flex;flex-wrap:wrap;gap:10px;padding:10px 0}
-    .pill{color:#e5e7eb;background:#ffffff10;padding:8px 12px;border-radius:999px;border:1px solid #ffffff18;font-size:14px}
-    .pill.active, .pill:hover{background:#fff;color:#0b1220;border-color:#fff}
+  /* ===== HERO ===== */
+  .hero{
+    max-width:var(--wrap); margin:26px auto 10px; padding:0 16px;
+    display:grid; grid-template-columns: 1.15fr .85fr; gap:20px;
+  }
+  .hero .card{
+    background:#fafafa; border:1px solid var(--line); border-radius:22px; padding:28px;
+    display:flex; flex-direction:column; justify-content:center; min-height:280px;
+  }
+  .hero h1{ margin:0 0 10px; font-size:2rem; line-height:1.2 }
+  .hero p{ margin:0 0 16px; color:var(--muted) }
+  .hero .cta{ display:flex; gap:10px; flex-wrap:wrap }
 
-    /* ===== MAIN ===== */
-    .divider{height:1px;background:var(--line);margin:0}
-    .hero{padding:28px 0}
-    .hero h1{font-size:28px;margin:0 0 6px 0;letter-spacing:.2px}
-    .hero p{color:#4b5563;margin:0}
+  .promo{
+    background:#fff; border:1px solid var(--line); border-radius:22px; padding:18px;
+    display:grid; grid-template-columns: 1fr 1fr; gap:14px; align-items:center; min-height:280px;
+  }
+  .promo .box{background:#f8fafc;border:1px dashed var(--line);border-radius:16px;min-height:110px;}
 
-    /* GRID (Kod kartları) */
-    .grid{display:grid;grid-template-columns: repeat(12,1fr);gap:16px}
-    .card{
-      grid-column: span 3; background:var(--card); border:1px solid #e5e7eb;
-      border-radius: var(--radius); display:flex; flex-direction:column; overflow:hidden;
-      box-shadow: 0 1px 0 rgba(0,0,0,.02); transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .card:hover{transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08)}
-    .card .head{padding:14px 16px 8px 16px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
-    .price{background:#0ea5e915;color:#0c4a6e;border:1px solid #0ea5e940;padding:4px 8px;border-radius:10px;font-weight:700;font-size:12px}
-    .thumb{background:#0b12200a;display:grid;place-items:center;border-top:1px dashed #e5e7eb;border-bottom:1px dashed #e5e7eb}
-    .thumb .ico{width:68px;height:68px;border-radius:14px;border:1px solid #e5e7eb;background:#fff;display:grid;place-items:center;margin:18px}
-    .thumb svg{width:34px;height:34px;fill:#111827}
-    .desc{padding:10px 16px;color:#374151;font-size:14px;min-height:48px}
-    .meta{padding:8px 16px 14px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .badge{background:#f3f4f6;border:1px solid #e5e7eb;color:#111827;border-radius:999px;padding:6px 10px;font-size:12px}
-    .lang{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
-    .foot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid #f1f5f9}
-    .cta{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#0f766e}
-    .stars{font-size:12px;color:#f59e0b}
+  /* ===== TOP NAV BAR (Gifts / … Etsy benzeri) ===== */
+  .top-band{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:#fff;
+  }
+  .top-band .wrap{
+    max-width:var(--wrap); margin:0 auto; padding:10px 16px; display:flex; gap:18px; overflow:auto;
+  }
+  .chip{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 12px; background:var(--chip);
+    border:1px solid var(--chipb); border-radius:9999px; text-decoration:none; font-weight:600;
+  }
+  .chip:hover{ background:#eef2f7 }
 
-    /* RESPONSIVE */
-    @media (max-width: 1200px){ .card{grid-column: span 4} .topbar .row{grid-template-columns:150px 1fr 220px} }
-    @media (max-width: 900px){  .card{grid-column: span 6} .topbar .row{grid-template-columns:1fr} .actions{justify-content:flex-start} }
-    @media (max-width: 640px){  .card{grid-column: span 12} .hero h1{font-size:22px} }
+  /* ===== GRID ===== */
+  .section{ max-width:var(--wrap); margin:26px auto; padding:0 16px; }
+  .section h2{ font-size:1.2rem; margin:0 0 14px }
+  .grid{
+    display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:16px;
+  }
+  .item{
+    border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff;
+  }
+  .thumb{ background:#f3f4f6; min-height:150px; }
+  .meta{ padding:10px 12px; }
+  .meta .t{ font-weight:600; font-size:.98rem; margin-bottom:6px }
+  .meta .p{ color:var(--muted); font-size:.9rem }
 
-    footer{margin:40px 0 60px 0;color:#6b7280}
-  </style>
+  /* ===== SELL WITH US ===== */
+  .sell{
+    max-width:var(--wrap); margin:26px auto 40px; padding:0 16px;
+    display:grid; grid-template-columns: 1fr 1fr; gap:18px;
+  }
+  .sell .panel{
+    border:1px solid var(--line); border-radius:20px; padding:22px; background:#fafafa;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    border-top:1px solid var(--line); padding:18px 16px; color:var(--muted); text-align:center; font-size:.92rem;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:1000px){
+    .cat-btn span{ display:none; }           /* sadece 3 çizgi */
+    .hero{ grid-template-columns:1fr; }
+    .promo{ grid-template-columns:1fr; }
+    .sell{ grid-template-columns:1fr; }
+  }
+  @media (max-width:720px){
+    .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+</style>
 </head>
 <body>
 
-  <!-- ===== Header (açık) ===== -->
-  <header class="topbar">
-    <div class="container row">
-      <!-- Brand -->
-      <a class="brand" href="/">
-        <div class="logo" aria-label="RGZTEC">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h8a4 4 0 0 1 0 8h-4v8H6V4zm4 6h3a2 2 0 0 0 0-4h-3v4zm3 2 4 8h-3.2L10 12h3z"/></svg>
-        </div>
-        <div>
-          <div class="name">RGZTEC</div>
-          <span class="tag">code marketplace</span>
-        </div>
-      </a>
+<!-- ========== HEADER ========== -->
+<header class="rgz-header" role="banner">
+  <div class="wrap">
+    <a href="index.html" class="logo" aria-label="RGZTEC">RGZTEC</a>
 
-      <!-- Search -->
-      <form class="search" onsubmit="return goSearch(event)">
-        <input id="q" type="search" placeholder="Search components, apps, AI tools…" autocomplete="off" />
-        <button type="submit">Search</button>
-      </form>
+    <a href="store.html#categories" class="cat-btn" aria-label="Categories">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Categories</span>
+    </a>
 
-      <!-- Actions -->
-      <nav class="actions">
-        <a class="action" href="/stores/">
-          <svg viewBox="0 0 24 24"><path d="M3 7h18v2H3zm2 4h14l-1.5 8h-11zM8 7V4h2v3h4V4h2v3"/></svg>
-          <span>Catalog</span>
-        </a>
-        <a class="action" href="/account/">
-          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5C21 16.5 17 14 12 14z"/></svg>
-          <span>Account</span>
-        </a>
-        <a class="action" href="/cart/">
-          <svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2H1v2h2l3.6 7.6a2 2 0 0 0 1.8 1.2H19v-2H8.4l-.3-.6L19 12.5 21 6H6.2zM7 20a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm10 0a2 2 0 1 0 2 2 2 2 0 0 0-2-2z"/></svg>
-          <span>Cart</span>
-        </a>
-      </nav>
-    </div>
-  </header>
+    <form action="store.html" method="GET" class="search" role="search">
+      <input name="q" type="search" placeholder="Search for anything" aria-label="Search"/>
+      <button type="submit" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </form>
 
-  <!-- Kategori barı (koyu) -->
-  <div class="subnav">
-    <div class="container pills">
-      <a class="pill active" href="/stores/">All</a>
-      <a class="pill" href="/stores/?c=frontend">Frontend</a>
-      <a class="pill" href="/stores/?c=backend">Backend</a>
-      <a class="pill" href="/stores/?c=fullstack">Full-stack</a>
-      <a class="pill" href="/stores/?c=ai">AI</a>
-      <a class="pill" href="/stores/?c=mobile">Mobile</a>
-      <a class="pill" href="/stores/?c=automation">Automation</a>
-      <a class="pill" href="/stores/?c=ui">UI Kits</a>
+    <nav class="right">
+      <a class="btn pill" href="become-seller.html">Mağaza Kayıt</a>
+      <a class="btn btn-primary pill" href="open-store.html">Open Store</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="card">
+    <h1>Discover unique products.<br/>Sell what you create.</h1>
+    <p>RGZTEC, satıcı ve alıcıyı tek sayfada buluşturan açık mağaza ekosistemidir.</p>
+    <div class="cta">
+      <a class="btn btn-primary pill" href="open-store.html">Open Store</a>
+      <a class="btn pill" href="become-seller.html">Mağaza Kayıt</a>
+      <a class="btn pill" href="store.html">Explore Store</a>
     </div>
   </div>
+  <div class="promo" aria-label="Highlights">
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </div>
+</section>
 
-  <div class="divider"></div>
+<!-- Etsy benzeri üst kategori bandı -->
+<div class="top-band">
+  <div class="wrap">
+    <a class="chip" href="store.html?tag=gifts">Gifts</a>
+    <a class="chip" href="store.html?tag=home">Home Favorites</a>
+    <a class="chip" href="store.html?tag=fashion">Fashion Finds</a>
+    <a class="chip" href="store.html?tag=electronics">Electronics</a>
+    <a class="chip" href="store.html?tag=beauty">Beauty</a>
+    <a class="chip" href="store.html?tag=health">Health</a>
+    <a class="chip" href="store.html?tag=kids">Kids</a>
+  </div>
+</div>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Discover production-ready code, templates & AI tools</h1>
-      <p>Header açık, alt bar koyu kontrastta. Kod kartları; etiketler, fiyat, yıldız ve dil rozetleriyle Amazon grid gibi net.</p>
-    </section>
+<!-- ========== FEATURED GRID ========== -->
+<section class="section">
+  <h2>Trending now</h2>
+  <div class="grid">
+    <article class="item">
+      <div class="thumb"></div>
+      <div class="meta">
+        <div class="t">Minimal ring</div>
+        <div class="p">$29.00 • Free shipping</div>
+      </div>
+    </article>
+    <article class="item">
+      <div class="thumb"></div>
+      <div class="meta">
+        <div class="t">Wooden décor</div>
+        <div class="p">$45.00 • Bestseller</div>
+      </div>
+    </article>
+    <article class="item">
+      <div class="thumb"></div>
+      <div class="meta">
+        <div class="t">Smart kit</div>
+        <div class="p">$89.00 • New</div>
+      </div>
+    </article>
+    <article class="item">
+      <div class="thumb"></div>
+      <div class="meta">
+        <div class="t">Art poster</div>
+        <div class="p">$19.00 • Limited</div>
+      </div>
+    </article>
+  </div>
+</section>
 
-    <!-- Kod kartları -->
-    <section class="grid" id="cards">
-      <!-- 1 -->
-      <a class="card" href="/code/nextjs-saas-starter/">
-        <div class="head"><span>Next.js SaaS Starter</span><span class="price">$59</span></div>
-        <div class="thumb">
-          <div class="ico">
-            <svg viewBox="0 0 24 24"><path d="M12 2l10 5v10l-10 5L2 17V7l10-5zm1 6h-2v8h2V8z"/></svg>
-          </div>
-        </div>
-        <div class="desc">Auth, billing (Stripe), dashboard, settings — prod-ready structure.</div>
-        <div class="meta">
-          <span class="badge lang">TypeScript</span>
-          <span class="badge">Next.js 14</span>
-          <span class="badge">Prisma</span>
-          <span class="badge">Stripe</span>
-        </div>
-        <div class="foot">
-          <span class="cta">View details ▸</span>
-          <span class="stars">★★★★★ (142)</span>
-        </div>
-      </a>
+<!-- ========== SELL WITH US ========== -->
+<section class="sell" id="sell">
+  <div class="panel">
+    <h2>Start selling in minutes</h2>
+    <p style="color:var(--muted)">Create your store, upload products, and reach buyers globally.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <a class="btn btn-primary pill" href="open-store.html">Open Store</a>
+      <a class="btn pill" href="become-seller.html">Mağaza Kayıt</a>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Why RGZTEC?</h2>
+    <ul style="margin:8px 0 0 18px;line-height:1.7;color:var(--muted)">
+      <li>Simple fees & transparent payouts</li>
+      <li>Search + categories like Etsy, tailored for creators</li>
+      <li>Secure checkout and global reach</li>
+    </ul>
+  </div>
+</section>
 
-      <!-- 2 -->
-      <a class="card" href="/code/react-admin-kit/">
-        <div class="head"><span>React Admin Kit</span><span class="price">$39</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 5h18v2H3zm0 6h18v2H3zm0 6h18v2H3z"/></svg></div></div>
-        <div class="desc">CRUD scaffolding, tables, auth guards, role-based routes.</div>
-        <div class="meta"><span class="badge lang">JavaScript</span><span class="badge">React</span><span class="badge">Vite</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (88)</span></div>
-      </a>
+<footer>
+  © <span id="y"></span> RGZTEC — All rights reserved.
+</footer>
 
-      <!-- 3 -->
-      <a class="card" href="/code/python-etl-pipeline/">
-        <div class="head"><span>Python ETL Pipeline</span><span class="price">$29</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zm0 10h16v6H4z"/></svg></div></div>
-        <div class="desc">Batch & streaming loaders, schema validation, CLI runner.</div>
-        <div class="meta"><span class="badge lang">Python</span><span class="badge">Pydantic</span><span class="badge">PostgreSQL</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (61)</span></div>
-      </a>
+<script>
+  // yıl
+  document.getElementById('y').textContent = new Date().getFullYear();
 
-      <!-- 4 -->
-      <a class="card" href="/code/flutter-ecommerce-app/">
-        <div class="head"><span>Flutter E-Commerce App</span><span class="price">$69</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M7 4h10l3 6-3 10H7L4 10 7 4z"/></svg></div></div>
-        <div class="desc">Multi-store, cart, checkout, Firebase/Stripe integrations.</div>
-        <div class="meta"><span class="badge lang">Dart</span><span class="badge">Flutter</span><span class="badge">Firebase</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★★ (97)</span></div>
-      </a>
-
-      <!-- 5 -->
-      <a class="card" href="/code/node-queue-worker/">
-        <div class="head"><span>Node Queue Worker</span><span class="price">$19</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M2 12l10-8 10 8-10 8z"/></svg></div></div>
-        <div class="desc">BullMQ based jobs, retries, dashboards & metrics.</div>
-        <div class="meta"><span class="badge lang">TypeScript</span><span class="badge">Node</span><span class="badge">Redis</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (34)</span></div>
-      </a>
-
-      <!-- 6 -->
-      <a class="card" href="/code/ai-chatbot-kit/">
-        <div class="head"><span>AI Chatbot Kit</span><span class="price">$79</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v10H5l-1 6z"/></svg></div></div>
-        <div class="desc">RAG + tools + eval harness; OpenAI compatible adapter.</div>
-        <div class="meta"><span class="badge lang">TypeScript</span><span class="badge">Next.js</span><span class="badge">VectorDB</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★★ (201)</span></div>
-      </a>
-
-      <!-- 7 -->
-      <a class="card" href="/code/laravel-multitenant/">
-        <div class="head"><span>Laravel Multitenant</span><span class="price">$49</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/></svg></div></div>
-        <div class="desc">Tenant isolation, per-tenant DB, billing hooks, domains.</div>
-        <div class="meta"><span class="badge lang">PHP</span><span class="badge">Laravel</span><span class="badge">MySQL</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (52)</span></div>
-      </a>
-
-      <!-- 8 -->
-      <a class="card" href="/code/react-native-starter/">
-        <div class="head"><span>React Native Starter</span><span class="price">$45</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2z"/></svg></div></div>
-        <div class="desc">Expo, navigation, theming, OTA updates & auth.</div>
-        <div class="meta"><span class="badge lang">TypeScript</span><span class="badge">React Native</span><span class="badge">Expo</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (73)</span></div>
-      </a>
-
-      <!-- 9 -->
-      <a class="card" href="/code/vue-admin-lite/">
-        <div class="head"><span>Vue Admin Lite</span><span class="price">$27</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/></svg></div></div>
-        <div class="desc">Vite + Pinia + Tailwind; auth & CRUD boilerplate.</div>
-        <div class="meta"><span class="badge lang">JavaScript</span><span class="badge">Vue 3</span><span class="badge">Tailwind</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (19)</span></div>
-      </a>
-
-      <!-- 10 -->
-      <a class="card" href="/code/go-microservices-kit/">
-        <div class="head"><span>Go Microservices Kit</span><span class="price">$89</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 4l7 4v8l-7 4-7-4V8z"/></svg></div></div>
-        <div class="desc">gRPC/HTTP, tracing, config, CI, zero-downtime deploy.</div>
-        <div class="meta"><span class="badge lang">Go</span><span class="badge">gRPC</span><span class="badge">Docker</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★★ (41)</span></div>
-      </a>
-
-      <!-- 11 -->
-      <a class="card" href="/code/wordpress-headless-starter/">
-        <div class="head"><span>Headless WP Starter</span><span class="price">$22</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2z"/></svg></div></div>
-        <div class="desc">WP as CMS + Next front; ISR, SEO, preview modes.</div>
-        <div class="meta"><span class="badge lang">TypeScript</span><span class="badge">Next.js</span><span class="badge">WordPress</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (58)</span></div>
-      </a>
-
-      <!-- 12 -->
-      <a class="card" href="/code/browser-automation-kit/">
-        <div class="head"><span>Browser Automation Kit</span><span class="price">$31</span></div>
-        <div class="thumb"><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg></div></div>
-        <div class="desc">Playwright helpers, recorder, scheduler & alerts.</div>
-        <div class="meta"><span class="badge lang">TypeScript</span><span class="badge">Playwright</span><span class="badge">CLI</span></div>
-        <div class="foot"><span class="cta">View details ▸</span><span class="stars">★★★★☆ (26)</span></div>
-      </a>
-    </section>
-  </main>
-
-  <div class="divider"></div>
-
-  <footer class="container">
-    <p>© <span id="y"></span> RGZTEC — code marketplace. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // yıl
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // arama → /stores/?q=...
-    function goSearch(e){
-      e.preventDefault();
-      const q = (document.getElementById('q').value || '').trim();
-      const base = '/stores/';
-      const url = q ? base + '?q=' + encodeURIComponent(q) : base;
-      location.href = url;
-      return false;
-    }
-
-    // Eski /store/<slug>/ geldi ise otomatik store.html?slug=...
-    (function redirectLegacy(){
-      const segs = location.pathname.replace(/\/+$/,'').split('/').filter(Boolean);
-      if (segs[0] === 'store' && segs[1]) {
-        const slug = segs.slice(1).join('/');
-        location.replace('/store.html?slug=' + encodeURIComponent(slug));
-      }
-    })();
-  </script>
+  // (Opsiyonel) index’te arama alanı Enter ile /store.html?q=... şeklinde gider (form zaten GET yapıyor)
+  // Eğer ileride router.js ile tek sayfaya çevirirsek burayı güncelleriz.
+</script>
 </body>
 </html>
