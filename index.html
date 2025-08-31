@@ -1,326 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>RGZTEC • Home</title>
-  <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
-  <link rel="icon" href="images/favicon.png"/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ink:'#0b1220', sub:'#64748b', line:'#e5e7eb',
-            rgz:'#f97316', rgzDark:'#ea580c',
-            plate:'#eef3f7', plate2:'#f6f9fb'
-          },
-          boxShadow: { soft:'0 10px 30px rgba(0,0,0,.08)' }
-        }
-      }
-    }
-  </script>
-  <style>
-    :root{ --wrap:1320px }
-    .wrap{ max-width:var(--wrap); margin-inline:auto }
-    .scrollbar-hide{ scrollbar-width:none } .scrollbar-hide::-webkit-scrollbar{ display:none }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Home</title>
+<meta name="description" content="Discover unique products and open your store on RGZTEC."/>
+<link rel="icon" href="images/favicon.png"/>
 
-    /* Page background */
-    body{ background:linear-gradient(180deg,#ecf2f6 0%, #f7fafc 300px, #fff 300px); }
+<style>
+  :root{
+    --wrap:1280px;          /* full page max width */
+    --rail-w:980px;         /* center rail width (search & content) */
+    --text:#0b1220;
+    --muted:#64748b;
+    --line:#e5e7eb;
+    --line-2:#dfe3ea;
+    --brand:#f97316;
+    --brand-2:#ea580c;
+    --bg-top:linear-gradient(180deg,#f7f9fb 0%,#ffffff 100%);
+    --bg-band:linear-gradient(180deg,#eef3f7 0%,#ffffff 100%);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-    /* Header search */
-    .search{ height:44px; }
-    .search input{ outline:0 }
+  /* ========= LAYOUT ========= */
+  .wrap{max-width:var(--wrap); margin:0 auto}
+  .rail{max-width:var(--rail-w); margin:0 auto}
+  .px{padding-inline:18px}
+  .topbar{position:sticky; top:0; z-index:50; background:#fffcc0; background:#fff; backdrop-filter:saturate(1.2) blur(2px); border-bottom:1px solid var(--line);}
+  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px; padding:12px 18px 8px}
+  .brand{font-weight:900; color:var(--brand); text-decoration:none; font-size:22px}
+  .cats-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    height:40px; padding:0 14px; border:1px solid var(--line); border-radius:12px;
+    background:#fff; color:#111827; font-weight:600;
+  }
+  .icons{justify-self:end; display:flex; align-items:center; gap:14px}
+  .pill{display:inline-grid; place-items:center; width:34px; height:34px; border:1px solid var(--line); border-radius:999px; background:#fff; color:#111827; font-weight:700; font-size:14px}
+  .open{display:inline-flex; align-items:center; gap:6px; height:40px; padding:0 16px; border-radius:999px; font-weight:800; background:var(--brand); color:#fff; text-decoration:none}
+  .open:hover{background:var(--brand-2)}
 
-    /* Quick links row */
-    .quick a{
-      color:#334155; font-weight:600; padding:.5rem .75rem; border-radius:.5rem;
-    }
-    .quick a:hover{ background:#f3f4f6; color:#0b1220 }
+  /* Search (thicker) */
+  .search{display:flex; align-items:center; gap:8px; height:46px; padding:6px 8px 6px 14px;
+    border:2px solid #0f172a; border-radius:999px; background:#fff}
+  .search input{flex:1; height:100%; border:0; outline:0; font-size:15px; background:transparent}
+  .search button{display:grid; place-items:center; width:34px; height:34px; border:0; border-radius:999px; background:var(--brand); cursor:pointer}
+  .search svg{width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none}
 
-    /* Featured strip */
-    .strip-bg{
-      background:linear-gradient(180deg,#edf3f7 0%,#f7fafc 60%,#ffffff 100%);
-      border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb;
-    }
-    .tile{
-      width:96px; height:96px; border-radius:1.25rem;
-      display:grid; place-items:center; color:#fff; font-weight:900; font-size:28px;
-      box-shadow:0 10px 24px rgba(0,0,0,.08), inset 0 2px 0 rgba(255,255,255,.25);
-    }
-    .tile.soft{ color:#0b1220; }
-    .tileLabel{ text-align:center; margin-top:.5rem; font-size:12px; color:#475569; white-space:nowrap; max-width:110px; overflow:hidden; text-overflow:ellipsis }
+  /* Top chips row (plain, corporate) */
+  .chips{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:#fff}
+  .chips .rail{display:flex; gap:10px; flex-wrap:wrap; padding:8px 0}
+  .chip{
+    display:inline-flex; align-items:center; height:34px; padding:0 14px;
+    border:1px solid var(--line-2); border-radius:999px; background:#fff; text-decoration:none; color:#111827; font-weight:600; font-size:14px;
+  }
+  .chip:hover{background:#f7f8fa}
 
-    /* Gallery placeholders */
-    .cardPh{
-      height:180px; border-radius:1rem; background:
-        linear-gradient(#f1f5f9,#f1f5f9) padding-box,
-        linear-gradient(180deg,#e5e7eb,#f1f5f9) border-box;
-      border:1px solid transparent;
-    }
-    .phLine{ height:10px; border-radius:999px; background:#e5e7eb }
-    @media (min-width:1280px){ .cardPh{ height:200px } }
+  /* Featured band */
+  .band{background:var(--bg-band); border-bottom:1px solid var(--line)}
+  .band .rail{padding:14px 0 10px}
+  .band h3{margin:0 0 10px 0; font-size:15px}
+  .stores{display:flex; gap:22px; overflow-x:auto; padding:6px 0 2px}
+  .tile{
+    width:98px; flex:0 0 auto; text-align:center; text-decoration:none; color:var(--text)
+  }
+  .bubble{
+    height:84px; border-radius:18px; display:grid; place-items:center;
+    box-shadow:0 1px 0 rgba(17,24,39,.04), 0 10px 18px rgba(17,24,39,.06);
+  }
+  .bubble span{font-size:22px; font-weight:900; color:#fff; text-shadow:0 1px 0 rgba(0,0,0,.15)}
+  .tile small{display:block; margin-top:8px; font-size:12px; color:#213; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 
-    /* Footer bar */
-    .footBar{ background:linear-gradient(180deg,#f5f7fa 0%, #eef2f6 100%); border-top:1px solid #e5e7eb }
-  </style>
+  /* 10 fixed gradients (kept) */
+  .g1{background:linear-gradient(160deg,#6aa2ff 0%,#2d55de 100%)}
+  .g2{background:linear-gradient(160deg,#ff6a6a 0%,#e43e3e 100%)}
+  .g3{background:linear-gradient(160deg,#6aa2ff 0%,#3d6bff 100%)}
+  .g4{background:linear-gradient(160deg,#b18cff 0%,#7b5df3 100%)}
+  .g5{background:linear-gradient(160deg,#2ddea4 0%,#08a37a 100%)}
+  .g6{background:linear-gradient(160deg,#ffb323 0%,#ff8c0a 100%)}
+  .g7{background:linear-gradient(160deg,#22c3dc 0%,#0aa6c6 100%)}
+  .g8{background:linear-gradient(160deg,#8bd64a 0%,#61b321 100%)}
+  .g9{background:linear-gradient(160deg,#ff5a54 0%,#d9362f 100%)}
+  .g10{background:linear-gradient(160deg,#b08cff 0%,#8a5dff 100%)}
+  .gSoon{background:linear-gradient(160deg,#f2f4f8 0%,#e7ebf2 100%); color:#111827}
+
+  /* Gallery placeholders aligned to rail */
+  main{background:var(--bg-top)}
+  .gallery{padding:18px 0 30px}
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px}
+  .ph{height:170px; border-radius:16px; background:linear-gradient(180deg,#eef3f7 0%,#e7edf4 100%); border:1px solid var(--line)}
+  .bar{height:10px; border-radius:99px; background:#dde5ee; margin:12px 18px}
+
+  /* Footer (corporate tint) */
+  footer{background:linear-gradient(180deg,#f4f7fb 0%,#eef3f8 100%); border-top:1px solid var(--line)}
+  .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:24px; padding:28px 18px}
+  .foot h4{margin:0 0 8px 0; font-size:14px}
+  .foot a{display:block; text-decoration:none; color:#223; margin:6px 0; font-size:14px}
+  .muted{color:var(--muted); font-size:14px}
+  .legal{border-top:1px solid var(--line); text-align:center; font-size:12px; color:#6b7280; padding:12px 0}
+  @media (max-width:1100px){ .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (max-width:860px){
+    .hdr{grid-template-columns:1fr}
+    .icons{justify-self:start; order:3}
+    .search{margin-top:8px}
+    .grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:580px){ .grid{grid-template-columns:1fr} }
+</style>
 </head>
-<body class="text-ink">
+<body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-line">
-    <div class="wrap px-4 py-3 flex items-center gap-3">
-      <!-- Brand -->
-      <a href="./" class="font-extrabold tracking-tight text-xl text-rgz hover:text-rgzDark">RGZTEC</a>
-
-      <!-- Categories -->
-      <button id="btnCats" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl hover:bg-gray-50 border border-line">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <span>Categories</span>
-      </button>
-
-      <!-- Search -->
-      <form action="store.html" method="GET" role="search"
-            class="search flex-1 flex items-center gap-2 border border-line rounded-full bg-white pl-4 pr-2">
-        <input name="q" type="search" placeholder="Search for anything" aria-label="Search"
-               class="flex-1 h-full bg-transparent text-[15px]"/>
-        <button type="submit" aria-label="Search"
-                class="grid place-items-center w-10 h-10 rounded-full border border-line hover:bg-gray-50">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </form>
-
-      <!-- Right actions -->
-      <nav class="ml-auto hidden md:flex items-center gap-3 text-sm">
-        <a href="login.html" class="text-sub hover:text-ink">Sign in</a>
-        <a href="#" aria-label="Gifts">🎁</a>
-        <a href="cart.html" aria-label="Cart">🛒</a>
-        <a href="open-store.html" class="inline-flex px-4 h-10 items-center rounded-full bg-rgz text-white hover:bg-rgzDark shadow-soft font-semibold">Open Store</a>
-      </nav>
-    </div>
-
-    <!-- Quick links (kurumsal) — alt boşluk azaldı -->
-    <div class="wrap px-4 pb-1">
-      <nav class="quick flex flex-wrap items-center gap-1 text-sm">
-        <a href="store.html?tag=new">New</a>
-        <a href="store.html?tag=trending">Trending</a>
-        <a href="store.html?tag=top-sellers">Top sellers</a>
-        <a href="store.html?tag=deals">Deals</a>
-        <span class="mx-1 text-line">|</span>
-        <a href="store.html?tag=html-templates">HTML Templates</a>
-        <a href="store.html?tag=react-components">React</a>
-        <a href="store.html?tag=ai">AI</a>
-        <a href="store.html?tag=games">Games</a>
-        <a href="store.html?tag=icons">Icons</a>
-        <a href="store.html?tag=plugins">Plugins</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Categories Drawer -->
-  <div id="drawer" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/30" id="drawerBack"></div>
-    <aside class="absolute left-0 top-0 h-full w-[320px] bg-white border-r border-line p-4 overflow-y-auto">
-      <div class="flex items-center justify-between">
-        <div class="font-semibold">Categories</div>
-        <button id="drawerClose" class="p-2 hover:bg-gray-50 rounded-lg">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
+<!-- ===== HEADER ===== -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="hdr">
+      <div style="display:flex; align-items:center; gap:10px">
+        <a class="brand" href="./">RGZTEC</a>
+        <a class="cats-btn" href="stores/">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <span>Categories</span>
+        </a>
       </div>
-      <nav class="mt-3 grid gap-1 text-sm">
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=html-templates">HTML Templates</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=react-components">React Components</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=auth-api">Auth &amp; API</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=dashboards">Dashboards</a>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="store.html?tag=ecommerce">E-commerce</a>
-        <div class="border-t border-line my-2"></div>
-        <a class="px-3 py-2 rounded-lg hover:bg-gray-50" href="stores/">All stores</a>
+
+      <div class="rail">
+        <form class="search" action="store.html" method="GET" role="search">
+          <input name="q" type="search" placeholder="Search for anything" aria-label="Search"/>
+          <button type="submit" aria-label="Search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+          </button>
+        </form>
+      </div>
+
+      <nav class="icons" aria-label="Actions">
+        <a class="pill" title="Sign in" href="login.html">in</a>
+        <a class="pill" title="Gifts" href="#">🎁</a>
+        <a class="pill" title="Cart" href="cart.html">🛒</a>
+        <a class="open" href="open-store.html">Open Store</a>
       </nav>
-    </aside>
+    </div>
   </div>
 
-  <!-- ===== FEATURED STRIP ===== -->
-  <section class="strip-bg">
-    <!-- id=featWrap: JS ile arama kutusunun altına hizalanır -->
-    <div id="featWrap" class="wrap px-4 py-4">
-      <h2 class="text-sm font-semibold mb-3">Featured stores</h2>
-      <div id="featured" class="flex gap-8 overflow-x-auto scrollbar-hide py-1"></div>
+  <!-- chips (closer to search; thinner gap) -->
+  <div class="chips">
+    <div class="rail px">
+      <a class="chip" href="store.html?tag=new">New</a>
+      <a class="chip" href="store.html?tag=trending">Trending</a>
+      <a class="chip" href="store.html?tag=top-sellers">Top sellers</a>
+      <a class="chip" href="store.html?tag=deals">Deals</a>
+      <a class="chip" href="store.html?tag=html-templates">HTML Templates</a>
+      <a class="chip" href="store.html?tag=react">React</a>
+      <a class="chip" href="store.html?tag=ai">AI</a>
+      <a class="chip" href="store.html?tag=games">Games</a>
+      <a class="chip" href="store.html?tag=icons">Icons</a>
+      <a class="chip" href="store.html?tag=plugins">Plugins</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== FEATURED STRIP (aligned to rail) ===== -->
+<section class="band">
+  <div class="rail px">
+    <h3>Featured stores</h3>
+    <div id="storeStrip" class="stores"></div>
+  </div>
+</section>
+
+<!-- ===== GALLERY aligned to rail ===== -->
+<main>
+  <section class="rail px gallery">
+    <h3 style="margin:0 0 10px 0; font-size:15px">Marketplace gallery</h3>
+    <div class="grid">
+      <!-- neat placeholders -->
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
+      <div><div class="ph"></div><div class="bar"></div></div>
     </div>
   </section>
+</main>
 
-  <!-- ===== GALLERY ===== -->
-  <!-- id=contentWrap: JS ile arama kutusunun altına hizalanır -->
-  <main id="contentWrap" class="wrap px-4 py-6">
-    <div class="flex items-center justify-between">
-      <h2 class="text-base font-semibold">Marketplace gallery</h2>
-      <a href="become-seller.html#assets" class="text-sm text-rgz hover:text-rgzDark">Submit your work →</a>
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div style="font-weight:900; color:var(--brand); font-size:18px">RGZTEC</div>
+      <p class="muted" style="margin:8px 0 0 0">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
+      <p class="muted" style="margin:10px 0 0 0">Built by <strong>RAINGAIA LLC</strong>.</p>
     </div>
-
-    <div class="mt-3 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <div class="cardPh p-4"><div class="phLine w-2/3 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-1/2 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-3/5 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-1/2 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-2/3 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-1/2 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-3/5 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-1/2 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-2/3 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-1/2 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-3/5 mt-auto"></div></div>
-      <div class="cardPh p-4"><div class="phLine w-1/2 mt-auto"></div></div>
+    <div>
+      <h4>Company</h4>
+      <a href="#">About</a><a href="#">Press</a><a href="#">Careers</a><a href="#">Contact</a>
     </div>
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footBar">
-    <div class="wrap px-4 py-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 text-sm">
-      <div>
-        <div class="font-extrabold text-lg text-rgz">RGZTEC</div>
-        <p class="mt-2 text-sub">A marketplace for developers and creators. Discover unique products. Sell what you create.</p>
-        <p class="mt-3 text-sub">Built by <strong>RAINGAIA LLC</strong>.</p>
-      </div>
-      <div>
-        <div class="font-semibold mb-2">Company</div>
-        <nav class="grid gap-2 text-sub">
-          <a href="about.html" class="hover:text-ink">About</a>
-          <a href="press.html" class="hover:text-ink">Press</a>
-          <a href="careers.html" class="hover:text-ink">Careers</a>
-          <a href="contact.html" class="hover:text-ink">Contact</a>
-        </nav>
-      </div>
-      <div>
-        <div class="font-semibold mb-2">For creators</div>
-        <nav class="grid gap-2 text-sub">
-          <a href="open-store.html" class="hover:text-ink">Open a store</a>
-          <a href="become-seller.html#fees" class="hover:text-ink">Fees &amp; payouts</a>
-          <a href="brand.html" class="hover:text-ink">Brand guidelines</a>
-          <a href="support.html" class="hover:text-ink">Support</a>
-        </nav>
-      </div>
-      <div>
-        <div class="font-semibold mb-2">Resources</div>
-        <nav class="grid gap-2 text-sub">
-          <a href="stores/" class="hover:text-ink">Browse stores</a>
-          <a href="api.html" class="hover:text-ink">API &amp; docs</a>
-          <a href="privacy.html" class="hover:text-ink">Privacy policy</a>
-          <a href="terms.html" class="hover:text-ink">Terms of use</a>
-        </nav>
-      </div>
+    <div>
+      <h4>For creators</h4>
+      <a href="open-store.html">Open a store</a><a href="become-seller.html#fees">Fees & payouts</a><a href="#">Brand guidelines</a><a href="#">Support</a>
     </div>
-    <div class="border-t border-line">
-      <div class="wrap px-4 py-4 text-xs text-sub flex items-center justify-between">
-        <span>© <span id="y"></span> RGZTEC — All rights reserved.</span>
-        <div class="flex items-center gap-4">
-          <a class="hover:text-ink" href="#" aria-label="Twitter/X">Twitter/X</a>
-          <a class="hover:text-ink" href="#" aria-label="GitHub">GitHub</a>
-          <a class="hover:text-ink" href="#" aria-label="YouTube">YouTube</a>
-        </div>
-      </div>
+    <div>
+      <h4>Resources</h4>
+      <a href="stores/">Browse stores</a><a href="#">API & docs</a><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of use</a>
     </div>
-  </footer>
+  </div>
+  <div class="legal">© <span id="y"></span> RGZTEC — All rights reserved.</div>
+</footer>
 
-  <script>
-    // Year
-    document.getElementById('y').textContent = new Date().getFullYear();
+<script>
+  // year
+  document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Drawer
-    const drawer   = document.getElementById('drawer');
-    const openBtn  = document.getElementById('btnCats');
-    const back     = document.getElementById('drawerBack');
-    const closeBtn = document.getElementById('drawerClose');
-    function openDrawer(){ drawer.classList.remove('hidden'); document.body.style.overflow='hidden'; }
-    function closeDrawer(){ drawer.classList.add('hidden'); document.body.style.overflow=''; }
-    openBtn?.addEventListener('click', openDrawer);
-    back?.addEventListener('click', closeDrawer);
-    closeBtn?.addEventListener('click', closeDrawer);
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
+  // tiny escape
+  const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-    // ===== Featured stores (10) =====
-    const featured = document.getElementById('featured');
-    const colorGrad = (hex)=>`radial-gradient(120% 120% at 30% 20%, ${hex} 0%, rgba(255,255,255,.12) 60%, rgba(0,0,0,.08) 100%)`;
-
-    function tileHTML(s){
-      const letter = (s.name||s.slug||'?').trim().charAt(0).toUpperCase();
-      const bg = s.color ? colorGrad(s.color) : 'linear-gradient(#f1f5f9,#e2e8f0)';
-      return `
-        <a href="store.html?slug=${encodeURIComponent(s.slug)}" class="group shrink-0">
-          <div class="tile" style="background:${bg}">${letter}</div>
-          <div class="tileLabel">${(s.name||s.slug)}</div>
-        </a>`;
+  // create one tile
+  function tile(data, i){
+    if(!data){
+      return `<a class="tile" href="#" tabindex="-1" aria-disabled="true">
+        <div class="bubble gSoon"><span>•</span></div>
+        <small>Coming soon</small>
+      </a>`;
     }
-    function comingSoon(){
-      return `
-        <div class="shrink-0">
-          <div class="tile soft bg-white border border-line">•</div>
-          <div class="tileLabel">Coming soon</div>
-        </div>`;
+    const colors = ['g1','g2','g3','g4','g5','g6','g7','g8','g9','g10'];
+    const g = colors[i % colors.length];
+    const letter = (data.name||data.slug||'?').trim()[0]?.toUpperCase() || '?';
+    return `<a class="tile" href="store.html?slug=${encodeURIComponent(data.slug)}" title="${esc(data.name)}">
+      <div class="bubble ${g}"><span>${esc(letter)}</span></div>
+      <small>${esc(data.name)}</small>
+    </a>`;
+  }
+
+  // load 10 featured (ensuring html-templates is present)
+  (async function(){
+    try{
+      const res = await fetch('data/stores.json', {cache:'no-store'});
+      const list = res.ok ? await res.json() : [];
+      // Normalize arrays from either {stores:[...]} or [...]
+      const stores = Array.isArray(list) ? list : (Array.isArray(list.stores)? list.stores : []);
+
+      // ensure HTML Templates exists
+      const hasHtml = stores.some(s => s.slug === 'html-templates');
+      if(!hasHtml){
+        stores.unshift({
+          slug:'html-templates',
+          name:'HTML Templates',
+          desc:'Professionally designed HTML templates.',
+          color:'#4f46e5'
+        });
+      }
+
+      // Pick first 10 elegantly
+      const featured = stores.slice(0,10);
+      while(featured.length < 10) featured.push(null); // fill with coming soon
+
+      const strip = document.getElementById('storeStrip');
+      strip.innerHTML = featured.map((s,i)=>tile(s,i)).join('');
+    }catch(e){
+      console.warn(e);
+      const strip = document.getElementById('storeStrip');
+      strip.innerHTML = Array.from({length:10}, (_,i)=>tile(null,i)).join('');
     }
-
-    fetch('data/stores.json')
-      .then(r=>r.json())
-      .then(data=>{
-        const arr = Array.isArray(data?.stores) ? data.stores.slice() : (Array.isArray(data) ? data : []);
-
-        // Ensure "html-templates" store exists; if not, inject it.
-        const hasHtmlTemplates = arr.some(s => s.slug === 'html-templates');
-        if(!hasHtmlTemplates){
-          arr.unshift({
-            slug:'html-templates',
-            name:'HTML Templates',
-            desc:'Modern HTML templates.',
-            color:'#3b82f6'
-          });
-        }
-
-        // Pick first 10; pad with Coming soon if shorter
-        const ten = arr.slice(0,10);
-        while(ten.length<10) ten.push({slug:'coming-soon', name:'Coming soon', color:null});
-        featured.innerHTML = ten.map(s => s.slug==='coming-soon' ? comingSoon() : tileHTML(s)).join('');
-      })
-      .catch(()=>{
-        featured.innerHTML = Array.from({length:10}, ()=>comingSoon()).join('');
-      });
-
-    // ===== Align featured & gallery under the search box =====
-    const featWrap = document.getElementById('featWrap');
-    const contentWrap = document.getElementById('contentWrap');
-
-    function alignUnderSearch(){
-      try{
-        const headerWrap = document.querySelector('header .wrap');
-        const rail = document.querySelector('header form.search');
-        if(!headerWrap || !rail) return;
-
-        const hw = headerWrap.getBoundingClientRect();
-        const sr = rail.getBoundingClientRect();
-        let offset = Math.max(0, Math.round(sr.left - hw.left));
-
-        // Small nudge to the right as requested (“biraz sağa”)
-        offset = Math.max(0, offset + 8);
-
-        // Only apply on >=1024px; on small screens reset
-        if (window.innerWidth >= 1024){
-          featWrap.style.paddingLeft = `calc(1rem + ${offset}px)`;    // 1rem = existing px-4 left padding
-          contentWrap.style.paddingLeft = `calc(1rem + ${offset}px)`;
-        } else {
-          featWrap.style.paddingLeft = '';
-          contentWrap.style.paddingLeft = '';
-        }
-      }catch(e){}
-    }
-    window.addEventListener('resize', alignUnderSearch);
-    window.addEventListener('load', alignUnderSearch);
-    // Run once after DOM ready too
-    document.addEventListener('DOMContentLoaded', alignUnderSearch);
-  </script>
+  })();
+</script>
 </body>
 </html>
