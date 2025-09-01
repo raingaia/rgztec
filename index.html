@@ -7,124 +7,145 @@
 <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
 <style>
 :root{
-  --wrap:1100px;              /* merkezli içerik için azami genişlik (gereken yerlerde) */
-  --gutter-min:12px;          /* kenar boşluğu alt sınır */
-  --gutter-max:28px;          /* kenar boşluğu üst sınır */
+  --wrap:1100px;
+  --gutter-min:12px; --gutter-max:28px;
   --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
   --brand:#f97316; --brand-dark:#ea580c;
-  --search-h:44px; --tile:94px;
+  --search-h:54px;                    /* ← büyütüldü */
+  --tile: clamp(72px, 7.2vw, 90px);   /* ← küçült + responsive */
+  --radius: 20px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;overflow-x:hidden}   /* ← yatay taşmayı kapat */
+html,body{margin:0;overflow-x:hidden}
 body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
 
-/* ==== YENİ KAPSAYICILAR ==== */
+/* containers */
 .page-section{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
-.page-section--fluid{                      /* ← tam genişlik (full-bleed) */
-  max-width:none;
-  padding-inline: clamp(var(--gutter-min), 4vw, var(--gutter-max));
-}
+.page-section--fluid{max-width:none;padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max))}
 
-/* ==== HEADER ==== */
+/* header */
 .header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
   backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding-block:12px;gap:16px}
-.hdr-left{display:flex;align-items:center;gap:16px}
-.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none}
+.hdr{display:flex;align-items:center;gap:16px;padding-block:12px}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
 .btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;cursor:pointer}
 .btn-cats svg{width:18px;height:18px}
-.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;padding:0 8px 0 14px;flex:1;max-width:600px}
-.search input{flex:1;border:0;outline:0;font-size:15px;padding:10px 8px;background:transparent}
-.go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
+
+/* search — büyüt, ortala */
+.header-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
+.search-wrap{display:flex;justify-content:center}
+.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;
+  padding:0 8px 0 16px; width:min(1040px, 90vw);} /* ← genişlik arttı */
+.search input{flex:1;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent}
+.go{display:grid;place-items:center;width:42px;height:42px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
 .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;align-items:center;gap:12px}
+.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px}
 .signin-link{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
 .signin-link:hover{color:var(--brand)}
 .icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
 .pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
 .pill-open:hover{background:var(--brand-dark)}
 
-/* ==== CHIPS ==== */
+/* quick filters */
 .chips-outer{border-bottom:1.5px solid var(--line-strong)}
 .chips{display:flex;gap:24px;flex-wrap:nowrap;align-items:center;justify-content:center;padding:10px 0 12px;overflow-x:auto}
-.chip{color:var(--sub);font-weight:600;font-size:15px;text-decoration:none;transition:color .2s;white-space:nowrap}
+.chip{color:var(--sub);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;transition:color .2s}
 .chip:hover{color:var(--ink)}
 
-/* ==== BÖLÜM BAŞLIKLARI ==== */
-.section-container{padding-top:32px}
+/* sections */
+.section-container{padding-top:26px}
 .section-h{font-weight:800;font-size:22px;margin:0 0 16px 0}
 
-/* ==== FEATURED STORES ==== */
-.stores{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));gap:20px;list-style:none;padding:0;margin:0}
-.store-tile{display:inline-flex;flex-direction:column;align-items:center;gap:10px;color:inherit;text-decoration:none;transition:transform .2s ease-out}
+/* featured stores — auto-fit ile tam oturuş */
+.stores{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(var(--tile), 1fr)); /* ← boşluk bırakmadan doldurur */
+  gap: clamp(14px, 2.2vw, 22px);                                   /* ← dinamik aralık */
+  list-style:none;padding:0;margin:0
+}
+.store-tile{display:flex;flex-direction:column;align-items:center;gap:10px;color:inherit;text-decoration:none;transition:transform .18s ease}
 .store-tile:hover{transform:translateY(-6px)}
 .badge{width:var(--tile);height:var(--tile);border-radius:28px;display:grid;place-items:center;
-  box-shadow:0 10px 20px -5px rgba(0,0,0,.1), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05);
-  transition:box-shadow .2s ease-out, transform .2s ease-out}
-.store-tile:hover .badge{box-shadow:0 15px 25px -5px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.1);transform:scale(1.05)}
-.letter{font-weight:900;font-size:32px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.2)}
-.sname{font-size:13px;color:var(--sub);max-width:var(--tile);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+  box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05);
+  transition:box-shadow .2s ease, transform .2s ease}
+.store-tile:hover .badge{box-shadow:0 16px 26px -8px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.55), 0 0 0 1px rgba(0,0,0,.08);transform:scale(1.05)}
+.letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.2)}
+.sname{font-size:12.5px;color:var(--sub);max-width:calc(var(--tile) + 4px);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 
-/* ==== GALLERY ==== */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:8px}
+/* gallery skeleton */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:8px}
 .card{height:220px;border-radius:16px;background:#eef2f7;border:1px solid #e9edf3;position:relative;overflow:hidden}
 @keyframes shimmer{100%{transform:translateX(100%)}}
 .card::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:shimmer 1.8s infinite linear}
 
-/* ==== DRAWER ==== */
+/* categories drawer */
 .drawer{position:fixed;inset:0;display:none}.drawer.open{display:block}.back{position:absolute;inset:0;background:#0006}
 .panel{position:absolute;left:0;top:0;height:100%;width:320px;background:#fff;border-right:1px solid var(--line);padding:14px;overflow:auto}
 .panel h3{margin:6px 0 10px}.panel a{display:block;padding:10px;border-radius:10px;color:inherit;text-decoration:none}.panel a:hover{background:#f5f7fa}
 
-/* ==== FOOTER ==== */
+/* corporate footer */
 .footer-outer{margin-top:40px;background:#fff;border-top:1px solid var(--line)}
-.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding:32px 0}
-.foot h4{margin:0 0 8px;font-size:14px}.foot a{color:var(--sub);text-decoration:none;font-size:14px}
-.copy{border-top:1px solid var(--line);font-size:12px;color:var(--sub);padding:12px 0;text-align:center}
+.corp{background:#fff4cf;padding-block:42px}                                    /* sarı alan */
+.corp-grid{display:grid;grid-template-columns:1fr;gap:28px}
+.corp h3{font-size:40px;line-height:1.1;margin:0 0 10px}
+.corp-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.corp-cols h4{margin:0 0 8px;font-size:22px}
+.corp-cols p{margin:0;color:#2f3a47}
+.corp-cta{display:flex;justify-content:center;margin-top:28px}
+.help-btn{border:1.6px solid #1f2937;background:#fff;padding:12px 18px;border-radius:999px;font-weight:700;cursor:pointer}
 
-@media (min-width:1280px){
-  :root{ --tile:104px; }                    /* geniş ekranda rozetler biraz büyüsün */
+.news{background:#d7efff;padding-block:18px;border-top:1px solid #c7e6ff;border-bottom:1px solid #c7e6ff}
+.news-wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center}
+.news input{height:44px;min-width:260px;border:1px solid #cbd5e1;border-radius:999px;padding:0 14px;font-size:14px;outline:none}
+.news button{height:44px;border-radius:999px;border:0;padding:0 18px;background:#fff;font-weight:800;cursor:pointer}
+
+.energy{background:#1e63ff;color:#fff;padding-block:12px;text-align:center;font-weight:600}
+
+/* responsiveness */
+@media (min-width:980px){
+  .corp-grid{grid-template-columns:1fr}
 }
-@media(max-width:780px){
-  .hdr{flex-wrap:wrap;justify-content:space-between}
-  .search{max-width:none;margin:0 auto}
-  .chips{flex-wrap:wrap;justify-content:center}
+@media (max-width:860px){
+  .header-row{grid-template-columns:1fr}
+  .hdr-right{justify-content:center}
+}
+@media (max-width:700px){
+  .corp-cols{grid-template-columns:1fr}
+  .corp h3{font-size:34px}
 }
 </style>
 </head>
 <body>
 
 <header class="header-outer">
-  <!-- full-bleed -->
-  <div class="page-section page-section--fluid">
-    <div class="hdr">
-      <div class="hdr-left">
-        <a class="brand" href="./">RGZTEC</a>
-        <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <span>Categories</span>
-        </button>
-      </div>
+  <div class="page-section page-section--fluid header-row">
+    <div style="display:flex;align-items:center;gap:12px">
+      <a class="brand" href="./">RGZTEC</a>
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span>Categories</span>
+      </button>
+    </div>
 
+    <div class="search-wrap">
       <form class="search" role="search" onsubmit="return false;">
         <input type="search" placeholder="Search for anything" aria-label="Search"/>
         <button class="go" aria-label="Search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
         </button>
       </form>
+    </div>
 
-      <div class="hdr-right">
-        <a href="#" class="signin-link">Sign in</a>
-        <button class="icon-btn" title="Gift">🎁</button>
-        <button class="icon-btn" title="Cart">🛒</button>
-        <a class="pill-open" href="open-store.html">Open Store</a>
-      </div>
+    <div class="hdr-right">
+      <a href="#" class="signin-link">Sign in</a>
+      <button class="icon-btn" title="Gift">🎁</button>
+      <button class="icon-btn" title="Cart">🛒</button>
+      <a class="pill-open" href="open-store.html">Open Store</a>
     </div>
   </div>
 
   <div class="chips-outer">
-    <!-- full-bleed -->
     <div class="page-section page-section--fluid">
       <nav class="chips" aria-label="Quick filters">
         <a class="chip" href="#">New</a>
@@ -139,13 +160,11 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   </div>
 </header>
 
-<!-- full-bleed -->
 <section class="page-section page-section--fluid section-container">
   <h2 class="section-h">Featured stores</h2>
   <ul id="storeRow" class="stores" aria-label="Featured stores"></ul>
 </section>
 
-<!-- full-bleed -->
 <main class="page-section page-section--fluid section-container">
   <h2 class="section-h">Marketplace gallery</h2>
   <div class="grid" id="gallery">
@@ -155,30 +174,41 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 </main>
 
 <footer class="footer-outer">
-  <!-- footer'ı merkezli tutmak istersen fluid yerine normal container kullanıyoruz -->
-  <div class="page-section">
-    <div class="foot">
-      <div>
-        <div class="brand" style="font-size:18px">RGZTEC</div>
-        <p style="margin:6px 0 0;color:var(--sub);font-size:12px">
-          A marketplace for developers and creators. Discover unique products. Sell what you create.
-        </p>
+  <!-- corporate section -->
+  <section class="corp">
+    <div class="page-section page-section--fluid corp-grid">
+      <h3>What is RGZTEC?</h3>
+      <div class="corp-cols">
+        <div>
+          <h4>A community doing good</h4>
+          <p>We bring creators and developers together to make, sell and collect unique digital products. We also aim for a positive impact for small businesses and the planet.</p>
+        </div>
+        <div>
+          <h4>Support independent creators</h4>
+          <p>No warehouse here — just thousands of makers sharing what they love. We help you reach people looking for something extraordinary.</p>
+        </div>
+        <div>
+          <h4>Peace of mind</h4>
+          <p>Your privacy is a top priority. And when you need a hand, our team (and our docs) are here to help.</p>
+        </div>
       </div>
-      <div>
-        <h4>Company</h4>
-        <a href="#">About</a><br/><a href="#">Press</a><br/><a href="#">Careers</a><br/><a href="#">Contact</a>
-      </div>
-      <div>
-        <h4>For creators</h4>
-        <a href="#">Open a store</a><br/><a href="#">Fees &amp; payouts</a><br/><a href="#">Support</a>
-      </div>
-      <div>
-        <h4>Resources</h4>
-        <a href="#">Browse stores</a><br/><a href="#">Privacy policy</a><br/><a href="#">Terms of use</a>
+      <div class="corp-cta">
+        <button class="help-btn">Go to Help Center</button>
       </div>
     </div>
-    <div class="copy">© <span id="y"></span> RGZTEC — All rights reserved.</div>
-  </div>
+  </section>
+
+  <!-- newsletter bar -->
+  <section class="news">
+    <div class="page-section page-section--fluid news-wrap">
+      <span style="font-weight:700">Get product news & exclusive offers</span>
+      <input type="email" placeholder="Enter your email"/>
+      <button type="button">Subscribe</button>
+    </div>
+  </section>
+
+  <!-- energy/info strip -->
+  <div class="energy">RGZTEC runs on 100% renewable energy.</div>
 </footer>
 
 <!-- Categories Drawer -->
@@ -199,9 +229,10 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 </div>
 
 <script>
-document.getElementById('y').textContent = new Date().getFullYear();
+/* year (if needed elsewhere) */
+// document.getElementById('y').textContent = new Date().getFullYear();
 
-/* Renkler */
+/* colors */
 const COLOR = {
  'html-templates': ['#a5d6ff', '#3b82f6'],
  'email-forge': ['#fecaca', '#ef4444'],
@@ -242,11 +273,9 @@ function tile(s){
     </a>
   </li>`;
 }
+document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
 
-const row = document.getElementById('storeRow');
-if (row) row.innerHTML = STORES_DATA.map(tile).join('');
-
-/* Drawer */
+/* drawer */
 const drawer=document.getElementById('drawer'), back=document.getElementById('backdrop');
 const openBtn=document.getElementById('btnCats'), closeBtn=document.getElementById('closeDrawer');
 function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
