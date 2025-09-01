@@ -12,9 +12,8 @@
   --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
   --brand:#f97316; --brand-dark:#ea580c;
-  --search-h:54px;                    /* ← büyütüldü */
-  --tile: clamp(72px, 7.2vw, 90px);   /* ← küçült + responsive */
-  --radius: 20px;
+  --search-h:56px;                                 /* büyütülmüş arama */
+  --tile: clamp(72px, 7vw, 90px);                  /* mağaza rozetleri */
 }
 *{box-sizing:border-box}
 html,body{margin:0;overflow-x:hidden}
@@ -27,20 +26,18 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 /* header */
 .header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
   backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
-.hdr{display:flex;align-items:center;gap:16px;padding-block:12px}
+/* kritik düzeltme: ortadaki kolon esnek, taşma yok */
+.header-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px}
 .brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
 .btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;cursor:pointer}
 .btn-cats svg{width:18px;height:18px}
-
-/* search — büyüt, ortala */
-.header-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
-.search-wrap{display:flex;justify-content:center}
+.search-wrap{min-width:0;display:flex;justify-content:center}
 .search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;
-  padding:0 8px 0 16px; width:min(1040px, 90vw);} /* ← genişlik arttı */
-.search input{flex:1;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent}
+  padding:0 8px 0 16px; width:100%; max-width:980px; overflow:hidden;}
+.search input{flex:1;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent;min-width:0}
 .go{display:grid;place-items:center;width:42px;height:42px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
 .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap}
 .signin-link{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
 .signin-link:hover{color:var(--brand)}
 .icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
@@ -57,11 +54,11 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 .section-container{padding-top:26px}
 .section-h{font-weight:800;font-size:22px;margin:0 0 16px 0}
 
-/* featured stores — auto-fit ile tam oturuş */
+/* featured stores */
 .stores{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(var(--tile), 1fr)); /* ← boşluk bırakmadan doldurur */
-  gap: clamp(14px, 2.2vw, 22px);                                   /* ← dinamik aralık */
+  grid-template-columns:repeat(auto-fit, minmax(var(--tile), 1fr));
+  gap:clamp(14px,2.2vw,22px);
   list-style:none;padding:0;margin:0
 }
 .store-tile{display:flex;flex-direction:column;align-items:center;gap:10px;color:inherit;text-decoration:none;transition:transform .18s ease}
@@ -79,40 +76,34 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 @keyframes shimmer{100%{transform:translateX(100%)}}
 .card::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:shimmer 1.8s infinite linear}
 
-/* categories drawer */
-.drawer{position:fixed;inset:0;display:none}.drawer.open{display:block}.back{position:absolute;inset:0;background:#0006}
-.panel{position:absolute;left:0;top:0;height:100%;width:320px;background:#fff;border-right:1px solid var(--line);padding:14px;overflow:auto}
-.panel h3{margin:6px 0 10px}.panel a{display:block;padding:10px;border-radius:10px;color:inherit;text-decoration:none}.panel a:hover{background:#f5f7fa}
-
-/* corporate footer */
-.footer-outer{margin-top:40px;background:#fff;border-top:1px solid var(--line)}
-.corp{background:#fff4cf;padding-block:42px}                                    /* sarı alan */
-.corp-grid{display:grid;grid-template-columns:1fr;gap:28px}
-.corp h3{font-size:40px;line-height:1.1;margin:0 0 10px}
-.corp-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.corp-cols h4{margin:0 0 8px;font-size:22px}
-.corp-cols p{margin:0;color:#2f3a47}
-.corp-cta{display:flex;justify-content:center;margin-top:28px}
-.help-btn{border:1.6px solid #1f2937;background:#fff;padding:12px 18px;border-radius:999px;font-weight:700;cursor:pointer}
-
-.news{background:#d7efff;padding-block:18px;border-top:1px solid #c7e6ff;border-bottom:1px solid #c7e6ff}
-.news-wrap{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center}
-.news input{height:44px;min-width:260px;border:1px solid #cbd5e1;border-radius:999px;padding:0 14px;font-size:14px;outline:none}
-.news button{height:44px;border-radius:999px;border:0;padding:0 18px;background:#fff;font-weight:800;cursor:pointer}
-
-.energy{background:#1e63ff;color:#fff;padding-block:12px;text-align:center;font-weight:600}
-
-/* responsiveness */
-@media (min-width:980px){
-  .corp-grid{grid-template-columns:1fr}
+/* drawer */
+.drawer{position:fixed;inset:0;display:none}
+.drawer.open{display:block}
+.back{position:absolute;inset:0;background:#0006}
+.panel{position:absolute;left:0;top:0;height:100%;width:min(860px, 96vw);background:#fff;border-right:1px solid var(--line);
+  padding:18px 18px 24px 18px;overflow:auto}
+.panel h3{margin:0 0 8px}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.close-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;border:1px solid var(--line-strong);background:#fff;cursor:pointer}
+.drawer-search{display:flex;gap:8px;margin-bottom:14px}
+.drawer-search input{flex:1;height:40px;border:1px solid var(--line-strong);border-radius:10px;padding:0 12px}
+.cat-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.cat-card{border:1px solid var(--line-strong);border-radius:14px;padding:14px}
+.cat-title{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-weight:800}
+.cat-title .ico{width:22px;height:22px;border-radius:6px;background:#f3f4f6;display:grid;place-items:center;font-size:12px}
+.cat-list{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:8px}
+.cat-list a{display:flex;justify-content:space-between;gap:10px;text-decoration:none;color:#111827;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
+.cat-list a span.count{color:#64748b}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:#111827;text-decoration:none}
+.panel .footline{margin-top:12px;display:flex;gap:12px;align-items:center}
+.panel .footline a{text-decoration:none;font-weight:700}
+@media (max-width:960px){
+  .cat-grid{grid-template-columns:1fr}
 }
 @media (max-width:860px){
   .header-row{grid-template-columns:1fr}
   .hdr-right{justify-content:center}
-}
-@media (max-width:700px){
-  .corp-cols{grid-template-columns:1fr}
-  .corp h3{font-size:34px}
 }
 </style>
 </head>
@@ -173,66 +164,112 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   </div>
 </main>
 
-<footer class="footer-outer">
-  <!-- corporate section -->
-  <section class="corp">
-    <div class="page-section page-section--fluid corp-grid">
-      <h3>What is RGZTEC?</h3>
-      <div class="corp-cols">
-        <div>
-          <h4>A community doing good</h4>
-          <p>We bring creators and developers together to make, sell and collect unique digital products. We also aim for a positive impact for small businesses and the planet.</p>
-        </div>
-        <div>
-          <h4>Support independent creators</h4>
-          <p>No warehouse here — just thousands of makers sharing what they love. We help you reach people looking for something extraordinary.</p>
-        </div>
-        <div>
-          <h4>Peace of mind</h4>
-          <p>Your privacy is a top priority. And when you need a hand, our team (and our docs) are here to help.</p>
-        </div>
-      </div>
-      <div class="corp-cta">
-        <button class="help-btn">Go to Help Center</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- newsletter bar -->
-  <section class="news">
-    <div class="page-section page-section--fluid news-wrap">
-      <span style="font-weight:700">Get product news & exclusive offers</span>
-      <input type="email" placeholder="Enter your email"/>
-      <button type="button">Subscribe</button>
-    </div>
-  </section>
-
-  <!-- energy/info strip -->
-  <div class="energy">RGZTEC runs on 100% renewable energy.</div>
-</footer>
-
-<!-- Categories Drawer -->
+<!-- Categories Drawer (profesyonel içerik) -->
 <div id="drawer" class="drawer" aria-hidden="true">
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
-    <div style="display:flex;align-items:center;justify-content:space-between">
-      <h3>Categories</h3>
-      <button id="closeDrawer" class="icon-btn" aria-label="Close">✕</button>
+    <div class="drawer-head">
+      <h3>Browse categories</h3>
+      <button id="closeDrawer" class="close-btn" aria-label="Close">✕</button>
     </div>
-    <nav>
-      <a href="#">HTML Templates</a>
-      <a href="#">React Components</a>
-      <a href="#">Dashboards</a>
-      <a href="#">E-commerce</a>
-    </nav>
+
+    <div class="drawer-search">
+      <input type="search" placeholder="Search in categories…" aria-label="Category search">
+      <button class="icon-btn" title="Search">🔎</button>
+    </div>
+
+    <div class="cat-grid">
+      <!-- Left: Featured groups -->
+      <div class="cat-card">
+        <div class="cat-title"><div class="ico">UI</div> <span>UI & Templates</span></div>
+        <div class="cat-list">
+          <a href="#"><span>HTML Templates</span><span class="count">124</span></a>
+          <a href="#"><span>Landing Pages</span><span class="count">68</span></a>
+          <a href="#"><span>React Components</span><span class="count">95</span></a>
+          <a href="#"><span>Admin Dashboards</span><span class="count">41</span></a>
+          <a href="#"><span>Tailwind UI Kits</span><span class="count">53</span></a>
+          <a href="#"><span>Email &amp; MJML</span><span class="count">37</span></a>
+        </div>
+      </div>
+
+      <div class="cat-card">
+        <div class="cat-title"><div class="ico">DEV</div> <span>Dev & Automation</span></div>
+        <div class="cat-list">
+          <a href="#"><span>AI Tools & Agents</span><span class="count">76</span></a>
+          <a href="#"><span>Integrations & APIs</span><span class="count">39</span></a>
+          <a href="#"><span>CLI & Scripts</span><span class="count">44</span></a>
+          <a href="#"><span>Data & Analytics</span><span class="count">28</span></a>
+          <a href="#"><span>Testing & QA</span><span class="count">18</span></a>
+          <a href="#"><span>DevOps</span><span class="count">22</span></a>
+        </div>
+      </div>
+
+      <!-- Right: Other verticals + tags -->
+      <div class="cat-card">
+        <div class="cat-title"><div class="ico">CMS</div> <span>Platforms</span></div>
+        <div class="cat-list">
+          <a href="#"><span>WordPress Plugins</span><span class="count">31</span></a>
+          <a href="#"><span>Shopify</span><span class="count">14</span></a>
+          <a href="#"><span>Webflow</span><span class="count">12</span></a>
+          <a href="#"><span>Figma &amp; Assets</span><span class="count">26</span></a>
+          <a href="#"><span>Icons &amp; Illustrations</span><span class="count">47</span></a>
+          <a href="#"><span>3D &amp; Game Dev</span><span class="count">19</span></a>
+        </div>
+      </div>
+
+      <div class="cat-card">
+        <div class="cat-title"><div class="ico">TAG</div> <span>Popular tags</span></div>
+        <div class="tags">
+          <a href="#" class="tag">landing</a>
+          <a href="#" class="tag">saas</a>
+          <a href="#" class="tag">dashboard</a>
+          <a href="#" class="tag">mjml</a>
+          <a href="#" class="tag">email</a>
+          <a href="#" class="tag">nextjs</a>
+          <a href="#" class="tag">react</a>
+          <a href="#" class="tag">icons</a>
+          <a href="#" class="tag">automation</a>
+          <a href="#" class="tag">stripe</a>
+          <a href="#" class="tag">analytics</a>
+          <a href="#" class="tag">ai-agent</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footline">
+      <span style="color:#64748b">Not seeing what you need?</span>
+      <a href="#">Browse all categories →</a>
+    </div>
   </aside>
 </div>
 
-<script>
-/* year (if needed elsewhere) */
-// document.getElementById('y').textContent = new Date().getFullYear();
+<footer class="footer-outer">
+  <!-- Kurumsal alt blok (istersen korursun/çıkarırsın) -->
+  <section style="background:#fff4cf;padding-block:42px;border-top:1px solid var(--line)">
+    <div class="page-section page-section--fluid">
+      <h3 style="font-size:36px;line-height:1.1;margin:0 0 12px">What is RGZTEC?</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <div><h4>A community doing good</h4><p>We bring creators and developers together to make, sell and collect unique digital products.</p></div>
+        <div><h4>Support independent creators</h4><p>No warehouse — just makers sharing what they love.</p></div>
+        <div><h4>Peace of mind</h4><p>Your privacy is a top priority. Help is always available.</p></div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:24px">
+        <button class="pill-open" style="height:44px">Go to Help Center</button>
+      </div>
+    </div>
+  </section>
+  <section style="background:#d7efff;padding-block:18px;border-top:1px solid #c7e6ff;border-bottom:1px solid #c7e6ff">
+    <div class="page-section page-section--fluid" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center">
+      <span style="font-weight:700">Get product news & exclusive offers</span>
+      <input type="email" placeholder="Enter your email" style="height:44px;min-width:260px;border:1px solid #cbd5e1;border-radius:999px;padding:0 14px;font-size:14px;outline:none"/>
+      <button type="button" class="pill-open" style="height:44px;background:#fff;color:#111827">Subscribe</button>
+    </div>
+  </section>
+  <div style="background:#1e63ff;color:#fff;padding-block:12px;text-align:center;font-weight:600">RGZTEC runs on 100% renewable energy.</div>
+</footer>
 
-/* colors */
+<script>
+/* renk paleti ve mağaza verileri */
 const COLOR = {
  'html-templates': ['#a5d6ff', '#3b82f6'],
  'email-forge': ['#fecaca', '#ef4444'],
@@ -245,7 +282,6 @@ const COLOR = {
  'unity-hub': ['#fecdd3', '#f43f5e'],
  'wp-plugins': ['#ddd6fe', '#8b5cf6']
 };
-
 const STORES_DATA = [
   { "slug": "html-templates", "name": "HTML Templates" },
   { "slug": "email-forge", "name": "Email Forge" },
@@ -258,7 +294,6 @@ const STORES_DATA = [
   { "slug": "unity-hub", "name": "Unity Hub" },
   { "slug": "wp-plugins", "name": "WP Plugins" }
 ];
-
 function tile(s){
   const name = s.name || s.slug;
   const letter = (name || '?')[0].toUpperCase();
@@ -275,7 +310,7 @@ function tile(s){
 }
 document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
 
-/* drawer */
+/* drawer open/close */
 const drawer=document.getElementById('drawer'), back=document.getElementById('backdrop');
 const openBtn=document.getElementById('btnCats'), closeBtn=document.getElementById('closeDrawer');
 function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
