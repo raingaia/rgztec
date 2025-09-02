@@ -110,27 +110,33 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 }
 
 
-/* drawer (kategori) */
-.drawer{position:fixed;inset:0;display:none}
+/* ===== YENİ DROPDOWN MENÜ Stilleri ===== */
+.drawer{position:fixed;inset:0;display:none;z-index:40}
 .drawer.open{display:block}
-.back{position:absolute;inset:0;background:#0006}
-.panel{position:absolute;left:0;top:0;height:100%;width:min(860px,96vw);background:#fff;border-right:1px solid var(--line);
-  padding:18px 18px 24px;overflow:auto}
-.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.close-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;border:1px solid var(--line-strong);background:#fff;cursor:pointer}
-.drawer-search{display:flex;gap:8px;margin-bottom:14px}
-.drawer-search input{flex:1;height:40px;border:1px solid var(--line-strong);border-radius:10px;padding:0 12px}
-.cat-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
-.cat-card{border:1px solid var(--line-strong);border-radius:14px;padding:14px}
-.cat-title{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-weight:800}
-.cat-title .ico{width:22px;height:22px;border-radius:6px;background:#f3f4f6;display:grid;place-items:center;font-size:12px}
-.cat-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.cat-list a{display:flex;justify-content:space-between;gap:10px;text-decoration:none;color:#111827;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
-.cat-list a span.count{color:#64748b}
-.tags{display:flex;flex-wrap:wrap;gap:8px}
-.tag{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:#111827;text-decoration:none}
-.panel .footline{margin-top:12px;display:flex;gap:12px;align-items:center}
-.panel .footline a{text-decoration:none;font-weight:700}
+.back{position:absolute;inset:0;background:transparent}
+.panel{
+  position:absolute;
+  width: 280px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  border: 1px solid var(--line);
+  padding: 8px;
+  overflow: auto;
+  max-height: calc(100vh - 80px);
+}
+.panel nav a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+}
+.panel nav a:hover {
+    background: #f3f4f6;
+}
 
 /* ===== YENİ FOOTER Stilleri ===== */
 .footer-outer {
@@ -203,7 +209,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 }
 
 /* responsive */
-@media (max-width:960px){ .cat-grid{grid-template-columns:1fr} }
 @media (max-width: 768px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -305,80 +310,23 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   </div>
 </main>
 
-<!-- Categories Drawer -->
+<!-- Categories Drawer (Yeni Dropdown Menü) -->
 <div id="drawer" class="drawer" aria-hidden="true">
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
-    <div class="drawer-head">
-      <h3>Browse categories</h3>
-      <button id="closeDrawer" class="close-btn" aria-label="Close">✕</button>
-    </div>
-
-    <div class="drawer-search">
-      <input type="search" placeholder="Search in categories…" aria-label="Category search">
-      <button class="icon-btn" title="Search">🔎</button>
-    </div>
-
-    <div class="cat-grid">
-      <div class="cat-card">
-        <div class="cat-title"><div class="ico">UI</div> <span>UI & Templates</span></div>
-        <div class="cat-list">
-          <a href="#"><span>HTML Templates</span><span class="count">124</span></a>
-          <a href="#"><span>Landing Pages</span><span class="count">68</span></a>
-          <a href="#"><span>React Components</span><span class="count">95</span></a>
-          <a href="#"><span>Admin Dashboards</span><span class="count">41</span></a>
-          <a href="#"><span>Tailwind UI Kits</span><span class="count">53</span></a>
-          <a href="#"><span>Email &amp; MJML</span><span class="count">37</span></a>
-        </div>
-      </div>
-
-      <div class="cat-card">
-        <div class="cat-title"><div class="ico">DEV</div> <span>Dev & Automation</span></div>
-        <div class="cat-list">
-          <a href="#"><span>AI Tools & Agents</span><span class="count">76</span></a>
-          <a href="#"><span>Integrations & APIs</span><span class="count">39</span></a>
-          <a href="#"><span>CLI & Scripts</span><span class="count">44</span></a>
-          <a href="#"><span>Data & Analytics</span><span class="count">28</span></a>
-          <a href="#"><span>Testing & QA</span><span class="count">18</span></a>
-          <a href="#"><span>DevOps</span><span class="count">22</span></a>
-        </div>
-      </div>
-
-      <div class="cat-card">
-        <div class="cat-title"><div class="ico">CMS</div> <span>Platforms</span></div>
-        <div class="cat-list">
-          <a href="#"><span>WordPress Plugins</span><span class="count">31</span></a>
-          <a href="#"><span>Shopify</span><span class="count">14</span></a>
-          <a href="#"><span>Webflow</span><span class="count">12</span></a>
-          <a href="#"><span>Figma &amp; Assets</span><span class="count">26</span></a>
-          <a href="#"><span>Icons &amp; Illustrations</span><span class="count">47</span></a>
-          <a href="#"><span>3D &amp; Game Dev</span><span class="count">19</span></a>
-        </div>
-      </div>
-
-      <div class="cat-card">
-        <div class="cat-title"><div class="ico">TAG</div> <span>Popular tags</span></div>
-        <div class="tags">
-          <a href="#" class="tag">landing</a>
-          <a href="#" class="tag">saas</a>
-          <a href="#" class="tag">dashboard</a>
-          <a href="#" class="tag">mjml</a>
-          <a href="#" class="tag">email</a>
-          <a href="#" class="tag">nextjs</a>
-          <a href="#" class="tag">react</a>
-          <a href="#" class="tag">icons</a>
-          <a href="#" class="tag">automation</a>
-          <a href="#" class="tag">stripe</a>
-          <a href="#" class="tag">analytics</a>
-          <a href="#" class="tag">ai-agent</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footline">
-      <span style="color:#64748b">Not seeing what you need?</span>
-      <a href="#">Browse all categories →</a>
-    </div>
+    <nav>
+        <a href="?tag=html-templates">HTML Templates</a>
+        <a href="?tag=react-components">React Components</a>
+        <a href="?tag=wordpress-plugins">WordPress Plugins</a>
+        <a href="?tag=ai-tools">AI Tools & Prompts</a>
+        <a href="?tag=mobile-games">Mobile Games</a>
+        <a href="?tag=icons-graphics">Icons & Graphics</a>
+        <a href="?tag=3d-models">3D & AR/VR Models</a>
+        <a href="?tag=scripts-code">Scripts & Code</a>
+        <a href="?tag=audio">Audio & Sound Effects</a>
+        <a href="?tag=video-templates">Video Templates</a>
+        <a href="#" style="font-weight: 700; color: var(--brand); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 12px;">All Categories →</a>
+    </nav>
   </aside>
 </div>
 
@@ -437,6 +385,7 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     </div>
 </footer>
 
+
 <script>
 /* renk ve mağaza verileri */
 const COLOR = {
@@ -481,14 +430,33 @@ document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
 document.getElementById('y').textContent = new Date().getFullYear();
 
 /* drawer open/close */
-const drawer=document.getElementById('drawer'), back=document.getElementById('backdrop');
-const openBtn=document.getElementById('btnCats'), closeBtn=document.getElementById('closeDrawer');
-function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-openBtn?.addEventListener('click',openDrawer);
+const drawer=document.getElementById('drawer'), 
+      back=document.getElementById('backdrop'),
+      panel=drawer.querySelector('.panel'),
+      openBtn=document.getElementById('btnCats');
+
+function openDrawer(){
+  const btnRect = openBtn.getBoundingClientRect();
+  panel.style.top = `${btnRect.bottom + 8}px`; // Butonun 8px altına
+  panel.style.left = `${btnRect.left}px`;    // Butonun soluyla hizalı
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+}
+openBtn?.addEventListener('click', (e) => {
+    e.stopPropagation(); // Butona tıklamanın back'i tetiklemesini önle
+    if (drawer.classList.contains('open')) {
+        closeDrawer();
+    } else {
+        openDrawer();
+    }
+});
 back?.addEventListener('click',closeDrawer);
-closeBtn?.addEventListener('click',closeDrawer);
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 </script>
 </body>
 </html>
+
