@@ -228,9 +228,9 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     </div>
 
     <div class="search-wrap">
-      <form class="search" role="search" onsubmit="return false;">
-        <input type="search" placeholder="Search for anything" aria-label="Search"/>
-        <button class="go" aria-label="Search">
+      <form class="search" role="search" action="listings.html">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
+        <button class="go" type="submit" aria-label="Search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
         </button>
       </form>
@@ -247,13 +247,13 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   <div class="chips-outer">
     <div class="page-section page-section--fluid">
       <nav class="chips" aria-label="Quick filters">
-        <a class="chip" href="#">New</a>
-        <a class="chip" href="#">Trending</a>
-        <a class="chip" href="#">Top sellers</a>
-        <a class="chip" href="#">Deals</a>
-        <a class="chip" href="#">HTML Templates</a>
-        <a class="chip" href="#">React</a>
-        <a class="chip" href="#">AI</a>
+        <a class="chip" href="listings.html?tag=new">New</a>
+        <a class="chip" href="listings.html?tag=trending">Trending</a>
+        <a class="chip" href="listings.html?tag=top-sellers">Top sellers</a>
+        <a class="chip" href="listings.html?tag=deals">Deals</a>
+        <a class="chip" href="listings.html?tag=html-templates">HTML Templates</a>
+        <a class="chip" href="listings.html?tag=react">React</a>
+        <a class="chip" href="listings.html?tag=ai">AI</a>
       </nav>
     </div>
   </div>
@@ -315,17 +315,17 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
     <nav>
-        <a href="?tag=html-templates">HTML Templates</a>
-        <a href="?tag=react-components">React Components</a>
-        <a href="?tag=wordpress-plugins">WordPress Plugins</a>
-        <a href="?tag=ai-tools">AI Tools & Prompts</a>
-        <a href="?tag=mobile-games">Mobile Games</a>
-        <a href="?tag=icons-graphics">Icons & Graphics</a>
-        <a href="?tag=3d-models">3D & AR/VR Models</a>
-        <a href="?tag=scripts-code">Scripts & Code</a>
-        <a href="?tag=audio">Audio & Sound Effects</a>
-        <a href="?tag=video-templates">Video Templates</a>
-        <a href="#" style="font-weight: 700; color: var(--brand); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 12px;">All Categories →</a>
+        <a href="listings.html?tag=html-templates">HTML Templates</a>
+        <a href="listings.html?tag=react-components">React Components</a>
+        <a href="listings.html?tag=wordpress-plugins">WordPress Plugins</a>
+        <a href="listings.html?tag=ai-tools">AI Tools & Prompts</a>
+        <a href="listings.html?tag=mobile-games">Mobile Games</a>
+        <a href="listings.html?tag=icons-graphics">Icons & Graphics</a>
+        <a href="listings.html?tag=3d-models">3D & AR/VR Models</a>
+        <a href="listings.html?tag=scripts-code">Scripts & Code</a>
+        <a href="listings.html?tag=audio">Audio & Sound Effects</a>
+        <a href="listings.html?tag=video-templates">Video Templates</a>
+        <a href="listings.html" style="font-weight: 700; color: var(--brand); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 12px;">All Categories →</a>
     </nav>
   </aside>
 </div>
