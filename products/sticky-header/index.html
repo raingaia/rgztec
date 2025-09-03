@@ -116,14 +116,13 @@
     mount.innerHTML = '';
     const wrapper = document.createElement('div');
     wrapper.innerHTML = code;
-    // script dışı
     Array.from(wrapper.childNodes).forEach(n=>{
       if(!(n.tagName && n.tagName.toLowerCase()==='script')) mount.appendChild(n);
     });
-    // script'leri aktif ekle
     wrapper.querySelectorAll('script').forEach(sOld=>{
       const s = document.createElement('script');
-      s.textContent = sOld.textContent;
+      if (sOld.src) { s.src = sOld.src; s.async = false; }
+      else { s.textContent = sOld.textContent; }
       mount.appendChild(s);
     });
   }
@@ -142,4 +141,3 @@
 </script>
 </body>
 </html>
-
