@@ -105,46 +105,45 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 
 <script>
-  // Tabs
-  document.querySelectorAll('.tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const t = btn.dataset.target;
-      document.getElementById('editor-html').style.display = (t==='html')?'block':'none';
-      document.getElementById('editor-css').style.display  = (t==='css')?'block':'none';
-      document.getElementById('editor-js').style.display   = (t==='js')?'block':'none';
-    });
-  });
+let __previewBlobURL = null;
 
-  function toggleTheme(){ document.body.classList.toggle('dark'); }
+function runPreview(){
+  const con = document.getElementById('console');
+  const frame = document.getElementById('preview');
+  con.textContent = '';                  // console panelini temizle
 
-  // Helpers
-  const getHTML = () => document.getElementById('editor-html').value;
-  const getCSS  = () => document.getElementById('editor-css').value;
-  const getJS   = () => document.getElementById('editor-js').value;
-  const escapeStyleEnd = s => s.replace(/<\/style>/gi, '<\\/style>');
-  const escapeScriptEnd = s => s.replace(/<\/script>/gi, '<\\/script>');
+  try {
+    const doc = buildDocument();
 
-  function looksLikeFullHTML(s){
-    return /<html[\\s>]/i.test(s) || /<!doctype/i.test(s);
+    // önce srcdoc dene
+    let usedSrcdoc = false;
+    try {
+      // bazı motorlar srcdoc’u sessizce yoksayabiliyor; yine de deneriz
+      frame.removeAttribute('src');
+      frame.srcdoc = doc;
+      usedSrcdoc = true;
+    } catch (_) {
+      usedSrcdoc = false;
+    }
+
+    // srcdoc çalışmazsa (CSP / tarayıcı kısıtı), blob URL’ye düş
+    if (!usedSrcdoc || frame.srcdoc !== doc) {
+      if (__previewBlobURL) { URL.revokeObjectURL(__previewBlobURL); __previewBlobURL = null; }
+      __previewBlobURL = URL.createObjectURL(new Blob([doc], { type: 'text/html' }));
+      frame.removeAttribute('srcdoc');
+      frame.src = __previewBlobURL;
+    }
+  } catch (err) {
+    con.textContent = '[error] ' + (err && err.message ? err.message : String(err));
   }
-  function insertBeforeClose(tag, html, injection){
-    const re = new RegExp(`</${tag}\\s*>`, 'i');
-    return re.test(html) ? html.replace(re, injection + `</${tag}>`) : html + injection;
-  }
+}
 
-  function buildDocument(){
-    const html = getHTML();
-    const css  = escapeStyleEnd(getCSS());
-    const js   = escapeScriptEnd(getJS());
-    const isModule = document.getElementById('moduleFlag').checked;
-    const scriptTag = js.trim()
-      ? (isModule ? `<script type="module">${js}</script>` : `<script>${js}</script>`)
-      : '';
-
-    // console bridge
-    const loggerTag = `<script>(function(){
+// sayfa kapanırken blob’u temizle
+window.addEventListener('beforeunload', () => {
+  if (__previewBlobURL) URL.revokeObjectURL(__previewBlobURL);
+});
+</script>
+(function(){
       ['log','warn','error'].forEach(function(k){
         var orig = console[k];
         console[k] = function(){
