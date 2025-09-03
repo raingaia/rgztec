@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RGZTEC • Sticky Header</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0b1220;--sub:#6b7280;--bg:#fff;--line:#e5e7eb;--brand:#f97316}
+  *{box-sizing:border-box} html,body{margin:0}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+  .crumbs{font-size:13px;color:var(--sub);margin-bottom:8px}
+  h1{margin:.2rem 0 1rem}
+  .meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--sub);font-size:14px}
+  .tabs{display:flex;gap:8px;margin-top:16px}
+  .tab{border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer;background:#fff}
+  .tab.active{background:#111827;color:#fff;border-color:#111827}
+  .panel{margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}
+  iframe{width:100%;height:520px;border:1px solid var(--line);border-radius:12px;background:#fff}
+  .cta{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+  textarea{width:100%;height:180px;border:1px solid var(--line);border-radius:12px;padding:10px;resize:vertical;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+  .row{display:grid;grid-template-columns:1.4fr .6fr;gap:16px}
+  @media (max-width:900px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="crumbs"><a href="/">Home</a> / <a href="/product/">Products</a> / Sticky Header</div>
+    <div class="row">
+      <div>
+        <h1>Sticky Header</h1>
+        <div class="meta">
+          <span>Type: UI Pattern</span> •
+          <span>License: Commercial</span> •
+          <span>Last update: Sep 2025</span>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-panel="overview">Overview</button>
+          <button class="tab" data-panel="live">Live Demo</button>
+          <button class="tab" data-panel="try">Try Code (optional)</button>
+        </div>
+
+        <div id="panel-overview" class="panel">
+          <p>Scroll-aware, minimal sticky header component. Vanilla CSS/JS, zero dependency.</p>
+          <ul>
+            <li>✔️ Pure HTML/CSS/JS</li>
+            <li>✔️ Accessible & responsive</li>
+            <li>✔️ Works on all modern browsers</li>
+          </ul>
+        </div>
+
+        <div id="panel-live" class="panel" hidden>
+          <iframe
+            src="/demos/0001.html"
+            sandbox="allow-scripts">
+          </iframe>
+          <p style="color:#6b7280;font-size:13px;margin-top:8px">
+            Demo sandbox içinde çalışır. Kaynak kod satın alma sonrası açılır.
+          </p>
+        </div>
+
+        <div id="panel-try" class="panel" hidden>
+          <p style="margin:0 0 8px">Küçük bir snippet deneyin:</p>
+          <textarea id="tryCode"><button class="cta">Buy</button>
+<style>.cta{background:#f97316;color:#fff;padding:10px 16px;border:none;border-radius:10px;font-weight:600}</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.cta');
+    if(btn) btn.onclick = () => alert('Purchased!');
+  });
+</script></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="cta" onclick="runTry()">Run</button>
+            <button class="cta" style="background:#111827" onclick="openTry()">Open in New Tab</button>
+          </div>
+          <div id="tryMount" style="margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:80px;background:#fff"></div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <h3 style="margin-top:0">Buy once, use forever</h3>
+        <p style="color:#6b7280">Single Project License</p>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
+          <strong style="font-size:24px">$9</strong>
+          <button class="cta" onclick="alert('Checkout flow bağlanacak')">Add to Cart</button>
+        </div>
+        <hr style="margin:16px 0;border:0;border-top:1px solid var(--line)">
+        <ul style="margin:0;padding-left:18px;color:#6b7280">
+          <li>Instant download</li>
+          <li>Lifetime updates</li>
+          <li>Commercial use</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.panel;
+      document.querySelectorAll('.panel').forEach(p=>p.hidden=true);
+      document.getElementById('panel-' + target).hidden = false;
+    });
+  });
+
+  // Try Code (küçük sandbox)
+  function runTry(){
+    const code = document.getElementById('tryCode').value;
+    const mount = document.getElementById('tryMount');
+    mount.innerHTML = '';
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = code;
+    // script dışı
+    Array.from(wrapper.childNodes).forEach(n=>{
+      if(!(n.tagName && n.tagName.toLowerCase()==='script')) mount.appendChild(n);
+    });
+    // script'leri aktif ekle
+    wrapper.querySelectorAll('script').forEach(sOld=>{
+      const s = document.createElement('script');
+      s.textContent = sOld.textContent;
+      mount.appendChild(s);
+    });
+  }
+  function openTry(){
+    const code = document.getElementById('tryCode').value;
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>${code}</body></html>`;
+    const w = window.open('', '_blank');
+    if (w && w.document){ w.document.open(); w.document.write(html); w.document.close(); return; }
+    const blob = new Blob([html], {type:'text/html'}); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(url), 30000);
+  }
+
+  // Varsayılan panel
+  document.getElementById('panel-overview').hidden = false;
+</script>
+</body>
+</html>
 
