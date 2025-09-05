@@ -4,7 +4,6 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-
 <style>
   :root{
     --wrap:1280px; --rail-w:980px; --search-h:44px;
@@ -15,7 +14,6 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
 
-  /* HEADER (sadık kaldık) */
   .wrap{max-width:var(--wrap);margin:0 auto;padding:12px 18px 0}
   .hdr{display:grid;grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr;align-items:center;gap:16px}
   .left{display:flex;align-items:center;gap:10px}
@@ -33,9 +31,8 @@
   .open{background:var(--brand);color:#fff !important;font-weight:700;padding:8px 16px;border-radius:999px}
   .open:hover{background:var(--brand-dark)}
 
-  /* CATS BAR + BUTTON */
   .bar-wrap{border-bottom:2px solid var(--line-strong)}
-  .bar{max-width:var(--rail-w);margin:2px auto 0;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;gap:0}
+  .bar{max-width:var(--rail-w);margin:2px auto 0;display:grid;grid-template-columns:repeat(5,1fr);align-items:center}
   .bar a{line-height:44px;text-align:center;font-weight:600;text-decoration:none;color:var(--ink)}
   .bar a[aria-current="page"]{color:var(--brand-dark);text-decoration:underline}
 
@@ -45,11 +42,15 @@
   main{max-width:var(--wrap);margin:16px auto;padding:0 18px}
   .empty{color:var(--muted)}
 
-  /* Drawer (çekmece) */
-  .drawer{position:fixed;inset:0;display:none;z-index:40}
+  /* Drawer */
+  .drawer{position:fixed;inset:0;display:none;z-index:9999}
   .drawer.open{display:block}
   .back{position:absolute;inset:0;background:transparent}
-  .panel{position:absolute;width:280px;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);padding:8px;max-height:calc(100vh - 80px);overflow:auto}
+  .panel{
+    position:absolute;width:280px;background:#fff;border-radius:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);
+    padding:8px;max-height:calc(100vh - 80px);overflow:auto
+  }
   .panel h4{margin:6px 8px 8px;font-size:13px;color:var(--muted)}
   .panel a{display:block;padding:10px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
   .panel a:hover{background:#f3f4f6}
@@ -62,7 +63,6 @@
 </style>
 </head>
 <body>
-
 <header>
   <div class="wrap">
     <div class="hdr">
@@ -70,9 +70,7 @@
         <a class="brand" href="./">RGZTEC</a>
         <span id="studio" class="studio">Store</span>
         <button id="btnCats" class="btn-cats" aria-haspopup="dialog" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           <span>Categories</span>
         </button>
       </div>
@@ -124,12 +122,12 @@
   (async function init(){
     if(!slug) return;
 
-    // 1) mağaza adı/renk
+    // mağaza adı/renk
     try{
       const sres = await fetch('data/stores.json', {cache:'no-store'});
       if(sres.ok){
         const {stores=[]} = await sres.json();
-        const meta = stores.find(x => x.slug===slug);
+        const meta = stores.find(x=>x.slug===slug);
         if(meta){
           $('#studio').textContent = meta.name || meta.slug;
           $('#studio').style.background = meta.color || '#7c3aed';
@@ -141,7 +139,7 @@
       }
     }catch(e){}
 
-    // 2) mağaza kategorileri
+    // mağaza kategorileri
     try{
       const cres = await fetch('data/store-content.json', {cache:'no-store'});
       if(!cres.ok) return;
@@ -149,7 +147,7 @@
       const entry = content[slug] || {};
       const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
-      // Üst bar
+      // üst bar
       const bar = $('#bar');
       bar.style.gridTemplateColumns = `repeat(${Math.max(1,cats.length)},1fr)`;
       bar.innerHTML = cats.map(c=>{
@@ -157,20 +155,18 @@
         return `<a href="store.html?slug=${encodeURIComponent(slug)}#${h}" data-hash="${h}">${esc(c)}</a>`;
       }).join('');
 
-      // Aktif hash
-      const ensureActive = ()=>{
-        const cur = (location.hash||'').replace('#','');
+      const setActive = ()=>{
+        const cur = (location.hash||'').slice(1);
         bar.querySelectorAll('a').forEach(a=>{
-          if(a.dataset.hash===cur){ a.setAttribute('aria-current','page'); }
-          else{ a.removeAttribute('aria-current'); }
+          if(a.dataset.hash===cur) a.setAttribute('aria-current','page');
+          else a.removeAttribute('aria-current');
         });
       };
-      ensureActive();
-      window.addEventListener('hashchange', ensureActive);
+      setActive();
+      window.addEventListener('hashchange', setActive);
 
-      // Drawer içerik
-      const dn = $('#drawerNav');
-      dn.innerHTML = cats.map(c=>{
+      // drawer doldur
+      $('#drawerNav').innerHTML = cats.map(c=>{
         const h = slugify(c);
         return `<a href="store.html?slug=${encodeURIComponent(slug)}#${h}">${esc(c)}</a>`;
       }).join('');
@@ -178,12 +174,31 @@
     }catch(e){}
   })();
 
-  // Drawer aç/kapa (buton yerinde, header bozulmuyor)
+  // Drawer aç/kapa — kesin açılması için önce görünmez biçimde ölç, sonra konumlandır
   const drawer = $('#drawer'), panel = $('.panel', drawer), back = $('#back'), btn = $('#btnCats');
-  function openDrawer(){
+
+  function positionPanel(){
     const r = btn.getBoundingClientRect();
-    panel.style.top = `${r.bottom + 8}px`;
-    panel.style.left = `${r.left}px`;
+    // panel genişliğini doğru ölçmek için geçici görünür yap
+    panel.style.visibility = 'hidden';
+    panel.style.display = 'block';
+    const pw = panel.offsetWidth;
+    panel.style.display = ''; // eski hale
+    panel.style.visibility = '';
+
+    const margin = 8;
+    const left = Math.min(
+      Math.max(margin, r.left + window.scrollX),
+      window.innerWidth + window.scrollX - pw - margin
+    );
+    const top = r.bottom + window.scrollY + margin;
+
+    panel.style.left = left + 'px';
+    panel.style.top  = top  + 'px';
+  }
+
+  function openDrawer(){
+    positionPanel();
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden','false');
     btn.setAttribute('aria-expanded','true');
@@ -193,11 +208,13 @@
     drawer.setAttribute('aria-hidden','true');
     btn.setAttribute('aria-expanded','false');
   }
+
   btn?.addEventListener('click', (e)=>{ e.stopPropagation(); drawer.classList.contains('open')?closeDrawer():openDrawer(); });
   back?.addEventListener('click', closeDrawer);
   window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+  window.addEventListener('resize', ()=>{ if(drawer.classList.contains('open')) positionPanel(); });
 
-  // Arama: slug + varsa hash korunur
+  // arama: slug + hash korunur
   $('#searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = ($('#q')?.value||'').trim();
