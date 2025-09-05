@@ -53,7 +53,7 @@ const STORE_INFO = {
 };
 
 // Ana sayfada gösterilecek mağazaların renkleri
-const STORE_COLORS = {
+const COLOR_MAP = {
  'html-templates': ['#a5d6ff', '#3b82f6'],
  'email-forge': ['#fecaca', '#ef4444'],
  'icon-smith': ['#bae6fd', '#0ea5e9'],
@@ -65,4 +65,7 @@ const STORE_COLORS = {
  'unity-hub': ['#fecdd3', '#f43f5e'],
  'wp-plugins': ['#ddd6fe', '#8b5cf6']
 };
+
+// Otomatik olarak mağaza listesi oluştur
+const STORES_DATA = Object.keys(STORE_INFO).map(slug => ({ slug: slug, name: STORE_INFO[slug].name }));
 
