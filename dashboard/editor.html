@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -86,8 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <input id="autoRun" type="checkbox"> <span>Auto-run</span>
           </label>
         </div>
-        <div id="popupWarn" class="note">Pop-up engellendi. Lütfen bu site için pop-uplara izin verip tekrar deneyin.</div>
-        <div class="hint">İpucu: React/Vue gibi kütüphaneleri CDN ile ekleyebilirsin (örn. <code>&lt;script src="https://unpkg.com/react@18/umd/react.development.js"&gt;&lt;/script&gt;</code>).</div>
+        <div id="popupWarn" class="note">Pop-up blocked. Allow pop-ups for this site and try again.</div>
+        <div class="hint">Tip: You can add libraries via CDN (e.g. <code>&lt;script src="https://unpkg.com/react@18/umd/react.development.js"&gt;&lt;/script&gt;</code>).</div>
       </div>
 
       <!-- RIGHT: Preview -->
@@ -132,13 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   function clearLog(){ document.getElementById('log').textContent=''; }
 
+  // Full-HTML detection
   function looksLikeFullHTML(s){
     return /<html[\s>]/i.test(s) || /<!doctype/i.test(s);
   }
+  // Injection helpers
   function hasTag(out, tag){ return new RegExp(`<${tag}(\\s|>)`, 'i').test(out); }
   function closeTagRe(tag){ return new RegExp(`</${tag}\\s*>`, 'i'); }
   function openTagRe(tag){ return new RegExp(`<${tag}[^>]*>`, 'i'); }
-
   function ensureHead(out){
     if (hasTag(out,'head')) return out;
     const m = openTagRe('html').exec(out);
@@ -156,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return re.test(out) ? out.replace(re, injection + `$&`) : out + injection;
   }
 
+  // Build final document
   function buildDocument(){
     const html = getHTML();
     const css  = escapeStyleEnd(getCSS());
@@ -175,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     return `<!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RGZTEC Snippet</title>
@@ -188,48 +190,48 @@ ${scriptTag}
 </html>`;
   }
 
-  // >>>> YENİ: Blob tabanlı runPreview (srcdoc yerine) <<<<
+  // Preview using about:blank + document.write (robust across browsers)
   function runPreview(){
     try{
       clearLog();
-      const doc = buildDocument();
+      const html = buildDocument();
       const frame = document.getElementById('preview');
 
-      // Eski blob URL'yi bırak
-      if (frame.dataset.blobUrl){
-        try { URL.revokeObjectURL(frame.dataset.blobUrl); } catch(e){}
-        frame.dataset.blobUrl = '';
-      }
+      // Reset src/srcdoc to force a clean document
+      frame.removeAttribute('src');
+      frame.removeAttribute('srcdoc');
 
-      // Yeni blob oluştur ve iframe'e ata
-      const blob = new Blob([doc], { type: 'text/html' });
-      const url  = URL.createObjectURL(blob);
-      frame.dataset.blobUrl = url;
-      frame.src = url;
-
-      // İçerideki console.log/error'ları yakala
       frame.onload = () => {
         try{
           const win = frame.contentWindow;
-          if (!win || !win.console) return;
-          ['log','error','warn'].forEach(fn=>{
-            const orig = win.console[fn];
-            win.console[fn] = function(...args){
-              try { orig.apply(this,args); } catch(_) {}
-              log(`[${fn}] ` + args.map(a => (typeof a === 'string' ? a : JSON.stringify(a))).join(' '));
-            };
-          });
-          win.addEventListener('error', (e)=> log(`[error] ${e.message || e.error}`));
-          try { win.console.log('preview loaded'); } catch(_){}
+          const doc = win.document;
+          doc.open(); doc.write(html); doc.close();
+
+          // Console proxy inside the iframe
+          try{
+            ['log','error','warn'].forEach(fn=>{
+              const orig = win.console[fn];
+              win.console[fn] = function(...args){
+                try { orig.apply(this,args); } catch(_) {}
+                log(`[${fn}] ` + args.map(a => (typeof a === 'string' ? a : JSON.stringify(a))).join(' '));
+              };
+            });
+            win.addEventListener('error', (e)=> log(`[error] ${e.message || e.error}`));
+            win.console.log('preview loaded');
+          }catch(_){}
         }catch(err){
           log(`[error] ${err && err.message ? err.message : err}`);
         }
       };
+
+      // Start with same-origin blank page
+      frame.src = 'about:blank';
     }catch(err){
       log(`[error] ${err && err.message ? err.message : err}`);
     }
   }
 
+  // New Tab (inline or blob fallback)
   function openInNewTab(){
     const warn = document.getElementById('popupWarn');
     warn.classList.remove('show');
@@ -251,6 +253,7 @@ ${scriptTag}
     }
   }
 
+  // Download
   function downloadHTML(){
     const doc = buildDocument();
     const blob = new Blob([doc], {type:'text/html'});
@@ -265,12 +268,12 @@ ${scriptTag}
     if (document.getElementById('autoRun').checked) runPreview();
   }
 
-  // Kısayol
+  // Shortcut
   window.addEventListener('keydown', (e)=>{
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter'){ runPreview(); }
   });
 
-  // İlk yüklemede bir kez çalıştır
+  // First render
   runPreview();
 </script>
 </body>
