@@ -4,219 +4,195 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
+
 <style>
-:root{
-  --wrap:1100px;
-  --gutter-min:12px; --gutter-max:28px;
-  --ink:#0b1220; --sub:#64748b;
-  --line:#e5e7eb; --line-strong:#d7dbe3;
-  --brand:#f97316; --brand-dark:#ea580c;
-  --search-h:52px;
-}
-*{box-sizing:border-box}
-html,body{margin:0;overflow-x:hidden}
-body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+  :root{
+    --wrap:    1280px;
+    --rail-w:  980px;
+    --search-h:44px;
 
-.page-section{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
-.page-section--fluid{max-width:none;padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max))}
+    --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
+    --line:#e5e7eb; --line-strong:#cbd5e1;
+    --rgztec:#f97316; --rgztec-dark:#ea580c;
+    --studio-bg:#22c3dc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-.header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
-  backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
-.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap; padding-top: 8px; padding-bottom: 8px;}
-.header-left,.hdr-right{flex-shrink: 0;}
-.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
-.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
-.store-pill { font-weight: 700; font-size: 18px; background: var(--ink); color: #fff; padding: 6px 14px; border-radius: 10px; line-height: 1; }
-.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;
-  padding:0 8px 0 16px;width:100%;max-width:100%;overflow:hidden}
-.search input{flex:1;min-width:0;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent}
-.go{display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
-.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:nowrap}
-.signin-link{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
-.signin-link:hover{color:var(--brand)}
-.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
-.pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
-.pill-open:hover{background:var(--brand-dark)}
+  /* ===== HEADER ===== */
+  .topbar{background:#fff}
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
+  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
 
-.chips-outer{border-bottom:1.5px solid var(--line-strong)}
-.chips{display:flex;gap:22px;flex-wrap:wrap;align-items:center;justify-content:center;padding:8px 0 10px;}
-.chip{color:var(--sub);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;transition:color .2s}
-.chip:hover{color:var(--ink)}
+  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
+  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
+  .studio{
+    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
+    background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center;
+    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
+    transform:translateY(2px);
+  }
 
-.section-container{padding-top:24px}
-.section-h{font-weight:800;font-size:22px;margin:0 0 16px 0}
+  .rail{display:flex; align-items:center; justify-content:center}
+  .search{
+    width:var(--rail-w); max-width:100%;
+    display:flex; align-items:center; gap:10px;
+    height:var(--search-h); padding:6px 8px 6px 16px;
+    border:2px solid #111827; border-radius:999px; background:#fff;
+  }
+  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
+  .search button{
+    display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
+    border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
+  }
+  .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
+  .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:8px}
-.card-skeleton {
-  border: 1px solid var(--line); background: #fff; border-radius: 16px; padding: 12px;
-  display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden;
-}
-.card-skeleton .placeholder { background: #eef2f7; border-radius: 6px; }
-.card-skeleton .ph-image { height: 160px; border-radius: 12px; }
-.card-skeleton .ph-title { height: 20px; width: 85%; }
-.card-skeleton .ph-text { height: 16px; width: 50%; }
-@keyframes shimmer{100%{transform:translateX(100%)}}
-.card-skeleton::after{
-  content:''; position:absolute; inset:0; transform:translateX(-100%);
-  background: linear-gradient(90deg, hsla(0,0%,100%,0), hsla(0,0%,100%,.5), hsla(0,0%,100%,0));
-  animation: shimmer 1.5s infinite;
-}
+  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
+  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
+  .open-store{
+    background:var(--rgztec); color:#fff !important; font-weight:700;
+    padding:8px 18px; border-radius:999px; height:40px;
+    display:inline-flex; align-items:center; white-space:nowrap;
+    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
+  }
+  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-.footer-outer {
-  margin-top: 40px; background-color: #232347; color: #fff;
-  padding-top: 48px; font-size: 14px;
-}
-.footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.footer-grid h4 { margin: 0 0 12px; font-size: 16px; font-weight: 700; color: #fff; }
-.footer-grid a {
-  display: block; color: #d1d1d1; text-decoration: none;
-  margin-bottom: 10px; transition: color .2s;
-}
-.footer-grid a:hover { color: #fff; text-decoration: underline; }
-.footer-socials { display: flex; gap: 16px; margin-top: 20px; }
-.footer-socials a { display: grid; place-items: center; }
-.footer-socials svg { width: 24px; height: 24px; fill: #d1d1d1; transition: fill .2s; }
-.footer-socials a:hover svg { fill: #fff; }
-.footer-bottom {
-  border-top: 1px solid #3c3c62; margin-top: 48px; padding: 24px 0;
-  display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 16px; font-size: 13px; color: #d1d1d1;
-}
-.footer-bottom a { color: #fff; text-decoration: none; font-weight: 600; }
-.footer-bottom a:hover { text-decoration: underline; }
+  /* ===== CATEGORIES ===== */
+  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
+  .cats-wrap::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    right:50%;
+    margin-left:-50vw; margin-right:-50vw;
+    bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
+  }
 
-@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  .store-bar{
+    --cols:5;
+    width:var(--rail-w); max-width:100%;
+    margin:2px auto 0; height:44px; padding:0;
+    border-bottom:none;
+    display:grid; grid-template-columns:repeat(var(--cols),1fr);
+    align-items:center; justify-items:center; background:transparent;
+  }
+  .store-bar a{
+    width:100%; text-align:center;
+    font-size:15px; font-weight:600; letter-spacing:.1px;
+    line-height:44px; color:var(--text); text-decoration:none;
+    transition:color .15s;
+  }
+  .store-bar a:hover{ color:var(--hover) }
+
+  /* ===== Content ===== */
+  main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
+  .empty{ display:none; }
+
+  /* ===== Responsive ===== */
+  @media (max-width:1180px){ :root{ --rail-w: 900px } }
+  @media (max-width:1040px){ :root{ --rail-w: 780px } }
+  @media (max-width:900px){
+    :root{ --rail-w: 100% }
+    .hdr{ grid-template-columns:1fr }
+    .icons a:not(.open-store){ display:none }
+    .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
+    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
+    .store-bar a{ line-height:38px }
+  }
 </style>
 </head>
 <body>
 
-<header class="header-outer">
-  <div class="page-section page-section--fluid header-row">
-    <div class="header-left">
-      <a class="brand" href="./">RGZTEC</a>
-      <span id="storeName" class="store-pill">Store Name</span>
-    </div>
-    <div class="search-wrap">
-      <form class="search" role="search" action="listings.html">
-        <input type="search" name="q" placeholder="Search in this store..." aria-label="Search in this store"/>
-        <button class="go" type="submit" aria-label="Search">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
-        </button>
-      </form>
-    </div>
-    <div class="hdr-right">
-      <a href="#" class="signin-link">Sign in</a>
-      <button class="icon-btn" title="Cart">🛒</button>
-      <a class="pill-open" href="open-store.html">Open Store</a>
-    </div>
-  </div>
-  <div class="chips-outer">
-    <div class="page-section page-section--fluid">
-        <nav class="chips" id="storeChips" aria-label="Store categories"></nav>
+<header class="topbar">
+  <div class="wrap">
+    <div class="hdr">
+      <div class="left">
+        <a class="brand" href="./">RGZTEC</a>
+        <span id="studioName" class="studio">Store</span>
+      </div>
+
+      <div class="rail">
+        <form class="search" id="searchForm">
+          <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
+          <button type="submit" aria-label="Search" id="qBtn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6"></circle>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <nav class="icons" aria-label="Quick actions">
+        <a href="login" aria-label="Sign in">Sign in</a>
+        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
+        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
+        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+      </nav>
     </div>
   </div>
 </header>
 
-<main class="page-section page-section--fluid section-container">
-  <h2 class="section-h" id="pageTitle">All Products</h2>
-  <div class="grid" id="gallery">
-    <!-- 40 skeleton cards will be injected here by JS -->
-  </div>
+<div class="cats-wrap">
+  <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
+</div>
+
+<main>
+  <p class="empty">Page content starts here…</p>
 </main>
 
-<footer class="footer-outer">
-    <div class="page-section page-section--fluid">
-        <div class="footer-grid">
-            <div>
-                <h4>Shop</h4>
-                <a href="#">Gift cards</a>
-                <a href="#">Sitemap</a>
-                <a href="#">RGZTEC blog</a>
-            </div>
-            <div>
-                <h4>Sell</h4>
-                <a href="#">Sell on RGZTEC</a>
-                <a href="#">Forums</a>
-                <a href="#">Affiliates</a>
-            </div>
-            <div>
-                <h4>About</h4>
-                <a href="#">RGZTEC, Inc.</a>
-                <a href="#">Policies</a>
-                <a href="#">Careers</a>
-            </div>
-            <div>
-                <h4>Help</h4>
-                <a href="#">Help Center</a>
-                <a href="#">Privacy settings</a>
-                <div class="footer-socials">
-                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                    <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© <span id="y"></span> RGZTEC, Inc.</span>
-            <div>
-                <a href="#">Terms of Use</a>
-                <a href="#" style="margin-left:16px">Privacy</a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script src="data.js"></script>
 <script>
-document.getElementById('y').textContent = new Date().getFullYear();
+  const params = new URLSearchParams(location.search);
+  const slug = (params.get('slug') || '').trim();
+  const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-function populateStorePage() {
-    const params = new URLSearchParams(window.location.search);
-    const storeSlug = params.get('slug');
-    const gallery = document.getElementById('gallery');
-    
-    // Populate gallery with 40 skeleton loaders regardless of store slug
-    if (gallery) {
-        let skeletonHTML = '';
-        for (let i = 0; i < 40; i++) {
-            skeletonHTML += `<div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>`;
+  (async function init(){
+    if (!slug) return;
+
+    try {
+      /* 1) stores.json => title + color */
+      const sres = await fetch('data/stores.json', { cache:'no-store' });
+      if (sres.ok){
+        const { stores=[] } = await sres.json();
+        const meta = stores.find(s => s.slug === slug);
+        const pill = document.getElementById('studioName');
+
+        if (meta){
+          pill.textContent = meta.name || meta.slug;
+          if (meta.color) pill.style.background = meta.color;
+          document.title = `RGZTEC • ${meta.name || meta.slug}`;
+        } else {
+          pill.textContent = slug;
+          document.title = `RGZTEC • ${slug}`;
         }
-        gallery.innerHTML = skeletonHTML;
-    }
+      }
 
-    // If there is no slug, we stop here after populating the gallery
-    if (!storeSlug || typeof STORE_INFO === 'undefined') {
-        const storeNameEl = document.getElementById('storeName');
-        const pageTitleEl = document.getElementById('pageTitle');
-        if(storeNameEl) storeNameEl.textContent = 'Store';
-        if(pageTitleEl) pageTitleEl.textContent = 'All Products';
-        // You can add a more descriptive error message if you want
-        return;
-    }
+      /* 2) store-content.json => categories */
+      const cres = await fetch('data/store-content.json', { cache:'no-store' });
+      if (cres.ok){
+        const content = await cres.json();
+        const entry = content[slug] || {};
+        const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
-    const storeInfo = STORE_INFO[storeSlug];
+        const bar = document.getElementById('storeBar');
+        /* build links that route to listings.html with store context */
+        bar.innerHTML = cats.map(c => {
+          const href = `listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`;
+          return `<a href="${href}">${escapeHtml(c)}</a>`;
+        }).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
+      }
+    } catch(e){ console.warn(e); }
+  })();
 
-    if (!storeInfo) {
-        document.getElementById('storeName').textContent = 'Store Not Found';
-        document.getElementById('pageTitle').textContent = 'Products could not be loaded.';
-        return;
-    }
-
-    // Update store name and page title
-    document.getElementById('storeName').textContent = storeInfo.name;
-    document.title = `RGZTEC • ${storeInfo.name}`;
-    document.getElementById('pageTitle').textContent = `Products in ${storeInfo.name}`;
-
-    // Populate store categories (reyonlar)
-    const storeChips = document.getElementById('storeChips');
-    if (storeChips) {
-        storeChips.innerHTML = storeInfo.categories
-            .map(cat => `<a class="chip" href="listings.html?store=${storeSlug}&tag=${cat.toLowerCase().replace(/ /g, '-')}">${cat}</a>`)
-            .join('');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', populateStorePage);
+  /* search → listings with store context */
+  document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const q = (document.getElementById('q')?.value || '').trim();
+    const url = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
+    location.href = url;
+  });
 </script>
 </body>
 </html>
