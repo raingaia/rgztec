@@ -7,7 +7,6 @@
   <title>RGZTEC • Stores</title>
   <meta name="description" content="Explore all stores on RGZTEC."/>
 
-  <!-- Lokal çalışırken <base> otomatik ./ yapılır -->
   <script>
     (function () {
       var onGh = /github\.io$/i.test(location.hostname);
@@ -28,7 +27,6 @@
     html,body{margin:0}
     body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
 
-    /* header */
     .header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);
       backdrop-filter:saturate(120%) blur(8px); border-bottom:1px solid var(--line)}
     .row{max-width:var(--wrap);margin-inline:auto;padding:10px var(--gutter);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
@@ -38,12 +36,10 @@
     .search button{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
     .search svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
 
-    /* title */
     .page{max-width:var(--wrap);margin-inline:auto;padding:18px var(--gutter) 8px}
     .h1{margin:0 0 4px;font-size:26px;font-weight:900}
     .sub{margin:0;color:var(--sub)}
 
-    /* grid */
     .grid{max-width:var(--wrap);margin:12px auto 30px;padding:0 var(--gutter);
       display:grid;gap:clamp(14px,2.2vw,22px);
       grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
@@ -54,7 +50,6 @@
     .name{font-size:13px;color:var(--ink);max-width:240px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800}
     .desc{font-size:12px;color:var(--sub);text-align:center;max-width:280px;min-height:1em}
 
-    /* loading/empty */
     #stores.empty::before{content:"Loading stores…";display:block;color:var(--sub)}
 
     @media (max-width:520px){
@@ -84,19 +79,20 @@
 <main id="stores" class="grid empty" aria-label="Stores grid"></main>
 
 <script>
+  document.title = 'RGZTEC • Stores';
+
   const escapeHtml = (s='') => s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   function card(store){
     const slug = store.slug;
     const name = store.name || slug;
     const letter = (name||'?').charAt(0).toUpperCase();
-    // Tek renk geliyorsa hem açık hem koyu gibi kullan
     const light = store.color || '#a5d6ff';
     const dark  = store.color || '#3b82f6';
     const desc  = store.desc ? store.desc : '';
 
     return `
-      <a class="card" href="store.html?slug=${encodeURIComponent(slug)}" title="${escapeHtml(name)}">
+      <a class="card" href="store.html?slug=${encodeURIComponent(slug)}" title="${escapeHtml(name)}" data-href="store.html?slug=${encodeURIComponent(slug)}">
         <div class="badge" style="background:radial-gradient(70% 70% at 70% 30%, ${light}, ${dark});">
           <div class="letter">${letter}</div>
         </div>
@@ -106,7 +102,7 @@
     `;
   }
 
-  (async function(){
+  async function loadStores(){
     const grid = document.getElementById('stores');
     try{
       const res = await fetch('data/stores.json',{cache:'no-store'});
@@ -114,13 +110,26 @@
       const {stores=[]} = await res.json();
       grid.innerHTML = stores.map(card).join('');
       grid.classList.remove('empty');
+
+      // 1) Prefetch: kart üzerinde gezinince mağaza sayfasını ısıt
+      grid.addEventListener('mouseover', (e)=>{
+        const a = e.target.closest('a.card[data-href]');
+        if(!a || a.dataset.pf) return;
+        a.dataset.pf = '1';
+        fetch(a.dataset.href, {mode:'no-cors'}).catch(()=>{});
+      });
+
     }catch(err){
       console.warn(err);
-      grid.innerHTML = '<p style="color:#64748b">Could not load stores.</p>';
+      grid.innerHTML = '<p style="color:#64748b">Could not load stores. <button id="retry">Retry</button></p>';
       grid.classList.remove('empty');
+      document.getElementById('retry')?.addEventListener('click', loadStores);
     }
-  })();
+  }
+
+  loadStores();
 </script>
 
 </body>
 </html>
+
