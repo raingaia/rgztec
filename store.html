@@ -58,7 +58,7 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== CATEGORIES NAV (reyonlar) ===== */
+  /* ===== CATEGORY BAR ===== */
   .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
   .cats-wrap::after{
     content:"";
@@ -68,6 +68,7 @@
     margin-left:-50vw; margin-right:-50vw;
     bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
   }
+
   .store-bar{
     --cols:5;
     width:var(--rail-w); max-width:100%;
@@ -87,17 +88,20 @@
     color:var(--rgztec-dark); text-decoration:underline;
   }
 
-  /* ===== Featured Stores (vitrin) ===== */
-  .stores-section{max-width:var(--wrap); margin:12px auto 0; padding:0 18px}
-  .stores-header{display:flex; align-items:end; justify-content:space-between; margin:8px 0 6px}
-  .stores-title{font-size:16px; font-weight:800; margin:0}
-  .stores{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;list-style:none;padding:0;margin:0}
-  .store-tile{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:inherit;transition:transform .15s}
-  .store-tile:hover{transform:translateY(-4px)}
-  .badge{width:110px;height:110px;border-radius:26px;display:grid;place-items:center;
-    box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05)}
-  .badge .letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.2)}
-  .sname{font-size:12.5px;color:#6b7280;max-width:120px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+  /* ===== FEATURED STORES (VITRIN) ===== */
+  .vitrin{max-width:var(--wrap);margin:18px auto 8px;padding:0 18px}
+  .vitrin h3{margin:0 0 10px;font-weight:900;font-size:18px}
+  .vitrin-list{display:flex;flex-wrap:wrap;gap:20px;list-style:none;padding:0;margin:0}
+  .vitrin-item{width:110px}
+  .vitrin-link{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:inherit}
+  .vitrin-badge{
+    width:96px;height:96px;border-radius:28px;display:grid;place-items:center;
+    box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05);
+    transition:transform .15s ease, box-shadow .15s ease
+  }
+  .vitrin-link:hover .vitrin-badge{transform:translateY(-4px);box-shadow:0 16px 28px -8px rgba(0,0,0,.16)}
+  .vitrin-letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.22)}
+  .vitrin-name{font-size:12.5px;color:#6b7280;text-align:center;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
   /* ===== Content ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
@@ -152,12 +156,10 @@
   <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
 
-<!-- Featured stores (vitrin) -->
-<section class="stores-section" aria-label="Featured stores">
-  <div class="stores-header">
-    <h3 class="stores-title">Featured stores</h3>
-  </div>
-  <ul id="storeTiles" class="stores"></ul>
+<!-- Featured stores row -->
+<section class="vitrin" aria-label="Featured stores">
+  <h3>Featured stores</h3>
+  <ul id="vitrinList" class="vitrin-list"></ul>
 </section>
 
 <main>
@@ -168,41 +170,7 @@
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); 
-
-  // renk açıcı (gradient için)
-  const lighten = (hex, amt=0.25) => {
-    const n = (hex||'').replace('#','');
-    if(n.length!==6) return hex||'#3b82f6';
-    const to = i => Math.min(255, Math.max(0, Math.round(parseInt(n.slice(i,i+2),16)*(1-amt)+255*amt)));
-    return `rgb(${to(0)}, ${to(2)}, ${to(4)})`;
-  };
-
-  function storeTileHTML(s){
-    const letter = (s.name||s.slug||'?').charAt(0).toUpperCase();
-    const c2 = s.color || '#3b82f6';
-    const c1 = lighten(c2, 0.35);
-    return `
-      <li>
-        <a class="store-tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${escapeHtml(s.name||s.slug)}">
-          <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${c1}, ${c2})">
-            <div class="letter">${letter}</div>
-          </div>
-          <div class="sname">${escapeHtml(s.name||s.slug)}</div>
-        </a>
-      </li>`;
-  }
-
-  async function renderFeaturedStores(currentSlug){
-    try{
-      const r = await fetch('data/stores.json',{cache:'no-store'});
-      if(!r.ok) return;
-      const {stores=[]} = await r.json();
-      const picks = stores.filter(s=>s.slug!==currentSlug).slice(0,6);
-      const mount = document.getElementById('storeTiles');
-      if(mount) mount.innerHTML = picks.map(storeTileHTML).join('');
-    }catch(e){ console.warn(e); }
-  }
+  const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 
   (async function init(){
     if (!slug) return;
@@ -223,12 +191,9 @@
           pill.textContent = slug;
           document.title = `RGZTEC • ${slug}`;
         }
-
-        // vitrini doldur
-        await renderFeaturedStores(slug);
       }
 
-      /* 2) store-content.json => categories (reyonlar) */
+      /* 2) store-content.json => categories */
       const cres = await fetch('data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
@@ -243,7 +208,7 @@
         }).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
 
-        // aktif tab: ?cat= veya #hash
+        // aktif sekme: ?cat= ya da hash
         const fromParam = params.get('cat');
         if (fromParam && !location.hash) {
           location.hash = '#' + slugify(fromParam);
@@ -253,8 +218,6 @@
           const active = bar.querySelector(`[data-hash="${CSS.escape(current)}"]`);
           if (active){ active.classList.add('active'); active.setAttribute('aria-current','page'); }
         }
-
-        // tıklamada aktiflik
         bar.addEventListener('click', (e)=>{
           const a = e.target.closest('a[href]');
           if(!a) return;
@@ -265,7 +228,7 @@
     } catch(e){ console.warn(e); }
   })();
 
-  // search keeps the current slug + hash
+  // search keeps slug + hash
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
@@ -273,6 +236,71 @@
     const url = `store.html?slug=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}${hash}`;
     location.href = url;
   });
+
+  /* ===== Featured stores (vitrin) logic ===== */
+  const hexToRGB = (hex)=> {
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||'#60a5fa');
+    return m ? {r:parseInt(m[1],16), g:parseInt(m[2],16), b:parseInt(m[3],16)} : {r:96,g:165,b:250};
+  };
+  const darken = (hex, f=0.18)=> {
+    const {r,g,b}=hexToRGB(hex);
+    const d = (x)=>Math.max(0, Math.min(255, Math.round(x*(1-f))));
+    return `rgb(${d(r)}, ${d(g)}, ${d(b)})`;
+  };
+
+  // Mağaza bazlı vitrin önerileri
+  const FEATURED_BY_STORE = {
+    "html-templates": ["email-forge","icon-smith","ai-tools-hub","dev-studio-one","game-makers","reactorium"],
+    "email-forge":    ["html-templates","icon-smith","ai-tools-hub","dev-studio-one","reactorium"],
+    "icon-smith":     ["html-templates","email-forge","ai-tools-hub","dev-studio-one","reactorium"],
+    "ai-tools-hub":   ["html-templates","email-forge","dev-studio-one","reactorium","game-makers"],
+    "dev-studio-one": ["html-templates","email-forge","icon-smith","reactorium","game-makers"],
+    "game-makers":    ["html-templates","dev-studio-one","reactorium","ai-tools-hub"],
+    "reactorium":     ["html-templates","dev-studio-one","email-forge","icon-smith"],
+    "tiny-js-lab":    ["html-templates","dev-studio-one","reactorium"],
+    "unity-hub":      ["game-makers","dev-studio-one","ai-tools-hub"],
+    "wp-plugins":     ["html-templates","dev-studio-one","ai-tools-hub"]
+  };
+
+  async function renderVitrin(currentSlug){
+    const mount = document.getElementById('vitrinList');
+    if(!mount) return;
+
+    let stores = [];
+    try{
+      const res = await fetch('data/stores.json', {cache:'no-store'});
+      const json = await res.json();
+      stores = json.stores || [];
+    }catch(e){ console.warn('stores.json okunamadı', e); }
+
+    let want = FEATURED_BY_STORE[currentSlug];
+    if(!want || !want.length){
+      want = stores.map(s=>s.slug).filter(s=>s!==currentSlug).slice(0,6);
+    }
+
+    const bySlug = Object.fromEntries(stores.map(s=>[s.slug, s]));
+    const items = want
+      .map(sl => bySlug[sl])
+      .filter(Boolean)
+      .map(s => {
+        const c1 = s.color || '#60a5fa';
+        const c2 = darken(c1, 0.26);
+        const letter = (s.name||s.slug||'?').charAt(0).toUpperCase();
+        return `
+          <li class="vitrin-item">
+            <a class="vitrin-link" href="store.html?slug=${encodeURIComponent(s.slug)}">
+              <div class="vitrin-badge" style="background:radial-gradient(circle at 68% 32%, ${c1}, ${c2})">
+                <div class="vitrin-letter">${letter}</div>
+              </div>
+              <div class="vitrin-name">${(s.name||s.slug)}</div>
+            </a>
+          </li>`;
+      }).join('');
+
+    mount.innerHTML = items;
+  }
+
+  if (slug) { renderVitrin(slug); }
 </script>
 </body>
 </html>
