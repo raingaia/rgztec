@@ -6,13 +6,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Stores</title>
   <meta name="description" content="Explore all stores on RGZTEC."/>
+
+  <!-- Lokal çalışırken <base> otomatik ./ yapılır -->
   <script>
-    // make <base> work in local file/dev too
     (function () {
       var onGh = /github\.io$/i.test(location.hostname);
       if (!onGh) { var b = document.querySelector('base'); if (b) b.setAttribute('href','./'); }
     })();
   </script>
+
   <style>
     :root{
       --wrap:1200px;
@@ -20,6 +22,7 @@
       --ink:#0b1220; --sub:#64748b; --line:#e5e7eb;
       --brand:#f97316; --brand-dark:#ea580c;
       --tile:clamp(78px,7.2vw,96px);
+      --shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05);
     }
     *{box-sizing:border-box}
     html,body{margin:0}
@@ -43,16 +46,20 @@
     /* grid */
     .grid{max-width:var(--wrap);margin:12px auto 30px;padding:0 var(--gutter);
       display:grid;gap:clamp(14px,2.2vw,22px);
-      grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
     .card{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:inherit;transition:transform .15s ease}
     .card:hover{transform:translateY(-5px)}
-    .badge{width:var(--tile);height:var(--tile);border-radius:28px;display:grid;place-items:center;
-      box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05)}
+    .badge{width:var(--tile);height:var(--tile);border-radius:28px;display:grid;place-items:center;box-shadow:var(--shadow)}
     .letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.22)}
-    .name{font-size:13px;color:var(--sub);max-width:220px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .name{font-size:13px;color:var(--ink);max-width:240px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800}
+    .desc{font-size:12px;color:var(--sub);text-align:center;max-width:280px;min-height:1em}
 
     /* loading/empty */
     #stores.empty::before{content:"Loading stores…";display:block;color:var(--sub)}
+
+    @media (max-width:520px){
+      .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+    }
   </style>
 </head>
 <body>
@@ -77,32 +84,24 @@
 <main id="stores" class="grid empty" aria-label="Stores grid"></main>
 
 <script>
-  // color fallbacks (matches home vibe)
-  const COLOR = {
-    'html-templates':['#a5d6ff','#3b82f6'],
-    'email-forge':['#fecaca','#ef4444'],
-    'icon-smith':['#bae6fd','#0ea5e9'],
-    'ai-tools-hub':['#e9d5ff','#a855f7'],
-    'dev-studio-one':['#a7f3d0','#10b981'],
-    'game-makers':['#fde68a','#f59e0b'],
-    'reactorium':['#a5f3fc','#06b6d4'],
-    'tiny-js-lab':['#d9f99d','#84cc16'],
-    'unity-hub':['#fecdd3','#f43f5e'],
-    'wp-plugins':['#ddd6fe','#8b5cf6']
-  };
   const escapeHtml = (s='') => s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   function card(store){
     const slug = store.slug;
     const name = store.name || slug;
     const letter = (name||'?').charAt(0).toUpperCase();
-    const [light,dark] = store.color ? [store.color, store.color] : (COLOR[slug] || ['#a5d6ff','#3b82f6']);
+    // Tek renk geliyorsa hem açık hem koyu gibi kullan
+    const light = store.color || '#a5d6ff';
+    const dark  = store.color || '#3b82f6';
+    const desc  = store.desc ? store.desc : '';
+
     return `
       <a class="card" href="store.html?slug=${encodeURIComponent(slug)}" title="${escapeHtml(name)}">
         <div class="badge" style="background:radial-gradient(70% 70% at 70% 30%, ${light}, ${dark});">
           <div class="letter">${letter}</div>
         </div>
         <div class="name">${escapeHtml(name)}</div>
+        ${desc ? `<div class="desc">${escapeHtml(desc)}</div>` : `<div class="desc"></div>`}
       </a>
     `;
   }
@@ -111,7 +110,7 @@
     const grid = document.getElementById('stores');
     try{
       const res = await fetch('data/stores.json',{cache:'no-store'});
-      if(!res.ok){ grid.innerHTML = '<p style="color:#64748b">Could not load stores.</p>'; grid.classList.remove('empty'); return; }
+      if(!res.ok) throw new Error('stores.json not loaded');
       const {stores=[]} = await res.json();
       grid.innerHTML = stores.map(card).join('');
       grid.classList.remove('empty');
