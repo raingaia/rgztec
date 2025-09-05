@@ -39,7 +39,7 @@
       <div class="brand">RGZTEC • <span style="color:var(--brand)">Playground</span></div>
       <div style="display:flex;gap:8px;align-items:center">
         <label style="display:flex;align-items:center;gap:6px;font-size:13px">
-          <input id="moduleFlag" type="checkbox"> <span>Use <code>type="module"</code></span>
+          <input id="moduleFlag" type="checkbox"> <span>Use <code>type="module</code></span>
         </label>
         <button class="btn btn-dark" onclick="toggleTheme()">Toggle Theme</button>
       </div>
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <button class="btn btn-dark" onclick="openInNewTab()">Open in New Tab</button>
         </div>
         <div id="popupWarn" class="note">Pop-up engellendi. Lütfen bu site için pop-uplara izin verip tekrar deneyin.</div>
-        <div class="hint">İpucu: React/Vue gibi kütüphaneleri CDN ile ekleyebilirsin (örn. <code>&lt;script src=\"https://unpkg.com/react@18/umd/react.development.js\"&gt;&lt;/script&gt;</code>).</div>
+        <div class="hint">İpucu: React/Vue gibi kütüphaneleri CDN ile ekleyebilirsin (örn. <code>&lt;script src="https://unpkg.com/react@18/umd/react.development.js"&gt;&lt;/script&gt;</code>).</div>
       </div>
 
       <!-- RIGHT: Preview -->
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 
 <script>
-  // Tabs
+  // --- Tabs ---
   document.querySelectorAll('.tab').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
@@ -111,51 +111,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function toggleTheme(){ document.body.classList.toggle('dark'); }
 
-  // Helpers
+  // --- Helpers ---
   const getHTML = () => document.getElementById('editor-html').value;
   const getCSS  = () => document.getElementById('editor-css').value;
   const getJS   = () => document.getElementById('editor-js').value;
+
+  // Güvenli kapanış kaçışları
   const escapeStyleEnd = s => s.replace(/<\/style>/gi, '<\\/style>');
   const escapeScriptEnd = s => s.replace(/<\/script>/gi, '<\\/script>');
 
+  // Tam HTML mi?
   function looksLikeFullHTML(s){
     return /<html[\s>]/i.test(s) || /<!doctype/i.test(s);
   }
-  function insertBeforeClose(tag, html, injection){
-    const re = new RegExp(`</${tag}\\s*>`, 'i');
-    return re.test(html) ? html.replace(re, injection + `</${tag}>`) : html + injection;
+
+  // --- Güvenli enjeksiyon yardımcıları ---
+  function hasTag(out, tag){ return new RegExp(`<${tag}(\\s|>)`, 'i').test(out); }
+  function closeTagRe(tag){ return new RegExp(`</${tag}\\s*>`, 'i'); }
+  function openTagRe(tag){ return new RegExp(`<${tag}[^>]*>`, 'i'); }
+
+  // <head> yoksa <html ...>’den hemen sonra oluştur
+  function ensureHead(out){
+    if (hasTag(out,'head')) return out;
+    const m = openTagRe('html').exec(out);
+    if (m){
+      const i = m.index + m[0].length;
+      return out.slice(0,i) + `<head></head>` + out.slice(i);
+    }
+    // <html> bile yoksa başa ekle (edge case)
+    return `<head></head>` + out;
   }
 
+  // <body> yoksa </html>’den önce oluştur
+  function ensureBody(out){
+    if (hasTag(out,'body')) return out;
+    const m = closeTagRe('html').exec(out);
+    if (m){
+      const i = m.index;
+      return out.slice(0,i) + `<body></body>` + out.slice(i);
+    }
+    // </html> yoksa sona ekle (edge case)
+    return out + `<body></body>`;
+  }
+
+  // İçeriği kapanış tag’inden hemen önce ekle
+  function injectBeforeClose(out, tag, injection){
+    const re = closeTagRe(tag);
+    return re.test(out) ? out.replace(re, injection + `$&`) : out + injection;
+  }
+
+  // Doküman kurucu
   function buildDocument(){
     const html = getHTML();
     const css  = escapeStyleEnd(getCSS());
     const js   = escapeScriptEnd(getJS());
     const isModule = document.getElementById('moduleFlag').checked;
+
     const scriptTag = js.trim()
       ? (isModule ? `<script type="module">${js}</script>` : `<script>${js}</script>`)
       : '';
+    const styleTag  = css.trim() ? `<style>${css}</style>` : '';
 
-    // Eğer kullanıcı tam HTML verdiyse içine enjekte et
+    // Kullanıcı tam HTML verdiyse: doğru yere güvenli enjeksiyon
     if (looksLikeFullHTML(html)){
       let out = html;
-      if (css.trim()){
-        if (/<head[\s>]/i.test(out)) out = insertBeforeClose('head', out, `<style>${css}</style>`);
-        else out = `<head><style>${css}</style></head>` + out;
+
+      if (styleTag){
+        out = ensureHead(out);
+        out = injectBeforeClose(out, 'head', styleTag); // CSS -> </head>’den hemen önce
       }
       if (scriptTag){
-        if (/<body[\s>]/i.test(out)) out = insertBeforeClose('body', out, scriptTag);
-        else out = out + scriptTag;
+        out = ensureBody(out);
+        out = injectBeforeClose(out, 'body', scriptTag); // JS -> </body>’den hemen önce
       }
       return out;
     }
 
-    // Değilse iskelet doküman oluştur
+    // Snippet ise iskelet oluştur
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RGZTEC Snippet</title>
-<style>${css}</style>
+${styleTag}
 </head>
 <body>
 ${html}
@@ -203,3 +241,4 @@ ${scriptTag}
 </script>
 </body>
 </html>
+
