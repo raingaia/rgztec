@@ -4,226 +4,196 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
+
 <style>
   :root{
-    --wrap:1200px; --rail:980px; --search-h:46px;
-    --ink:#0b1220; --muted:#64748b; --line:#e5e7eb; --line2:#d1d5db;
-    --brand:#f97316; --brand-d:#ea580c;
+    --wrap:    1280px;
+    --rail-w:  980px;
+    --search-h:44px;
+
+    --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
+    --line:#e5e7eb; --line-strong:#cbd5e1;
+    --rgztec:#f97316; --rgztec-dark:#ea580c;
+    --studio-bg:#22c3dc;
   }
-  *{box-sizing:border-box} html,body{margin:0}
-  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* header */
-  .wrap{max-width:var(--wrap);margin:0 auto;padding:12px 18px}
-  .hdr{display:grid;grid-template-columns:1fr minmax(0,var(--rail)) 1fr;align-items:center;gap:14px}
-  .brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none}
-  .pill{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 10px;border-radius:999px;background:#eef2ff;font-weight:800;font-size:12px}
+  /* ===== HEADER ===== */
+  .topbar{background:#fff}
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
+  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
 
-  .btn-cats{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid var(--line2);border-radius:12px;background:#fff;cursor:pointer}
-  .btn-cats svg{width:18px;height:18px}
+  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
+  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
+  .studio{
+    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
+    background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center;
+    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
+    transform:translateY(2px);
+  }
 
-  .rail{display:flex;justify-content:center}
-  .search{width:var(--rail);max-width:100%;display:flex;align-items:center;gap:8px;
-    height:var(--search-h);padding:6px 8px 6px 14px;border:2px solid #111827;border-radius:999px;background:#fff}
-  .search input{flex:1;border:0;outline:0;font-size:15px;padding:8px 6px}
-  .go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
-  .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+  .rail{display:flex; align-items:center; justify-content:center}
+  .search{
+    width:var(--rail-w); max-width:100%;
+    display:flex; align-items:center; gap:10px;
+    height:var(--search-h); padding:6px 8px 6px 16px;
+    border:2px solid #111827; border-radius:999px; background:#fff;
+  }
+  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
+  .search button{
+    display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
+    border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
+  }
+  .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
+  .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
 
-  .icons{display:flex;gap:12px;justify-content:flex-end;align-items:center}
-  .icons a{color:inherit;text-decoration:none;font-weight:600;font-size:14px}
-  /* Open Store sadece bu sayfada görünmesin */
-  .icons .open-store{display:none !important}
+  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
+  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
+  .open-store{
+    background:var(--rgztec); color:#fff !important; font-weight:700;
+    padding:8px 18px; border-radius:999px; height:40px;
+    display:inline-flex; align-items:center; white-space:nowrap;
+    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
+  }
+  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* top tabs */
-  .bar-wrap{border-bottom:1.5px solid var(--line2)}
-  .tabs{max-width:var(--rail);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:0;align-items:center;justify-items:center;height:44px}
-  .tabs a{width:100%;text-align:center;line-height:44px;text-decoration:none;color:inherit;font-weight:600}
-  .tabs a[aria-current="page"]{color:var(--brand-d);text-decoration:underline}
+  /* ===== CATEGORIES ===== */
+  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
+  .cats-wrap::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    right:50%;
+    margin-left:-50vw; margin-right:-50vw;
+    bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
+  }
 
-  main{max-width:var(--wrap);margin:18px auto;padding:0 18px}
+  .store-bar{
+    --cols:5;
+    width:var(--rail-w); max-width:100%;
+    margin:2px auto 0; height:44px; padding:0;
+    border-bottom:none;
+    display:grid; grid-template-columns:repeat(var(--cols),1fr);
+    align-items:center; justify-items:center; background:transparent;
+  }
+  .store-bar a{
+    width:100%; text-align:center;
+    font-size:15px; font-weight:600; letter-spacing:.1px;
+    line-height:44px; color:var(--text); text-decoration:none;
+    transition:color .15s;
+  }
+  .store-bar a:hover{ color:var(--hover) }
 
-  /* featured stores (vitrin) */
-  .section-h{margin:0 0 10px;font-size:18px;font-weight:900;color:#111}
-  .stores{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:18px;list-style:none;margin:0;padding:0}
-  .tile{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:inherit}
-  .badge{width:86px;height:86px;border-radius:24px;display:grid;place-items:center;
-    box-shadow:0 10px 24px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5)}
-  .letter{font-weight:900;font-size:30px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.22)}
-  .sname{font-size:12.5px;color:var(--muted);text-align:center;max-width:96px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* ===== Content ===== */
+  main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
+  .empty{ display:none; }
 
-  /* drawer */
-  .drawer{position:fixed;inset:0;display:none;z-index:60}
-  .drawer.open{display:block}
-  .back{position:absolute;inset:0;background:transparent}
-  .panel{position:absolute;min-width:260px;max-width:320px;background:#fff;border:1px solid var(--line);border-radius:12px;
-    box-shadow:0 8px 24px rgba(0,0,0,.16);padding:8px}
-  .panel h4{margin:6px 10px 8px;font-size:12px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
-  .panel a{display:block;padding:10px 12px;border-radius:8px;text-decoration:none;color:inherit;font-weight:500}
-  .panel a:hover{background:#f3f4f6}
-
+  /* ===== Responsive ===== */
+  @media (max-width:1180px){ :root{ --rail-w: 900px } }
+  @media (max-width:1040px){ :root{ --rail-w: 780px } }
   @media (max-width:900px){
-    .hdr{grid-template-columns:1fr}
-    .rail{order:2} .icons{order:3} .left{order:1}
-    .tabs{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+    :root{ --rail-w: 100% }
+    .hdr{ grid-template-columns:1fr }
+    .icons a:not(.open-store){ display:none }
+    .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
+    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
+    .store-bar a{ line-height:38px }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap hdr">
-    <div class="left">
-      <a class="brand" href="./">RGZTEC</a>
-      <span id="studio" class="pill">Store</span>
-      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <span>Categories</span>
-      </button>
+<header class="topbar">
+  <div class="wrap">
+    <div class="hdr">
+      <div class="left">
+        <a class="brand" href="./">RGZTEC</a>
+        <span id="studioName" class="studio">Store</span>
+      </div>
+
+      <div class="rail">
+        <form class="search" id="searchForm">
+          <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
+          <button type="submit" aria-label="Search" id="qBtn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="6"></circle>
+              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <nav class="icons" aria-label="Quick actions">
+        <a href="login" aria-label="Sign in">Sign in</a>
+        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
+        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
+        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+      </nav>
     </div>
-
-    <div class="rail">
-      <form id="searchForm" class="search">
-        <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
-        <button class="go" type="submit" aria-label="Search">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16.5 16.5 21 21"/></svg>
-        </button>
-      </form>
-    </div>
-
-    <nav class="icons">
-      <a href="login">Sign in</a>
-      <a href="#" title="Gifts">🎁</a>
-      <a href="cart" title="Cart">🛒</a>
-      <a class="open-store" href="become-seller">Open Store</a>
-    </nav>
-  </div>
-
-  <div class="bar-wrap">
-    <nav id="tabs" class="tabs" aria-label="Store Categories"></nav>
   </div>
 </header>
 
-<main>
-  <section>
-    <h3 class="section-h">Featured stores</h3>
-    <ul id="storeRow" class="stores" aria-label="Featured stores"></ul>
-  </section>
-
-  <p id="empty" style="color:#94a3b8;margin-top:18px">Page content starts here…</p>
-</main>
-
-<!-- Drawer -->
-<div id="drawer" class="drawer" aria-hidden="true">
-  <div id="backdrop" class="back"></div>
-  <aside class="panel" role="dialog" aria-label="Categories">
-    <h4>Categories</h4>
-    <nav id="drawerLinks"></nav>
-    <a id="allCats" href="listings.html" style="display:block;margin:6px 10px 4px;color:var(--brand);font-weight:800">All Categories →</a>
-  </aside>
+<div class="cats-wrap">
+  <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
 
+<main>
+  <p class="empty">Page content starts here…</p>
+</main>
+
 <script>
-  const $ = (s, r=document)=>r.querySelector(s);
-  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
   const params = new URLSearchParams(location.search);
-  const slug = (params.get('slug')||'').trim();
-  const esc = s => (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const slugify = s => (s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  const slug = (params.get('slug') || '').trim();
+  const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-  // FEATURED rows — basit eşleme: her mağaza için 5 öneri; bulunamazsa genel varsayılan
-  const FEATURED = {
-    'html-templates':['email-forge','icon-smith','ai-tools-hub','dev-studio-one','reactorium','game-makers'],
-    'email-forge':['html-templates','dev-studio-one','reactorium','game-makers','ai-tools-hub'],
-    'icon-smith':['html-templates','ai-tools-hub','reactorium','dev-studio-one','wp-plugins'],
-    'ai-tools-hub':['html-templates','email-forge','reactorium','game-makers','dev-studio-one']
-  };
+  (async function init(){
+    if (!slug) return;
 
-  async function boot(){
-    if(!slug) return;
+    try {
+      /* 1) stores.json => title + color */
+      const sres = await fetch('data/stores.json', { cache:'no-store' });
+      if (sres.ok){
+        const { stores=[] } = await sres.json();
+        const meta = stores.find(s => s.slug === slug);
+        const pill = document.getElementById('studioName');
 
-    // stores.json → başlık + renk ve vitrin için veri
-    const sres = await fetch('data/stores.json',{cache:'no-store'});
-    const stores = sres.ok ? (await sres.json()).stores||[] : [];
-    const me = stores.find(x=>x.slug===slug);
-    $('#studio').textContent = me?.name || slug;
-    document.title = 'RGZTEC • ' + (me?.name || slug);
+        if (meta){
+          pill.textContent = meta.name || meta.slug;
+          if (meta.color) pill.style.background = meta.color;
+          document.title = `RGZTEC • ${meta.name || meta.slug}`;
+        } else {
+          pill.textContent = slug;
+          document.title = `RGZTEC • ${slug}`;
+        }
+      }
 
-    // store-content.json → üst sekmeler + drawer
-    const cres = await fetch('data/store-content.json',{cache:'no-store'});
-    const content = cres.ok ? await cres.json() : {};
-    const entry = content[slug] || { categories:[] };
+      /* 2) store-content.json => categories */
+      const cres = await fetch('data/store-content.json', { cache:'no-store' });
+      if (cres.ok){
+        const content = await cres.json();
+        const entry = content[slug] || {};
+        const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
-    // tabs
-    const tabs = $('#tabs');
-    tabs.innerHTML = entry.categories.map(c=>{
-      const h = slugify(c);
-      const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
-      return `<a href="${href}" data-hash="${h}">${esc(c)}</a>`;
-    }).join('') || '<span style="color:#94a3b8">No categories</span>';
+        const bar = document.getElementById('storeBar');
+        /* build links that route to listings.html with store context */
+        bar.innerHTML = cats.map(c => {
+          const href = `listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`;
+          return `<a href="${href}">${escapeHtml(c)}</a>`;
+        }).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
+      }
+    } catch(e){ console.warn(e); }
+  })();
 
-    // active tab from hash / ?cat
-    if(params.get('cat') && !location.hash){ location.hash = '#'+slugify(params.get('cat')); }
-    const cur = (location.hash||'').replace('#','');
-    if(cur){ tabs.querySelector(`[data-hash="${CSS.escape(cur)}"]`)?.setAttribute('aria-current','page'); }
-    window.addEventListener('hashchange',()=>{
-      $$('#tabs a').forEach(a=>a.removeAttribute('aria-current'));
-      const h=(location.hash||'').replace('#','');
-      tabs.querySelector(`[data-hash="${CSS.escape(h)}"]`)?.setAttribute('aria-current','page');
-    });
-
-    // drawer links
-    $('#drawerLinks').innerHTML = entry.categories.map(c=>{
-      const h=slugify(c); const href=`store.html?slug=${encodeURIComponent(slug)}#${h}`;
-      return `<a href="${href}">${esc(c)}</a>`;
-    }).join('');
-    $('#allCats').href = 'listings.html?tag='+encodeURIComponent(slug);
-
-    // featured stores row
-    const pick = FEATURED[slug] || ['email-forge','icon-smith','ai-tools-hub','dev-studio-one','reactorium'];
-    const bySlug = Object.fromEntries(stores.map(s=>[s.slug,s]));
-    $('#storeRow').innerHTML = pick
-      .map(k=>bySlug[k]).filter(Boolean)
-      .map(s=>{
-        const name = s.name || s.slug;
-        const letter = name[0].toUpperCase();
-        const col = s.color || '#60a5fa';
-        return `<li>
-          <a class="tile" href="store.html?slug=${encodeURIComponent(s.slug)}">
-            <div class="badge" style="background:radial-gradient(110px 80px at 70% 30%, #ffffff40, transparent), ${col}">
-              <div class="letter">${letter}</div>
-            </div>
-            <div class="sname">${esc(name)}</div>
-          </a>
-        </li>`;
-      }).join('');
-
-    // drawer open/close
-    const drawer = $('#drawer'), back = $('#backdrop'), panel = drawer.querySelector('.panel'), btn = $('#btnCats');
-    function openDrawer(){
-      const r = btn.getBoundingClientRect();
-      panel.style.top = (r.bottom + 8 + window.scrollY) + 'px';
-      panel.style.left = (r.left) + 'px';
-      drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false');
-    }
-    function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
-    btn?.addEventListener('click', (e)=>{ e.stopPropagation(); drawer.classList.toggle('open'); 
-      if(drawer.classList.contains('open')) openDrawer(); else closeDrawer(); });
-    back?.addEventListener('click', closeDrawer);
-    window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
-    window.addEventListener('scroll', ()=>{ if(drawer.classList.contains('open')) openDrawer(); });
-
-    // search keeps slug + hash
-    $('#searchForm')?.addEventListener('submit', e=>{
-      e.preventDefault();
-      const q = ($('#q')?.value||'').trim();
-      const url = `listings.html?tag=${encodeURIComponent(slug)}${q?`&q=${encodeURIComponent(q)}`:''}`;
-      location.href = url;
-    });
-  }
-  boot();
+  /* search → listings with store context */
+  document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const q = (document.getElementById('q')?.value || '').trim();
+    const url = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
+    location.href = url;
+  });
 </script>
 </body>
 </html>
-
 
