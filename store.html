@@ -4,180 +4,103 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-
 <style>
   :root{
-    --wrap:    1280px;
-    --rail-w:  980px;
-    --search-h:44px;
-
-    --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
-    --line:#e5e7eb; --line-strong:#cbd5e1;
+    --wrap:1280px; --rail-w:980px; --search-h:44px;
+    --text:#111827; --icon:#6b7280; --line:#e5e7eb; --line-strong:#cbd5e1;
     --rgztec:#f97316; --rgztec-dark:#ea580c;
-    --studio-bg:#22c3dc;
   }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
+  *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* ===== HEADER ===== */
-  .topbar{background:#fff}
-  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
+  /* HEADER */
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:12px 18px 0}
+  .hdr{display:grid;grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr;align-items:center;column-gap:16px}
+  .left{display:flex;align-items:center;gap:10px}
+  .brand{font-weight:900;font-size:24px;color:var(--rgztec);text-decoration:none}
+  .studio{white-space:nowrap;line-height:1;font-weight:800;font-size:15px;color:#fff;background:#6366f1;padding:6px 12px;border-radius:999px}
+  .rail{display:flex;align-items:center;justify-content:center}
+  .search{width:var(--rail-w);max-width:100%;display:flex;align-items:center;gap:10px;height:var(--search-h);padding:6px 8px 6px 16px;border:2px solid #111827;border-radius:999px;background:#fff}
+  .search input{flex:1;border:0;outline:0;font-size:15px;padding:8px 6px}
+  .search button{display:grid;place-items:center;width:34px;height:34px;border-radius:999px;border:0;background:var(--rgztec);cursor:pointer}
+  .search svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none}
+  .icons{display:flex;gap:14px;align-items:center;justify-self:end}
+  .icons a{color:var(--icon);text-decoration:none}
+  .open-store{background:var(--rgztec);color:#fff !important;font-weight:700;padding:8px 18px;border-radius:999px;height:40px;display:inline-flex;align-items:center}
 
-  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
-  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
-  .studio{
-    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
-    background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center;
-    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
-    transform:translateY(2px);
-  }
+  /* MAĞAZA SEKMELERİ */
+  .cats-wrap{max-width:var(--wrap);margin:0 auto;position:relative}
+  .cats-wrap::after{content:"";position:absolute;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;bottom:0;border-bottom:2px solid var(--line-strong)}
+  .store-bar{--cols:5;width:var(--rail-w);max-width:100%;margin:2px auto 0;display:grid;grid-template-columns:repeat(var(--cols),1fr);align-items:center;justify-items:center}
+  .store-bar a{width:100%;text-align:center;font-size:15px;font-weight:600;line-height:44px;color:var(--text);text-decoration:none}
+  .store-bar a[aria-current="page"], .store-bar a.active{color:var(--rgztec-dark);text-decoration:underline}
 
-  .rail{display:flex; align-items:center; justify-content:center}
-  .search{
-    width:var(--rail-w); max-width:100%;
-    display:flex; align-items:center; gap:10px;
-    height:var(--search-h); padding:6px 8px 6px 16px;
-    border:2px solid #111827; border-radius:999px; background:#fff;
-  }
-  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
-  .search button{
-    display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
-    border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
-  }
-  .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
-  .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
-
-  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
-  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
-  .open-store{
-    background:var(--rgztec); color:#fff !important; font-weight:700;
-    padding:8px 18px; border-radius:999px; height:40px;
-    display:inline-flex; align-items:center; white-space:nowrap;
-    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
-  }
-  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
-
-  /* ===== store categories bar ===== */
-  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
-  .cats-wrap::after{
-    content:"";
-    position:absolute; left:50%; right:50%;
-    margin-left:-50vw; margin-right:-50vw;
-    bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
-  }
-  .store-bar{
-    --cols:5;
-    width:var(--rail-w); max-width:100%;
-    margin:2px auto 0; height:44px; padding:0;
-    border-bottom:none;
-    display:grid; grid-template-columns:repeat(var(--cols),1fr);
-    align-items:center; justify-items:center; background:transparent;
-  }
-  .store-bar a{
-    width:100%; text-align:center;
-    font-size:15px; font-weight:600; letter-spacing:.1px;
-    line-height:44px; color:var(--text); text-decoration:none;
-    transition:color .15s;
-  }
-  .store-bar a:hover{ color:var(--hover) }
-  .store-bar a.active, .store-bar a[aria-current="page"]{
-    color:var(--rgztec-dark); text-decoration:underline;
-  }
-
-  /* ===== Drawer (çekmece) ===== */
-  .drawer{position:fixed;inset:0;display:none;z-index:60}
+  /* ÇEKMECE */
+  .drawer{position:fixed;inset:0;display:none;z-index:50}
   .drawer.open{display:block}
-  .drawer .back{position:absolute;inset:0;background:rgba(0,0,0,.02)}
-  .drawer .panel{
-    position:absolute; background:#fff; border:1px solid var(--line);
-    border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.15);
-    width:280px; max-height:calc(100vh - 80px); overflow:auto; padding:8px;
-  }
-  .drawer .panel nav a{
-    display:block; padding:10px 12px; border-radius:8px; color:var(--text);
-    font-weight:600; font-size:14px; text-decoration:none;
-  }
-  .drawer .panel nav a:hover{ background:#f3f4f6 }
+  .back{position:absolute;inset:0;background:transparent}
+  .panel{position:absolute;width:320px;background:#fff;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.18);border:1px solid var(--line);padding:8px;max-height:calc(100vh - 80px);overflow:auto}
+  .panel header{display:flex;align-items:center;gap:10px;font-weight:800;padding:8px 10px}
+  .panel nav a{display:block;padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-weight:500}
+  .panel nav a:hover{background:#f3f4f6}
+  .panel .all{display:block;margin:6px 10px 6px 10px;padding:10px 12px;border-radius:8px;border:1px dashed var(--line-strong);font-weight:700;color:var(--rgztec)}
 
-  /* ===== Responsive ===== */
-  @media (max-width:1180px){ :root{ --rail-w: 900px } }
-  @media (max-width:1040px){ :root{ --rail-w: 780px } }
+  /* CONTENT */
+  main{max-width:var(--wrap);margin:16px auto;padding:0 18px}
+  .empty{color:#6b7280}
+
   @media (max-width:900px){
-    :root{ --rail-w: 100% }
-    .hdr{ grid-template-columns:1fr }
-    .icons a:not(.open-store){ display:none }
-    .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
-    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
-    .store-bar a{ line-height:38px }
+    :root{--rail-w:100%}
+    .hdr{grid-template-columns:1fr}
+    .icons a:not(.open-store){display:none}
+    .store-bar{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
   }
-
-  /* küçük yardımcı */
-  .btn-cats{
-    display:inline-flex; align-items:center; gap:8px;
-    height:38px; padding:0 12px; border:1px solid var(--line-strong);
-    border-radius:10px; background:#fff; cursor:pointer; font-weight:700;
-  }
-  .btn-cats svg{width:18px; height:18px}
 </style>
 </head>
 <body>
 
-<header class="topbar">
+<header>
   <div class="wrap">
     <div class="hdr">
       <div class="left">
         <a class="brand" href="./">RGZTEC</a>
         <span id="studioName" class="studio">Store</span>
-
-        <!-- ÇEKMECE BUTONU -->
-        <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-          Categories
-        </button>
+        <button id="btnCats" class="open-store" style="height:36px;padding:0 12px;background:#111827">☰ Categories</button>
       </div>
 
       <div class="rail">
         <form class="search" id="searchForm">
           <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
-          <button type="submit" aria-label="Search" id="qBtn">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="6"></circle>
-              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-            </svg>
+          <button type="submit" aria-label="Search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
           </button>
         </form>
       </div>
 
-      <nav class="icons" aria-label="Quick actions">
-        <a href="login" aria-label="Sign in">Sign in</a>
-        <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
-        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
-        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+      <nav class="icons">
+        <a href="login">Sign in</a>
+        <a href="#" aria-label="Gifts">🎁</a>
+        <a href="cart" aria-label="Cart">🛒</a>
+        <a href="become-seller" class="open-store">Open Store</a>
       </nav>
     </div>
   </div>
 </header>
 
-<!-- Mağaza içi kategori sekmeleri -->
 <div class="cats-wrap">
   <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
 
-<main class="wrap" style="padding:16px 18px 32px">
-  <!-- Vitrin kaldırıldı -->
-  <p class="muted" style="color:#6b7280;margin:8px 0 0">Page content starts here…</p>
+<main>
+  <p class="empty">Page content starts here…</p>
 </main>
 
-<!-- ÇEKMECE (aynısı ana sayfadaki gibi) -->
+<!-- ÇEKMECE -->
 <div id="drawer" class="drawer" aria-hidden="true">
-  <div class="back" id="backdrop"></div>
+  <div id="backdrop" class="back"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
-    <nav id="drawerNav">
-      <!-- JS doldurur -->
-    </nav>
+    <header>Categories</header>
+    <nav id="drawerNav"></nav>
+    <a id="allCats" class="all" href="listings.html">All Categories →</a>
   </aside>
 </div>
 
@@ -188,16 +111,18 @@
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 
-  // Çekmece elemanları
-  const drawer = document.getElementById('drawer');
-  const backdrop = document.getElementById('backdrop');
-  const panel = drawer.querySelector('.panel');
-  const btnCats = document.getElementById('btnCats');
+  const drawer=document.getElementById('drawer'),
+        back=document.getElementById('backdrop'),
+        panel=drawer.querySelector('.panel'),
+        btnCats=document.getElementById('btnCats'),
+        bar=document.getElementById('storeBar'),
+        drawerNav=document.getElementById('drawerNav');
 
   function openDrawer(){
+    // Buton altına hizala
     const r = btnCats.getBoundingClientRect();
-    panel.style.top = (r.bottom + 8) + 'px';
-    panel.style.left = r.left + 'px';
+    panel.style.top  = (r.bottom + 8 + window.scrollY) + 'px';
+    panel.style.left = (r.left   + window.scrollX) + 'px';
     drawer.classList.add('open');
     drawer.setAttribute('aria-hidden','false');
   }
@@ -205,82 +130,81 @@
     drawer.classList.remove('open');
     drawer.setAttribute('aria-hidden','true');
   }
-  btnCats?.addEventListener('click', (e)=>{ e.stopPropagation(); drawer.classList.contains('open') ? closeDrawer() : openDrawer(); });
-  backdrop?.addEventListener('click', closeDrawer);
-  window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+  btnCats?.addEventListener('click',(e)=>{ e.stopPropagation(); drawer.classList.contains('open')?closeDrawer():openDrawer(); });
+  back?.addEventListener('click',closeDrawer);
+  window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 
+  // Başlat
   (async function init(){
     if (!slug) return;
 
-    try {
-      // 1) stores.json => başlık/renk
-      const sres = await fetch('data/stores.json', { cache:'no-store' });
-      if (sres.ok){
-        const { stores=[] } = await sres.json();
-        const meta = stores.find(s => s.slug === slug);
+    // 1) mağaza adı/renk
+    try{
+      const sres = await fetch('data/stores.json',{cache:'no-store'});
+      if(sres.ok){
+        const data = await sres.json();
+        const meta = (data.stores||[]).find(s=>s.slug===slug);
         const pill = document.getElementById('studioName');
-        if (meta){
+        if(meta){
           pill.textContent = meta.name || meta.slug;
-          if (meta.color) pill.style.background = meta.color;
+          if(meta.color) pill.style.background = meta.color;
           document.title = `RGZTEC • ${meta.name || meta.slug}`;
-        } else {
-          pill.textContent = slug;
-          document.title = `RGZTEC • ${slug}`;
+        }else{
+          pill.textContent = slug; document.title = `RGZTEC • ${slug}`;
         }
       }
+    }catch(e){ console.warn(e); }
 
-      // 2) store-content.json => mağaza içi kategoriler (sekme bar + çekmece)
-      const cres = await fetch('data/store-content.json', { cache:'no-store' });
-      if (cres.ok){
-        const content = await cres.json();
-        const entry = content[slug] || {};
-        const cats = Array.isArray(entry.categories) ? entry.categories : [];
+    // 2) vitrin ve çekmece kategorileri
+    try{
+      const cres = await fetch('data/store-content.json',{cache:'no-store'});
+      if(!cres.ok) return;
+      const content = await cres.json();
+      const entry = content[slug] || {};
+      const cats = Array.isArray(entry.categories)? entry.categories : [];
 
-        // Sekme bar
-        const bar = document.getElementById('storeBar');
-        bar.innerHTML = cats.map(c => {
-          const h = slugify(c);
-          const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
-          return `<a href="${href}" data-hash="${h}">${escapeHtml(c)}</a>`;
-        }).join('');
-        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
+      // sekmeler
+      bar.innerHTML = cats.map(c=>{
+        const h = slugify(c);
+        return `<a href="store.html?slug=${encodeURIComponent(slug)}#${h}" data-hash="${h}">${escapeHtml(c)}</a>`;
+      }).join('');
+      bar.style.setProperty('--cols', String(Math.max(1,cats.length)));
 
-        // Aktif sekme
-        const fromParam = params.get('cat');
-        if (fromParam && !location.hash) location.hash = '#' + slugify(fromParam);
-        const current = (location.hash || '').replace('#','');
-        if (current) {
-          const active = bar.querySelector(`[data-hash="${CSS.escape(current)}"]`);
-          if (active){ active.classList.add('active'); active.setAttribute('aria-current','page'); }
-        }
-        bar.addEventListener('click', (e)=>{
-          const a = e.target.closest('a[href]');
-          if(!a) return;
-          bar.querySelectorAll('a').forEach(x=>{ x.classList.remove('active'); x.removeAttribute('aria-current'); });
-          a.classList.add('active'); a.setAttribute('aria-current','page');
-        });
+      // çekmece listesi
+      drawerNav.innerHTML = cats.map(c=>{
+        const h = slugify(c);
+        return `<a href="store.html?slug=${encodeURIComponent(slug)}#${h}">${escapeHtml(c)}</a>`;
+      }).join('');
+      document.getElementById('allCats').href = 'listings.html?tag=' + encodeURIComponent(slug);
 
-        // Çekmece listesi (global mağaza kategorileri gibi davranır)
-        const drawerNav = document.getElementById('drawerNav');
-        drawerNav.innerHTML = cats.map(c=>{
-          const h = slugify(c);
-          const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
-          return `<a href="${href}">${escapeHtml(c)}</a>`;
-        }).join('') +
-        `<a href="listings.html" style="font-weight:700;color:var(--rgztec);border-top:1px solid var(--line);margin-top:4px;padding-top:12px">All Categories →</a>`;
+      // aktif sekme
+      const fromParam = params.get('cat');
+      if(fromParam && !location.hash) location.hash = '#' + slugify(fromParam);
+      const current = (location.hash||'').replace('#','');
+      if(current){
+        const a = bar.querySelector(`[data-hash="${CSS.escape(current)}"]`);
+        if(a){ a.classList.add('active'); a.setAttribute('aria-current','page'); }
       }
-    } catch(e){ console.warn(e); }
+
+      // sekmede tıklanınca aktiflik kalsın (+çekmece kapanır)
+      bar.addEventListener('click',(e)=>{
+        const a=e.target.closest('a[href]'); if(!a) return;
+        bar.querySelectorAll('a').forEach(x=>{x.classList.remove('active');x.removeAttribute('aria-current')});
+        a.classList.add('active'); a.setAttribute('aria-current','page');
+        closeDrawer();
+      });
+      drawerNav.addEventListener('click',(e)=>{ const a=e.target.closest('a[href]'); if(a) closeDrawer(); });
+
+    }catch(e){ console.warn(e); }
   })();
 
-  // Arama: mevcut slug + hash korunur
-  document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
+  // arama — slug & hash korunur
+  document.getElementById('searchForm')?.addEventListener('submit',(e)=>{
     e.preventDefault();
-    const q = (document.getElementById('q')?.value || '').trim();
-    const hash = location.hash || '';
-    const url = `store.html?slug=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}${hash}`;
-    location.href = url;
+    const q = (document.getElementById('q')?.value||'').trim();
+    const hash = location.hash||'';
+    location.href = `store.html?slug=${encodeURIComponent(slug)}${q?`&q=${encodeURIComponent(q)}`:''}${hash}`;
   });
 </script>
 </body>
 </html>
-
