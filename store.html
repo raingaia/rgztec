@@ -84,9 +84,6 @@
     transition:color .15s;
   }
   .store-bar a:hover{ color:var(--hover) }
-  .store-bar a.active, .store-bar a[aria-current="page"]{ /* ADDED */
-    color:var(--rgztec-dark); text-decoration:underline;
-  }
 
   /* ===== Content ===== */
   main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
@@ -149,7 +146,6 @@
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); // ADDED
 
   (async function init(){
     if (!slug) return;
@@ -180,44 +176,24 @@
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
         const bar = document.getElementById('storeBar');
-        // build links that keep the slug and deep-link by hash  // ADDED
+        /* build links that route to listings.html with store context */
         bar.innerHTML = cats.map(c => {
-          const h = slugify(c);
-          const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
-          return `<a href="${href}" data-hash="${h}">${escapeHtml(c)}</a>`;
+          const href = `listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`;
+          return `<a href="${href}">${escapeHtml(c)}</a>`;
         }).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
-
-        // activate current tab from ?cat= or location.hash            // ADDED
-        const fromParam = params.get('cat');
-        if (fromParam && !location.hash) {
-          location.hash = '#' + slugify(fromParam);
-        }
-        const current = (location.hash || '').replace('#','');
-        if (current) {
-          const active = bar.querySelector(`[data-hash="${CSS.escape(current)}"]`);
-          if (active){ active.classList.add('active'); active.setAttribute('aria-current','page'); }
-        }
-
-        // keep active state on click                                   // ADDED
-        bar.addEventListener('click', (e)=>{
-          const a = e.target.closest('a[href]');
-          if(!a) return;
-          bar.querySelectorAll('a').forEach(x=>{ x.classList.remove('active'); x.removeAttribute('aria-current'); });
-          a.classList.add('active'); a.setAttribute('aria-current','page');
-        });
       }
     } catch(e){ console.warn(e); }
   })();
 
-  // search keeps the current slug + hash                               // ADDED
+  /* search → listings with store context */
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
-    const hash = location.hash || '';
-    const url = `store.html?slug=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}${hash}`;
+    const url = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
     location.href = url;
   });
 </script>
 </body>
 </html>
+
