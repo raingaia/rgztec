@@ -4,101 +4,65 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
-
+<link rel="preload" as="fetch" href="data/store-content.json" crossorigin="anonymous">
 <style>
   :root{
-    --wrap:    1280px;
-    --rail-w:  980px;
-    --search-h:44px;
-
+    --wrap:1280px; --rail-w:980px; --search-h:44px;
     --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
     --line:#e5e7eb; --line-strong:#cbd5e1;
     --rgztec:#f97316; --rgztec-dark:#ea580c;
     --studio-bg:#22c3dc;
+    --tile-h:110px;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* ===== HEADER ===== */
+  /* HEADER */
   .topbar{background:#fff}
-  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:12px 18px 0}
+  .hdr{display:grid;grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr;align-items:center;column-gap:16px}
+  .left{display:flex;align-items:center;gap:10px;justify-self:start}
+  .brand{font-weight:900;font-size:24px;color:var(--rgztec);text-decoration:none}
+  .studio{white-space:nowrap;line-height:1;font-weight:800;font-size:15px;color:#fff;background:var(--studio-bg);padding:6px 12px;border-radius:999px;display:inline-flex;align-items:center;box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);transform:translateY(2px)}
+  .rail{display:flex;align-items:center;justify-content:center}
+  .search{width:var(--rail-w);max-width:100%;display:flex;align-items:center;gap:10px;height:var(--search-h);padding:6px 8px 6px 16px;border:2px solid #111827;border-radius:999px;background:#fff}
+  .search input{flex:1;border:0;outline:0;font-size:15px;padding:8px 6px}
+  .search button{display:grid;place-items:center;width:34px;height:34px;border-radius:999px;border:0;background:var(--rgztec);cursor:pointer;transition:transform .12s,filter .12s}
+  .search button:hover{transform:translateY(-1px);filter:brightness(.95)}
+  .search svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none}
+  .icons{display:flex;gap:14px;align-items:center;justify-self:end}
+  .icons a{text-decoration:none;color:var(--icon);font-size:16px}
+  .open-store{background:var(--rgztec);color:#fff!important;font-weight:700;padding:8px 18px;border-radius:999px;height:40px;display:inline-flex;align-items:center;white-space:nowrap;box-shadow:0 2px 4px rgba(0,0,0,.08);transition:all .2s}
+  .open-store:hover{background:var(--rgztec-dark);transform:translateY(-1px)}
 
-  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
-  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
-  .studio{
-    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
-    background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center;
-    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
-    transform:translateY(2px);
-  }
+  /* STORE BAR */
+  .cats-wrap{max-width:var(--wrap);margin:0 auto;position:relative}
+  .cats-wrap::after{content:"";position:absolute;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;bottom:0;border-bottom:2px solid var(--line-strong);height:0;pointer-events:none}
+  .store-bar{--cols:5;width:var(--rail-w);max-width:100%;margin:2px auto 0;height:44px;padding:0;border-bottom:none;display:grid;grid-template-columns:repeat(var(--cols),1fr);align-items:center;justify-items:center;background:transparent}
+  .store-bar a{width:100%;text-align:center;font-size:15px;font-weight:600;letter-spacing:.1px;line-height:44px;color:var(--text);text-decoration:none;transition:color .15s}
+  .store-bar a:hover{color:var(--hover)}
+  .store-bar a.active,.store-bar a[aria-current="page"]{color:var(--rgztec-dark);text-decoration:underline}
 
-  .rail{display:flex; align-items:center; justify-content:center}
-  .search{
-    width:var(--rail-w); max-width:100%;
-    display:flex; align-items:center; gap:10px;
-    height:var(--search-h); padding:6px 8px 6px 16px;
-    border:2px solid #111827; border-radius:999px; background:#fff;
-  }
-  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
-  .search button{
-    display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
-    border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
-  }
-  .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
-  .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
+  /* SHELVES (SÜTUNLAR) */
+  main{max-width:var(--wrap);margin:16px auto;padding:0 18px}
+  .shelves{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:14px}
+  .shelf{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;box-shadow:0 10px 26px rgba(0,0,0,.06);transition:transform .1s,box-shadow .1s;text-decoration:none;color:inherit}
+  .shelf:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(0,0,0,.09)}
+  .shelf .cover{height:var(--tile-h);border-radius:10px;background:linear-gradient(135deg,#f3f4f6,#e5e7eb)}
+  .shelf .name{font-weight:900}
+  .shelf.active{outline:2px solid var(--rgztec);outline-offset:2px}
+  .skeleton{border:1px dashed var(--line);border-radius:16px;padding:12px}
+  .skeleton .ph{height:var(--tile-h);border-radius:10px;background:#f1f5f9;margin-bottom:10px}
 
-  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
-  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
-  .open-store{
-    background:var(--rgztec); color:#fff !important; font-weight:700;
-    padding:8px 18px; border-radius:999px; height:40px;
-    display:inline-flex; align-items:center; white-space:nowrap;
-    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
-  }
-  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
-
-  /* ===== CATEGORIES ===== */
-  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
-  .cats-wrap::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    right:50%;
-    margin-left:-50vw; margin-right:-50vw;
-    bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
-  }
-
-  .store-bar{
-    --cols:5;
-    width:var(--rail-w); max-width:100%;
-    margin:2px auto 0; height:44px; padding:0;
-    border-bottom:none;
-    display:grid; grid-template-columns:repeat(var(--cols),1fr);
-    align-items:center; justify-items:center; background:transparent;
-  }
-  .store-bar a{
-    width:100%; text-align:center;
-    font-size:15px; font-weight:600; letter-spacing:.1px;
-    line-height:44px; color:var(--text); text-decoration:none;
-    transition:color .15s;
-  }
-  .store-bar a:hover{ color:var(--hover) }
-
-  /* ===== Content ===== */
-  main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ display:none; }
-
-  /* ===== Responsive ===== */
-  @media (max-width:1180px){ :root{ --rail-w: 900px } }
-  @media (max-width:1040px){ :root{ --rail-w: 780px } }
+  @media (max-width:1180px){:root{--rail-w:900px}}
+  @media (max-width:1040px){:root{--rail-w:780px}}
   @media (max-width:900px){
-    :root{ --rail-w: 100% }
-    .hdr{ grid-template-columns:1fr }
-    .icons a:not(.open-store){ display:none }
-    .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
-    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
-    .store-bar a{ line-height:38px }
+    :root{--rail-w:100%}
+    .hdr{grid-template-columns:1fr}
+    .icons a:not(.open-store){display:none}
+    .rail{order:2}.left{order:1}.icons{order:3}
+    .store-bar{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));height:auto}
+    .store-bar a{line-height:38px}
   }
 </style>
 </head>
@@ -111,7 +75,6 @@
         <a class="brand" href="./">RGZTEC</a>
         <span id="studioName" class="studio">Store</span>
       </div>
-
       <div class="rail">
         <form class="search" id="searchForm">
           <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
@@ -123,7 +86,6 @@
           </button>
         </form>
       </div>
-
       <nav class="icons" aria-label="Quick actions">
         <a href="login" aria-label="Sign in">Sign in</a>
         <a href="#" title="Gifts" aria-label="Gifts">🎁</a>
@@ -139,25 +101,62 @@
 </div>
 
 <main>
-  <p class="empty">Page content starts here…</p>
+  <!-- Sütunlar (reyon kartları) -->
+  <section aria-label="Shelves">
+    <div id="shelves" class="shelves">
+      <!-- skeleton -->
+      <div class="skeleton"><div class="ph"></div></div>
+      <div class="skeleton"><div class="ph"></div></div>
+      <div class="skeleton"><div class="ph"></div></div>
+      <div class="skeleton"><div class="ph"></div></div>
+    </div>
+  </section>
 </main>
 
 <script>
+  // slug guard
+  (function(){const p=new URLSearchParams(location.search);if(!p.get('slug')) location.replace('stores/index.html');})();
+
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+  // aktif sekme/kartı güncelle
+  function setActive(hash){
+    const h = (hash||'').replace('#','');
+    // sekme
+    document.querySelectorAll('#storeBar a').forEach(a=>{
+      if(a.dataset.hash===h){ a.classList.add('active'); a.setAttribute('aria-current','page'); }
+      else{ a.classList.remove('active'); a.removeAttribute('aria-current'); }
+    });
+    // kart
+    document.querySelectorAll('#shelves .shelf').forEach(c=>{
+      if(c.dataset.hash===h) c.classList.add('active'); else c.classList.remove('active');
+    });
+  }
+
+  // kart HTML’i
+  function shelfCard(name){
+    const h = slugify(name);
+    const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
+    return `
+      <a class="shelf" href="${href}" data-hash="${h}" title="${escapeHtml(name)}">
+        <div class="cover"></div>
+        <div class="name">${escapeHtml(name)}</div>
+      </a>`;
+  }
 
   (async function init(){
     if (!slug) return;
 
     try {
-      /* 1) stores.json => title + color */
+      // stores.json -> başlık + renk
       const sres = await fetch('data/stores.json', { cache:'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
         const meta = stores.find(s => s.slug === slug);
         const pill = document.getElementById('studioName');
-
         if (meta){
           pill.textContent = meta.name || meta.slug;
           if (meta.color) pill.style.background = meta.color;
@@ -168,32 +167,55 @@
         }
       }
 
-      /* 2) store-content.json => categories */
+      // store-content.json -> kategoriler (sekme + sütun)
       const cres = await fetch('data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
         const entry = content[slug] || {};
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
+        // sekmeler
         const bar = document.getElementById('storeBar');
-        /* build links that route to listings.html with store context */
-        bar.innerHTML = cats.map(c => {
-          const href = `listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`;
-          return `<a href="${href}">${escapeHtml(c)}</a>`;
+        bar.innerHTML = cats.map(c=>{
+          const h=slugify(c), href=`store.html?slug=${encodeURIComponent(slug)}#${h}`;
+          return `<a href="${href}" data-hash="${h}">${escapeHtml(c)}</a>`;
         }).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
+
+        // sütunlar
+        const grid = document.getElementById('shelves');
+        grid.innerHTML = cats.map(shelfCard).join('');
+
+        // ?cat paramını hash'e çevir ve aktiflikleri ayarla
+        const fromParam = params.get('cat');
+        if (fromParam && !location.hash) location.hash = '#' + slugify(fromParam);
+        setActive(location.hash);
+
+        // tıklamalarda aktiflik
+        bar.addEventListener('click', e=>{
+          const a=e.target.closest('a[href]'); if(!a) return;
+          // aktiflik bırak; hash zaten değişecek
+          setTimeout(()=>setActive(location.hash),0);
+        });
+        grid.addEventListener('click', e=>{
+          const a=e.target.closest('a[href]'); if(!a) return;
+          setTimeout(()=>setActive(location.hash),0);
+        });
+
+        // hash elle değişirse
+        window.addEventListener('hashchange', ()=>setActive(location.hash));
       }
     } catch(e){ console.warn(e); }
   })();
 
-  /* search → listings with store context */
+  // arama: slug + hash korunur
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
-    const url = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
+    const hash = location.hash || '';
+    const url = `store.html?slug=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}${hash}`;
     location.href = url;
   });
 </script>
 </body>
 </html>
-
