@@ -58,17 +58,14 @@
   }
   .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
 
-  /* ===== CATEGORY BAR ===== */
+  /* ===== store categories bar ===== */
   .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
   .cats-wrap::after{
     content:"";
-    position:absolute;
-    left:50%;
-    right:50%;
+    position:absolute; left:50%; right:50%;
     margin-left:-50vw; margin-right:-50vw;
     bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
   }
-
   .store-bar{
     --cols:5;
     width:var(--rail-w); max-width:100%;
@@ -88,24 +85,20 @@
     color:var(--rgztec-dark); text-decoration:underline;
   }
 
-  /* ===== FEATURED STORES (VITRIN) ===== */
-  .vitrin{max-width:var(--wrap);margin:18px auto 8px;padding:0 18px}
-  .vitrin h3{margin:0 0 10px;font-weight:900;font-size:18px}
-  .vitrin-list{display:flex;flex-wrap:wrap;gap:20px;list-style:none;padding:0;margin:0}
-  .vitrin-item{width:110px}
-  .vitrin-link{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:inherit}
-  .vitrin-badge{
-    width:96px;height:96px;border-radius:28px;display:grid;place-items:center;
-    box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05);
-    transition:transform .15s ease, box-shadow .15s ease
+  /* ===== Drawer (çekmece) ===== */
+  .drawer{position:fixed;inset:0;display:none;z-index:60}
+  .drawer.open{display:block}
+  .drawer .back{position:absolute;inset:0;background:rgba(0,0,0,.02)}
+  .drawer .panel{
+    position:absolute; background:#fff; border:1px solid var(--line);
+    border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.15);
+    width:280px; max-height:calc(100vh - 80px); overflow:auto; padding:8px;
   }
-  .vitrin-link:hover .vitrin-badge{transform:translateY(-4px);box-shadow:0 16px 28px -8px rgba(0,0,0,.16)}
-  .vitrin-letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.22)}
-  .vitrin-name{font-size:12.5px;color:#6b7280;text-align:center;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-  /* ===== Content ===== */
-  main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ display:none; }
+  .drawer .panel nav a{
+    display:block; padding:10px 12px; border-radius:8px; color:var(--text);
+    font-weight:600; font-size:14px; text-decoration:none;
+  }
+  .drawer .panel nav a:hover{ background:#f3f4f6 }
 
   /* ===== Responsive ===== */
   @media (max-width:1180px){ :root{ --rail-w: 900px } }
@@ -118,6 +111,14 @@
     .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
   }
+
+  /* küçük yardımcı */
+  .btn-cats{
+    display:inline-flex; align-items:center; gap:8px;
+    height:38px; padding:0 12px; border:1px solid var(--line-strong);
+    border-radius:10px; background:#fff; cursor:pointer; font-weight:700;
+  }
+  .btn-cats svg{width:18px; height:18px}
 </style>
 </head>
 <body>
@@ -128,6 +129,14 @@
       <div class="left">
         <a class="brand" href="./">RGZTEC</a>
         <span id="studioName" class="studio">Store</span>
+
+        <!-- ÇEKMECE BUTONU -->
+        <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          Categories
+        </button>
       </div>
 
       <div class="rail">
@@ -152,37 +161,64 @@
   </div>
 </header>
 
+<!-- Mağaza içi kategori sekmeleri -->
 <div class="cats-wrap">
   <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
 
-<!-- Featured stores row -->
-<section class="vitrin" aria-label="Featured stores">
-  <h3>Featured stores</h3>
-  <ul id="vitrinList" class="vitrin-list"></ul>
-</section>
-
-<main>
-  <p class="empty">Page content starts here…</p>
+<main class="wrap" style="padding:16px 18px 32px">
+  <!-- Vitrin kaldırıldı -->
+  <p class="muted" style="color:#6b7280;margin:8px 0 0">Page content starts here…</p>
 </main>
+
+<!-- ÇEKMECE (aynısı ana sayfadaki gibi) -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <nav id="drawerNav">
+      <!-- JS doldurur -->
+    </nav>
+  </aside>
+</div>
 
 <script>
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim();
+
   const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const slugify = (s='') => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+  // Çekmece elemanları
+  const drawer = document.getElementById('drawer');
+  const backdrop = document.getElementById('backdrop');
+  const panel = drawer.querySelector('.panel');
+  const btnCats = document.getElementById('btnCats');
+
+  function openDrawer(){
+    const r = btnCats.getBoundingClientRect();
+    panel.style.top = (r.bottom + 8) + 'px';
+    panel.style.left = r.left + 'px';
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+  }
+  btnCats?.addEventListener('click', (e)=>{ e.stopPropagation(); drawer.classList.contains('open') ? closeDrawer() : openDrawer(); });
+  backdrop?.addEventListener('click', closeDrawer);
+  window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
 
   (async function init(){
     if (!slug) return;
 
     try {
-      /* 1) stores.json => title + color */
+      // 1) stores.json => başlık/renk
       const sres = await fetch('data/stores.json', { cache:'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
         const meta = stores.find(s => s.slug === slug);
         const pill = document.getElementById('studioName');
-
         if (meta){
           pill.textContent = meta.name || meta.slug;
           if (meta.color) pill.style.background = meta.color;
@@ -193,13 +229,14 @@
         }
       }
 
-      /* 2) store-content.json => categories */
+      // 2) store-content.json => mağaza içi kategoriler (sekme bar + çekmece)
       const cres = await fetch('data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
         const entry = content[slug] || {};
         const cats = Array.isArray(entry.categories) ? entry.categories : [];
 
+        // Sekme bar
         const bar = document.getElementById('storeBar');
         bar.innerHTML = cats.map(c => {
           const h = slugify(c);
@@ -208,11 +245,9 @@
         }).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
 
-        // aktif sekme: ?cat= ya da hash
+        // Aktif sekme
         const fromParam = params.get('cat');
-        if (fromParam && !location.hash) {
-          location.hash = '#' + slugify(fromParam);
-        }
+        if (fromParam && !location.hash) location.hash = '#' + slugify(fromParam);
         const current = (location.hash || '').replace('#','');
         if (current) {
           const active = bar.querySelector(`[data-hash="${CSS.escape(current)}"]`);
@@ -224,11 +259,20 @@
           bar.querySelectorAll('a').forEach(x=>{ x.classList.remove('active'); x.removeAttribute('aria-current'); });
           a.classList.add('active'); a.setAttribute('aria-current','page');
         });
+
+        // Çekmece listesi (global mağaza kategorileri gibi davranır)
+        const drawerNav = document.getElementById('drawerNav');
+        drawerNav.innerHTML = cats.map(c=>{
+          const h = slugify(c);
+          const href = `store.html?slug=${encodeURIComponent(slug)}#${h}`;
+          return `<a href="${href}">${escapeHtml(c)}</a>`;
+        }).join('') +
+        `<a href="listings.html" style="font-weight:700;color:var(--rgztec);border-top:1px solid var(--line);margin-top:4px;padding-top:12px">All Categories →</a>`;
       }
     } catch(e){ console.warn(e); }
   })();
 
-  // search keeps slug + hash
+  // Arama: mevcut slug + hash korunur
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
@@ -236,71 +280,6 @@
     const url = `store.html?slug=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}${hash}`;
     location.href = url;
   });
-
-  /* ===== Featured stores (vitrin) logic ===== */
-  const hexToRGB = (hex)=> {
-    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||'#60a5fa');
-    return m ? {r:parseInt(m[1],16), g:parseInt(m[2],16), b:parseInt(m[3],16)} : {r:96,g:165,b:250};
-  };
-  const darken = (hex, f=0.18)=> {
-    const {r,g,b}=hexToRGB(hex);
-    const d = (x)=>Math.max(0, Math.min(255, Math.round(x*(1-f))));
-    return `rgb(${d(r)}, ${d(g)}, ${d(b)})`;
-  };
-
-  // Mağaza bazlı vitrin önerileri
-  const FEATURED_BY_STORE = {
-    "html-templates": ["email-forge","icon-smith","ai-tools-hub","dev-studio-one","game-makers","reactorium"],
-    "email-forge":    ["html-templates","icon-smith","ai-tools-hub","dev-studio-one","reactorium"],
-    "icon-smith":     ["html-templates","email-forge","ai-tools-hub","dev-studio-one","reactorium"],
-    "ai-tools-hub":   ["html-templates","email-forge","dev-studio-one","reactorium","game-makers"],
-    "dev-studio-one": ["html-templates","email-forge","icon-smith","reactorium","game-makers"],
-    "game-makers":    ["html-templates","dev-studio-one","reactorium","ai-tools-hub"],
-    "reactorium":     ["html-templates","dev-studio-one","email-forge","icon-smith"],
-    "tiny-js-lab":    ["html-templates","dev-studio-one","reactorium"],
-    "unity-hub":      ["game-makers","dev-studio-one","ai-tools-hub"],
-    "wp-plugins":     ["html-templates","dev-studio-one","ai-tools-hub"]
-  };
-
-  async function renderVitrin(currentSlug){
-    const mount = document.getElementById('vitrinList');
-    if(!mount) return;
-
-    let stores = [];
-    try{
-      const res = await fetch('data/stores.json', {cache:'no-store'});
-      const json = await res.json();
-      stores = json.stores || [];
-    }catch(e){ console.warn('stores.json okunamadı', e); }
-
-    let want = FEATURED_BY_STORE[currentSlug];
-    if(!want || !want.length){
-      want = stores.map(s=>s.slug).filter(s=>s!==currentSlug).slice(0,6);
-    }
-
-    const bySlug = Object.fromEntries(stores.map(s=>[s.slug, s]));
-    const items = want
-      .map(sl => bySlug[sl])
-      .filter(Boolean)
-      .map(s => {
-        const c1 = s.color || '#60a5fa';
-        const c2 = darken(c1, 0.26);
-        const letter = (s.name||s.slug||'?').charAt(0).toUpperCase();
-        return `
-          <li class="vitrin-item">
-            <a class="vitrin-link" href="store.html?slug=${encodeURIComponent(s.slug)}">
-              <div class="vitrin-badge" style="background:radial-gradient(circle at 68% 32%, ${c1}, ${c2})">
-                <div class="vitrin-letter">${letter}</div>
-              </div>
-              <div class="vitrin-name">${(s.name||s.slug)}</div>
-            </a>
-          </li>`;
-      }).join('');
-
-    mount.innerHTML = items;
-  }
-
-  if (slug) { renderVitrin(slug); }
 </script>
 </body>
 </html>
