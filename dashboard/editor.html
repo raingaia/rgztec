@@ -296,7 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.parent.postMessage({ type: 'error', message: [e.message] }, '*');
                     });
                 } catch (e) {
-                    // In case of any error in proxy, log to original console
                     window.console.error('Error setting up console proxy:', e);
                 }
             <\/script>
@@ -305,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const userScript = js.trim() ? (isModule ? `<script type="module">${js}<\/script>` : `<script>${js}<\/script>`) : '';
         const userStyle = css.trim() ? `<style>${css}<\/style>` : '';
         
-        // Correctly using template literals now
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
