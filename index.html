@@ -101,118 +101,39 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 }
 @keyframes shimmer{100%{transform:translateX(100%)}}
 .card-skeleton::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  transform:translateX(-100%);
+  content:''; position:absolute; inset:0; transform:translateX(-100%);
   background: linear-gradient(90deg, hsla(0,0%,100%,0), hsla(0,0%,100%,.5), hsla(0,0%,100%,0));
   animation: shimmer 1.5s infinite;
 }
-
 
 /* ===== YENİ DROPDOWN MENÜ Stilleri ===== */
 .drawer{position:fixed;inset:0;display:none;z-index:40}
 .drawer.open{display:block}
 .back{position:absolute;inset:0;background:transparent}
 .panel{
-  position:absolute;
-  width: 280px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.15);
-  border: 1px solid var(--line);
-  padding: 8px;
-  overflow: auto;
-  max-height: calc(100vh - 80px);
+  position:absolute; width: 280px; background: #fff; border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15); border: 1px solid var(--line);
+  padding: 8px; overflow: auto; max-height: calc(100vh - 80px);
 }
-.panel nav a {
-    display: block;
-    padding: 10px 12px;
-    border-radius: 8px;
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 14px;
-}
-.panel nav a:hover {
-    background: #f3f4f6;
-}
+.panel nav a{display:block;padding:10px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
+.panel nav a:hover{background:#f3f4f6}
 
 /* ===== YENİ FOOTER Stilleri ===== */
-.footer-outer {
-  margin-top: 40px;
-  background-color: #232347; /* Etsy Koyu Mavi */
-  color: #fff;
-  padding-top: 48px;
-  font-size: 14px;
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-.footer-grid h4 {
-  margin: 0 0 12px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-}
-.footer-grid a {
-  display: block;
-  color: #d1d1d1;
-  text-decoration: none;
-  margin-bottom: 10px;
-  transition: color .2s;
-}
-.footer-grid a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-.footer-socials {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
-}
-.footer-socials a {
-  display: grid;
-  place-items: center;
-}
-.footer-socials svg {
-  width: 24px;
-  height: 24px;
-  fill: #d1d1d1;
-  transition: fill .2s;
-}
-.footer-socials a:hover svg {
-  fill: #fff;
-}
-
-.footer-bottom {
-  border-top: 1px solid #3c3c62;
-  margin-top: 48px;
-  padding: 24px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  font-size: 13px;
-  color: #d1d1d1;
-}
-.footer-bottom a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-}
-.footer-bottom a:hover {
-  text-decoration: underline;
-}
+.footer-outer{margin-top:40px;background-color:#232347;color:#fff;padding-top:48px;font-size:14px}
+.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.footer-grid h4{margin:0 0 12px;font-size:16px;font-weight:700;color:#fff}
+.footer-grid a{display:block;color:#d1d1d1;text-decoration:none;margin-bottom:10px;transition:color .2s}
+.footer-grid a:hover{color:#fff;text-decoration:underline}
+.footer-socials{display:flex;gap:16px;margin-top:20px}
+.footer-socials a{display:grid;place-items:center}
+.footer-socials svg{width:24px;height:24px;fill:#d1d1d1;transition:fill .2s}
+.footer-socials a:hover svg{fill:#fff}
+.footer-bottom{border-top:1px solid #3c3c62;margin-top:48px;padding:24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:13px;color:#d1d1d1}
+.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-bottom a:hover{text-decoration:underline}
 
 /* responsive */
-@media (max-width: 768px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-}
-
+@media (max-width: 768px){.footer-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -241,6 +162,9 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
       <a href="./dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
 
       <a href="#" class="signin-link">Sign in</a>
+      <!-- added: support email -->
+      <a href="mailto:support@rgztec" class="signin-link">Support</a>
+      <!-- /added -->
       <button class="icon-btn" title="Gift">🎁</button>
       <button class="icon-btn" title="Cart">🛒</button>
       <a class="pill-open" href="open-store.html">Open Store</a>
@@ -270,7 +194,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 <main class="page-section page-section--fluid section-container">
   <h2 class="section-h">Marketplace gallery</h2>
   <div class="grid" id="gallery">
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
@@ -367,6 +290,9 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
                 <h4>Help</h4>
                 <a href="#">Help Center</a>
                 <a href="#">Privacy settings</a>
+                <!-- added: support email -->
+                <a href="mailto:support@rgztec">Contact support (support@rgztec)</a>
+                <!-- /added -->
                 <div class="footer-socials">
                     <a href="#" aria-label="Instagram">
                         <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -390,7 +316,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
         </div>
     </div>
 </footer>
-
 
 <script>
 /* renk ve mağaza verileri */
@@ -436,7 +361,7 @@ document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
 document.getElementById('y').textContent = new Date().getFullYear();
 
 /* drawer open/close */
-const drawer=document.getElementById('drawer'), 
+const drawer=document.getElementById('drawer'),
       back=document.getElementById('backdrop'),
       panel=drawer.querySelector('.panel'),
       openBtn=document.getElementById('btnCats');
@@ -454,14 +379,11 @@ function closeDrawer(){
 }
 openBtn?.addEventListener('click', (e) => {
     e.stopPropagation(); // Butona tıklamanın back'i tetiklemesini önle
-    if (drawer.classList.contains('open')) {
-        closeDrawer();
-    } else {
-        openDrawer();
-    }
+    if (drawer.classList.contains('open')) { closeDrawer(); } else { openDrawer(); }
 });
 back?.addEventListener('click',closeDrawer);
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 </script>
 </body>
 </html>
+
