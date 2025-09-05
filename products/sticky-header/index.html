@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<base href="/rgztec/">
 <title>RGZTEC • Sticky Header</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<script>
+  // Make <base> work locally too (file:// or non-GitHub host)
+  (function () {
+    var onGh = /github\.io$/i.test(location.hostname);
+    if (!onGh) {
+      var b = document.querySelector('base');
+      if (b) b.setAttribute('href','./');
+    }
+  })();
+</script>
 <style>
   :root{--ink:#0b1220;--sub:#6b7280;--bg:#fff;--line:#e5e7eb;--brand:#f97316}
   *{box-sizing:border-box} html,body{margin:0}
@@ -27,7 +39,9 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="crumbs"><a href="/">Home</a> / <a href="/product/">Products</a> / Sticky Header</div>
+    <!-- fixed: use project-relative links (base handles /rgztec/) -->
+    <div class="crumbs"><a href="index.html">Home</a> / <a href="products/">Products</a> / Sticky Header</div>
+
     <div class="row">
       <div>
         <h1>Sticky Header</h1>
@@ -46,30 +60,28 @@
         <div id="panel-overview" class="panel">
           <p>Scroll-aware, minimal sticky header component. Vanilla CSS/JS, zero dependency.</p>
           <ul>
-            <li>✔️ Pure HTML/CSS/JS</li>
-            <li>✔️ Accessible & responsive</li>
-            <li>✔️ Works on all modern browsers</li>
+            <li>Pure HTML/CSS/JS</li>
+            <li>Accessible and responsive</li>
+            <li>Works on all modern browsers</li>
           </ul>
         </div>
 
         <div id="panel-live" class="panel" hidden>
-          <iframe
-            src="/demos/0001.html"
-            sandbox="allow-scripts">
-          </iframe>
+          <!-- fixed: remove leading slash so it resolves under /rgztec/ -->
+          <iframe src="demos/0001.html" sandbox="allow-scripts"></iframe>
           <p style="color:#6b7280;font-size:13px;margin-top:8px">
-            Demo sandbox içinde çalışır. Kaynak kod satın alma sonrası açılır.
+            Demo runs in a sandbox. Full source opens after purchase.
           </p>
         </div>
 
         <div id="panel-try" class="panel" hidden>
-          <p style="margin:0 0 8px">Küçük bir snippet deneyin:</p>
+          <p style="margin:0 0 8px">Try a small snippet:</p>
           <textarea id="tryCode"><button class="cta">Buy</button>
 <style>.cta{background:#f97316;color:#fff;padding:10px 16px;border:none;border-radius:10px;font-weight:600}</style>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.querySelector('.cta');
-    if(btn) btn.onclick = () => alert('Purchased!');
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.querySelector('.cta');
+    if(btn) btn.onclick = function(){ alert('Purchased!'); };
   });
 </script></textarea>
           <div style="display:flex;gap:8px;margin-top:8px">
@@ -85,7 +97,7 @@
         <p style="color:#6b7280">Single Project License</p>
         <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
           <strong style="font-size:24px">$9</strong>
-          <button class="cta" onclick="alert('Checkout flow bağlanacak')">Add to Cart</button>
+          <button class="cta" onclick="alert('Checkout flow to be connected')">Add to Cart</button>
         </div>
         <hr style="margin:16px 0;border:0;border-top:1px solid var(--line)">
         <ul style="margin:0;padding-left:18px;color:#6b7280">
@@ -99,44 +111,48 @@
 
 <script>
   // Tabs
-  document.querySelectorAll('.tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
-      const target = btn.dataset.panel;
-      document.querySelectorAll('.panel').forEach(p=>p.hidden=true);
+      var target = btn.dataset.panel;
+      document.querySelectorAll('.panel').forEach(function(p){ p.hidden = true; });
       document.getElementById('panel-' + target).hidden = false;
     });
   });
 
-  // Try Code (küçük sandbox)
+  // Try Code (mini sandbox)
   function runTry(){
-    const code = document.getElementById('tryCode').value;
-    const mount = document.getElementById('tryMount');
+    var code = document.getElementById('tryCode').value;
+    var mount = document.getElementById('tryMount');
     mount.innerHTML = '';
-    const wrapper = document.createElement('div');
+    var wrapper = document.createElement('div');
     wrapper.innerHTML = code;
-    Array.from(wrapper.childNodes).forEach(n=>{
+
+    // append non-script first
+    Array.from(wrapper.childNodes).forEach(function(n){
       if(!(n.tagName && n.tagName.toLowerCase()==='script')) mount.appendChild(n);
     });
-    wrapper.querySelectorAll('script').forEach(sOld=>{
-      const s = document.createElement('script');
+    // re-exec scripts
+    wrapper.querySelectorAll('script').forEach(function(sOld){
+      var s = document.createElement('script');
       if (sOld.src) { s.src = sOld.src; s.async = false; }
       else { s.textContent = sOld.textContent; }
       mount.appendChild(s);
     });
   }
   function openTry(){
-    const code = document.getElementById('tryCode').value;
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>${code}</body></html>`;
-    const w = window.open('', '_blank');
+    var code = document.getElementById('tryCode').value;
+    var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>'+code+'</body></html>';
+    var w = window.open('', '_blank');
     if (w && w.document){ w.document.open(); w.document.write(html); w.document.close(); return; }
-    const blob = new Blob([html], {type:'text/html'}); const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; a.click();
-    setTimeout(()=>URL.revokeObjectURL(url), 30000);
+    var blob = new Blob([html], {type:'text/html'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a'); a.href=url; a.target='_blank'; a.rel='noopener'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 30000);
   }
 
-  // Varsayılan panel
+  // Default panel
   document.getElementById('panel-overview').hidden = false;
 </script>
 </body>
