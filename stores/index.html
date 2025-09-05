@@ -1,71 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Stores • RGZTEC</title>
-<style>
-  :root{--brand:#FF6A00;--dark:#0F172A;--light:#F9FAFB;--line:#E5E7EB;--muted:#6B7280;--radius:16px;--shadow:0 10px 28px rgba(0,0,0,.07)}
-  *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;background:var(--light);color:var(--dark)}
-  header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
-  .row{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px}
-  .logo{font-weight:900} .spacer{flex:1}
-  .sub{color:var(--muted);font-size:14px}
-  .toolbar{max-width:1200px;margin:0 auto;padding:10px 20px;display:flex;gap:10px;align-items:center}
-  .search{flex:1;display:flex;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-  .search input{flex:1;border:0;padding:10px 12px} .search button{background:var(--brand);border:0;color:#fff;font-weight:800;padding:10px 16px}
-  h1{max-width:1200px;margin:18px auto 0;padding:0 20px}
-  .grid{max-width:1200px;margin:12px auto 30px;padding:0 20px;display:grid;gap:18px;grid-template-columns:repeat(4,1fr)}
-  .card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .12s, box-shadow .12s}
-  .card:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(0,0,0,.12)}
-  .hero{height:150px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:28px}
-  .body{padding:14px;text-align:center}
-  .name{font-weight:900} .desc{color:var(--muted);font-size:14px;margin-top:6px;min-height:40px}
-  @media(max-width:992px){.grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:480px){.grid{grid-template-columns:1fr}.toolbar{flex-direction:column;align-items:stretch}}
-</style>
+  <meta charset="utf-8"/>
+  <base href="/rgztec/">
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Stores</title>
+  <meta name="description" content="Explore all stores on RGZTEC."/>
+  <script>
+    // make <base> work in local file/dev too
+    (function () {
+      var onGh = /github\.io$/i.test(location.hostname);
+      if (!onGh) { var b = document.querySelector('base'); if (b) b.setAttribute('href','./'); }
+    })();
+  </script>
+  <style>
+    :root{
+      --wrap:1200px;
+      --gutter:clamp(12px,3.5vw,28px);
+      --ink:#0b1220; --sub:#64748b; --line:#e5e7eb;
+      --brand:#f97316; --brand-dark:#ea580c;
+      --tile:clamp(78px,7.2vw,96px);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+
+    /* header */
+    .header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);
+      backdrop-filter:saturate(120%) blur(8px); border-bottom:1px solid var(--line)}
+    .row{max-width:var(--wrap);margin-inline:auto;padding:10px var(--gutter);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .brand{font-weight:900;color:var(--brand);text-decoration:none;font-size:22px}
+    .search{display:flex;align-items:center;gap:8px;height:48px;border:2px solid #111827;border-radius:999px;padding:0 8px 0 14px;flex:1 1 420px;min-width:260px}
+    .search input{flex:1;border:0;outline:0;font-size:15px;background:transparent;padding:12px 8px}
+    .search button{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer}
+    .search svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+
+    /* title */
+    .page{max-width:var(--wrap);margin-inline:auto;padding:18px var(--gutter) 8px}
+    .h1{margin:0 0 4px;font-size:26px;font-weight:900}
+    .sub{margin:0;color:var(--sub)}
+
+    /* grid */
+    .grid{max-width:var(--wrap);margin:12px auto 30px;padding:0 var(--gutter);
+      display:grid;gap:clamp(14px,2.2vw,22px);
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+    .card{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:inherit;transition:transform .15s ease}
+    .card:hover{transform:translateY(-5px)}
+    .badge{width:var(--tile);height:var(--tile);border-radius:28px;display:grid;place-items:center;
+      box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05)}
+    .letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.22)}
+    .name{font-size:13px;color:var(--sub);max-width:220px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    /* loading/empty */
+    #stores.empty::before{content:"Loading stores…";display:block;color:var(--sub)}
+  </style>
 </head>
 <body>
-<header>
+
+<header class="header">
   <div class="row">
-    <a class="logo" href="/">RGZTEC</a><div class="spacer"></div>
-    <span class="sub">Curated developer stores</span>
+    <a class="brand" href="./">RGZTEC</a>
+    <form id="topSearch" class="search" role="search" action="listings.html">
+      <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
+      <button type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
+      </button>
+    </form>
   </div>
 </header>
 
-<div class="toolbar">
-  <form class="search" onsubmit="return false">
-    <input id="q" placeholder="Search stores… (name or description)">
-    <button onclick="doSearch()">Search</button>
-  </form>
-</div>
+<section class="page">
+  <h1 class="h1">All Stores</h1>
+  <p class="sub">Pick a store to explore its shelves and products.</p>
+</section>
 
-<h1>All Stores</h1>
-<div id="grid" class="grid" aria-live="polite"></div>
+<main id="stores" class="grid empty" aria-label="Stores grid"></main>
 
 <script>
-let STORES=[];
-function render(list){
-  const grid=document.getElementById('grid');
-  grid.innerHTML = list.map(s=>`
-    <a class="card" href="/stores/${s.slug}/">
-      <div class="hero" style="background:${s.color}">${s.name}</div>
-      <div class="body">
-        <div class="name">${s.name}</div>
-        <div class="desc">${s.desc}</div>
-      </div>
-    </a>`).join('');
-}
-function doSearch(){
-  const q=(document.getElementById('q').value||'').toLowerCase();
-  if(!q) return render(STORES);
-  render(STORES.filter(s=>(s.name+s.desc).toLowerCase().includes(q)));
-}
-(async function(){
-  const data=await fetch('/data/stores.json').then(r=>r.json());
-  STORES = data.stores||[];
-  render(STORES);
-})();
+  // color fallbacks (matches home vibe)
+  const COLOR = {
+    'html-templates':['#a5d6ff','#3b82f6'],
+    'email-forge':['#fecaca','#ef4444'],
+    'icon-smith':['#bae6fd','#0ea5e9'],
+    'ai-tools-hub':['#e9d5ff','#a855f7'],
+    'dev-studio-one':['#a7f3d0','#10b981'],
+    'game-makers':['#fde68a','#f59e0b'],
+    'reactorium':['#a5f3fc','#06b6d4'],
+    'tiny-js-lab':['#d9f99d','#84cc16'],
+    'unity-hub':['#fecdd3','#f43f5e'],
+    'wp-plugins':['#ddd6fe','#8b5cf6']
+  };
+  const escapeHtml = (s='') => s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  function card(store){
+    const slug = store.slug;
+    const name = store.name || slug;
+    const letter = (name||'?').charAt(0).toUpperCase();
+    const [light,dark] = store.color ? [store.color, store.color] : (COLOR[slug] || ['#a5d6ff','#3b82f6']);
+    return `
+      <a class="card" href="store.html?slug=${encodeURIComponent(slug)}" title="${escapeHtml(name)}">
+        <div class="badge" style="background:radial-gradient(70% 70% at 70% 30%, ${light}, ${dark});">
+          <div class="letter">${letter}</div>
+        </div>
+        <div class="name">${escapeHtml(name)}</div>
+      </a>
+    `;
+  }
+
+  (async function(){
+    const grid = document.getElementById('stores');
+    try{
+      const res = await fetch('data/stores.json',{cache:'no-store'});
+      if(!res.ok){ grid.innerHTML = '<p style="color:#64748b">Could not load stores.</p>'; grid.classList.remove('empty'); return; }
+      const {stores=[]} = await res.json();
+      grid.innerHTML = stores.map(card).join('');
+      grid.classList.remove('empty');
+    }catch(err){
+      console.warn(err);
+      grid.innerHTML = '<p style="color:#64748b">Could not load stores.</p>';
+      grid.classList.remove('empty');
+    }
+  })();
 </script>
+
 </body>
 </html>
