@@ -9,7 +9,7 @@
   <style>
     :root{--wrap:1200px}
     .wrap{max-width:var(--wrap);margin-inline:auto}
-    /* tiny typeahead styles (drawer-like list) */
+    /* typeahead */
     .typeahead{position:relative}
     .typeahead ul{
       position:absolute;left:0;right:0;z-index:40;margin-top:.25rem;
@@ -67,15 +67,15 @@
           <p class="mt-1 text-xs text-gray-500">Use E.164 format if possible (e.g., +15550100000). We don’t store this field locally.</p>
         </label>
 
-        <!-- Country (searchable) -->
-        <label class="block text-sm">Country
-          <input id="sellerCountry" list="countryList" placeholder="Search country..."
-                 class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" required>
+        <!-- Country (optional, searchable) -->
+        <label class="block text-sm">Country <span class="text-xs text-gray-400">(optional)</span>
+          <input id="sellerCountry" list="countryList" placeholder="Search country (optional)"
+                 class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
           <datalist id="countryList"></datalist>
         </label>
 
-        <!-- City (typeahead) -->
-        <label class="block text-sm">City
+        <!-- City (optional typeahead) -->
+        <label class="block text-sm">City <span class="text-xs text-gray-400">(optional)</span>
           <div id="cityBox" class="typeahead">
             <input id="sellerCity" placeholder="Type to search city (e.g. stanbu, pari, milan)" autocomplete="off" autocapitalize="off" spellcheck="false"
                    class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
@@ -98,7 +98,7 @@
       <p class="text-sm text-gray-600">This info builds your seller record in Firestore. KYC/KYB comes later when you connect payments.</p>
       <ul class="mt-3 text-sm text-gray-600 space-y-2">
         <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Name & contact for invoices</li>
-        <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Country for tax rules</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Country for tax rules (if provided)</li>
       </ul>
     </div>
   </div>
@@ -174,26 +174,24 @@ function setStep(active){ // 1..5
   });
 }
 
-// STEP 1
+// STEP 1 (Country/City opsiyonel)
 function refreshStep1(){
   const okName=trim($('#sellerName').value).length>=2;
   const okEmail=validEmail(trim($('#sellerEmail').value));
-  const okCountry=trim($('#sellerCountry').value).length>0;
-  const okCity=trim($('#sellerCity').value).length>=2;
-
   $('#errName').classList.toggle('hidden',okName);
   $('#errEmail').classList.toggle('hidden',okEmail);
-  const can=okName&&okEmail&&okCountry&&okCity;
+  const can=okName&&okEmail; // sadece ad + email zorunlu
   const b=$('#btnNext1');
   b.disabled=!can; b.classList.toggle('opacity-50',!can); b.classList.toggle('cursor-not-allowed',!can);
 }
+
 function saveStep1(){
   // privacy-first: phone is intentionally NOT persisted
   window.state=window.state||{};
   state.sellerName=trim($('#sellerName').value);
   state.sellerEmail=trim($('#sellerEmail').value);
-  state.sellerCountry=trim($('#sellerCountry').value);
-  state.sellerCity=trim($('#sellerCity').value);
+  state.sellerCountry=trim($('#sellerCountry').value); // opsiyonel
+  state.sellerCity=trim($('#sellerCity').value);       // opsiyonel
   state.sellerLat=trim($('#sellerLat').value);
   state.sellerLon=trim($('#sellerLon').value);
   localStorage.setItem('openStore',JSON.stringify(state));
@@ -242,7 +240,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     refreshStep1();
   });
 
-  // UPDATED: go to Payments smoothly and highlight pill
+  // Continue → Payments + step highlight
   $('#btnNext1')?.addEventListener('click',()=>{
     if($('#btnNext1').disabled) return;
     saveStep1();
@@ -259,7 +257,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 <!-- Country & City logic (search + typeahead; API key not required) -->
 <script>
-// ---- Countries (short list; istersen ISO-3166 full listeyi ekleyebilirim)
+// ---- Countries (datalist; opsiyonel)
 const COUNTRIES = ["United States","United Kingdom","Germany","Canada","Turkey","France","Italy","Spain","Netherlands","Sweden","Norway","Denmark","Finland","Poland","Portugal","Greece","Ireland","Switzerland","Austria","Belgium","Australia","New Zealand","India","Japan","China","South Korea","Singapore","United Arab Emirates","Saudi Arabia","Brazil","Argentina","Mexico","South Africa","Egypt","Israel","Thailand","Malaysia","Indonesia","Philippines","Vietnam","Czechia","Romania","Bulgaria","Hungary","Slovakia","Slovenia","Croatia","Serbia","Chile","Colombia","Peru","Other"];
 const countryListEl = document.getElementById('countryList');
 countryListEl.innerHTML = COUNTRIES.map(c=>`<option value="${c}"></option>`).join('');
@@ -271,7 +269,7 @@ const suggest = document.getElementById('citySuggest');
 const latEl = document.getElementById('sellerLat');
 const lonEl = document.getElementById('sellerLon');
 
-const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,''); // stanbu -> Istanbul eşleşsin
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'');
 function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),ms);} }
 
 function renderSuggestions(items){
@@ -286,41 +284,41 @@ function renderSuggestions(items){
       latEl.value = li.dataset.lat;
       lonEl.value = li.dataset.lon;
       suggest.innerHTML='';
-      saveStep1(); // seçimi hemen persist edelim
-      refreshStep1(); // Continue butonunu güncelle
+      saveStep1();   // persist
+      refreshStep1();// enable Continue if needed
     });
   });
 }
 
+// ülke seçildiyse o ülkeye, seçilmediyse dünyaya göre arama
 const searchCities = debounce(async ()=>{
   const q = cityInput.value.trim();
   if(q.length < 2){ suggest.innerHTML=''; return; }
 
-  // Ülkeye göre daraltma: isim yazıldığı gibi (United States / France / Italy ...)
-  const ccName = countryInput.value.trim();
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=20&language=en&format=json`;
   try{
     const res = await fetch(url);
     const data = await res.json();
     let results = Array.isArray(data.results) ? data.results : [];
 
-    // 1) yalnızca şehir merkezleri (PPL*, PPLA*, PPLC)
+    // yalnızca şehir merkezleri (PPL*, PPLA*, PPLC)
     results = results.filter(r => {
       const fc = String(r.feature_code||'').toUpperCase();
       return fc.startsWith('PPL') || fc === 'PPLC';
     });
 
-    // 2) ülke yazılmışsa öncelik ver (gevşek eşleşme; France, Italy, Germany vs.)
-    if(ccName && ccName.toLowerCase() !== 'other'){
-      const cn = norm(ccName);
+    // ülke yazılmışsa öncelik ver
+    const cName = (countryInput.value||'').trim();
+    if(cName && cName.toLowerCase()!=='other'){
+      const cn = norm(cName);
       results = results.filter(r => norm(r.country).includes(cn));
     }
 
-    // 3) sorguyla gevşek eşleşme (stanbu -> Istanbul, pari -> Paris, milan -> Milano)
+    // sorguyla gevşek eşleşme
     const qn = norm(q);
     results = results.filter(r => norm(r.name).includes(qn) || norm(r.admin1||'').includes(qn));
 
-    // 4) anlamlı sıralama: nüfusa göre (büyük->küçük), sonra isim
+    // anlamlı sıralama: nüfus -> isim
     results.sort((a,b)=>(b.population||0)-(a.population||0) || String(a.name).localeCompare(String(b.name)));
 
     renderSuggestions(results.slice(0,10));
@@ -331,8 +329,7 @@ const searchCities = debounce(async ()=>{
 }, 250);
 
 cityInput.addEventListener('input', searchCities);
-// tıklamayı kaçırmamak için blur'da biraz gecikmeli kapat
-cityInput.addEventListener('blur', ()=> setTimeout(()=> suggest.innerHTML='', 150));
+cityInput.addEventListener('blur', ()=> setTimeout(()=> suggest.innerHTML='', 150)); // tıklamayı kaçırmasın
 </script>
 
 </body>
