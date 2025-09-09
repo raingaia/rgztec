@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Become a Seller — RGZTEC</title>
   <meta name="description" content="Join RGZTEC and start selling in minutes. Clear fees, global payments, and a 0% platform fee launch promo for your first 3 months (limits apply)." />
+  <meta name="theme-color" content="#f97316" />
+  <meta property="og:title" content="Become a Seller — RGZTEC" />
+  <meta property="og:description" content="Open your store, connect payouts, and publish products in minutes. 0% platform fee promo for your first 3 months (limits apply)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raingaia.github.io/rgztec/assets/og-seller.png" />
+  <meta property="og:url" content="https://raingaia.github.io/rgztec/seller.html" />
+  <link rel="canonical" href="https://raingaia.github.io/rgztec/seller.html" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -21,28 +29,28 @@
     .wrap { max-width: var(--wrap); margin-inline: auto }
   </style>
 </head>
-<body class="bg-white text-ink selection:bg-brand-200/70 selection:text-ink">
+<body class="bg-white text-ink selection:bg-orange-100 selection:text-ink">
 
   <!-- Header -->
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-line">
     <div class="wrap px-4 py-3 flex items-center gap-4">
-      <a id="linkHome" href="index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700">RGZTEC</a>
+      <a id="linkHome" href="index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700" aria-label="RGZTEC Home">RGZTEC</a>
       <span class="hidden md:inline-flex items-center text-xs text-sub border-l border-line pl-3">Seller Onboarding • Become a Seller</span>
-      <nav class="ml-auto flex items-center gap-3 text-sm">
+      <nav class="ml-auto flex items-center gap-3 text-sm" aria-label="Primary">
         <a id="linkStores" href="stores/" class="text-sub hover:text-ink">Stores</a>
-        <!-- ADDED: direct link to HTML Templates store -->
+        <!-- direct link to HTML Templates store -->
         <a id="linkHtmlTemplates" href="stores/html-templates/" class="text-sub hover:text-ink">HTML Templates</a>
         <!-- Open Store in nav goes to seller.html (root landing) -->
         <a id="linkOpen" href="seller.html" class="text-sub hover:text-ink inline-flex items-center gap-1">
           <span>Open Store</span>
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
         </a>
       </nav>
     </div>
 
     <!-- simple subnav -->
     <div class="wrap px-4 pb-3">
-      <div class="flex items-center gap-4 text-sm overflow-x-auto">
+      <div class="flex items-center gap-4 text-sm overflow-x-auto" aria-label="Secondary">
         <a href="#actions" class="hover:text-ink">Steps</a>
         <span class="select-none">•</span>
         <a href="#fees" class="hover:text-ink">Fees</a>
@@ -73,24 +81,23 @@
           Designed for developers, creators, and niche marketplaces.
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-3">
-          <a href="open-store.html" class="inline-flex items-center justify-center h-11 px-6 rounded-2xl bg-orange-600 text-white hover:bg-orange-700 shadow-soft">
+          <a href="open-store.html" class="inline-flex items-center justify-center h-11 px-6 rounded-2xl bg-orange-600 text-white hover:bg-orange-700 shadow-soft" aria-label="Open your store">
             Get Started — Open Store
           </a>
           <a href="stores/" class="h-11 px-5 rounded-2xl border border-line hover:bg-gray-50 inline-flex items-center">Explore Stores</a>
-          <!-- ADDED: CTA to HTML Templates store -->
           <a href="stores/html-templates/" class="h-11 px-5 rounded-2xl border border-line hover:bg-gray-50 inline-flex items-center">HTML Templates</a>
         </div>
         <ul class="mt-6 flex items-center gap-6 text-xs text-sub">
           <li class="flex items-center gap-2">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
             Stripe ready
           </li>
           <li class="flex items-center gap-2">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20l9-16H3z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 20l9-16H3z"/></svg>
             Static hosting
           </li>
           <li class="flex items-center gap-2">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H5l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H5l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
             CSV import
           </li>
         </ul>
@@ -154,9 +161,9 @@
           <strong>3 months</strong> (up to <strong>$5k GMV</strong> or <strong>25 orders</strong>). Stripe fees apply.
         </p>
         <ul class="mt-4 space-y-2 text-sm text-sub">
-          <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Platform fee: <strong>10%</strong> per transaction (promo: <strong>0%</strong>)</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Stripe: ~<strong>2.9% + 30¢</strong></li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Infra fee during promo: <strong>$0.25/order</strong></li>
+          <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Platform fee: <strong>10%</strong> per transaction (promo: <strong>0%</strong>)</li>
+          <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Stripe: ~<strong>2.9% + 30¢</strong></li>
+          <li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Infra fee during promo: <strong>$0.25/order</strong></li>
         </ul>
       </div>
       <div class="p-5 border border-line rounded-2xl">
@@ -164,18 +171,19 @@
         <div class="grid grid-cols-2 gap-3">
           <label class="text-sm">Price (USD)
             <input id="price" type="number" step="0.01" value="49"
-                   class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
+                   class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" aria-label="Price in USD">
           </label>
           <label class="text-sm">Platform %
             <input id="plat" type="number" step="0.1" value="10"
-                   class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
+                   class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" aria-label="Platform fee percentage">
           </label>
         </div>
         <div class="mt-3 flex items-center gap-2">
-          <input id="promo" type="checkbox" class="h-4 w-4 rounded border-line">
+          <input id="promo" type="checkbox" class="h-4 w-4 rounded border-line" aria-describedby="promoHelp">
           <label for="promo" class="text-sm">Apply launch promo (0% for 3 months)</label>
         </div>
-        <div class="mt-3 p-4 border border-line rounded-xl text-sm">
+        <div id="promoHelp" class="sr-only">Promo applies 0% platform fee for first 3 months up to $5k GMV or 25 orders.</div>
+        <div class="mt-3 p-4 border border-line rounded-xl text-sm" aria-live="polite">
           <div class="flex justify-between"><span>Stripe (~2.9% + 30¢)</span><span id="feeStripe">$1.72</span></div>
           <div class="flex justify-between"><span>RGZTEC fee (10%)</span><span id="feePlatform">$4.90</span></div>
           <div id="promoRow" class="flex justify-between text-green-700 hidden"><span>Intro promo (0%)</span><span id="feePlatformPromo">$0.00</span></div>
@@ -210,7 +218,7 @@
     <details class="group border-t border-line py-4" open>
       <summary class="flex justify-between items-center cursor-pointer list-none">
         <span class="font-medium">How do payouts work?</span>
-        <svg class="w-5 h-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <svg class="w-5 h-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </summary>
       <p class="mt-2 text-sub">Connect your Stripe account (Express/Standard). Funds settle to your bank per Stripe’s schedule.</p>
     </details>
@@ -218,7 +226,7 @@
     <details class="group border-t border-line py-4">
       <summary class="flex justify-between items-center cursor-pointer list-none">
         <span class="font-medium">Can I import products?</span>
-        <svg class="w-5 h-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <svg class="w-5 h-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </summary>
       <p class="mt-2 text-sub">Yes. CSV with headers: <code>name,price,sku</code>. You can also add items manually.</p>
     </details>
@@ -226,7 +234,7 @@
     <details class="group border-t border-line py-4">
       <summary class="flex justify-between items-center cursor-pointer list-none">
         <span class="font-medium">What’s the platform fee?</span>
-        <svg class="w-5 h-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <svg class="w-5 h-5 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </summary>
       <p class="mt-2 text-sub">10% per transaction. Stripe fees are separate and paid to Stripe.</p>
     </details>
@@ -242,8 +250,8 @@
     © 2025 RGZTEC Marketplace. All rights reserved.
   </footer>
 
+  <!-- Fees estimator -->
   <script>
-    // Quick estimator
     const $ = (s)=>document.querySelector(s);
     function calc() {
       const price = parseFloat($('#price').value||0);
@@ -264,7 +272,36 @@
       calc();
     });
   </script>
+
+  <!-- SEO: FAQ structured data (does not change visual layout) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "How do payouts work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Connect your Stripe account (Express/Standard). Funds settle to your bank per Stripe’s schedule."
+      }
+    },{
+      "@type": "Question",
+      "name": "Can I import products?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. CSV with headers: name,price,sku. You can also add items manually."
+      }
+    },{
+      "@type": "Question",
+      "name": "What’s the platform fee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "10% per transaction. Stripe fees are separate and paid to Stripe."
+      }
+    }]
+  }
+  </script>
 </body>
 </html>
-
 
