@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cookie Notice — RGZTEC</title>
+  <meta name="description" content="Cookie Notice and preference management for RGZTEC marketplace"/>
+  <link rel="stylesheet" href="../assets/css/home.css?v=12"/>
+  <style>
+    .prefs {max-width: 860px}
+    .toggle {display:inline-flex;align-items:center;gap:.5rem}
+    .toggle input {width:2.5rem;height:1.25rem;appearance:none;background:#e5e7eb;border-radius:999px;position:relative;outline:none;cursor:pointer}
+    .toggle input::after {content:"";position:absolute;top:2px;left:2px;width:.95rem;height:.95rem;background:#fff;border-radius:999px;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .2s}
+    .toggle input:checked{background:#16a34a}
+    .toggle input:checked::after{transform:translateX(1.25rem)}
+    .box{border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin:10px 0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 16px;border-radius:12px;border:1px solid #e5e7eb}
+    .btn-primary{background:#f97316;color:#fff;border-color:#ea580c}
+    .btn-ghost{background:#fff}
+    .muted{color:#64748b}
+    .grid-2{display:grid;grid-template-columns:1fr;gap:16px}
+    @media(min-width:860px){.grid-2{grid-template-columns:1fr 1fr}}
+    .note{font-size:.85rem;color:#64748b}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;padding:0 .35rem}
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrapper nav-wrapper">
+    <a class="brand" href="../">RGZTEC</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="../signup.html">Create an Account</a>
+      <a href="../login.html">Login</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section page-content">
+    <div class="wrapper content-wrapper prefs">
+      <h2>Cookie Notice</h2>
+      <p class="meta">Last updated: September 9, 2025</p>
+
+      <p>This Cookie Notice explains how <strong>Raingaia LLC d/b/a RGZTEC</strong> (“RGZTEC”, “we”, “us”) uses cookies and similar technologies, and how you can control them. For more about how we process personal data, see our <a href="../privacy.html">Privacy Policy</a>. This Notice applies to our websites, apps, and marketplace features (“Services”).</p>
+
+      <h3>1) What are cookies?</h3>
+      <p>Cookies are small files placed on your device. We also use local storage, pixels, and similar technologies. Some cookies are <strong>essential</strong> to make the Services work; others help us improve, measure performance, or personalize content.</p>
+
+      <h3>2) Categories we use</h3>
+      <div class="box">
+        <ul>
+          <li><strong>Essential</strong> — strictly necessary for core functions (authentication, security, shopping cart, license delivery). These cannot be switched off.</li>
+          <li><strong>Performance / Analytics</strong> — help us understand usage (aggregate metrics, error diagnostics). We deploy these only with your consent where required.</li>
+          <li><strong>Functional</strong> — remember choices (language, region) to enhance your experience.</li>
+          <li><strong>Advertising</strong> — for ad measurement and personalization. We do not sell personal information for money; under some laws (e.g., CPRA) certain ad cookies may be “sharing.” You can opt out below.</li>
+        </ul>
+      </div>
+
+      <h3>3) Your controls</h3>
+      <p>Use the toggles to set your preferences. Your settings are stored in your browser (<span class="kbd">localStorage</span>) and may not carry across devices or browsers. Some essential cookies are always on.</p>
+
+      <div id="cpraBanner" class="box" style="display:none">
+        <strong>Global Privacy Control detected:</strong> we’ve turned off Advertising by default to honor your browser signal.
+      </div>
+
+      <div class="grid-2">
+        <div class="box">
+          <h4>Essential</h4>
+          <p class="muted">Required for core functionality (cannot be disabled).</p>
+          <label class="toggle"><input type="checkbox" checked disabled><span>Always Active</span></label>
+        </div>
+
+        <div class="box">
+          <h4>Performance / Analytics</h4>
+          <p class="muted">Anonymous usage metrics and diagnostics.</p>
+          <label class="toggle"><input id="ck-analytics" type="checkbox"><span>Enable Analytics</span></label>
+        </div>
+
+        <div class="box">
+          <h4>Functional</h4>
+          <p class="muted">Remember your preferences to improve experience.</p>
+          <label class="toggle"><input id="ck-functional" type="checkbox"><span>Enable Functional</span></label>
+        </div>
+
+        <div class="box">
+          <h4>Advertising</h4>
+          <p class="muted">Ad measurement/personalization. Treated as “share” in California (CPRA).</p>
+          <label class="toggle"><input id="ck-ads" type="checkbox"><span>Allow Advertising Cookies</span></label>
+          <div class="note" style="margin-top:.5rem">
+            <button id="cpraDoNotShare" class="btn btn-ghost" type="button">Do Not Sell or Share (CPRA)</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:.5rem;margin-top:12px">
+        <button id="btnAcceptAll" class="btn btn-primary" type="button">Accept All</button>
+        <button id="btnRejectAll" class="btn" type="button">Reject Non-Essential</button>
+        <button id="btnSave" class="btn" type="button">Save Preferences</button>
+      </div>
+
+      <h3 style="margin-top:28px">4) Third-party providers</h3>
+      <p>We may use trusted providers for analytics, performance monitoring, error tracking, A/B testing, and payments. These providers set their own cookies subject to their policies. Where required, we ask for consent before loading non-essential scripts.</p>
+
+      <h3>5) International users</h3>
+      <p>Where GDPR/UK GDPR applies, we rely on consent for non-essential cookies and legitimate interests for essential security and service operation. You may change your choices anytime on this page.</p>
+
+      <h3>6) Updates</h3>
+      <p>We may update this Notice to reflect changes in technology, law, or our providers. Material changes will be posted with a new “Last updated” date.</p>
+
+      <p class="note">Questions? Contact: <em>privacy@rgztec.com</em>. See also our <a href="../terms.html">Terms of Service</a> and <a href="../privacy.html">Privacy Policy</a>.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ===== Cookie Preferences Manager (no external deps) =====
+   - Stores preferences in localStorage under "rgz_cookie_prefs"
+   - Honors Global Privacy Control (GPC) by defaulting ads OFF
+   - Provides simple hooks to (un)load non-essential scripts
+*/
+
+const KEY = 'rgz_cookie_prefs';
+const qs = (s)=>document.querySelector(s);
+const gpc = (navigator && navigator.globalPrivacyControl) ? true : false;
+
+function getPrefs(){
+  try{ return JSON.parse(localStorage.getItem(KEY) || '{}'); }catch(e){ return {}; }
+}
+function savePrefs(p){
+  localStorage.setItem(KEY, JSON.stringify(p));
+}
+function applyPrefs(p){
+  // Example hooks — replace with your loaders for GA, Ads, etc.
+  // window.enableAnalytics(p.analytics === true)
+  // window.enableFunctional(p.functional === true)
+  // window.enableAds(p.ads === true)
+  // You can also push a dataLayer event:
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({event:'cookie_prefs_applied', prefs: p});
+}
+
+function init(){
+  const elA = qs('#ck-analytics');
+  const elF = qs('#ck-functional');
+  const elD = qs('#ck-ads');
+
+  let prefs = getPrefs();
+
+  // first visit defaults
+  const firstVisit = Object.keys(prefs).length === 0;
+  if(firstVisit){
+    prefs = { analytics:false, functional:false, ads:false, updatedAt: new Date().toISOString() };
+    if(gpc){
+      // Honor Global Privacy Control — force ads off
+      prefs.ads = false;
+      const banner = document.getElementById('cpraBanner');
+      if (banner) banner.style.display = 'block';
+    }
+    savePrefs(prefs);
+  }
+
+  // reflect UI
+  elA.checked = !!prefs.analytics;
+  elF.checked = !!prefs.functional;
+  elD.checked = !!prefs.ads;
+
+  // buttons
+  qs('#btnAcceptAll')?.addEventListener('click', ()=>{
+    prefs.analytics = true; prefs.functional = true; prefs.ads = !gpc; // if GPC, keep ads off
+    prefs.updatedAt = new Date().toISOString();
+    savePrefs(prefs); applyPrefs(prefs);
+    alert('Preferences saved: all non-essential enabled' + (gpc ? ' (Advertising kept off due to GPC)' : ''));
+  });
+  qs('#btnRejectAll')?.addEventListener('click', ()=>{
+    prefs.analytics = false; prefs.functional = false; prefs.ads = false;
+    prefs.updatedAt = new Date().toISOString();
+    savePrefs(prefs); applyPrefs(prefs);
+    alert('Preferences saved: non-essential disabled');
+  });
+  qs('#btnSave')?.addEventListener('click', ()=>{
+    prefs.analytics = elA.checked;
+    prefs.functional = elF.checked;
+    prefs.ads = gpc ? false : elD.checked; // respect GPC
+    prefs.updatedAt = new Date().toISOString();
+    savePrefs(prefs); applyPrefs(prefs);
+    alert('Preferences saved');
+  });
+
+  // CPRA one-click “Do Not Sell or Share”
+  qs('#cpraDoNotShare')?.addEventListener('click', ()=>{
+    prefs.ads = false;
+    prefs.updatedAt = new Date().toISOString();
+    savePrefs(prefs); applyPrefs(prefs);
+    elD.checked = false;
+    alert('Advertising & sharing preferences set to OFF.');
+  });
+
+  // apply on load
+  applyPrefs(prefs);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<!--
+  ===== Site-wide Banner (optional) =====
+  Basit bir banner istiyorsan, header altına küçük bir HTML bloğu koyup
+  butonu /legal/cookie.html sayfasına yönlendirebilirsin. Örn:
+
+  <div id="cookie-banner" style="position:sticky;bottom:0;left:0;right:0;background:#111827;color:#fff;padding:10px 14px;z-index:60">
+    We use cookies to operate and improve our Services. Manage your choices any time.
+    <a href="/legal/cookie.html" style="color:#f97316;margin-left:8px">Cookie Preferences</a>
+    <button onclick="acceptAll()" style="margin-left:8px">Accept All</button>
+    <button onclick="rejectAll()" style="margin-left:6px">Reject Non-Essential</button>
+  </div>
+
+  <script>
+    function acceptAll(){ localStorage.setItem('rgz_cookie_prefs', JSON.stringify({analytics:true,functional:true,ads: (navigator.globalPrivacyControl?false:true),updatedAt:new Date().toISOString()})); location.reload(); }
+    function rejectAll(){ localStorage.setItem('rgz_cookie_prefs', JSON.stringify({analytics:false,functional:false,ads:false,updatedAt:new Date().toISOString()})); location.reload(); }
+  </script>
+-->
+
+</body>
+</html>
