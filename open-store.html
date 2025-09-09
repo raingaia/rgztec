@@ -6,7 +6,19 @@
   <title>Open Store — RGZTEC</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={theme:{extend:{colors:{line:'#e5e7eb'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.08)'}}}};</script>
-  <style>:root{--wrap:1200px}.wrap{max-width:var(--wrap);margin-inline:auto}</style>
+  <style>
+    :root{--wrap:1200px}
+    .wrap{max-width:var(--wrap);margin-inline:auto}
+    /* tiny typeahead styles (drawer-like list) */
+    .typeahead{position:relative}
+    .typeahead ul{
+      position:absolute;left:0;right:0;z-index:40;margin-top:.25rem;
+      padding:.5rem;border:1px solid #e5e7eb;border-radius:.75rem;background:#fff;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);max-height:220px;overflow:auto
+    }
+    .typeahead li{padding:.5rem;border-radius:.5rem;cursor:pointer}
+    .typeahead li:hover{background:#f3f4f6}
+  </style>
 </head>
 <body class="bg-white text-gray-900">
 
@@ -54,15 +66,25 @@
                  class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
           <p class="mt-1 text-xs text-gray-500">Use E.164 format if possible (e.g., +15550100000). We don’t store this field locally.</p>
         </label>
+
+        <!-- Country (searchable) -->
         <label class="block text-sm">Country
-          <select id="sellerCountry" class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
-            <option value="United States" selected>United States</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="Germany">Germany</option>
-            <option value="Canada">Canada</option>
-            <option value="Other">Other</option>
-          </select>
+          <input id="sellerCountry" list="countryList" placeholder="Search country..."
+                 class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" required>
+          <datalist id="countryList"></datalist>
         </label>
+
+        <!-- City (typeahead) -->
+        <label class="block text-sm">City
+          <div id="cityBox" class="typeahead">
+            <input id="sellerCity" placeholder="Type to search city (e.g. stanbu)" autocomplete="off"
+                   class="mt-1 w-full h-11 px-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-300">
+            <div id="citySuggest"></div>
+          </div>
+          <input type="hidden" id="sellerLat">
+          <input type="hidden" id="sellerLon">
+        </label>
+
         <div class="flex items-center justify-end gap-3 pt-2">
           <button id="btnReset" type="button" class="px-3 h-10 rounded-xl border border-gray-200 hover:bg-gray-50">Reset</button>
           <button id="btnNext1" type="button" disabled class="px-5 h-10 rounded-xl bg-orange-600 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-700">Continue</button>
@@ -155,7 +177,10 @@ function saveStep1(){
   window.state=window.state||{};
   state.sellerName=trim($('#sellerName').value);
   state.sellerEmail=trim($('#sellerEmail').value);
-  state.sellerCountry=$('#sellerCountry').value;
+  state.sellerCountry=trim($('#sellerCountry').value);
+  state.sellerCity=trim($('#sellerCity').value);
+  state.sellerLat=trim($('#sellerLat').value);
+  state.sellerLon=trim($('#sellerLon').value);
   localStorage.setItem('openStore',JSON.stringify(state));
 }
 
@@ -178,6 +203,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(saved.sellerName)$('#sellerName').value=saved.sellerName;
     if(saved.sellerEmail)$('#sellerEmail').value=saved.sellerEmail;
     if(saved.sellerCountry)$('#sellerCountry').value=saved.sellerCountry;
+    if(saved.sellerCity)$('#sellerCity').value=saved.sellerCity;
+    if(saved.sellerLat)$('#sellerLat').value=saved.sellerLat;
+    if(saved.sellerLon)$('#sellerLon').value=saved.sellerLon;
     window.state=saved;
   }catch(e){window.state={}}
 
@@ -185,7 +213,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const phoneEl = document.getElementById('sellerPhone');
   if (phoneEl) phoneEl.value = '';
 
-  ['sellerName','sellerEmail','sellerCountry'].forEach(id=>{
+  ['sellerName','sellerEmail','sellerCountry','sellerCity'].forEach(id=>{
     const el=document.getElementById(id);
     el&&el.addEventListener('input',refreshStep1);
     el&&el.addEventListener('blur',refreshStep1);
@@ -193,9 +221,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   $('#btnReset')?.addEventListener('click',()=>{
     localStorage.removeItem('openStore');
-    ['sellerName','sellerEmail'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
-    $('#sellerCountry').value='United States';
+    ['sellerName','sellerEmail','sellerCountry','sellerCity'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
     if (phoneEl) phoneEl.value = ''; // keep empty
+    $('#sellerLat').value=''; $('#sellerLon').value='';
     refreshStep1();
   });
 
@@ -210,6 +238,69 @@ document.addEventListener('DOMContentLoaded',()=>{
   refreshStep1();
   refreshPayments();
 });
+</script>
+
+<!-- Country & City logic (search + typeahead; API key not required) -->
+<script>
+// ---- Countries (short list; istersen ISO-3166 full listeyi ekleyebilirim)
+const COUNTRIES = ["United States","United Kingdom","Germany","Canada","Turkey","France","Italy","Spain","Netherlands","Sweden","Norway","Denmark","Finland","Poland","Portugal","Greece","Ireland","Switzerland","Austria","Belgium","Australia","New Zealand","India","Japan","China","South Korea","Singapore","United Arab Emirates","Saudi Arabia","Brazil","Argentina","Mexico","South Africa","Egypt","Israel","Thailand","Malaysia","Indonesia","Philippines","Vietnam","Czechia","Romania","Bulgaria","Hungary","Slovakia","Slovenia","Croatia","Serbia","Chile","Colombia","Peru","Other"];
+const countryListEl = document.getElementById('countryList');
+countryListEl.innerHTML = COUNTRIES.map(c=>`<option value="${c}"></option>`).join('');
+
+// ---- City search (Open-Meteo Geocoding)
+const countryInput = document.getElementById('sellerCountry');
+const cityInput = document.getElementById('sellerCity');
+const suggest = document.getElementById('citySuggest');
+const latEl = document.getElementById('sellerLat');
+const lonEl = document.getElementById('sellerLon');
+
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,''); // stanbu -> Istanbul eşleşsin
+function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),ms);} }
+
+function renderSuggestions(items){
+  if(!items?.length){ suggest.innerHTML=''; return; }
+  suggest.innerHTML = `<ul>` + items.map(it=>{
+    const line = [it.name, it.admin1, it.country].filter(Boolean).join(', ');
+    return `<li data-lat="${it.latitude}" data-lon="${it.longitude}" data-name="${it.name}">${line}</li>`;
+  }).join('') + `</ul>`;
+  suggest.querySelectorAll('li').forEach(li=>{
+    li.addEventListener('click',()=>{
+      cityInput.value = li.dataset.name;
+      latEl.value = li.dataset.lat;
+      lonEl.value = li.dataset.lon;
+      suggest.innerHTML='';
+      saveStep1(); // seçimi hemen persist edelim
+    });
+  });
+}
+
+const searchCities = debounce(async ()=>{
+  const q = cityInput.value.trim();
+  if(q.length < 2){ suggest.innerHTML=''; return; }
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=10&language=en&format=json`;
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
+    let results = data.results || [];
+    // ülke girildiyse öncelik ver
+    const c = countryInput.value.trim();
+    if(c && c.toLowerCase()!=='other'){
+      const cn = norm(c);
+      results = results.filter(r => norm(r.country).includes(cn));
+    }
+    // gevşek eşleşme (stanbu -> Istanbul)
+    const qn = norm(q);
+    results = results.filter(r => norm(r.name).includes(qn) || norm(r.admin1||'').includes(qn));
+    renderSuggestions(results);
+  }catch(e){
+    console.warn('City search failed', e);
+    renderSuggestions([]);
+  }
+}, 250);
+
+cityInput.addEventListener('input', searchCities);
+// tıklamayı kaçırmamak için blur'da biraz gecikmeli kapat
+cityInput.addEventListener('blur', ()=> setTimeout(()=> suggest.innerHTML='', 150));
 </script>
 
 </body>
