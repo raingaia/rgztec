@@ -1,8 +1,8 @@
 // data/products.js
 // Katalog başlangıçta boş. Ürünler UI'dan eklendiğinde localStorage'tan yüklenir.
 // Geriye dönük uyumluluk: hem `products` hem `RGZ_PRODUCTS` global'leri set edilir.
-// Yeni kullanım: window.RGZDB.getProducts(), addProduct(), replaceAll()
-
+// Yeni kullanım: window.RGZDB.getProducts(), addProduct(), replaceAll()// JSON uyumluluğu için window.products export
+window.products = window.RGZDB.getAll();
 (function (global) {
   const LS_KEY = 'RGZ_PRODUCTS';
   const initial = []; // statik seed istersen buraya ekleyebilirsin
