@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC • Licensing</title>
+  <style>
+    :root{--ink:#0b1220;--sub:#64748b;--line:#e5e7eb;--brand:#f97316}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Inter,Arial,sans-serif;color:var(--ink)}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line)}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 16px}
+    .brand{font-weight:900;color:var(--brand);text-decoration:none;font-size:20px;margin-right:12px}
+    main{padding:24px 16px}
+    h1{margin:0 0 8px 0;font-size:28px}
+    p.sub{color:var(--sub);margin:0 0 20px 0}
+    .card{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width:900px){.grid{grid-template-columns:1.2fr .8fr}}
+    label{font-size:14px;color:var(--sub);display:block;margin-bottom:6px}
+    input,select,button{height:44px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:15px}
+    input,select{width:100%} button{background:var(--brand);color:#fff;border:none;cursor:pointer}
+    button:hover{filter:brightness(.95)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .muted{color:var(--sub);font-size:13px}
+    table{width:100%;border-collapse:collapse} th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+    code{background:#fafafa;border:1px solid var(--line);padding:2px 6px;border-radius:6px}
+    .ok{color:#059669}.bad{color:#dc2626}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;gap:12px">
+    <a class="brand" href="../">RGZTEC</a>
+    <nav style="margin-left:auto;display:flex;gap:12px;font-weight:600">
+      <a href="../" style="text-decoration:none;color:var(--ink)">Home</a>
+      <a href="../stores/" style="text-decoration:none;color:var(--ink)">Stores</a>
+      <a href="./" style="text-decoration:none;color:var(--brand)">Licensing</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Licensing</h1>
+  <p class="sub">Issue code licenses for your digital products and let buyers verify them. (Static demo UI — backend/blockchain’a bağlamadan arayüzü görürsün.)</p>
+
+  <div class="grid">
+    <!-- Issue form -->
+    <section class="card">
+      <h3 style="margin:0 0 10px 0">Issue a License (Demo)</h3>
+      <div class="row">
+        <div>
+          <label>Product</label>
+          <select id="prod">
+            <option value="react-ui-kit">React UI Kit</option>
+            <option value="email-templates">Email Templates</option>
+            <option value="ai-prompts-pack">AI Prompts Pack</option>
+          </select>
+        </div>
+        <div>
+          <label>License Type</label>
+          <select id="licType">
+            <option value="regular">Regular</option>
+            <option value="extended">Extended</option>
+            <option value="enterprise">Enterprise</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <div>
+          <label>Buyer Email (optional)</label>
+          <input id="buyer" placeholder="buyer@email.com" />
+        </div>
+        <div>
+          <label>Issuer (your wallet)</label>
+          <input id="issuer" placeholder="0xDc94aF3E0fD2c51B797BEeEBEA7941CFbF0994F6" value="0xDc94aF3E0fD2c51B797BEeEBEA7941CFbF0994F6" />
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:14px">
+        <button id="btnIssue">Generate License Code</button>
+        <span id="issueMsg" class="muted"></span>
+      </div>
+
+      <div id="issuedBox" style="display:none;margin-top:14px">
+        <div class="muted">Copy this license code:</div>
+        <code id="licenseOut"></code>
+      </div>
+    </section>
+
+    <!-- Verify form -->
+    <section class="card">
+      <h3 style="margin:0 0 10px 0">Verify a License</h3>
+      <label>Paste License Code</label>
+      <input id="codeIn" placeholder='e.g. {"p":"react-ui-kit","t":"regular","iss":"0x...","ts":...,"sig":"..."}' />
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <button id="btnVerify">Verify</button>
+        <span id="verMsg" class="muted"></span>
+      </div>
+      <div id="verResult" style="margin-top:12px"></div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:16px">
+    <h3 style="margin:0 0 10px 0">How it works (demo)</h3>
+    <ol class="muted" style="margin:0 0 6px 18px">
+      <li>“Generate License Code” JSON oluşturur (ürün, tip, issuer adresi, zaman damgası ve basit bir imza).</li>
+      <li>“Verify” butonu JSON’u çözümler ve imza/issuer eşleşmesini kontrol eder.</li>
+      <li>Gerçek sistemde bu imza bir **akıllı sözleşme** ya da API ile doğrulanır.</li>
+    </ol>
+  </section>
+</main>
+
+<script>
+  // Basit (kriptografik olmayan) demo imza – sadece UI akışını göstermek için.
+  function demoSign(payload, issuer){
+    // Gerçekte: payload hash + issuer private key ile ECDSA imzası.
+    // Burada basit bir hash benzeri üretip issuer’la karıştırıyoruz.
+    const raw = JSON.stringify(payload) + '::' + issuer;
+    let h = 0; for (let i=0;i<raw.length;i++){ h = ((h<<5)-h) + raw.charCodeAt(i); h |= 0; }
+    return 'demo_' + Math.abs(h).toString(16);
+  }
+
+  const $ = s => document.querySelector(s);
+
+  // ISSUE
+  $('#btnIssue').addEventListener('click', () => {
+    const payload = {
+      p: $('#prod').value,
+      t: $('#licType').value,
+      iss: $('#issuer').value.trim(),
+      buyer: $('#buyer').value.trim() || undefined,
+      ts: Date.now()
+    };
+    const sig = demoSign({p:payload.p,t:payload.t,ts:payload.ts}, payload.iss);
+    const lic = {...payload, sig};
+    const json = JSON.stringify(lic);
+    $('#licenseOut').textContent = json;
+    $('#issuedBox').style.display = 'block';
+    $('#issueMsg').textContent = 'License code generated (demo).';
+  });
+
+  // VERIFY
+  $('#btnVerify').addEventListener('click', () => {
+    $('#verResult').innerHTML = '';
+    $('#verMsg').textContent = '';
+    const code = $('#codeIn').value.trim();
+    if(!code){ $('#verMsg').textContent = 'Paste a license code.'; return; }
+    try{
+      const obj = JSON.parse(code);
+      const expectSig = demoSign({p:obj.p,t:obj.t,ts:obj.ts}, obj.iss);
+      const ok = (expectSig === obj.sig);
+      const rows = `
+        <table>
+          <tr><th>Status</th><td>${ ok ? '<span class="ok">VALID</span>' : '<span class="bad">INVALID</span>' }</td></tr>
+          <tr><th>Product</th><td>${obj.p||'-'}</td></tr>
+          <tr><th>Type</th><td>${obj.t||'-'}</td></tr>
+          <tr><th>Issuer</th><td><code>${obj.iss||'-'}</code></td></tr>
+          <tr><th>Buyer</th><td>${obj.buyer||'-'}</td></tr>
+          <tr><th>Issued at</th><td>${obj.ts ? new Date(obj.ts).toLocaleString() : '-'}</td></tr>
+          <tr><th>Signature</th><td><code>${obj.sig||'-'}</code></td></tr>
+        </table>`;
+      $('#verResult').innerHTML = rows;
+      $('#verMsg').textContent = ok ? 'Signature matches (demo check).' : 'Signature mismatch (demo check).';
+    }catch(e){
+      $('#verMsg').textContent = 'Invalid JSON.';
+    }
+  });
+</script>
+</body>
+</html>
