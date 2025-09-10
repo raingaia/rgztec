@@ -1,0 +1,45 @@
+name: Make License
+on:
+  workflow_dispatch:
+    inputs:
+      GRANTEE_NAME:   { description: "Buyer/Company name", required: true }
+      GRANTEE_EMAIL:  { description: "Buyer email", required: true }
+      PRODUCT_ID:     { description: "Product id", required: true, default: "rgztec:template:pro" }
+      PRODUCT_VERSION:{ description: "Version", required: true, default: "1.0.0" }
+      PLAN:           { description: "Plan (Regular/Extended/Agency)", required: true, default: "Extended" }
+      SEATS:          { description: "Seats", required: true, default: "1" }
+      DOMAINS:        { description: "Comma-separated domains", required: false, default: "" }
+      MAX_BUILDS:     { description: "Max builds (optional int)", required: false, default: "" }
+      TRANSFERABLE:   { description: "Transferable? true/false", required: false, default: "false" }
+      EXPIRES_AT:     { description: "Unix ts (optional)", required: false, default: "" }
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci || npm i
+      - name: Make license
+        env:
+          ISSUER_PRIVKEY: ${{ secrets.ISSUER_PRIVKEY }}
+          RPC_URL:        ${{ secrets.RPC_URL }}
+          LIC_CONTRACT:   ${{ secrets.LIC_CONTRACT }} # set edersen anchor yapar
+          GRANTEE_NAME:   ${{ inputs.GRANTEE_NAME }}
+          GRANTEE_EMAIL:  ${{ inputs.GRANTEE_EMAIL }}
+          PRODUCT_ID:     ${{ inputs.PRODUCT_ID }}
+          PRODUCT_VERSION:${{ inputs.PRODUCT_VERSION }}
+          PLAN:           ${{ inputs.PLAN }}
+          SEATS:          ${{ inputs.SEATS }}
+          DOMAINS:        ${{ inputs.DOMAINS }}
+          MAX_BUILDS:     ${{ inputs.MAX_BUILDS }}
+          TRANSFERABLE:   ${{ inputs.TRANSFERABLE }}
+          EXPIRES_AT:     ${{ inputs.EXPIRES_AT }}
+        run: npm run make:license
+      - name: Upload license artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-json
+          path: licenses/*.json
+          if-no-files-found: error
