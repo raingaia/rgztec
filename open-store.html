@@ -91,7 +91,7 @@
     </div>
 
     <!-- Why we need this -->
-    <div class="p-6 md:p-8 border border-line rounded-3xl bg-white shadow-[0_10px_30px_rgba(0,0,0,.08)]">
+    <div class="p-6 md:p-8 border border-line rounded-3r-xl bg-white shadow-[0_10px_30px_rgba(0,0,0,.08)]">
       <h3 class="text-lg font-semibold mb-2">Why we need this</h3>
       <p class="text-sm text-gray-600">This info builds your seller record. KYC/KYB happens when you connect payouts.</p>
       <ul class="mt-3 text-sm text-gray-600 space-y-2">
@@ -206,6 +206,62 @@
       window.state = saved;
     }catch(e){ window.state = {}; }
 
+    // --- HARD GEO RESET (TR/İstanbul asla hazır gelmesin)
+    (function hardResetGeoOnce(){
+      // Manuel reset istersek: ?resetgeo=1
+      const params = new URLSearchParams(location.search);
+      if (params.get('resetgeo') === '1') {
+        if (window.state) {
+          delete state.sellerCountry; delete state.sellerCity;
+          delete state.sellerLat; delete state.sellerLon;
+        }
+        localStorage.removeItem('openStore');
+        $('#sellerCountry').value = '';
+        $('#sellerCity').value = '';
+        $('#sellerLat').value = '';
+        $('#sellerLon').value = '';
+      }
+      // Güvenlik: Turkey / Istanbul yakalanırsa temizle
+      const c = ($('#sellerCountry').value || '').toLowerCase();
+      const city = ($('#sellerCity').value || '').toLowerCase();
+      if (c === 'turkey' || city === 'istanbul' || city === 'i̇stanbul') {
+        if (window.state) {
+          delete state.sellerCountry; delete state.sellerCity;
+          delete state.sellerLat; delete state.sellerLon;
+          localStorage.setItem('openStore', JSON.stringify(state));
+        }
+        $('#sellerCountry').value = '';
+        $('#sellerCity').value = '';
+        $('#sellerLat').value = '';
+        $('#sellerLon').value = '';
+      }
+    })();
+
+    // --- Anti-autofill: tarayıcı ülke/şehir doldurmasın
+    (function antiAutofill(){
+      const rnd = () => Math.random().toString(36).slice(2);
+      const cc = document.getElementById('sellerCountry');
+      const ct = document.getElementById('sellerCity');
+      if (cc) { cc.setAttribute('name', 'country_'+rnd()); cc.setAttribute('autocomplete','new-password'); }
+      if (ct) { ct.setAttribute('name', 'city_'+rnd());    ct.setAttribute('autocomplete','new-password'); }
+    })();
+
+    // Açılış placeholders + ülke değişince şehri sıfırla
+    const countryEl = document.getElementById('sellerCountry');
+    const cityEl    = document.getElementById('sellerCity');
+    if (countryEl) countryEl.placeholder = 'Search country (optional)';
+    if (cityEl)    cityEl.placeholder    = 'Type to search city (optional)';
+
+    countryEl?.addEventListener('change', ()=>{
+      document.getElementById('sellerCity').value = '';
+      document.getElementById('sellerLat').value  = '';
+      document.getElementById('sellerLon').value  = '';
+      document.getElementById('citySuggest').innerHTML = '';
+      cityEl.placeholder = countryEl.value && countryEl.value.toLowerCase()!=='other'
+        ? `Search cities in ${countryEl.value} (e.g., paris, lyon)`
+        : 'Search any city worldwide (e.g., london, rome)';
+    });
+
     // privacy: never persist phone; also clear autofill
     const phoneEl = $('#sellerPhone'); if (phoneEl) phoneEl.value = '';
 
@@ -226,6 +282,7 @@
       window.scrollTo({top:0,behavior:'smooth'});
     });
 
+    // Continue (Step1 → Step3)
     $('#btnNext1')?.addEventListener('click', () => {
       if($('#btnNext1').disabled) return;
       saveStep1();
