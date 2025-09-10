@@ -1,0 +1,13 @@
+{
+  "name": "rgztec-licensing",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "make:license": "node scripts/make-license.js"
+  },
+  "dependencies": {
+    "ethers": "^6.13.2",
+    "nanoid": "^5.0.7"
+  }
+}
