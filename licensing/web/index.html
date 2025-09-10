@@ -1,24 +1,138 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RGZTEC License Verifier</title>
-  <style>
-    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;max-width:900px}
-    pre{background:#f6f8fa;padding:12px;border-radius:8px;overflow:auto}
-    .box{border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-top:12px}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • License Verifier (Test)</title>
+<style>
+  :root{--ink:#0b1220;--sub:#64748b;--line:#e5e7eb;--brand:#f97316}
+  html,body{height:100%} body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+  .wrap{max-width:900px;margin:32px auto;padding:0 16px}
+  h1{font-size:28px;margin:0 0 10px 0}
+  .sub{color:var(--sub)}
+  .card{border:1px solid var(--line);border-radius:16px;padding:16px}
+  .drop{margin-top:14px;border:2px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--sub)}
+  .drop.drag{border-color:var(--brand);background:#fff7ed}
+  .btn{display:inline-block;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:10px 16px;font-weight:700;cursor:pointer}
+  pre{overflow:auto;background:#0b1220;color:#e5e7eb;padding:12px;border-radius:10px}
+  .row{display:flex;gap:16px;flex-wrap:wrap}
+  .col{flex:1 1 280px}
+  .ok{color:#16a34a;font-weight:700}
+  .err{color:#dc2626;font-weight:700}
+</style>
 </head>
 <body>
-  <h1>RGZTEC License Verifier</h1>
-  <p>Drop your <code>lic_*.json</code> file below to verify signature and (optional) on-chain anchor.</p>
+<div class="wrap">
+  <h1>License Verifier (Test)</h1>
+  <div class="sub">Bu sayfa tek dosyalık testtir. Görüntüleniyorsa “boş sayfa” problemi path/JS kaynaklı değil.</div>
 
-  <div class="box">
-    <input id="file" type="file" accept="application/json"/>
-    <pre id="out">Waiting for file…</pre>
+  <div class="row" style="margin-top:18px">
+    <div class="col card">
+      <div><b>1) Lisans JSON yükle</b></div>
+      <div id="drop" class="drop">Drag & drop <b>lic_*.json</b> buraya veya <br/><br/>
+        <label class="btn">
+          Dosya Seç
+          <input id="file" type="file" accept="application/json" style="display:none"/>
+        </label>
+      </div>
+    </div>
+    <div class="col card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b>2) Sonuç</b>
+        <small class="sub">ISSUER: <code id="issuerShort">-</code></small>
+      </div>
+      <div style="margin-top:10px">Status: <span id="status" class="sub">Henüz doğrulanmadı</span></div>
+      <div id="meta" class="sub" style="margin-top:8px"></div>
+    </div>
   </div>
 
-  <script type="module" src="./license-verify.js"></script>
+  <div class="card" style="margin-top:16px">
+    <b>Debug</b>
+    <pre id="log">ready…</pre>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ---- Sabitler (gerekirse düzenle) ----
+  const ISSUER = "0xDc94aF3E0fD2c51B797BEeEBEA7941CFbF0994F6"; // senin issuer adresin
+  const issuerShort = `${ISSUER.slice(0,6)}…${ISSUER.slice(-4)}`;
+  document.getElementById('issuerShort').textContent = issuerShort;
+
+  const logEl = document.getElementById('log');
+  const statusEl = document.getElementById('status');
+  const metaEl = document.getElementById('meta');
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+
+  function log(...args){ logEl.textContent += "\n" + args.map(a => {
+    try { return typeof a==='string'? a : JSON.stringify(a,null,2) } catch { return String(a) }
+  }).join(' '); logEl.scrollTop = logEl.scrollHeight; }
+
+  // Basit EIP-191 doğrulaması benzeri: JSON içindeki address ile eşleşiyor mu?
+  // (Gerçek imza doğrulaması koymadık; sadece demo. Sonradan ekleriz.)
+  function verifyBundle(bundle){
+    // Beklenen şekil: { license:{id, product, owner, issuedAt, expiresAt, issuer}, signature?, hash? }
+    if(!bundle || typeof bundle!=='object') return { ok:false, reason:'invalid_bundle' };
+    const lic = bundle.license;
+    if(!lic) return { ok:false, reason:'no_license' };
+    if((lic.issuer||'').toLowerCase() !== ISSUER.toLowerCase()){
+      return { ok:false, reason:'issuer_mismatch', issuer: lic.issuer };
+    }
+    // basit kontroller
+    if(!lic.id || !lic.product || !lic.owner) return { ok:false, reason:'missing_fields' };
+    // süre kontrol (opsiyonel)
+    const now = Date.now();
+    if(lic.expiresAt && now > Number(lic.expiresAt)) {
+      return { ok:false, reason:'expired' };
+    }
+    return { ok:true, license: lic, bundle };
+  }
+
+  async function handleFile(f){
+    try{
+      const text = await f.text();
+      const json = JSON.parse(text);
+      log('bundle loaded:', json);
+      const res = verifyBundle(json);
+      if(res.ok){
+        statusEl.textContent = 'OK';
+        statusEl.className = 'ok';
+        metaEl.textContent = `License #${res.license.id} • product: ${res.license.product} • owner: ${res.license.owner}`;
+        log('verify: OK');
+      }else{
+        statusEl.textContent = 'FAIL';
+        statusEl.className = 'err';
+        metaEl.textContent = `Reason: ${res.reason}${res.issuer ? ' • issuer:'+res.issuer : ''}`;
+        log('verify: FAIL', res);
+      }
+    }catch(e){
+      statusEl.textContent = 'ERROR';
+      statusEl.className = 'err';
+      metaEl.textContent = e.message || 'parse_error';
+      log('error:', e);
+    }
+  }
+
+  // File input
+  fileEl.addEventListener('change', e => {
+    const f = e.target.files?.[0]; if(f) handleFile(f);
+  });
+
+  // Drag & drop
+  ;['dragenter','dragover'].forEach(ev => dropEl.addEventListener(ev, e => {
+    e.preventDefault(); e.stopPropagation(); dropEl.classList.add('drag');
+  }));
+  ;['dragleave','drop'].forEach(ev => dropEl.addEventListener(ev, e => {
+    e.preventDefault(); e.stopPropagation(); dropEl.classList.remove('drag');
+  }));
+  dropEl.addEventListener('drop', e => {
+    const f = e.dataTransfer.files?.[0]; if(f) handleFile(f);
+  });
+
+  log('ISSUER:', ISSUER);
+})();
+</script>
 </body>
 </html>
+
