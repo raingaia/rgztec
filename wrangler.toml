@@ -1,0 +1,12 @@
+name = "rgztec-licensing"
+main = "api/licensing/worker.js"
+compatibility_date = "2024-06-01"
+
+[vars]
+# ÜRETİMDE wrangler ile set et: wrangler secret put LIC_SECRET
+# LIC_SECRET burada sadece development için gösterildi:
+# LIC_SECRET = "change-this-please"
+
+# Opsiyonel: ürün whitelist (virgülle ayrılmış)
+ALLOWED_PRODUCTS = "react-ui-kit,html-templates,email-forge"
+ISSUER_ADDR = "0xDc94aF3E0fD2c51B797BEeEBEA7941CFbF0994F6"
