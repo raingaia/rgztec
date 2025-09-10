@@ -1,7 +1,7 @@
 import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.min.js";
 
-// Sabitle: yayıncı adresin (Raingaia LLC / RGZTEC kasası)
-const ISSUER = "0xYOUR_ISSUER_ADDRESS";
+// Sabit: yayıncı adresin (Raingaia LLC / RGZTEC kasası)
+const ISSUER = "0xDc94aF3E0fD2c51B797BEeEBEA7941CFbF0994F6";
 
 // Opsiyonel anchor
 const LIC_CONTRACT = "0xYOUR_CONTRACT_ADDR";  // yoksa "" bırak
