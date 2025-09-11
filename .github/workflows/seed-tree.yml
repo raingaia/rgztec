@@ -1,0 +1,45 @@
+name: Seed folder tree
+
+on:
+  workflow_dispatch: {}
+  push:
+    paths:
+      - "repo-tree.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create folders from manifest
+        run: |
+          set -e
+          MANIFEST="repo-tree.txt"
+          if [ ! -f "$MANIFEST" ]; then
+            echo "No repo-tree.txt found. Skip."
+            exit 0
+          fi
+          while IFS= read -r line || [ -n "$line" ]; do
+            [ -z "$line" ] && continue
+            case "$line" in \#*) continue ;; esac
+            DIR="${line%/}/"
+            mkdir -p "$DIR"
+            touch "${DIR}.gitkeep"
+          done < "$MANIFEST"
+
+      - name: Commit changes (if any)
+        run: |
+          git config user.name "rgztec-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "chore: seed folder tree from manifest"
+            git push
+          else
+            echo "No changes to commit."
+          fi
