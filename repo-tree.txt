@@ -1,0 +1,15 @@
+apps/
+apps/api/
+apps/api/src/
+apps/api/src/modules/
+apps/api/src/modules/health/
+apps/web/
+apps/web/app/
+apps/admin/
+apps/admin/app/
+packages/
+packages/shared/
+packages/shared/src/
+infra/
+scripts/
+docs/
