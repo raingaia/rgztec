@@ -4,7 +4,7 @@ on:
   workflow_dispatch: {}
   push:
     paths:
-      - "repo-tree.txt"
+      - "repo-tree.txt # seed"
 
 permissions:
   contents: write
