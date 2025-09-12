@@ -1,5 +1,14 @@
-import { Module } from "@nestjs/common";
-import { HealthController } from "./health.controller";
+import { Module, Controller, Get } from '@nestjs/common';
 
-@Module({ controllers: [HealthController] })
+@Controller('health')
+class HealthController {
+  @Get()
+  ok() {
+    return { ok: true, ts: new Date().toISOString() };
+  }
+}
+
+@Module({
+  controllers: [HealthController],
+})
 export class HealthModule {}
