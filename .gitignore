@@ -1,12 +1,9 @@
-# package managers / build output
 node_modules/
 .pnpm-store/
 dist/
 build/
 .next/
 out/
-
-# env / logs / misc
 .env
 .env.*
 npm-debug.log*
