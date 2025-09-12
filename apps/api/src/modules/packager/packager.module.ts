@@ -1,11 +1,13 @@
-// apps/api/src/modules/packager/packager.module.ts
 import { Module } from '@nestjs/common';
-import { PackagerService } from './packager.service';
 import { PackagerController } from './packager.controller';
+import { PackagerService } from './packager.service';
+import { LicensingModule } from '../licensing/licensing.module';
 
 @Module({
+  imports: [LicensingModule],
   controllers: [PackagerController],
   providers: [PackagerService],
-  exports: [PackagerService],
 })
 export class PackagerModule {}
+
+
