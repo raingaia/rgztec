@@ -2,6 +2,8 @@
   "name": "rgztec-marketplace",
   "private": true,
   "scripts": {
+    "i": "pnpm -r install",
+    "dev": "concurrently -n API,WEB,ADMIN -c green,blue,magenta \"pnpm dev:api\" \"pnpm dev:web\" \"pnpm dev:admin\"",
     "dev:api": "tsx watch apps/api/src/main.ts",
     "dev:web": "pnpm --dir apps/web dev",
     "dev:admin": "pnpm --dir apps/admin dev",
@@ -16,7 +18,12 @@
     "rxjs": "7.8.1"
   },
   "devDependencies": {
+    "concurrently": "8.2.2",
     "tsx": "4.19.1",
     "typescript": "5.6.2"
-  }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9"
 }
