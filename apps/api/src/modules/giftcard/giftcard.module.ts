@@ -8,3 +8,4 @@ import { GiftCardController } from "./giftcard.controller";
   exports: [GiftCardService]
 })
 export class GiftCardModule {}
+
