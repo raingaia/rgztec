@@ -9,21 +9,20 @@ export default function RedeemGiftCard() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`${API}/gift-cards/${code}/redeem`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount })
+    const r = await fetch(`${API}/gift-cards/redeem`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, amount })
     });
-    setResult(await res.json());
+    setResult(await r.json());
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <h2>Redeem Gift Card</h2>
+    <div>
+      <h2>Redeem</h2>
       <form onSubmit={submit}>
         <input placeholder="Code" value={code} onChange={e=>setCode(e.target.value)} />
         <input type="number" value={amount} onChange={e=>setAmount(parseInt(e.target.value||"0"))} />
-        <button type="submit">Redeem</button>
+        <button type="submit">Use</button>
       </form>
       {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
     </div>
