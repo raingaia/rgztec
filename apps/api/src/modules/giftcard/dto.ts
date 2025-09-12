@@ -5,4 +5,4 @@ export class CreateGiftCardDto {
   meta?: Record<string, unknown>;
 }
 export class RedeemGiftCardDto { amount!: number; } // cents
-export class TopupGiftCardDto { amount!: number; }  // cents
+export class TopupGiftCardDto  { amount!: number; } // cents
