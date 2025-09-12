@@ -1,7 +1,8 @@
 {
-  "packageManager": "pnpm@9.8.0",
   "name": "rgztec-marketplace",
   "private": true,
+  "packageManager": "pnpm@9.8.0",
+  "workspaces": ["apps/*"],
   "scripts": {
     "i": "pnpm -r install",
     "dev": "concurrently -n API,WEB,ADMIN -c green,blue,magenta \"pnpm dev:api\" \"pnpm dev:web\" \"pnpm dev:admin\"",
@@ -11,7 +12,6 @@
     "build:web": "pnpm --dir apps/web build",
     "build:admin": "pnpm --dir apps/admin build"
   },
-  "dependencies": {},
   "devDependencies": {
     "concurrently": "8.2.2",
     "tsx": "4.19.1",
