@@ -1,10 +1,10 @@
-import { Module } from "@nestjs/common";
-import { LicensingController } from "./licensing.controller";
-import { LicensingService } from "./licensing.service";
+import { Module } from '@nestjs/common';
+import { LicensingService } from './licensing.service';
+import { LicensingController } from './licensing.controller';
 
 @Module({
-  controllers: [LicensingController],
   providers: [LicensingService],
-  exports: [LicensingService]
+  controllers: [LicensingController],
+  exports: [LicensingService],
 })
 export class LicensingModule {}
