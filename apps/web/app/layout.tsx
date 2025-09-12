@@ -1,3 +1,4 @@
+// apps/web/app/layout.tsx
 export const metadata = { title: "RGZTEC Web" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,12 +14,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           <a href="/" style={{ fontWeight: 700 }}>RGZTEC</a>
+
+          {/* >>> added nav with Gift Cards link <<< */}
           <nav style={{ display: "flex", gap: 12 }}>
-            <a href="/products">Products</a>
-            <a href="/checkout">Checkout</a>
-            <a href="/wallet">Wallet</a>
+            <a href="/gift-cards">Gift Cards</a>
           </nav>
         </header>
+
         <main style={{ padding: 24 }}>{children}</main>
       </body>
     </html>
