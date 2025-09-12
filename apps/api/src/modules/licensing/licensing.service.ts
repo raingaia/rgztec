@@ -1,68 +1,24 @@
-import { Injectable } from "@nestjs/common";
-
-type LicenseStatus = "active" | "revoked" | "blocked";
-type Activation = { machineId: string; hostname?: string; at: number };
-type License = {
-  key: string;
-  productId: string;
-  buyerEmail: string;
-  orderId?: string;
-  status: LicenseStatus;
-  maxActivations: number;
-  activations: Activation[];
-};
-
-const store = new Map<string, License>();
+import { Injectable } from '@nestjs/common';
+import { IssueRequest, LicenseRecord } from './types';
 
 @Injectable()
 export class LicensingService {
-  issue(productId: string, buyerEmail: string, orderId?: string) {
-    const key = this.key();
-    const lic: License = {
-      key,
-      productId,
-      buyerEmail: buyerEmail.toLowerCase(),
-      orderId,
-      status: "active",
-      maxActivations: 2,
-      activations: []
-    };
-    store.set(key, lic);
-    return lic;
+  private licenses = new Map<string, LicenseRecord>();
+
+  private code(len = 4) {
+    const s = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    return Array.from({ length: len }, () => s[Math.floor(Math.random() * s.length)]).join('');
   }
 
-  verify(key: string) { return store.get(key) ?? null; }
-
-  activate(key: string, machineId: string, hostname?: string) {
-    const lic = store.get(key);
-    if (!lic || lic.status !== "active") return { error: "invalid_or_inactive" };
-    const exists = lic.activations.find(a => a.machineId === machineId);
-    if (exists) return { ok: true, license: lic };
-    if (lic.activations.length >= lic.maxActivations) return { error: "activation_limit_exceeded" };
-    lic.activations.push({ machineId, hostname, at: Date.now() });
-    store.set(key, lic);
-    return { ok: true, license: lic };
-    }
-
-  deactivate(key: string, machineId: string) {
-    const lic = store.get(key);
-    if (!lic) return { error: "not_found" };
-    lic.activations = lic.activations.filter(a => a.machineId !== machineId);
-    store.set(key, lic);
-    return { ok: true, license: lic };
+  issue(req: IssueRequest): LicenseRecord {
+    const key = `RGZ-${this.code()}-${this.code()}`;
+    const rec = { productId: req.productId, email: req.buyerEmail, key, issuedAt: Date.now() };
+    this.licenses.set(key, rec);
+    return rec;
   }
 
-  revoke(key: string) {
-    const lic = store.get(key);
-    if (!lic) return { error: "not_found" };
-    lic.status = "revoked";
-    store.set(key, lic);
-    return { ok: true };
-  }
-
-  private key() {
-    const s = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    const pick = (n: number) => Array.from({ length: n }, () => s[Math.floor(Math.random() * s.length)]).join("");
-    return `LIC-${pick(4)}-${pick(4)}-${pick(4)}`;
+  verify(productId: string, licenseKey: string) {
+    const rec = this.licenses.get(licenseKey);
+    return !!rec && rec.productId === productId;
   }
 }
