@@ -6,20 +6,20 @@ export default function CheckGiftCard() {
   const [code, setCode] = useState("");
   const [data, setData] = useState<any>(null);
 
-  async function fetchBalance(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`${API}/gift-cards/${code}`);
-    setData(await res.json());
+    const r = await fetch(`${API}/gift-cards/verify/${code}`);
+    setData(await r.json());
   }
 
   return (
-    <div style={{ padding: 24 }}>
-      <h2>Check Balance</h2>
-      <form onSubmit={fetchBalance}>
+    <div>
+      <h2>Check</h2>
+      <form onSubmit={submit}>
         <input placeholder="Code" value={code} onChange={e=>setCode(e.target.value)} />
         <button type="submit">Check</button>
       </form>
-      {data && <p>Balance: <b>{data.balance}</b> {data.currency}</p>}
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 }
