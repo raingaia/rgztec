@@ -1,8 +1,9 @@
 export default function AdminHome() {
   return (
     <>
-      <h1>RGZTEC Admin</h1>
-      <p>Admin panel placeholder.</p>
+      <h1>Admin</h1>
+      <p>Licenses and Packages will be listed here.</p>
     </>
   );
 }
+
