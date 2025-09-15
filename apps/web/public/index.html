@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Home</title>
 <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
+<!-- Proje alt yolundan (https://raingaia.github.io/rgztec/) servis etmek için base eklendi -->
+<base href="/rgztec/">
 <style>
 :root{
   --wrap:1100px;
@@ -158,13 +160,9 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     </div>
 
     <div class="hdr-right">
-      <!-- “Products” linki KALDIRILDI -->
       <a href="./dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
-
       <a href="#" class="signin-link">Sign in</a>
-      <!-- added: support email -->
       <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
-      <!-- /added -->
       <button class="icon-btn" title="Gift">🎁</button>
       <button class="icon-btn" title="Cart">🛒</button>
       <a class="pill-open" href="open-store.html">Open Store</a>
@@ -230,10 +228,10 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
   </div>
 </main>
 
-<!-- Categories Drawer (Yeni Dropdown Menü) -->
 <div id="drawer" class="drawer" aria-hidden="true">
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
@@ -261,10 +259,8 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
                 <a href="#">Gift cards</a>
                 <a href="#">Sitemap</a>
                 <a href="#">RGZTEC blog</a>
-                <!-- Eklenen linkler (yapıyı bozmaz) -->
                 <a href="./product/sticky-header/">Sticky Header</a>
                 <a href="./demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
-                <!-- /Eklenenler -->
                 <a href="#">RGZTEC UK</a>
                 <a href="#">RGZTEC Germany</a>
             </div>
@@ -288,9 +284,7 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
                 <h4>Help</h4>
                 <a href="#">Help Center</a>
                 <a href="#">Privacy settings</a>
-                <!-- added: support email -->
                 <a href="mailto:support@rgztec.com">Contact support (support@rgztec.com)</a>
-                <!-- /added -->
                 <div class="footer-socials">
                     <a href="#" aria-label="Instagram">
                         <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -384,4 +378,3 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 </script>
 </body>
 </html>
-
