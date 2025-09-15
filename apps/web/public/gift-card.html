@@ -6,6 +6,9 @@
 <title>RGZTEC • Gift Cards</title>
 <meta name="description" content="Send RGZTEC gift cards instantly. Choose an amount, personalize a message, and deliver via email. Redeemable across all participating stores.">
 
+<!-- Tüm göreli yolları apps/web/public köküne sabitle -->
+<base href="/rgztec/apps/web/public/">
+
 <style>
 :root{
   --wrap:1100px;
@@ -110,7 +113,7 @@ textarea{min-height:100px;resize:vertical}
 .footer-socials a:hover svg{fill:#fff}
 .footer-bottom{border-top:1px solid #3c3c62;margin-top:48px;padding:24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:13px;color:#d1d1d1}
 .footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
-.footer-bottom a:hover{text-decoration:underline}
+.footer-bottom a:hover{font-weight:600;text-decoration:underline}
 @media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -120,7 +123,7 @@ textarea{min-height:100px;resize:vertical}
 <header class="header-outer">
   <div class="page-section page-section--fluid header-row">
     <div class="header-left">
-      <a class="brand" href="./">RGZTEC</a>
+      <a class="brand" href="index.html">RGZTEC</a>
       <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         <span>Categories</span>
@@ -137,10 +140,10 @@ textarea{min-height:100px;resize:vertical}
     </div>
 
     <div class="hdr-right">
-      <a href="./dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
-      <a href="#" class="signin-link">Sign in</a>
-      <button class="icon-btn" title="Gift">🎁</button>
-      <button class="icon-btn" title="Cart">🛒</button>
+      <a href="dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
+      <a href="login.html" class="signin-link">Sign in</a>
+      <a class="icon-btn" title="Gift" href="gift-card.html" aria-current="page">🎁</a>
+      <a class="icon-btn" title="Cart" href="cart.html">🛒</a>
       <a class="pill-open" href="open-store.html" aria-label="Open your store">Open Store</a>
     </div>
   </div>
@@ -296,7 +299,7 @@ textarea{min-height:100px;resize:vertical}
       </div>
       <div>
         <h4>Sell</h4>
-        <a href="become-seller">Sell on RGZTEC</a>
+        <a href="seller.html">Sell on RGZTEC</a>
         <a href="#">Teams</a>
         <a href="#">Forums</a>
         <a href="#">Affiliates & Creators</a>
@@ -312,7 +315,7 @@ textarea{min-height:100px;resize:vertical}
       </div>
       <div>
         <h4>Help</h4>
-        <a href="mailto:support@rgztec">support@rgztec</a>
+        <a href="mailto:support@rgztec.com">support@rgztec.com</a>
         <a href="#">Help Center</a>
         <a href="#">Privacy settings</a>
         <div class="footer-socials">
@@ -465,7 +468,7 @@ document.getElementById('addToCart')?.addEventListener('click',()=>{
   };
   // Burayı gerçek sepete POST ile bağlayacaksın:
   // fetch('/api/cart', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
-  //   .then(r=>r.json()).then(()=>location.href='cart').catch(()=>alert('Cart error'));
+  //   .then(r=>r.json()).then(()=>location.href='cart.html').catch(()=>alert('Cart error'));
   alert('Added to cart (demo). \n\n' + JSON.stringify(payload, null, 2));
 });
 
@@ -503,3 +506,4 @@ document.getElementById('shareBtn')?.addEventListener('click',()=>{
 </script>
 </body>
 </html>
+
