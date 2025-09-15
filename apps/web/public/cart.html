@@ -1,68 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shopping Cart - RGZTEC</title>
-  <link rel="stylesheet" href="./assets/css/home.css?v=15" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Shopping Cart — RGZTEC</title>
+
+  <!-- Tüm göreli yolları apps/web/public/ köküne sabitle -->
+  <base href="/rgztec/apps/web/public/">
+
+  <!-- Mevcut stil dosyalarınız -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    /* sayfaya özgü ufak düzenler */
+    .cart-container{display:grid;grid-template-columns:1fr 340px;gap:24px}
+    .cart-items-list{display:flex;flex-direction:column;gap:12px}
+    .cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:12px;background:#fff}
+    .cart-item .thumb{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--line,#e5e7eb)}
+    .cart-item .meta{display:flex;flex-direction:column;gap:4px}
+    .cart-item .title{font-weight:600}
+    .cart-item .note{font-size:13px;color:var(--sub,#64748b)}
+    .cart-item .price{font-weight:700}
+    .qty{display:inline-flex;align-items:center;border:1px solid var(--line,#e5e7eb);border-radius:10px;overflow:hidden}
+    .qty button{width:28px;height:28px;border:0;background:#f8fafc;cursor:pointer}
+    .qty input{width:40px;height:28px;border:0;text-align:center}
+    .cart-summary{border:1px solid var(--line,#e5e7eb);border-radius:14px;padding:16px;background:#fff;height:fit-content}
+    .summary-row{display:flex;justify-content:space-between;margin:8px 0;color:var(--ink,#0b1220)}
+    .summary-row.total{font-weight:800;border-top:1px solid var(--line,#e5e7eb);padding-top:10px;margin-top:10px}
+    .btn.primary{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 16px;border-radius:12px;background:#f97316;color:#fff;font-weight:700;border:0;cursor:pointer}
+    .btn.primary.full{width:100%}
+    .cart-empty{border:1px dashed var(--line,#e5e7eb);border-radius:14px;padding:24px;text-align:center;color:var(--sub,#64748b)}
+    @media (max-width:900px){.cart-container{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="wrapper nav-wrapper">
-      <a class="brand" href="./">RGZTEC</a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="./products/html-templates.html">Continue Shopping</a>
-        <!-- Shopping Cart Icon -->
-        <a href="./cart.html" class="nav-cart" aria-label="Shopping Cart">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          <span class="cart-count">0</span>
-        </a>
+  <!-- HEADER (mevcut yapınızla uyumlu basit sürüm) -->
+  <header class="header-outer">
+    <div class="page-section page-section--fluid header-row">
+      <a class="brand" href="index.html">RGZTEC</a>
+      <nav class="hdr-right" aria-label="Primary">
+        <a href="store.html?slug=html-templates" class="signin-link">Continue Shopping</a>
+        <a href="cart.html" class="signin-link" aria-label="Shopping Cart">🛒 Cart</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="section page-content">
-      <div class="wrapper">
-        <div class="section-header">
-          <h2>Your Shopping Cart</h2>
-        </div>
-        
-        <div class="cart-container">
-          <!-- Cart items will be dynamically inserted here by JavaScript -->
-          <div class="cart-items-list">
-            <!-- Example of an empty cart message -->
-            <div class="cart-empty">
-              <p>Your cart is currently empty.</p>
-              <a href="./products/html-templates.html" class="btn primary">Start Shopping</a>
-            </div>
-          </div>
+  <main class="page-section page-section--fluid section-container">
+    <h2 class="section-h">Your Shopping Cart</h2>
 
-          <!-- Cart Summary -->
-          <div class="cart-summary">
-            <h3>Order Summary</h3>
-            <div class="summary-row">
-              <span>Subtotal</span>
-              <span id="cart-subtotal">$0.00</span>
-            </div>
-            <div class="summary-row">
-              <span>Taxes</span>
-              <span>Calculated at checkout</span>
-            </div>
-            <div class="summary-row total">
-              <span>Total</span>
-              <span id="cart-total">$0.00</span>
-            </div>
-            <button class="btn primary full-width">Proceed to Checkout</button>
-          </div>
+    <div class="cart-container">
+      <!-- Items -->
+      <div id="cartList" class="cart-items-list">
+        <div id="emptyBox" class="cart-empty">
+          <p>Your cart is currently empty.</p>
+          <a href="store.html?slug=html-templates" class="btn primary">Start Shopping</a>
         </div>
-
       </div>
-    </section>
+
+      <!-- Summary -->
+      <aside class="cart-summary" aria-label="Order Summary">
+        <h3 style="margin:0 0 8px;font-weight:800">Order Summary</h3>
+        <div class="summary-row"><span>Subtotal</span><span id="sum-sub">$0.00</span></div>
+        <div class="summary-row"><span>Taxes</span><span>Calculated at checkout</span></div>
+        <div class="summary-row total"><span>Total</span><span id="sum-total">$0.00</span></div>
+        <button class="btn primary full" id="btnCheckout">Proceed to Checkout</button>
+      </aside>
+    </div>
   </main>
 
-  <script src="./assets/js/main.js?v=4"></script>
+  <!-- mevcut scriptleriniz -->
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/layout.js"></script>
+
+  <!-- Basit cart mantığı (LocalStorage: rgz-cart) -->
+  <script>
+    // Beklenen format: [{id, title, price, qty, image}]
+    const CKEY = 'rgz-cart';
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+    const fmt = (n)=>'$' + (Number(n||0).toFixed(2));
+
+    function loadCart(){
+      try{ return JSON.parse(localStorage.getItem(CKEY)||'[]'); }
+      catch{ return []; }
+    }
+    function saveCart(items){ localStorage.setItem(CKEY, JSON.stringify(items)); }
+
+    function render(){
+      const list = $('#cartList');
+      const empty = $('#emptyBox');
+      const items = loadCart();
+
+      // temizle
+      $$('.cart-item', list).forEach(el=>el.remove());
+
+      if(!items.length){
+        empty.style.display = 'block';
+      }else{
+        empty.style.display = 'none';
+        items.forEach((it, idx)=>{
+          const row = document.createElement('div');
+          row.className = 'cart-item';
+          row.innerHTML = `
+            <img class="thumb" alt="" src="${it.image || 'images/placeholder.png'}">
+            <div class="meta">
+              <div class="title">${it.title || 'Untitled'}</div>
+              <div class="note">SKU: ${it.id || '-'}</div>
+              <div class="qty" role="group" aria-label="Quantity">
+                <button aria-label="Decrease">−</button>
+                <input type="number" min="1" value="${it.qty||1}" aria-label="Quantity input">
+                <button aria-label="Increase">+</button>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">${fmt((it.price||0)*(it.qty||1))}</div>
+              <button class="signin-link" data-remove style="margin-top:6px">Remove</button>
+            </div>
+          `;
+          // events
+          const dec = $('button:first-of-type', row);
+          const inc = $('button:last-of-type', row);
+          const inp = $('input', row);
+          const rmv = $('[data-remove]', row);
+
+          function update(q){
+            const items = loadCart();
+            items[idx].qty = Math.max(1, Number(q)||1);
+            saveCart(items); render();
+          }
+          dec.onclick = ()=>update((it.qty||1)-1);
+          inc.onclick = ()=>update((it.qty||1)+1);
+          inp.onchange = ()=>update(inp.value);
+          rmv.onclick = ()=>{
+            const items = loadCart();
+            items.splice(idx,1);
+            saveCart(items); render();
+          };
+
+          list.prepend(row);
+        });
+      }
+
+      // özet
+      const subtotal = loadCart().reduce((s,i)=>s + (i.price||0)*(i.qty||1), 0);
+      $('#sum-sub').textContent = fmt(subtotal);
+      $('#sum-total').textContent = fmt(subtotal); // vergi/kupon vb. yok
+    }
+
+    // Demo için: ürün yoksa örnek ekle (istersen kaldır)
+    (function seedDemo(){
+      const cur = loadCart();
+      if(!cur.length){
+        saveCart([
+          { id:'TPL-001', title:'Landing Page Template', price:29, qty:1, image:'images/demo-thumb-1.jpg' },
+          { id:'ICON-PAK', title:'200 Icon Pack', price:12, qty:2, image:'images/demo-thumb-2.jpg' }
+        ]);
+      }
+    })();
+
+    document.getElementById('btnCheckout').addEventListener('click', ()=>{
+      alert('Checkout flow coming soon 🚀');
+    });
+
+    render();
+  </script>
 </body>
 </html>
+
