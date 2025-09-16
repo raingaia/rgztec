@@ -5,105 +5,225 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
-<!-- Proje GitHub Pages altında alt klasörden servis edildiği için base şart -->
-<base href="/rgztec/apps/web/public/">
+
+<!-- Tüm sayfa kökü: GitHub Pages için kök /rgztec/ -->
+<base href="/rgztec/">
 
 <style>
 :root{
   --wrap:1100px; --gutter-min:12px; --gutter-max:28px;
   --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
-  --brand:#f97316; --search-h:52px;
+  --brand:#f97316; --brand-dark:#ea580c;
+  --search-h:52px; --tile: clamp(72px, 7vw, 90px);
 }
 *{box-sizing:border-box}
 html,body{margin:0;overflow-x:hidden}
 body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
 .page-section{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
 .page-section--fluid{max-width:none;padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max))}
+
+/* header (index ile birebir) */
 .header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
   backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
-.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0}
-.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
+.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap; padding:8px 0}
+.header-left,.hdr-right{flex-shrink: 0;}
 .search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
-.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;padding:0 8px 0 16px;width:100%}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
+.btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;cursor:pointer}
+.btn-cats svg{width:18px;height:18px}
+.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;padding:0 8px 0 16px;width:100%;overflow:hidden}
 .search input{flex:1;min-width:0;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent}
 .go{display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
 .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:nowrap}
+.signin-link{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+.signin-link:hover{color:var(--brand)}
 .icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
 .pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
+.pill-open:hover{background:var(--brand-dark)}
 
+/* quick filters (index’ten) */
+.chips-outer{border-bottom:1.5px solid var(--line-strong)}
+.chips{display:flex;gap:22px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:8px 0 10px;}
+.chip{color:var(--sub);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;transition:color .2s}
+.chip:hover{color:var(--ink)}
+
+/* store hero */
+.hero-outer{background:linear-gradient(180deg,#fff, #fff 60%, #fafbff 100%);border-bottom:1px solid var(--line)}
+.hero{display:flex;align-items:center;gap:12px;padding:16px 0}
+.hero h1{font-weight:900;font-size:22px;margin:0}
+.hero p{margin:0;color:var(--sub)}
 .store-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-strong);border-radius:999px;padding:6px 10px;background:#fff;font-weight:800;margin-left:8px}
 .store-pill .dot{width:8px;height:8px;border-radius:50%}
-.hero{background:linear-gradient(180deg,#fff,#fafbff);border-bottom:1px solid var(--line)}
-.hero-inner{display:flex;align-items:center;gap:12px;padding:16px 0}
-.hero-title{font-weight:900;font-size:22px;margin:0}
-.hero-tag{color:var(--sub);margin:0}
-.section{padding-top:24px}
-.section h2{font-weight:800;font-size:22px;margin:0 0 12px}
+
+/* featured stores (index ile aynı) */
+.stores{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(var(--tile), 1fr));
+  gap:clamp(14px,2.2vw,20px);
+  list-style:none;padding:0;margin:0
+}
+.store-tile{display:flex;flex-direction:column;align-items:center;gap:10px;color:inherit;text-decoration:none;transition:transform .18s ease}
+.store-tile:hover{transform:translateY(-6px)}
+.badge-tile{width:var(--tile);height:var(--tile);border-radius:28px;display:grid;place-items:center;
+  box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05);
+  transition:box-shadow .2s ease, transform .2s ease}
+.store-tile:hover .badge-tile{box-shadow:0 16px 26px -8px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.55), 0 0 0 1px rgba(0,0,0,.08);transform:scale(1.05)}
+.letter{font-weight:900;font-size:28px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.2)}
+.sname{font-size:12.5px;color:var(--sub);max-width:calc(var(--tile) + 4px);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+
+/* product grid + card (fiyat ortalı) */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:8px}
 .card{border:1px solid var(--line);background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 .card img{width:100%;height:160px;object-fit:cover;background:#eef2f7}
-.card .pad{padding:12px}
-.card .title{font-weight:700;margin:4px 0 6px}
-.card .sub{color:var(--sub);font-size:14px;margin:0}
-.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.card .price{font-weight:800}
-.card .btn{display:inline-block;padding:8px 12px;border-radius:10px;border:1px solid var(--line-strong);text-decoration:none}
+.card .pad{padding:12px;display:flex;flex-direction:column;gap:8px}
+.card .title{font-weight:700;margin:4px 0 2px;text-align:center}
+.card .sub{color:var(--sub);font-size:14px;margin:0;text-align:center}
+.card .price{font-weight:900;font-size:16px;text-align:center;margin-top:4px}
+.card .btn{display:inline-block;margin:8px auto 0;padding:8px 12px;border-radius:10px;border:1px solid var(--line-strong);text-decoration:none}
 .card .btn:hover{background:#f8fafc}
-.note{color:var(--sub);font-size:14px}
-.err{color:#b91c1c;background:#fee2e2;border:1px solid #fecaca;padding:12px;border-radius:12px}
-.footer{margin-top:40px;background:#232347;color:#fff;border-top:1px solid #3c3c62}
-.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 0}
+
+/* footer (kısa) */
+.footer-outer{margin-top:40px;background:#232347;color:#fff;padding:24px 0;font-size:14px;border-top:1px solid #3c3c62}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-bottom a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
+
+<!-- HEADER (index ile aynı link yapısı) -->
 <header class="header-outer">
   <div class="page-section page-section--fluid header-row">
-    <a class="brand" href="./">RGZTEC</a>
-    <span id="storePill" class="store-pill" hidden>
-      <span class="dot"></span><span id="storeName"></span>
-    </span>
+    <div class="header-left">
+      <!-- kökten apps/web/public/ altına götür -->
+      <a class="brand" href="apps/web/public/">RGZTEC</a>
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span>Categories</span>
+      </button>
+      <span id="storePill" class="store-pill" hidden>
+        <span class="dot"></span><span id="storeName"></span>
+      </span>
+    </div>
+
     <div class="search-wrap">
-      <form class="search" role="search" action="listings.html">
-        <input type="search" name="q" placeholder="Search for anything" aria-label="Search">
+      <!-- listings de apps/web/public/ altında -->
+      <form class="search" role="search" action="apps/web/public/listings.html">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
         <button class="go" type="submit" aria-label="Search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
         </button>
       </form>
     </div>
+
     <div class="hdr-right">
-      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
-      <a class="pill-open" href="open-store.html">Open Store</a>
+      <a href="apps/web/public/dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
+      <a href="apps/web/public/login" class="signin-link">Sign in</a>
+      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+      <a class="icon-btn" href="apps/web/public/gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="apps/web/public/cart" title="Cart">🛒</a>
+      <a class="pill-open" href="apps/web/public/open-store.html">Open Store</a>
+    </div>
+  </div>
+
+  <div class="chips-outer">
+    <div class="page-section page-section--fluid">
+      <nav class="chips" aria-label="Quick filters">
+        <a class="chip" href="apps/web/public/listings.html?tag=new">New</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=trending">Trending</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=top-sellers">Top sellers</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=deals">Deals</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=html-templates">HTML Templates</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=react">React</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=ai">AI</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=hardware">Hardware</a>
+      </nav>
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="page-section page-section--fluid hero-inner">
+<!-- HERO -->
+<section class="hero-outer">
+  <div class="page-section page-section--fluid hero">
     <div>
-      <h1 id="heroTitle" class="hero-title">Store</h1>
-      <p id="heroTag" class="hero-tag"></p>
+      <h1 id="heroTitle">Store</h1>
+      <p id="heroTag"></p>
     </div>
   </div>
 </section>
 
-<main class="page-section page-section--fluid section">
-  <h2 id="sectionTitle">Products</h2>
+<!-- FEATURED STORES (vitrinler) -->
+<section class="page-section page-section--fluid" style="padding-top:24px">
+  <h2 class="section-h">Featured stores</h2>
+  <ul id="storeRow" class="stores" aria-label="Featured stores"></ul>
+</section>
+
+<!-- PRODUCTS -->
+<main class="page-section page-section--fluid" style="padding-top:24px">
+  <h2 class="section-h" id="sectionTitle">Products</h2>
   <div id="grid" class="grid"></div>
 </main>
 
-<footer class="footer">
-  <div class="page-section page-section--fluid footer-inner">
+<!-- FOOTER -->
+<footer class="footer-outer">
+  <div class="page-section page-section--fluid footer-bottom">
     <span>© <span id="y"></span> RGZTEC, Inc.</span>
-    <div><a style="color:#fff;text-decoration:none;font-weight:600" href="#">Terms</a></div>
+    <div>
+      <a href="#">Terms of Use</a>
+      <a href="#" style="margin-left:16px">Privacy</a>
+      <a href="#" style="margin-left:16px">Interest-based ads</a>
+    </div>
   </div>
 </footer>
 
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
 
-/* ---- Mağaza meta ---- */
+/* mağaza renk + vitrin verisi (index ile aynı) */
+const COLOR = {
+  'html-templates': ['#a5d6ff', '#3b82f6'],
+  'email-forge': ['#fecaca', '#ef4444'],
+  'icon-smith': ['#bae6fd', '#0ea5e9'],
+  'ai-tools-hub': ['#e9d5ff', '#a855f7'],
+  'dev-studio-one': ['#a7f3d0', '#10b981'],
+  'game-makers': ['#fde68a', '#f59e0b'],
+  'reactorium': ['#a5f3fc', '#06b6d4'],
+  'tiny-js-lab': ['#d9f99d', '#84cc16'],
+  'unity-hub': ['#fecdd3', '#f43f5e'],
+  'wp-plugins': ['#ddd6fe', '#8b5cf6'],
+  'hardware': ['#c7f0d8', '#10b981']
+};
+const STORES_DATA = [
+  { slug: 'html-templates', name: 'HTML Templates' },
+  { slug: 'email-forge',    name: 'Email Forge' },
+  { slug: 'icon-smith',     name: 'Icon Smith' },
+  { slug: 'ai-tools-hub',   name: 'AI Tools Hub' },
+  { slug: 'dev-studio-one', name: 'Dev Studio One' },
+  { slug: 'game-makers',    name: 'Game Makers' },
+  { slug: 'reactorium',     name: 'Reactorium' },
+  { slug: 'tiny-js-lab',    name: 'Tiny JS Lab' },
+  { slug: 'unity-hub',      name: 'Unity Hub' },
+  { slug: 'wp-plugins',     name: 'WP Plugins' },
+  { slug: 'hardware',       name: 'Hardware' }
+];
+function tile(s){
+  const name = s.name || s.slug;
+  const letter = (name || '?')[0].toUpperCase();
+  const [light, dark] = COLOR[s.slug] || ['#a5d6ff','#3b82f6'];
+  return `<li>
+    <a class="store-tile" href="apps/web/public/store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
+      <div class="badge-tile" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
+        <div class="letter">${letter}</div>
+      </div>
+      <div class="sname">${name}</div>
+    </a>
+  </li>`;
+}
+document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
+
+/* Mağaza başlık bilgileri */
 const STORE_INFO = {
   "html-templates": { name:"HTML Templates", tagline:"Polished HTML/CSS templates and starters." },
   "email-forge":   { name:"Email Forge",    tagline:"Responsive MJML templates and automation-focused email kits." },
@@ -131,11 +251,9 @@ const STORE_COLORS = {
   "hardware":["#c7f0d8","#10b981"]
 };
 
-/* ---- URL param ---- */
 const params = new URLSearchParams(location.search);
 const slug = (params.get('slug') || '').toLowerCase();
 
-/* ---- Başlık ve rozet ---- */
 (function mountHeader(){
   const info = STORE_INFO[slug];
   const pill = document.getElementById('storePill');
@@ -153,86 +271,99 @@ const slug = (params.get('slug') || '').toLowerCase();
   document.title = `RGZTEC • ${info.name}`;
 })();
 
-/* ---- Çoklu-yol ürün yükleyici ---- */
-const DATA_URLS = [
-  'assets/data/products.json',
-  '/rgztec/apps/web/public/assets/data/products.json',
-  '/rgztec/assets/data/products.json',
-  '/assets/data/products.json'
-];
-const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+/* Drawer (index ile aynı davranış) */
+const drawerHtml = `
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <nav>
+      <a href="apps/web/public/listings.html?tag=html-templates">HTML Templates</a>
+      <a href="apps/web/public/listings.html?tag=react-components">React Components</a>
+      <a href="apps/web/public/listings.html?tag=wordpress-plugins">WordPress Plugins</a>
+      <a href="apps/web/public/listings.html?tag=ai-tools">AI Tools & Prompts</a>
+      <a href="apps/web/public/listings.html?tag=mobile-games">Mobile Games</a>
+      <a href="apps/web/public/listings.html?tag=icons-graphics">Icons & Graphics</a>
+      <a href="apps/web/public/listings.html?tag=3d-models">3D & AR/VR Models</a>
+      <a href="apps/web/public/listings.html?tag=scripts-code">Scripts & Code</a>
+      <a href="apps/web/public/listings.html?tag=audio">Audio & Sound Effects</a>
+      <a href="apps/web/public/listings.html?tag=video-templates">Video Templates</a>
+      <a href="apps/web/public/listings.html?tag=hardware">Hardware</a>
+      <a href="apps/web/public/listings.html" style="font-weight:700;color:var(--brand);border-top:1px solid var(--line);margin-top:4px;padding-top:12px;">All Categories →</a>
+    </nav>
+  </aside>
+</div>`;
+document.body.insertAdjacentHTML('beforeend', drawerHtml);
 
-async function tryFetchJson(urls){
-  let lastErr;
-  for (const u of urls){
-    try{
-      const res = await fetch(u,{cache:'no-store'});
-      if(!res.ok) throw new Error(`HTTP ${res.status} @ ${u}`);
-      const data = await res.json();
-      console.log('[store] loaded products from', u);
-      return data;
-    }catch(e){
-      console.warn('[store] failed', u, e);
-      lastErr = e;
-    }
-  }
-  throw lastErr || new Error('All sources failed');
+const drawer=document.getElementById('drawer'),
+      back=document.getElementById('backdrop'),
+      panel=drawer.querySelector('.panel'),
+      openBtn=document.getElementById('btnCats');
+function openDrawer(){
+  const r = openBtn.getBoundingClientRect();
+  panel.style.top = `${r.bottom + 8}px`;
+  panel.style.left = `${r.left}px`;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
 }
+function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+openBtn?.addEventListener('click',e=>{ e.stopPropagation(); drawer.classList.contains('open')?closeDrawer():openDrawer(); });
+back?.addEventListener('click',closeDrawer);
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+
+/* Ürünler (tek yol, base ile uyumlu) */
+const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+const DATA_URL = 'apps/web/public/assets/data/products.json';
 
 function normalize(raw){
   if (Array.isArray(raw)){
     return raw.map(x => ({
       id:x.id, cat:'', title:x.title, desc:x.description||'',
-      price:x.price, thumb:`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`,
+      price:x.price, thumb:`apps/web/public/assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`,
       tags:Array.isArray(x.tags)?x.tags:[]
     }));
   }
   const prods = Array.isArray(raw?.products)? raw.products.map(p=>({
     id:p.id, cat:p.cat||'', title:p.title, desc:p.desc||'',
-    price:p.price, thumb:p.thumb||'assets/img/placeholder.png',
+    price:p.price, thumb:p.thumb || 'apps/web/public/assets/img/placeholder.png',
     tags:Array.isArray(p.tags)?p.tags:[]
   })):[];
   const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({
     id:`g-${x.id}`, cat:'', title:x.title, desc:x.description||'',
-    price:x.price, thumb:`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`,
+    price:x.price, thumb:`apps/web/public/assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`,
     tags:Array.isArray(x.tags)?x.tags:[]
   })):[];
   return prods.length? prods : gallery;
 }
-
 function card(p){
-  const img = p.thumb || 'assets/img/placeholder.png';
+  const img = p.thumb || 'apps/web/public/assets/img/placeholder.png';
   return `
   <div class="card">
     <img src="${img}" alt="${p.title}">
     <div class="pad">
       <div class="title">${p.title}</div>
       <p class="sub">${p.desc||''}</p>
-      <div class="row">
-        <span class="price">${usd.format(Number(p.price||0))}</span>
-        <a class="btn" href="product.html?id=${encodeURIComponent(p.id)}">Details</a>
-      </div>
+      <div class="price">${usd.format(Number(p.price||0))}</div>
+      <a class="btn" href="apps/web/public/product.html?id=${encodeURIComponent(p.id)}">Details</a>
     </div>
   </div>`;
 }
-
-function render(list, err){
+function render(list){
   const g = document.getElementById('grid');
-  if (err){ g.innerHTML = `<div class="err">${err}</div>`; return; }
-  if (!list.length){ g.innerHTML = `<div class="note">No products found in this store.</div>`; return; }
+  if(!list || !list.length){ g.innerHTML = `<div class="sub">No products found in this store.</div>`; return; }
   g.innerHTML = list.map(card).join('');
 }
 
 (async function main(){
   try{
-    if (!STORE_INFO[slug]){ return; } // başlık "not found" gösterildi
-    const raw = await tryFetchJson(DATA_URLS);
+    if (!STORE_INFO[slug]) return;
+    const res = await fetch(DATA_URL,{cache:'no-store'});
+    const raw = await res.json();
     const all = normalize(raw);
     const list = all.filter(p => (p.cat||'').toLowerCase() === slug);
     render(list);
   }catch(e){
     console.error(e);
-    render([], String(e.message||e));
+    document.getElementById('grid').innerHTML = `<div class="sub">Failed to load products.</div>`;
   }
 })();
 </script>
