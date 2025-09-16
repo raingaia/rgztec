@@ -6,6 +6,9 @@
 <title>RGZTEC • Listings</title>
 <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
 
+<!-- ➊ ALT YOL İÇİN ÖNEMLİ -->
+<base href="/rgztec/apps/web/public/">
+
 <style>
 :root{
   --wrap:1100px;
@@ -119,6 +122,7 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 
     <div class="hdr-right">
       <a href="#" class="signin-link">Sign in</a>
+      <!-- bu link absolute kaldı; root’taki gift-card.html’e gider -->
       <a class="icon-btn" href="/rgztec/gift-card.html" data-no-router title="Gift cards" aria-label="Gift cards">🎁</a>
       <button class="icon-btn" title="Cart">🛒</button>
       <a class="pill-open" href="open-store.html">Open Store</a>
@@ -166,7 +170,7 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   </div>
 </footer>
 
-<!-- store meta (name, categories, colors) -->
+<!-- store meta -->
 <script>
 const STORE_INFO = {
   "html-templates": { name:"HTML Templates", tagline:"Polished HTML/CSS templates and starters.", categories:["Landing Pages","Portfolio","Admin & Dashboards","E-commerce","Email Templates"] },
@@ -179,8 +183,6 @@ const STORE_INFO = {
   "tiny-js-lab":   { name:"Tiny JS Lab",    tagline:"Small but powerful JavaScript utilities.", categories:["Dates","Validation","Fetch","Storage","DOM Utils"] },
   "unity-hub":     { name:"Unity Hub",      tagline:"Unity extensions, prefabs and templates.", categories:["2D Platformer","FPS","Racing","Multiplayer","VR / AR"] },
   "wp-plugins":    { name:"WP Plugins",     tagline:"Production-ready WordPress plugins.", categories:["SEO","Security","Performance","Forms","WooCommerce"] },
-
-  /* NEW: Hardware store */
   "hardware":      { name:"Hardware",       tagline:"PC parts and peripherals.", categories:[
     "CPUs","Motherboards","GPUs","Memory (RAM)","Storage (SSD/HDD)","Power Supplies",
     "Cooling","Cases","Peripherals","Networking"
@@ -296,7 +298,6 @@ const DATA_URLS = [
 ];
 
 function normalize(raw){
-  // Case A: old flat array (gallery)
   if (Array.isArray(raw)) {
     return {
       categories: [],
@@ -311,7 +312,6 @@ function normalize(raw){
       }))
     };
   }
-  // Case B: new { gallery, categories, products }
   const categories = Array.isArray(raw.categories) ? raw.categories : [];
   const prods = Array.isArray(raw.products) ? raw.products.map(p => ({
     id: p.id,
@@ -413,6 +413,9 @@ async function loadAndRender(){
 }
 loadAndRender();
 </script>
+
+<!-- ➋ HEADER ÇOĞALMASINI ÖNLEYEN KÜÇÜK BEKÇİ -->
+<script src="assets/js/app.js" defer></script>
 </body>
 </html>
 
