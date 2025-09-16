@@ -1,0 +1,47 @@
+{
+  "html-templates": {
+    "categories": ["Landing Pages", "Portfolio", "Admin & Dashboards", "E-commerce", "Email Templates"]
+  },
+  "email-forge": {
+    "categories": ["Transactional", "Marketing", "Drip Flows", "MJML Blocks", "ESP Integrations"]
+  },
+  "icon-smith": {
+    "categories": ["Outline", "Solid", "3D", "Flags", "Brand"]
+  },
+  "ai-tools-hub": {
+    "categories": ["Prompts", "Agents", "Integrations", "Workflows", "Analytics"]
+  },
+  "dev-studio-one": {
+    "categories": ["HTML Templates", "React Components", "Auth & API", "Dashboards", "E-commerce"]
+  },
+  "game-makers": {
+    "categories": ["Unity 2D", "Unity 3D", "Unreal", "Controllers", "VFX / SFX"]
+  },
+  "reactorium": {
+    "categories": ["UI Kit", "Tables", "Charts", "Forms", "Hooks"]
+  },
+  "tiny-js-lab": {
+    "categories": ["Dates", "Validation", "Fetch", "Storage", "DOM Utils"]
+  },
+  "unity-hub": {
+    "categories": ["2D Platformer", "FPS", "Racing", "Multiplayer", "VR / AR"]
+  },
+  "wp-plugins": {
+    "categories": ["SEO", "Security", "Performance", "Forms", "WooCommerce"]
+  },
+
+  "hardware": {
+    "categories": [
+      "CPUs",
+      "Motherboards",
+      "GPUs",
+      "Memory (RAM)",
+      "Storage (SSD/HDD)",
+      "Power Supplies",
+      "Cooling",
+      "Cases",
+      "Peripherals",
+      "Networking"
+    ]
+  }
+}
