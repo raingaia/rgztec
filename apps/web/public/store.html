@@ -152,7 +152,7 @@
 
     try {
       /* 1) stores.json => title + color */
-      const sres = await fetch('data/stores.json', { cache:'no-store' });
+      const sres = await fetch('assets/data/stores.json', { cache:'no-store' });
       if (sres.ok){
         const { stores=[] } = await sres.json();
         const meta = stores.find(s => s.slug === slug);
@@ -169,7 +169,7 @@
       }
 
       /* 2) store-content.json => categories */
-      const cres = await fetch('data/store-content.json', { cache:'no-store' });
+      const cres = await fetch('assets/data/store-content.json', { cache:'no-store' });
       if (cres.ok){
         const content = await cres.json();
         const entry = content[slug] || {};
@@ -196,3 +196,4 @@
 </script>
 </body>
 </html>
+
