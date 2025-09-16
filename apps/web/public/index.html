@@ -143,7 +143,8 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 <header class="header-outer">
   <div class="page-section page-section--fluid header-row">
     <div class="header-left">
-      <a class="brand" href="./">RGZTEC</a>
+      <!-- kökten apps/web/public/ altına götür -->
+      <a class="brand" href="apps/web/public/">RGZTEC</a>
       <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         <span>Categories</span>
@@ -151,7 +152,8 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     </div>
 
     <div class="search-wrap">
-      <form class="search" role="search" action="listings.html">
+      <!-- listings de apps/web/public/ altında -->
+      <form class="search" role="search" action="apps/web/public/listings.html">
         <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
         <button class="go" type="submit" aria-label="Search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
@@ -160,25 +162,26 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     </div>
 
     <div class="hdr-right">
-      <a href="./dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
+      <!-- dashboard ve open-store da aynı klasöre taşındı -->
+      <a href="apps/web/public/dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
       <a href="#" class="signin-link">Sign in</a>
       <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
       <button class="icon-btn" title="Gift">🎁</button>
       <button class="icon-btn" title="Cart">🛒</button>
-      <a class="pill-open" href="open-store.html">Open Store</a>
+      <a class="pill-open" href="apps/web/public/open-store.html">Open Store</a>
     </div>
   </div>
 
   <div class="chips-outer">
     <div class="page-section page-section--fluid">
       <nav class="chips" aria-label="Quick filters">
-        <a class="chip" href="listings.html?tag=new">New</a>
-        <a class="chip" href="listings.html?tag=trending">Trending</a>
-        <a class="chip" href="listings.html?tag=top-sellers">Top sellers</a>
-        <a class="chip" href="listings.html?tag=deals">Deals</a>
-        <a class="chip" href="listings.html?tag=html-templates">HTML Templates</a>
-        <a class="chip" href="listings.html?tag=react">React</a>
-        <a class="chip" href="listings.html?tag=ai">AI</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=new">New</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=trending">Trending</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=top-sellers">Top sellers</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=deals">Deals</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=html-templates">HTML Templates</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=react">React</a>
+        <a class="chip" href="apps/web/public/listings.html?tag=ai">AI</a>
       </nav>
     </div>
   </div>
@@ -227,8 +230,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
   </div>
 </main>
 
@@ -236,17 +237,17 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
     <nav>
-        <a href="listings.html?tag=html-templates">HTML Templates</a>
-        <a href="listings.html?tag=react-components">React Components</a>
-        <a href="listings.html?tag=wordpress-plugins">WordPress Plugins</a>
-        <a href="listings.html?tag=ai-tools">AI Tools & Prompts</a>
-        <a href="listings.html?tag=mobile-games">Mobile Games</a>
-        <a href="listings.html?tag=icons-graphics">Icons & Graphics</a>
-        <a href="listings.html?tag=3d-models">3D & AR/VR Models</a>
-        <a href="listings.html?tag=scripts-code">Scripts & Code</a>
-        <a href="listings.html?tag=audio">Audio & Sound Effects</a>
-        <a href="listings.html?tag=video-templates">Video Templates</a>
-        <a href="listings.html" style="font-weight: 700; color: var(--brand); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 12px;">All Categories →</a>
+        <a href="apps/web/public/listings.html?tag=html-templates">HTML Templates</a>
+        <a href="apps/web/public/listings.html?tag=react-components">React Components</a>
+        <a href="apps/web/public/listings.html?tag=wordpress-plugins">WordPress Plugins</a>
+        <a href="apps/web/public/listings.html?tag=ai-tools">AI Tools & Prompts</a>
+        <a href="apps/web/public/listings.html?tag=mobile-games">Mobile Games</a>
+        <a href="apps/web/public/listings.html?tag=icons-graphics">Icons & Graphics</a>
+        <a href="apps/web/public/listings.html?tag=3d-models">3D & AR/VR Models</a>
+        <a href="apps/web/public/listings.html?tag=scripts-code">Scripts & Code</a>
+        <a href="apps/web/public/listings.html?tag=audio">Audio & Sound Effects</a>
+        <a href="apps/web/public/listings.html?tag=video-templates">Video Templates</a>
+        <a href="apps/web/public/listings.html" style="font-weight: 700; color: var(--brand); border-top: 1px solid var(--line); margin-top: 4px; padding-top: 12px;">All Categories →</a>
     </nav>
   </aside>
 </div>
@@ -256,17 +257,17 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
         <div class="footer-grid">
             <div>
                 <h4>Shop</h4>
-                <a href="#">Gift cards</a>
-                <a href="#">Sitemap</a>
+                <a href="apps/web/public/gift-card.html">Gift cards</a>
+                <a href="apps/web/public/sitemap.xml">Sitemap</a>
                 <a href="#">RGZTEC blog</a>
-                <a href="./product/sticky-header/">Sticky Header</a>
-                <a href="./demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
+                <a href="apps/web/public/product/sticky-header/">Sticky Header</a>
+                <a href="apps/web/public/demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
                 <a href="#">RGZTEC UK</a>
                 <a href="#">RGZTEC Germany</a>
             </div>
             <div>
                 <h4>Sell</h4>
-                <a href="#">Sell on RGZTEC</a>
+                <a href="apps/web/public/become-seller">Sell on RGZTEC</a>
                 <a href="#">Teams</a>
                 <a href="#">Forums</a>
                 <a href="#">Affiliates & Creators</a>
@@ -294,7 +295,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
                     </a>
                     <a href="#" aria-label="Pinterest">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.7 7.8 6.4 9.1.1-.4.2-1.6.3-2.2.1-.5-.2-1-.2-1.5 0-.7.4-1.2 1-1.2.7 0 1 .5 1 1.2 0 .7-.4 1.8-.7 2.8-.2.8.4 1.5 1.2 1.5 1.5 0 2.6-1.9 2.6-4.2 0-2.3-1.6-3.9-3.7-3.9-2.6 0-4.3 1.9-4.3 4 0 .7.3 1.5.6 2 .2.2.2.3.1.5-.1.2-.2.8-.3 1-.1.2-.3.3-.6.2-1.4-.7-2.3-2.5-2.3-4.3 0-3.3 2.4-6.2 6.8-6.2 3.6 0 6.3 2.5 6.3 5.8 0 3.4-2.2 6.1-5.2 6.1-1 0-2-.5-2.3-1.1 0 0-.5 2-.6 2.4-.3.8-1 1.6-1.5 2.2.7.2 1.5.3 2.3.3 5.5 0 10-4.5 10-10C22 6.5 17.5 2 12 2z"></path></svg>
-                    </a>
                 </div>
             </div>
         </div>
@@ -341,7 +341,7 @@ function tile(s){
   const colors = COLOR[s.slug] || ['#a5d6ff', '#3b82f6'];
   const [light, dark] = colors;
   return `<li>
-    <a class="store-tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
+    <a class="store-tile" href="apps/web/public/store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
       <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
         <div class="letter">${letter}</div>
       </div>
