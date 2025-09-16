@@ -119,7 +119,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 
     <div class="hdr-right">
       <a href="#" class="signin-link">Sign in</a>
-      <!-- fix: valid element, same look -->
       <a class="icon-btn" href="/rgztec/gift-card.html" data-no-router title="Gift cards" aria-label="Gift cards">🎁</a>
       <button class="icon-btn" title="Cart">🛒</button>
       <a class="pill-open" href="open-store.html">Open Store</a>
@@ -265,9 +264,9 @@ if (store && STORE_INFO[store]) {
   // default drawer (global quick categories)
   document.getElementById('drawerNav').innerHTML = `
     <a href="listings.html?tag=html-templates">HTML Templates</a>
-    <a href="listings.html?tag=react-components">React Components</a>
-    <a href="listings.html?tag=wordpress-plugins">WordPress Plugins</a>
-    <a href="listings.html?tag=ai-tools">AI Tools & Prompts</a>
+    <a href="listings.html?tag=react">React</a>
+    <a href="listings.html?tag=svg-icons">SVG / Icons</a>
+    <a href="listings.html?tag=hardware">Hardware</a>
     <a href="listings.html">All Categories →</a>`;
 }
 
@@ -289,12 +288,54 @@ openBtn?.addEventListener('click',e=>{ e.stopPropagation(); drawer.classList.con
 back?.addEventListener('click',closeDrawer);
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 
-/* ---- PRODUCTS RENDER ---- */
+/* ---- PRODUCTS RENDER (supports old & new schema) ---- */
 const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+const DATA_URL = 'assets/data/products.json';
+
+function normalize(raw){
+  // Case A: old flat array (gallery)
+  if (Array.isArray(raw)) {
+    return {
+      categories: [],
+      products: raw.map(x => ({
+        id: x.id,
+        cat: '',
+        title: x.title,
+        desc: x.description || '',
+        price: x.price,
+        thumb: `assets/thumbs/${(x.image||'').replace(/\.(png|jpg|jpeg|webp)$/i,'') || 'placeholder'}.png`,
+        tags: Array.isArray(x.tags) ? x.tags : []
+      }))
+    };
+  }
+  // Case B: new { gallery, categories, products }
+  const categories = Array.isArray(raw.categories) ? raw.categories : [];
+  const prods = Array.isArray(raw.products) ? raw.products.map(p => ({
+    id: p.id,
+    cat: p.cat || '',
+    title: p.title,
+    desc: p.desc || '',
+    price: p.price,
+    thumb: p.thumb || 'assets/img/placeholder.png',
+    tags: Array.isArray(p.tags) ? p.tags : []
+  })) : [];
+  const gallery = Array.isArray(raw.gallery) ? raw.gallery.map(x => ({
+    id: `g-${x.id}`,
+    cat: '',
+    title: x.title,
+    desc: x.description || '',
+    price: x.price,
+    thumb: `assets/thumbs/${(x.image||'').replace(/\.(png|jpg|jpeg|webp)$/i,'') || 'placeholder'}.png`,
+    tags: Array.isArray(x.tags) ? x.tags : []
+  })) : [];
+  return { categories, products: prods.length ? prods : gallery };
+}
+
 function card(p){
+  const img = p.thumb || 'assets/img/placeholder.png';
   return `
     <div class="card">
-      <img src="${p.img || './public/placeholder.png'}" alt="${p.title}">
+      <img src="${img}" alt="${p.title}">
       <div class="pad">
         <div class="title">${p.title}</div>
         <p class="sub">${p.desc || ''}</p>
@@ -314,30 +355,32 @@ function render(list){
   g.innerHTML = list.map(card).join('');
 }
 
+function matchStore(p, s){ return !s || (p.cat && p.cat.toLowerCase()===s); }
+function matchTag(p, t, cats){
+  if(!t) return true;
+  const tLower = t.toLowerCase();
+  const byTags = (p.tags||[]).some(x => String(x).toLowerCase()===tLower);
+  const byTitle = String(p.title||'').toLowerCase().includes(tLower);
+  const catHit = (cats||[]).find(c => (c.slug||'').toLowerCase()===tLower || String(c.name||'').toLowerCase()===tLower);
+  const byCat = catHit ? (p.cat||'').toLowerCase() === (catHit.slug||'').toLowerCase() : false;
+  return byTags || byTitle || byCat;
+}
+function matchQuery(p, s){
+  if(!s) return true;
+  const h = s.toLowerCase();
+  return String(p.title||'').toLowerCase().includes(h) || String(p.desc||'').toLowerCase().includes(h);
+}
+
 async function loadAndRender(){
   try{
-    const res = await fetch('./data/products.json',{cache:'no-store'});
-    const all = await res.json();
+    const res = await fetch(DATA_URL,{cache:'no-store'});
+    const raw = await res.json();
+    const { categories, products } = normalize(raw);
 
-    // normalize keys: expect { id, store, title, price, img, desc, tags[] }
-    let list = Array.isArray(all) ? all : [];
-
-    // filters
-    if(store) list = list.filter(p => (p.store||'').toLowerCase() === store);
-    if(rawTag){
-      const t = rawTag.toLowerCase();
-      list = list.filter(p =>
-        (p.tags && p.tags.some(x => String(x).toLowerCase() === t)) ||
-        String(p.title||'').toLowerCase().includes(t)
-      );
-    }
-    if(q){
-      const s = q.toLowerCase();
-      list = list.filter(p =>
-        String(p.title||'').toLowerCase().includes(s) ||
-        String(p.desc||'').toLowerCase().includes(s)
-      );
-    }
+    let list = products.slice();
+    if(store)  list = list.filter(p => matchStore(p, store));
+    if(rawTag) list = list.filter(p => matchTag(p, rawTag, categories));
+    if(q)      list = list.filter(p => matchQuery(p, q));
 
     render(list);
   }catch(err){
