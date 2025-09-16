@@ -1,0 +1,16 @@
+{
+  "stores": [
+    { "slug": "html-templates", "name": "HTML Templates", "color": "#3b82f6" },
+    { "slug": "email-forge", "name": "Email Forge", "color": "#ef4444" },
+    { "slug": "icon-smith", "name": "Icon Smith", "color": "#0ea5e9" },
+    { "slug": "ai-tools-hub", "name": "AI Tools Hub", "color": "#a855f7" },
+    { "slug": "dev-studio-one", "name": "Dev Studio One", "color": "#10b981" },
+    { "slug": "game-makers", "name": "Game Makers", "color": "#f59e0b" },
+    { "slug": "reactorium", "name": "Reactorium", "color": "#06b6d4" },
+    { "slug": "tiny-js-lab", "name": "Tiny JS Lab", "color": "#84cc16" },
+    { "slug": "unity-hub", "name": "Unity Hub", "color": "#f43f5e" },
+    { "slug": "wp-plugins", "name": "WP Plugins", "color": "#8b5cf6" },
+
+    { "slug": "hardware", "name": "Hardware", "color": "#0ea5e9" }
+  ]
+}
