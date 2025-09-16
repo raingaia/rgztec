@@ -38,7 +38,7 @@
       "desc": "Hero, feature grid, pricing and blog sections; minimal landing.",
       "price": 19,
       "rating": 5,
-      "tags": ["landing","starter","responsive"],
+      "tags": ["landing","starter","responsive","deals"],
       "thumb": "assets/thumbs/html-landing-starter.png",
       "demo": "demos/html-templates/landing-starter.html",
       "files": "dist/html-landing-starter.zip"
@@ -99,7 +99,7 @@
       "desc": "Product, blog and pricing cards with grid examples.",
       "price": 11,
       "rating": 4,
-      "tags": ["cards","grid"],
+      "tags": ["cards","grid","deals"],
       "thumb": "assets/thumbs/css-cards-collection.png",
       "demo": "demos/css-ui-kits/cards-collection.html",
       "files": "dist/css-cards-collection.zip"
@@ -253,7 +253,6 @@
       "files": "dist/icons-devpack-80.zip"
     },
 
-    /* ===== HARDWARE (NEW) ===== */
     {
       "id": "hardware-keyboard-tkl",
       "cat": "hardware",
