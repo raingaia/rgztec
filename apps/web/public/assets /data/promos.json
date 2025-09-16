@@ -1,0 +1,4 @@
+[
+  { "title": "Hot deals",       "href": "listings.html?tag=deals" },
+  { "title": "Hardware picks",  "href": "listings.html?store=hardware" }
+]
