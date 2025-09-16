@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
+<!-- Proje GitHub Pages altında alt klasörden servis edildiği için base şart -->
+<base href="/rgztec/apps/web/public/">
+
 <style>
 :root{
   --wrap:1100px; --gutter-min:12px; --gutter-max:28px;
@@ -87,9 +90,7 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 
 <main class="page-section page-section--fluid section">
   <h2 id="sectionTitle">Products</h2>
-  <div id="grid" class="grid">
-    <!-- JS dolduracak; hata olursa burada mesaj göstereceğiz -->
-  </div>
+  <div id="grid" class="grid"></div>
 </main>
 
 <footer class="footer">
@@ -224,7 +225,7 @@ function render(list, err){
 
 (async function main(){
   try{
-    if (!STORE_INFO[slug]){ return; } // zaten başlıkta "not found" gösterdik
+    if (!STORE_INFO[slug]){ return; } // başlık "not found" gösterildi
     const raw = await tryFetchJson(DATA_URLS);
     const all = normalize(raw);
     const list = all.filter(p => (p.cat||'').toLowerCase() === slug);
