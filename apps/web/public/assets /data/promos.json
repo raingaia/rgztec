@@ -1,4 +1,7 @@
 [
-  { "title": "Hot deals",       "href": "listings.html?tag=deals" },
-  { "title": "Hardware picks",  "href": "listings.html?store=hardware" }
+  { "title": "Hot deals", "href": "listings.html?tag=deals", "emoji": "🔥" },
+  { "title": "Hardware picks", "href": "listings.html?store=hardware", "emoji": "🧰" },
+  { "title": "React Components", "href": "listings.html?tag=react", "emoji": "⚛️" },
+  { "title": "SVG Icons", "href": "listings.html?tag=svg-icons", "emoji": "✨" }
 ]
+
