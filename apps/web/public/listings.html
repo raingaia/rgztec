@@ -86,7 +86,7 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 .footer-outer{margin-top:40px;background:#232347;color:#fff;padding:24px 0;font-size:14px;border-top:1px solid #3c3c62}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}
 .footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
-.footer-bottom a:hover{text-decoration:underline}
+.footer-bottom a:hover{background:transparent;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -130,18 +130,6 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
   <h2 class="section-h" id="pageTitle">All Products</h2>
   <div class="grid" id="gallery">
     <!-- skeletons -->
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
@@ -209,8 +197,6 @@ const STORE_COLORS = {
   "tiny-js-lab":["#d9f99d","#84cc16"],
   "unity-hub":["#fecdd3","#f43f5e"],
   "wp-plugins":["#ddd6fe","#8b5cf6"],
-
-  /* NEW: Hardware */
   "hardware":["#bae6fd","#0ea5e9"]
 };
 </script>
@@ -242,14 +228,12 @@ function fillDrawerForStore(slug){
 
 /* page title + drawer content */
 if (store && STORE_INFO[store]) {
-  // show store pill
   const pill = document.getElementById('storePill');
   const dot = pill.querySelector('.dot');
   document.getElementById('storeName').textContent = STORE_INFO[store].name;
   dot.style.background = (STORE_COLORS[store]?.[1] || '#475569');
   pill.hidden = false;
 
-  // title
   if (rawTag) {
     titleEl.innerHTML = `<span class="tag-name">${STORE_INFO[store].name}</span> — <span class="tag-name">${fmt(rawTag)}</span>`;
     document.title = `RGZTEC • ${STORE_INFO[store].name} / ${fmt(rawTag)}`;
@@ -263,7 +247,6 @@ if (store && STORE_INFO[store]) {
 
   fillDrawerForStore(store);
 } else {
-  // global
   if (rawTag) {
     titleEl.innerHTML = `Results for <span class="tag-name">${fmt(rawTag)}</span>`;
     document.title = `RGZTEC • ${fmt(rawTag)}`;
@@ -275,7 +258,6 @@ if (store && STORE_INFO[store]) {
     document.title = 'RGZTEC • Listings';
   }
 
-  // default drawer (global quick categories)
   document.getElementById('drawerNav').innerHTML = `
     <a href="listings.html?tag=html-templates">HTML Templates</a>
     <a href="listings.html?tag=react">React</a>
@@ -302,9 +284,16 @@ openBtn?.addEventListener('click',e=>{ e.stopPropagation(); drawer.classList.con
 back?.addEventListener('click',closeDrawer);
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
 
-/* ---- PRODUCTS RENDER (supports old & new schema) ---- */
+/* ---- PRODUCTS RENDER (multi-path fetch + normalize) ---- */
 const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
-const DATA_URL = 'assets/data/products.json';
+
+/* Birden fazla muhtemel yolu sırayla dene */
+const DATA_URLS = [
+  'assets/data/products.json',
+  '/rgztec/apps/web/public/assets/data/products.json',
+  '/rgztec/assets/data/products.json',
+  '/assets/data/products.json'
+];
 
 function normalize(raw){
   // Case A: old flat array (gallery)
@@ -360,8 +349,10 @@ function card(p){
       </div>
     </div>`;
 }
-function render(list){
+
+function render(list, err){
   const g = document.getElementById('gallery');
+  if (err) { g.innerHTML = `<div class="sub">Load error: ${err}</div>`; return; }
   if(!list || list.length===0){
     g.innerHTML = `<div class="sub">No products found.</div>`;
     return;
@@ -369,13 +360,32 @@ function render(list){
   g.innerHTML = list.map(card).join('');
 }
 
+async function tryFetchJson(urls){
+  let lastErr;
+  for (const u of urls){
+    try{
+      const res = await fetch(u, { cache:'no-store' });
+      if(!res.ok) throw new Error(`HTTP ${res.status} @ ${u}`);
+      const data = await res.json();
+      console.log('[products] loaded from', u);
+      return data;
+    }catch(e){
+      console.warn('[products] failed', u, e);
+      lastErr = e;
+    }
+  }
+  throw lastErr || new Error('All sources failed');
+}
+
 function matchStore(p, s){ return !s || (p.cat && p.cat.toLowerCase()===s); }
 function matchTag(p, t, cats){
   if(!t) return true;
   const tLower = t.toLowerCase();
-  const byTags = (p.tags||[]).some(x => String(x).toLowerCase()===tLower);
+  const byTags  = (p.tags||[]).some(x => String(x).toLowerCase()===tLower);
   const byTitle = String(p.title||'').toLowerCase().includes(tLower);
-  const catHit = (cats||[]).find(c => (c.slug||'').toLowerCase()===tLower || String(c.name||'').toLowerCase()===tLower);
+  const catHit  = (cats||[]).find(c =>
+    (c.slug||'').toLowerCase()===tLower || String(c.name||'').toLowerCase()===tLower
+  );
   const byCat = catHit ? (p.cat||'').toLowerCase() === (catHit.slug||'').toLowerCase() : false;
   return byTags || byTitle || byCat;
 }
@@ -387,8 +397,7 @@ function matchQuery(p, s){
 
 async function loadAndRender(){
   try{
-    const res = await fetch(DATA_URL,{cache:'no-store'});
-    const raw = await res.json();
+    const raw = await tryFetchJson(DATA_URLS);
     const { categories, products } = normalize(raw);
 
     let list = products.slice();
@@ -399,7 +408,7 @@ async function loadAndRender(){
     render(list);
   }catch(err){
     console.error(err);
-    render([]);
+    render(null, String(err.message||err));
   }
 }
 loadAndRender();
