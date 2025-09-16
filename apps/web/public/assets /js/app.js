@@ -64,4 +64,34 @@
   if (document.querySelector('header.topbar')) {
     window.__HEADER_READY__ = true;
   }
+
+  // 5) YOL DÜZELTME (GitHub Pages proje alt yolu için)
+  // /assets/... şeklindeki mutlak yolları, relative assets/... olarak normalize et.
+  // Böylece /rgztec/ gibi alt yolda 404 alınmaz.
+  once(() => {
+    const ABS_ASSET = /^\/assets\//;
+
+    // Genel yardımcı: herhangi bir asset yolunu tam URL’ye çevirir
+    window.assetUrl = function (p) {
+      const baseHref = document.querySelector('base')?.getAttribute('href') || location.href;
+      const clean = (typeof p === 'string' ? p : String(p)).replace(ABS_ASSET, 'assets/');
+      return new URL(clean, baseHref).toString();
+    };
+
+    // fetch override: input '/assets/...' ise 'assets/...' yap
+    const _fetch = window.fetch;
+    window.fetch = function (input, init) {
+      try {
+        if (typeof input === 'string' && ABS_ASSET.test(input)) {
+          input = input.replace(ABS_ASSET, 'assets/');
+        } else if (input instanceof Request && ABS_ASSET.test(input.url)) {
+          input = new Request(input.url.replace(ABS_ASSET, 'assets/'), input);
+        }
+      } catch (e) {
+        console.warn('[app.js] fetch normalize warn:', e);
+      }
+      return _fetch(input, init);
+    };
+  });
 })();
+
