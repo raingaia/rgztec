@@ -68,6 +68,27 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:999px;font-weight:700;font-size:12px}
 
+/* hero promos (yeni) */
+.promos{display:grid;grid-template-columns:1fr;gap:14px}
+.promo-box{
+  display:block; position:relative; border:1px solid var(--line); background:#fff; border-radius:16px;
+  padding:12px; min-height:140px; overflow:hidden; text-decoration:none; color:inherit;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.promo-box:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.08); border-color:var(--line-strong) }
+.promo-badge{
+  position:absolute; top:10px; left:10px; z-index:2;
+  display:inline-flex; align-items:center; gap:8px;
+  font-weight:800; font-size:13px; color:#fff; background:var(--brand);
+  padding:6px 10px; border-radius:999px;
+}
+.promo-media{
+  position:absolute; inset:0; background:linear-gradient(145deg,#eef2f7,#f5f7fb);
+  border-radius:16px; z-index:0;
+}
+.promo-line{ position:absolute; left:12px; right:12px; height:12px; background:#f1f5f9; bottom:18px; border-radius:6px }
+.promo-line.short{ width:60%; right:auto; bottom:42px }
+
 /* featured stores */
 .stores{
   display:grid;
@@ -168,14 +189,13 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
         <a class="chip" href="apps/web/public/listings.html?tag=html-templates">HTML Templates</a>
         <a class="chip" href="apps/web/public/listings.html?tag=react">React</a>
         <a class="chip" href="apps/web/public/listings.html?tag=ai">AI</a>
-        <!-- Yeni: Hardware (Donanım) -->
         <a class="chip" href="apps/web/public/listings.html?tag=hardware">Hardware</a>
       </nav>
     </div>
   </div>
 </header>
 
-<!-- HERO (kurumsal güven + CTA) -->
+<!-- HERO -->
 <section class="hero-outer">
   <div class="page-section page-section--fluid hero">
     <div>
@@ -188,12 +208,22 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
         <div class="badge">🌍 Global</div>
       </div>
     </div>
-    <div>
-      <!-- boş alanı skeleton grid ile dengede tutuyoruz -->
-      <div class="grid" aria-hidden="true" style="grid-template-columns:1fr 1fr">
-        <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-        <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
-      </div>
+
+    <!-- Sağ tarafta tıklanabilir promos alanı -->
+    <div id="heroPromos" class="promos" aria-label="Promotions">
+      <!-- JS dolduracak; JS fail olursa boş kalmasın diye minimal fallback -->
+      <a class="promo-box" href="apps/web/public/listings.html?tag=deals" aria-label="Hot deals">
+        <span class="promo-badge">🔥 Hot deals</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+      <a class="promo-box" href="apps/web/public/listings.html?store=hardware" aria-label="Hardware picks">
+        <span class="promo-badge">🧰 Hardware picks</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
     </div>
   </div>
 </section>
@@ -206,6 +236,30 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 <main class="page-section page-section--fluid section-container">
   <h2 class="section-h">Marketplace gallery</h2>
   <div class="grid" id="gallery">
+    <!-- skeletons -->
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
@@ -221,6 +275,49 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div> 
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
+    <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
     <div class="card-skeleton"><div class="placeholder ph-image"></div><div class="placeholder ph-title"></div><div class="placeholder ph-text"></div></div>
@@ -329,7 +426,6 @@ const COLOR = {
   'tiny-js-lab': ['#d9f99d', '#84cc16'],
   'unity-hub': ['#fecdd3', '#f43f5e'],
   'wp-plugins': ['#ddd6fe', '#8b5cf6'],
-  /* Yeni: Hardware */
   'hardware': ['#c7f0d8', '#10b981']
 };
 const STORES_DATA = [
@@ -343,7 +439,6 @@ const STORES_DATA = [
   { "slug": "tiny-js-lab", "name": "Tiny JS Lab" },
   { "slug": "unity-hub", "name": "Unity Hub" },
   { "slug": "wp-plugins", "name": "WP Plugins" },
-  /* Yeni mağaza */
   { "slug": "hardware", "name": "Hardware" }
 ];
 function tile(s){
@@ -382,10 +477,45 @@ function closeDrawer(){
 }
 openBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (drawer.classList.contains('open')) { closeDrawer(); } else { openDrawer(); }
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
 });
 back?.addEventListener('click',closeDrawer);
 window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+
+/* PROMOS: reads apps/web/public/assets/data/promos.json, safe fallback */
+(async function mountPromos(){
+  const box = document.getElementById('heroPromos');
+  if (!box) return;
+
+  const fallback = [
+    { title:"Hot deals",      href:"apps/web/public/listings.html?tag=deals" },
+    { title:"Hardware picks", href:"apps/web/public/listings.html?store=hardware" }
+  ];
+
+  try{
+    const res = await fetch('apps/web/public/assets/data/promos.json',{cache:'no-store'});
+    const items = res.ok ? await res.json() : fallback;
+
+    box.innerHTML = (Array.isArray(items) ? items : fallback).slice(0,2).map(p => `
+      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
+        <span class="promo-badge">${p.title}</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    `).join('');
+  }catch(e){
+    console.warn('promos fallback', e);
+    box.innerHTML = fallback.map(p => `
+      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
+        <span class="promo-badge">${p.title}</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    `).join('');
+  }
+})();
 </script>
 </body>
 </html>
