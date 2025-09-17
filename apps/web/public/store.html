@@ -55,7 +55,7 @@
   .h1{font-weight:900; font-size:22px; margin:0 0 4px}
   .tag{margin:0; color:var(--muted)}
 
-  /* Featured stores */
+  /* Featured stores (default grid) */
   .stores{max-width:var(--wrap); margin:18px auto 0; padding:0 18px}
   .stores h2{font-weight:800; font-size:20px; margin:0 0 12px}
   .tiles{display:grid; grid-template-columns:repeat(auto-fit, minmax(var(--tile), 1fr)); gap:clamp(14px,2.2vw,20px); list-style:none; padding:0; margin:0}
@@ -79,9 +79,23 @@
   .btn{display:inline-block; width:100%; text-align:center; padding:8px 12px; border-radius:10px; border:1px solid var(--line-strong); text-decoration:none}
   .btn:hover{background:#f8fafc}
 
-  /* SADECE hardware vitrini için küçük denge – diğer store’lar etkilenmez */
-  body[data-store="hardware"] .tiles{ grid-template-columns:repeat(auto-fit, minmax(100px,1fr)); }
-  body[data-store="hardware"] .badge{ width:96px; height:96px; border-radius:22px }
+  /* --------- sadece hardware vitrini (yatay şerit) --------- */
+  body[data-store="hardware"] .stores .tiles{
+    display:flex !important;
+    gap:clamp(12px,2vw,16px);
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:8px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+  }
+  body[data-store="hardware"] .stores .tile{
+    flex:0 0 auto;
+    min-width:110px;
+    scroll-snap-align:start;
+  }
+  body[data-store="hardware"] .stores .badge{ width:96px; height:96px; border-radius:22px; }
+  /* --------------------------------------------------------- */
 
   /* Responsive */
   @media (max-width:1180px){ :root{ --rail-w: 900px } }
@@ -254,8 +268,8 @@
         document.getElementById('heroTag').textContent = '';
       }
 
-      // >>> hardware’da vitrin sayısını kısıtla (12), diğerlerinde hepsi
-      const featured = (slug === 'hardware') ? stores.slice(0, 12) : stores;
+      /* hardware’da vitrin sayısını kısıtla; diğerlerinde tümü */
+      const featured = (slug === 'hardware') ? stores.slice(0, 20) : stores;
       document.getElementById('storeRow').innerHTML = featured.map(tile).join('');
 
       /* store-content.json -> üst kategori barı */
@@ -280,6 +294,7 @@
 </script>
 </body>
 </html>
+
 
 
 
