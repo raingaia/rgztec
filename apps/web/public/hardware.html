@@ -45,27 +45,10 @@
   .store-bar a:hover{ color:var(--hover) }
 
   /* Hero */
-  .hero{border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff)}
+  .hero{border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff); margin-top: 18px;}
   .hero-inner{max-width:var(--wrap); margin:0 auto; padding:16px 18px}
   .h1{font-weight:900; font-size:22px; margin:0 0 4px}
   .tag{margin:0; color:var(--muted)}
-
-  /* Featured stores – yatay şerit */
-  .stores{max-width:var(--wrap); margin:18px auto 0; padding:0 18px; position:relative}
-  .stores h2{font-weight:800; font-size:20px; margin:0 0 12px}
-  .tiles{display:flex; gap:clamp(12px,2vw,16px); overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch}
-  .tile{display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; color:inherit; flex:0 0 auto; min-width:110px; scroll-snap-align:start}
-  .badge{width:96px; height:96px; border-radius:22px; display:grid; place-items:center; box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05)}
-  .letter{font-weight:900; font-size:28px; color:#fff; text-shadow:0 2px 3px rgba(0,0,0,.2)}
-  .sname{font-size:12.5px; color:var(--muted); max-width:calc(var(--tile) + 8px); text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500}
-
-  /* ok butonları */
-  .stores-nav{ position:absolute; top:50%; right:26px; transform:translateY(-50%); display:flex; gap:8px }
-  .btn-arrow{
-    width:36px; height:36px; border-radius:999px; border:1px solid var(--line-strong); background:#fff;
-    display:grid; place-items:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.06)
-  }
-  .btn-arrow:active{ transform:translateY(1px) }
 
   /* Responsive */
   @media (max-width:900px){
@@ -74,7 +57,6 @@
     .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
     .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
-    .stores-nav{ display:none } /* mobilde okları gizle; swipe yeterli */
   }
 </style>
 </head>
@@ -117,14 +99,6 @@
     <p class="tag">PC parts and peripherals.</p>
   </div>
 </section>
-<section class="stores">
-  <h2>Featured stores</h2>
-  <ul id="storeRow" class="tiles" aria-label="Featured stores"></ul>
-  <div class="stores-nav" aria-hidden="true">
-    <button type="button" class="btn-arrow" id="prevStores" title="Previous">‹</button>
-    <button type="button" class="btn-arrow" id="nextStores" title="Next">›</button>
-  </div>
-</section>
 
 <script>
   const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -136,22 +110,6 @@
     const q = (document.getElementById('q')?.value || '').trim();
     location.href = `listings.html?store=hardware${q ? `&q=${encodeURIComponent(q)}`:''}`;
   });
-
-  function tile(s){
-    const name = s.name || s.slug;
-    const letter = (name||'?')[0].toUpperCase();
-    const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
-    const href = (s.slug||'').toLowerCase() === 'hardware' ? 'hardware.html'
-               : `store.html?slug=${encodeURIComponent(s.slug)}`;
-    return `<li>
-      <a class="tile" href="${href}" title="${esc(name)}">
-        <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
-          <div class="letter">${letter}</div>
-        </div>
-        <div class="sname">${esc(name)}</div>
-      </a>
-    </li>`;
-  }
 
   async function getJSON(url){
     try{
@@ -174,28 +132,8 @@
     bar.innerHTML = cats.map(c => `<a href="listings.html?store=hardware&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
     bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
 
-    // featured stores
-    const storesDoc = await getJSON('data/stores.json');
-    const stores = Array.isArray(storesDoc?.stores) ? storesDoc.stores : [
-      {slug:'hardware', name:'Hardware', colors:['#c7f0d8','#10b981']},
-      {slug:'html-templates', name:'HTML Templates'},
-      {slug:'reactorium', name:'Reactorium'},
-      {slug:'ai-tools-hub', name:'AI Tools Hub'},
-      {slug:'icon-smith', name:'Icon Smith'},
-      {slug:'game-makers', name:'Game Makers'},
-      {slug:'wp-plugins', name:'WP Plugins'}
-    ];
-    const featured = stores.slice(0,20);
-    const row = document.getElementById('storeRow');
-    row.innerHTML = featured.map(tile).join('');
-
-    // ok butonlarıyla kaydırma
-    const prevBtn = document.getElementById('prevStores');
-    const nextBtn = document.getElementById('nextStores');
-    const STEP = 280;
-    function nudge(dir){ row?.scrollBy({ left: dir * STEP, behavior: 'smooth' }); }
-    prevBtn?.addEventListener('click', () => nudge(-1));
-    nextBtn?.addEventListener('click', () => nudge(1));
+    // "featured stores" ve "ok butonları" ile ilgili kod blokları,
+    // ilgili HTML bölümü kaldırıldığı için buradan silinmiştir.
   })();
 </script>
 </body>
