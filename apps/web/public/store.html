@@ -20,22 +20,19 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* ===== HEADER ===== */
+  /* ===== HEADER (aynen bırakıldı) ===== */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
   .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
-
   .left{ display:flex; align-items:center; gap:10px; justify-self:start }
   .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
   .studio{white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff; background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center; box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12); transform:translateY(2px)}
-
   .rail{display:flex; align-items:center; justify-content:center}
   .search{width:var(--rail-w); max-width:100%; display:flex; align-items:center; gap:10px; height:var(--search-h); padding:6px 8px 6px 16px; border:2px solid #111827; border-radius:999px; background:#fff}
   .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
   .search button{ display:grid; place-items:center; width:34px; height:34px; border-radius:999px; border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s }
   .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
   .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
-
   .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
   .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
   .open-store{ background:var(--rgztec); color:#fff !important; font-weight:700; padding:8px 18px; border-radius:999px; height:40px; display:inline-flex; align-items:center; white-space:nowrap; box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s }
@@ -77,7 +74,6 @@
   .price{font-weight:800; text-align:center}
   .btn{display:inline-block; width:100%; text-align:center; padding:8px 12px; border-radius:10px; border:1px solid var(--line-strong); text-decoration:none}
   .btn:hover{background:#f8fafc}
-  .note{color:var(--muted); font-size:14px}
 
   /* ===== Responsive ===== */
   @media (max-width:1180px){ :root{ --rail-w: 900px } }
@@ -150,39 +146,43 @@
   const ABS_BASE = '/rgztec/apps/web/public/';
   const abs = (p='') => /^https?:|^\/rgztec\//.test(p) ? p : (ABS_BASE + p.replace(/^\.?\//,''));
   const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
-  const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
+  const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim().toLowerCase();
 
-  /* ---- header + search ---- */
+  /* header search -> listings (store context) */
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
-    const url = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
-    location.href = url;
+    location.href = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
   });
 
-  /* ---- featured stores (vitrin) ---- */
+  /* featured store tile */
   function tile(s){
     const name = s.name || s.slug;
     const letter = (name||'?')[0].toUpperCase();
-    const [light,dark] = (s.colors||['#a5d6ff','#3b82f6']);
-    return `<li><a class="tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${escapeHtml(name)}">
-      <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})"><div class="letter">${letter}</div></div>
-      <div class="sname">${escapeHtml(name)}</div>
-    </a></li>`;
+    const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
+    return `<li>
+      <a class="tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${esc(name)}">
+        <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
+          <div class="letter">${letter}</div>
+        </div>
+        <div class="sname">${esc(name)}</div>
+      </a>
+    </li>`;
   }
 
-  /* ---- product card ---- */
+  /* product card */
   function card(p){
     const img = abs(p.thumb || 'assets/img/placeholder.png');
     return `
     <div class="card">
-      <img loading="lazy" src="${img}" alt="${escapeHtml(p.title)}" onerror="this.onerror=null;this.src='${abs('assets/img/placeholder.png')}'">
+      <img loading="lazy" src="${img}" alt="${esc(p.title)}"
+           onerror="this.onerror=null;this.src='${abs('assets/img/placeholder.png')}'">
       <div class="pad">
-        <div class="title">${escapeHtml(p.title)}</div>
-        <p class="sub">${escapeHtml(p.desc||'')}</p>
+        <div class="title">${esc(p.title)}</div>
+        <p class="sub">${esc(p.desc||'')}</p>
         <div class="row">
           <span class="price">${usd.format(Number(p.price||0))}</span>
           <a class="btn" href="product.html?id=${encodeURIComponent(p.id)}">Details</a>
@@ -193,28 +193,46 @@
 
   function renderProducts(list){
     const g = document.getElementById('grid');
-    if(!list || !list.length){ g.innerHTML = `<div class="note">No products found in this store.</div>`; return; }
+    if(!list?.length){ g.innerHTML = `<div class="sub">No products found in this store.</div>`; return; }
     g.innerHTML = list.map(card).join('');
   }
 
-  /* ---- data loaders ---- */
-  async function getJSON(url){ const r = await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error(url+': '+r.status); return r.json(); }
-
+  /* normalizers */
   function normalizeProducts(raw){
     if (Array.isArray(raw)){
-      return raw.map(x=>({ id:x.id, cat:'', title:x.title, desc:x.description||'', price:x.price, thumb:abs(`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`), tags:Array.isArray(x.tags)?x.tags:[] }));
+      return raw.map(x=>({
+        id:x.id, cat:'', title:x.title,
+        desc:x.description||'', price:x.price,
+        thumb:abs(`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`),
+        tags:Array.isArray(x.tags)?x.tags:[]
+      }));
     }
-    const prods = Array.isArray(raw?.products)? raw.products.map(p=>({ id:p.id, cat:(p.cat||'').toLowerCase(), title:p.title, desc:p.desc||'', price:p.price, thumb:abs(p.thumb||'assets/img/placeholder.png'), tags:Array.isArray(p.tags)?p.tags:[] })) : [];
-    const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({ id:`g-${x.id}`, cat:'', title:x.title, desc:x.description||'', price:x.price, thumb:abs(`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`), tags:Array.isArray(x.tags)?x.tags:[] })) : [];
+    const prods = Array.isArray(raw?.products)? raw.products.map(p=>({
+      id:p.id, cat:(p.cat||'').toLowerCase(), title:p.title, desc:p.desc||'',
+      price:p.price, thumb:abs(p.thumb||'assets/img/placeholder.png'),
+      tags:Array.isArray(p.tags)?p.tags:[]
+    })) : [];
+    const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({
+      id:`g-${x.id}`, cat:'', title:x.title, desc:x.description||'',
+      price:x.price, thumb:abs(`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`),
+      tags:Array.isArray(x.tags)?x.tags:[]
+    })) : [];
     return prods.length ? prods : gallery;
+  }
+
+  async function getJSON(url){
+    const r = await fetch(url,{cache:'no-store'});
+    if(!r.ok) throw new Error(`${url}: ${r.status}`);
+    return r.json();
   }
 
   (async function main(){
     try{
-      /* stores.json -> header + featured */
+      /* 1) stores.json -> başlık + vitrin */
       const storesDoc = await getJSON('data/stores.json');
       const stores = Array.isArray(storesDoc?.stores) ? storesDoc.stores : [];
       const meta = stores.find(s => (s.slug||'').toLowerCase() === slug);
+
       const pill = document.getElementById('studioName');
       if (meta){
         pill.textContent = meta.name || meta.slug;
@@ -226,39 +244,25 @@
         document.getElementById('heroTitle').textContent = slug || 'Store';
         document.getElementById('heroTag').textContent = '';
       }
-      document.getElementById('storeRow').innerHTML = stores.map(s=>tile({
-        slug:s.slug,
-        name:s.name,
-        colors:s.colors||s.colorPalette||s.colorsHex||undefined
-      })).join('');
+      document.getElementById('storeRow').innerHTML = stores.map(tile).join('');
 
-      /* store-content.json -> categories bar */
+      /* 2) store-content.json -> slug kategorileri (üst bar) */
       try{
         const content = await getJSON('data/store-content.json');
-        const entry = content[slug] || {};
-        const cats = Array.isArray(entry.categories) ? entry.categories : [];
+        const cats = Array.isArray(content?.[slug]?.categories) ? content[slug].categories : [];
         const bar = document.getElementById('storeBar');
-        bar.innerHTML = cats.map(c => `<a href="listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${escapeHtml(c)}</a>`).join('');
-        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
-      }catch{ /* categories yoksa sessizce geç */ }
+        bar.innerHTML = cats.map(c => `<a href="listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
+      }catch(e){ console.warn('store-content.json yok/boş:', e); }
 
-      /* products.json -> grid */
-      const DATA_URLS = [
-        'assets/data/products.json',
-        '/rgztec/apps/web/public/assets/data/products.json',
-        '/rgztec/assets/data/products.json',
-        '/assets/data/products.json'
-      ];
-      let raw=null; let last;
-      for (const u of DATA_URLS){ try{ raw = await getJSON(u); break; }catch(e){ last=e; } }
-      if (!raw) throw last || new Error('products.json not found');
-
+      /* 3) products.json -> grid (cat === slug) */
+      const raw = await getJSON('data/products.json');   // <— tek doğru yol
       const all = normalizeProducts(raw);
       const list = all.filter(p => (p.cat||'').toLowerCase() === slug);
       renderProducts(list);
     }catch(e){
       console.error(e);
-      document.getElementById('grid').innerHTML = `<div class="note">${escapeHtml(String(e.message||e))}</div>`;
+      document.getElementById('grid').innerHTML = `<div class="sub">${esc(String(e.message||e))}</div>`;
     }
   })();
 </script>
