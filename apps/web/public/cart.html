@@ -8,11 +8,9 @@
   <!-- Tüm göreli yolları apps/web/public/ köküne sabitle -->
   <base href="/rgztec/apps/web/public/">
 
-  <!-- Mevcut stil dosyalarınız -->
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/styles.css">
   <style>
-    /* sayfaya özgü ufak düzenler */
     .cart-container{display:grid;grid-template-columns:1fr 340px;gap:24px}
     .cart-items-list{display:flex;flex-direction:column;gap:12px}
     .cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:12px;background:#fff}
@@ -30,12 +28,12 @@
     .btn.primary{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 16px;border-radius:12px;background:#f97316;color:#fff;font-weight:700;border:0;cursor:pointer}
     .btn.primary.full{width:100%}
     .cart-empty{border:1px dashed var(--line,#e5e7eb);border-radius:14px;padding:24px;text-align:center;color:var(--sub,#64748b)}
+    .muted{color:var(--sub,#64748b);font-size:13px;margin-top:8px}
     @media (max-width:900px){.cart-container{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
-  <!-- HEADER (mevcut yapınızla uyumlu basit sürüm) -->
   <header class="header-outer">
     <div class="page-section page-section--fluid header-row">
       <a class="brand" href="index.html">RGZTEC</a>
@@ -65,21 +63,29 @@
         <div class="summary-row"><span>Taxes</span><span>Calculated at checkout</span></div>
         <div class="summary-row total"><span>Total</span><span id="sum-total">$0.00</span></div>
         <button class="btn primary full" id="btnCheckout">Proceed to Checkout</button>
+        <div class="muted" id="checkoutNote"></div>
       </aside>
     </div>
   </main>
 
-  <!-- mevcut scriptleriniz -->
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/layout.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 
-  <!-- Basit cart mantığı (LocalStorage: rgz-cart) -->
   <script>
-    // Beklenen format: [{id, title, price, qty, image}]
+    /* ====== AYARLAR ====== */
+    // Sunucu endpoint’in yoksa boş bırak (otomatik Payment Link moduna düşer)
+    const STRIPE_ENDPOINT = ""; // örn: "https://YOUR-VERCEL-APP.vercel.app/api/create-checkout-session"
+    const STRIPE_PK = "";       // örn: "pk_live_xxx" (endpoint modunda gerekir)
+
+    const ABS_BASE = '/rgztec/apps/web/public/';
+    const abs = p => /^https?:|^\/rgztec\//.test(p) ? p : (ABS_BASE + p.replace(/^\.?\//,''));
     const CKEY = 'rgz-cart';
     const $ = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
     const fmt = (n)=>'$' + (Number(n||0).toFixed(2));
+
+    // (id -> price_...) map ve (id -> payment_link) fallback dosyaları
+    const MAP_URL   = abs('assets/data/stripe-map.json');
+    const LINKS_URL = abs('assets/data/stripe-links.json');
 
     function loadCart(){
       try{ return JSON.parse(localStorage.getItem(CKEY)||'[]'); }
@@ -92,7 +98,6 @@
       const empty = $('#emptyBox');
       const items = loadCart();
 
-      // temizle
       $$('.cart-item', list).forEach(el=>el.remove());
 
       if(!items.length){
@@ -103,7 +108,7 @@
           const row = document.createElement('div');
           row.className = 'cart-item';
           row.innerHTML = `
-            <img class="thumb" alt="" src="${it.image || 'images/placeholder.png'}">
+            <img class="thumb" alt="" src="${it.image || abs('assets/img/placeholder.png')}">
             <div class="meta">
               <div class="title">${it.title || 'Untitled'}</div>
               <div class="note">SKU: ${it.id || '-'}</div>
@@ -118,11 +123,10 @@
               <button class="signin-link" data-remove style="margin-top:6px">Remove</button>
             </div>
           `;
-          // events
-          const dec = $('button:first-of-type', row);
-          const inc = $('button:last-of-type', row);
-          const inp = $('input', row);
-          const rmv = $('[data-remove]', row);
+          const dec = row.querySelector('.qty button:first-of-type');
+          const inc = row.querySelector('.qty button:last-of-type');
+          const inp = row.querySelector('.qty input');
+          const rmv = row.querySelector('[data-remove]');
 
           function update(q){
             const items = loadCart();
@@ -142,29 +146,83 @@
         });
       }
 
-      // özet
       const subtotal = loadCart().reduce((s,i)=>s + (i.price||0)*(i.qty||1), 0);
       $('#sum-sub').textContent = fmt(subtotal);
-      $('#sum-total').textContent = fmt(subtotal); // vergi/kupon vb. yok
+      $('#sum-total').textContent = fmt(subtotal);
     }
 
-    // Demo için: ürün yoksa örnek ekle (istersen kaldır)
+    async function fetchJSON(url){
+      const r = await fetch(url, {cache:'no-store'});
+      if(!r.ok) throw new Error(url + ' ' + r.status);
+      return r.json();
+    }
+
+    async function startCheckout(){
+      const cart = loadCart().filter(x => x && x.id);
+      if (!cart.length) { alert('Cart is empty'); return; }
+
+      // Önce map ve link dosyalarını yükle (linkler fallback için)
+      let idToPrice = {};
+      let idToLink  = {};
+      try { idToPrice = await fetchJSON(MAP_URL); } catch {}
+      try { idToLink  = await fetchJSON(LINKS_URL); } catch {}
+
+      // Endpoint modunda line_items hazırla
+      const lineItems = cart.map(i => ({
+        price: idToPrice[i.id],  // price_xxx
+        quantity: Math.max(1, Number(i.qty)||1)
+      })).filter(x => !!x.price);
+
+      const endpointAvailable = STRIPE_ENDPOINT && STRIPE_PK;
+
+      if (endpointAvailable && lineItems.length === cart.length){
+        // Sunucu üzerinden Stripe Checkout Session oluştur
+        const resp = await fetch(STRIPE_ENDPOINT, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ items: lineItems })
+        }).then(r=>r.json()).catch(e => ({ error: String(e) }));
+
+        if (!resp || !resp.id){
+          alert('Could not start checkout (server). Falling back to Payment Links if available.');
+        } else {
+          const stripe = Stripe(STRIPE_PK);
+          const { error } = await stripe.redirectToCheckout({ sessionId: resp.id });
+          if (error) alert(error.message);
+          return;
+        }
+      }
+
+      // Fallback: Payment Link — çoklu ürün mümkün değil → ilk ürüne yönlendir
+      const first = cart[0];
+      const link = idToLink[first.id];
+      if (link){
+        location.href = link;
+      } else {
+        alert('No Stripe endpoint or payment link configured.');
+      }
+    }
+
+    // Demo seeding (istersen kaldır)
     (function seedDemo(){
       const cur = loadCart();
       if(!cur.length){
         saveCart([
-          { id:'TPL-001', title:'Landing Page Template', price:29, qty:1, image:'images/demo-thumb-1.jpg' },
-          { id:'ICON-PAK', title:'200 Icon Pack', price:12, qty:2, image:'images/demo-thumb-2.jpg' }
+          { id:'html-landing-starter', title:'Landing Starter (HTML)', price:19, qty:1, image:abs('assets/thumbs/html-landing-starter.png') },
+          { id:'hardware-ssd-nvme-1tb', title:'NVMe SSD 1TB (Gen4)', price:89, qty:1, image:abs('assets/thumbs/hw-ssd-nvme-1tb.png') }
         ]);
       }
     })();
 
-    document.getElementById('btnCheckout').addEventListener('click', ()=>{
-      alert('Checkout flow coming soon 🚀');
-    });
+    document.getElementById('btnCheckout').addEventListener('click', startCheckout);
+
+    // küçük durum metni
+    const note = document.getElementById('checkoutNote');
+    note.textContent = (STRIPE_ENDPOINT && STRIPE_PK)
+      ? 'Secure checkout is powered by Stripe.'
+      : 'No backend configured. Using Payment Link fallback if available.';
 
     render();
   </script>
 </body>
 </html>
-
