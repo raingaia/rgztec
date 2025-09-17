@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
-<!-- GitHub Pages alt klasör için base -->
+
+<!-- IMPORTANT: GitHub Pages subpath -->
 <base href="/rgztec/apps/web/public/">
 
-<!-- mevcut stylesheet'lerin -->
+<!-- your existing styles -->
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/styles.css">
 <link rel="stylesheet" href="assets/css/card.css">
@@ -25,7 +26,7 @@
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
 
-  /* ===== HEADER (aynen bırakıldı) ===== */
+  /* ===== HEADER (unchanged) ===== */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
   .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
@@ -50,20 +51,6 @@
   .store-bar a{ width:100%; text-align:center; font-size:15px; font-weight:600; letter-spacing:.1px; line-height:44px; color:var(--text); text-decoration:none; transition:color .15s }
   .store-bar a:hover{ color:var(--hover) }
 
-  /* --- SADECE hardware için yatay kaydırmalı chip bar --- */
-  .store-bar.is-scroll{
-    display:flex; gap:10px; align-items:center; justify-content:flex-start;
-    overflow:auto; height:auto; padding:8px 12px;
-    scrollbar-width:thin; scroll-snap-type:x mandatory;
-  }
-  .store-bar.is-scroll::-webkit-scrollbar{ height:8px }
-  .store-bar.is-scroll a{
-    flex:0 0 auto; scroll-snap-align:start;
-    line-height:36px; padding:0 14px;
-    border:1px solid var(--line-strong); border-radius:999px;
-    background:#fff; white-space:nowrap; text-align:center;
-  }
-
   /* ===== HERO ===== */
   .hero{border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff)}
   .hero-inner{max-width:var(--wrap); margin:0 auto; padding:16px 18px}
@@ -79,6 +66,11 @@
   .badge{width:var(--tile); height:var(--tile); border-radius:28px; display:grid; place-items:center; box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05)}
   .letter{font-weight:900; font-size:28px; color:#fff; text-shadow:0 2px 3px rgba(0,0,0,.2)}
   .sname{font-size:12.5px; color:var(--muted); max-width:calc(var(--tile) + 8px); text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500}
+
+  /* Hardware only: horizontal scroll for large number of tiles */
+  .tiles.is-scroll{display:flex; overflow-x:auto; gap:clamp(12px,2vw,16px); padding-bottom:8px; scroll-snap-type:x mandatory}
+  .tiles.is-scroll::-webkit-scrollbar{height:8px}
+  .tiles.is-scroll li{scroll-snap-align:start}
 
   /* ===== PRODUCTS GRID ===== */
   .section{max-width:var(--wrap); margin:24px auto 0; padding:0 18px}
@@ -161,23 +153,23 @@
 </main>
 
 <script>
-  /* ---- helpers ---- */
+  // ---- helpers ----
   const ABS_BASE = '/rgztec/apps/web/public/';
   const abs = (p='') => /^https?:|^\/rgztec\//.test(p) ? p : (ABS_BASE + p.replace(/^\.?\//,''));
   const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
-  const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const esc = (s='') => s.replace(/[&<>\"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[m]));
 
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug') || '').trim().toLowerCase();
 
-  /* header search -> listings (store context) */
+  // header search -> listings (store context)
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
     location.href = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
   });
 
-  /* featured store tile */
+  // featured store tile
   function tile(s){
     const name = s.name || s.slug;
     const letter = (name||'?')[0].toUpperCase();
@@ -192,13 +184,13 @@
     </li>`;
   }
 
-  /* product card */
+  // product card
   function card(p){
-    const img = abs(p.thumb || 'assets/img/placeholder.png');
+    const img = abs(p.thumb || 'assets/thumbs/placeholder.png');
     return `
     <div class="card">
       <img loading="lazy" src="${img}" alt="${esc(p.title)}"
-           onerror="this.onerror=null;this.src='${abs('assets/img/placeholder.png')}'">
+           onerror="this.onerror=null;this.src='${abs('assets/thumbs/placeholder.png')}'">
       <div class="pad">
         <div class="title">${esc(p.title)}</div>
         <p class="sub">${esc(p.desc||'')}</p>
@@ -216,7 +208,7 @@
     g.innerHTML = list.map(card).join('');
   }
 
-  /* normalizers */
+  // normalizers
   function normalizeProducts(raw){
     if (Array.isArray(raw)){
       return raw.map(x=>({
@@ -228,7 +220,7 @@
     }
     const prods = Array.isArray(raw?.products)? raw.products.map(p=>({
       id:p.id, cat:(p.cat||'').toLowerCase(), title:p.title, desc:p.desc||'',
-      price:p.price, thumb:abs(p.thumb||'assets/img/placeholder.png'),
+      price:p.price, thumb:abs(p.thumb || 'assets/thumbs/placeholder.png'),
       tags:Array.isArray(p.tags)?p.tags:[]
     })) : [];
     const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({
@@ -247,7 +239,7 @@
 
   (async function main(){
     try{
-      /* 1) stores.json -> başlık + vitrin */
+      // 1) stores.json -> header + featured
       const storesDoc = await getJSON('data/stores.json');
       const stores = Array.isArray(storesDoc?.stores) ? storesDoc.stores : [];
       const meta = stores.find(s => (s.slug||'').toLowerCase() === slug);
@@ -263,23 +255,22 @@
         document.getElementById('heroTitle').textContent = slug || 'Store';
         document.getElementById('heroTag').textContent = '';
       }
-      document.getElementById('storeRow').innerHTML = stores.map(tile).join('');
 
-      /* 2) store-content.json -> slug kategorileri (üst bar) */
+      const storeRow = document.getElementById('storeRow');
+      storeRow.innerHTML = stores.map(tile).join('');
+      if (slug === 'hardware') storeRow.classList.add('is-scroll');
+
+      // 2) store-content.json -> categories bar
       try{
         const content = await getJSON('data/store-content.json');
         const cats = Array.isArray(content?.[slug]?.categories) ? content[slug].categories : [];
         const bar = document.getElementById('storeBar');
         bar.innerHTML = cats.map(c => `<a href="listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
-        // sadece hardware'da yatay kaydırmalı chip bar kullan
-        if (slug === 'hardware') {
-          bar.classList.add('is-scroll');
-        }
-      }catch(e){ console.warn('store-content.json yok/boş:', e); }
+      }catch(e){ console.warn('store-content.json unavailable:', e); }
 
-      /* 3) products.json -> grid (cat === slug) */
-      const raw = await getJSON('data/products.json');   // tek doğru yol
+      // 3) products.json -> grid for this store
+      const raw = await getJSON('data/products.json');
       const all = normalizeProducts(raw);
       const list = all.filter(p => (p.cat||'').toLowerCase() === slug);
       renderProducts(list);
@@ -291,4 +282,5 @@
 </script>
 </body>
 </html>
+
 
