@@ -60,7 +60,7 @@ input:focus,select:focus{border-color:#111827}
   <div class="wrap">
     <div class="top">
       <a class="brand" href="./">RGZTEC</a>
-      <a class="link" href="login">Sign in</a>
+      <a class="link" href="login/">Sign in</a>
     </div>
 
     <div class="hero">
@@ -125,7 +125,7 @@ input:focus,select:focus{border-color:#111827}
 
             <div class="btns">
               <button class="btn" type="submit">Create account</button>
-              <a class="btn btn-ghost" href="login">Back to Sign in</a>
+              <a class="btn btn-ghost" href="login/">Back to Sign in</a>
             </div>
           </form>
         </div>
@@ -155,6 +155,15 @@ document.getElementById('y').textContent = new Date().getFullYear();
 */
 const ENDPOINT = ""; // e.g. "https://formspree.io/f/xxxxxxx"
 
+// login ile uyumlu kullanıcı deposu
+function getUsers(){
+  try { return JSON.parse(localStorage.getItem('rgztec_users')||'{}'); }
+  catch { return {}; }
+}
+function setUsers(obj){
+  localStorage.setItem('rgztec_users', JSON.stringify(obj));
+}
+
 const f = document.getElementById('signupForm');
 const err = document.getElementById('err');
 const ok  = document.getElementById('ok');
@@ -166,11 +175,12 @@ f.addEventListener('submit', async (e)=>{
   e.preventDefault();
 
   const name = f.full_name.value.trim();
-  const email = f.email.value.trim();
+  const email = f.email.value.trim().toLowerCase();
   const pass = f.password.value;
   const pass2= document.getElementById('pass2').value;
   const role = f.role.value;
   const company = f.company.value.trim();
+  const newsletter = document.getElementById('news').checked;
   const terms = document.getElementById('terms').checked;
 
   if(!name) return showErr('Please enter your full name.');
@@ -179,26 +189,32 @@ f.addEventListener('submit', async (e)=>{
   if(pass!==pass2) return showErr('Passwords do not match.');
   if(!terms) return showErr('You must agree to the Terms & Privacy.');
 
-  const payload = { name, email, role, company, newsletter: document.getElementById('news').checked, createdAt:new Date().toISOString() };
+  // Aynı email kayıtlı mı?
+  const users = getUsers();
+  if (users[email]) {
+    return showErr('This email is already registered. You can sign in.');
+  }
+
+  const payload = { name, email, role, company, newsletter, createdAt:new Date().toISOString() };
 
   try{
+    // Backend varsa ona gönder
     if (ENDPOINT) {
       const res = await fetch(ENDPOINT, {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ ...payload })
       });
       if(!res.ok) throw new Error('Submit failed');
-      showOK();
-      // Optionally send user to login after a short pause
-      setTimeout(()=> location.href='login?registered=1&email='+encodeURIComponent(email), 1200);
-    } else {
-      // DEMO: save locally (no real signup). Use a unique key per email.
-      const key = 'rgztec_signup_' + email.toLowerCase();
-      localStorage.setItem(key, JSON.stringify(payload));
-      showOK();
-      setTimeout(()=> location.href='login?registered=1&email='+encodeURIComponent(email), 900);
     }
+
+    // DEMO/yerel: login’in beklediği şemada kaydet
+    users[email] = { password: pass, ...payload };
+    setUsers(users);
+
+    showOK();
+    // login sayfasına hoş geldin bayrağıyla geç
+    setTimeout(()=> location.href = 'login/?welcome=1&email='+encodeURIComponent(email), 900);
   }catch(e){
     showErr('We could not complete your signup. Please try again in a moment.');
     console.error(e);
@@ -207,3 +223,4 @@ f.addEventListener('submit', async (e)=>{
 </script>
 </body>
 </html>
+
