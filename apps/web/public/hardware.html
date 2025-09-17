@@ -6,10 +6,8 @@
 <title>RGZTEC • Hardware</title>
 <meta name="description" content="PC parts and peripherals."/>
 <base href="/rgztec/apps/web/public/">
-
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/styles.css">
-
 <style>
   :root{
     --wrap:1280px; --rail-w:980px; --search-h:44px;
@@ -20,48 +18,45 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
-
   /* HEADER */
   .topbar{background:#fff}
   .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
-  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
+  .hdr{display:flex; align-items:center; justify-content:space-between; width:100%;} /* Değişiklik burada */
+  .left{ display:flex; align-items:center; gap:10px; }
   .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
   .studio{white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff; background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center; box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12); transform:translateY(2px)}
-  .rail{display:flex; align-items:center; justify-content:center}
+  .rail{display:flex; align-items:center; justify-content:center; flex-grow:1;} /* Esnek genişlik için */
   .search{width:var(--rail-w); max-width:100%; display:flex; align-items:center; gap:10px; height:var(--search-h); padding:6px 8px 6px 16px; border:2px solid #111827; border-radius:999px; background:#fff}
   .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
   .search button{ display:grid; place-items:center; width:34px; height:34px; border-radius:999px; border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s }
   .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
   .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
-  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
+  .icons{ display:flex; gap:14px; align-items:center; }
   .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
-
   /* Kategori barı */
   .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative }
   .cats-wrap::after{ content:""; position:absolute; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none }
   .store-bar{ --cols:10; width:var(--rail-w); max-width:100%; margin:2px auto 0; height:44px; padding:0; border-bottom:none; display:grid; grid-template-columns:repeat(var(--cols),1fr); align-items:center; justify-items:center; background:transparent }
   .store-bar a{ width:100%; text-align:center; font-size:15px; font-weight:600; letter-spacing:.1px; line-height:44px; color:var(--text); text-decoration:none; transition:color .15s }
   .store-bar a:hover{ color:var(--hover) }
-
   /* Hero */
   .hero{border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff); margin-top: 18px;}
   .hero-inner{max-width:var(--wrap); margin:0 auto; padding:16px 18px}
   .h1{font-weight:900; font-size:22px; margin:0 0 4px}
   .tag{margin:0; color:var(--muted)}
-
   /* Responsive */
   @media (max-width:900px){
     :root{ --rail-w: 100% }
-    .hdr{ grid-template-columns:1fr }
-    .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
+    .hdr{ flex-direction:column; gap:10px; } /* Küçük ekranlarda alt alta */
+    .rail{ order:2; width:100%; }
+    .left{ order:1 }
+    .icons{ order:3 }
     .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
     .store-bar a{ line-height:38px }
   }
 </style>
 </head>
 <body>
-
 <header class="topbar">
   <div class="wrap">
     <div class="hdr">
@@ -69,7 +64,6 @@
         <a class="brand" href="./">RGZTEC</a>
         <span class="studio">Hardware</span>
       </div>
-
       <div class="rail">
         <form class="search" id="searchForm">
           <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
@@ -81,36 +75,30 @@
           </button>
         </form>
       </div>
-
       <nav class="icons" aria-label="Quick actions">
         <a href="cart" title="Cart" aria-label="Cart">🛒</a>
       </nav>
     </div>
   </div>
 </header>
-
 <div class="cats-wrap">
   <nav id="storeBar" class="store-bar" aria-label="Hardware Categories"></nav>
 </div>
-
 <section class="hero">
   <div class="hero-inner">
     <h1 class="h1">hardware</h1>
     <p class="tag">PC parts and peripherals.</p>
   </div>
 </section>
-
 <script>
   const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const ABS = (p='') => /^https?:|^\/rgztec\//.test(p) ? p : ('/rgztec/apps/web/public/' + p.replace(/^\.?\//,''));
-
   // arama -> listings'e hardware filtresiyle
   document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
     e.preventDefault();
     const q = (document.getElementById('q')?.value || '').trim();
     location.href = `listings.html?store=hardware${q ? `&q=${encodeURIComponent(q)}`:''}`;
   });
-
   async function getJSON(url){
     try{
       const r = await fetch(url,{cache:'no-store'});
@@ -121,7 +109,6 @@
       return null;
     }
   }
-
   (async function main(){
     // kategori barı
     const content = await getJSON('data/store-content.json');
@@ -131,11 +118,7 @@
     const bar = document.getElementById('storeBar');
     bar.innerHTML = cats.map(c => `<a href="listings.html?store=hardware&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
     bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
-
-    // "featured stores" ve "ok butonları" ile ilgili kod blokları,
-    // ilgili HTML bölümü kaldırıldığı için buradan silinmiştir.
   })();
 </script>
 </body>
-</html>
-
+</html
