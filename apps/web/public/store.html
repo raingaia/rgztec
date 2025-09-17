@@ -89,13 +89,10 @@
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
   }
-  body[data-store="hardware"] .stores .tile{
-    flex:0 0 auto;
-    min-width:110px;
-    scroll-snap-align:start;
-  }
+  body[data-store="hardware"] .stores .tile{ flex:0 0 auto; min-width:110px; scroll-snap-align:start; }
   body[data-store="hardware"] .stores .badge{ width:96px; height:96px; border-radius:22px; }
   /* --------------------------------------------------------- */
+
   /* Responsive */
   @media (max-width:1180px){ :root{ --rail-w: 900px } }
   @media (max-width:1040px){ :root{ --rail-w: 780px } }
@@ -110,6 +107,15 @@
 </style>
 </head>
 <body>
+
+<!-- ➊ ERKEN YÖNLENDİRME: slug=hardware ise hardware.html -->
+<script>
+  (function(){
+    const params = new URLSearchParams(location.search);
+    const slug = (params.get('slug')||'').toLowerCase();
+    if (slug === 'hardware') location.replace('hardware.html');
+  })();
+</script>
 
 <header class="topbar">
   <div class="wrap">
@@ -180,13 +186,15 @@
     location.href = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
   });
 
-  /* Featured store tile */
+  /* Featured store tile — hardware kutucuğu hardware.html’e gider */
   function tile(s){
     const name = s.name || s.slug;
     const letter = (name||'?')[0].toUpperCase();
     const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
+    const href = (s.slug === 'hardware') ? 'hardware.html'
+                : `store.html?slug=${encodeURIComponent(s.slug)}`;
     return `<li>
-      <a class="tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${esc(name)}">
+      <a class="tile" href="${href}" title="${esc(name)}">
         <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
           <div class="letter">${letter}</div>
         </div>
