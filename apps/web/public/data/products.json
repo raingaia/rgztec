@@ -1,25 +1,25 @@
 {
   "gallery": [
-    { "id": 1,  "title": "Landing Starter (HTML)", "description": "Minimal landing with hero, features, pricing and blog sections.", "price": 18, "image": "html1.webp",  "tags": ["landing","html"],         "chips": ["landing","starter"] },
-    { "id": 2,  "title": "Dashboard Lite (HTML)",  "description": "Sidebar, topbar and chart placeholders; vanilla JS.",            "price": 24, "image": "html2.webp",  "tags": ["dashboard","charts"],      "chips": ["dashboard"] },
-    { "id": 3,  "title": "Portfolio Mini",         "description": "Single-page portfolio with project grid and contact form.",      "price": 14, "image": "html3.webp",  "tags": ["portfolio","grid"],        "chips": ["portfolio"] },
-    { "id": 4,  "title": "Blog Lite",              "description": "List + single post layout with clean typography.",               "price": 12, "image": "html4.webp",  "tags": ["blog"],                    "chips": ["landing"] },
-    { "id": 5,  "title": "Agency Starter",         "description": "Services: cards, testimonials, pricing.",                        "price": 16, "image": "html5.webp",  "tags": ["agency","services"],       "chips": ["landing","starter"] },
-    { "id": 6,  "title": "E-commerce Mini",        "description": "Product grid, product detail and cart icons.",                   "price": 22, "image": "html6.webp",  "tags": ["ecommerce","product"],     "chips": ["ecommerce"] },
-    { "id": 7,  "title": "Resume Card",            "description": "Single-page resume with skills, experience and contact.",        "price": 9,  "image": "html7.webp",  "tags": ["resume"],                  "chips": ["portfolio"] },
-    { "id": 8,  "title": "Product List",           "description": "Filterable item list with grid/row views.",                      "price": 11, "image": "html8.webp",  "tags": ["ecommerce","list"],        "chips": ["ecommerce","components"] },
-    { "id": 9,  "title": "Pricing Tables",         "description": "3-4 column pricing with featured plan and call-to-action buttons.", "price": 8, "image": "html9.webp",  "tags": ["pricing","components"],    "chips": ["components"] },
-    { "id": 10, "title": "Contact Lite",           "description": "Contact form, map placeholder and social links.",                "price": 7,  "image": "html10.webp", "tags": ["contact","forms"],         "chips": ["components"] },
-    { "id": 11, "title": "FAQ Mini",               "description": "Accordion FAQ with categories and search input.",                "price": 6,  "image": "html11.webp", "tags": ["faq","accordion"],         "chips": ["components"] },
-    { "id": 12, "title": "Gallery Grid",           "description": "Masonry/grid gallery with lightbox placeholder.",                "price": 13, "image": "html12.webp", "tags": ["gallery","lightbox"],      "chips": ["portfolio"] },
-    { "id": 13, "title": "Hero Collection",        "description": "Multiple hero headers ready to drop in.",                        "price": 10, "image": "html13.webp", "tags": ["hero","headers"],          "chips": ["components","landing"] },
-    { "id": 14, "title": "Newsletter Box",         "description": "Email capture sections and subscription boxes.",                 "price": 5,  "image": "html14.webp", "tags": ["newsletter","forms"],      "chips": ["components"] },
-    { "id": 15, "title": "Auth Pages",             "description": "Login, signup and reset flows.",                                 "price": 7,  "image": "html15.webp", "tags": ["auth","forms"],            "chips": ["starter","components"] },
-    { "id": 16, "title": "Admin Mini",             "description": "Auth + layout + tables skeleton for admin dashboards.",          "price": 12, "image": "html16.webp", "tags": ["admin","tables"],          "chips": ["dashboard","starter"] },
-    { "id": 17, "title": "React Components",       "description": "Cards, modals and tabs (markup only, framework-agnostic).",      "price": 15, "image": "html17.webp", "tags": ["react","components"],      "chips": ["components"] },
-    { "id": 18, "title": "SVG Icons",              "description": "Curated developer icon set (inlineable SVG).",                   "price": 6,  "image": "html18.webp", "tags": ["icons","svg"],             "chips": ["components"] },
-    { "id": 19, "title": "Email Templates",        "description": "Transactional email starter set.",                               "price": 9,  "image": "html19.webp", "tags": ["email","templates"],       "chips": ["components"] },
-    { "id": 20, "title": "JS Widgets",             "description": "Tabs, accordions and tooltips written in vanilla JavaScript.",  "price": 11, "image": "html20.webp", "tags": ["widgets","vanilla-js"],    "chips": ["components","js"] }
+    { "id": 1,  "title": "Landing Starter (HTML)", "description": "Minimal landing with hero, features, pricing and blog sections.", "price": 18, "image": "/assets/img/gallery/html1.webp",  "tags": ["landing","html"],         "chips": ["landing","starter"] },
+    { "id": 2,  "title": "Dashboard Lite (HTML)",  "description": "Sidebar, topbar and chart placeholders; vanilla JS.",            "price": 24, "image": "/assets/img/gallery/html2.webp",  "tags": ["dashboard","charts"],      "chips": ["dashboard"] },
+    { "id": 3,  "title": "Portfolio Mini",         "description": "Single-page portfolio with project grid and contact form.",      "price": 14, "image": "/assets/img/gallery/html3.webp",  "tags": ["portfolio","grid"],        "chips": ["portfolio"] },
+    { "id": 4,  "title": "Blog Lite",              "description": "List + single post layout with clean typography.",               "price": 12, "image": "/assets/img/gallery/html4.webp",  "tags": ["blog"],                    "chips": ["landing"] },
+    { "id": 5,  "title": "Agency Starter",         "description": "Services: cards, testimonials, pricing.",                        "price": 16, "image": "/assets/img/gallery/html5.webp",  "tags": ["agency","services"],       "chips": ["landing","starter"] },
+    { "id": 6,  "title": "E-commerce Mini",        "description": "Product grid, product detail and cart icons.",                   "price": 22, "image": "/assets/img/gallery/html6.webp",  "tags": ["ecommerce","product"],     "chips": ["ecommerce"] },
+    { "id": 7,  "title": "Resume Card",            "description": "Single-page resume with skills, experience and contact.",        "price": 9,  "image": "/assets/img/gallery/html7.webp",  "tags": ["resume"],                  "chips": ["portfolio"] },
+    { "id": 8,  "title": "Product List",           "description": "Filterable item list with grid/row views.",                      "price": 11, "image": "/assets/img/gallery/html8.webp",  "tags": ["ecommerce","list"],        "chips": ["ecommerce","components"] },
+    { "id": 9,  "title": "Pricing Tables",         "description": "3-4 column pricing with featured plan and call-to-action buttons.", "price": 8, "image": "/assets/img/gallery/html9.webp",  "tags": ["pricing","components"],    "chips": ["components"] },
+    { "id": 10, "title": "Contact Lite",           "description": "Contact form, map placeholder and social links.",                "price": 7,  "image": "/assets/img/gallery/html10.webp", "tags": ["contact","forms"],         "chips": ["components"] },
+    { "id": 11, "title": "FAQ Mini",               "description": "Accordion FAQ with categories and search input.",                "price": 6,  "image": "/assets/img/gallery/html11.webp", "tags": ["faq","accordion"],         "chips": ["components"] },
+    { "id": 12, "title": "Gallery Grid",           "description": "Masonry/grid gallery with lightbox placeholder.",                "price": 13, "image": "/assets/img/gallery/html12.webp", "tags": ["gallery","lightbox"],      "chips": ["portfolio"] },
+    { "id": 13, "title": "Hero Collection",        "description": "Multiple hero headers ready to drop in.",                        "price": 10, "image": "/assets/img/gallery/html13.webp", "tags": ["hero","headers"],          "chips": ["components","landing"] },
+    { "id": 14, "title": "Newsletter Box",         "description": "Email capture sections and subscription boxes.",                 "price": 5,  "image": "/assets/img/gallery/html14.webp", "tags": ["newsletter","forms"],      "chips": ["components"] },
+    { "id": 15, "title": "Auth Pages",             "description": "Login, signup and reset flows.",                                 "price": 7,  "image": "/assets/img/gallery/html15.webp", "tags": ["auth","forms"],            "chips": ["starter","components"] },
+    { "id": 16, "title": "Admin Mini",             "description": "Auth + layout + tables skeleton for admin dashboards.",          "price": 12, "image": "/assets/img/gallery/html16.webp", "tags": ["admin","tables"],          "chips": ["dashboard","starter"] },
+    { "id": 17, "title": "React Components",       "description": "Cards, modals and tabs (markup only, framework-agnostic).",      "price": 15, "image": "/assets/img/gallery/html17.webp", "tags": ["react","components"],      "chips": ["components"] },
+    { "id": 18, "title": "SVG Icons",              "description": "Curated developer icon set (inlineable SVG).",                   "price": 6,  "image": "/assets/img/gallery/html18.webp", "tags": ["icons","svg"],             "chips": ["components"] },
+    { "id": 19, "title": "Email Templates",        "description": "Transactional email starter set.",                               "price": 9,  "image": "/assets/img/gallery/html19.webp", "tags": ["email","templates"],       "chips": ["components"] },
+    { "id": 20, "title": "JS Widgets",             "description": "Tabs, accordions and tooltips written in vanilla JavaScript.",  "price": 11, "image": "/assets/img/gallery/html20.webp", "tags": ["widgets","vanilla-js"],    "chips": ["components","js"] }
   ],
   "categories": [
     { "slug": "html-templates",  "name": "HTML Templates" },
@@ -39,9 +39,9 @@
       "price": 19,
       "rating": 5,
       "tags": ["landing","starter","responsive","deals"],
-      "thumb": "assets/thumbs/html-landing-starter.png",
-      "demo": "demos/html-templates/landing-starter.html",
-      "files": "dist/html-landing-starter.zip"
+      "thumb": "/assets/thumbs/html-landing-starter.png",
+      "demo": "/demos/html-templates/landing-starter.html",
+      "files": "/assets/files/html-landing-starter.zip"
     },
     {
       "id": "html-dashboard-lite",
@@ -51,9 +51,9 @@
       "price": 24,
       "rating": 5,
       "tags": ["dashboard","admin"],
-      "thumb": "assets/thumbs/html-dashboard-lite.png",
-      "demo": "demos/html-templates/dashboard-lite.html",
-      "files": "dist/html-dashboard-lite.zip"
+      "thumb": "/assets/thumbs/html-dashboard-lite.png",
+      "demo": "/demos/html-templates/dashboard-lite.html",
+      "files": "/assets/files/html-dashboard-lite.zip"
     },
     {
       "id": "html-portfolio-mini",
@@ -63,9 +63,9 @@
       "price": 12,
       "rating": 4,
       "tags": ["portfolio","onepage"],
-      "thumb": "assets/thumbs/html-portfolio-mini.png",
-      "demo": "demos/html-templates/portfolio-mini.html",
-      "files": "dist/html-portfolio-mini.zip"
+      "thumb": "/assets/thumbs/html-portfolio-mini.png",
+      "demo": "/demos/html-templates/portfolio-mini.html",
+      "files": "/assets/files/html-portfolio-mini.zip"
     },
 
     {
@@ -76,9 +76,9 @@
       "price": 15,
       "rating": 4,
       "tags": ["css","kit"],
-      "thumb": "assets/thumbs/css-neumorph-kit.png",
-      "demo": "demos/css-ui-kits/neumorph-kit.html",
-      "files": "dist/css-neumorph-kit.zip"
+      "thumb": "/assets/thumbs/css-neumorph-kit.png",
+      "demo": "/demos/css-ui-kits/neumorph-kit.html",
+      "files": "/assets/files/css-neumorph-kit.zip"
     },
     {
       "id": "css-forms-pro",
@@ -88,9 +88,9 @@
       "price": 14,
       "rating": 5,
       "tags": ["forms","accessibility"],
-      "thumb": "assets/thumbs/css-forms-pro.png",
-      "demo": "demos/css-ui-kits/forms-pro.html",
-      "files": "dist/css-forms-pro.zip"
+      "thumb": "/assets/thumbs/css-forms-pro.png",
+      "demo": "/demos/css-ui-kits/forms-pro.html",
+      "files": "/assets/files/css-forms-pro.zip"
     },
     {
       "id": "css-cards-collection",
@@ -100,9 +100,9 @@
       "price": 11,
       "rating": 4,
       "tags": ["cards","grid","deals"],
-      "thumb": "assets/thumbs/css-cards-collection.png",
-      "demo": "demos/css-ui-kits/cards-collection.html",
-      "files": "dist/css-cards-collection.zip"
+      "thumb": "/assets/thumbs/css-cards-collection.png",
+      "demo": "/demos/css-ui-kits/cards-collection.html",
+      "files": "/assets/files/css-cards-collection.zip"
     },
 
     {
@@ -113,9 +113,9 @@
       "price": 10,
       "rating": 5,
       "tags": ["ui","vanilla"],
-      "thumb": "assets/thumbs/js-modal-accordion.png",
-      "demo": "demos/js-widgets/modal-accordion.html",
-      "files": "dist/js-modal-accordion.zip"
+      "thumb": "/assets/thumbs/js-modal-accordion.png",
+      "demo": "/demos/js-widgets/modal-accordion.html",
+      "files": "/assets/files/js-modal-accordion.zip"
     },
     {
       "id": "js-carousel-touch",
@@ -125,9 +125,9 @@
       "price": 13,
       "rating": 4,
       "tags": ["carousel","touch"],
-      "thumb": "assets/thumbs/js-carousel-touch.png",
-      "demo": "demos/js-widgets/carousel-touch.html",
-      "files": "dist/js-carousel-touch.zip"
+      "thumb": "/assets/thumbs/js-carousel-touch.png",
+      "demo": "/demos/js-widgets/carousel-touch.html",
+      "files": "/assets/files/js-carousel-touch.zip"
     },
     {
       "id": "js-notify-toasts",
@@ -137,9 +137,9 @@
       "price": 8,
       "rating": 4,
       "tags": ["toast","notify"],
-      "thumb": "assets/thumbs/js-notify-toasts.png",
-      "demo": "demos/js-widgets/notify-toasts.html",
-      "files": "dist/js-notify-toasts.zip"
+      "thumb": "/assets/thumbs/js-notify-toasts.png",
+      "demo": "/demos/js-widgets/notify-toasts.html",
+      "files": "/assets/files/js-notify-toasts.zip"
     },
 
     {
@@ -150,9 +150,9 @@
       "price": 22,
       "rating": 5,
       "tags": ["react","vite","tailwind"],
-      "thumb": "assets/thumbs/react-starter-authless.png",
-      "demo": "demos/react/starter-authless.html",
-      "files": "dist/react-starter-authless.zip"
+      "thumb": "/assets/thumbs/react-starter-authless.png",
+      "demo": "/demos/react/starter-authless.html",
+      "files": "/assets/files/react-starter-authless.zip"
     },
     {
       "id": "react-cards-kit",
@@ -162,9 +162,9 @@
       "price": 18,
       "rating": 4,
       "tags": ["react","components"],
-      "thumb": "assets/thumbs/react-cards-kit.png",
-      "demo": "demos/react/cards-kit.html",
-      "files": "dist/react-cards-kit.zip"
+      "thumb": "/assets/thumbs/react-cards-kit.png",
+      "demo": "/demos/react/cards-kit.html",
+      "files": "/assets/files/react-cards-kit.zip"
     },
     {
       "id": "react-table-lite",
@@ -174,9 +174,9 @@
       "price": 16,
       "rating": 4,
       "tags": ["table","filter"],
-      "thumb": "assets/thumbs/react-table-lite.png",
-      "demo": "demos/react/table-lite.html",
-      "files": "dist/react-table-lite.zip"
+      "thumb": "/assets/thumbs/react-table-lite.png",
+      "demo": "/demos/react/table-lite.html",
+      "files": "/assets/files/react-table-lite.zip"
     },
 
     {
@@ -187,9 +187,9 @@
       "price": 9,
       "rating": 4,
       "tags": ["email","mjml"],
-      "thumb": "assets/thumbs/email-minimal-newsletter.png",
-      "demo": "demos/email-templates/minimal-newsletter.html",
-      "files": "dist/email-minimal-newsletter.zip"
+      "thumb": "/assets/thumbs/email-minimal-newsletter.png",
+      "demo": "/demos/email-templates/minimal-newsletter.html",
+      "files": "/assets/files/email-minimal-newsletter.zip"
     },
     {
       "id": "email-product-promo",
@@ -199,9 +199,9 @@
       "price": 9,
       "rating": 4,
       "tags": ["promo","commerce"],
-      "thumb": "assets/thumbs/email-product-promo.png",
-      "demo": "demos/email-templates/product-promo.html",
-      "files": "dist/email-product-promo.zip"
+      "thumb": "/assets/thumbs/email-product-promo.png",
+      "demo": "/demos/email-templates/product-promo.html",
+      "files": "/assets/files/email-product-promo.zip"
     },
     {
       "id": "email-receipt-basic",
@@ -211,9 +211,9 @@
       "price": 7,
       "rating": 5,
       "tags": ["receipt","transactional"],
-      "thumb": "assets/thumbs/email-receipt-basic.png",
-      "demo": "demos/email-templates/receipt-basic.html",
-      "files": "dist/email-receipt-basic.zip"
+      "thumb": "/assets/thumbs/email-receipt-basic.png",
+      "demo": "/demos/email-templates/receipt-basic.html",
+      "files": "/assets/files/email-receipt-basic.zip"
     },
 
     {
@@ -224,9 +224,9 @@
       "price": 14,
       "rating": 5,
       "tags": ["icons","outline"],
-      "thumb": "assets/thumbs/icons-essentials-200.png",
-      "demo": "demos/svg-icons/essentials-200.html",
-      "files": "dist/icons-essentials-200.zip"
+      "thumb": "/assets/thumbs/icons-essentials-200.png",
+      "demo": "/demos/svg-icons/essentials-200.html",
+      "files": "/assets/files/icons-essentials-200.zip"
     },
     {
       "id": "icons-solid-120",
@@ -236,9 +236,9 @@
       "price": 12,
       "rating": 4,
       "tags": ["icons","solid"],
-      "thumb": "assets/thumbs/icons-solid-120.png",
-      "demo": "demos/svg-icons/solid-120.html",
-      "files": "dist/icons-solid-120.zip"
+      "thumb": "/assets/thumbs/icons-solid-120.png",
+      "demo": "/demos/svg-icons/solid-120.html",
+      "files": "/assets/files/icons-solid-120.zip"
     },
     {
       "id": "icons-devpack-80",
@@ -248,9 +248,9 @@
       "price": 10,
       "rating": 4,
       "tags": ["icons","dev"],
-      "thumb": "assets/thumbs/icons-devpack-80.png",
-      "demo": "demos/svg-icons/devpack-80.html",
-      "files": "dist/icons-devpack-80.zip"
+      "thumb": "/assets/thumbs/icons-devpack-80.png",
+      "demo": "/demos/svg-icons/devpack-80.html",
+      "files": "/assets/files/icons-devpack-80.zip"
     },
 
     {
@@ -261,8 +261,8 @@
       "price": 89,
       "rating": 5,
       "tags": ["hardware","keyboard","rgb","tkl"],
-      "thumb": "assets/thumbs/hw-keyboard-tkl.png",
-      "demo": "demos/hardware/keyboard-tkl.html",
+      "thumb": "/assets/thumbs/hw-keyboard-tkl.png",
+      "demo": "/demos/hardware/keyboard-tkl.html",
       "files": ""
     },
     {
@@ -273,8 +273,8 @@
       "price": 49,
       "rating": 4,
       "tags": ["hardware","mouse","wireless"],
-      "thumb": "assets/thumbs/hw-mouse-ergonomic.png",
-      "demo": "demos/hardware/mouse-ergonomic.html",
+      "thumb": "/assets/thumbs/hw-mouse-ergonomic.png",
+      "demo": "/demos/hardware/mouse-ergonomic.html",
       "files": ""
     },
     {
@@ -285,8 +285,8 @@
       "price": 39,
       "rating": 4,
       "tags": ["hardware","usb-c","hub"],
-      "thumb": "assets/thumbs/hw-usbc-hub-8in1.png",
-      "demo": "demos/hardware/usbc-hub-8in1.html",
+      "thumb": "/assets/thumbs/hw-usbc-hub-8in1.png",
+      "demo": "/demos/hardware/usbc-hub-8in1.html",
       "files": ""
     },
     {
@@ -297,8 +297,8 @@
       "price": 289,
       "rating": 5,
       "tags": ["hardware","monitor","4k","ips"],
-      "thumb": "assets/thumbs/hw-monitor-27-4k.png",
-      "demo": "demos/hardware/monitor-27-4k.html",
+      "thumb": "/assets/thumbs/hw-monitor-27-4k.png",
+      "demo": "/demos/hardware/monitor-27-4k.html",
       "files": ""
     },
     {
@@ -309,8 +309,8 @@
       "price": 89,
       "rating": 5,
       "tags": ["hardware","ssd","nvme"],
-      "thumb": "assets/thumbs/hw-ssd-nvme-1tb.png",
-      "demo": "demos/hardware/ssd-nvme-1tb.html",
+      "thumb": "/assets/thumbs/hw-ssd-nvme-1tb.png",
+      "demo": "/demos/hardware/ssd-nvme-1tb.html",
       "files": ""
     },
     {
@@ -321,9 +321,10 @@
       "price": 129,
       "rating": 5,
       "tags": ["hardware","raspberrypi","kit"],
-      "thumb": "assets/thumbs/hw-rpi5-kit-8gb.png",
-      "demo": "demos/hardware/rpi5-kit-8gb.html",
+      "thumb": "/assets/thumbs/hw-rpi5-kit-8gb.png",
+      "demo": "/demos/hardware/rpi5-kit-8gb.html",
       "files": ""
     }
   ]
 }
+
