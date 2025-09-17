@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Hardware</title>
+<meta name="description" content="PC parts and peripherals — RGZTEC."/>
+<base href="/rgztec/apps/web/public/">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/card.css">
+
+<style>
+  :root{
+    --wrap:1280px; --rail-w:980px; --search-h:44px;
+    --text:#111827; --muted:#64748b; --icon:#6b7280;
+    --line:#e5e7eb; --line-strong:#cbd5e1;
+    --rgztec:#f97316; --rgztec-dark:#ea580c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
+
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
+  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
+  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
+  .studio{white-space:nowrap; font-weight:800; font-size:15px; color:#fff; background:#22c3dc; padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center}
+  .rail{display:flex; align-items:center; justify-content:center}
+  .search{width:var(--rail-w); max-width:100%; display:flex; align-items:center; gap:10px; height:var(--search-h); padding:6px 8px 6px 16px; border:2px solid #111827; border-radius:999px; background:#fff}
+  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
+  .search button{ display:grid; place-items:center; width:34px; height:34px; border-radius:999px; border:0; background:var(--rgztec); cursor:pointer }
+  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
+
+  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative }
+  .store-bar{ width:var(--rail-w); max-width:100%; margin:2px auto 0; display:grid; grid-template-columns:repeat(10,minmax(90px,1fr)); gap:4px; height:auto }
+  .store-bar a{ text-align:center; font-weight:600; line-height:40px; height:40px; color:var(--text); text-decoration:none; border-radius:10px }
+  .store-bar a:hover{ background:#f8fafc }
+
+  .hero{border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff)}
+  .hero-inner{max-width:var(--wrap); margin:0 auto; padding:16px 18px}
+  .h1{font-weight:900; font-size:22px; margin:0 0 4px}
+  .tag{margin:0; color:var(--muted)}
+
+  /* Featured stores → yatay şerit */
+  .stores{max-width:var(--wrap); margin:18px auto 0; padding:0 18px}
+  .stores h2{font-weight:800; font-size:20px; margin:0 0 12px}
+  .tiles{display:flex; gap:clamp(12px,2vw,16px); overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; list-style:none; margin:0}
+  .tile{flex:0 0 auto; min-width:110px; display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; color:inherit; scroll-snap-align:start}
+  .badge{width:96px; height:96px; border-radius:22px; display:grid; place-items:center; box-shadow:0 10px 20px -6px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(0,0,0,.05)}
+  .letter{font-weight:900; font-size:28px; color:#fff; text-shadow:0 2px 3px rgba(0,0,0,.2)}
+  .sname{font-size:12.5px; color:var(--muted); max-width:104px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:500}
+
+  /* Ürün grid */
+  .section{max-width:var(--wrap); margin:24px auto 0; padding:0 18px}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px}
+  .card{border:1px solid var(--line); background:#fff; border-radius:16px; overflow:hidden; display:flex; flex-direction:column}
+  .card img{width:100%; height:160px; object-fit:cover; background:#eef2f7}
+  .pad{padding:12px}
+  .title{font-weight:700; margin:4px 0 6px}
+  .sub{color:var(--muted); font-size:14px; margin:0}
+  .row{display:flex; flex-direction:column; gap:8px; justify-content:center; align-items:center; margin-top:10px}
+  .price{font-weight:800; text-align:center}
+  .btn{display:inline-block; width:100%; text-align:center; padding:8px 12px; border-radius:10px; border:1px solid var(--line-strong); text-decoration:none}
+  .btn:hover{background:#f8fafc}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="hdr">
+      <div class="left">
+        <a class="brand" href="./">RGZTEC</a>
+        <span class="studio">Hardware</span>
+      </div>
+
+      <div class="rail">
+        <form class="search" id="searchForm">
+          <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
+          <button type="submit" aria-label="Search">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2">
+              <circle cx="11" cy="11" r="6"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <nav class="icons" aria-label="Quick actions">
+        <a href="login">Sign in</a>
+        <a class="icon-btn" href="gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
+        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
+        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="cats-wrap">
+  <!-- donanım üst kategorileri -->
+  <nav id="storeBar" class="store-bar" aria-label="Hardware Categories"></nav>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="h1">hardware</h1>
+    <p id="heroTag" class="tag">PC parts and peripherals.</p>
+  </div>
+</section>
+
+<section class="stores">
+  <h2>Featured stores</h2>
+  <ul id="storeRow" class="tiles" aria-label="Featured stores"></ul>
+</section>
+
+<main class="section">
+  <h2>Products</h2>
+  <div id="grid" class="grid"></div>
+</main>
+
+<script>
+  const ABS_BASE = '/rgztec/apps/web/public/';
+  const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+  const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+
+  // Header search -> listings (store context sabit: hardware)
+  document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const q = (document.getElementById('q')?.value || '').trim();
+    location.href = `listings.html?store=hardware${q ? `&q=${encodeURIComponent(q)}`:''}`;
+  });
+
+  function tile(s){
+    const name = s.name || s.slug;
+    const letter = (name||'?')[0].toUpperCase();
+    const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
+    // hardware için kendi sayfasına gitsin; diğerleri store.html?slug=...
+    const href = (s.slug === 'hardware') ? 'hardware.html' : `store.html?slug=${encodeURIComponent(s.slug)}`;
+    return `<li>
+      <a class="tile" href="${href}" title="${esc(name)}">
+        <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
+          <div class="letter">${letter}</div>
+        </div>
+        <div class="sname">${esc(name)}</div>
+      </a>
+    </li>`;
+  }
+
+  function card(p){
+    const img = p.thumb || 'assets/thumbs/placeholder.png';
+    return `
+    <div class="card">
+      <img loading="lazy" src="${img}" alt="${esc(p.title)}"
+           onerror="this.onerror=null;this.src='assets/thumbs/placeholder.png'">
+      <div class="pad">
+        <div class="title">${esc(p.title)}</div>
+        <p class="sub">${esc(p.desc||'')}</p>
+        <div class="row">
+          <span class="price">${usd.format(Number(p.price||0))}</span>
+          <a class="btn" href="product.html?id=${encodeURIComponent(p.id)}">Details</a>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  async function getJSON(url){
+    const r = await fetch(url,{cache:'no-store'});
+    if(!r.ok) throw new Error(`${url}: ${r.status}`);
+    return r.json();
+  }
+
+  function normalizeProducts(raw){
+    if (Array.isArray(raw)){
+      return raw.map(x=>({
+        id:x.id, cat:'', title:x.title, desc:x.description||'', price:x.price,
+        thumb:`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`,
+        tags:Array.isArray(x.tags)?x.tags:[]
+      }));
+    }
+    const prods = Array.isArray(raw?.products)? raw.products.map(p=>({
+      id:p.id, cat:(p.cat||'').toLowerCase(), title:p.title, desc:p.desc||'',
+      price:p.price, thumb:p.thumb || 'assets/thumbs/placeholder.png',
+      tags:Array.isArray(p.tags)?p.tags:[]
+    })) : [];
+    const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({
+      id:`g-${x.id}`, cat:'', title:x.title, desc:x.description||'', price:x.price,
+      thumb:`assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`,
+      tags:Array.isArray(x.tags)?x.tags:[]
+    })) : [];
+    return prods.length ? prods : gallery;
+  }
+
+  (async function main(){
+    try{
+      // 1) mağazalar (vitrin) — hardware’de en fazla 20 göster
+      const storesDoc = await getJSON('data/stores.json');
+      const stores = Array.isArray(storesDoc?.stores) ? storesDoc.stores : [];
+      document.getElementById('storeRow').innerHTML = stores.slice(0,20).map(tile).join('');
+
+      // 2) üst kategori barı
+      try{
+        const content = await getJSON('data/store-content.json');
+        const cats = Array.isArray(content?.hardware?.categories) ? content.hardware.categories : [];
+        document.getElementById('storeBar').innerHTML =
+          cats.map(c=>`<a href="listings.html?store=hardware&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
+      }catch(e){ console.warn('store-content.json yok/boş:', e); }
+
+      // 3) ürünler (cat === hardware)
+      const raw = await getJSON('data/products.json');
+      const all = normalizeProducts(raw);
+      const list = all.filter(p => (p.cat||'').toLowerCase()==='hardware');
+      document.getElementById('grid').innerHTML = list.map(card).join('');
+    }catch(e){
+      console.error(e);
+      document.getElementById('grid').innerHTML = `<div class="sub">${esc(String(e.message||e))}</div>`;
+    }
+  })();
+</script>
+</body>
+</html>
