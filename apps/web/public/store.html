@@ -80,7 +80,7 @@
   .btn{display:inline-block; width:100%; text-align:center; padding:8px 12px; border-radius:10px; border:1px solid var(--line-strong); text-decoration:none}
   .btn:hover{background:#f8fafc}
 
-  /* Sadece hardware vitrini için küçük denge – diğer store’ları etkilemez */
+  /* SADECE hardware vitrini için küçük denge – diğer store’lar etkilenmez */
   body[data-store="hardware"] .tiles{ grid-template-columns:repeat(auto-fit, minmax(100px,1fr)); }
   body[data-store="hardware"] .badge{ width:96px; height:96px; border-radius:22px }
 
@@ -185,11 +185,11 @@
 
   /* Product card */
   function card(p){
-    const img = abs(p.thumb || 'assets/img/placeholder.png');
+    const img = abs(p.thumb || 'assets/thumbs/placeholder.png');
     return `
     <div class="card">
       <img loading="lazy" src="${img}" alt="${esc(p.title)}"
-           onerror="this.onerror=null;this.src='${abs('assets/img/placeholder.png')}'">
+           onerror="this.onerror=null;this.src='${abs('assets/thumbs/placeholder.png')}'">
       <div class="pad">
         <div class="title">${esc(p.title)}</div>
         <p class="sub">${esc(p.desc||'')}</p>
@@ -219,7 +219,7 @@
     }
     const prods = Array.isArray(raw?.products)? raw.products.map(p=>({
       id:p.id, cat:(p.cat||'').toLowerCase(), title:p.title, desc:p.desc||'',
-      price:p.price, thumb:abs(p.thumb||'assets/img/placeholder.png'),
+      price:p.price, thumb:abs(p.thumb||'assets/thumbs/placeholder.png'),
       tags:Array.isArray(p.tags)?p.tags:[]
     })) : [];
     const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({
