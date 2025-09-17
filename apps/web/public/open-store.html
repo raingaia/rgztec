@@ -3,196 +3,281 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>RGZTEC • Store</title>
+<title>RGZTEC • Open Store</title>
+<meta name="description" content="Open your store and upload your first product on RGZTEC."/>
+<base href="/rgztec/apps/web/public/">
 
 <style>
-  :root{
-    --wrap:    1280px;
-    --rail-w:  980px;
-    --search-h:44px;
+:root{
+  --ink:#0b1220; --muted:#64748b; --line:#e5e7eb; --line-strong:#cbd5e3;
+  --brand:#f97316; --brand-700:#ea580c; --card:#fff; --bg:#fafbff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#fff 0,#fbfcff 60%,#f6f8ff 100%)}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.brand{font-weight:900;color:var(--brand);text-decoration:none;font-size:22px}
+.link{color:var(--ink);text-decoration:none;font-weight:600}
+.link:hover{color:var(--brand)}
+.h1{margin:6px 0 0;font-size:clamp(22px,3vw,30px);font-weight:900}
+.sub{margin:6px 0 16px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.pad{padding:18px}
 
-    --text:#111827; --icon:#6b7280; --hover:#0b0b0b;
-    --line:#e5e7eb; --line-strong:#cbd5e1;
-    --rgztec:#f97316; --rgztec-dark:#ea580c;
-    --studio-bg:#22c3dc;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
+label{display:block;font-weight:700;font-size:13px;margin:10px 0 6px}
+input,textarea,select{width:100%;padding:12px;border:1.5px solid var(--line-strong);border-radius:12px;font-size:15px;background:#fff;outline:0}
+input:focus,textarea:focus,select:focus{border-color:#111827}
+textarea{min-height:120px;resize:vertical}
 
-  /* ===== HEADER ===== */
-  .topbar{background:#fff}
-  .wrap{max-width:var(--wrap); margin:0 auto; padding:12px 18px 0}
-  .hdr{display:grid; grid-template-columns:1fr minmax(0,var(--rail-w)) 1fr; align-items:center; column-gap:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
 
-  .left{ display:flex; align-items:center; gap:10px; justify-self:start }
-  .brand{ font-weight:900; font-size:24px; color:var(--rgztec); text-decoration:none }
-  .studio{
-    white-space:nowrap; line-height:1; font-weight:800; font-size:15px; color:#fff;
-    background:var(--studio-bg); padding:6px 12px; border-radius:999px; display:inline-flex; align-items:center;
-    box-shadow:0 2px 0 rgba(0,0,0,.06), inset 0 -2px 0 rgba(0,0,0,.12);
-    transform:translateY(2px);
-  }
+.btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:12px;border:0;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
+.btn:hover{background:var(--brand-700)}
+.btn-ghost{background:#fff;border:1px solid var(--line-strong);color:#0b1220}
 
-  .rail{display:flex; align-items:center; justify-content:center}
-  .search{
-    width:var(--rail-w); max-width:100%;
-    display:flex; align-items:center; gap:10px;
-    height:var(--search-h); padding:6px 8px 6px 16px;
-    border:2px solid #111827; border-radius:999px; background:#fff;
-  }
-  .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
-  .search button{
-    display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
-    border:0; background:var(--rgztec); cursor:pointer; transition:transform .12s, filter .12s;
-  }
-  .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
-  .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
+.alert{display:none;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:14px}
+.ok{border:1px solid #bbf7d0;background:#ecfdf5;color:#065f46}
+.err{border:1px solid #fecaca;background:#fff1f2;color:#b91c1c}
 
-  .icons{ display:flex; gap:14px; align-items:center; justify-self:end }
-  .icons a{ text-decoration:none; color:var(--icon); font-size:16px }
-  .open-store{
-    background:var(--rgztec); color:#fff !important; font-weight:700;
-    padding:8px 18px; border-radius:999px; height:40px;
-    display:inline-flex; align-items:center; white-space:nowrap;
-    box-shadow:0 2px 4px rgba(0,0,0,.08); transition:all .2s;
-  }
-  .open-store:hover{ background:var(--rgztec-dark); transform:translateY(-1px) }
-
-  /* ===== CATEGORIES ===== */
-  .cats-wrap{ max-width:var(--wrap); margin:0 auto; position:relative; }
-  .cats-wrap::after{
-    content:"";
-    position:absolute;
-    left:50%;
-    right:50%;
-    margin-left:-50vw; margin-right:-50vw;
-    bottom:0; border-bottom:2px solid var(--line-strong); height:0; pointer-events:none;
-  }
-
-  .store-bar{
-    --cols:5;
-    width:var(--rail-w); max-width:100%;
-    margin:2px auto 0; height:44px; padding:0;
-    border-bottom:none;
-    display:grid; grid-template-columns:repeat(var(--cols),1fr);
-    align-items:center; justify-items:center; background:transparent;
-  }
-  .store-bar a{
-    width:100%; text-align:center;
-    font-size:15px; font-weight:600; letter-spacing:.1px;
-    line-height:44px; color:var(--text); text-decoration:none;
-    transition:color .15s;
-  }
-  .store-bar a:hover{ color:var(--hover) }
-
-  /* ===== Content ===== */
-  main{ max-width:var(--wrap); margin:16px auto; padding:0 18px }
-  .empty{ display:none; }
-
-  /* ===== Responsive ===== */
-  @media (max-width:1180px){ :root{ --rail-w: 900px } }
-  @media (max-width:1040px){ :root{ --rail-w: 780px } }
-  @media (max-width:900px){
-    :root{ --rail-w: 100% }
-    .hdr{ grid-template-columns:1fr }
-    .icons a:not(.open-store){ display:none }
-    .rail{ order:2 } .left{ order:1 } .icons{ order:3 }
-    .store-bar{ grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); height:auto }
-    .store-bar a{ line-height:38px }
-  }
+.drop{
+  margin-top:6px;border:2px dashed #cbd5e1;border-radius:14px;background:#fff;
+  padding:16px;text-align:center;transition:border-color .15s, background .15s; cursor:pointer;
+}
+.drop.drag{border-color:#94a3b8;background:#f8fafc}
+.drop p{margin:6px 0;color:var(--muted)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px}
+.thumb{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f1f5f9}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:1/1}
+.thumb button{position:absolute;top:6px;right:6px;border:0;border-radius:999px;background:#fff;padding:6px;cursor:pointer}
+.meta{font-size:12px;color:var(--muted);margin-top:8px}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="./">RGZTEC</a>
+    <a class="link" href="editor/">Dashboard</a>
+  </div>
 
-<header class="topbar">
-  <div class="wrap">
-    <div class="hdr">
-      <div class="left">
-        <a class="brand" href="./">RGZTEC</a>
-        <span id="studioName" class="studio">Store</span>
-      </div>
+  <h1 class="h1">Open your store</h1>
+  <p class="sub">Create your first product and upload images. This page works in static hosting (no server required) for demos.</p>
 
-      <div class="rail">
-        <form class="search" id="searchForm">
-          <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
-          <button type="submit" aria-label="Search" id="qBtn">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="6"></circle>
-              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-            </svg>
-          </button>
+  <div class="grid">
+    <!-- LEFT: FORM -->
+    <div class="card">
+      <div class="pad">
+        <form id="f" novalidate>
+          <label for="title">Product title</label>
+          <input id="title" name="title" placeholder="e.g., Sticky Header UI Kit" required>
+
+          <label for="desc">Description</label>
+          <textarea id="desc" name="desc" placeholder="Tell buyers what they get…" required></textarea>
+
+          <div class="row">
+            <div>
+              <label for="price">Price (USD)</label>
+              <input id="price" name="price" type="number" min="0" step="1" placeholder="29" required>
+            </div>
+            <div>
+              <label for="cat">Category</label>
+              <select id="cat" name="cat">
+                <option value="html-templates">HTML Templates</option>
+                <option value="react">React</option>
+                <option value="ai">AI</option>
+                <option value="hardware">Hardware</option>
+              </select>
+            </div>
+          </div>
+
+          <label>Images</label>
+          <div id="drop" class="drop" tabindex="0" role="button" aria-label="Upload images">
+            <strong>Drag & drop</strong> or click to select…
+            <p>PNG, JPG, WEBP (max ~5MB each)</p>
+            <input id="file" type="file" accept="image/*" multiple hidden>
+          </div>
+          <div id="gallery" class="gallery" aria-live="polite"></div>
+          <div id="meta" class="meta"></div>
+
+          <div id="ok" class="alert ok">Saved as draft locally. You can now go to Dashboard.</div>
+          <div id="er" class="alert err"></div>
+
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn" type="submit">Save draft</button>
+            <button class="btn btn-ghost" type="button" id="publishBtn">Publish (demo)</button>
+            <a class="btn btn-ghost" href="editor/">Go to Dashboard</a>
+          </div>
         </form>
       </div>
+    </div>
 
-      <nav class="icons" aria-label="Quick actions">
-        <a href="login" aria-label="Sign in">Sign in</a>
-        <a class="icon-btn" href="/rgztec/gift-card.html" data-no-router title="Gift cards" aria-label="Gift cards">🎁</a>
-        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
-        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
-      </nav>
+    <!-- RIGHT: INFO -->
+    <div class="card">
+      <div class="pad">
+        <h3 style="margin:0 0 8px">How uploads work here?</h3>
+        <p class="sub">Because this is static hosting, files aren’t sent to a server. We keep a **demo draft** in your browser (localStorage) and show image previews. For production, point to your API/S3.</p>
+        <ul style="margin:10px 0 0; padding-left:18px">
+          <li>Drag images into the box or click it</li>
+          <li>Fill the product form</li>
+          <li>“Save draft” stores locally under <code>rgztec_drafts</code></li>
+          <li>Hook <code>ENDPOINT</code> to upload for real</li>
+        </ul>
+      </div>
     </div>
   </div>
-</header>
-
-<div class="cats-wrap">
-  <nav id="storeBar" class="store-bar" aria-label="Store Categories"></nav>
 </div>
 
-<main>
-  <p class="empty">Page content starts here…</p>
-</main>
-
 <script>
-  const params = new URLSearchParams(location.search);
-  const slug = (params.get('slug') || '').trim();
-  const escapeHtml = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+/** ======================
+ *  CONFIG
+ *  ====================== */
+// Eğer gerçek API kullanacaksan: örn. const ENDPOINT = "/api/products";
+const ENDPOINT = ""; // boş bırakılırsa DEMO (localStorage)
 
-  (async function init(){
-    if (!slug) return;
+// Maks boyut ~5MB
+const MAX_FILE = 5 * 1024 * 1024;
 
-    try {
-      /* 1) stores.json => title + color */
-      const sres = await fetch('data/stores.json', { cache:'no-store' });
-      if (sres.ok){
-        const { stores=[] } = await sres.json();
-        const meta = stores.find(s => s.slug === slug);
-        const pill = document.getElementById('studioName');
+/** ======================
+ *  STATE
+ *  ====================== */
+let images = []; // [{name, type, size, dataURL}]
+const f   = document.getElementById('f');
+const elDrop = document.getElementById('drop');
+const elFile = document.getElementById('file');
+const gal = document.getElementById('gallery');
+const meta = document.getElementById('meta');
+const ok  = document.getElementById('ok');
+const er  = document.getElementById('er');
+const publishBtn = document.getElementById('publishBtn');
 
-        if (meta){
-          pill.textContent = meta.name || meta.slug;
-          if (meta.color) pill.style.background = meta.color;
-          document.title = `RGZTEC • ${meta.name || meta.slug}`;
-        } else {
-          pill.textContent = slug;
-          document.title = `RGZTEC • ${slug}`;
-        }
-      }
+function showErr(msg){ er.textContent = msg; er.style.display='block'; ok.style.display='none'; }
+function showOK(msg){ if(msg) ok.textContent = msg; er.style.display='none'; ok.style.display='block'; }
 
-      /* 2) store-content.json => categories */
-      const cres = await fetch('data/store-content.json', { cache:'no-store' });
-      if (cres.ok){
-        const content = await cres.json();
-        const entry = content[slug] || {};
-        const cats = Array.isArray(entry.categories) ? entry.categories : [];
-
-        const bar = document.getElementById('storeBar');
-        /* build links that route to listings.html with store context */
-        bar.innerHTML = cats.map(c => {
-          const href = `listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`;
-          return `<a href="${href}">${escapeHtml(c)}</a>`;
-        }).join('');
-        bar.style.setProperty('--cols', String(Math.max(1, cats.length)));
-      }
-    } catch(e){ console.warn(e); }
-  })();
-
-  /* search → listings with store context */
-  document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const q = (document.getElementById('q')?.value || '').trim();
-    const url = `listings.html?store=${encodeURIComponent(slug)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
-    location.href = url;
+/** ======================
+ *  HELPERS
+ *  ====================== */
+function readFile(file){
+  return new Promise((resolve,reject)=>{
+    if(file.size > MAX_FILE) return reject(new Error(file.name+" is too large"));
+    const reader = new FileReader();
+    reader.onload = () => resolve({ name:file.name, type:file.type, size:file.size, dataURL:reader.result });
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
+}
+function renderGallery(){
+  gal.innerHTML = images.map((im,idx)=>`
+    <div class="thumb">
+      <img alt="${im.name}" src="${im.dataURL}">
+      <button type="button" aria-label="Remove image" onclick="removeImage(${idx})">✕</button>
+    </div>
+  `).join('');
+  meta.textContent = images.length ? `${images.length} file(s) ready` : '';
+}
+window.removeImage = function(i){
+  images.splice(i,1);
+  renderGallery();
+};
+
+/** ======================
+ *  DROPZONE
+ *  ====================== */
+function wireDrop(el){
+  const pick = ()=> elFile.click();
+  el.addEventListener('click', pick);
+  el.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' ') pick(); });
+
+  ['dragenter','dragover'].forEach(ev=>el.addEventListener(ev, e=>{
+    e.preventDefault(); e.stopPropagation(); el.classList.add('drag');
+  }));
+  ['dragleave','drop'].forEach(ev=>el.addEventListener(ev, e=>{
+    e.preventDefault(); e.stopPropagation(); el.classList.remove('drag');
+  }));
+  el.addEventListener('drop', async (e)=>{
+    const files = [...(e.dataTransfer?.files||[])].filter(f=>f.type.startsWith('image/'));
+    await addFiles(files);
+  });
+}
+async function addFiles(files){
+  try{
+    const reads = files.map(readFile);
+    const res = await Promise.all(reads);
+    images = images.concat(res);
+    renderGallery();
+  }catch(e){ showErr(e.message || 'Could not read file(s).'); }
+}
+elFile.addEventListener('change', async (e)=>{
+  const files = [...(e.target.files||[])].filter(f=>f.type.startsWith('image/'));
+  await addFiles(files);
+});
+wireDrop(elDrop);
+
+/** ======================
+ *  STORAGE (DEMO)
+ *  ====================== */
+function getDrafts(){
+  try{ return JSON.parse(localStorage.getItem('rgztec_drafts')||'[]'); }catch{ return []; }
+}
+function setDrafts(list){
+  localStorage.setItem('rgztec_drafts', JSON.stringify(list));
+}
+
+/** ======================
+ *  SUBMIT: SAVE DRAFT
+ *  ====================== */
+f.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  er.style.display='none'; ok.style.display='none';
+
+  const title = f.title.value.trim();
+  const desc  = f.desc.value.trim();
+  const price = parseFloat(f.price.value);
+  const cat   = f.cat.value;
+
+  if(!title) return showErr('Please enter a product title.');
+  if(!desc)  return showErr('Please add a description.');
+  if(!Number.isFinite(price) || price<0) return showErr('Price must be a positive number.');
+  if(!images.length) return showErr('Please add at least one image.');
+
+  const draft = {
+    id: 'd_'+Date.now(),
+    title, desc, price, cat,
+    images, createdAt: new Date().toISOString()
+  };
+
+  if(!ENDPOINT){
+    const list = getDrafts();
+    list.unshift(draft);
+    setDrafts(list);
+    showOK('Saved locally. You can publish from Dashboard (demo).');
+  }else{
+    try{
+      // Örnek: JSON metadata gönder, dosyalar için presigned URL akışı önerilir
+      const res = await fetch(ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(draft)
+      });
+      if(!res.ok) throw new Error('Upload failed');
+      showOK('Uploaded to server. Redirecting to Dashboard…');
+      setTimeout(()=>location.href='editor/', 800);
+    }catch(e){ showErr(e.message || 'Upload failed.'); }
+  }
+});
+
+/** ======================
+ *  PUBLISH (DEMO)
+ *  ====================== */
+publishBtn.addEventListener('click', ()=>{
+  const list = getDrafts();
+  if(!list.length) return showErr('No draft found. Save a draft first.');
+  // En son taslağı "publish" edildi sayalım
+  const last = list[0];
+  showOK('Published (demo). This only marks your latest draft as published locally.');
+});
 </script>
 </body>
 </html>
+
