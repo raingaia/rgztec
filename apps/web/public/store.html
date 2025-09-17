@@ -253,7 +253,10 @@
         document.getElementById('heroTitle').textContent = slug || 'Store';
         document.getElementById('heroTag').textContent = '';
       }
-      document.getElementById('storeRow').innerHTML = stores.map(tile).join('');
+
+      // >>> hardware’da vitrin sayısını kısıtla (12), diğerlerinde hepsi
+      const featured = (slug === 'hardware') ? stores.slice(0, 12) : stores;
+      document.getElementById('storeRow').innerHTML = featured.map(tile).join('');
 
       /* store-content.json -> üst kategori barı */
       try{
