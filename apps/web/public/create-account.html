@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Create Account</title>
+<meta name="description" content="Open your RGZTEC account to sell and buy securely."/>
+<base href="/rgztec/apps/web/public/">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="theme-color" content="#f97316">
+<style>
+:root{
+  --ink:#0b1220; --sub:#64748b; --brand:#f97316; --brand-dark:#ea580c;
+  --line:#e5e7eb; --line-strong:#d7dbe3; --card:#fff; --bg:#fafbff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#fff 0,#fbfcff 60%,#f6f8ff 100%)}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 16px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.brand{font-weight:900;color:var(--brand);text-decoration:none;font-size:22px}
+.link{color:var(--ink);text-decoration:none;font-weight:600}
+.link:hover{color:var(--brand)}
+.hero{margin:8px 0 18px}
+.h1{margin:0;font-size:clamp(22px,3vw,32px);font-weight:900}
+.sub{margin:6px 0 0;color:var(--sub)}
+
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+@media (max-width:920px){ .grid{grid-template-columns:1fr} }
+
+.card{border:1px solid var(--line);background:var(--card);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.card .pad{padding:18px}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){ .row{grid-template-columns:1fr} }
+
+label{display:block;font-weight:700;font-size:13px;margin:10px 0 6px}
+input,select{width:100%;padding:12px 12px;border:1.5px solid var(--line-strong);border-radius:12px;font-size:15px;outline:0;background:#fff}
+input:focus,select:focus{border-color:#111827}
+.hint{font-size:12px;color:var(--sub);margin-top:6px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin-top:10px}
+.error{color:#b91c1c;font-size:13px;margin-top:8px;display:none}
+.success{display:none;border:1px solid #16a34a;background:#ecfdf5;color:#065f46;border-radius:12px;padding:12px;margin-top:10px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:12px;border:0;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
+.btn:hover{background:var(--brand-dark)}
+.btn-ghost{background:#fff;border:1px solid var(--line-strong);color:#0b1220}
+.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+.side-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.side-item{border:1px dashed var(--line-strong);border-radius:14px;background:#fff}
+.side-item .pad{padding:14px}
+.side-item h4{margin:0 0 6px;font-size:15px}
+.side-item p{margin:0;color:var(--sub);font-size:13px}
+
+.ft{margin-top:20px;color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="./">RGZTEC</a>
+      <a class="link" href="login">Sign in</a>
+    </div>
+
+    <div class="hero">
+      <h1 class="h1">Create your RGZTEC account</h1>
+      <p class="sub">Start selling products or buy with confidence — secure payments, instant delivery.</p>
+    </div>
+
+    <div class="grid">
+      <!-- FORM -->
+      <div class="card">
+        <div class="pad">
+          <form id="signupForm" novalidate>
+            <div class="row">
+              <div>
+                <label for="fname">Full name</label>
+                <input id="fname" name="full_name" autocomplete="name" required>
+              </div>
+              <div>
+                <label for="company">Company (optional)</label>
+                <input id="company" name="company" autocomplete="organization">
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="email">Work email</label>
+                <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required>
+              </div>
+              <div>
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                  <option value="Creator">Creator / Seller</option>
+                  <option value="Buyer">Buyer</option>
+                  <option value="Both" selected>Both</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="pass">Password</label>
+                <input id="pass" name="password" type="password" minlength="8" required>
+                <div class="hint">Min 8 chars, use letters & numbers.</div>
+              </div>
+              <div>
+                <label for="pass2">Confirm password</label>
+                <input id="pass2" type="password" minlength="8" required>
+              </div>
+            </div>
+
+            <div class="chk">
+              <input id="terms" type="checkbox" required>
+              <label for="terms" style="margin:0;font-weight:600">I agree to the <a class="link" href="#">Terms</a> and <a class="link" href="#">Privacy</a>.</label>
+            </div>
+            <div class="chk">
+              <input id="news" type="checkbox">
+              <label for="news" style="margin:0">Send me product updates and creator tips.</label>
+            </div>
+
+            <div id="err" class="error"></div>
+            <div id="ok" class="success">Thanks! Your account request has been received.</div>
+
+            <div class="btns">
+              <button class="btn" type="submit">Create account</button>
+              <a class="btn btn-ghost" href="login">Back to Sign in</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- SIDE CONTENT -->
+      <div class="card">
+        <div class="pad">
+          <ul class="side-list">
+            <li class="side-item"><div class="pad"><h4>Buyer Protection</h4><p>Secure checkout, instant access, 7-day dispute window.</p></div></li>
+            <li class="side-item"><div class="pad"><h4>For Creators</h4><p>Simple listing flow, analytics, payouts when you’re ready.</p></div></li>
+            <li class="side-item"><div class="pad"><h4>Need help?</h4><p>Questions? <a class="link" href="mailto:support@rgztec.com">support@rgztec.com</a></p></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft">© <span id="y"></span> RGZTEC, Inc.</div>
+  </div>
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+
+/* -------- SUBMIT LOGIC --------
+   1) PROD: set ENDPOINT to your Formspree/Netlify function/api URL.
+   2) If empty, falls back to localStorage demo (no server).
+*/
+const ENDPOINT = ""; // e.g. "https://formspree.io/f/xxxxxxx"
+
+const f = document.getElementById('signupForm');
+const err = document.getElementById('err');
+const ok  = document.getElementById('ok');
+
+function showErr(msg){ err.textContent = msg; err.style.display='block'; ok.style.display='none'; }
+function showOK(){ err.style.display='none'; ok.style.display='block'; }
+
+f.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+
+  const name = f.full_name.value.trim();
+  const email = f.email.value.trim();
+  const pass = f.password.value;
+  const pass2= document.getElementById('pass2').value;
+  const role = f.role.value;
+  const company = f.company.value.trim();
+  const terms = document.getElementById('terms').checked;
+
+  if(!name) return showErr('Please enter your full name.');
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr('Enter a valid email address.');
+  if(pass.length<8) return showErr('Password must be at least 8 characters.');
+  if(pass!==pass2) return showErr('Passwords do not match.');
+  if(!terms) return showErr('You must agree to the Terms & Privacy.');
+
+  const payload = { name, email, role, company, newsletter: document.getElementById('news').checked, createdAt:new Date().toISOString() };
+
+  try{
+    if (ENDPOINT) {
+      const res = await fetch(ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Submit failed');
+      showOK();
+      // Optionally send user to login after a short pause
+      setTimeout(()=> location.href='login?registered=1&email='+encodeURIComponent(email), 1200);
+    } else {
+      // DEMO: save locally (no real signup). Use a unique key per email.
+      const key = 'rgztec_signup_' + email.toLowerCase();
+      localStorage.setItem(key, JSON.stringify(payload));
+      showOK();
+      setTimeout(()=> location.href='login?registered=1&email='+encodeURIComponent(email), 900);
+    }
+  }catch(e){
+    showErr('We could not complete your signup. Please try again in a moment.');
+    console.error(e);
+  }
+});
+</script>
+</body>
+</html>
