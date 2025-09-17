@@ -7,9 +7,12 @@
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
 <!-- GitHub Pages alt klasör için base -->
 <base href="/rgztec/apps/web/public/">
+
+<!-- mevcut stylesheet'lerin -->
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/styles.css">
 <link rel="stylesheet" href="assets/css/card.css">
+
 <style>
   :root{
     --wrap:1280px; --rail-w:980px; --search-h:44px;
@@ -46,6 +49,20 @@
   .store-bar{ --cols:5; width:var(--rail-w); max-width:100%; margin:2px auto 0; height:44px; padding:0; border-bottom:none; display:grid; grid-template-columns:repeat(var(--cols),1fr); align-items:center; justify-items:center; background:transparent }
   .store-bar a{ width:100%; text-align:center; font-size:15px; font-weight:600; letter-spacing:.1px; line-height:44px; color:var(--text); text-decoration:none; transition:color .15s }
   .store-bar a:hover{ color:var(--hover) }
+
+  /* --- SADECE hardware için yatay kaydırmalı chip bar --- */
+  .store-bar.is-scroll{
+    display:flex; gap:10px; align-items:center; justify-content:flex-start;
+    overflow:auto; height:auto; padding:8px 12px;
+    scrollbar-width:thin; scroll-snap-type:x mandatory;
+  }
+  .store-bar.is-scroll::-webkit-scrollbar{ height:8px }
+  .store-bar.is-scroll a{
+    flex:0 0 auto; scroll-snap-align:start;
+    line-height:36px; padding:0 14px;
+    border:1px solid var(--line-strong); border-radius:999px;
+    background:#fff; white-space:nowrap; text-align:center;
+  }
 
   /* ===== HERO ===== */
   .hero{border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff)}
@@ -255,10 +272,14 @@
         const bar = document.getElementById('storeBar');
         bar.innerHTML = cats.map(c => `<a href="listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
         bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
+        // sadece hardware'da yatay kaydırmalı chip bar kullan
+        if (slug === 'hardware') {
+          bar.classList.add('is-scroll');
+        }
       }catch(e){ console.warn('store-content.json yok/boş:', e); }
 
       /* 3) products.json -> grid (cat === slug) */
-      const raw = await getJSON('data/products.json');   // <— tek doğru yol
+      const raw = await getJSON('data/products.json');   // tek doğru yol
       const all = normalizeProducts(raw);
       const list = all.filter(p => (p.cat||'').toLowerCase() === slug);
       renderProducts(list);
@@ -270,3 +291,4 @@
 </script>
 </body>
 </html>
+
