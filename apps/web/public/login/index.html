@@ -164,7 +164,6 @@
   }
 
   // --- DEMO doğrulama: localStorage tabanlı ---
-  // create-account/index.html formundan kayıtlar 'rgztec_users' key'inde tutuluyor varsayımı
   function getUsers(){
     try { return JSON.parse(localStorage.getItem('rgztec_users')||'{}'); }
     catch { return {}; }
@@ -178,6 +177,12 @@
 
   function hideAlerts(){ [err, err2, err3].forEach(e=>e.style.display='none'); }
 
+  // Oturumu açık kullanıcının tekrar login’e gelmesi durumunda direkt dashboard'a al
+  try {
+    const s = JSON.parse(localStorage.getItem('rgztec_session')||'null');
+    if (s && s.email) { location.replace('editor/'); }
+  } catch {}
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     hideAlerts();
@@ -190,7 +195,7 @@
 
     const users = getUsers();
     const u = users[email];
-    if(!u){ // hesap yok -> create-account'a yönlendir
+    if(!u){
       err2.style.display = 'block';
       setTimeout(() => location.href = 'create-account/', 900);
       return;
@@ -200,11 +205,13 @@
       return;
     }
 
-    // başarılı giriş (demo): session kaydı
-    localStorage.setItem('rgztec_session', JSON.stringify({ email, t: Date.now() }));
+    // başarılı giriş (demo): remember seçiliyse kalıcı sakla, değilse sadece oturum için işaretle
+    const session = { email, t: Date.now() };
+    localStorage.setItem('rgztec_session', JSON.stringify(session));
     btn.disabled = true;
     setTimeout(() => { location.href = 'editor/'; }, 400);
   });
 </script>
 </body>
 </html>
+
