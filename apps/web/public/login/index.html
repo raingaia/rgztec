@@ -14,26 +14,23 @@
 <style>
   :root{
     --ink:#0b1220; --muted:#64748b; --line:#e5e7eb; --line-strong:#d7dbe3;
-    --brand:#f97316; --brand-700:#ea580c; --bg:#f8fafc;
+    --brand:#f97316; --brand-700:#ea580c;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:
-    radial-gradient(1200px 600px at -10% -20%, #fff 0, #f9fbff 55%, #f2f5fb 100%)}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);
+    background:radial-gradient(1200px 600px at -10% -20%, #fff 0, #f9fbff 55%, #f2f5fb 100%)}
 
-  /* header (minimal) */
   .hdr{max-width:1120px;margin:18px auto 0;padding:0 18px;display:flex;align-items:center;justify-content:space-between}
   .brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none}
   .hdr a.link{color:var(--muted);text-decoration:none;font-weight:600}
   .hdr a.link:hover{color:var(--ink);text-decoration:underline}
 
-  /* layout */
   .wrap{max-width:1120px;margin:22px auto;padding:0 18px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
   .panel{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(2,6,23,.06)}
-  .p-inner{padding:26px 26px}
+  .p-inner{padding:26px}
   .title{margin:0 0 6px;font-size:28px;font-weight:900}
   .sub{margin:0 0 18px;color:var(--muted)}
 
-  /* form */
   form{display:grid;gap:14px}
   .lbl{font-weight:700;font-size:13px;margin-bottom:6px}
   .txt{width:100%;height:44px;border:1.5px solid var(--line-strong);border-radius:12px;padding:10px 12px;font-size:15px}
@@ -50,20 +47,21 @@
   .sso .btnx{height:42px;border:1.5px solid var(--line-strong);background:#fff;border-radius:12px;font-weight:700;cursor:pointer}
   .sso .btnx:hover{background:#f8fafc}
 
-  .error{display:none;margin-top:2px;padding:10px 12px;border:1px solid #fecaca;background:#fff1f2;color:#b91c1c;border-radius:10px;font-size:14px}
-  .help{margin-top:8px;color:var(--muted);font-size:13px}
+  .alert{display:none;margin-top:2px;padding:10px 12px;border-radius:10px;font-size:14px}
+  .error{border:1px solid #fecaca;background:#fff1f2;color:#b91c1c}
+  .ok{border:1px solid #bbf7d0;background:#ecfdf5;color:#065f46}
+
   .foot{text-align:center;margin-top:14px;color:var(--muted);font-size:14px}
   .foot a{font-weight:800;color:var(--brand);text-decoration:none}
   .foot a:hover{color:var(--brand-700);text-decoration:underline}
 
-  /* right visual panel */
   .hero{position:relative;min-height:520px;overflow:hidden}
   .hero-head{padding:26px 26px 0}
   .h1{margin:0;font-weight:900;font-size:24px}
   .hsub{margin:6px 0 18px;color:var(--muted)}
   .illus{position:absolute;inset:0;padding:26px;display:grid;place-items:center}
   .cardy{width:86%;max-width:520px;aspect-ratio:16/10;border-radius:18px;border:1px solid var(--line);
-         background:linear-gradient(180deg,#fff, #f7fafc);box-shadow:0 14px 28px rgba(2,6,23,.09);position:relative}
+         background:linear-gradient(180deg,#fff,#f7fafc);box-shadow:0 14px 28px rgba(2,6,23,.09);position:relative}
   .bar{position:absolute;left:14px;right:14px;top:14px;height:10px;border-radius:999px;background:#e2e8f0}
   .line{position:absolute;left:14px;right:24px;height:12px;border-radius:6px;background:#eef2f7}
   .line.l1{top:64px;width:78%} .line.l2{top:92px;width:56%} .line.l3{top:120px;width:64%}
@@ -79,7 +77,8 @@
 
 <header class="hdr">
   <a class="brand" href="./">RGZTEC</a>
-  <a class="link" href="/rgztec/apps/web/public/create-account/">Create an Account</a>
+  <!-- slug yönlendirme -->
+  <a class="link" href="create-account/">Create an Account</a>
 </header>
 
 <main class="wrap" aria-labelledby="signinTitle">
@@ -89,7 +88,10 @@
       <h1 id="signinTitle" class="title">Welcome back</h1>
       <p class="sub">Log in to manage your store and products.</p>
 
-      <div id="err" class="error" role="alert">Please enter a valid email and a password (min 6 chars).</div>
+      <div id="ok"   class="alert ok"    role="status">Account created. You can sign in now.</div>
+      <div id="err"  class="alert error" role="alert">Please enter a valid email and a password (min 6 chars).</div>
+      <div id="err2" class="alert error" role="alert">Account not found. Please create an account first.</div>
+      <div id="err3" class="alert error" role="alert">Incorrect password.</div>
 
       <form id="form" novalidate>
         <div>
@@ -116,10 +118,9 @@
           <button type="button" class="btnx" onclick="location.href='auth/github'">GitHub</button>
         </div>
 
-        <p class="help">By continuing, you agree to the <a class="a" href="terms.html">Terms</a> and <a class="a" href="privacy.html">Privacy Policy</a>.</p>
-
         <p class="foot">Don’t have an account?
-          <a href="create-account.html">Sign up</a>
+          <!-- slug yönlendirme -->
+          <a href="create-account/">Sign up</a>
         </p>
       </form>
     </div>
@@ -156,29 +157,53 @@
 </main>
 
 <script>
-  // lightweight client-side validation (no backend here)
+  // --- helper: querystring ---
+  const qs = new URLSearchParams(location.search);
+  if (qs.get('welcome') === '1') {
+    const ok = document.getElementById('ok'); ok.style.display = 'block';
+  }
+
+  // --- DEMO doğrulama: localStorage tabanlı ---
+  // create-account/index.html formundan kayıtlar 'rgztec_users' key'inde tutuluyor varsayımı
+  function getUsers(){
+    try { return JSON.parse(localStorage.getItem('rgztec_users')||'{}'); }
+    catch { return {}; }
+  }
+
   const form = document.getElementById('form');
   const err  = document.getElementById('err');
+  const err2 = document.getElementById('err2');
+  const err3 = document.getElementById('err3');
   const btn  = document.getElementById('submitBtn');
+
+  function hideAlerts(){ [err, err2, err3].forEach(e=>e.style.display='none'); }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    err.style.display = 'none';
+    hideAlerts();
 
-    const email = /** @type {HTMLInputElement} */(document.getElementById('email')).value.trim();
-    const pass  = /** @type {HTMLInputElement} */(document.getElementById('password')).value;
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const pass  = document.getElementById('password').value;
 
     const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if(!okEmail || !pass || pass.length < 6){
-      err.style.display = 'block';
+    if(!okEmail || pass.length < 6){ err.style.display = 'block'; return; }
+
+    const users = getUsers();
+    const u = users[email];
+    if(!u){ // hesap yok -> create-account'a yönlendir
+      err2.style.display = 'block';
+      setTimeout(() => location.href = 'create-account/', 900);
+      return;
+    }
+    if(u.password !== pass){
+      err3.style.display = 'block';
       return;
     }
 
+    // başarılı giriş (demo): session kaydı
+    localStorage.setItem('rgztec_session', JSON.stringify({ email, t: Date.now() }));
     btn.disabled = true;
-    // Demo: pretend we submit, then redirect to dashboard
-    setTimeout(() => {
-      location.href = 'editor/'; // dashboard/editor ana sayfasına
-    }, 500);
+    setTimeout(() => { location.href = 'editor/'; }, 400);
   });
 </script>
 </body>
