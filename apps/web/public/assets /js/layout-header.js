@@ -1,8 +1,7 @@
-<script>
 (function(){
   // ---- AYARLAR ----
   // Header'ı parçalı dosyadan enjekte etmek istemiyorsan boş bırak:
-  // const PARTIAL_HREF = ""; 
+  // const PARTIAL_HREF = "";
   const PARTIAL_HREF = "assets/partials/header.html?v=9";
 
   // URL param yatay debug: ?debug=1
@@ -61,7 +60,7 @@
         }
       });
 
-      // Ana sayfadaysak görsel değişiklik için "New" chip'i varsayılan aktif yap:
+      // Ana sayfa için varsayılan aktif chip
       if (curIsHome && !curTag && !curStore && !curSlug){
         const def = document.querySelector('.chips a[href*="tag=new"]');
         def && def.classList.add("active");
@@ -70,9 +69,6 @@
   }
 
   function run(){ ensureHeader().then(markActiveLinks); }
-
   if (document.readyState==="loading") document.addEventListener("DOMContentLoaded", run);
   else run();
 })();
-</script>
-
