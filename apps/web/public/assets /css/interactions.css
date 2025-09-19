@@ -1,0 +1,26 @@
+/* ===== MİKRO ETKİLEŞİMLER ===== */
+
+/* CTA ve arama butonu */
+.go, .btn{
+  background:var(--brand);
+  transition:transform .12s, filter .12s;
+}
+.go:hover, .btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(.96);
+}
+.go:active, .btn:active{ transform:none; }
+
+/* Promos/badge’ler gölge */
+.badge, .promo-badge{
+  background:var(--brand) !important;
+  box-shadow:0 6px 18px color-mix(in oklab, var(--brand) 35%, transparent);
+}
+
+/* Chip alt vurgusu */
+.chip{ position:relative }
+.chip::after{
+  content:""; position:absolute; left:10%; right:90%; bottom:-6px; height:2px;
+  background:var(--brand); transition:left .25s ease, right .25s ease;
+}
+.chip:hover::after{ left:0; right:0; }
