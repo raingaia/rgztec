@@ -1,37 +1,21 @@
-:root{ --rgztec:#f97316 }
-
-/* genel aktif görünüm */
-a.active{ color:var(--rgztec) !important }
-
-/* store kategori barı (üstteki siyah yazılar) */
-.store-bar a{
-  position:relative;
+.chips a.active,
+.store-bar a.active,
+.categories a.active {
+  color: #0b1220 !important;
+  position: relative;
+  font-weight: 800;
 }
-.store-bar a.active{
-  font-weight:800;
-}
-.store-bar a.active::after{
+.chips a.active::after,
+.store-bar a.active::after,
+.categories a.active::after{
   content:"";
   position:absolute;
-  left:22%;
-  right:22%;
-  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-8px;
+  width:24px;
   height:3px;
-  background:var(--rgztec);
   border-radius:3px;
+  background:#f97316;
 }
 
-/* ana sayfa hızlı filtreler (chips) varsa */
-.chips .chip.active{
-  color:var(--rgztec);
-  text-decoration:none;
-}
-
-/* Featured stores satırı: aktif mağaza vurgusu */
-#storeRow .tile.active .badge{
-  box-shadow:
-    0 0 0 2px var(--rgztec) inset,
-    0 10px 20px -6px rgba(0,0,0,.12),
-    inset 0 1px 0 rgba(255,255,255,.5),
-    0 0 0 1px rgba(0,0,0,.05);
-}
