@@ -1,18 +1,37 @@
-/* aktif link görünürlüğü (chips / categories / store bar / header sağ linkler) */
-.chips a.active,
-.categories a.active,
-.store-bar a.active,
-.hdr-right a.active{
-  color:#0b0b0b !important;
-  font-weight:800;
+:root{ --rgztec:#f97316 }
+
+/* genel aktif görünüm */
+a.active{ color:var(--rgztec) !important }
+
+/* store kategori barı (üstteki siyah yazılar) */
+.store-bar a{
   position:relative;
-  text-decoration:none;
 }
-.chips a.active::after,
-.categories a.active::after,
+.store-bar a.active{
+  font-weight:800;
+}
 .store-bar a.active::after{
   content:"";
   position:absolute;
-  left:0; right:0; bottom:-6px;
-  height:2px; background:#0b0b0b; border-radius:2px;
+  left:22%;
+  right:22%;
+  bottom:6px;
+  height:3px;
+  background:var(--rgztec);
+  border-radius:3px;
+}
+
+/* ana sayfa hızlı filtreler (chips) varsa */
+.chips .chip.active{
+  color:var(--rgztec);
+  text-decoration:none;
+}
+
+/* Featured stores satırı: aktif mağaza vurgusu */
+#storeRow .tile.active .badge{
+  box-shadow:
+    0 0 0 2px var(--rgztec) inset,
+    0 10px 20px -6px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 0 0 1px rgba(0,0,0,.05);
 }
