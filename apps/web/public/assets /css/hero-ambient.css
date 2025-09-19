@@ -1,0 +1,33 @@
+/* ===== CANLI HERO AMBIENT ===== */
+.hero-outer{
+  position:relative; overflow:hidden;
+  background:linear-gradient(
+    180deg,
+    var(--surface),
+    var(--surface) 60%,
+    color-mix(in oklab, var(--brand) 8%, white) 100%
+  );
+}
+.hero-outer::before{
+  content:""; position:absolute; inset:-22%;
+  background:
+    radial-gradient(40% 60% at 20% 30%,
+      color-mix(in oklab, var(--brand) 35%, transparent) 0 60%, transparent 70%),
+    radial-gradient(35% 50% at 80% 20%,
+      color-mix(in oklab, var(--accent-1) 32%, transparent) 0 60%, transparent 70%),
+    radial-gradient(30% 45% at 50% 80%,
+      color-mix(in oklab, var(--accent-2) 24%, transparent) 0 60%, transparent 70%);
+  filter: blur(36px) saturate(1.06);
+  transform: rotate(0deg) scale(1.1);
+  animation: heroAmbient 24s linear infinite;
+  will-change: transform;
+  pointer-events:none;
+}
+@keyframes heroAmbient{
+  0%   { transform: rotate(0deg)   scale(1.10); }
+  50%  { transform: rotate(180deg) scale(1.12); }
+  100% { transform: rotate(360deg) scale(1.10); }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-outer::before{ animation:none; }
+}
