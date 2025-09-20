@@ -120,3 +120,63 @@ body[data-store] .card .media img:not([src]){ display:none !important }
   :root{ --header-h:56px; --hero-mask:48px; }
   body[data-store] .hdr{ grid-template-columns:1fr; }
 }
+/* ===== Header ölçek ve çizgi düzeni (patch) ===== */
+
+/* 1) Header ızgarası: arama kolonunu akışkan yap */
+body[data-store] .hdr{
+  /* solda marka, ortada arama, sağda ikonlar */
+  grid-template-columns: auto minmax(0, 780px) auto;
+}
+
+/* Arama çubuğunun kapa taşımasını önle */
+body[data-store] .rail{ min-width: 0; }           /* kritik: çocuğun daralmasına izin ver */
+body[data-store] .search{
+  width: 100%;
+  max-width: 780px;                                /* üst sınır */
+}
+
+/* 2) Kategori şeridi: tek çizgi ve tam genişlik */
+body[data-store] .cats-wrap{
+  position: sticky;
+  top: var(--header-h);
+  z-index: 90;
+  background: #fff !important;
+  border-bottom: none;                              /* kendi çizgisini pseudo ile vereceğiz */
+  overflow: visible;
+}
+
+/* Çizgiyi tam viewport genişliğinde ver (yarım çizgi hissi gider) */
+body[data-store] .cats-wrap{ position: sticky; }
+body[data-store] .cats-wrap::after{
+  content:"";
+  position:absolute;
+  left:50%; right:50%;
+  bottom:0;
+  margin-left:-50vw; margin-right:-50vw;           /* tam genişlik */
+  height:1px; background: var(--line);
+  pointer-events:none;
+}
+
+/* store-bar’ın alt çizgisini kapat ki çift çizgi olmasın */
+body[data-store] .store-bar{
+  border-bottom: 0;
+  overflow-x: auto;                                 /* kategori çoksa taşmasın */
+  -webkit-overflow-scrolling: touch;
+  padding: 0 18px;                                  /* çizgiye yapışık durmasın */
+  background:#fff;
+}
+
+/* 3) Hero maskesi çizginin hemen altında başlasın (gölgemsi iz kalmasın) */
+body[data-store] .hero::before{
+  content:"";
+  position:absolute; left:0; right:0; top:0;
+  height: var(--hero-mask);
+  background: linear-gradient(#fff, rgba(255,255,255,0));
+  pointer-events:none; z-index:1;
+}
+
+/* 4) Mobilde daha sıkı */
+@media (max-width: 900px){
+  body[data-store] .hdr{ grid-template-columns: 1fr; }
+  body[data-store] .search{ max-width: 100%; }
+}
