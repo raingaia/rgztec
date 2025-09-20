@@ -1,12 +1,11 @@
-/* Hardware page – ek düzenlemeler (yapıyı bozmaz) */
+/* Hardware page – yapıyı bozmaz; ufak düzenlemeler */
 :root{
   --tile: clamp(92px, 8vw, 110px);
-  --rgztec: #f97316;
 }
 
-/* Yatay vitrin */
-.stores .tiles{
-  display:flex;
+/* Yatay vitrin sadece hardware’de */
+body[data-store="hardware"] .stores .tiles{
+  display:flex !important;
   gap:clamp(12px,2vw,16px);
   overflow-x:auto;
   overflow-y:hidden;
@@ -14,12 +13,9 @@
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
 }
-.stores .tile{ flex:0 0 auto; min-width:120px; scroll-snap-align:start; }
-.stores .badge{ width:96px; height:96px; border-radius:22px; }
+body[data-store="hardware"] .stores .tile{ flex:0 0 auto; min-width:120px; scroll-snap-align:start; }
+body[data-store="hardware"] .stores .badge{ width:96px; height:96px; border-radius:22px; }
 
-/* Hero ufak fark */
-.hero{border-bottom:1px solid #e5e7eb; background:linear-gradient(180deg,#fff,#fafbff)}
-
-/* Küçük iyileştirmeler */
+/* Başlıklar */
 .h1{font-weight:900; font-size:22px; margin:0 0 4px}
 .tag{margin:0; color:#64748b}
