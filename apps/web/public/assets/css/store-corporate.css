@@ -1,25 +1,25 @@
 /* ===========================================================
-   RGZTEC • Store Corporate (full)
-   Uygulama kapsamı: store.html?slug=... sayfaları
-   Not: body[data-store] hedeflenir, diğer sayfaları bozmaz
+   RGZTEC • Store Corporate (clean)
+   Kapsam: store.html?slug=...  (yalnızca body[data-store] sayfaları)
    =========================================================== */
 
 :root{
-  /* Ana sayfadaki havayla uyumlu yumuşak tonlar */
-  --amb-lilac:#efe8ff;     /* mor */
-  --amb-peach:#ffe6d5;     /* şeftali */
-  --amb-sky:#e7f3ff;       /* mavi */
+  /* Yumuşak gradient tonları */
+  --amb-lilac:#efe8ff;
+  --amb-peach:#ffe6d5;
+  --amb-sky:#e7f3ff;
 
   --text:#111827;
   --rgztec-dark:#ea580c;
-  --line:#e5e7eb; 
+  --line:#e5e7eb;
   --line-strong:#cbd5e1;
 
-  /* Sticky header yüksekliği */
+  /* Header ve hero geçiş ölçüleri */
   --header-h: 64px;
+  --hero-mask: 56px;
 }
 
-/* ------------ HEADER & KATEGORİ BARI (sabit beyaz) ------------- */
+/* ========== HEADER (sabit beyaz & uyumlu hizalama) ========== */
 body[data-store] .topbar{
   position: sticky;
   top: 0;
@@ -27,11 +27,34 @@ body[data-store] .topbar{
   background:#fff !important;
   border-bottom:1px solid var(--line);
   box-shadow:0 1px 6px rgba(15,23,42,.05);
-  isolation:isolate;     /* arka efektlerin karışmasını kes */
+  isolation:isolate;
   overflow:hidden;
 }
 body[data-store] .topbar *{ mix-blend-mode: normal; }
 
+/* Header ızgarası ve arama barı (home ile hizalı) */
+body[data-store] .wrap{ max-width:1280px; margin:0 auto; padding:12px 18px 0; }
+body[data-store] .hdr{
+  display:grid;
+  grid-template-columns:auto minmax(0, 780px) auto;
+  align-items:center;
+  column-gap:16px;
+}
+body[data-store] .search{
+  width:100%;
+  display:flex; align-items:center; gap:10px;
+  height:44px; padding:6px 8px 6px 16px;
+  border:2px solid #111827; border-radius:999px; background:#fff;
+}
+body[data-store] .search input{ flex:1; border:0; outline:0; font-size:15px; padding:8px 6px }
+body[data-store] .search button{
+  display:grid; place-items:center; width:34px; height:34px; border-radius:999px;
+  border:0; background:var(--rgztec-dark); cursor:pointer; transition:transform .12s, filter .12s;
+}
+body[data-store] .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
+body[data-store] .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
+
+/* ========== KATEGORİ ŞERİDİ (header altı beyaz bant) ========== */
 body[data-store] .cats-wrap{
   position: sticky;
   top: var(--header-h);
@@ -41,7 +64,7 @@ body[data-store] .cats-wrap{
   overflow:hidden;
 }
 
-/* ---------------- HERO: kurumsal gradient + fade ---------------- */
+/* ========== HERO (kurumsal gradient + beyaza fade) ========== */
 body[data-store] .hero{
   position:relative; z-index:0;
   background:
@@ -50,14 +73,16 @@ body[data-store] .hero{
     radial-gradient(50% 80% at 30% 100%, var(--amb-sky) 0%, rgba(231,243,255,0) 60%),
     #fff !important;
 }
-body[data-store] .hero .hero-inner{ padding-top:8px; }
+body[data-store] .hero .hero-inner{ padding-top: calc(12px + var(--hero-mask)); }
 body[data-store] .hero::before{
-  content:""; position:absolute; left:0; right:0; top:0; height:56px;
+  content:"";
+  position:absolute; left:0; right:0; top:0;
+  height: var(--hero-mask);
   background: linear-gradient(#fff, rgba(255,255,255,0));
   pointer-events:none; z-index:1;
 }
 
-/* --------------- KATEGORİ BAR: metin link stili ----------------- */
+/* ========== KATEGORİ LİNKLERİ (pill yok, metin link) ========== */
 body[data-store] .store-bar{
   display:grid; grid-auto-flow:column; grid-auto-columns:max-content;
   gap:28px; border-bottom:1px solid var(--line);
@@ -74,17 +99,14 @@ body[data-store] .store-bar a:hover{
   color:var(--rgztec-dark) !important; text-decoration:underline;
 }
 
-/* ------------------- KART GÖRSELLERİ (kurumsal) ------------------ */
+/* ========== KART GÖRSELLERİ (16:9, shimmer skeleton) ========== */
 body[data-store] .card .media{
   position:relative; width:100%; aspect-ratio:16/9;
   background:linear-gradient(90deg,#eef2f7 25%,#f5f7fa 37%,#eef2f7 63%);
   background-size:400% 100%; animation:shimmer 1.2s ease-in-out infinite;
   border-bottom:1px solid var(--line);
 }
-@keyframes shimmer{
-  0%{ background-position:200% 0 } 
-  100%{ background-position:-200% 0 }
-}
+@keyframes shimmer{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 body[data-store] .card .media.loaded{ animation:none; background:#fff }
 body[data-store] .card .media img{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
@@ -93,48 +115,8 @@ body[data-store] .card .media img{
 body[data-store] .card .media img[src=""],
 body[data-store] .card .media img:not([src]){ display:none !important }
 
-/* ------------------------ Responsive tweak ----------------------- */
+/* ========== Responsive ========== */
 @media (max-width:900px){
-  :root{ --header-h: 56px; }
-}
-/* ===== Header + Kategori bar fix ===== */
-:root{ --header-h: 64px; --hero-mask: 56px; }
-
-/* Header: beyaz, üstte sabit, ince gölge */
-.topbar{
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background:#fff !important;
-  border-bottom:1px solid var(--line);
-  box-shadow:0 1px 6px rgba(15,23,42,.05);
-  isolation:isolate;
-  overflow:hidden;
-}
-.topbar *{ mix-blend-mode: normal; }
-
-/* Kategori barı: header'ın altında beyaz bant */
-.cats-wrap{
-  position: sticky;
-  top: var(--header-h);
-  z-index: 90;
-  background:#fff !important;
-  border-bottom:1px solid var(--line);
-  overflow:hidden;
-}
-
-/* Hero: gradient + üstte beyaza fade, yazı mask altına girmesin */
-.hero{ position:relative; z-index:0; }
-.hero .hero-inner{ padding-top: calc(12px + var(--hero-mask)); }
-.hero::before{
-  content:"";
-  position:absolute; left:0; right:0; top:0;
-  height: var(--hero-mask);
-  background: linear-gradient(#fff, rgba(255,255,255,0));
-  pointer-events:none; z-index:1;
-}
-
-/* Mobilde header kısalır */
-@media (max-width: 900px){
-  :root{ --header-h: 56px; --hero-mask: 48px; }
+  :root{ --header-h:56px; --hero-mask:48px; }
+  body[data-store] .hdr{ grid-template-columns:1fr; }
 }
