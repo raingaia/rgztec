@@ -1,13 +1,12 @@
 /* ========= RGZTEC • Hardware Page ========= */
 
-/* Sayfa klasörünü baz al (BASE yok) */
-const PAGE_BASE = location.origin + location.pathname.replace(/[^/]*$/, ''); // .../apps/web/public/
+/* Sayfa klasörüne göre mutlaklaştır */
+const PAGE_BASE = location.origin + location.pathname.replace(/[^/]*$/, '');
 const abs = (p='') => new URL((p||'').replace(/^\.?\//,''), PAGE_BASE).href;
 
 const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
 const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-/* Bu sayfa sabit hardware vitrini */
 const SLUG = 'hardware';
 document.body.dataset.store = SLUG;
 
@@ -34,13 +33,16 @@ function tile(s){
   </li>`;
 }
 
+/* 1x1 şeffaf PNG (placeholder) */
+const P1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+N3qkAAAAASUVORK5CYII=';
+
 /* Card */
 function card(p){
-  const img = abs(p.thumb || 'assets/thumbs/placeholder.png');
+  const img = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
   return `
   <div class="card">
-    <img loading="lazy" src="${img}" alt="${esc(p.title)}"
-         onerror="this.onerror=null;this.src='${abs('assets/thumbs/placeholder.png')}'">
+    <img loading="lazy" src="${abs(img)}" alt="${esc(p.title)}"
+         onerror="this.onerror=null;this.src='${P1}'">
     <div class="pad">
       <div class="title">${esc(p.title)}</div>
       <p class="sub">${esc(p.desc||'')}</p>
@@ -58,46 +60,23 @@ function renderProducts(list){
   g.innerHTML = list.map(card).join('');
 }
 
-/* Normalizers (cat/category/store + image->thumb fallback) */
+/* Normalizers */
 function normalizeProducts(raw){
-  if (Array.isArray(raw)){
-    return raw.map(x=>({
-      id:x.id,
-      cat:(x.cat||x.category||x.store||'').toLowerCase(),
-      title:x.title,
-      desc:x.description||'',
-      price:x.price,
-      thumb:abs(
-        x.thumb
-        || `assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`
-      ),
-      tags:Array.isArray(x.tags)?x.tags:[]
-    }));
-  }
-  const prods = Array.isArray(raw?.products)? raw.products.map(p=>({
-    id:p.id,
-    cat:(p.cat||p.category||p.store||'').toLowerCase(),
-    title:p.title,
-    desc:p.desc||p.description||'',
-    price:p.price,
-    thumb:abs(
-      p.thumb
-      || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`
-    ),
-    tags:Array.isArray(p.tags)?p.tags:[]
-  })) : [];
-  const gallery = Array.isArray(raw?.gallery)? raw.gallery.map(x=>({
-    id:`g-${x.id}`,
-    cat:(x.cat||x.category||x.store||'').toLowerCase(),
-    title:x.title,
-    desc:x.description||'',
-    price:x.price,
-    thumb:abs(
-      x.thumb
-      || `assets/thumbs/${(x.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`
-    ),
-    tags:Array.isArray(x.tags)?x.tags:[]
-  })) : [];
+  const norm = o => ({
+    id:o.id,
+    cat:(o.cat||o.category||o.store||'').toLowerCase(),
+    title:o.title,
+    desc:o.desc||o.description||'',
+    price:o.price,
+    image:o.image||'',
+    thumb:o.thumb||'',
+    tags:Array.isArray(o.tags)?o.tags:[]
+  });
+
+  if (Array.isArray(raw)) return raw.map(norm);
+
+  const prods   = Array.isArray(raw?.products)? raw.products.map(norm) : [];
+  const gallery = Array.isArray(raw?.gallery)?  raw.gallery.map(x=>norm({id:`g-${x.id}`, ...x})) : [];
   return prods.length ? prods : gallery;
 }
 
@@ -109,7 +88,7 @@ async function getJSON(url){
   return r.json();
 }
 
-/* Ürün seçimi — hardware */
+/* Sadece hardware ürünleri */
 function pickHardware(all){
   return all.filter(p=>{
     const cat  = (p.cat || p.category || p.store || '').toLowerCase();
@@ -121,13 +100,12 @@ function pickHardware(all){
 /* Main */
 (async function main(){
   try{
-    /* stores.json -> yatay vitrin */
+    /* Vitrin */
     const storesDoc = await getJSON('./data/stores.json');
     const stores = Array.isArray(storesDoc?.stores) ? storesDoc.stores : [];
-    // hardware dışındaki store’lardan ilk 20’sini vitrine koy (isteğe göre değiştirilebilir)
     document.getElementById('storeRow').innerHTML = stores.slice(0,20).map(tile).join('');
 
-    /* store-content.json -> üst kategori barı */
+    /* Üst kategori barı */
     try{
       const content = await getJSON('./data/store-content.json');
       const cats = Array.isArray(content?.[SLUG]?.categories) ? content[SLUG].categories : [];
@@ -136,13 +114,13 @@ function pickHardware(all){
       bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
     }catch(e){ console.warn('store-content.json yok/boş:', e); }
 
-    /* products.json -> sadece hardware ürünler */
+    /* Ürünler */
     const raw = await getJSON('./data/products.json');
     const all = normalizeProducts(raw);
     const list = pickHardware(all);
     renderProducts(list);
 
-    // Başlıklar
+    /* Başlıklar */
     document.getElementById('studioName').textContent = 'Hardware';
     document.getElementById('heroTitle').textContent = 'Hardware';
     document.title = 'RGZTEC • Hardware';
