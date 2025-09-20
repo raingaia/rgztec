@@ -6,19 +6,11 @@
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
 
-<!-- KÖK YOLU: proje klasörüne göre çözülsün -->
-<base href="./">
-
-<!-- --- CSS (6 adet) --- -->
-<link rel="stylesheet" href="assets/css/base.css?v=20250920">
-<link rel="stylesheet" href="assets/css/styles.css?v=20250920">
-<link rel="stylesheet" href="assets/css/card.css?v=20250920">
-<link rel="stylesheet" href="assets/css/layout.css?v=20250920"><!-- varsa; yoksa silebilirsin -->
-<link rel="stylesheet" href="assets/css/header.css?v=20250920"><!-- varsa; yoksa silebilirsin -->
-<link rel="stylesheet" href="assets/css/store-page.css?v=20250920"><!-- sayfaya özel -->
-
-<!-- Progressive enhancement -->
-<noscript><style>body{opacity:1}</style></noscript>
+<!-- BASE YOK! Her şey sayfanın klasörüne göre ./ ile çağrılıyor -->
+<link rel="stylesheet" href="./assets/css/base.css?v=20250920">
+<link rel="stylesheet" href="./assets/css/styles.css?v=20250920">
+<link rel="stylesheet" href="./assets/css/card.css?v=20250920">
+<link rel="stylesheet" href="./assets/css/store-page.css?v=20250920">
 </head>
 <body>
 
@@ -27,9 +19,10 @@
   (function(){
     const params = new URLSearchParams(location.search);
     const slug = (params.get('slug')||'').toLowerCase();
-    if (slug === 'hardware') location.replace('hardware.html');
+    if (slug === 'hardware') location.replace('./hardware.html');
   })();
 </script>
+
 <header class="topbar">
   <div class="wrap">
     <div class="hdr">
@@ -51,10 +44,10 @@
       </div>
 
       <nav class="icons" aria-label="Quick actions">
-        <a href="login" aria-label="Sign in">Sign in</a>
-        <a class="icon-btn" href="gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
-        <a href="cart" title="Cart" aria-label="Cart">🛒</a>
-        <a href="become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+        <a href="./login" aria-label="Sign in">Sign in</a>
+        <a class="icon-btn" href="./gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
+        <a href="./cart" title="Cart" aria-label="Cart">🛒</a>
+        <a href="./become-seller" class="open-store" aria-label="Open your store">Open Store</a>
       </nav>
     </div>
   </div>
@@ -81,37 +74,8 @@
   <div id="grid" class="grid"></div>
 </main>
 
-<!-- --- JS (4 adet) --- -->
-<script defer src="assets/js/vendor.js?v=20250920"></script>     <!-- varsa; yoksa silebilirsin -->
-<script defer src="assets/js/helpers.js?v=20250920"></script>    <!-- varsa; yoksa silebilirsin -->
-<script defer src="assets/js/store-common.js?v=20250920"></script><!-- varsa; yoksa silebilirsin -->
-<script defer src="assets/js/store-page.js?v=20250920"></script> <!-- zorunlu: bu sayfanın mantığı -->
-
-<!-- Teşhis için mini kontrol (istersen sonra kaldır) -->
-<script>
-(async function(){
-  const urls = [
-    'assets/css/base.css',
-    'assets/css/styles.css',
-    'assets/css/card.css',
-    'assets/css/store-page.css',
-    'assets/js/store-page.js',
-    'data/stores.json',
-    'data/products.json',
-    'data/store-content.json'
-  ];
-  for (const u of urls) {
-    try {
-      const r = await fetch(u, {cache:'no-store'});
-      if (r.status !== 200) {
-        console.warn('Yüklenemedi ->', r.status, new URL(u, document.baseURI).href);
-      }
-    } catch(e) {
-      console.error('ERR', u, e);
-    }
-  }
-})();
-</script>
+<!-- Tek zorunlu JS -->
+<script defer src="./assets/js/store-page.js?v=20250920"></script>
 </body>
 </html>
 
