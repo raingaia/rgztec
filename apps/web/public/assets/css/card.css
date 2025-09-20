@@ -1,0 +1,72 @@
+
+/* Kartın dışı */
+.rgz-card{
+  border:1px solid var(--line, #e5e7eb);
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Görsel alanı — CLS’i engellemek için oran sabitliyoruz */
+.rgz-card .rgz-media{
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #eef2f7;
+}
+
+/* Görsel yüklenmeden önce alanı rezerve et: 4:3 (istersen 16/9 seç) */
+.rgz-card .rgz-media::before{
+  content:"";
+  display:block;
+  aspect-ratio: 4 / 3;
+}
+
+/* Gerçek görsel, rezerve alana otursun */
+.rgz-card .rgz-media > img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+}
+
+/* Wishlist / Quick view küçük aksiyonlar */
+.rgz-card .rgz-wish,
+.rgz-card .rgz-quick{
+  position:absolute; right:10px;
+  border:0; cursor:pointer;
+  border-radius:10px;
+  height:32px; padding:0 10px;
+  background:rgba(255,255,255,.9);
+}
+.rgz-card .rgz-wish{ top:10px }
+.rgz-card .rgz-quick{ bottom:10px }
+
+/* Metin bölümü */
+.rgz-card .rgz-body{ padding:12px }
+.rgz-card .rgz-title{ font-weight:700; margin:4px 0 6px }
+.rgz-card .rgz-desc{ color:var(--sub,#64748b); font-size:14px; margin:0 }
+
+/* Fiyat ve buton — ortalı görünüm */
+.rgz-card .rgz-row{
+  display:flex; flex-direction:column;
+  gap:8px; justify-content:center; align-items:center; margin-top:10px
+}
+.rgz-card .rgz-price{ font-weight:800; text-align:center }
+.rgz-card .rgz-btn{
+  display:inline-block; width:100%; text-align:center;
+  padding:8px 12px; border-radius:10px;
+  border:1px solid var(--line-strong,#cbd5e1); text-decoration:none
+}
+.rgz-card .rgz-btn:hover{ background:#f8fafc }
+
+/* ============= Store kategori bar’ı (iki satıra inse bile zıplamasın) ============= */
+.store-bar{
+  display:grid;
+  grid-auto-rows:44px;   /* satır yüksekliği sabit */
+  row-gap:6px;
+}
+@media (min-width:900px){
+  .store-bar{ grid-template-columns: repeat(12, minmax(0,1fr)); }
+}
