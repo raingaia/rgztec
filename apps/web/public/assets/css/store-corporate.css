@@ -1,5 +1,5 @@
 /* ===========================================================
-   RGZTEC • Store Corporate (clean)
+   RGZTEC • Store Corporate (clean, final)
    Kapsam: store.html?slug=...  (yalnızca body[data-store] sayfaları)
    =========================================================== */
 
@@ -17,6 +17,10 @@
   /* Header ve hero geçiş ölçüleri */
   --header-h: 64px;
   --hero-mask: 56px;
+
+  /* Arama maksimum genişlik (masaüstü) */
+  --search-max: 920px;
+  --wrap: 1280px;
 }
 
 /* ========== HEADER (sabit beyaz & uyumlu hizalama) ========== */
@@ -33,15 +37,22 @@ body[data-store] .topbar{
 body[data-store] .topbar *{ mix-blend-mode: normal; }
 
 /* Header ızgarası ve arama barı (home ile hizalı) */
-body[data-store] .wrap{ max-width:1280px; margin:0 auto; padding:12px 18px 0; }
+body[data-store] .wrap{ max-width:var(--wrap); margin:0 auto; padding:12px 18px 0; }
+
 body[data-store] .hdr{
   display:grid;
-  grid-template-columns:auto minmax(0, 780px) auto;
+  /* solda marka, ortada arama (akışkan), sağda ikonlar */
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items:center;
   column-gap:16px;
 }
+
+/* Arama kolonunun daralmasına izin ver (kritik) */
+body[data-store] .rail{ min-width:0; }
+
 body[data-store] .search{
-  width:100%;
+  width:100% !important;
+  max-width:var(--search-max);
   display:flex; align-items:center; gap:10px;
   height:44px; padding:6px 8px 6px 16px;
   border:2px solid #111827; border-radius:999px; background:#fff;
@@ -54,14 +65,35 @@ body[data-store] .search button{
 body[data-store] .search button:hover{ transform:translateY(-1px); filter:brightness(.95) }
 body[data-store] .search svg{ width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none }
 
-/* ========== KATEGORİ ŞERİDİ (header altı beyaz bant) ========== */
+/* ========== KATEGORİ ŞERİDİ (header altı tek çizgi, taşma yok) ========== */
 body[data-store] .cats-wrap{
   position: sticky;
   top: var(--header-h);
   z-index: 90;
   background:#fff !important;
-  border-bottom:1px solid var(--line);
-  overflow:hidden;
+  border-bottom: none !important;          /* çift çizgiyi kapat */
+  box-shadow: inset 0 -1px 0 var(--line);  /* tek çizgi */
+  overflow: visible;
+}
+
+/* store-bar’ın kendi çizgisini kapat; yatay kaydırma serbest */
+body[data-store] .store-bar{
+  display:grid; grid-auto-flow:column; grid-auto-columns:max-content;
+  gap:28px; border:0 !important;
+  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+  overflow-x:auto;
+  padding:0 18px;
+  background:#fff;
+}
+body[data-store] .store-bar a{
+  padding:0 !important;
+  height:44px !important; line-height:44px !important;
+  border:none !important; background:transparent !important; border-radius:0 !important;
+  color:var(--text) !important; font-weight:700; text-decoration:none;
+  transition:color .15s;
+}
+body[data-store] .store-bar a:hover{
+  color:var(--rgztec-dark) !important; text-decoration:underline;
 }
 
 /* ========== HERO (kurumsal gradient + beyaza fade) ========== */
@@ -82,23 +114,6 @@ body[data-store] .hero::before{
   pointer-events:none; z-index:1;
 }
 
-/* ========== KATEGORİ LİNKLERİ (pill yok, metin link) ========== */
-body[data-store] .store-bar{
-  display:grid; grid-auto-flow:column; grid-auto-columns:max-content;
-  gap:28px; border-bottom:1px solid var(--line);
-  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
-}
-body[data-store] .store-bar a{
-  padding:0 !important;
-  height:44px !important; line-height:44px !important;
-  border:none !important; background:transparent !important; border-radius:0 !important;
-  color:var(--text) !important; font-weight:700; text-decoration:none;
-  transition:color .15s;
-}
-body[data-store] .store-bar a:hover{
-  color:var(--rgztec-dark) !important; text-decoration:underline;
-}
-
 /* ========== KART GÖRSELLERİ (16:9, shimmer skeleton) ========== */
 body[data-store] .card .media{
   position:relative; width:100%; aspect-ratio:16/9;
@@ -111,72 +126,14 @@ body[data-store] .card .media.loaded{ animation:none; background:#fff }
 body[data-store] .card .media img{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;
 }
-/* Görsel düşerse kırık ikon/alt yazıyı gizle */
 body[data-store] .card .media img[src=""],
 body[data-store] .card .media img:not([src]){ display:none !important }
 
 /* ========== Responsive ========== */
+@media (max-width:1180px){
+  :root{ --search-max: 780px; }
+}
 @media (max-width:900px){
-  :root{ --header-h:56px; --hero-mask:48px; }
+  :root{ --header-h:56px; --hero-mask:48px; --search-max: 100%; }
   body[data-store] .hdr{ grid-template-columns:1fr; }
-}
-/* ===== Header ölçek ve çizgi düzeni (patch) ===== */
-
-/* 1) Header ızgarası: arama kolonunu akışkan yap */
-body[data-store] .hdr{
-  /* solda marka, ortada arama, sağda ikonlar */
-  grid-template-columns: auto minmax(0, 780px) auto;
-}
-
-/* Arama çubuğunun kapa taşımasını önle */
-body[data-store] .rail{ min-width: 0; }           /* kritik: çocuğun daralmasına izin ver */
-body[data-store] .search{
-  width: 100%;
-  max-width: 780px;                                /* üst sınır */
-}
-
-/* 2) Kategori şeridi: tek çizgi ve tam genişlik */
-body[data-store] .cats-wrap{
-  position: sticky;
-  top: var(--header-h);
-  z-index: 90;
-  background: #fff !important;
-  border-bottom: none;                              /* kendi çizgisini pseudo ile vereceğiz */
-  overflow: visible;
-}
-
-/* Çizgiyi tam viewport genişliğinde ver (yarım çizgi hissi gider) */
-body[data-store] .cats-wrap{ position: sticky; }
-body[data-store] .cats-wrap::after{
-  content:"";
-  position:absolute;
-  left:50%; right:50%;
-  bottom:0;
-  margin-left:-50vw; margin-right:-50vw;           /* tam genişlik */
-  height:1px; background: var(--line);
-  pointer-events:none;
-}
-
-/* store-bar’ın alt çizgisini kapat ki çift çizgi olmasın */
-body[data-store] .store-bar{
-  border-bottom: 0;
-  overflow-x: auto;                                 /* kategori çoksa taşmasın */
-  -webkit-overflow-scrolling: touch;
-  padding: 0 18px;                                  /* çizgiye yapışık durmasın */
-  background:#fff;
-}
-
-/* 3) Hero maskesi çizginin hemen altında başlasın (gölgemsi iz kalmasın) */
-body[data-store] .hero::before{
-  content:"";
-  position:absolute; left:0; right:0; top:0;
-  height: var(--hero-mask);
-  background: linear-gradient(#fff, rgba(255,255,255,0));
-  pointer-events:none; z-index:1;
-}
-
-/* 4) Mobilde daha sıkı */
-@media (max-width: 900px){
-  body[data-store] .hdr{ grid-template-columns: 1fr; }
-  body[data-store] .search{ max-width: 100%; }
 }
