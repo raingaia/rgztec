@@ -30,7 +30,6 @@ function thumbURL(filename){
     fallback: BASE + `assets%20/thumbs/${id}.png`
   };
 }
-
 /* render */
 function render(){
   const list = readCart();
