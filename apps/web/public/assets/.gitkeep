@@ -1,0 +1,3 @@
+git mv "apps/web/public/assets " apps/web/public/assets
+git commit -m "fix: normalize assets folder (remove trailing space)"
+git push
