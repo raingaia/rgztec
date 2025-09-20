@@ -122,6 +122,12 @@ function pickHardware(all){
     const all = normalizeProducts(raw);
     const list = pickHardware(all);
     renderProducts(list);
+document.querySelectorAll('.card .media img').forEach(img=>{
+  const done = () => img.parentElement.classList.add('loaded');
+  img.addEventListener('load', done, {once:true});
+  img.addEventListener('error', done, {once:true});
+});
+
 // ... renderProducts(list); satırından HEMEN SONRA:
 document.querySelectorAll('.card .media img').forEach(img=>{
   const done = () => img.parentElement.classList.add('loaded');
