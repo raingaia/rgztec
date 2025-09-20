@@ -6,19 +6,23 @@
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
 
-<!-- ALT KLASÖR İÇİN ZORUNLU -->
-<base href="/rgztec/apps/web/public/">
-<!-- Mevcut stillerin -->
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/styles.css">
-<link rel="stylesheet" href="assets/css/card.css">
+<!-- KÖK YOLU: proje klasörüne göre çözülsün -->
+<base href="./">
 
-<!-- YENİ: sayfaya özel stil -->
-<link rel="stylesheet" href="assets/css/store-page.css?v=1">
+<!-- --- CSS (6 adet) --- -->
+<link rel="stylesheet" href="assets/css/base.css?v=20250920">
+<link rel="stylesheet" href="assets/css/styles.css?v=20250920">
+<link rel="stylesheet" href="assets/css/card.css?v=20250920">
+<link rel="stylesheet" href="assets/css/layout.css?v=20250920"><!-- varsa; yoksa silebilirsin -->
+<link rel="stylesheet" href="assets/css/header.css?v=20250920"><!-- varsa; yoksa silebilirsin -->
+<link rel="stylesheet" href="assets/css/store-page.css?v=20250920"><!-- sayfaya özel -->
+
+<!-- Progressive enhancement -->
+<noscript><style>body{opacity:1}</style></noscript>
 </head>
 <body>
 
-<!-- ➊ ERKEN YÖNLENDİRME: slug=hardware ise hardware.html (yerinde bırakıldı) -->
+<!-- ➊ ERKEN YÖNLENDİRME: slug=hardware ise hardware.html -->
 <script>
   (function(){
     const params = new URLSearchParams(location.search);
@@ -78,10 +82,41 @@
   <div id="grid" class="grid"></div>
 </main>
 
-<!-- YENİ: sayfaya özel script (defer) -->
-<script defer src="assets/js/store-page.js?v=1"></script>
+<!-- --- JS (4 adet) --- -->
+<script defer src="assets/js/vendor.js?v=20250920"></script>     <!-- varsa; yoksa silebilirsin -->
+<script defer src="assets/js/helpers.js?v=20250920"></script>    <!-- varsa; yoksa silebilirsin -->
+<script defer src="assets/js/store-common.js?v=20250920"></script><!-- varsa; yoksa silebilirsin -->
+<script defer src="assets/js/store-page.js?v=20250920"></script> <!-- zorunlu: bu sayfanın mantığı -->
+
+<!-- Teşhis için mini kontrol (istersen sonra kaldır) -->
+<script>
+(async function(){
+  const urls = [
+    'assets/css/base.css',
+    'assets/css/styles.css',
+    'assets/css/card.css',
+    'assets/css/store-page.css',
+    'assets/js/store-page.js',
+    'data/stores.json',
+    'data/products.json',
+    'data/store-content.json'
+  ];
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, {cache:'no-store'});
+      if (r.status !== 200) {
+        console.warn('Yüklenemedi ->', r.status, new URL(u, document.baseURI).href);
+      }
+    } catch(e) {
+      console.error('ERR', u, e);
+    }
+  }
+})();
+</script>
 </body>
 </html>
+
+
 
 
 
