@@ -73,7 +73,6 @@ function card(p) {
     </div>
   </div>`;
 }
-
 /* Render */
 function renderProducts(list) {
   const g = document.getElementById('grid');
