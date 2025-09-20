@@ -1,4 +1,4 @@
-/* ========= RGZTEC • Hardware Page ========= */
+/* ========= RGZTEC • Hardware Page (clean) ========= */
 
 /* Sayfa klasörüne göre mutlaklaştır */
 const PAGE_BASE = location.origin + location.pathname.replace(/[^/]*$/, '');
@@ -17,12 +17,12 @@ document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
   location.href = `./listings.html?store=${encodeURIComponent(SLUG)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
 });
 
-/* Tile */
+/* Store kutucuğu */
 function tile(s){
-  const name = s.name || s.slug;
+  const name = s.name || s.slug || '';
   const letter = (name||'?')[0].toUpperCase();
   const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
-  const href = `./store.html?slug=${encodeURIComponent(s.slug)}`;
+  const href = `./store.html?slug=${encodeURIComponent(String(s.slug||'').toLowerCase())}`;
   return `<li>
     <a class="tile" href="${href}" title="${esc(name)}">
       <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
@@ -33,20 +33,17 @@ function tile(s){
   </li>`;
 }
 
-/* 1x1 şeffaf PNG (placeholder) */
-const P1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+N3qkAAAAASUVORK5CYII=';
-
-/* Card */
+/* Ürün kartı */
 function card(p){
   const imgRel = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
   const src = imgRel ? abs(imgRel) : '';
   return `
   <div class="card">
     <div class="media">
-      <img loading="lazy" src="${src}" alt="${esc(p.title)}">
+      <img loading="lazy" src="${src}" alt="${esc(p.title||'')}" onerror="this.src='';">
     </div>
     <div class="pad">
-      <div class="title">${esc(p.title)}</div>
+      <div class="title">${esc(p.title||'')}</div>
       <p class="sub">${esc(p.desc||'')}</p>
       <div class="row">
         <span class="price">${usd.format(Number(p.price||0))}</span>
@@ -56,11 +53,17 @@ function card(p){
   </div>`;
 }
 
-
+/* Render */
 function renderProducts(list){
   const g = document.getElementById('grid');
   if(!list?.length){ g.innerHTML = `<div class="sub">No hardware products found.</div>`; return; }
   g.innerHTML = list.map(card).join('');
+  // Görsel yüklenince skeleton'u kapat
+  document.querySelectorAll('.card .media img').forEach(img=>{
+    const done = () => img.parentElement.classList.add('loaded');
+    img.addEventListener('load', done, {once:true});
+    img.addEventListener('error', done, {once:true});
+  });
 }
 
 /* Normalizers */
@@ -113,8 +116,10 @@ function pickHardware(all){
       const content = await getJSON('./data/store-content.json');
       const cats = Array.isArray(content?.[SLUG]?.categories) ? content[SLUG].categories : [];
       const bar = document.getElementById('storeBar');
-      bar.innerHTML = cats.map(c => `<a href="./listings.html?store=${encodeURIComponent(SLUG)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
-      bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
+      if (bar) {
+        bar.innerHTML = cats.map(c => `<a href="./listings.html?store=${encodeURIComponent(SLUG)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
+      }
     }catch(e){ console.warn('store-content.json yok/boş:', e); }
 
     /* Ürünler */
@@ -122,18 +127,6 @@ function pickHardware(all){
     const all = normalizeProducts(raw);
     const list = pickHardware(all);
     renderProducts(list);
-document.querySelectorAll('.card .media img').forEach(img=>{
-  const done = () => img.parentElement.classList.add('loaded');
-  img.addEventListener('load', done, {once:true});
-  img.addEventListener('error', done, {once:true});
-});
-
-// ... renderProducts(list); satırından HEMEN SONRA:
-document.querySelectorAll('.card .media img').forEach(img=>{
-  const done = () => img.parentElement.classList.add('loaded');
-  img.addEventListener('load', done, {once:true});
-  img.addEventListener('error', done, {once:true});
-});
 
     /* Başlıklar */
     document.getElementById('studioName').textContent = 'Hardware';
