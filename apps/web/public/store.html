@@ -6,9 +6,9 @@
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
 
-<!-- BASE YOK -->
+<!-- NOTE: BASE YOK (relative yollar bu dosyanın klasörüne göre) -->
 
-<!-- CSS: iki varyant (assets/ ve assets%20/) — hangisi varsa o yüklenir -->
+<!-- ========= CORE STYLES (normal yol + %20 fallback) ========= -->
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/base.css?v=3">
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/base.css?v=3">
 
@@ -33,21 +33,57 @@
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/active.css?v=3">
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/active.css?v=3">
 
-<!-- Sayfaya özel -->
+<!-- ========= PAGE-SPECIFIC STYLES ========= -->
 <link rel="stylesheet" href="./assets/css/base.css">
 <link rel="stylesheet" href="./assets/css/styles.css">
 <link rel="stylesheet" href="./assets/css/card.css">
 <link rel="stylesheet" href="./assets/css/store-page.css">
-<link rel="stylesheet" href="./assets/css/store-corporate.css?v=2"><!-- bu dosya en sonda -->
+<link rel="stylesheet" href="./assets/css/store-corporate.css?v=7"><!-- KURUMSAL DOKUNUŞ (en sonda olsun) -->
 
-<link rel="stylesheet" href="./assets/css/store-corporate.css?v=1">
+<!-- İsteğe bağlı diğerleri -->
 <link rel="stylesheet" href="./assets/css/hardware-page.css">
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/store-page.css?v=3">
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/store-page.css?v=3">
+
+<!-- ===== Ani düzeltme (header overflow & tek çizgi) — yüksek öncelik ===== -->
+<style id="store-header-fix">
+:root{ --wrap:1280px; --line:#e5e7eb; --header-h:64px; }
+body[data-store] .wrap{ max-width:var(--wrap); margin:0 auto; padding:12px 18px 0; }
+body[data-store] .hdr{
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto !important;
+  align-items:center; column-gap:16px;
+}
+body[data-store] .rail{ min-width:0 !important; }
+body[data-store] .search{
+  width:100% !important; max-width:clamp(320px,70vw,920px) !important;
+  height:44px; padding:6px 8px 6px 16px; border:2px solid #111827; border-radius:999px; background:#fff;
+}
+body[data-store] .cats-wrap{
+  position:sticky; top:var(--header-h); z-index:90;
+  background:#fff !important; border-bottom:0 !important;
+  box-shadow:inset 0 -1px 0 var(--line) !important; overflow:visible;
+}
+body[data-store] .store-bar{ border:0 !important; overflow-x:auto; padding:0 18px; background:#fff; }
+body[data-store] .topbar{
+  background:#fff !important; border-bottom:1px solid var(--line) !important;
+  box-shadow:0 1px 6px rgba(15,23,42,.05);
+}
+@media (max-width:900px){
+  :root{ --header-h:56px; }
+  body[data-store] .hdr{ grid-template-columns:1fr !important; }
+  body[data-store] .search{ max-width:100% !important; }
+}
+</style>
 </head>
 <body>
 
-<!-- ➊ ERKEN YÖNLENDİRME -->
+<!-- Slug'ı erken set et (CSS [data-store] kuralları hemen çalışsın) -->
+<script>
+(function(){
+  const s=(new URLSearchParams(location.search)).get('slug')||'';
+  document.body.dataset.store = (s.trim().toLowerCase());
+})();
+</script>
 
 <header class="topbar">
   <div class="wrap">
@@ -100,7 +136,7 @@
   <div id="grid" class="grid"></div>
 </main>
 
-<!-- JS: normal yol, 404 olursa %20'li fallback -->
+<!-- ========= JS: store-page (normal + %20 fallback) ========= -->
 <script>
 (function(){
   function loadJS(src, fallback){
