@@ -39,10 +39,10 @@ const P1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAA
 /* Card */
 function card(p){
   const img = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
+  const safeSrc = img ? abs(img) : '';  // yoksa boş bırak
   return `
   <div class="card">
-    <img loading="lazy" src="${abs(img)}" alt="${esc(p.title)}"
-         onerror="this.onerror=null;this.src='${P1}'">
+    <img loading="lazy" src="${safeSrc}" alt="${esc(p.title)}" onerror="this.src='';">
     <div class="pad">
       <div class="title">${esc(p.title)}</div>
       <p class="sub">${esc(p.desc||'')}</p>
@@ -53,6 +53,7 @@ function card(p){
     </div>
   </div>`;
 }
+
 
 function renderProducts(list){
   const g = document.getElementById('grid');
