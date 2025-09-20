@@ -6,20 +6,18 @@
 <title>RGZTEC • Hardware</title>
 <meta name="description" content="RGZTEC hardware storefront – boards, sensors, kits."/>
 
-<!-- BASE YOK; her şey sayfa klasörüne göre ./assets/... -->
+<!-- BASE YOK; her şey sayfanın klasörüne göre ./assets/... -->
 <link rel="stylesheet" href="./assets/css/base.css">
 <link rel="stylesheet" href="./assets/css/styles.css">
 <link rel="stylesheet" href="./assets/css/card.css">
-<link rel="stylesheet" href="./assets/css/hero-ambient.css">
-<link rel="stylesheet" href="./assets/css/interactions.css">
-<link rel="stylesheet" href="./assets/css/theme.css">
-<link rel="stylesheet" href="./assets/css/theme-corporate.css">
-<link rel="stylesheet" href="./assets/css/active.css">
 
-<!-- hardware sayfasına özel stil -->
+<!-- 📌 Bu dosya grid (.grid) ve store bar (.store-bar) düzenlerini getirir -->
+<link rel="stylesheet" href="./assets/css/store-page.css">
+
+<!-- Hardware’e özel küçük dokunuşlar -->
 <link rel="stylesheet" href="./assets/css/hardware-page.css">
 </head>
-<body data-store="hardware"><!-- yatay vitrin stili için -->
+<body data-store="hardware">
 
 <header class="topbar">
   <div class="wrap">
@@ -56,23 +54,27 @@
 </div>
 
 <section class="hero">
-  <div class="hero-inner">
+  <div class="hero-inner wrap">
     <h1 id="heroTitle" class="h1">Hardware</h1>
     <p id="heroTag" class="tag">Boards • Sensors • Robotics • DIY Kits</p>
   </div>
 </section>
 
 <section class="stores">
-  <h2>Popular hardware stores</h2>
-  <ul id="storeRow" class="tiles" aria-label="Popular hardware stores"></ul>
+  <div class="wrap">
+    <h2>Popular hardware stores</h2>
+    <ul id="storeRow" class="tiles" aria-label="Popular hardware stores"></ul>
+  </div>
 </section>
 
 <main class="section">
-  <h2>Hardware products</h2>
-  <div id="grid" class="grid"></div>
+  <div class="wrap">
+    <h2>Hardware products</h2>
+    <div id="grid" class="grid"></div>
+  </div>
 </main>
 
-<!-- sayfaya özel script -->
+<!-- Sayfaya özel script -->
 <script defer src="./assets/js/hardware-page.js"></script>
 </body>
 </html>
