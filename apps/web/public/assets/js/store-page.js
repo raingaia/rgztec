@@ -47,21 +47,24 @@ function thumbURL(filename){
 
 /* Product card */
 function card(p){
-  const img = thumbURL(p.thumb || p.image);
+  const imgRel = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
+  const img = abs(imgRel);
   return `
   <div class="card">
-    <img loading="lazy" src="${img.primary}" alt="${esc(p.title)}"
-         onerror="this.onerror=null;this.src='${img.fallback}'">
+    <div class="media">
+      <img loading="lazy" src="${img}" alt="${esc(p.title||'')}" onerror="this.src='';">
+    </div>
     <div class="pad">
-      <div class="title">${esc(p.title)}</div>
+      <div class="title">${esc(p.title||'')}</div>
       <p class="sub">${esc(p.desc||'')}</p>
       <div class="row">
         <span class="price">${usd.format(Number(p.price||0))}</span>
-        <a class="btn" href="${ROOT}product.html?id=${encodeURIComponent(p.id)}">Details</a>
+        <a class="btn" href="product.html?id=${encodeURIComponent(p.id)}">Details</a>
       </div>
     </div>
   </div>`;
 }
+
 
 function renderProducts(list){
   const g = document.getElementById('grid');
