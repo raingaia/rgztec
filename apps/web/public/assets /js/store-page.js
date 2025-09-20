@@ -1,6 +1,5 @@
-/* ======================= RGZTEC • Store Page ======================= */
-/* Kök (proje) yolu */
-const ROOT = '/rgztec/apps/web/public/';
+/* ======================= RGZTEC • Store Page (FULL URL) ======================= */
+const ROOT = 'https://raingaia.github.io/rgztec/apps/web/public/';
 
 /* Helpers */
 const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
@@ -35,25 +34,22 @@ function tile(s){
   </li>`;
 }
 
-/* Asset path (thumbs) — önce normal, hata olursa %20 */
-function thumbPath(filename){
-  const clean = String(filename||'').replace(/\.(png|jpe?g|webp)$/i,'') || 'placeholder';
-  // normal yol
+/* thumbs: normal ve %20 fallback */
+function thumbURL(filename){
+  const id = String(filename||'').replace(/\.(png|jpe?g|webp)$/i,'') || 'placeholder';
   return {
-    primary: `${ROOT}assets/thumbs/${clean}.png`,
-    fallback: `${ROOT}assets%20/thumbs/${clean}.png`,
-    placeholder: `${ROOT}assets/thumbs/placeholder.png`
+    primary: `${ROOT}assets/thumbs/${id}.png`,
+    fallback:`${ROOT}assets%20/thumbs/${id}.png`
   };
 }
 
 /* Product card */
 function card(p){
-  const img = thumbPath(p.thumb || p.image);
+  const img = thumbURL(p.thumb || p.image);
   return `
   <div class="card">
     <img loading="lazy" src="${img.primary}" alt="${esc(p.title)}"
-         onerror="this.onerror=null;this.src='${img.fallback}';"
-         onload="this.onerror=null;">
+         onerror="this.onerror=null;this.src='${img.fallback}'">
     <div class="pad">
       <div class="title">${esc(p.title)}</div>
       <p class="sub">${esc(p.desc||'')}</p>
@@ -73,25 +69,24 @@ function renderProducts(list){
 
 /* Normalizers */
 function normalizeProducts(raw){
-  const normalizeOne = o => ({
+  const norm = o => ({
     id:o.id,
     cat:(o.cat||o.category||o.store||'').toLowerCase(),
     title:o.title,
     desc:o.desc||o.description||'',
     price:o.price,
-    // sadece isim ver; card() kendi path’ini kurar
     thumb:o.thumb || o.image || 'placeholder',
     tags:Array.isArray(o.tags)?o.tags:[]
   });
 
-  if (Array.isArray(raw)) return raw.map(normalizeOne);
+  if (Array.isArray(raw)) return raw.map(norm);
 
-  const prods   = Array.isArray(raw?.products)? raw.products.map(normalizeOne) : [];
-  const gallery = Array.isArray(raw?.gallery)?  raw.gallery.map(x=>normalizeOne({id:`g-${x.id}`, ...x})) : [];
+  const prods   = Array.isArray(raw?.products)? raw.products.map(norm) : [];
+  const gallery = Array.isArray(raw?.gallery)?  raw.gallery.map(x=>norm({id:`g-${x.id}`, ...x})) : [];
   return prods.length ? prods : gallery;
 }
 
-/* JSON fetch (mutlak) */
+/* JSON fetch (tam URL) */
 async function getJSON(path){
   const url = path.startsWith('http') ? path : `${ROOT}${path.replace(/^\/+/,'')}`;
   const r = await fetch(url,{cache:'no-store'});
@@ -99,7 +94,7 @@ async function getJSON(path){
   return r.json();
 }
 
-/* Ürün seçim — cat/category/store veya tags eşleşmesi */
+/* Ürün seçim (cat/category/store veya tags) */
 function pickProductsFor(slug, all){
   const s = (slug||'').toLowerCase();
   return all.filter(p=>{
@@ -138,7 +133,9 @@ function pickProductsFor(slug, all){
       const content = await getJSON('data/store-content.json');
       const cats = Array.isArray(content?.[slug]?.categories) ? content[slug].categories : [];
       const bar = document.getElementById('storeBar');
-      bar.innerHTML = cats.map(c => `<a href="${ROOT}listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
+      bar.innerHTML = cats.map(c =>
+        `<a href="${ROOT}listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`
+      ).join('');
       bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
     }catch(e){ console.warn('store-content.json yok/boş:', e); }
 
