@@ -1,228 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Shopping Cart — RGZTEC</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Shopping Cart — RGZTEC</title>
+<meta name="description" content="Your shopping cart on RGZTEC."/>
 
-  <!-- Tüm göreli yolları apps/web/public/ köküne sabitle -->
-  <base href="/rgztec/apps/web/public/">
+<!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
+<base href="/rgztec/apps/web/public/">
 
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <style>
-    .cart-container{display:grid;grid-template-columns:1fr 340px;gap:24px}
-    .cart-items-list{display:flex;flex-direction:column;gap:12px}
-    .cart-item{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;border:1px solid var(--line,#e5e7eb);border-radius:12px;padding:12px;background:#fff}
-    .cart-item .thumb{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--line,#e5e7eb)}
-    .cart-item .meta{display:flex;flex-direction:column;gap:4px}
-    .cart-item .title{font-weight:600}
-    .cart-item .note{font-size:13px;color:var(--sub,#64748b)}
-    .cart-item .price{font-weight:700}
-    .qty{display:inline-flex;align-items:center;border:1px solid var(--line,#e5e7eb);border-radius:10px;overflow:hidden}
-    .qty button{width:28px;height:28px;border:0;background:#f8fafc;cursor:pointer}
-    .qty input{width:40px;height:28px;border:0;text-align:center}
-    .cart-summary{border:1px solid var(--line,#e5e7eb);border-radius:14px;padding:16px;background:#fff;height:fit-content}
-    .summary-row{display:flex;justify-content:space-between;margin:8px 0;color:var(--ink,#0b1220)}
-    .summary-row.total{font-weight:800;border-top:1px solid var(--line,#e5e7eb);padding-top:10px;margin-top:10px}
-    .btn.primary{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 16px;border-radius:12px;background:#f97316;color:#fff;font-weight:700;border:0;cursor:pointer}
-    .btn.primary.full{width:100%}
-    .cart-empty{border:1px dashed var(--line,#e5e7eb);border-radius:14px;padding:24px;text-align:center;color:var(--sub,#64748b)}
-    .muted{color:var(--sub,#64748b);font-size:13px;margin-top:8px}
-    @media (max-width:900px){.cart-container{grid-template-columns:1fr}}
-  </style>
+<!-- Kurumsal tema (HOME ile uyumlu) -->
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/hero-ambient.css">
+<link rel="stylesheet" href="assets/css/interactions.css">
+<link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
+<!-- assets%20 fallback -->
+<link rel="stylesheet" href="assets%20/css/theme.css">
+<link rel="stylesheet" href="assets%20/css/hero-ambient.css">
+<link rel="stylesheet" href="assets%20/css/interactions.css">
+<link rel="stylesheet" href="assets%20/css/theme-corporate.css?v=1">
+
+<!-- Sepet sayfası stili -->
+<link rel="stylesheet" href="assets/css/cart.css?v=1">
+<link rel="stylesheet" href="assets%20/css/cart.css?v=1">
 </head>
 <body>
 
-  <header class="header-outer">
-    <div class="page-section page-section--fluid header-row">
-      <a class="brand" href="index.html">RGZTEC</a>
-      <nav class="hdr-right" aria-label="Primary">
-        <a href="store.html?slug=html-templates" class="signin-link">Continue Shopping</a>
-        <a href="cart.html" class="signin-link" aria-label="Shopping Cart">🛒 Cart</a>
-      </nav>
+<!-- Header: HOME ile aynı havada (yarı şeffaf + blur) -->
+<header class="cart-header">
+  <div class="wrap">
+    <a class="brand" href="./">RGZTEC</a>
+    <nav class="crumbs">
+      <a href="./listings.html">Continue Shopping</a>
+      <span>›</span>
+      <strong>Cart</strong>
+    </nav>
+    <div class="hdr-actions">
+      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="cart" title="Cart">🛒</a>
+      <a class="pill-open" href="open-store.html">Open Store</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="page-section page-section--fluid section-container">
-    <h2 class="section-h">Your Shopping Cart</h2>
+<main class="cart-page">
+  <div class="wrap">
+    <h1 class="h1">Your Shopping Cart</h1>
 
-    <div class="cart-container">
+    <div class="cart-layout">
       <!-- Items -->
-      <div id="cartList" class="cart-items-list">
-        <div id="emptyBox" class="cart-empty">
-          <p>Your cart is currently empty.</p>
-          <a href="store.html?slug=html-templates" class="btn primary">Start Shopping</a>
-        </div>
-      </div>
+      <section class="cart-items" id="cartItems" aria-label="Cart items">
+        <!-- JS dolduracak; skeleton -->
+        <div class="item-skel"></div>
+        <div class="item-skel"></div>
+      </section>
 
       <!-- Summary -->
       <aside class="cart-summary" aria-label="Order Summary">
-        <h3 style="margin:0 0 8px;font-weight:800">Order Summary</h3>
-        <div class="summary-row"><span>Subtotal</span><span id="sum-sub">$0.00</span></div>
-        <div class="summary-row"><span>Taxes</span><span>Calculated at checkout</span></div>
-        <div class="summary-row total"><span>Total</span><span id="sum-total">$0.00</span></div>
-        <button class="btn primary full" id="btnCheckout">Proceed to Checkout</button>
-        <div class="muted" id="checkoutNote"></div>
+        <div class="summary-card">
+          <h2>Order Summary</h2>
+          <dl class="rows">
+            <div class="row">
+              <dt>Subtotal</dt>
+              <dd id="sumSubtotal">$0.00</dd>
+            </div>
+            <div class="row sub">
+              <dt>Taxes</dt>
+              <dd id="sumTax">Calculated at checkout</dd>
+            </div>
+            <div class="row total">
+              <dt>Total</dt>
+              <dd id="sumTotal">$0.00</dd>
+            </div>
+          </dl>
+
+          <button id="btnCheckout" class="btn-cta">Proceed to Checkout</button>
+          <p class="hint" id="checkoutHint">No backend configured. Using Payment Link fallback if available.</p>
+        </div>
       </aside>
     </div>
-  </main>
 
-  <script src="https://js.stripe.com/v3/"></script>
+    <!-- Empty state -->
+    <section id="emptyState" class="empty" hidden>
+      <div class="empty-box">
+        <div class="em-ico">🛒</div>
+        <h3>Your cart is empty</h3>
+        <p>Browse products and add items to your cart.</p>
+        <a class="pill-open" href="./">Go to homepage</a>
+      </div>
+    </section>
+  </div>
+</main>
 
-  <script>
-    /* ====== AYARLAR ====== */
-    // Sunucu endpoint’in yoksa boş bırak (otomatik Payment Link moduna düşer)
-    const STRIPE_ENDPOINT = ""; // örn: "https://YOUR-VERCEL-APP.vercel.app/api/create-checkout-session"
-    const STRIPE_PK = "";       // örn: "pk_live_xxx" (endpoint modunda gerekir)
-
-    const ABS_BASE = '/rgztec/apps/web/public/';
-    const abs = p => /^https?:|^\/rgztec\//.test(p) ? p : (ABS_BASE + p.replace(/^\.?\//,''));
-    const CKEY = 'rgz-cart';
-    const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
-    const fmt = (n)=>'$' + (Number(n||0).toFixed(2));
-
-    // (id -> price_...) map ve (id -> payment_link) fallback dosyaları
-    const MAP_URL   = abs('assets/data/stripe-map.json');
-    const LINKS_URL = abs('assets/data/stripe-links.json');
-
-    function loadCart(){
-      try{ return JSON.parse(localStorage.getItem(CKEY)||'[]'); }
-      catch{ return []; }
-    }
-    function saveCart(items){ localStorage.setItem(CKEY, JSON.stringify(items)); }
-
-    function render(){
-      const list = $('#cartList');
-      const empty = $('#emptyBox');
-      const items = loadCart();
-
-      $$('.cart-item', list).forEach(el=>el.remove());
-
-      if(!items.length){
-        empty.style.display = 'block';
-      }else{
-        empty.style.display = 'none';
-        items.forEach((it, idx)=>{
-          const row = document.createElement('div');
-          row.className = 'cart-item';
-          row.innerHTML = `
-            <img class="thumb" alt="" src="${it.image || abs('assets/img/placeholder.png')}">
-            <div class="meta">
-              <div class="title">${it.title || 'Untitled'}</div>
-              <div class="note">SKU: ${it.id || '-'}</div>
-              <div class="qty" role="group" aria-label="Quantity">
-                <button aria-label="Decrease">−</button>
-                <input type="number" min="1" value="${it.qty||1}" aria-label="Quantity input">
-                <button aria-label="Increase">+</button>
-              </div>
-            </div>
-            <div style="text-align:right">
-              <div class="price">${fmt((it.price||0)*(it.qty||1))}</div>
-              <button class="signin-link" data-remove style="margin-top:6px">Remove</button>
-            </div>
-          `;
-          const dec = row.querySelector('.qty button:first-of-type');
-          const inc = row.querySelector('.qty button:last-of-type');
-          const inp = row.querySelector('.qty input');
-          const rmv = row.querySelector('[data-remove]');
-
-          function update(q){
-            const items = loadCart();
-            items[idx].qty = Math.max(1, Number(q)||1);
-            saveCart(items); render();
-          }
-          dec.onclick = ()=>update((it.qty||1)-1);
-          inc.onclick = ()=>update((it.qty||1)+1);
-          inp.onchange = ()=>update(inp.value);
-          rmv.onclick = ()=>{
-            const items = loadCart();
-            items.splice(idx,1);
-            saveCart(items); render();
-          };
-
-          list.prepend(row);
-        });
-      }
-
-      const subtotal = loadCart().reduce((s,i)=>s + (i.price||0)*(i.qty||1), 0);
-      $('#sum-sub').textContent = fmt(subtotal);
-      $('#sum-total').textContent = fmt(subtotal);
-    }
-
-    async function fetchJSON(url){
-      const r = await fetch(url, {cache:'no-store'});
-      if(!r.ok) throw new Error(url + ' ' + r.status);
-      return r.json();
-    }
-
-    async function startCheckout(){
-      const cart = loadCart().filter(x => x && x.id);
-      if (!cart.length) { alert('Cart is empty'); return; }
-
-      // Önce map ve link dosyalarını yükle (linkler fallback için)
-      let idToPrice = {};
-      let idToLink  = {};
-      try { idToPrice = await fetchJSON(MAP_URL); } catch {}
-      try { idToLink  = await fetchJSON(LINKS_URL); } catch {}
-
-      // Endpoint modunda line_items hazırla
-      const lineItems = cart.map(i => ({
-        price: idToPrice[i.id],  // price_xxx
-        quantity: Math.max(1, Number(i.qty)||1)
-      })).filter(x => !!x.price);
-
-      const endpointAvailable = STRIPE_ENDPOINT && STRIPE_PK;
-
-      if (endpointAvailable && lineItems.length === cart.length){
-        // Sunucu üzerinden Stripe Checkout Session oluştur
-        const resp = await fetch(STRIPE_ENDPOINT, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ items: lineItems })
-        }).then(r=>r.json()).catch(e => ({ error: String(e) }));
-
-        if (!resp || !resp.id){
-          alert('Could not start checkout (server). Falling back to Payment Links if available.');
-        } else {
-          const stripe = Stripe(STRIPE_PK);
-          const { error } = await stripe.redirectToCheckout({ sessionId: resp.id });
-          if (error) alert(error.message);
-          return;
-        }
-      }
-
-      // Fallback: Payment Link — çoklu ürün mümkün değil → ilk ürüne yönlendir
-      const first = cart[0];
-      const link = idToLink[first.id];
-      if (link){
-        location.href = link;
-      } else {
-        alert('No Stripe endpoint or payment link configured.');
-      }
-    }
-
-    // Demo seeding (istersen kaldır)
-    (function seedDemo(){
-      const cur = loadCart();
-      if(!cur.length){
-        saveCart([
-          { id:'html-landing-starter', title:'Landing Starter (HTML)', price:19, qty:1, image:abs('assets/thumbs/html-landing-starter.png') },
-          { id:'hardware-ssd-nvme-1tb', title:'NVMe SSD 1TB (Gen4)', price:89, qty:1, image:abs('assets/thumbs/hw-ssd-nvme-1tb.png') }
-        ]);
-      }
-    })();
-
-    document.getElementById('btnCheckout').addEventListener('click', startCheckout);
-
-    // küçük durum metni
-    const note = document.getElementById('checkoutNote');
-    note.textContent = (STRIPE_ENDPOINT && STRIPE_PK)
-      ? 'Secure checkout is powered by Stripe.'
-      : 'No backend configured. Using Payment Link fallback if available.';
-
-    render();
-  </script>
+<!-- JS: cart logic (assets ve assets%20 fallback) -->
+<script>
+(function(){
+  function load(src, fb){
+    var s=document.createElement('script'); s.defer=true; s.src=src;
+    if(fb){ s.onerror=function(){ var t=document.createElement('script'); t.defer=true; t.src=fb; document.body.appendChild(t); }; }
+    document.body.appendChild(s);
+  }
+  load('assets/js/cart.js?v=1','assets%20/js/cart.js?v=1');
+})();
+</script>
 </body>
 </html>
+
