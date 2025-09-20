@@ -6,8 +6,8 @@
 <title>Shopping Cart — RGZTEC</title>
 <meta name="description" content="Your shopping cart on RGZTEC."/>
 
-<!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
-<base href="/rgztec/apps/web/public/">
+<!-- GitHub Pages için TAM URL base (404/bağıl yol sapmalarını engeller) -->
+<base href="https://raingaia.github.io/rgztec/apps/web/public/">
 
 <!-- Kurumsal tema (HOME ile uyumlu) -->
 <link rel="stylesheet" href="assets/css/theme.css">
@@ -31,13 +31,14 @@
   <div class="wrap">
     <a class="brand" href="./">RGZTEC</a>
     <nav class="crumbs">
-      <a href="./listings.html">Continue Shopping</a>
+      <a href="listings.html">Continue Shopping</a>
       <span>›</span>
       <strong>Cart</strong>
     </nav>
     <div class="hdr-actions">
       <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
-      <a class="icon-btn" href="cart" title="Cart">🛒</a>
+      <!-- BURASI ÖNEMLİ: cart → cart.html -->
+      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
       <a class="pill-open" href="open-store.html">Open Store</a>
     </div>
   </div>
@@ -97,7 +98,12 @@
 (function(){
   function load(src, fb){
     var s=document.createElement('script'); s.defer=true; s.src=src;
-    if(fb){ s.onerror=function(){ var t=document.createElement('script'); t.defer=true; t.src=fb; document.body.appendChild(t); }; }
+    if(fb){
+      s.onerror=function(){
+        var t=document.createElement('script'); t.defer=true; t.src=fb;
+        document.body.appendChild(t);
+      };
+    }
     document.body.appendChild(s);
   }
   load('assets/js/cart.js?v=1','assets%20/js/cart.js?v=1');
