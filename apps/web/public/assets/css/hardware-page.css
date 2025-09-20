@@ -1,21 +1,92 @@
-/* Hardware page – yapıyı bozmaz; ufak düzenlemeler */
+/* Hardware page – düzen düzeltmeleri (yapıyı bozmaz) */
 :root{
-  --tile: clamp(92px, 8vw, 110px);
+  --tile: clamp(96px, 8vw, 120px);
 }
 
-/* Yatay vitrin sadece hardware’de */
+/* ---------- ÜST KATEGORİ (store bar) ---------- */
+.store-bar{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 0 18px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+.store-bar a{
+  white-space: nowrap;
+  line-height: 44px;
+  padding: 0 2px;
+  scroll-snap-align: start;
+}
+
+/* ---------- VİTRİN (yatay strip) ---------- */
 body[data-store="hardware"] .stores .tiles{
   display:flex !important;
   gap:clamp(12px,2vw,16px);
   overflow-x:auto;
   overflow-y:hidden;
-  padding-bottom:8px;
+  padding: 6px 18px 12px;
   scroll-snap-type:x mandatory;
   -webkit-overflow-scrolling:touch;
+  scroll-padding-left: 18px;
 }
-body[data-store="hardware"] .stores .tile{ flex:0 0 auto; min-width:120px; scroll-snap-align:start; }
-body[data-store="hardware"] .stores .badge{ width:96px; height:96px; border-radius:22px; }
+body[data-store="hardware"] .stores .tile{
+  flex:0 0 auto;
+  min-width:124px;
+  scroll-snap-align:start;
+}
+body[data-store="hardware"] .stores .badge{
+  width:100px; height:100px; border-radius:22px;
+}
 
-/* Başlıklar */
-.h1{font-weight:900; font-size:22px; margin:0 0 4px}
-.tag{margin:0; color:#64748b}
+/* ---------- ÜRÜN GRID & KARTLAR ---------- */
+.section .grid{
+  display:grid;
+  grid-template-columns: repeat( auto-fill, minmax(280px, 1fr) );
+  gap: 18px;
+  padding: 0 18px 24px;
+}
+
+.card{
+  border:1px solid #e5e7eb;
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+
+/* Görsel kaymasını engelle – blok, tam genişlik, sabit yükseklik */
+.card img{
+  display:block;
+  width:100%;
+  height:200px;              /* sabit yükseklik */
+  object-fit:cover;
+  background:#eef2f7;
+}
+
+.pad{ padding:12px }
+.title{ font-weight:800; margin:4px 0 6px }
+.sub{ color:#64748b; font-size:14px; margin:0 }
+.row{
+  display:flex; flex-direction:column; gap:8px;
+  justify-content:center; align-items:center; margin-top:10px
+}
+.price{ font-weight:900; text-align:center }
+.btn{
+  display:inline-block; width:100%; text-align:center;
+  padding:8px 12px; border-radius:10px; border:1px solid #cbd5e1;
+  text-decoration:none
+}
+.btn:hover{ background:#f8fafc }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 780px){
+  .section .grid{
+    grid-template-columns: repeat( auto-fill, minmax(240px, 1fr) );
+  }
+}
