@@ -38,11 +38,13 @@ const P1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAA
 
 /* Card */
 function card(p){
-  const img = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
-  const safeSrc = img ? abs(img) : '';  // yoksa boş bırak
+  const imgRel = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
+  const src = imgRel ? abs(imgRel) : '';
   return `
   <div class="card">
-    <img loading="lazy" src="${safeSrc}" alt="${esc(p.title)}" onerror="this.src='';">
+    <div class="media">
+      <img loading="lazy" src="${src}" alt="${esc(p.title)}">
+    </div>
     <div class="pad">
       <div class="title">${esc(p.title)}</div>
       <p class="sub">${esc(p.desc||'')}</p>
