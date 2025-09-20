@@ -1,0 +1,37 @@
+/* ==== RGZTEC • Tüm mağazalar için kurumsal dokunuş ==== */
+:root{
+  --amb-lilac:#efe8ff; --amb-peach:#ffe6d5; --amb-sky:#e7f3ff;
+  --text:#111827; --rgztec-dark:#ea580c; --line:#e5e7eb; --line-strong:#cbd5e1;
+}
+
+/* Kategori barı: pill yok, metin link */
+body[data-store] .store-bar{
+  gap:28px; border-bottom:1px solid var(--line);
+}
+body[data-store] .store-bar a{
+  padding:0 !important; height:44px !important; line-height:44px !important;
+  border:none !important; background:transparent !important; border-radius:0 !important;
+  color:var(--text) !important; font-weight:700;
+  text-decoration:none; transition:color .15s;
+}
+body[data-store] .store-bar a:hover{ color:var(--rgztec-dark) !important; text-decoration:underline }
+
+/* Hero: ana sayfadaki gradient havası */
+body[data-store] .hero{
+  background:
+    radial-gradient(60% 120% at 10% 0%, var(--amb-lilac) 0%, rgba(239,232,255,0) 60%),
+    radial-gradient(60% 100% at 100% 80%, var(--amb-peach) 0%, rgba(255,230,213,0) 60%),
+    radial-gradient(50% 80% at 30% 100%, var(--amb-sky) 0%, rgba(231,243,255,0) 60%),
+    #fff !important;
+}
+
+/* Kart görselleri: sabit oran + iskelet + kırık ikon gizle */
+body[data-store] .card .media{ position:relative; width:100%; aspect-ratio:16/9;
+  background:linear-gradient(90deg,#eef2f7 25%,#f5f7fa 37%,#eef2f7 63%);
+  background-size:400% 100%; animation:shimmer 1.2s ease-in-out infinite;
+  border-bottom:1px solid var(--line); }
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+body[data-store] .card .media.loaded{ animation:none; background:#fff }
+body[data-store] .card .media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block }
+body[data-store] .card .media img[src=""], 
+body[data-store] .card .media img:not([src]){ display:none !important }
