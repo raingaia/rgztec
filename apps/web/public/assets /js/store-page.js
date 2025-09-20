@@ -121,7 +121,16 @@ async function getJSON(url){
     /* products.json -> ürün grid (cat === slug) */
     const raw = await getJSON('data/products.json'); // doğru yol
     const all = normalizeProducts(raw);
-    const list = all.filter(p => (p.cat||'').toLowerCase() === slug);
+    function pickProductsFor(slug, all){
+  const s = (slug||'').toLowerCase();
+  return all.filter(p=>{
+    const cat   = (p.cat || p.category || p.store || '').toLowerCase();
+    const tags  = Array.isArray(p.tags) ? p.tags.map(t=>String(t).toLowerCase()) : [];
+    return cat === s || tags.includes(s);
+  });
+}
+const list = pickProductsFor(slug, all);
+
     renderProducts(list);
   }catch(e){
     console.error(e);
