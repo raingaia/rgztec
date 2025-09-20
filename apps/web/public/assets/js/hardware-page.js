@@ -19,10 +19,13 @@ document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
 
 /* Store kutucuğu */
 function tile(s){
-  const name = s.name || s.slug || '';
+  const name = s.name || s.slug;
   const letter = (name||'?')[0].toUpperCase();
   const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
+
+  // HER ZAMAN store.html?slug=...
   const href = `./store.html?slug=${encodeURIComponent(String(s.slug||'').toLowerCase())}`;
+
   return `<li>
     <a class="tile" href="${href}" title="${esc(name)}">
       <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
@@ -32,6 +35,7 @@ function tile(s){
     </a>
   </li>`;
 }
+
 
 /* Ürün kartı */
 function card(p){
