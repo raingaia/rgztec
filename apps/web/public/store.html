@@ -6,15 +6,81 @@
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
 
-<!-- BASE YOK! Her şey sayfanın klasörüne göre ./ ile çağrılıyor -->
-<link rel="stylesheet" href="./assets/css/base.css?v=20250920">
-<link rel="stylesheet" href="./assets/css/styles.css?v=20250920">
-<link rel="stylesheet" href="./assets/css/card.css?v=20250920">
-<link rel="stylesheet" href="./assets/css/store-page.css?v=20250920">
+<!-- BASE YOK: tüm yollar loader tarafından eklenecek -->
+<!-- Kritik FOUC engellemek için minik inline (opsiyonel) -->
+<style>
+  html{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  body{margin:0}
+  .wrap{max-width:1280px;margin:0 auto;padding:12px 18px 0}
+  .h1{font-weight:900;font-size:22px;margin:0 0 4px}
+  .tag{color:#64748b;margin:0}
+</style>
+
+<script>
+/* ---- CSS/JS LOADER with 3-level fallbacks ---- */
+(function(){
+  const ver = '?v=20250920';
+  const REL   = './';                                              // sayfa klasörü
+  const REPO  = '/rgztec/apps/web/public/';                        // repo-kök
+  const FULL  = 'https://raingaia.github.io/rgztec/apps/web/public/'; // tam URL
+
+  const cssList = [
+    'assets/css/base.css',
+    'assets/css/styles.css',
+    'assets/css/card.css',
+    'assets/css/store-page.css'
+  ];
+  const jsList  = [
+    'assets/js/store-page.js'
+  ];
+
+  function addCSS(prefix){
+    for (const f of cssList){
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = prefix + f + ver;
+      document.head.appendChild(link);
+    }
+  }
+  function addJS(prefix){
+    for (const f of jsList){
+      const s = document.createElement('script');
+      s.defer = true;
+      s.src = prefix + f + ver;
+      document.body.appendChild(s);
+    }
+  }
+
+  // CSS gerçekten uygulandı mı? :root --rgztec var mı kontrol et
+  function cssApplied(){
+    const cs = getComputedStyle(document.documentElement);
+    const v = cs.getPropertyValue('--rgztec').trim();
+    return !!v; // base.css/store-page.css içinde tanımlı olmalı
+  }
+
+  // Aşama 1: göreli
+  addCSS(REL);
+  addJS(REL);
+
+  // 300ms sonra kontrol; olmadıysa REPO, yine olmadıysa FULL
+  setTimeout(()=> {
+    if (cssApplied()) return;
+    // ikinci deneme
+    addCSS(REPO);
+    addJS(REPO);
+    setTimeout(()=> {
+      if (cssApplied()) return;
+      // üçüncü deneme
+      addCSS(FULL);
+      addJS(FULL);
+    }, 350);
+  }, 350);
+})();
+</script>
 </head>
 <body>
 
-<!-- ➊ ERKEN YÖNLENDİRME: slug=hardware ise hardware.html -->
+<!-- hardware slug’ını erken yönlendir -->
 <script>
   (function(){
     const params = new URLSearchParams(location.search);
@@ -30,7 +96,6 @@
         <a class="brand" href="./">RGZTEC</a>
         <span id="studioName" class="studio">Store</span>
       </div>
-
       <div class="rail">
         <form class="search" id="searchForm">
           <input id="q" type="search" placeholder="Search for anything" aria-label="Search"/>
@@ -42,7 +107,6 @@
           </button>
         </form>
       </div>
-
       <nav class="icons" aria-label="Quick actions">
         <a href="./login" aria-label="Sign in">Sign in</a>
         <a class="icon-btn" href="./gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
@@ -58,27 +122,28 @@
 </div>
 
 <section class="hero">
-  <div class="hero-inner">
+  <div class="hero-inner wrap">
     <h1 id="heroTitle" class="h1">Store</h1>
     <p id="heroTag" class="tag"></p>
   </div>
 </section>
 
 <section class="stores">
-  <h2>Featured stores</h2>
-  <ul id="storeRow" class="tiles" aria-label="Featured stores"></ul>
+  <div class="wrap">
+    <h2>Featured stores</h2>
+    <ul id="storeRow" class="tiles" aria-label="Featured stores"></ul>
+  </div>
 </section>
 
 <main class="section">
-  <h2>Products</h2>
-  <div id="grid" class="grid"></div>
+  <div class="wrap">
+    <h2>Products</h2>
+    <div id="grid" class="grid"></div>
+  </div>
 </main>
 
-<!-- Tek zorunlu JS -->
-<script defer src="./assets/js/store-page.js?v=20250920"></script>
 </body>
 </html>
-
 
 
 
