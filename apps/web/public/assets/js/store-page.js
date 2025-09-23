@@ -80,6 +80,10 @@ function renderProducts(list) {
     return;
   }
   g.innerHTML = list.map(card).join('');
+  // kategori linkleri
+bar.innerHTML = cats.map(c =>
+  `<a href="${ROOT}listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`
+).join('');
 
   // Görsel yüklendiğinde shimmer'ı kapat
   g.querySelectorAll('.card .media img').forEach((img) => {
