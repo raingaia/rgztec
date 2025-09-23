@@ -5,28 +5,25 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Shopping Cart — RGZTEC</title>
 <meta name="description" content="Your shopping cart on RGZTEC."/>
-
-<!-- GitHub Pages için TAM URL base (404/bağıl yol sapmalarını engeller) -->
+<!-- Tam base: Pages’ta sapma olmaz -->
 <base href="https://raingaia.github.io/rgztec/apps/web/public/">
 
-<!-- Kurumsal tema (HOME ile uyumlu) -->
+<!-- Tema ve fallback -->
 <link rel="stylesheet" href="assets/css/theme.css">
 <link rel="stylesheet" href="assets/css/hero-ambient.css">
 <link rel="stylesheet" href="assets/css/interactions.css">
 <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
-<!-- assets%20 fallback -->
 <link rel="stylesheet" href="assets%20/css/theme.css">
 <link rel="stylesheet" href="assets%20/css/hero-ambient.css">
 <link rel="stylesheet" href="assets%20/css/interactions.css">
 <link rel="stylesheet" href="assets%20/css/theme-corporate.css?v=1">
 
-<!-- Sepet sayfası stili -->
+<!-- Cart CSS + fallback -->
 <link rel="stylesheet" href="assets/css/cart.css?v=1">
 <link rel="stylesheet" href="assets%20/css/cart.css?v=1">
 </head>
 <body>
 
-<!-- Header: HOME ile aynı havada (yarı şeffaf + blur) -->
 <header class="cart-header">
   <div class="wrap">
     <a class="brand" href="./">RGZTEC</a>
@@ -37,7 +34,6 @@
     </nav>
     <div class="hdr-actions">
       <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
-      <!-- BURASI ÖNEMLİ: cart → cart.html -->
       <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
       <a class="pill-open" href="open-store.html">Open Store</a>
     </div>
@@ -49,39 +45,25 @@
     <h1 class="h1">Your Shopping Cart</h1>
 
     <div class="cart-layout">
-      <!-- Items -->
       <section class="cart-items" id="cartItems" aria-label="Cart items">
-        <!-- JS dolduracak; skeleton -->
         <div class="item-skel"></div>
         <div class="item-skel"></div>
       </section>
 
-      <!-- Summary -->
       <aside class="cart-summary" aria-label="Order Summary">
         <div class="summary-card">
           <h2>Order Summary</h2>
           <dl class="rows">
-            <div class="row">
-              <dt>Subtotal</dt>
-              <dd id="sumSubtotal">$0.00</dd>
-            </div>
-            <div class="row sub">
-              <dt>Taxes</dt>
-              <dd id="sumTax">Calculated at checkout</dd>
-            </div>
-            <div class="row total">
-              <dt>Total</dt>
-              <dd id="sumTotal">$0.00</dd>
-            </div>
+            <div class="row"><dt>Subtotal</dt><dd id="sumSubtotal">$0.00</dd></div>
+            <div class="row sub"><dt>Taxes</dt><dd id="sumTax">Calculated at checkout</dd></div>
+            <div class="row total"><dt>Total</dt><dd id="sumTotal">$0.00</dd></div>
           </dl>
-
           <button id="btnCheckout" class="btn-cta">Proceed to Checkout</button>
           <p class="hint" id="checkoutHint">No backend configured. Using Payment Link fallback if available.</p>
         </div>
       </aside>
     </div>
 
-    <!-- Empty state -->
     <section id="emptyState" class="empty" hidden>
       <div class="empty-box">
         <div class="em-ico">🛒</div>
@@ -93,17 +75,11 @@
   </div>
 </main>
 
-<!-- JS: cart logic (assets ve assets%20 fallback) -->
 <script>
 (function(){
   function load(src, fb){
     var s=document.createElement('script'); s.defer=true; s.src=src;
-    if(fb){
-      s.onerror=function(){
-        var t=document.createElement('script'); t.defer=true; t.src=fb;
-        document.body.appendChild(t);
-      };
-    }
+    if(fb){ s.onerror=function(){ var t=document.createElement('script'); t.defer=true; t.src=fb; document.body.appendChild(t); }; }
     document.body.appendChild(s);
   }
   load('assets/js/cart.js?v=1','assets%20/js/cart.js?v=1');
@@ -111,4 +87,3 @@
 </script>
 </body>
 </html>
-
