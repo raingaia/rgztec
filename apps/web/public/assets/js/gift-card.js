@@ -1,90 +1,108 @@
-/* RGZTEC • Gift Card -> Cart (no alerts, preview friendly) */
+/* RGZTEC • Gift Card -> Cart (robust, no alerts) */
 (function () {
   const KEY = 'rgz_cart_v1';
-  const $ = (s, p = document) => p.querySelector(s);
+  const $  = (s, p = document) => p.querySelector(s);
   const $$ = (s, p = document) => [...p.querySelectorAll(s)];
+  const money = (a = 0, c = 'USD') =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: c }).format(Number(a) || 0);
 
-  const money = (amt = 0, cur = 'USD') =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(Number(amt) || 0);
+  // ---- Flexible selectors (ID yoksa name'lere de bak) ----
+  const pick = (sels) => sels.map(s => document.querySelector(s)).find(Boolean);
 
-  function load(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
-  function save(items){ localStorage.setItem(KEY, JSON.stringify(items)); }
+  const els = {
+    btnAdd   : pick(['#btnGiftAdd', 'button[data-action="add-gc"]', '#addToCart', '.add-to-cart button', '.add-to-cart']),
+    currency : pick(['#currency', '#giftCurrency', 'select[name="currency"]']),
+    amountPresetAll: () => $$('input[name="amountPreset"], input[name="amount"]'),
+    amtCustom: pick(['#amtCustom', '#amountCustom', 'input[name="custom-amount"]']),
+    toName   : pick(['#toName', 'input[name="recipient_name"]']),
+    toEmail  : pick(['#toEmail', 'input[name="recipient_email"]']),
+    fromName : pick(['#fromName', 'input[name="from_name"]']),
+    delivery : pick(['#delivery', 'input[name="delivery_date"]']),
+    message  : pick(['#message', 'textarea[name="message"]']),
+    pvAmount : pick(['#pvAmount']),
+    pvToName : pick(['#pvToName']),
+    pvFrom   : pick(['#pvFromName']),
+    pvMsg    : pick(['#pvMessage']),
+    pvCode   : pick(['#pvCode'])
+  };
 
-  function esc(s=''){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function load(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } }
+  function save(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
+  const esc = (s='') => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-  function readCurrency(){
-    const c = ($('#currency')?.value || 'USD').toUpperCase().trim();
-    return /^[A-Z]{3}$/.test(c) ? c : 'USD';
-  }
+  const toast = (() => {
+    let box;
+    return (msg) => {
+      if (!box) {
+        box = document.createElement('div');
+        Object.assign(box.style, {
+          position:'fixed', left:'50%', bottom:'18px', transform:'translateX(-50%)',
+          background:'#111827', color:'#fff', padding:'10px 14px', borderRadius:'10px',
+          fontWeight:'600', zIndex:2147483647, transition:'opacity .25s'
+        });
+        document.body.appendChild(box);
+      }
+      box.textContent = msg; box.style.opacity = '1';
+      clearTimeout(box._t); box._t = setTimeout(()=> box.style.opacity='0', 1200);
+    };
+  })();
 
-  function readAmount(){
-    // preset radio -> custom input > 0 ise custom öncelikli
-    const preset = $('input[name="amountPreset"]:checked');
-    let v = preset ? Number(preset.value) : 0;
-    const custom = Number($('#amtCustom')?.value || 0);
+  const pickCurrency = () => {
+    const v = (els.currency?.value || 'USD').toUpperCase().trim();
+    return /^[A-Z]{3}$/.test(v) ? v : 'USD';
+  };
+
+  const pickAmount = () => {
+    let v = 0;
+    // preset (radio)
+    const sel = els.amountPresetAll().find(r => r.checked);
+    if (sel) v = Number(sel.value);
+    // custom > 0 ise override
+    const custom = Number(els.amtCustom?.value || 0);
     if (custom > 0) v = custom;
     return Number.isFinite(v) && v > 0 ? v : 0;
-  }
+  };
 
-  function genCode(){
+  const genCode = () => {
     const s = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    const pick = n => Array(n).fill(0).map(()=> s[Math.floor(Math.random()*s.length)]).join('');
-    return `RGZ-${pick(4)}${pick(4)}-${pick(4)}`; // sadece önizleme
-  }
-
-  function toast(msg){
-    let t = $('#toast');
-    if(!t){
-      t = document.createElement('div');
-      t.id = 'toast';
-      Object.assign(t.style, {
-        position:'fixed', left:'50%', bottom:'18px', transform:'translateX(-50%)',
-        background:'#111827', color:'#fff', padding:'10px 14px', borderRadius:'10px',
-        fontWeight:'600', zIndex:2147483647, transition:'opacity .25s'
-      });
-      document.body.appendChild(t);
-    }
-    t.textContent = msg;
-    t.style.opacity = '1';
-    clearTimeout(t._hide);
-    t._hide = setTimeout(()=> t.style.opacity = '0', 1200);
-  }
+    const g = n => Array(n).fill(0).map(()=> s[Math.floor(Math.random()*s.length)]).join('');
+    return `RGZ-${g(4)}${g(4)}-${g(4)}`;
+  };
 
   function updatePreview(){
-    const cur = readCurrency();
-    const amt = readAmount();
-    const toName = $('#toName')?.value || '';
-    const from = $('#fromName')?.value || '';
-    const msg = $('#message')?.value || '';
+    const cur = pickCurrency();
+    const amt = pickAmount();
+    const to  = els.toName?.value || '';
+    const fr  = els.fromName?.value || '';
+    const mg  = els.message?.value || '';
 
-    const pAmt = $('#pvAmount');   if (pAmt) pAmt.textContent = money(amt, cur);
-    const pTo  = $('#pvToName');   if (pTo)  pTo.textContent  = toName || '—';
-    const pFr  = $('#pvFromName'); if (pFr)  pFr.textContent  = from   || '—';
-    const pMsg = $('#pvMessage');  if (pMsg) pMsg.textContent = msg    || '';
+    if (els.pvAmount) els.pvAmount.textContent = money(amt, cur);
+    if (els.pvToName) els.pvToName.textContent = to || '—';
+    if (els.pvFrom)   els.pvFrom.textContent   = fr || '—';
+    if (els.pvMsg)    els.pvMsg.textContent    = mg || '';
 
-    // bir kere üret, sabit kalsın
-    const pCode = $('#pvCode');
-    if (pCode && !pCode.dataset.fixed) {
-      pCode.textContent = genCode();
-      pCode.dataset.fixed = '1';
+    if (els.pvCode && !els.pvCode.dataset.fixed){
+      els.pvCode.textContent = genCode();
+      els.pvCode.dataset.fixed = '1';
     }
   }
 
   function addToCart(e){
     e?.preventDefault?.();
+    e?.stopImmediatePropagation?.();
 
-    const amount   = readAmount();
-    const currency = readCurrency();
-    const toName   = $('#toName')?.value?.trim() || '';
-    const toEmail  = $('#toEmail')?.value?.trim() || '';
-    const fromName = $('#fromName')?.value?.trim() || '';
-    const message  = $('#message')?.value?.trim() || '';
-    const delivery = $('#delivery')?.value || '';
+    const amount = pickAmount();
+    const currency = pickCurrency();
+    const toName = els.toName?.value?.trim() || '';
+    const toEmail = els.toEmail?.value?.trim() || '';
+    const fromName = els.fromName?.value?.trim() || '';
+    const message = els.message?.value?.trim() || '';
+    const delivery = els.delivery?.value || '';
 
-    if (!amount)  { toast('Choose an amount'); return; }
-    if (!toEmail) { toast('Recipient email required'); return; }
+    if (!amount)  return toast('Choose an amount');
+    if (!toEmail) return toast('Recipient email required');
 
-    const gcItem = {
+    const gc = {
       type: 'gift-card',
       currency,
       amount,
@@ -94,25 +112,28 @@
       delivery_date: delivery
     };
 
-    const items = load();
-    items.push(gcItem);
-    save(items);
-
+    const items = load(); items.push(gc); save(items);
     toast('Added to cart');
-    setTimeout(()=> { location.href = 'cart'; }, 300);
+    setTimeout(()=> { location.href = 'cart'; }, 250);
   }
 
-  // Bağlantılar
-  $('#btnGiftAdd')?.addEventListener('click', addToCart);
+  // Event bind + eski onclick’i iptal et
+  if (els.btnAdd){
+    try { els.btnAdd.onclick = null; els.btnAdd.removeAttribute?.('onclick'); } catch {}
+    els.btnAdd.addEventListener('click', addToCart);
+  }
 
-  // Canlı önizleme (varsa)
+  // Live preview
   ['input','change','keyup'].forEach(ev=>{
-    $('#currency')?.addEventListener(ev, updatePreview);
-    $('#amtCustom')?.addEventListener(ev, updatePreview);
-    $$('input[name="amountPreset"]').forEach(r => r.addEventListener('change', updatePreview));
-    $('#toName')?.addEventListener(ev, updatePreview);
-    $('#fromName')?.addEventListener(ev, updatePreview);
-    $('#message')?.addEventListener(ev, updatePreview);
+    els.currency?.addEventListener(ev, updatePreview);
+    els.amtCustom?.addEventListener(ev, updatePreview);
+    els.amountPresetAll().forEach(r => r.addEventListener('change', updatePreview));
+    els.toName?.addEventListener(ev, updatePreview);
+    els.fromName?.addEventListener(ev, updatePreview);
+    els.message?.addEventListener(ev, updatePreview);
   });
+
   updatePreview();
+  // Konsol hızlı kontrol
+  window.gcReady = true;
 })();
