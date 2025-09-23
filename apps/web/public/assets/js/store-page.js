@@ -1,4 +1,4 @@
-/* ======================= RGZTEC • Store Page (robust) ======================= */
+/* ======================= RGZTEC • Store Page (robust, patched) ======================= */
 /* Base URL: <base href="..."> varsa onu, yoksa sayfanın klasörünü kullanır */
 const BASE = (document.querySelector('base')?.href)
   || (location.origin + location.pathname.replace(/[^/]*$/, ''));
@@ -14,6 +14,8 @@ const slugify = s => String(s || '')
   .trim().toLowerCase()
   .replace(/[_\s]+/g, '-')
   .replace(/[^a-z0-9-]/g, '');
+const titleCase = s => String(s||'')
+  .split(/[-_\s]+/).map(w => w ? w[0].toUpperCase()+w.slice(1) : '').join(' ');
 
 /* URL/slug */
 const params = new URLSearchParams(location.search);
@@ -28,15 +30,13 @@ document.getElementById('searchForm')?.addEventListener('submit', (e) => {
   location.href = abs(to);
 });
 
-/* Featured store tile (hardware özel sayfasına gider, diğerleri store.html) */
+/* Featured store tile (TEK TİP link: store.html?slug=...) */
 function tile(s) {
   const sslug = slugify(s.slug || '');
   const name = s.name || sslug || '';
   const letter = (name || '?')[0].toUpperCase();
   const [light, dark] = (s.colors || s.colorPalette || ['#a5d6ff', '#3b82f6']);
-  const href = (sslug === 'hardware')
-    ? abs('hardware.html')
-    : abs(`store.html?slug=${encodeURIComponent(sslug)}`);
+  const href = abs(`store.html?slug=${encodeURIComponent(sslug)}`);
 
   return `<li>
     <a class="tile" href="${href}" title="${esc(name)}">
@@ -51,10 +51,7 @@ function tile(s) {
 /* Product card (16:9 media + skeleton için .media sarmalı) */
 function card(p) {
   const idFromImg = (p.image || '').replace(/\.(png|jpe?g|webp)$/i, '') || 'placeholder';
-  const imgRel = p.thumb
-    || `assets/thumbs/${idFromImg}.png`
-    || 'assets/thumbs/placeholder.png';
-
+  const imgRel = p.thumb || `assets/thumbs/${idFromImg}.png`;
   const imgSrc = abs(imgRel);
 
   return `
@@ -73,9 +70,11 @@ function card(p) {
     </div>
   </div>`;
 }
+
 /* Render */
 function renderProducts(list) {
   const g = document.getElementById('grid');
+  if (!g) return;
   if (!list?.length) {
     g.innerHTML = `<div class="sub">No products found in this store.</div>`;
     return;
@@ -83,7 +82,7 @@ function renderProducts(list) {
   g.innerHTML = list.map(card).join('');
 
   // Görsel yüklendiğinde shimmer'ı kapat
-  document.querySelectorAll('.card .media img').forEach((img) => {
+  g.querySelectorAll('.card .media img').forEach((img) => {
     const done = () => img.parentElement.classList.add('loaded');
     img.addEventListener('load', done, { once: true });
     img.addEventListener('error', done, { once: true });
@@ -133,30 +132,40 @@ function pickProductsFor(slugName, all) {
     const meta = stores.find((s) => slugify(s.slug) === slug);
 
     const pill = document.getElementById('studioName');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroTag = document.getElementById('heroTag');
+
     if (meta) {
-      pill.textContent = meta.name || meta.slug;
-      if (meta.color) pill.style.background = meta.color;
-      document.getElementById('heroTitle').textContent = meta.name || meta.slug;
-      document.getElementById('heroTag').textContent = meta.tagline || '';
+      if (pill) {
+        pill.textContent = meta.name || meta.slug;
+        if (meta.color) pill.style.background = meta.color;
+      }
+      if (heroTitle) heroTitle.textContent = meta.name || meta.slug;
+      if (heroTag) heroTag.textContent = meta.tagline || '';
       document.title = `RGZTEC • ${meta.name || meta.slug}`;
     } else {
-      document.getElementById('heroTitle').textContent = slug || 'Store';
-      document.getElementById('heroTag').textContent = '';
+      if (heroTitle) heroTitle.textContent = slug ? titleCase(slug) : 'Store';
+      if (heroTag) heroTag.textContent = '';
     }
 
-    // hardware vitrini kısıtlı; diğerleri tam liste
-    const featured = (slug === 'hardware') ? stores.slice(0, 20) : stores;
-    document.getElementById('storeRow').innerHTML = featured.map(tile).join('');
+    // Vitrin
+    const storeRow = document.getElementById('storeRow');
+    if (storeRow) {
+      const featured = (slug === 'hardware') ? stores.slice(0, 20) : stores;
+      storeRow.innerHTML = featured.map(tile).join('');
+    }
 
     /* store-content.json -> üst kategori barı */
     try {
       const content = await getJSON('data/store-content.json');
       const cats = Array.isArray(content?.[slug]?.categories) ? content[slug].categories : [];
       const bar = document.getElementById('storeBar');
-      bar.innerHTML = cats.map((c) =>
-        `<a href="${esc(abs(`listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`))}">${esc(c)}</a>`
-      ).join('');
-      bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
+      if (bar) {
+        bar.innerHTML = cats.map((c) =>
+          `<a href="${esc(abs(`listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}`))}">${esc(c)}</a>`
+        ).join('');
+        bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
+      }
     } catch (e) {
       console.warn('store-content.json yok/boş:', e);
     }
@@ -168,6 +177,7 @@ function pickProductsFor(slugName, all) {
     renderProducts(list);
   } catch (e) {
     console.error(e);
-    document.getElementById('grid').innerHTML = `<div class="sub">${esc(String(e.message || e))}</div>`;
+    const g = document.getElementById('grid');
+    if (g) g.innerHTML = `<div class="sub">${esc(String(e.message || e))}</div>`;
   }
 })();
