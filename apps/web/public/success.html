@@ -58,6 +58,13 @@
     </p>
   </div>
 </main>
+  
+<script>
+  const id = new URLSearchParams(location.search).get('s') || '';
+  document.getElementById('sid').textContent = id ? id : '(no session id)';
+  // NOT: Session doğrulaması backend gerektirir; burada sadece bilgi amaçlı gösteriyoruz.
+  // İleride /api/verify-session yazarsak burada fetch ile doğrularız.
+</script>
 
 <script>
 (function(){
