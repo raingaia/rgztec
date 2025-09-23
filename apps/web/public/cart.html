@@ -5,37 +5,76 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Shopping Cart — RGZTEC</title>
 <meta name="description" content="Your shopping cart on RGZTEC."/>
-<!-- Tam base: Pages’ta sapma olmaz -->
-<base href="https://raingaia.github.io/rgztec/apps/web/public/">
 
-<!-- Tema ve fallback -->
-<link rel="stylesheet" href="assets/css/theme.css">
-<link rel="stylesheet" href="assets/css/hero-ambient.css">
-<link rel="stylesheet" href="assets/css/interactions.css">
-<link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
-<link rel="stylesheet" href="assets%20/css/theme.css">
-<link rel="stylesheet" href="assets%20/css/hero-ambient.css">
-<link rel="stylesheet" href="assets%20/css/interactions.css">
-<link rel="stylesheet" href="assets%20/css/theme-corporate.css?v=1">
+<!-- ABSOLUTE CSS (assets + assets%20 fallback) -->
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/theme.css?v=4">
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/theme.css?v=4">
 
-<!-- Cart CSS + fallback -->
-<link rel="stylesheet" href="assets/css/cart.css?v=1">
-<link rel="stylesheet" href="assets%20/css/cart.css?v=1">
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/interactions.css?v=4">
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/interactions.css?v=4">
+
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/theme-corporate.css?v=4">
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/theme-corporate.css?v=4">
+
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/cart.css?v=4">
+<link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/cart.css?v=4">
+
+<style>
+/* --- critical fallback (CSS 404 olursa yine okunabilir kalsın) --- */
+:root{--wrap:1100px;--line:#e5e7eb;--brand:#f97316}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;color:#0b1220}
+.cart-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
+backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
+.cart-header .wrap{max-width:var(--wrap);margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
+.crumbs{display:flex;gap:8px;align-items:center;font-size:14px}
+.crumbs a{color:#334155;text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.hdr-actions{margin-left:auto;display:flex;gap:10px}
+.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);text-decoration:none}
+.pill-open{display:inline-flex;align-items:center;justify-content:center;height:36px;
+padding:0 14px;border-radius:18px;background:var(--brand);color:#fff;text-decoration:none;font-weight:700}
+
+.cart-page .wrap{max-width:var(--wrap);margin:0 auto;padding:16px}
+.h1{font-size:24px;margin:12px 0 16px}
+.cart-layout{display:grid;grid-template-columns:1fr 360px;gap:22px}
+@media(max-width:900px){.cart-layout{grid-template-columns:1fr}}
+.summary-card{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;position:sticky;top:90px}
+.rows{margin:0}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.row.sub{color:#64748b}
+.row.total{font-weight:800;font-size:18px;border-bottom:0}
+.btn-cta{width:100%;height:44px;border:0;border-radius:10px;background:#f97316;color:#fff;font-weight:800;cursor:pointer}
+.item{border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;grid-template-columns:88px 1fr auto;gap:12px;background:#fff}
+.item + .item{margin-top:12px}
+.thumb{width:88px;height:88px;border-radius:10px;background:#f1f5f9;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.tit{font-weight:800;margin:2px 0 6px}
+.sku{color:#64748b;font-size:12px;margin:0 0 8px}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.qty button{width:28px;height:28px;border:0;background:#fff;cursor:pointer}
+.qty input{width:36px;text-align:center;border:0}
+.price{font-weight:800;margin-left:auto;white-space:nowrap}
+.rem{margin-left:8px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.empty{display:none;text-align:center;padding:40px 0}
+.empty[hidden]{display:none!important}
+.em-ico{font-size:42px}
+</style>
 </head>
 <body>
 
 <header class="cart-header">
   <div class="wrap">
-    <a class="brand" href="./">RGZTEC</a>
-    <nav class="crumbs">
-      <a href="listings.html">Continue Shopping</a>
+    <a class="brand" href="https://raingaia.github.io/rgztec/apps/web/public/">RGZTEC</a>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="https://raingaia.github.io/rgztec/apps/web/public/listings.html">Continue Shopping</a>
       <span>›</span>
       <strong>Cart</strong>
     </nav>
     <div class="hdr-actions">
-      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
-      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
-      <a class="pill-open" href="open-store.html">Open Store</a>
+      <a class="icon-btn" href="https://raingaia.github.io/rgztec/apps/web/public/gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="https://raingaia.github.io/rgztec/apps/web/public/cart" title="Cart">🛒</a>
+      <a class="pill-open" href="https://raingaia.github.io/rgztec/apps/web/public/open-store.html">Open Store</a>
     </div>
   </div>
 </header>
@@ -45,45 +84,62 @@
     <h1 class="h1">Your Shopping Cart</h1>
 
     <div class="cart-layout">
+      <!-- ITEMS -->
       <section class="cart-items" id="cartItems" aria-label="Cart items">
-        <div class="item-skel"></div>
-        <div class="item-skel"></div>
+        <!-- JS dolduracak -->
       </section>
 
+      <!-- SUMMARY -->
       <aside class="cart-summary" aria-label="Order Summary">
         <div class="summary-card">
           <h2>Order Summary</h2>
           <dl class="rows">
-            <div class="row"><dt>Subtotal</dt><dd id="sumSubtotal">$0.00</dd></div>
-            <div class="row sub"><dt>Taxes</dt><dd id="sumTax">Calculated at checkout</dd></div>
-            <div class="row total"><dt>Total</dt><dd id="sumTotal">$0.00</dd></div>
+            <div class="row">
+              <dt>Subtotal</dt>
+              <dd id="sumSubtotal">$0.00</dd>
+            </div>
+            <div class="row sub">
+              <dt>Taxes</dt>
+              <dd id="sumTax">Calculated at checkout</dd>
+            </div>
+            <div class="row total">
+              <dt>Total</dt>
+              <dd id="sumTotal">$0.00</dd>
+            </div>
           </dl>
           <button id="btnCheckout" class="btn-cta">Proceed to Checkout</button>
-          <p class="hint" id="checkoutHint">No backend configured. Using Payment Link fallback if available.</p>
+          <p class="hint" id="checkoutHint" style="color:#64748b;font-size:12px;margin-top:10px">
+            No backend configured. Using Payment Link fallback if available.
+          </p>
         </div>
       </aside>
     </div>
 
+    <!-- EMPTY -->
     <section id="emptyState" class="empty" hidden>
       <div class="empty-box">
         <div class="em-ico">🛒</div>
         <h3>Your cart is empty</h3>
         <p>Browse products and add items to your cart.</p>
-        <a class="pill-open" href="./">Go to homepage</a>
+        <a class="pill-open" href="https://raingaia.github.io/rgztec/apps/web/public/">Go to homepage</a>
       </div>
     </section>
   </div>
 </main>
 
+<!-- JS (absolute + fallback) -->
 <script>
 (function(){
-  function load(src, fb){
-    var s=document.createElement('script'); s.defer=true; s.src=src;
-    if(fb){ s.onerror=function(){ var t=document.createElement('script'); t.defer=true; t.src=fb; document.body.appendChild(t); }; }
-    document.body.appendChild(s);
-  }
-  load('assets/js/cart.js?v=1','assets%20/js/cart.js?v=1');
+  var s=document.createElement('script'); s.defer=true;
+  s.src='https://raingaia.github.io/rgztec/apps/web/public/assets/js/cart.js?v=4';
+  s.onerror=function(){
+    var t=document.createElement('script'); t.defer=true;
+    t.src='https://raingaia.github.io/rgztec/apps/web/public/assets%20/js/cart.js?v=4';
+    document.body.appendChild(t);
+  };
+  document.body.appendChild(s);
 })();
 </script>
 </body>
 </html>
+
