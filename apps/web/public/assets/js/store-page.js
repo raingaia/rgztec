@@ -1,4 +1,4 @@
-/* ======================= RGZTEC • Store Page (robust, patched) ======================= */
+/* ======================= RGZTEC • Store Page (robust, patched FINAL) ======================= */
 /* Base URL: <base href="..."> varsa onu, yoksa sayfanın klasörünü kullanır */
 const BASE = (document.querySelector('base')?.href)
   || (location.origin + location.pathname.replace(/[^/]*$/, ''));
@@ -75,15 +75,13 @@ function card(p) {
 function renderProducts(list) {
   const g = document.getElementById('grid');
   if (!g) return;
+
   if (!list?.length) {
     g.innerHTML = `<div class="sub">No products found in this store.</div>`;
     return;
   }
+
   g.innerHTML = list.map(card).join('');
-  // kategori linkleri
-bar.innerHTML = cats.map(c =>
-  `<a href="${ROOT}listings.html?store=${encodeURIComponent(slug)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`
-).join('');
 
   // Görsel yüklendiğinde shimmer'ı kapat
   g.querySelectorAll('.card .media img').forEach((img) => {
@@ -139,18 +137,17 @@ function pickProductsFor(slugName, all) {
     const heroTitle = document.getElementById('heroTitle');
     const heroTag = document.getElementById('heroTag');
 
-    if (meta) {
-      if (pill) {
-        pill.textContent = meta.name || meta.slug;
-        if (meta.color) pill.style.background = meta.color;
-      }
-      if (heroTitle) heroTitle.textContent = meta.name || meta.slug;
-      if (heroTag) heroTag.textContent = meta.tagline || '';
-      document.title = `RGZTEC • ${meta.name || meta.slug}`;
-    } else {
-      if (heroTitle) heroTitle.textContent = slug ? titleCase(slug) : 'Store';
-      if (heroTag) heroTag.textContent = '';
+    // Header’daki pill’e insan-okur isim; hero başlığını boşalt
+    const displayName = meta?.name || (slug ? titleCase(slug) : 'Store');
+    if (pill) {
+      pill.textContent = displayName;
+      if (meta?.color) pill.style.background = meta.color;
+      pill.classList.add('is-filled');
     }
+    if (heroTitle) heroTitle.textContent = '';             // hero başlığını gizliyoruz
+    if (heroTag) heroTag.textContent = meta?.tagline || '';
+
+    document.title = `RGZTEC • ${displayName}`;
 
     // Vitrin
     const storeRow = document.getElementById('storeRow');
