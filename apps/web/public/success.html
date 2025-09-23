@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payment Success — RGZTEC</title>
+<meta name="description" content="Your payment was successful."/>
+<!-- BURAYI KENDİ BACKEND URL’İNLE DOLDUR -->
+<meta name="rgztec-api" content="https://YOUR-VERCEL-PROJECT.vercel.app">
+
+<!-- hafif stiller (harici css gerekmeden düzgün görünsün) -->
+<style>
+  :root{--ink:#0b1220;--sub:#64748b;--line:#e5e7eb;--brand:#f97316}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 16px}
+  .card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:18px}
+  h1{margin:0 0 8px;font-size:24px}
+  .sub{color:var(--sub);margin:0 0 16px}
+  .rows{display:grid;gap:8px;margin:14px 0}
+  .row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px dashed #eef0f4;padding:8px 0}
+  .total{font-weight:800}
+  .btn{display:inline-flex;align-items:center;justify-content:center;height:42px;border-radius:10px;
+       background:var(--brand);color:#fff;text-decoration:none;padding:0 16px;font-weight:700}
+  .ok{font-size:46px;line-height:1;margin-bottom:8px}
+  .list{margin:12px 0 0;padding-left:18px}
+  .muted{color:var(--sub);font-size:14px}
+  header{border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:12px}
+  .brand{font-weight:900;color:var(--brand);text-decoration:none;font-size:20px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap"><a class="brand" href="./">RGZTEC</a></div>
+</header>
+
+<main class="wrap">
+  <div class="card" id="box">
+    <div class="ok">✅</div>
+    <h1>Payment successful</h1>
+    <p class="sub" id="sub">We’re fetching your receipt…</p>
+
+    <div class="rows">
+      <div class="row"><span>Order ID</span><strong id="oid">–</strong></div>
+      <div class="row"><span>Email</span><strong id="mail">–</strong></div>
+      <div class="row total"><span>Total paid</span><strong id="total">–</strong></div>
+    </div>
+
+    <div id="items"></div>
+
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="./">Go to homepage</a>
+      <a class="btn" href="./redeem.html" id="redeemBtn" style="display:none">Redeem gift cards</a>
+    </div>
+
+    <p class="muted" style="margin-top:14px">
+      Tip: Keep this page for your records. We’ve cleared your cart.
+    </p>
+  </div>
+</main>
+
+<script>
+(function(){
+  const $ = (s,p=document)=>p.querySelector(s);
+  const money = (cents, cur='usd') =>
+    new Intl.NumberFormat('en-US',{style:'currency',currency:cur.toUpperCase()})
+      .format((Number(cents)||0)/100);
+
+  // 1) session id URL’de ?s=cs_test_... şeklinde geliyor
+  const id = new URLSearchParams(location.search).get('s');
+  const API = document.querySelector('meta[name="rgztec-api"]')?.content?.replace(/\/$/,'') || '';
+
+  // Cart’ı temizle (payment başarılı sayfaya ulaşıldığında)
+  try{ localStorage.removeItem('rgz_cart_v1'); }catch(e){}
+
+  if(!id || !API){
+    $('#sub').textContent = 'Missing checkout session or API config.';
+    return;
+  }
+
+  // 2) backend’den session’ı çek
+  fetch(`${API}/api/checkout-session?id=${encodeURIComponent(id)}`, {credentials:'omit'})
+    .then(r=>r.ok?r.json():Promise.reject(r))
+    .then(data=>{
+      // temel alanlar
+      $('#oid').textContent   = data.id || '—';
+      $('#mail').textContent  = data.customer_email || '—';
+      $('#total').textContent = money(data.amount_total, data.currency || 'usd');
+
+      const status = (data.payment_status || '').toUpperCase();
+      $('#sub').textContent = status === 'PAID' ? 'Thanks! Your order is paid.' : `Status: ${status}`;
+
+      // line items
+      const items = Array.isArray(data.line_items)? data.line_items : [];
+      if(items.length){
+        const ul = document.createElement('ul'); ul.className='list';
+        items.forEach(li=>{
+          const liEl = document.createElement('li');
+          liEl.textContent = `${li.qty||1} × ${li.desc||'Item'} — ${money(li.amount||0, data.currency||'usd')}`;
+          ul.appendChild(liEl);
+        });
+        $('#items').appendChild(ul);
+      }
+
+      // gift-card ipucu (backend hediye kodları döndürüyorsa)
+      if(Array.isArray(data.gift_cards) && data.gift_cards.length){
+        $('#redeemBtn').style.display = 'inline-flex';
+        // istersen burada kodları da listeleyebilirsin:
+        const ul = document.createElement('ul'); ul.className='list';
+        data.gift_cards.forEach(gc=>{
+          const li = document.createElement('li');
+          li.textContent = `${gc.code} — ${gc.amount} ${gc.currency}`;
+          ul.appendChild(li);
+        });
+        $('#items').appendChild(ul);
+      }
+    })
+    .catch(async(err)=>{
+      let msg = 'Could not load your checkout session.';
+      try{ const t = await err.text(); if(t) msg = t; }catch(_){}
+      $('#sub').textContent = msg;
+    });
+})();
+</script>
+</body>
+</html>
