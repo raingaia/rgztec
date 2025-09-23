@@ -1,7 +1,15 @@
-/* RGZTEC • Cart (localStorage + gift-card support) */
+/* RGZTEC • Cart (localStorage + gift-card + real checkout) */
 (function () {
   const $ = (s, p = document) => p.querySelector(s);
   const $$ = (s, p = document) => [...p.querySelectorAll(s)];
+
+  /* -------------------- CONFIG -------------------- */
+  // Backend kökü: <meta name="rgztec-api" content="https://your-api.vercel.app"> ile override edilir
+  const API_BASE =
+    document.querySelector('meta[name="rgztec-api"]')?.content ||
+    window.RGZTEC_API ||
+    ''; // aynı domainde barındırıyorsan boş bırak
+  const CHECKOUT_ENDPOINT = (API_BASE ? API_BASE.replace(/\/$/, '') : '') + '/api/checkout';
 
   // Storage key
   const KEY = 'rgz_cart_v1';
@@ -10,8 +18,12 @@
   const money = (amount = 0, currency = 'USD') =>
     new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(Number(amount) || 0);
 
-  // Seed demo items if cart empty (dev only)
+  /* -------------------- DEV SEED (isteğe bağlı) -------------------- */
   function seedIfEmpty() {
+    // sadece localhost veya ?seed=1 iken doldur
+    const isDev = /localhost|127\.0\.0\.1/.test(location.hostname) || /[?&]seed=1\b/.test(location.search);
+    if (!isDev) return;
+
     const cur = localStorage.getItem(KEY);
     if (cur) return;
     const demo = [
@@ -21,8 +33,7 @@
         sku: 'ICON-PAK',
         price: 24.0,
         qty: 2,
-        thumb:
-          'https://raingaia.github.io/rgztec/apps/web/public/assets/thumbs/placeholder.png',
+        thumb: 'https://raingaia.github.io/rgztec/apps/web/public/assets/thumbs/placeholder.png',
       },
       {
         id: 'tpl-001',
@@ -30,19 +41,19 @@
         sku: 'TPL-001',
         price: 29.0,
         qty: 1,
-        thumb:
-          'https://raingaia.github.io/rgztec/apps/web/public/assets/thumbs/placeholder.png',
+        thumb: 'https://raingaia.github.io/rgztec/apps/web/public/assets/thumbs/placeholder.png',
       },
-      // örnek hediye kartı (görmek isterseniz yorumu kaldırın)
+      // örnek gift card görmek için yorumdan çıkar:
       // { type:'gift-card', currency:'USD', amount:50, to:{email:'demo@rgztec.com'}, from:'Demo' }
     ];
     localStorage.setItem(KEY, JSON.stringify(demo));
   }
 
+  /* -------------------- Storage helpers -------------------- */
   function load() {
     try {
       return JSON.parse(localStorage.getItem(KEY) || '[]');
-    } catch (e) {
+    } catch (_e) {
       return [];
     }
   }
@@ -60,29 +71,32 @@
     return (Number(it.price) || 0) * (Number(it.qty) || 1);
   }
 
+  /* -------------------- Render -------------------- */
   function render() {
     const box = $('#cartItems');
     const empty = $('#emptyState');
     const items = load();
 
     if (!items.length) {
-      box.innerHTML = '';
-      empty.hidden = false;
+      if (box) box.innerHTML = '';
+      if (empty) empty.hidden = false;
       updateTotals();
+      toggleCheckoutDisabled(true);
       return;
     }
-    empty.hidden = true;
+    if (empty) empty.hidden = true;
 
-    box.innerHTML = items
-      .map((it, idx) => {
-        // Gift card görünümü
-        if (it?.type === 'gift-card') {
-          const to = it.to?.email || it.to?.name || '-';
-          const metaBits = [
-            to ? `To: ${escapeHtml(String(to))}` : '',
-            it.deliveryDate ? `Delivery: ${escapeHtml(String(it.deliveryDate))}` : '',
-          ].filter(Boolean);
-          return `
+    if (box) {
+      box.innerHTML = items
+        .map((it, idx) => {
+          // Gift card görünümü
+          if (it?.type === 'gift-card') {
+            const to = it.to?.email || it.to?.name || '-';
+            const metaBits = [
+              to ? `To: ${escapeHtml(String(to))}` : '',
+              it.deliveryDate ? `Delivery: ${escapeHtml(String(it.deliveryDate))}` : '',
+            ].filter(Boolean);
+            return `
           <article class="item gift" data-idx="${idx}">
             <div class="thumb gift" aria-hidden="true">🎁</div>
             <div>
@@ -94,10 +108,10 @@
             </div>
             <div class="price">${money(it.amount, it.currency || 'USD')}</div>
           </article>`;
-        }
+          }
 
-        // Normal ürün görünümü
-        return `
+          // Normal ürün görünümü
+          return `
         <article class="item" data-idx="${idx}">
           <div class="thumb"><img alt="${escapeHtml(it.title)}" src="${it.thumb || ''}"></div>
           <div>
@@ -114,8 +128,9 @@
           </div>
           <div class="price">${money((it.price || 0) * (it.qty || 1), 'USD')}</div>
         </article>`;
-      })
-      .join('');
+        })
+        .join('');
+    }
 
     // events
     $$('.item').forEach((el) => {
@@ -135,6 +150,7 @@
     });
 
     updateTotals();
+    toggleCheckoutDisabled(false);
   }
 
   function changeQty(idx, delta) {
@@ -165,14 +181,82 @@
   function updateTotals() {
     const items = load();
     const sub = items.reduce((a, b) => a + lineTotal(b), 0);
-    $('#sumSubtotal').textContent = money(sub, 'USD');
-    $('#sumTotal').textContent = money(sub, 'USD'); // vergiyi checkout'ta hesaplarız
+    $('#sumSubtotal') && ($('#sumSubtotal').textContent = money(sub, 'USD'));
+    $('#sumTotal') && ($('#sumTotal').textContent = money(sub, 'USD')); // vergiyi checkout'ta hesaplarız
   }
 
-  $('#btnCheckout')?.addEventListener('click', () => {
-    // Backend yoksa burada Payment Link’e yönlendir veya uyarı göster
-    alert('Demo checkout — backend yok.');
-  });
+  function toggleCheckoutDisabled(disabled) {
+    const btn = $('#btnCheckout');
+    if (!btn) return;
+    if (disabled) btn.setAttribute('disabled', 'disabled');
+    else btn.removeAttribute('disabled');
+  }
+
+  /* -------------------- REAL CHECKOUT -------------------- */
+  function serializeForCheckout(items) {
+    return items.map((it) => {
+      if (it?.type === 'gift-card') {
+        return {
+          id: it.id || 'gift-card',
+          type: 'gift-card',
+          title: 'RGZTEC Gift Card',
+          price: Number(it.amount) || 0, // cent’e çevirme backend’de
+          qty: 1,
+          sku: it.sku || 'GFT-CARD',
+          to: it.to || {},
+          from: it.from || '',
+          message: it.message || '',
+          delivery_date: it.deliveryDate || it.delivery_date || '',
+          currency: it.currency || 'USD',
+        };
+      }
+      // normal product
+      return {
+        id: it.id,
+        type: 'product',
+        title: it.title,
+        price: Number(it.price) || 0,
+        qty: Number(it.qty) || 1,
+        sku: it.sku || it.id || '',
+        currency: it.currency || 'USD',
+      };
+    });
+  }
+
+  async function goCheckout() {
+    const items = load();
+    if (!items.length) return alert('Your cart is empty.');
+
+    const btn = $('#btnCheckout');
+    btn?.setAttribute('disabled', 'disabled');
+    btn?.classList.add('loading');
+
+    try {
+      const payload = { items: serializeForCheckout(items) };
+      const r = await fetch(CHECKOUT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await r.json().catch(() => ({}));
+
+      if (!r.ok || !data?.url) {
+        const msg = data?.error || `Checkout failed (${r.status})`;
+        throw new Error(msg);
+      }
+
+      // Stripe Checkout’a yönlendir
+      location.href = data.url;
+    } catch (err) {
+      console.error(err);
+      alert(err?.message || String(err) || 'Checkout error');
+      btn?.removeAttribute('disabled');
+      btn?.classList.remove('loading');
+    }
+  }
+
+  $('#btnCheckout')?.addEventListener('click', goCheckout);
 
   // init
   seedIfEmpty();
