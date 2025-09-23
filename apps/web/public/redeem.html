@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Redeem Gift Card — RGZTEC</title>
+<meta name="description" content="Redeem your RGZTEC gift card and apply the balance to your account."/>
+<!-- RGZTEC public base -->
+<base href="/rgztec/apps/web/public/">
+
+<!-- ✳️ Backend kökü (Vercel/Cloud/API) — BURAYI kendi endpoint’inle değiştir -->
+<meta name="rgztec-api" content="https://YOUR-VERCEL-PROJECT.vercel.app">
+
+<!-- CSS (assets ve assets%20 fallback’li) -->
+<link rel="stylesheet" href="assets/css/theme.css?v=4">
+<link rel="stylesheet" href="assets%20/css/theme.css?v=4">
+<link rel="stylesheet" href="assets/css/interactions.css?v=4">
+<link rel="stylesheet" href="assets%20/css/interactions.css?v=4">
+<link rel="stylesheet" href="assets/css/theme-corporate.css?v=4">
+<link rel="stylesheet" href="assets%20/css/theme-corporate.css?v=4">
+
+<style>
+:root{
+  --wrap:1100px; --line:#e5e7eb; --ink:#0b1220; --sub:#64748b;
+  --brand:#f97316; --brand-dark:#ea580c; --ok:#16a34a; --err:#dc2626;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+
+/* header (home ile uyumlu sade) */
+.header-outer{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
+.header-row{max-width:var(--wrap);margin:auto;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 16px}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none}
+.h-actions{display:flex;gap:10px}
+.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:#fff;text-decoration:none}
+
+/* page */
+.wrap{max-width:var(--wrap);margin:0 auto;padding:20px 16px}
+.h1{font-size:28px;margin:10px 0 6px}
+.sub{color:var(--sub);margin:0 0 18px}
+.card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:16px}
+.grid{display:grid;grid-template-columns:1fr 380px;gap:20px}
+@media (max-width:980px){.grid{grid-template-columns:1fr}}
+.inp{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.inp label{font-weight:700;font-size:14px}
+.inp input{height:44px;border:2px solid #111827;border-radius:12px;padding:0 12px;font-size:15px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{height:44px;padding:0 18px;border-radius:999px;border:0;font-weight:800;background:var(--brand);color:#fff;cursor:pointer}
+.btn:hover{background:var(--brand-dark)}
+.btn.link{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.note{font-size:13px;color:var(--sub)}
+.stat{border-radius:12px;padding:12px;border:1px solid var(--line);background:#f8fafc}
+.stat.ok{border-color:#bbf7d0;background:#f0fdf4}
+.stat.err{border-color:#fecaca;background:#fef2f2}
+.codebox{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight:700;border:1px dashed var(--line);padding:10px;border-radius:12px;letter-spacing:.5px}
+.preview{border:1px solid var(--line);border-radius:16px;padding:16px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px 10px;font-size:14px}
+.kv .k{color:var(--sub)}
+.footer-note{margin-top:10px;font-size:12.5px;color:var(--sub)}
+</style>
+</head>
+<body>
+
+<header class="header-outer">
+  <div class="header-row">
+    <a class="brand" href="./">RGZTEC</a>
+    <div class="h-actions">
+      <a class="icon-btn" href="gift-card.html" title="Gift Card">🎁</a>
+      <a class="icon-btn" href="cart" title="Cart">🛒</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="h1">Redeem your gift card</h1>
+  <p class="sub">Enter your RGZTEC gift card code. If valid and unused, it will be redeemed on your account.</p>
+
+  <div class="grid">
+    <!-- Left: form -->
+    <section class="card" aria-label="Redeem form">
+      <form id="redeemForm" class="form">
+        <div class="inp">
+          <label for="code">Gift card code</label>
+          <input id="code" name="code" type="text" inputmode="latin"
+                 placeholder="RGZ-XXXX-XXXX" autocomplete="off" required/>
+          <div class="note">Format: <b>RGZ-XXXX-XXXX</b> (letters/numbers).</div>
+        </div>
+
+        <div class="inp">
+          <label for="email">Your email (optional)</label>
+          <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email"/>
+          <div class="note">We’ll attach redemption to this email if your account requires it.</div>
+        </div>
+
+        <div class="row">
+          <button class="btn" type="submit" id="btnRedeem">Redeem</button>
+          <button class="btn link" type="button" id="btnPaste">Paste from clipboard</button>
+        </div>
+
+        <div id="status" class="stat" style="margin-top:12px;display:none" aria-live="polite"></div>
+      </form>
+
+      <p class="footer-note">Having trouble? Contact <a href="mailto:support@rgztec.com">support@rgztec.com</a>.</p>
+    </section>
+
+    <!-- Right: preview/info -->
+    <aside class="preview" aria-label="Details">
+      <h3 style="margin-top:0">How it works</h3>
+      <div class="kv">
+        <div class="k">1. Validate</div><div>We verify the code with the server.</div>
+        <div class="k">2. Redeem</div><div>On success, the balance is marked as redeemed and attached to your account/email.</div>
+        <div class="k">3. Use</div><div>During checkout, your available balance can be applied.</div>
+      </div>
+      <hr style="margin:14px 0;border:none;border-top:1px solid var(--line)">
+      <div class="codebox" id="codeEcho">RGZ-XXXX-XXXX</div>
+    </aside>
+  </div>
+</main>
+
+<script>
+(function(){
+  const $ = (s,p=document)=>p.querySelector(s);
+  const API = document.querySelector('meta[name="rgztec-api"]')?.content?.trim() || '';
+  const statusBox = $('#status');
+  const codeEcho = $('#codeEcho');
+  const form = $('#redeemForm');
+  const codeInput = $('#code');
+  const emailInput = $('#email');
+  const btnPaste = $('#btnPaste');
+
+  // Prefill from ?code=...
+  const q = new URLSearchParams(location.search);
+  if(q.get('code')){
+    codeInput.value = normalizeCode(q.get('code'));
+    codeEcho.textContent = codeInput.value || 'RGZ-XXXX-XXXX';
+  }
+
+  codeInput.addEventListener('input', ()=>{
+    codeEcho.textContent = normalizeCode(codeInput.value) || 'RGZ-XXXX-XXXX';
+  });
+
+  btnPaste.addEventListener('click', async ()=>{
+    try{
+      const t = await navigator.clipboard.readText();
+      codeInput.value = normalizeCode(t);
+      codeInput.dispatchEvent(new Event('input'));
+      codeInput.focus();
+    }catch(e){
+      toast('Could not read clipboard. Paste manually.', 'err');
+    }
+  });
+
+  form.addEventListener('submit', onSubmit);
+
+  function normalizeCode(s=''){
+    return String(s).toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'')
+                .replace(/^RGZ([A-Z0-9]{4})([A-Z0-9]{4})$/,'RGZ-$1-$2')
+                .replace(/^RGZ-?([A-Z0-9]{4})-?([A-Z0-9]{4}).*$/,'RGZ-$1-$2');
+  }
+
+  function validCode(s){
+    return /^RGZ-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(s);
+  }
+
+  async function onSubmit(e){
+    e.preventDefault();
+    const code = normalizeCode(codeInput.value);
+    const email = (emailInput.value||'').trim();
+
+    if(!validCode(code)){
+      toast('Please enter a valid code like RGZ-1ABC-2DEF.', 'err');
+      return;
+    }
+
+    if(!API){
+      toast('Server endpoint is not configured. Set the <meta name="rgztec-api"> value.', 'err');
+      return;
+    }
+
+    setBusy(true);
+    try{
+      const r = await fetch(API.replace(/\/$/,'') + '/api/redeem', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ code, email })
+      });
+      const data = await r.json().catch(()=>({}));
+      if(!r.ok){
+        const msg = data?.error || 'Redeem failed.';
+        throw new Error(msg);
+      }
+
+      // Expected success payload example:
+      // { ok:true, amount:100, currency:'USD', code:'RGZ-XXXX-XXXX', redeemed_at:'ISO', balance_id:'...' }
+      toast(`Success! ${fmtMoney(data.amount, data.currency)} added to your balance.`, 'ok');
+
+      // Optional: remember last redeemed
+      localStorage.setItem('rgz_last_redeem', JSON.stringify({
+        code: data.code || code, amount: data.amount, currency: data.currency, at: Date.now()
+      }));
+
+      // Clear input
+      form.reset();
+      codeEcho.textContent = 'RGZ-XXXX-XXXX';
+    }catch(err){
+      toast(err.message || 'Redeem failed.', 'err');
+    }finally{
+      setBusy(false);
+    }
+  }
+
+  function fmtMoney(a=0, cur='USD'){
+    return new Intl.NumberFormat('en-US',{style:'currency',currency:cur}).format(Number(a)||0);
+  }
+
+  function toast(msg, type='info'){
+    statusBox.textContent = msg;
+    statusBox.className = 'stat ' + (type==='ok'?'ok':type==='err'?'err':'');
+    statusBox.style.display = 'block';
+  }
+
+  function setBusy(b){
+    $('#btnRedeem').disabled = b;
+    form.querySelectorAll('input').forEach(i=>i.disabled = b);
+  }
+})();
+</script>
+</body>
+</html>
