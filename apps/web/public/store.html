@@ -6,17 +6,19 @@
 <title>RGZTEC • Store</title>
 <meta name="description" content="Browse a dedicated RGZTEC store."/>
 
-<!-- Harici CSS (hem assets/ hem assets%20/ ile yedekli) -->
+<!-- 1) THEME TOKENS (her şeyden önce) -->
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
+<!-- 2) BASE -->
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/base.css?v=4">
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/base.css?v=4">
-  
-  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
-  
-  <link rel="stylesheet" href="assets/css/theme-global.css?v=1"> 
-<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1"> <!-- boşluklu klasör için fallback -->
- 
 
+<!-- 3) GLOBAL (token’ları kullanan genel tema) -->
+<link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
+<!-- 4) DİĞER KATLAR -->
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets/css/styles.css?v=4">
 <link rel="stylesheet" href="https://raingaia.github.io/rgztec/apps/web/public/assets%20/css/styles.css?v=4">
 
@@ -47,6 +49,7 @@ body[data-store]{
   --amb-lilac:#efe8ff; --amb-peach:#ffe6d5; --amb-sky:#e7f3ff;
   --text:#111827; --rgztec-dark:#ea580c;
 }
+
 /* Topbar: yarı şeffaf + blur, tek alt çizgi */
 body[data-store] .topbar{
   position:sticky; top:0; z-index:100;
@@ -190,14 +193,14 @@ body[data-store] .card .media img[src=""], body[data-store] .card .media img:not
   <div id="grid" class="grid"></div>
 </main>
 
-<!-- JS: store-page.js — normal + %20 fallback -->
+<!-- JS: slug -> store, tema eşleme + store-page.js yükleyici -->
 <script>
 (function(){
-  // slug'ı form URL'ine ekle (q ile birlikte store=slug)
   const params = new URLSearchParams(location.search);
   const slug = (params.get('slug')||'').trim().toLowerCase();
   document.body.dataset.store = slug || '';
 
+  // Arama formuna store paramını ekle
   const form = document.getElementById('searchForm');
   if (form && slug){
     const hidden = document.createElement('input');
@@ -205,6 +208,16 @@ body[data-store] .card .media img[src=""], body[data-store] .card .media img:not
     form.appendChild(hidden);
   }
 
+  // slug -> tema map
+  const THEME_MAP = {
+    'hardware': 'hardware',
+    'ai-tools-hub': 'ai',
+    'reactorium': 'react'
+    // gerekirse buraya ekle: 'unity-hub': 'ai' vb.
+  };
+  if (THEME_MAP[slug]) document.body.dataset.theme = THEME_MAP[slug];
+
+  // store-page.js yükle (boşluklu klasör fallback ile)
   function loadJS(src, fallback){
     var s=document.createElement('script'); s.defer=true; s.src=src;
     if (fallback){
@@ -222,3 +235,4 @@ body[data-store] .card .media img[src=""], body[data-store] .card .media img:not
 </script>
 </body>
 </html>
+
