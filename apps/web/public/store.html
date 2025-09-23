@@ -101,7 +101,12 @@ body[data-store] .store-bar a{
   border:0!important; background:transparent!important; border-radius:0!important;
   color:#111827!important; font-weight:700; text-decoration:none; transition:color .15s;
 }
-body[data-store] .store-bar a:hover{ color:#ea580c!important; text-decoration:underline }
+/* Kategori linklerinde alt çizgi olmasın */
+body[data-store] .store-bar a:hover{
+  color:var(--brand-dark) !important;
+  text-decoration:none !important;
+}
+
 
 /* Hero: ana sayfa havası + yumuşak fade */
 body[data-store] .hero{
