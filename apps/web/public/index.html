@@ -151,31 +151,62 @@ ul{list-style:none;margin:0;padding:0}
 .pill-open:hover{background:var(--brand-dark)}
 
 /* QUICK FILTERS */
+/* ================================
+   PRO FILTER BAR – COMMERCIAL UI
+   ================================ */
+
 .chips-outer{
-  border-top:1px solid #f9fafb;
-  border-bottom:1px solid var(--line);
+  border-top:1px solid #f3f4f6;
+  border-bottom:1px solid #eceef3;
   background:#ffffff;
-  /* hero’dan biraz ayrışsın */
-  box-shadow:0 6px 12px rgba(15,23,42,.03);
+  padding: 6px 0;                       /* bar yüksekliği */
+  box-shadow:0 3px 8px rgba(0,0,0,.03); /* soft separation */
+  position:relative;
+  z-index:15;
 }
 
 .chips{
+  max-width:1350px;                      /* profesyonel genişlik */
+  margin:0 auto;
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;      /* ORTALA */
+  justify-content:flex-start;            /* soldan başla */
   align-items:center;
-  column-gap:26px;             /* sağ–sol aralık */
-  row-gap:10px;                /* alt–üst aralık */
-  padding:10px 0 14px;         /* biraz daha dikey boşluk */
+  column-gap:32px;                       /* item spacing */
+  row-gap:12px;
+  padding:10px 24px 14px;
 }
 
-}
 .chip{
-  color:var(--sub);font-weight:600;font-size:15px;
-  text-decoration:none;white-space:nowrap;
-  transition:color .2s,transform .15s;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 18px;
+  background:#f8fafc;
+  border-radius:999px;
+  border:1px solid #e2e8f0;
+  color:#475569;
+  font-weight:600;
+  font-size:14px;
+  text-decoration:none;
+  transition:all .18s ease;
 }
-.chip:hover{color:var(--ink);transform:translateY(-1px)}
+
+.chip:hover{
+  background:#ffffff;
+  border-color:#cbd5e1;
+  color:#0f172a;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+
+/* small screens – center */
+@media (max-width: 768px){
+  .chips{
+    justify-content:center;
+    column-gap:18px;
+  }
+}
 
 /* HERO */
 .section-container{padding-top:24px}
