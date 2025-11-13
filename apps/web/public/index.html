@@ -155,11 +155,20 @@ ul{list-style:none;margin:0;padding:0}
   border-top:1px solid #f9fafb;
   border-bottom:1px solid var(--line);
   background:#ffffff;
+  /* hero’dan biraz ayrışsın */
+  box-shadow:0 6px 12px rgba(15,23,42,.03);
 }
+
 .chips{
-  display:flex;gap:22px;flex-wrap:wrap;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;      /* ORTALA */
   align-items:center;
-  padding:8px 0 10px;
+  column-gap:26px;             /* sağ–sol aralık */
+  row-gap:10px;                /* alt–üst aralık */
+  padding:10px 0 14px;         /* biraz daha dikey boşluk */
+}
+
 }
 .chip{
   color:var(--sub);font-weight:600;font-size:15px;
