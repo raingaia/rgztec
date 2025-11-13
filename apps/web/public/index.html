@@ -1,340 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RGZTEC • Home</title>
-  <meta name="description" content="Discover unique products and open your store on RGZTEC." />
-  <meta name="theme-color" content="#f97316" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Home</title>
+<meta name="description" content="Discover unique products and open your store on RGZTEC."/>
 
-  <!-- Mevcut stil dosyaların -->
-  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1" />
-  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1" />
-  <link rel="stylesheet" href="assets/css/theme-global.css?v=1" />
-  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1" />
-  <link rel="stylesheet" href="assets/css/theme.css" />
-  <link rel="stylesheet" href="assets/css/hero-ambient.css" />
-  <link rel="stylesheet" href="assets/css/interactions.css" />
-  <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1" />
-  <script defer src="assets/js/theme-corporate.js?v=1"></script>
+<!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
+<base href="/rgztec/apps/web/public/">
 
-  <style>
-    :root{
-      --wrap:1100px;
-      --gutter-min:12px; --gutter-max:28px;
-      --ink:#0b1220; --sub:#64748b;
-      --line:#e5e7eb; --line-strong:#d7dbe3;
-      --brand:#f97316; --brand-dark:#ea580c;
-      --search-h:52px;
-      --tile:clamp(72px,7vw,90px);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;overflow-x:hidden}
-    body{
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--ink);
-      background:radial-gradient(circle at top left,#ffe4cc 0,#fff 40%,#f4f4ff 100%);
-    }
-    ul{list-style:none;margin:0;padding:0}
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
 
-    .page-section{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
-    .page-section--fluid{max-width:none;padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max))}
+<meta name="theme-color" content="#f97316">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    /* HEADER */
-    .header-outer{
-      position:sticky;top:0;z-index:50;
-      background:linear-gradient(to right,rgba(255,255,255,.96),rgba(255,247,237,.96));
-      backdrop-filter:saturate(120%) blur(8px);
-      border-bottom:1px solid var(--line);
-    }
-    .header-row{
-      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-      padding:8px 0;
-    }
-    .header-left,.hdr-right{flex-shrink:0}
-    .search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
-    .brand{
-      font-weight:900;font-size:22px;letter-spacing:.04em;
-      color:var(--brand);text-decoration:none;margin-right:8px;
-    }
-    .btn-cats{
-      display:inline-flex;align-items:center;gap:10px;
-      height:40px;padding:0 14px;border-radius:999px;
-      border:1px solid var(--line-strong);
-      background:#fff;cursor:pointer;font-weight:500;font-size:14px;
-    }
-    .btn-cats svg{width:18px;height:18px}
-    .btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
+<link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
 
-    .search{
-      display:flex;align-items:center;
-      height:var(--search-h);
-      border-radius:999px;
-      border:1px solid var(--line-strong);
-      background:#f9fafb;
-      padding:0 8px 0 16px;
-      width:100%;
-      transition:border-color .18s,box-shadow .18s,background-color .18s;
-    }
-    .search input{
-      flex:1;min-width:0;border:0;outline:0;
-      font-size:15px;padding:12px 10px;background:transparent;
-    }
-    .search:hover{
-      border-color:#cbd5f5;background:#fff;
-      box-shadow:0 0 0 1px rgba(148,163,184,.35);
-    }
-    .search:focus-within{
-      border-color:var(--brand);background:#fff;
-      box-shadow:0 0 0 1px rgba(249,115,22,.45);
-    }
-    .go{
-      display:grid;place-items:center;
-      width:38px;height:38px;border-radius:999px;
-      background:var(--brand);border:0;cursor:pointer;margin-right:4px;
-      transition:background-color .18s,transform .12s;
-    }
-    .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-    .go:hover{background:var(--brand-dark);transform:translateY(-1px)}
+<!-- Dinamik tema / ambient hero / mikro etkileşimler (şu an mostly görsel) -->
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/hero-ambient.css">
+<link rel="stylesheet" href="assets/css/interactions.css">
 
-    .hdr-right{
-      display:flex;justify-content:flex-end;align-items:center;
-      gap:12px;flex-wrap:nowrap;
-    }
-    .signin-link{
-      color:var(--ink);text-decoration:none;
-      font-weight:600;font-size:14px;white-space:nowrap;
-    }
-    .signin-link:hover{color:var(--brand)}
-    .icon-btn{
-      display:grid;place-items:center;
-      width:32px;height:32px;border-radius:999px;
-      border:1px solid var(--line-strong);background:#fff;
-      font-size:16px;text-decoration:none;
-    }
-    .icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
-    .pill-open{
-      display:inline-flex;align-items:center;justify-content:center;
-      height:40px;padding:0 18px;border-radius:20px;
-      background:var(--brand);color:#fff;font-weight:700;
-      text-decoration:none;font-size:14px;
-      box-shadow:0 14px 28px rgba(249,115,22,.35);
-    }
-    .pill-open:hover{background:var(--brand-dark)}
+<!-- Corporate theme (safe overrides) -->
+<link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
+<script defer src="assets/js/theme-corporate.js?v=1"></script>
 
-    .chips-outer{border-bottom:1px solid var(--line);background:rgba(255,255,255,.86)}
-    .chips{
-      display:flex;gap:22px;flex-wrap:wrap;
-      align-items:center;padding:8px 0 10px;
-    }
-    .chip{
-      color:var(--sub);font-weight:600;font-size:15px;
-      text-decoration:none;white-space:nowrap;
-      transition:color .2s,transform .15s;
-    }
-    .chip:hover{color:var(--ink);transform:translateY(-1px)}
+<style>
+:root{
+  --wrap:1100px;
+  --gutter-min:12px; --gutter-max:28px;
+  --ink:#0b1220; --sub:#64748b;
+  --line:#e5e7eb; --line-strong:#d7dbe3;
+  --brand:#f97316; --brand-dark:#ea580c;
+  --bg-soft:#f3f4f6;
+  --search-h:52px;
+  --tile:clamp(72px,7vw,90px);
+}
 
-    /* HERO */
-    .section-container{padding-top:24px}
-    .section-h{font-weight:800;font-size:22px;margin:0 0 16px}
+/* RESET */
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
+body{
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg-soft);
+}
+ul{list-style:none;margin:0;padding:0}
 
-    .hero-outer{
-      border-bottom:1px solid var(--line);
-      background:radial-gradient(circle at top left,#ffe8d4 0,#fff 45%,#f4f4ff 100%);
-    }
-    .hero{
-      display:grid;grid-template-columns:1.25fr .9fr;
-      gap:22px;align-items:center;
-      padding:24px 0;
-    }
-    .hero h1{
-      font-size:clamp(26px,3.2vw,38px);
-      margin:0 0 12px;letter-spacing:.02em;
-    }
-    .hero p{margin:0;color:var(--sub);max-width:520px}
-    .hero-cta-row{
-      display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;
-    }
-    .hero-cta-primary,.hero-cta-secondary{
-      display:inline-flex;align-items:center;justify-content:center;
-      height:44px;padding:0 18px;border-radius:999px;
-      font-weight:700;text-decoration:none;font-size:14px;
-    }
-    .hero-cta-primary{
-      background:#111827;color:#fff;
-      box-shadow:0 16px 32px rgba(15,23,42,.3);
-    }
-    .hero-cta-primary:hover{background:#020617}
-    .hero-cta-secondary{
-      background:#fff;color:#111827;border:1px solid #e5e7eb;
-    }
-    .hero-cta-secondary:hover{border-color:#d1d5db}
+/* LAYOUT HELPERS */
+.page-section{
+  width:100%;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding-inline:16px;
+}
+.page-section--fluid{
+  max-width:none;
+  padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+}
 
-    .badges{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;
-    }
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      border:1px solid var(--line);background:#fff;
-      padding:8px 12px;border-radius:999px;
-      font-weight:700;font-size:12px;
-      box-shadow:0 4px 10px rgba(15,23,42,.06);
-    }
+/* HEADER */
+.header-outer{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:saturate(120%) blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-row{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:8px 0;
+}
+.header-left,.hdr-right{flex-shrink:0}
+.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
+.brand{
+  font-weight:900;font-size:22px;letter-spacing:.08em;
+  color:var(--brand);text-decoration:none;margin-right:8px;
+}
+.btn-cats{
+  display:inline-flex;align-items:center;gap:8px;
+  height:40px;padding:0 14px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;cursor:pointer;
+  font-weight:500;font-size:14px;
+}
+.btn-cats svg{width:18px;height:18px}
+.btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
 
-    .promos{display:grid;grid-template-columns:1fr;gap:14px}
-    .promo-box{
-      position:relative;display:block;
-      border:1px solid var(--line);background:#fff;border-radius:16px;
-      padding:12px;min-height:140px;overflow:hidden;
-      text-decoration:none;color:inherit;
-      transition:transform .15s,box-shadow .15s,border-color .15s;
-    }
-    .promo-box:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 22px rgba(0,0,0,.08);
-      border-color:var(--line-strong);
-    }
-    .promo-badge{
-      position:absolute;top:10px;left:10px;z-index:2;
-      display:inline-flex;align-items:center;gap:8px;
-      font-weight:800;font-size:13px;color:#fff;
-      background:var(--brand);padding:6px 10px;border-radius:999px;
-    }
-    .promo-media{
-      position:absolute;inset:0;
-      background:linear-gradient(145deg,#eef2f7,#f5f7fb);
-      border-radius:16px;z-index:0;
-    }
-    .promo-line{
-      position:absolute;left:12px;right:12px;
-      height:12px;background:#f1f5f9;
-      bottom:18px;border-radius:6px;
-    }
-    .promo-line.short{
-      width:60%;right:auto;bottom:42px;
-    }
+.search{
+  display:flex;align-items:center;
+  height:var(--search-h);
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#f9fafb;
+  padding:0 8px 0 16px;
+  width:100%;
+  transition:border-color .18s,box-shadow .18s,background-color .18s;
+}
+.search input{
+  flex:1;min-width:0;border:0;outline:0;
+  font-size:15px;padding:12px 10px;background:transparent;
+}
+.search:hover{
+  border-color:#cbd5f5;background:#ffffff;
+  box-shadow:0 0 0 1px rgba(148,163,184,.35);
+}
+.search:focus-within{
+  border-color:var(--brand);background:#ffffff;
+  box-shadow:0 0 0 1px rgba(249,115,22,.45);
+}
+.go{
+  display:grid;place-items:center;
+  width:38px;height:38px;
+  border-radius:999px;
+  background:var(--brand);
+  border:0;cursor:pointer;margin-right:4px;
+  transition:background-color .18s,transform .12s;
+}
+.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.go:hover{background:var(--brand-dark);transform:translateY(-1px)}
 
-    /* STORES */
-    .stores{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(var(--tile),1fr));
-      gap:clamp(14px,2.2vw,20px);
-      margin-top:8px;
-    }
-    .store-tile{
-      display:flex;flex-direction:column;align-items:center;gap:10px;
-      color:inherit;text-decoration:none;cursor:pointer;
-      transition:transform .18s;
-    }
-    .store-tile:hover{transform:translateY(-6px)}
-    .store-tile:focus-visible{outline:2px solid var(--brand);outline-offset:4px}
-    .badge-tile{
-      width:var(--tile);height:var(--tile);
-      border-radius:28px;display:grid;place-items:center;
-      box-shadow:0 10px 20px -6px rgba(0,0,0,.16),
-                 inset 0 1px 0 rgba(255,255,255,.5),
-                 0 0 0 1px rgba(0,0,0,.05);
-      transition:box-shadow .2s,transform .2s;
-    }
-    .store-tile:hover .badge-tile{
-      box-shadow:0 18px 30px -10px rgba(15,23,42,.35),
-                 inset 0 1px 0 rgba(255,255,255,.6),
-                 0 0 0 1px rgba(15,23,42,.12);
-      transform:scale(1.05);
-    }
-    .letter{
-      font-weight:900;font-size:28px;color:#fff;
-      text-shadow:0 2px 3px rgba(0,0,0,.2);
-    }
-    .sname{
-      font-size:12.5px;color:var(--sub);
-      max-width:calc(var(--tile)+4px);
-      text-align:center;overflow:hidden;text-overflow:ellipsis;
-      white-space:nowrap;font-weight:500;
-    }
+.hdr-right{
+  display:flex;justify-content:flex-end;align-items:center;
+  gap:12px;flex-wrap:nowrap;
+}
+.signin-link{
+  color:var(--ink);text-decoration:none;
+  font-weight:600;font-size:14px;white-space:nowrap;
+}
+.signin-link:hover{color:var(--brand)}
+.icon-btn{
+  display:grid;place-items:center;
+  width:32px;height:32px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;
+  font-size:16px;text-decoration:none;
+}
+.icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
+.pill-open{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:40px;padding:0 20px;
+  border-radius:999px;
+  background:var(--brand);color:#fff;
+  font-weight:700;text-decoration:none;font-size:14px;
+  box-shadow:0 14px 30px rgba(249,115,22,.35);
+}
+.pill-open:hover{background:var(--brand-dark)}
 
-    /* GALLERY SKELETON */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-      gap:20px;margin-top:8px;
-    }
-    .card-skeleton{
-      border:1px solid var(--line);background:#fff;
-      border-radius:16px;padding:12px;
-      display:flex;flex-direction:column;gap:12px;
-      position:relative;overflow:hidden;
-    }
-    .card-skeleton .placeholder{background:#eef2f7;border-radius:6px}
-    .card-skeleton .ph-image{height:160px;border-radius:12px}
-    .card-skeleton .ph-title{height:20px;width:85%}
-    .card-skeleton .ph-text{height:16px;width:50%}
-    @keyframes shimmer{100%{transform:translateX(100%)}}
-    .card-skeleton::after{
-      content:'';position:absolute;inset:0;transform:translateX(-100%);
-      background:linear-gradient(90deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.5),hsla(0,0%,100%,0));
-      animation:shimmer 1.5s infinite;
-    }
+/* QUICK FILTERS */
+.chips-outer{
+  border-top:1px solid #f9fafb;
+  border-bottom:1px solid var(--line);
+  background:#ffffff;
+}
+.chips{
+  display:flex;gap:22px;flex-wrap:wrap;
+  align-items:center;
+  padding:8px 0 10px;
+}
+.chip{
+  color:var(--sub);font-weight:600;font-size:15px;
+  text-decoration:none;white-space:nowrap;
+  transition:color .2s,transform .15s;
+}
+.chip:hover{color:var(--ink);transform:translateY(-1px)}
 
-    /* DRAWER */
-    .drawer{position:fixed;inset:0;display:none;z-index:40}
-    .drawer.open{display:block}
-    .back{position:absolute;inset:0;background:transparent}
-    .panel{
-      position:absolute;width:280px;background:#fff;border-radius:12px;
-      box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);
-      padding:8px;overflow:auto;max-height:calc(100vh - 80px);
-    }
-    .panel nav a{
-      display:block;padding:10px 12px;border-radius:8px;
-      color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;
-    }
-    .panel nav a:hover{background:#f3f4f6}
+/* HERO */
+.section-container{padding-top:24px}
+.section-h{
+  font-weight:800;font-size:22px;margin:0 0 16px;
+}
 
-    /* FOOTER */
-    .footer-outer{
-      margin-top:40px;background:#232347;
-      color:#fff;padding-top:48px;font-size:14px;
-    }
-    .footer-grid{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
-    }
-    .footer-grid h4{
-      margin:0 0 12px;font-size:16px;font-weight:700;
-    }
-    .footer-grid a{
-      display:block;color:#d1d1d1;text-decoration:none;
-      margin-bottom:10px;transition:color .2s;
-    }
-    .footer-grid a:hover{color:#fff;text-decoration:underline}
-    .footer-socials{display:flex;gap:16px;margin-top:20px}
-    .footer-socials svg{width:24px;height:24px;fill:#d1d1d1;transition:fill .2s}
-    .footer-socials a:hover svg{fill:#fff}
-    .footer-bottom{
-      border-top:1px solid #3c3c62;margin-top:48px;
-      padding:24px 0;display:flex;justify-content:space-between;
-      align-items:center;flex-wrap:wrap;gap:16px;
-      font-size:13px;color:#d1d1d1;
-    }
-    .footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
-    .footer-bottom a:hover{text-decoration:underline}
+.hero-outer{
+  padding:24px 0 32px;
+}
+.hero{
+  display:grid;
+  grid-template-columns:1.25fr .9fr;
+  gap:24px;align-items:center;
+  background:linear-gradient(135deg,#fef3e7,#eff6ff);
+  border-radius:24px;
+  box-shadow:0 22px 60px rgba(15,23,42,.10);
+  padding:28px 30px;
+}
+.hero h1{
+  font-size:clamp(26px,3.4vw,38px);
+  margin:0 0 12px;
+}
+.hero p{margin:0;color:var(--sub);max-width:520px}
+.hero-cta-row{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;
+}
+.hero-cta-primary,.hero-cta-secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:44px;padding:0 20px;border-radius:999px;
+  font-weight:700;text-decoration:none;font-size:14px;
+}
+.hero-cta-primary{
+  background:#111827;color:#fff;
+  box-shadow:0 16px 32px rgba(15,23,42,.25);
+}
+.hero-cta-primary:hover{background:#020617}
+.hero-cta-secondary{
+  background:#fff;color:#111827;border:1px solid #e5e7eb;
+}
+.hero-cta-secondary:hover{border-color:#d1d5db}
 
-    @media(max-width:900px){
-      .hero{grid-template-columns:1fr;padding:20px 0}
-    }
-    @media(max-width:768px){
-      .footer-grid{grid-template-columns:1fr 1fr}
-      .hdr-right{display:none}
-    }
-  </style>
+.badges{
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);background:#fff;
+  padding:8px 12px;border-radius:999px;
+  font-weight:700;font-size:12px;
+}
+
+/* PROMO BOXES */
+.promos{display:grid;grid-template-columns:1fr;gap:14px}
+.promo-box{
+  position:relative;display:block;
+  border:1px solid var(--line);
+  background:linear-gradient(135deg,#fef2e9,#eff6ff);
+  border-radius:18px;
+  padding:12px;min-height:140px;
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  transition:transform .15s,box-shadow .15s,border-color .15s;
+}
+.promo-box:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(15,23,42,.18);
+  border-color:var(--line-strong);
+}
+.promo-badge{
+  position:absolute;top:12px;left:12px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:800;font-size:13px;color:#fff;
+  background:var(--brand);padding:6px 10px;border-radius:999px;
+}
+.promo-media{
+  position:absolute;inset:0;opacity:.4;
+}
+.promo-line{
+  position:absolute;left:16px;right:16px;
+  height:14px;background:rgba(255,255,255,.7);
+  bottom:20px;border-radius:7px;
+}
+.promo-line.short{
+  width:60%;right:auto;bottom:48px;
+}
+
+/* STORES */
+.stores{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(var(--tile),1fr));
+  gap:clamp(14px,2.2vw,20px);
+  margin-top:8px;
+}
+.store-tile{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:inherit;text-decoration:none;cursor:pointer;
+  transition:transform .18s;
+}
+.store-tile:hover{transform:translateY(-6px)}
+.store-tile:focus-visible{outline:2px solid var(--brand);outline-offset:4px}
+.badge-tile{
+  width:var(--tile);height:var(--tile);
+  border-radius:28px;
+  display:grid;place-items:center;
+  box-shadow:0 12px 26px -8px rgba(15,23,42,.35),
+             inset 0 1px 0 rgba(255,255,255,.7);
+  transition:box-shadow .2s,transform .2s;
+}
+.store-tile:hover .badge-tile{
+  box-shadow:0 18px 30px -10px rgba(15,23,42,.45),
+             inset 0 1px 0 rgba(255,255,255,.8);
+  transform:scale(1.05);
+}
+.letter{
+  font-weight:900;font-size:28px;color:#fff;
+  text-shadow:0 2px 3px rgba(0,0,0,.2);
+}
+.sname{
+  font-size:12.5px;color:var(--sub);
+  max-width:calc(var(--tile)+4px);
+  text-align:center;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;font-weight:500;
+}
+
+/* GALLERY – placeholder kartlar */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:20px;margin-top:8px;
+}
+.card-skeleton{
+  border:1px solid var(--line);
+  background:#ffffff;
+  border-radius:16px;padding:12px;
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+}
+.card-skeleton .placeholder{background:#eef2f7;border-radius:6px}
+.card-skeleton .ph-image{height:160px;border-radius:12px}
+.card-skeleton .ph-title{height:20px;width:85%}
+.card-skeleton .ph-text{height:16px;width:50%}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+.card-skeleton::after{
+  content:'';position:absolute;inset:0;transform:translateX(-100%);
+  background:linear-gradient(90deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.5),hsla(0,0%,100%,0));
+  animation:shimmer 1.5s infinite;
+}
+
+/* DRAWER */
+.drawer{position:fixed;inset:0;display:none;z-index:40}
+.drawer.open{display:block}
+.back{position:absolute;inset:0;background:transparent}
+.panel{
+  position:absolute;width:280px;background:#fff;border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);
+  padding:8px;overflow:auto;max-height:calc(100vh - 80px);
+}
+.panel nav a{
+  display:block;padding:10px 12px;border-radius:8px;
+  color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;
+}
+.panel nav a:hover{background:#f3f4f6}
+
+/* FOOTER */
+.footer-outer{
+  margin-top:40px;background:#232347;
+  color:#fff;padding-top:48px;font-size:14px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+}
+.footer-grid h4{
+  margin:0 0 12px;font-size:16px;font-weight:700;
+}
+.footer-grid a{
+  display:block;color:#d1d1d1;text-decoration:none;
+  margin-bottom:10px;transition:color .2s;
+}
+.footer-grid a:hover{color:#fff;text-decoration:underline}
+.footer-socials{display:flex;gap:16px;margin-top:20px}
+.footer-socials svg{width:24px;height:24px;fill:#d1d1d1;transition:fill .2s}
+.footer-socials a:hover svg{fill:#fff}
+.footer-bottom{
+  border-top:1px solid #3c3c62;margin-top:48px;
+  padding:24px 0;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:16px;
+  font-size:13px;color:#d1d1d1;
+}
+.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-bottom a:hover{text-decoration:underline}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{
+    grid-template-columns:1fr;
+    padding:22px 18px;
+  }
+}
+@media(max-width:768px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hdr-right{display:none}
+}
+</style>
 </head>
 <body>
 
 <header class="header-outer">
   <div class="page-section page-section--fluid header-row">
     <div class="header-left">
-      <a class="brand" href="index.html">RGZTEC</a>
+      <a class="brand" href="./">RGZTEC</a>
+
       <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 6h16M4 12h16M4 18h16"/>
@@ -345,7 +389,7 @@
 
     <div class="search-wrap">
       <form class="search" role="search" action="listings.html">
-        <input type="search" name="q" placeholder="Search for anything" aria-label="Search">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
         <button class="go" type="submit" aria-label="Search">
           <svg viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="6" stroke="currentColor"/>
@@ -381,15 +425,16 @@
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero-outer">
   <div class="page-section page-section--fluid hero">
     <div>
       <h1>Build, buy, and sell high-quality digital products</h1>
-      <p>Professional marketplace for templates, code, tools — now with curated Hardware accessories for developers and makers.</p>
+      <p>Professional marketplace for templates, code, tools — now with curated hardware accessories for developers and makers.</p>
 
       <div class="hero-cta-row">
         <a href="listings.html" class="hero-cta-primary">Browse marketplace →</a>
-        <a href="open-store.html" class="hero-cta-secondary">Start selling</a>
+        <a href="become-seller.html" class="hero-cta-secondary">Start selling</a>
       </div>
 
       <div class="badges" role="list" aria-label="Highlights">
@@ -400,7 +445,9 @@
       </div>
     </div>
 
+    <!-- Sağ promos -->
     <div id="heroPromos" class="promos" aria-label="Promotions">
+      <!-- JS dolduracak; JS fail olursa bu fallback kalır -->
       <a class="promo-box" href="listings.html?tag=deals" aria-label="Hot deals">
         <span class="promo-badge">🔥 Hot deals</span>
         <div class="promo-media"></div>
@@ -425,6 +472,7 @@
 <main class="page-section page-section--fluid section-container">
   <h2 class="section-h">Marketplace gallery</h2>
   <div class="grid" id="gallery">
+    <!-- skeleton placeholders -->
     <div class="card-skeleton">
       <div class="placeholder ph-image"></div>
       <div class="placeholder ph-title"></div>
@@ -443,6 +491,7 @@
   </div>
 </main>
 
+<!-- CATEGORY DRAWER -->
 <div id="drawer" class="drawer" aria-hidden="true">
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
@@ -471,27 +520,29 @@
         <a href="gift-card.html">Gift cards</a>
         <a href="sitemap.xml">Sitemap</a>
         <a href="#">RGZTEC blog</a>
-        <a href="product.html">Sample product</a>
-        <a href="hardware.html">Hardware gallery</a>
+        <a href="product.html">Featured product</a>
+        <a href="demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
       </div>
       <div>
         <h4>Sell</h4>
         <a href="become-seller.html">Sell on RGZTEC</a>
         <a href="#">Teams</a>
+        <a href="#">Forums</a>
         <a href="#">Affiliates &amp; Creators</a>
       </div>
       <div>
         <h4>About</h4>
         <a href="#">RGZTEC, Inc.</a>
-        <a href="privacy.html">Policies</a>
+        <a href="privacy.html">Policies &amp; privacy</a>
         <a href="#">Investors</a>
         <a href="#">Careers</a>
+        <a href="#">Press</a>
       </div>
       <div>
         <h4>Help</h4>
         <a href="#">Help Center</a>
         <a href="#">Privacy settings</a>
-        <a href="mailto:support@rgztec.com">Contact support</a>
+        <a href="mailto:support@rgztec.com">Contact support (support@rgztec.com)</a>
         <div class="footer-socials">
           <a href="#" aria-label="Instagram">
             <svg viewBox="0 0 24 24">
@@ -525,100 +576,115 @@
 </footer>
 
 <script>
-  const COLOR = {
-    "html-templates":["#a5d6ff","#3b82f6"],
-    "email-forge":["#fecaca","#ef4444"],
-    "icon-smith":["#bae6fd","#0ea5e9"],
-    "ai-tools-hub":["#e9d5ff","#a855f7"],
-    "dev-studio-one":["#a7f3d0","#10b981"],
-    "game-makers":["#fde68a","#f59e0b"],
-    "reactorium":["#a5f3fc","#06b6d4"],
-    "tiny-js-lab":["#d9f99d","#84cc16"],
-    "unity-hub":["#fecdd3","#f43f5e"],
-    "wp-plugins":["#ddd6fe","#8b5cf6"],
-    "hardware":["#c7f0d8","#10b981"]
-  };
-  const STORES_DATA = [
-    {slug:"html-templates",name:"HTML Templates"},
-    {slug:"email-forge",name:"Email Forge"},
-    {slug:"icon-smith",name:"Icon Smith"},
-    {slug:"ai-tools-hub",name:"AI Tools Hub"},
-    {slug:"dev-studio-one",name:"Dev Studio One"},
-    {slug:"game-makers",name:"Game Makers"},
-    {slug:"reactorium",name:"Reactorium"},
-    {slug:"tiny-js-lab",name:"Tiny JS Lab"},
-    {slug:"unity-hub",name:"Unity Hub"},
-    {slug:"wp-plugins",name:"WP Plugins"},
-    {slug:"hardware",name:"Hardware"}
-  ];
-  function tile(s){
-    const name=s.name||s.slug;
-    const letter=(name||"?")[0].toUpperCase();
-    const [light,dark]=COLOR[s.slug]||["#a5d6ff","#3b82f6"];
-    return `<li>
-      <a class="store-tile" href="store.html?slug=${encodeURIComponent(s.slug)}" title="${name}">
-        <div class="badge-tile" style="background:radial-gradient(circle at 70% 30%,${light},${dark})">
+/* renk ve mağaza verileri */
+const COLOR = {
+  'html-templates': ['#a5d6ff', '#3b82f6'],
+  'email-forge': ['#fecaca', '#ef4444'],
+  'icon-smith': ['#bae6fd', '#0ea5e9'],
+  'ai-tools-hub': ['#e9d5ff', '#a855f7'],
+  'dev-studio-one': ['#a7f3d0', '#10b981'],
+  'game-makers': ['#fde68a', '#f59e0b'],
+  'reactorium': ['#a5f3fc', '#06b6d4'],
+  'tiny-js-lab': ['#d9f99d', '#84cc16'],
+  'unity-hub': ['#fecdd3', '#f43f5e'],
+  'wp-plugins': ['#ddd6fe', '#8b5cf6'],
+  'hardware': ['#c7f0d8', '#10b981']
+};
+
+const STORES_DATA = [
+  { slug: "html-templates", name: "HTML Templates" },
+  { slug: "email-forge", name: "Email Forge" },
+  { slug: "icon-smith", name: "Icon Smith" },
+  { slug: "ai-tools-hub", name: "AI Tools Hub" },
+  { slug: "dev-studio-one", name: "Dev Studio One" },
+  { slug: "game-makers", name: "Game Makers" },
+  { slug: "reactorium", name: "Reactorium" },
+  { slug: "tiny-js-lab", name: "Tiny JS Lab" },
+  { slug: "unity-hub", name: "Unity Hub" },
+  { slug: "wp-plugins", name: "WP Plugins" },
+  { slug: "hardware", name: "Hardware" }
+];
+
+function tile(store){
+  const name = store.name || store.slug;
+  const letter = (name || '?')[0].toUpperCase();
+  const colors = COLOR[store.slug] || ['#a5d6ff','#3b82f6'];
+  const [light,dark] = colors;
+
+  return `
+    <li>
+      <a class="store-tile" href="listings.html?store=${encodeURIComponent(store.slug)}" title="${name}">
+        <div class="badge-tile" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark});">
           <div class="letter">${letter}</div>
         </div>
         <div class="sname">${name}</div>
       </a>
-    </li>`;
-  }
-  document.getElementById("storeRow").innerHTML = STORES_DATA.map(tile).join("");
-  document.getElementById("y").textContent = new Date().getFullYear();
+    </li>
+  `;
+}
 
-  const drawer=document.getElementById("drawer");
-  const back=document.getElementById("backdrop");
-  const panel=drawer.querySelector(".panel");
-  const openBtn=document.getElementById("btnCats");
+document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
+document.getElementById('y').textContent = new Date().getFullYear();
 
-  function openDrawer(){
-    const r=openBtn.getBoundingClientRect();
-    panel.style.top = `${r.bottom+8}px`;
-    panel.style.left = `${r.left}px`;
-    drawer.classList.add("open");
-    drawer.setAttribute("aria-hidden","false");
-  }
-  function closeDrawer(){
-    drawer.classList.remove("open");
-    drawer.setAttribute("aria-hidden","true");
-  }
-  openBtn.addEventListener("click",e=>{
-    e.stopPropagation();
-    drawer.classList.contains("open") ? closeDrawer() : openDrawer();
-  });
-  back.addEventListener("click",closeDrawer);
-  window.addEventListener("keydown",e=>{ if(e.key==="Escape") closeDrawer(); });
+/* drawer open/close */
+const drawer = document.getElementById('drawer');
+const back   = document.getElementById('backdrop');
+const panel  = drawer.querySelector('.panel');
+const openBtn = document.getElementById('btnCats');
 
-  (async function mountPromos(){
-    const box=document.getElementById("heroPromos");
-    if(!box) return;
-    const fallback=[
-      {title:"Hot deals",href:"listings.html?tag=deals"},
-      {title:"Hardware picks",href:"listings.html?tag=hardware"}
-    ];
-    try{
-      const res=await fetch("assets/data/promos.json",{cache:"no-store"});
-      const items=res.ok?await res.json():fallback;
-      box.innerHTML=(Array.isArray(items)?items:fallback).slice(0,2).map(p=>`
-        <a class="promo-box" href="${p.href}" aria-label="${p.title}">
-          <span class="promo-badge">${p.title}</span>
-          <div class="promo-media"></div>
-          <div class="promo-line"></div>
-          <div class="promo-line short"></div>
-        </a>
-      `).join("");
-    }catch(e){
-      box.innerHTML=fallback.map(p=>`
-        <a class="promo-box" href="${p.href}" aria-label="${p.title}">
-          <span class="promo-badge">${p.title}</span>
-          <div class="promo-media"></div>
-          <div class="promo-line"></div>
-          <div class="promo-line short"></div>
-        </a>
-      `).join("");
-    }
-  })();
+function openDrawer(){
+  const btnRect = openBtn.getBoundingClientRect();
+  panel.style.top  = `${btnRect.bottom + 8}px`;
+  panel.style.left = `${btnRect.left}px`;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+}
+
+openBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+back?.addEventListener('click', closeDrawer);
+window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
+
+/* PROMOS – opsiyonel JSON'dan doldur, yoksa fallback kalsın */
+(async function mountPromos(){
+  const box = document.getElementById('heroPromos');
+  if (!box) return;
+
+  const fallback = [
+    { title:"🔥 Hot deals",      href:"listings.html?tag=deals" },
+    { title:"🧰 Hardware picks", href:"listings.html?tag=hardware" }
+  ];
+
+  try{
+    const res = await fetch('assets/data/promos.json',{cache:'no-store'});
+    const items = res.ok ? await res.json() : fallback;
+
+    box.innerHTML = (Array.isArray(items) ? items : fallback).slice(0,2).map(p => `
+      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
+        <span class="promo-badge">${p.title}</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    `).join('');
+  }catch(e){
+    console.warn('promos fallback', e);
+    box.innerHTML = fallback.map(p => `
+      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
+        <span class="promo-badge">${p.title}</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    `).join('');
+  }
+})();
 </script>
 </body>
 </html>
