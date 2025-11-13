@@ -750,11 +750,8 @@ function tile(s){
   const colors = COLOR[s.slug] || ['#a5d6ff', '#3b82f6'];
   const [light, dark] = colors;
 
-  // Mağaza balonlarını store.html yerine listings.html'e gönderiyoruz
-  const href = `listings.html?store=${encodeURIComponent(s.slug)}`;
-
   return `<li>
-    <a class="store-tile" href="${href}" title="${name}">
+    <a class="store-tile" href="listings.html?store=${encodeURIComponent(s.slug)}" title="${name}">
       <div class="badge-tile" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
         <div class="letter">${letter}</div>
       </div>
@@ -762,6 +759,8 @@ function tile(s){
     </a>
   </li>`;
 }
+
+
 document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
 document.getElementById('y').textContent = new Date().getFullYear();
 
