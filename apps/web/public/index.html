@@ -29,14 +29,13 @@
 
 <style>
 :root{
-  --wrap:1100px;
+  --wrap:1500px; /* GENİŞLETİLDİ */
   --gutter-min:12px; --gutter-max:28px;
   --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
   --brand:#f97316; --brand-dark:#ea580c;
   --bg-soft:#f3f4f6;
   --search-h:52px;
-  --tile:clamp(72px,7vw,90px);
 }
 
 /* RESET */
@@ -68,9 +67,10 @@ ul{list-style:none;margin:0;padding:0}
 
 /* HEADER */
 .header-outer{
-  position:sticky;top:0;z-index:50;
+  /* STICKY KALDIRILDI – SAYFA İLE BERABER KAYIYOR */
+  position:relative;
+  z-index:50;
   background:linear-gradient(180deg,#f9fafb,#ffffff);
-  backdrop-filter:saturate(120%) blur(10px);
   border-bottom:1px solid var(--line);
 }
 .header-row{
@@ -166,7 +166,7 @@ ul{list-style:none;margin:0;padding:0}
   z-index:15;
 }
 .chips{
-  max-width:1350px;
+  max-width:var(--wrap);
   margin:0 auto;
   display:flex;
   flex-wrap:wrap;
@@ -313,8 +313,7 @@ ul{list-style:none;margin:0;padding:0}
   font-size:20px;
 }
 
-/* === FEATURED STORES – Envato tarzı büyük kartlar === */
-
+/* FEATURED STORES – geniş gradient kartlar */
 .featured-stores-header{
   display:flex;
   justify-content:space-between;
@@ -334,17 +333,16 @@ ul{list-style:none;margin:0;padding:0}
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:16px;
 }
-@media(max-width:1100px){
+@media(max-width:1300px){
   .stores-lg{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
-@media(max-width:800px){
+@media(max-width:950px){
   .stores-lg{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:560px){
+@media(max-width:640px){
   .stores-lg{grid-template-columns:minmax(0,1fr)}
 }
 
-/* Kartın kendisi */
 .store-card-lg{
   position:relative;
   display:flex;
@@ -365,7 +363,6 @@ ul{list-style:none;margin:0;padding:0}
   border-color:#cbd5f5;
 }
 
-/* üst satır */
 .store-card-lg-top{
   display:flex;
   align-items:center;
@@ -395,7 +392,6 @@ ul{list-style:none;margin:0;padding:0}
   opacity:.85;
 }
 
-/* alt satır */
 .store-card-lg-bottom{
   display:flex;
   justify-content:space-between;
