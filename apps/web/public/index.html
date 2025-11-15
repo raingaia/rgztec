@@ -29,7 +29,7 @@
 
 <style>
 :root{
-  --wrap:1500px; /* GENİŞLETİLDİ */
+  --wrap:1500px; /* GENİŞ EKRAN */
   --gutter-min:12px; --gutter-max:28px;
   --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
@@ -65,9 +65,8 @@ ul{list-style:none;margin:0;padding:0}
   padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
 }
 
-/* HEADER */
+/* HEADER (sticky değil) */
 .header-outer{
-  /* STICKY KALDIRILDI – SAYFA İLE BERABER KAYIYOR */
   position:relative;
   z-index:50;
   background:linear-gradient(180deg,#f9fafb,#ffffff);
@@ -155,7 +154,7 @@ ul{list-style:none;margin:0;padding:0}
 }
 .pill-open:hover{background:var(--brand-dark)}
 
-/* QUICK FILTERS – profesyonel bar */
+/* QUICK FILTERS */
 .chips-outer{
   border-top:1px solid #f3f4f6;
   border-bottom:1px solid #eceef3;
@@ -210,7 +209,6 @@ ul{list-style:none;margin:0;padding:0}
   font-weight:800;font-size:22px;margin:0 0 16px;
   letter-spacing:-0.02em;
 }
-
 .hero-outer{
   padding:24px 0 32px;
 }
@@ -224,8 +222,6 @@ ul{list-style:none;margin:0;padding:0}
   padding:28px 30px;
 }
 .hero h1{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",
-               Roboto,"Helvetica Neue",Arial,sans-serif;
   font-weight:800;
   letter-spacing:-0.03em;
   line-height:1.08;
@@ -301,7 +297,7 @@ ul{list-style:none;margin:0;padding:0}
   width:60%;right:auto;bottom:48px;
 }
 
-/* SECTION BAND – alt kısım için kurumsal şerit */
+/* SECTION BAND */
 .section-band{
   margin-top:12px;
   padding:28px 0 40px;
@@ -313,7 +309,7 @@ ul{list-style:none;margin:0;padding:0}
   font-size:20px;
 }
 
-/* FEATURED STORES – geniş gradient kartlar */
+/* FEATURED STORES – ThemeForest tarzı kategori kartları */
 .featured-stores-header{
   display:flex;
   justify-content:space-between;
@@ -327,115 +323,99 @@ ul{list-style:none;margin:0;padding:0}
   color:#6b7280;
   max-width:420px;
 }
-/* Featured store grid – daha büyük kartlar, ThemeForest hissi */
-.stores-lg{
+
+.featured-cats-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr)); /* masaüstü: 3 kolon */
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:24px;
 }
-
-/* 1100px altı: 2 kolon */
 @media(max-width:1200px){
-  .stores-lg{
+  .featured-cats-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
-
-/* 768px altı: 1 kolon */
 @media(max-width:768px){
-  .stores-lg{
+  .featured-cats-grid{
     grid-template-columns:minmax(0,1fr);
   }
 }
 
-/* Kartların kendisini de biraz büyütelim */
-.store-card-lg{
-  padding:22px 22px 18px;
-  min-height:150px;
-}
-
-.store-card-lg-top{
-  align-items:flex-start;
-}
-
-.store-pill-circle{
-  width:52px;
-  height:52px;
-  font-size:20px;
-}
-
-
-.store-card-lg{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  border-radius:22px;
-  padding:16px 16px 14px;
+.category-card{
+  background:#ffffff;
+  border-radius:24px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 18px 40px rgba(15,23,42,0.06);
+  padding:24px 24px 20px;
   text-decoration:none;
   color:#0f172a;
-  box-shadow:0 18px 40px rgba(15,23,42,.10);
-  border:1px solid rgba(148,163,184,.25);
-  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
   transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
 }
-.store-card-lg:hover{
-  transform:translateY(-3px);
-  box-shadow:0 22px 60px rgba(15,23,42,.18);
+.category-card:hover{
+  transform:translateY(-4px);
   border-color:#cbd5f5;
+  box-shadow:0 22px 60px rgba(15,23,42,0.14);
 }
 
-.store-card-lg-top{
+.category-head{
+  text-align:left;
+}
+.category-title{
+  margin:0 0 4px;
+  font-size:20px;
+  font-weight:800;
+}
+.category-sub{
+  margin:0 0 10px;
+  font-size:14px;
+  color:#6b7280;
+}
+.category-links{
+  font-size:13px;
   display:flex;
-  align-items:center;
   gap:12px;
 }
-.store-pill-circle{
-  width:44px;
-  height:44px;
-  border-radius:16px;
+.category-links a{
+  color:#2563eb;
+  text-decoration:none;
+}
+.category-links a:hover{text-decoration:underline}
+
+/* alt preview alanı */
+.category-thumb{
+  margin-top:18px;
+  background:#e5e7eb;
+  border-radius:18px;
+  padding:16px;
+  position:relative;
+  overflow:hidden;
+}
+.thumb-inner{
+  height:120px;
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(209,213,219,.9));
+  box-shadow:0 10px 24px rgba(15,23,42,0.16);
+}
+.thumb-badge{
+  position:absolute;
+  left:24px;
+  top:12px;
+  width:42px;
+  height:42px;
+  border-radius:999px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:900;
-  font-size:18px;
+  font-size:20px;
   color:#0f172a;
-  background:rgba(255,255,255,.96);
-  box-shadow:0 8px 18px rgba(15,23,42,.18);
-}
-.store-card-lg-title{
-  font-size:15px;
-  font-weight:800;
-  margin-bottom:2px;
-}
-.store-card-lg-sub{
-  font-size:12px;
-  color:#0f172a;
-  opacity:.85;
+  background:#facc15;
+  box-shadow:0 8px 18px rgba(15,23,42,0.35);
 }
 
-.store-card-lg-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:11px;
-  color:#0f172a;
-}
-.store-card-lg-meta{
-  display:flex;
-  gap:10px;
-  opacity:.88;
-}
-.store-card-lg-cta{
-  font-size:11px;
-  font-weight:700;
-  padding:5px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.95);
-  border:1px solid rgba(148,163,184,.35);
-}
-
-/* PRODUCT CARDS – Envato tarzı */
+/* PRODUCT CARDS */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
@@ -654,7 +634,7 @@ ul{list-style:none;margin:0;padding:0}
       <h2 class="section-h">Featured stores</h2>
       <p>Curated hubs for HTML, email, icons, AI tools, games, WordPress plugins, and developer hardware.</p>
     </div>
-    <div id="storeRow" class="stores-lg" aria-label="Featured stores"></div>
+    <div id="storeRow" class="featured-cats-grid" aria-label="Featured stores"></div>
   </section>
 
   <main class="page-section page-section--fluid section-container">
@@ -790,7 +770,7 @@ ul{list-style:none;margin:0;padding:0}
 </footer>
 
 <script>
-/* renk ve mağaza verileri */
+/* renk & mağaza verileri */
 const COLOR = {
   'html-templates': ['#a5d6ff', '#3b82f6'],
   'email-forge': ['#fecaca', '#ef4444'],
@@ -806,17 +786,17 @@ const COLOR = {
 };
 
 const STORES_DATA = [
-  { slug: "html-templates", name: "HTML Templates", desc: "Landing pages, dashboards, UI kits.", itemsLabel:"120+ items", tagLabel:"Updated weekly" },
-  { slug: "email-forge", name: "Email Forge", desc: "Responsive email templates & flows.", itemsLabel:"60+ packs", tagLabel:"ESP-ready" },
-  { slug: "icon-smith", name: "Icon Smith", desc: "SVG packs, UI icons, branding sets.", itemsLabel:"2000+ icons", tagLabel:"Vector-ready" },
-  { slug: "ai-tools-hub", name: "AI Tools Hub", desc: "AI prompts, workflows & utilities.", itemsLabel:"40+ tools", tagLabel:"Prompt-ready" },
-  { slug: "dev-studio-one", name: "Dev Studio One", desc: "Reusable code, snippets & starters.", itemsLabel:"80+ items", tagLabel:"Full-stack" },
-  { slug: "game-makers", name: "Game Makers", desc: "Assets, UI and starter kits for games.", itemsLabel:"50+ packs", tagLabel:"Unity & web" },
-  { slug: "reactorium", name: "Reactorium", desc: "React components, templates & dashboards.", itemsLabel:"70+ items", tagLabel:"TypeScript-ready" },
-  { slug: "tiny-js-lab", name: "Tiny JS Lab", desc: "Micro-widgets, effects and JS snippets.", itemsLabel:"90+ snippets", tagLabel:"Copy-paste" },
-  { slug: "unity-hub", name: "Unity Hub", desc: "Unity templates, shaders & tools.", itemsLabel:"35+ assets", tagLabel:"Game-ready" },
-  { slug: "wp-plugins", name: "WP Plugins", desc: "Premium plugins & blocks for WordPress.", itemsLabel:"25+ plugins", tagLabel:"Gutenberg & classic" },
-  { slug: "hardware", name: "Hardware", desc: "Keyboards, dev boards & accessories.", itemsLabel:"Curated picks", tagLabel:"For builders" }
+  { slug: "html-templates", name: "HTML Templates", desc: "Landing pages, dashboards, UI kits." },
+  { slug: "email-forge", name: "Email Forge", desc: "Responsive email templates & flows." },
+  { slug: "icon-smith", name: "Icon Smith", desc: "SVG packs, UI icons, branding sets." },
+  { slug: "ai-tools-hub", name: "AI Tools Hub", desc: "AI prompts, workflows & utilities." },
+  { slug: "dev-studio-one", name: "Dev Studio One", desc: "Reusable code, snippets & starters." },
+  { slug: "game-makers", name: "Game Makers", desc: "Assets, UI and starter kits for games." },
+  { slug: "reactorium", name: "Reactorium", desc: "React components, templates & dashboards." },
+  { slug: "tiny-js-lab", name: "Tiny JS Lab", desc: "Micro-widgets, effects and JS snippets." },
+  { slug: "unity-hub", name: "Unity Hub", desc: "Unity templates, shaders & tools." },
+  { slug: "wp-plugins", name: "WP Plugins", desc: "Premium plugins & blocks for WordPress." },
+  { slug: "hardware", name: "Hardware", desc: "Keyboards, dev boards & accessories." }
 ];
 
 function tile(store){
@@ -825,27 +805,24 @@ function tile(store){
   const colors = COLOR[store.slug] || ['#a5d6ff','#3b82f6'];
   const [light,dark] = colors;
   const desc = store.desc || '';
-  const items = store.itemsLabel || 'Category hub';
-  const tag = store.tagLabel || 'Curated';
 
   return `
-    <a class="store-card-lg"
+    <a class="category-card"
        href="listings.html?store=${encodeURIComponent(store.slug)}"
-       title="${name}"
-       style="background:radial-gradient(circle at 0 0, ${light}, ${dark});">
-      <div class="store-card-lg-top">
-        <div class="store-pill-circle">${letter}</div>
-        <div>
-          <div class="store-card-lg-title">${name}</div>
-          <div class="store-card-lg-sub">${desc}</div>
+       title="${name}">
+      <div class="category-head">
+        <h3 class="category-title">${name}</h3>
+        <p class="category-sub">${desc}</p>
+        <div class="category-links">
+          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=new">Newest</a>
+          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=best">Bestsellers</a>
         </div>
       </div>
-      <div class="store-card-lg-bottom">
-        <div class="store-card-lg-meta">
-          <span>${items}</span>
-          <span>${tag}</span>
+      <div class="category-thumb">
+        <div class="thumb-inner" style="background:linear-gradient(135deg,rgba(255,255,255,.95),${light}); box-shadow:0 10px 24px rgba(15,23,42,0.18);"></div>
+        <div class="thumb-badge" style="background:radial-gradient(circle at 30% 20%, ${light}, ${dark});">
+          ${letter}
         </div>
-        <div class="store-card-lg-cta">Open store →</div>
       </div>
     </a>
   `;
@@ -916,5 +893,6 @@ window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); 
 </script>
 </body>
 </html>
+
 
 
