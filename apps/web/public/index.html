@@ -33,10 +33,15 @@
 :root{
   --wrap:1100px;
   --gutter-min:12px; --gutter-max:28px;
-  --ink:#0b1220; --sub:#64748b;
-  --line:#e5e7eb; --line-strong:#d7dbe3;
-  --brand:#f97316; --brand-dark:#ea580c;
-  --bg-soft:#f3f4f6;
+  --ink:#0b1220; 
+  --sub:#64748b;
+  --line:#e5e7eb; 
+  --line-strong:#d7dbe3;
+  --brand:#f97316; 
+  --brand-dark:#ea580c;
+
+  /* 🔸 Beyazı kıran ana arka plan */
+  --bg-soft:#f4f5fb;
   --search-h:52px;
   --tile:clamp(72px,7vw,90px);
 }
@@ -45,9 +50,14 @@
 *{box-sizing:border-box}
 html,body{margin:0;overflow-x:hidden}
 body{
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   color:var(--ink);
-  background:var(--bg-soft);
+
+  /* 🔸 Envato tarzı hafif kirli beyaz degrade */
+  background:
+    radial-gradient(circle at top left, #ffffff 0, #f5f6fc 40%, #eceff7 100%);
+}
+
 }
 ul{list-style:none;margin:0;padding:0}
 
