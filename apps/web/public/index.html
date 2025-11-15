@@ -327,21 +327,43 @@ ul{list-style:none;margin:0;padding:0}
   color:#6b7280;
   max-width:420px;
 }
-
+/* Featured store grid – daha büyük kartlar, ThemeForest hissi */
 .stores-lg{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px;
+  grid-template-columns:repeat(3,minmax(0,1fr)); /* masaüstü: 3 kolon */
+  gap:24px;
 }
-@media(max-width:1300px){
-  .stores-lg{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+/* 1100px altı: 2 kolon */
+@media(max-width:1200px){
+  .stores-lg{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
 }
-@media(max-width:950px){
-  .stores-lg{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* 768px altı: 1 kolon */
+@media(max-width:768px){
+  .stores-lg{
+    grid-template-columns:minmax(0,1fr);
+  }
 }
-@media(max-width:640px){
-  .stores-lg{grid-template-columns:minmax(0,1fr)}
+
+/* Kartların kendisini de biraz büyütelim */
+.store-card-lg{
+  padding:22px 22px 18px;
+  min-height:150px;
 }
+
+.store-card-lg-top{
+  align-items:flex-start;
+}
+
+.store-pill-circle{
+  width:52px;
+  height:52px;
+  font-size:20px;
+}
+
 
 .store-card-lg{
   position:relative;
