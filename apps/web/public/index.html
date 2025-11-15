@@ -63,11 +63,13 @@ ul{list-style:none;margin:0;padding:0}
   padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
 }
 
-/* HEADER (sticky değil) */
+/* HEADER – sticky, kurumsal */
 .header-outer{
-  position:relative;
-  z-index:50;
+  position:sticky;
+  top:0;
+  z-index:60;
   background:linear-gradient(180deg,#f9fafb,#ffffff);
+  backdrop-filter:saturate(120%) blur(12px);
   border-bottom:1px solid var(--line);
 }
 .header-row{
@@ -160,7 +162,7 @@ ul{list-style:none;margin:0;padding:0}
   padding:6px 0;
   box-shadow:0 3px 8px rgba(0,0,0,.03);
   position:relative;
-  z-index:15;
+  z-index:55;
 }
 .chips{
   max-width:var(--wrap);
@@ -307,7 +309,7 @@ ul{list-style:none;margin:0;padding:0}
   font-size:20px;
 }
 
-/* ===== FEATURED STORES – ThemeForest tarzı ===== */
+/* ===== FEATURED STORES – Envato kategori kartları ===== */
 .rgz-featured-header{
   display:flex;
   justify-content:space-between;
@@ -324,37 +326,35 @@ ul{list-style:none;margin:0;padding:0}
 
 .rgz-featured-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
   gap:24px;
 }
-@media(max-width:1200px){
-  .rgz-featured-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-@media(max-width:768px){
-  .rgz-featured-grid{
-    grid-template-columns:minmax(0,1fr);
-  }
-}
 
+/* tek kart */
 .rgz-cat-card{
   background:#ffffff;
   border-radius:26px;
   border:1px solid #e5e7eb;
   box-shadow:0 18px 40px rgba(15,23,42,0.06);
-  padding:24px 24px 20px;
+  padding:22px 22px 18px;
   text-decoration:none;
   color:#0f172a;
-  display:flex;
-  flex-direction:column;
-  gap:18px;
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);
+  column-gap:24px;
+  align-items:stretch;
   transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
 }
 .rgz-cat-card:hover{
   transform:translateY(-4px);
   border-color:#cbd5f5;
   box-shadow:0 22px 60px rgba(15,23,42,0.14);
+}
+@media(max-width:900px){
+  .rgz-cat-card{
+    grid-template-columns:minmax(0,1fr);
+    row-gap:16px;
+  }
 }
 
 .rgz-cat-top h3{
@@ -378,24 +378,26 @@ ul{list-style:none;margin:0;padding:0}
 }
 .rgz-cat-links a:hover{text-decoration:underline}
 
-/* preview */
+/* preview panel sağ taraf */
 .rgz-cat-thumb{
   background:#e5e7eb;
-  border-radius:18px;
+  border-radius:20px;
   padding:16px;
   position:relative;
   overflow:hidden;
+  display:flex;
+  align-items:stretch;
 }
 .rgz-cat-thumb-inner{
-  height:120px;
-  border-radius:14px;
+  flex:1;
+  border-radius:16px;
   background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(209,213,219,.9));
   box-shadow:0 10px 24px rgba(15,23,42,0.16);
 }
 .rgz-cat-badge{
   position:absolute;
-  left:24px;
-  top:12px;
+  left:18px;
+  top:14px;
   width:42px;
   height:42px;
   border-radius:999px;
@@ -888,6 +890,7 @@ window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); 
 </script>
 </body>
 </html>
+
 
 
 
