@@ -18,18 +18,16 @@
 <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
 <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
 
-<!-- Dinamik tema / ambient hero / mikro etkileşimler -->
 <link rel="stylesheet" href="assets/css/theme.css">
 <link rel="stylesheet" href="assets/css/hero-ambient.css">
 <link rel="stylesheet" href="assets/css/interactions.css">
 
-<!-- Corporate theme (safe overrides) -->
 <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
 <script defer src="assets/js/theme-corporate.js?v=1"></script>
 
 <style>
 :root{
-  --wrap:1500px; /* GENİŞ EKRAN */
+  --wrap:1500px;
   --gutter-min:12px; --gutter-max:28px;
   --ink:#0b1220; --sub:#64748b;
   --line:#e5e7eb; --line-strong:#d7dbe3;
@@ -309,40 +307,40 @@ ul{list-style:none;margin:0;padding:0}
   font-size:20px;
 }
 
-/* FEATURED STORES – ThemeForest tarzı kategori kartları */
-.featured-stores-header{
+/* ===== FEATURED STORES – ThemeForest tarzı ===== */
+.rgz-featured-header{
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
   gap:12px;
   margin-bottom:16px;
 }
-.featured-stores-header p{
+.rgz-featured-header p{
   margin:0;
   font-size:13px;
   color:#6b7280;
   max-width:420px;
 }
 
-.featured-cats-grid{
+.rgz-featured-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:24px;
 }
 @media(max-width:1200px){
-  .featured-cats-grid{
+  .rgz-featured-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 @media(max-width:768px){
-  .featured-cats-grid{
+  .rgz-featured-grid{
     grid-template-columns:minmax(0,1fr);
   }
 }
 
-.category-card{
+.rgz-cat-card{
   background:#ffffff;
-  border-radius:24px;
+  border-radius:26px;
   border:1px solid #e5e7eb;
   box-shadow:0 18px 40px rgba(15,23,42,0.06);
   padding:24px 24px 20px;
@@ -350,55 +348,51 @@ ul{list-style:none;margin:0;padding:0}
   color:#0f172a;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
+  gap:18px;
   transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
 }
-.category-card:hover{
+.rgz-cat-card:hover{
   transform:translateY(-4px);
   border-color:#cbd5f5;
   box-shadow:0 22px 60px rgba(15,23,42,0.14);
 }
 
-.category-head{
-  text-align:left;
-}
-.category-title{
+.rgz-cat-top h3{
   margin:0 0 4px;
   font-size:20px;
   font-weight:800;
 }
-.category-sub{
+.rgz-cat-top p{
   margin:0 0 10px;
   font-size:14px;
   color:#6b7280;
 }
-.category-links{
+.rgz-cat-links{
   font-size:13px;
   display:flex;
   gap:12px;
 }
-.category-links a{
+.rgz-cat-links a{
   color:#2563eb;
   text-decoration:none;
 }
-.category-links a:hover{text-decoration:underline}
+.rgz-cat-links a:hover{text-decoration:underline}
 
-/* alt preview alanı */
-.category-thumb{
-  margin-top:18px;
+/* preview */
+.rgz-cat-thumb{
   background:#e5e7eb;
   border-radius:18px;
   padding:16px;
   position:relative;
   overflow:hidden;
 }
-.thumb-inner{
+.rgz-cat-thumb-inner{
   height:120px;
   border-radius:14px;
   background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(209,213,219,.9));
   box-shadow:0 10px 24px rgba(15,23,42,0.16);
 }
-.thumb-badge{
+.rgz-cat-badge{
   position:absolute;
   left:24px;
   top:12px;
@@ -609,7 +603,6 @@ ul{list-style:none;margin:0;padding:0}
       </div>
     </div>
 
-    <!-- Sağ promos -->
     <div id="heroPromos" class="promos" aria-label="Promotions">
       <a class="promo-box" href="listings.html?tag=deals" aria-label="Hot deals">
         <span class="promo-badge">🔥 Hot deals</span>
@@ -627,14 +620,14 @@ ul{list-style:none;margin:0;padding:0}
   </div>
 </section>
 
-<!-- ALT BÖLGE: FEATURED + GALLERY -->
+<!-- FEATURED + GALLERY -->
 <div class="section-band">
   <section class="page-section page-section--fluid section-container">
-    <div class="featured-stores-header">
+    <div class="rgz-featured-header">
       <h2 class="section-h">Featured stores</h2>
       <p>Curated hubs for HTML, email, icons, AI tools, games, WordPress plugins, and developer hardware.</p>
     </div>
-    <div id="storeRow" class="featured-cats-grid" aria-label="Featured stores"></div>
+    <div id="storeRow" class="rgz-featured-grid" aria-label="Featured stores"></div>
   </section>
 
   <main class="page-section page-section--fluid section-container">
@@ -807,20 +800,22 @@ function tile(store){
   const desc = store.desc || '';
 
   return `
-    <a class="category-card"
+    <a class="rgz-cat-card"
        href="listings.html?store=${encodeURIComponent(store.slug)}"
        title="${name}">
-      <div class="category-head">
-        <h3 class="category-title">${name}</h3>
-        <p class="category-sub">${desc}</p>
-        <div class="category-links">
+      <div class="rgz-cat-top">
+        <h3>${name}</h3>
+        <p>${desc}</p>
+        <div class="rgz-cat-links">
           <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=new">Newest</a>
           <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=best">Bestsellers</a>
         </div>
       </div>
-      <div class="category-thumb">
-        <div class="thumb-inner" style="background:linear-gradient(135deg,rgba(255,255,255,.95),${light}); box-shadow:0 10px 24px rgba(15,23,42,0.18);"></div>
-        <div class="thumb-badge" style="background:radial-gradient(circle at 30% 20%, ${light}, ${dark});">
+      <div class="rgz-cat-thumb">
+        <div class="rgz-cat-thumb-inner"
+             style="background:linear-gradient(135deg,rgba(255,255,255,.98),${light}); box-shadow:0 10px 24px rgba(15,23,42,0.18);"></div>
+        <div class="rgz-cat-badge"
+             style="background:radial-gradient(circle at 30% 20%, ${light}, ${dark});">
           ${letter}
         </div>
       </div>
@@ -856,7 +851,7 @@ openBtn?.addEventListener('click', (e) => {
 back?.addEventListener('click', closeDrawer);
 window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
 
-/* PROMOS – opsiyonel JSON'dan doldur, yoksa fallback kalsın */
+/* PROMOS */
 (async function mountPromos(){
   const box = document.getElementById('heroPromos');
   if (!box) return;
