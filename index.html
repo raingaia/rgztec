@@ -1,10 +1,1122 @@
-<!doctype html>
-<meta charset="utf-8">
-<title>Redirecting…</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Home</title>
+<meta name="description" content="Discover unique products and open your store on RGZTEC."/>
+
+<!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
+<base href="/rgztec/apps/web/public/">
+
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
+<meta name="theme-color" content="#f97316">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/hero-ambient.css">
+<link rel="stylesheet" href="assets/css/interactions.css">
+
+<link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
+
+<style>
+:root{
+  --wrap:1500px;
+  --gutter-min:12px; --gutter-max:28px;
+  --ink:#0b1220; --sub:#64748b;
+  --line:#e5e7eb; --line-strong:#d7dbe3;
+  --brand:#f97316; --brand-dark:#ea580c;
+  --bg-soft:#f3f4f6;
+  --search-h:52px;
+}
+
+/* RESET */
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",
+               Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg-soft);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+ul{list-style:none;margin:0;padding:0}
+
+/* LAYOUT HELPERS */
+.page-section{
+  width:100%;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding-inline:16px;
+}
+.page-section--fluid{
+  max-width:none;
+  padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+}
+
+/* HEADER – sticky, kurumsal */
+.header-outer{
+  position:sticky;
+  top:0;
+  z-index:60;
+  background:linear-gradient(180deg,#f9fafb,#ffffff);
+  backdrop-filter:saturate(120%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.header-row{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:8px 0;
+}
+.header-left,.hdr-right{flex-shrink:0}
+.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
+.brand{
+  font-weight:900;font-size:22px;letter-spacing:.08em;
+  color:var(--brand);text-decoration:none;margin-right:8px;
+}
+.btn-cats{
+  display:inline-flex;align-items:center;gap:8px;
+  height:40px;padding:0 14px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;cursor:pointer;
+  font-weight:500;font-size:14px;
+}
+.btn-cats svg{width:18px;height:18px}
+.btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
+
+.search{
+  display:flex;align-items:center;
+  height:var(--search-h);
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#f9fafb;
+  padding:0 8px 0 16px;
+  width:100%;
+  transition:border-color .18s,box-shadow .18s,background-color .18s;
+}
+.search input{
+  flex:1;min-width:0;border:0;outline:0;
+  font-size:15px;padding:12px 10px;background:transparent;
+}
+.search:hover{
+  border-color:#cbd5f5;background:#ffffff;
+  box-shadow:0 0 0 1px rgba(148,163,184,.35);
+}
+.search:focus-within{
+  border-color:var(--brand);background:#ffffff;
+  box-shadow:0 0 0 1px rgba(249,115,22,.45);
+}
+.go{
+  display:grid;place-items:center;
+  width:38px;height:38px;
+  border-radius:999px;
+  background:var(--brand);
+  border:0;cursor:pointer;margin-right:4px;
+  transition:background-color .18s,transform .12s;
+}
+.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.go:hover{background:var(--brand-dark);transform:translateY(-1px)}
+
+.hdr-right{
+  display:flex;justify-content:flex-end;align-items:center;
+  gap:12px;flex-wrap:nowrap;
+}
+.signin-link{
+  color:var(--ink);text-decoration:none;
+  font-weight:600;font-size:14px;white-space:nowrap;
+}
+.signin-link:hover{color:var(--brand)}
+.icon-btn{
+  display:grid;place-items:center;
+  width:32px;height:32px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;
+  font-size:16px;text-decoration:none;
+}
+.icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
+.pill-open{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:40px;padding:0 20px;
+  border-radius:999px;
+  background:var(--brand);color:#fff;
+  font-weight:700;text-decoration:none;font-size:14px;
+  box-shadow:0 14px 30px rgba(249,115,22,.35);
+}
+.pill-open:hover{background:var(--brand-dark)}
+
+/* QUICK FILTERS */
+.chips-outer{
+  border-top:1px solid #f3f4f6;
+  border-bottom:1px solid #eceef3;
+  background:#ffffff;
+  padding:6px 0;
+  box-shadow:0 3px 8px rgba(0,0,0,.03);
+  position:relative;
+  z-index:55;
+}
+.chips{
+  max-width:var(--wrap);
+  margin:0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  align-items:center;
+  column-gap:32px;
+  row-gap:12px;
+  padding:10px 24px 14px;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 18px;
+  background:#f8fafc;
+  border-radius:999px;
+  border:1px solid #e2e8f0;
+  color:#475569;
+  font-weight:600;
+  font-size:14px;
+  text-decoration:none;
+  transition:all .18s ease;
+}
+.chip:hover{
+  background:#ffffff;
+  border-color:#cbd5e1;
+  color:#0f172a;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+@media (max-width:768px){
+  .chips{
+    justify-content:center;
+    column-gap:18px;
+  }
+}
+
+/* HERO */
+.section-container{padding-top:24px}
+.section-h{
+  font-weight:800;font-size:22px;margin:0 0 16px;
+  letter-spacing:-0.02em;
+}
+.hero-outer{
+  padding:24px 0 32px;
+}
+.hero{
+  display:grid;
+  grid-template-columns:1.25fr .9fr;
+  gap:24px;align-items:center;
+  background:linear-gradient(135deg,#fef3e7,#eff6ff);
+  border-radius:24px;
+  box-shadow:0 22px 60px rgba(15,23,42,.10);
+  padding:28px 30px;
+}
+.hero h1{
+  font-weight:800;
+  letter-spacing:-0.03em;
+  line-height:1.08;
+  font-size:clamp(28px,3.6vw,40px);
+  margin:0 0 12px;
+}
+.hero p{
+  margin:0;
+  color:var(--sub);
+  max-width:520px;
+  font-size:15px;
+}
+.hero-cta-row{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;
+}
+.hero-cta-primary,.hero-cta-secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:44px;padding:0 20px;border-radius:999px;
+  font-weight:700;text-decoration:none;font-size:14px;
+}
+.hero-cta-primary{
+  background:#111827;color:#fff;
+  box-shadow:0 16px 32px rgba(15,23,42,.25);
+}
+.hero-cta-primary:hover{background:#020617}
+.hero-cta-secondary{
+  background:#fff;color:#111827;border:1px solid #e5e7eb;
+}
+.hero-cta-secondary:hover{border-color:#d1d5db}
+
+.badges{
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);background:#fff;
+  padding:8px 12px;border-radius:999px;
+  font-weight:700;font-size:12px;
+}
+
+/* PROMO BOXES */
+.promos{display:grid;grid-template-columns:1fr;gap:14px}
+.promo-box{
+  position:relative;display:block;
+  border:1px solid var(--line);
+  background:linear-gradient(135deg,#fef2e9,#eff6ff);
+  border-radius:18px;
+  padding:12px;min-height:140px;
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  transition:transform .15s,box-shadow .15s,border-color .15s;
+}
+.promo-box:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(15,23,42,.18);
+  border-color:var(--line-strong);
+}
+.promo-badge{
+  position:absolute;top:12px;left:12px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:800;font-size:13px;color:#fff;
+  background:var(--brand);padding:6px 10px;border-radius:999px;
+}
+.promo-media{
+  position:absolute;inset:0;opacity:.4;
+}
+.promo-line{
+  position:absolute;left:16px;right:16px;
+  height:14px;background:rgba(255,255,255,.7);
+  bottom:20px;border-radius:7px;
+}
+.promo-line.short{
+  width:60%;right:auto;bottom:48px;
+}
+
+/* SECTION BAND */
+.section-band{
+  margin-top:12px;
+  padding:28px 0 40px;
+  background:linear-gradient(180deg,#f4f5fb 0%, #f7f8fc 40%, #f2f4fa 100%);
+  border-top:1px solid rgba(209,213,219,0.8);
+  box-shadow:0 -4px 20px rgba(15,23,42,0.04) inset;
+}
+.section-band .section-h{
+  font-size:20px;
+}
+
+/* ===== FEATURED STORES – Envato kategori kartları ===== */
+.rgz-featured-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  margin-bottom:16px;
+}
+.rgz-featured-header p{
+  margin:0;
+  font-size:13px;
+  color:#6b7280;
+  max-width:420px;
+}
+
+.rgz-featured-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+  gap:24px;
+}
+
+/* tek kart */
+.rgz-cat-card{
+  background:#ffffff;
+  border-radius:26px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 18px 40px rgba(15,23,42,0.06);
+  padding:22px 22px 18px;
+  text-decoration:none;
+  color:#0f172a;
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);
+  column-gap:24px;
+  align-items:stretch;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.rgz-cat-card:hover{
+  transform:translateY(-4px);
+  border-color:#cbd5f5;
+  box-shadow:0 22px 60px rgba(15,23,42,0.14);
+}
+@media(max-width:900px){
+  .rgz-cat-card{
+    grid-template-columns:minmax(0,1fr);
+    row-gap:16px;
+  }
+}
+
+.rgz-cat-top h3{
+  margin:0 0 4px;
+  font-size:20px;
+  font-weight:800;
+}
+.rgz-cat-top p{
+  margin:0 0 10px;
+  font-size:14px;
+  color:#6b7280;
+}
+.rgz-cat-links{
+  font-size:13px;
+  display:flex;
+  gap:12px;
+}
+.rgz-cat-links a{
+  color:#2563eb;
+  text-decoration:none;
+}
+.rgz-cat-links a:hover{text-decoration:underline}
+
+/* preview panel sağ taraf */
+.rgz-cat-thumb{
+  background:#e5e7eb;
+  border-radius:20px;
+  padding:16px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:stretch;
+}
+.rgz-cat-thumb-inner{
+  flex:1;
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(209,213,219,.9));
+  box-shadow:0 10px 24px rgba(15,23,42,0.16);
+}
+.rgz-cat-badge{
+  position:absolute;
+  left:18px;
+  top:14px;
+  width:42px;
+  height:42px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:20px;
+  color:#0f172a;
+  background:#facc15;
+  box-shadow:0 8px 18px rgba(15,23,42,0.35);
+}
+
+/* ===== PRODUCT GRID & CARDS – CodeCanyon tarzı ===== */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:1.5rem;
+  margin-top:8px;
+}
+
+/* responsive kırılımlar */
+@media(max-width:1024px){
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:768px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:520px){
+  .grid{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+
+.product-card{
+  background:rgba(255,255,255,0.97);
+  border-radius:18px;
+  border:1px solid #e2e8f0;
+  box-shadow:0 18px 40px rgba(15,23,42,0.08);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.product-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(249,115,22,0.45);
+  box-shadow:0 22px 60px rgba(15,23,42,0.16);
+}
+
+/* thumbnail */
+.product-thumb{
+  position:relative;
+  display:block;
+  overflow:hidden;
+}
+.product-thumb img{
+  width:100%;
+  height:170px;
+  display:block;
+  object-fit:cover;
+  transition:transform .2s ease;
+}
+.product-card:hover .product-thumb img{
+  transform:scale(1.03);
+}
+.product-badge{
+  position:absolute;
+  left:0.9rem;
+  top:0.85rem;
+  padding:0.25rem 0.7rem;
+  border-radius:999px;
+  font-size:0.7rem;
+  font-weight:600;
+  background:#f97316;
+  color:#fff;
+}
+.product-badge.badge-new{background:#22c55e}
+.product-badge.badge-hot{background:#ef4444}
+.product-badge.badge-featured{background:#6366f1}
+
+.product-fav{
+  position:absolute;
+  right:0.9rem;
+  top:0.75rem;
+  width:2rem;
+  height:2rem;
+  border-radius:999px;
+  border:0;
+  background:rgba(15,23,42,0.7);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:background .15s ease, transform .12s ease;
+}
+.product-fav:hover{
+  background:#f97316;
+  transform:scale(1.06);
+}
+
+/* içerik */
+.product-body{
+  padding:0.9rem 1rem 1rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.45rem;
+  flex:1 1 auto;
+}
+.product-name{
+  font-size:0.98rem;
+  font-weight:700;
+  margin:0;
+}
+.product-name a{
+  color:#0f172a;
+  text-decoration:none;
+}
+.product-name a:hover{
+  color:#f97316;
+}
+.product-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:0.5rem;
+  font-size:0.78rem;
+  color:#6b7280;
+}
+.product-meta a{
+  color:inherit;
+  text-decoration:none;
+}
+.product-meta a:hover{text-decoration:underline}
+
+.product-rating-row{
+  display:flex;
+  align-items:center;
+  gap:0.35rem;
+  font-size:0.78rem;
+  margin-top:0.1rem;
+}
+.product-stars{
+  font-size:0.8rem;
+}
+.product-rating-score{
+  font-weight:600;
+}
+.product-sales{
+  margin-left:auto;
+  opacity:0.75;
+}
+
+/* alt satır */
+.product-footer{
+  margin-top:0.45rem;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:0.75rem;
+}
+.product-price{
+  display:flex;
+  flex-direction:column;
+  gap:0.1rem;
+}
+.price-main{
+  font-size:1rem;
+  font-weight:800;
+}
+.price-license{
+  font-size:0.72rem;
+  opacity:0.7;
+}
+
+/* butonlar */
+.product-actions{
+  display:flex;
+  gap:0.4rem;
+  flex-wrap:nowrap;
+}
+.btn-primary,
+.btn-outline{
+  border-radius:999px;
+  padding:0.45rem 0.9rem;
+  font-size:0.78rem;
+  font-weight:600;
+  border:1px solid transparent;
+  cursor:pointer;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.btn-primary{
+  background:#f97316;
+  border-color:#f97316;
+  color:#fff;
+}
+.btn-primary:hover{
+  background:#ea580c;
+  border-color:#ea580c;
+}
+.btn-outline{
+  background:#fff;
+  color:#0f172a;
+  border-color:rgba(148,163,184,0.85);
+}
+.btn-outline:hover{
+  border-color:#f97316;
+  color:#f97316;
+}
+
+/* DRAWER */
+.drawer{position:fixed;inset:0;display:none;z-index:40}
+.drawer.open{display:block}
+.back{position:absolute;inset:0;background:transparent}
+.panel{
+  position:absolute;width:280px;background:#fff;border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);
+  padding:8px;overflow:auto;max-height:calc(100vh - 80px);
+}
+.panel nav a{
+  display:block;padding:10px 12px;border-radius:8px;
+  color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;
+}
+.panel nav a:hover{background:#f3f4f6}
+
+/* FOOTER */
+.footer-outer{
+  margin-top:40px;background:#232347;
+  color:#fff;padding-top:48px;font-size:14px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+}
+.footer-grid h4{
+  margin:0 0 12px;font-size:16px;font-weight:700;
+}
+.footer-grid a{
+  display:block;color:#d1d1d1;text-decoration:none;
+  margin-bottom:10px;transition:color .2s;
+}
+.footer-grid a:hover{color:#fff;text-decoration:underline}
+.footer-socials{display:flex;gap:16px;margin-top:20px}
+.footer-socials svg{width:24px;height:24px;fill:#d1d1d1;transition:fill .2s}
+.footer-socials a:hover svg{fill:#fff}
+.footer-bottom{
+  border-top:1px solid #3c3c62;margin-top:48px;
+  padding:24px 0;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:16px;
+  font-size:13px;color:#d1d1d1;
+}
+.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-bottom a:hover{text-decoration:underline}
+
+/* RESPONSIVE ekstra */
+@media(max-width:900px){
+  .hero{
+    grid-template-columns:1fr;
+    padding:22px 18px;
+  }
+}
+@media(max-width:768px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hdr-right{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="header-outer">
+  <div class="page-section page-section--fluid header-row">
+    <div class="header-left">
+      <a class="brand" href="./">RGZTEC</a>
+
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span>Categories</span>
+      </button>
+    </div>
+
+    <div class="search-wrap">
+      <form class="search" role="search" action="listings.html">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="hdr-right">
+      <a href="editor/" class="signin-link">Dashboard / Editor</a>
+      <a href="login/" class="signin-link">Sign in</a>
+      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
+      <a class="pill-open" href="open-store.html">Open Store</a>
+    </div>
+  </div>
+
+  <div class="chips-outer">
+    <div class="page-section page-section--fluid">
+      <nav class="chips" aria-label="Quick filters">
+        <a class="chip" href="listings.html?tag=new">New</a>
+        <a class="chip" href="listings.html?tag=trending">Trending</a>
+        <a class="chip" href="listings.html?tag=top-sellers">Top sellers</a>
+        <a class="chip" href="listings.html?tag=deals">Deals</a>
+        <a class="chip" href="listings.html?tag=html-templates">HTML Templates</a>
+        <a class="chip" href="listings.html?tag=react">React</a>
+        <a class="chip" href="listings.html?tag=ai">AI</a>
+        <a class="chip" href="listings.html?tag=hardware">Hardware</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero-outer">
+  <div class="page-section page-section--fluid hero">
+    <div>
+      <h1>Build, buy, and sell high-quality digital products</h1>
+      <p>Professional marketplace for templates, code, tools — now with curated hardware accessories for developers and makers.</p>
+
+      <div class="hero-cta-row">
+        <a href="listings.html" class="hero-cta-primary">Browse marketplace →</a>
+        <a href="become-seller.html" class="hero-cta-secondary">Start selling</a>
+      </div>
+
+      <div class="badges" role="list" aria-label="Highlights">
+        <div class="badge">✅ Buyer Protection</div>
+        <div class="badge">🔒 Secure Payments</div>
+        <div class="badge">⚡ Instant delivery</div>
+        <div class="badge">🌍 Global</div>
+      </div>
+    </div>
+
+    <div id="heroPromos" class="promos" aria-label="Promotions">
+      <a class="promo-box" href="listings.html?tag=deals" aria-label="Hot deals">
+        <span class="promo-badge">🔥 Hot deals</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+      <a class="promo-box" href="listings.html?tag=hardware" aria-label="Hardware picks">
+        <span class="promo-badge">🧰 Hardware picks</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED + GALLERY -->
+<div class="section-band">
+  <section class="page-section page-section--fluid section-container">
+    <div class="rgz-featured-header">
+      <h2 class="section-h">Featured stores</h2>
+      <p>Curated hubs for HTML, email, icons, AI tools, games, WordPress plugins, and developer hardware.</p>
+    </div>
+    <div id="storeRow" class="rgz-featured-grid" aria-label="Featured stores"></div>
+  </section>
+
+  <main class="page-section page-section--fluid section-container">
+    <h2 class="section-h">Marketplace gallery</h2>
+
+    <div class="grid" id="gallery">
+      <!-- CARD 1 -->
+      <article class="product-card">
+        <a href="product.html" class="product-thumb">
+          <img src="assets/images/products/landing-kit-01.jpg" alt="SaaS Landing Page UI Kit">
+          <span class="product-badge">Bestseller</span>
+          <button class="product-fav" type="button" aria-label="Add to favorites">♥</button>
+        </a>
+        <div class="product-body">
+          <h3 class="product-name">
+            <a href="product.html">SaaS Landing Page UI Kit</a>
+          </h3>
+          <div class="product-meta">
+            <span class="product-author">by <a href="#">BrightThemes</a></span>
+            <span class="product-category">HTML Templates</span>
+          </div>
+          <div class="product-rating-row">
+            <div class="product-stars">★★★★★</div>
+            <span class="product-rating-score">4.9</span>
+            <span class="product-sales">1,420 sales</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="price-main">$24</span>
+              <span class="price-license">Regular license</span>
+            </div>
+            <div class="product-actions">
+              <a href="demos/0001.html" class="btn-outline" target="_blank" rel="noopener noreferrer">Live preview</a>
+              <button class="btn-primary" type="button">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2 -->
+      <article class="product-card">
+        <a href="product.html" class="product-thumb">
+          <img src="assets/images/products/react-dashboard-01.jpg" alt="Analytics Dashboard for React">
+          <span class="product-badge badge-new">New</span>
+          <button class="product-fav" type="button" aria-label="Add to favorites">♥</button>
+        </a>
+        <div class="product-body">
+          <h3 class="product-name">
+            <a href="product.html">Analytics Dashboard for React</a>
+          </h3>
+          <div class="product-meta">
+            <span class="product-author">by <a href="#">Reactorium</a></span>
+            <span class="product-category">React Components</span>
+          </div>
+          <div class="product-rating-row">
+            <div class="product-stars">★★★★☆</div>
+            <span class="product-rating-score">4.7</span>
+            <span class="product-sales">830 sales</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="price-main">$39</span>
+              <span class="price-license">Regular license</span>
+            </div>
+            <div class="product-actions">
+              <a href="demos/0002.html" class="btn-outline" target="_blank" rel="noopener noreferrer">Live preview</a>
+              <button class="btn-primary" type="button">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3 -->
+      <article class="product-card">
+        <a href="product.html" class="product-thumb">
+          <img src="assets/images/products/icon-pack-01.jpg" alt="350 Minimal Icons">
+          <span class="product-badge badge-featured">Featured</span>
+          <button class="product-fav" type="button" aria-label="Add to favorites">♥</button>
+        </a>
+        <div class="product-body">
+          <h3 class="product-name">
+            <a href="product.html">350 Minimal Icons • SVG</a>
+          </h3>
+          <div class="product-meta">
+            <span class="product-author">by <a href="#">Icon Smith</a></span>
+            <span class="product-category">Icons &amp; Graphics</span>
+          </div>
+          <div class="product-rating-row">
+            <div class="product-stars">★★★★★</div>
+            <span class="product-rating-score">5.0</span>
+            <span class="product-sales">2,010 sales</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="price-main">$18</span>
+              <span class="price-license">Single user</span>
+            </div>
+            <div class="product-actions">
+              <a href="demos/0003.html" class="btn-outline" target="_blank" rel="noopener noreferrer">Live preview</a>
+              <button class="btn-primary" type="button">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 4 -->
+      <article class="product-card">
+        <a href="product.html" class="product-thumb">
+          <img src="assets/images/products/hardware-kit-01.jpg" alt="Developer Desk Hardware Kit">
+          <span class="product-badge badge-hot">Hot</span>
+          <button class="product-fav" type="button" aria-label="Add to favorites">♥</button>
+        </a>
+        <div class="product-body">
+          <h3 class="product-name">
+            <a href="product.html">Developer Desk Hardware Kit</a>
+          </h3>
+          <div class="product-meta">
+            <span class="product-author">by <a href="#">RGZ Hardware</a></span>
+            <span class="product-category">Hardware</span>
+          </div>
+          <div class="product-rating-row">
+            <div class="product-stars">★★★★☆</div>
+            <span class="product-rating-score">4.5</span>
+            <span class="product-sales">320 sales</span>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="price-main">$59</span>
+              <span class="price-license">Physical + digital bundle</span>
+            </div>
+            <div class="product-actions">
+              <a href="demos/0004.html" class="btn-outline" target="_blank" rel="noopener noreferrer">Live preview</a>
+              <button class="btn-primary" type="button">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
+
+<!-- CATEGORY DRAWER -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <nav>
+      <a href="listings.html?tag=html-templates">HTML Templates</a>
+      <a href="listings.html?tag=react-components">React Components</a>
+      <a href="listings.html?tag=wordpress-plugins">WordPress Plugins</a>
+      <a href="listings.html?tag=ai-tools">AI Tools &amp; Prompts</a>
+      <a href="listings.html?tag=mobile-games">Mobile Games</a>
+      <a href="listings.html?tag=icons-graphics">Icons &amp; Graphics</a>
+      <a href="listings.html?tag=3d-models">3D &amp; AR/VR Models</a>
+      <a href="listings.html?tag=scripts-code">Scripts &amp; Code</a>
+      <a href="listings.html?tag=audio">Audio &amp; Sound Effects</a>
+      <a href="listings.html?tag=video-templates">Video Templates</a>
+      <a href="listings.html?tag=hardware">Hardware</a>
+      <a href="listings.html" style="font-weight:700;color:var(--brand);border-top:1px solid var(--line);margin-top:4px;padding-top:12px;">All Categories →</a>
+    </nav>
+  </aside>
+</div>
+
+<footer class="footer-outer">
+  <div class="page-section page-section--fluid">
+    <div class="footer-grid">
+      <div>
+        <h4>Shop</h4>
+        <a href="gift-card.html">Gift cards</a>
+        <a href="sitemap.xml">Sitemap</a>
+        <a href="#">RGZTEC blog</a>
+        <a href="product.html">Featured product</a>
+        <a href="demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
+      </div>
+      <div>
+        <h4>Sell</h4>
+        <a href="become-seller.html">Sell on RGZTEC</a>
+        <a href="#">Teams</a>
+        <a href="#">Forums</a>
+        <a href="#">Affiliates &amp; Creators</a>
+      </div>
+      <div>
+        <h4>About</h4>
+        <a href="#">RGZTEC, Inc.</a>
+        <a href="privacy.html">Policies &amp; privacy</a>
+        <a href="#">Investors</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Privacy settings</a>
+        <a href="mailto:support@rgztec.com">Contact support (support@rgztec.com)</a>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.7 7.8 6.4 9.1.1-.4.2-1.6.3-2.2.1-.5-.2-1-.2-1.5 0-.7.4-1.2 1-1.2.7 0 1 .5 1 1.2 0 .7-.4 1.8-.7 2.8-.2.8.4 1.5 1.2 1.5 1.5 0 2.6-1.9 2.6-4.2 0-2.3-1.6-3.9-3.7-3.9-2.6 0-4.3 1.9-4.3 4 0 .7.3 1.5.6 2 .2.2.2.3.1.5-.1.2-.2.8-.3 1-.1.2-.3.3-.6.2-1.4-.7-2.3-2.5-2.3-4.3 0-3.3 2.4-6.2 6.8-6.2 3.6 0 6.3 2.5 6.3 5.8 0 3.4-2.2 6.1-5.2 6.1-1 0-2-.5-2.3-1.1 0 0-.5 2-.6 2.4-.3.8-1 1.6-1.5 2.2.7.2 1.5.3 2.3.3 5.5 0 10-4.5 10-10C22 6.5 17.5 2 12 2z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="y"></span> RGZTEC, Inc.</span>
+      <div>
+        <a href="#">Terms of Use</a>
+        <a href="#" style="margin-left:16px">Privacy</a>
+        <a href="#" style="margin-left:16px">Interest-based ads</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 <script>
-  // anında ve geçmişi kirletmeden yönlendir
-  location.replace("/rgztec/apps/web/public/");
+/* renk & mağaza verileri */
+const COLOR = {
+  'html-templates': ['#a5d6ff', '#3b82f6'],
+  'email-forge': ['#fecaca', '#ef4444'],
+  'icon-smith': ['#bae6fd', '#0ea5e9'],
+  'ai-tools-hub': ['#e9d5ff', '#a855f7'],
+  'dev-studio-one': ['#a7f3d0', '#10b981'],
+  'game-makers': ['#fde68a', '#f59e0b'],
+  'reactorium': ['#a5f3fc', '#06b6d4'],
+  'tiny-js-lab': ['#d9f99d', '#84cc16'],
+  'unity-hub': ['#fecdd3', '#f43f5e'],
+  'wp-plugins': ['#ddd6fe', '#8b5cf6'],
+  'hardware': ['#c7f0d8', '#10b981']
+};
+
+const STORES_DATA = [
+  { slug: "html-templates", name: "HTML Templates", desc: "Landing pages, dashboards, UI kits." },
+  { slug: "email-forge", name: "Email Forge", desc: "Responsive email templates & flows." },
+  { slug: "icon-smith", name: "Icon Smith", desc: "SVG packs, UI icons, branding sets." },
+  { slug: "ai-tools-hub", name: "AI Tools Hub", desc: "AI prompts, workflows & utilities." },
+  { slug: "dev-studio-one", name: "Dev Studio One", desc: "Reusable code, snippets & starters." },
+  { slug: "game-makers", name: "Game Makers", desc: "Assets, UI and starter kits for games." },
+  { slug: "reactorium", name: "Reactorium", desc: "React components, templates & dashboards." },
+  { slug: "tiny-js-lab", name: "Tiny JS Lab", desc: "Micro-widgets, effects and JS snippets." },
+  { slug: "unity-hub", name: "Unity Hub", desc: "Unity templates, shaders & tools." },
+  { slug: "wp-plugins", name: "WP Plugins", desc: "Premium plugins & blocks for WordPress." },
+  { slug: "hardware", name: "Hardware", desc: "Keyboards, dev boards & accessories." }
+];
+
+function tile(store){
+  const name = store.name || store.slug;
+  const letter = (name || '?')[0].toUpperCase();
+  const colors = COLOR[store.slug] || ['#a5d6ff','#3b82f6'];
+  const [light,dark] = colors;
+  const desc = store.desc || '';
+
+  return `
+    <a class="rgz-cat-card"
+       href="listings.html?store=${encodeURIComponent(store.slug)}"
+       title="${name}">
+      <div class="rgz-cat-top">
+        <h3>${name}</h3>
+        <p>${desc}</p>
+        <div class="rgz-cat-links">
+          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=new">Newest</a>
+          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=best">Bestsellers</a>
+        </div>
+      </div>
+      <div class="rgz-cat-thumb">
+        <div class="rgz-cat-thumb-inner"
+             style="background:linear-gradient(135deg,rgba(255,255,255,.98),${light}); box-shadow:0 10px 24px rgba(15,23,42,0.18);"></div>
+        <div class="rgz-cat-badge"
+             style="background:radial-gradient(circle at 30% 20%, ${light}, ${dark});">
+          ${letter}
+        </div>
+      </div>
+    </a>
+  `;
+}
+
+document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
+document.getElementById('y').textContent = new Date().getFullYear();
+
+/* drawer open/close */
+const drawer = document.getElementById('drawer');
+const back   = document.getElementById('backdrop');
+const panel  = drawer.querySelector('.panel');
+const openBtn = document.getElementById('btnCats');
+
+function openDrawer(){
+  const btnRect = openBtn.getBoundingClientRect();
+  panel.style.top  = `${btnRect.bottom + 8}px`;
+  panel.style.left = `${btnRect.left}px`;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+}
+function closeDrawer(){
+  drawer.classList.remove('open');
+  drawer.setAttribute('aria-hidden','true');
+}
+
+openBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+});
+back?.addEventListener('click', closeDrawer);
+window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
+
+/* PROMOS */
+(async function mountPromos(){
+  const box = document.getElementById('heroPromos');
+  if (!box) return;
+
+  const fallback = [
+    { title:"🔥 Hot deals",      href:"listings.html?tag=deals" },
+    { title:"🧰 Hardware picks", href:"listings.html?tag=hardware" }
+  ];
+
+  try{
+    const res = await fetch('assets/data/promos.json',{cache:'no-store'});
+    const items = res.ok ? await res.json() : fallback;
+
+    box.innerHTML = (Array.isArray(items) ? items : fallback).slice(0,2).map(p => `
+      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
+        <span class="promo-badge">${p.title}</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    `).join('');
+  }catch(e){
+    console.warn('promos fallback', e);
+    box.innerHTML = fallback.map(p => `
+      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
+        <span class="promo-badge">${p.title}</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    `).join('');
+  }
+})();
 </script>
-<meta http-equiv="refresh" content="0; url=/rgztec/apps/web/public/">
-<link rel="canonical" href="/rgztec/apps/web/public/">
-<noscript><a href="/rgztec/apps/web/public/">Continue</a></noscript>
+</body>
+</html>
+
