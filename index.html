@@ -308,214 +308,109 @@ ul{list-style:none;margin:0;padding:0}
   font-size:20px;
 }
 
-/* ===== FEATURED STORES – üstteki Envato tarzı grid ===== */
-.rgz-featured-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:12px;
-  margin-bottom:16px;
-}
-.rgz-featured-header p{
-  margin:0;
-  font-size:13px;
-  color:#6b7280;
-  max-width:420px;
-}
+/* ========= STORE CARDS – Marketplace gallery ========= */
 
-.rgz-featured-grid{
+.store-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
-  gap:24px;
-}
-
-/* tek kart */
-.rgz-cat-card{
-  background:#ffffff;
-  border-radius:26px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 18px 40px rgba(15,23,42,0.06);
-  padding:22px 22px 18px;
-  text-decoration:none;
-  color:#0f172a;
-  display:grid;
-  grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);
-  column-gap:24px;
-  align-items:stretch;
-  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-}
-.rgz-cat-card:hover{
-  transform:translateY(-4px);
-  border-color:#cbd5f5;
-  box-shadow:0 22px 60px rgba(15,23,42,0.14);
-}
-@media(max-width:900px){
-  .rgz-cat-card{
-    grid-template-columns:minmax(0,1fr);
-    row-gap:16px;
-  }
-}
-
-.rgz-cat-top h3{
-  margin:0 0 4px;
-  font-size:20px;
-  font-weight:800;
-}
-.rgz-cat-top p{
-  margin:0 0 10px;
-  font-size:14px;
-  color:#6b7280;
-}
-.rgz-cat-links{
-  font-size:13px;
-  display:flex;
-  gap:12px;
-}
-.rgz-cat-links a{
-  color:#2563eb;
-  text-decoration:none;
-}
-.rgz-cat-links a:hover{text-decoration:underline}
-
-/* preview panel sağ taraf */
-.rgz-cat-thumb{
-  background:#e5e7eb;
-  border-radius:20px;
-  padding:16px;
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:stretch;
-}
-.rgz-cat-thumb-inner{
-  flex:1;
-  border-radius:16px;
-  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(209,213,219,.9));
-  box-shadow:0 10px 24px rgba(15,23,42,0.16);
-}
-.rgz-cat-badge{
-  position:absolute;
-  left:18px;
-  top:14px;
-  width:42px;
-  height:42px;
-  border-radius:999px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-  font-size:20px;
-  color:#0f172a;
-  background:#facc15;
-  box-shadow:0 8px 18px rgba(15,23,42,0.35);
-}
-
-/* ===== STORE GALLERY – büyük Etsy tarzı mağaza kartları ===== */
-
-.store-gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
   gap:24px;
   margin-top:12px;
-}
-@media(max-width:1200px){
-  .store-gallery-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-@media(max-width:640px){
-  .store-gallery-grid{
-    grid-template-columns:minmax(0,1fr);
-  }
 }
 
 .store-card{
   background:#ffffff;
   border-radius:24px;
   border:1px solid #e5e7eb;
-  box-shadow:0 18px 40px rgba(15,23,42,0.08);
+  box-shadow:0 20px 45px rgba(15,23,42,0.08);
   overflow:hidden;
   display:flex;
   flex-direction:column;
-  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-}
-.store-card:hover{
-  transform:translateY(-3px);
-  border-color:#cbd5f5;
-  box-shadow:0 22px 60px rgba(15,23,42,0.16);
 }
 
-.store-card-media{
+.store-media{
   position:relative;
+  height:190px;
+  background:linear-gradient(135deg,#e5e7eb,#f9fafb);
   overflow:hidden;
-  max-height:210px;
 }
-.store-card-media img{
+.store-media img{
   width:100%;
-  height:210px;
+  height:100%;
   object-fit:cover;
   display:block;
-  transition:transform .2s ease;
 }
-.store-card:hover .store-card-media img{
-  transform:scale(1.03);
-}
-.store-card-tag{
+.store-badge{
   position:absolute;
-  left:16px;
-  top:14px;
+  top:12px;
+  left:12px;
   padding:4px 10px;
   border-radius:999px;
-  font-size:12px;
+  font-size:11px;
+  font-weight:700;
+  background:rgba(15,23,42,0.9);
+  color:#f9fafb;
+}
+.store-status{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:11px;
   font-weight:600;
-  background:rgba(15,23,42,0.85);
-  color:#fff;
+  background:#fef3c7;
+  color:#92400e;
 }
 
-.store-card-body{
+.store-body{
   padding:16px 18px 18px;
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:6px;
 }
-.store-card-title{
+.store-name{
   margin:0;
-  font-size:1.02rem;
+  font-size:17px;
   font-weight:800;
 }
-.store-card-title a{
-  color:#0f172a;
-  text-decoration:none;
-}
-.store-card-title a:hover{
-  color:#f97316;
-}
-.store-card-desc{
+.store-desc{
   margin:0;
-  font-size:0.88rem;
+  font-size:14px;
   color:#6b7280;
 }
-.store-card-meta{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:0.78rem;
-  color:#6b7280;
-  margin-top:4px;
+.store-meta{
+  margin:2px 0 0;
+  font-size:12px;
+  color:#9ca3af;
 }
-.store-card-pill{
-  padding:4px 10px;
-  border-radius:999px;
-  background:#fef3c7;
-  color:#92400e;
-  font-weight:600;
-}
-.store-card-actions{
+.store-links{
   margin-top:10px;
   display:flex;
-  gap:8px;
+  gap:12px;
   flex-wrap:wrap;
 }
+.store-link{
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  color:#2563eb;
+}
+.store-link:hover{text-decoration:underline}
+
+/* DRAWER */
+.drawer{position:fixed;inset:0;display:none;z-index:40}
+.drawer.open{display:block}
+.back{position:absolute;inset:0;background:transparent}
+.panel{
+  position:absolute;width:280px;background:#fff;border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);
+  padding:8px;overflow:auto;max-height:calc(100vh - 80px);
+}
+.panel nav a{
+  display:block;padding:10px 12px;border-radius:8px;
+  color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;
+}
+.panel nav a:hover{background:#f3f4f6}
 
 /* FOOTER */
 .footer-outer{
@@ -632,26 +527,27 @@ ul{list-style:none;margin:0;padding:0}
     </div>
 
     <div id="heroPromos" class="promos" aria-label="Promotions">
-      <!-- JS promos dolduruyor -->
+      <a class="promo-box" href="listings.html?tag=deals" aria-label="Hot deals">
+        <span class="promo-badge">🔥 Hot deals</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+      <a class="promo-box" href="listings.html?tag=hardware" aria-label="Hardware picks">
+        <span class="promo-badge">🧰 Hardware picks</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- FEATURED + STORE GALLERY -->
+<!-- ONLY MARKETPLACE GALLERY – eski Featured Stores kaldırıldı -->
 <div class="section-band">
-  <section class="page-section page-section--fluid section-container">
-    <div class="rgz-featured-header">
-      <h2 class="section-h">Featured stores</h2>
-      <p>Curated hubs for HTML, email, icons, AI tools, games, WordPress plugins, and developer hardware.</p>
-    </div>
-    <div id="storeRow" class="rgz-featured-grid" aria-label="Featured stores"></div>
-  </section>
-
   <main class="page-section page-section--fluid section-container">
     <h2 class="section-h">Marketplace gallery</h2>
-
-    <!-- 10+1 mağazayı bağladığımız büyük kartlar -->
-    <div class="store-gallery-grid" id="gallery"></div>
+    <div class="store-grid" id="gallery"></div>
   </main>
 </div>
 
@@ -740,105 +636,42 @@ ul{list-style:none;margin:0;padding:0}
 </footer>
 
 <script>
-/* renk & mağaza verileri */
-const COLOR = {
-  'html-templates': ['#a5d6ff', '#3b82f6'],
-  'email-forge': ['#fecaca', '#ef4444'],
-  'icon-smith': ['#bae6fd', '#0ea5e9'],
-  'ai-tools-hub': ['#e9d5ff', '#a855f7'],
-  'dev-studio-one': ['#a7f3d0', '#10b981'],
-  'game-makers': ['#fde68a', '#f59e0b'],
-  'reactorium': ['#a5f3fc', '#06b6d4'],
-  'tiny-js-lab': ['#d9f99d', '#84cc16'],
-  'unity-hub': ['#fecdd3', '#f43f5e'],
-  'wp-plugins': ['#ddd6fe', '#8b5cf6'],
-  'hardware': ['#c7f0d8', '#10b981']
-};
-
+/* 11 mağaza verisi + kartlar */
 const STORES_DATA = [
-  { slug: "html-templates", name: "HTML Templates", desc: "Landing pages, dashboards, UI kits." },
-  { slug: "email-forge", name: "Email Forge", desc: "Responsive email templates & flows." },
-  { slug: "icon-smith", name: "Icon Smith", desc: "SVG packs, UI icons, branding sets." },
-  { slug: "ai-tools-hub", name: "AI Tools Hub", desc: "AI prompts, workflows & utilities." },
-  { slug: "dev-studio-one", name: "Dev Studio One", desc: "Reusable code, snippets & starters." },
-  { slug: "game-makers", name: "Game Makers", desc: "Assets, UI and starter kits for games." },
-  { slug: "reactorium", name: "Reactorium", desc: "React components, templates & dashboards." },
-  { slug: "tiny-js-lab", name: "Tiny JS Lab", desc: "Micro-widgets, effects and JS snippets." },
-  { slug: "unity-hub", name: "Unity Hub", desc: "Unity templates, shaders & tools." },
-  { slug: "wp-plugins", name: "WP Plugins", desc: "Premium plugins & blocks for WordPress." },
-  { slug: "hardware", name: "Hardware", desc: "Keyboards, dev boards & accessories." }
+  { slug: "html-templates",  name: "HTML Templates",  desc: "Landing pages, dashboards, UI kits.",           badge: "Flagship store",   image: "assets/images/products/landing-kit-01.jpg" },
+  { slug: "email-forge",     name: "Email Forge",     desc: "Responsive email templates & flows.",          badge: "Featured",          image: "assets/images/products/react-dashboard-01.jpg" },
+  { slug: "icon-smith",      name: "Icon Smith",      desc: "SVG packs, UI icons, branding sets.",          badge: "Featured",          image: "assets/images/products/icon-pack-01.jpg" },
+  { slug: "ai-tools-hub",    name: "AI Tools Hub",    desc: "AI prompts, workflows & utilities.",           badge: "Curated",           image: "assets/images/products/hardware-kit-01.jpg" },
+  { slug: "dev-studio-one",  name: "Dev Studio One",  desc: "Reusable code, snippets & starters.",          badge: "Curated" },
+  { slug: "game-makers",     name: "Game Makers",     desc: "Assets, UI and starter kits for games.",       badge: "Curated" },
+  { slug: "reactorium",      name: "Reactorium",      desc: "React components, templates & dashboards.",    badge: "Curated" },
+  { slug: "tiny-js-lab",     name: "Tiny JS Lab",     desc: "Micro-widgets, effects and JS snippets.",      badge: "Curated" },
+  { slug: "unity-hub",       name: "Unity Hub",       desc: "Unity templates, shaders & tools.",            badge: "Curated" },
+  { slug: "wp-plugins",      name: "WP Plugins",      desc: "Premium plugins & blocks for WordPress.",      badge: "Curated" },
+  { slug: "hardware",        name: "Hardware",        desc: "Keyboards, dev boards & accessories.",         badge: "Curated" }
 ];
 
-/* 4 üründen gelen görselleri mağazalara eşliyoruz */
-const STORE_THUMBS = {
-  "html-templates": "assets/images/products/landing-kit-01.jpg",
-  "reactorium": "assets/images/products/react-dashboard-01.jpg",
-  "icon-smith": "assets/images/products/icon-pack-01.jpg",
-  "hardware": "assets/images/products/hardware-kit-01.jpg"
-};
-
-function tile(store){
-  const name = store.name || store.slug;
-  const letter = (name || '?')[0].toUpperCase();
-  const colors = COLOR[store.slug] || ['#a5d6ff','#3b82f6'];
-  const [light,dark] = colors;
-  const desc = store.desc || '';
-
-  return `
-    <a class="rgz-cat-card"
-       href="listings.html?store=${encodeURIComponent(store.slug)}"
-       title="${name}">
-      <div class="rgz-cat-top">
-        <h3>${name}</h3>
-        <p>${desc}</p>
-        <div class="rgz-cat-links">
-          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=new">Newest</a>
-          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=best">Bestsellers</a>
-        </div>
-      </div>
-      <div class="rgz-cat-thumb">
-        <div class="rgz-cat-thumb-inner"
-             style="background:linear-gradient(135deg,rgba(255,255,255,.98),${light}); box-shadow:0 10px 24px rgba(15,23,42,0.18);"></div>
-        <div class="rgz-cat-badge"
-             style="background:radial-gradient(circle at 30% 20%, ${light}, ${dark});">
-          ${letter}
-        </div>
-      </div>
-    </a>
-  `;
-}
-
-/* Featured row */
-document.getElementById('storeRow').innerHTML = STORES_DATA.map(tile).join('');
-
-/* Alt taraftaki büyük mağaza kartları */
-function storeCard(store, index){
-  const name = store.name || store.slug;
-  const desc = store.desc || '';
-  const thumb = STORE_THUMBS[store.slug] || "assets/images/products/landing-kit-01.jpg";
-  const tag =
-    index === 0 ? "Flagship store" :
-    index < 3   ? "Featured" :
-    "Curated";
+function renderStoreCard(store){
+  const imgHTML = store.image
+    ? `<img src="${store.image}" alt="${store.name} preview">`
+    : "";
+  const badge = store.badge || "Curated";
+  const storeLabel = store.slug.replace(/-/g," ");
 
   return `
     <article class="store-card">
-      <div class="store-card-media">
-        <img src="${thumb}" alt="${name}">
-        <span class="store-card-tag">${tag}</span>
+      <div class="store-media">
+        ${imgHTML}
+        <span class="store-badge">${badge}</span>
+        <span class="store-status">New arrivals</span>
       </div>
-      <div class="store-card-body">
-        <h3 class="store-card-title">
-          <a href="listings.html?store=${encodeURIComponent(store.slug)}">${name}</a>
-        </h3>
-        <p class="store-card-desc">${desc}</p>
-        <div class="store-card-meta">
-          <span>Store • ${store.slug.replace(/-/g," ")}</span>
-          <span class="store-card-pill">New arrivals</span>
-        </div>
-        <div class="store-card-actions">
-          <a href="listings.html?store=${encodeURIComponent(store.slug)}" class="btn-primary">View store</a>
-          <a href="listings.html?store=${encodeURIComponent(store.slug)}&sort=best" class="btn-outline">Top sellers</a>
+      <div class="store-body">
+        <h3 class="store-name">${store.name}</h3>
+        <p class="store-desc">${store.desc}</p>
+        <p class="store-meta">Store • ${storeLabel}</p>
+        <div class="store-links">
+          <a class="store-link" href="listings.html?store=${encodeURIComponent(store.slug)}">View store</a>
+          <a class="store-link" href="listings.html?store=${encodeURIComponent(store.slug)}&sort=top">Top sellers</a>
         </div>
       </div>
     </article>
@@ -846,8 +679,9 @@ function storeCard(store, index){
 }
 
 document.getElementById('gallery').innerHTML =
-  STORES_DATA.map(storeCard).join('');
+  STORES_DATA.map(renderStoreCard).join('');
 
+/* yıl */
 document.getElementById('y').textContent = new Date().getFullYear();
 
 /* drawer open/close */
@@ -912,4 +746,5 @@ window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); 
 </script>
 </body>
 </html>
+
 
