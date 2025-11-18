@@ -321,13 +321,30 @@ ul{list-style:none;margin:0;padding:0}
 }
 
 .store-card{
-  background:#ffffff;
+  background:#f9fafb;
   border-radius:24px;
   border:1px solid #e5e7eb;
   box-shadow:0 20px 45px rgba(15,23,42,0.08);
   overflow:hidden;
   display:flex;
   flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.store-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 26px 60px rgba(15,23,42,0.16);
+}
+
+.store-media-link{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+}
+
+.store-media-link:focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:3px;
 }
 
 .store-media{
@@ -336,23 +353,20 @@ ul{list-style:none;margin:0;padding:0}
   background:linear-gradient(135deg,#e5e7eb,#f9fafb);
   overflow:hidden;
 }
+
 .store-media img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
+  transform:translateZ(0);
+  transition:transform .22s ease;
 }
-.store-badge{
-  position:absolute;
-  top:12px;
-  left:12px;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:700;
-  background:rgba(15,23,42,0.9);
-  color:#f9fafb;
+
+.store-card:hover .store-media img{
+  transform:scale(1.04);
 }
+
 .store-status{
   position:absolute;
   right:14px;
@@ -365,12 +379,29 @@ ul{list-style:none;margin:0;padding:0}
   color:#92400e;
 }
 
+/* curated / featured etiketi artık kartın alt kısmında */
+.store-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  background:rgba(15,23,42,0.9);
+  color:#f9fafb;
+  margin-bottom:6px;
+}
+
 .store-body{
   padding:16px 18px 18px;
   display:flex;
   flex-direction:column;
   gap:6px;
+  background:#f3f4f6;           /* kurumsal gri alan */
+  border-top:1px solid #e5e7eb; /* görsel ile ayrım */
 }
+
 .store-name{
   margin:0;
   font-size:17px;
@@ -730,12 +761,14 @@ function renderStoreCard(store){
 
   return `
     <article class="store-card">
-      <div class="store-media">
-        ${imgHTML}
-        <span class="store-badge">${badge}</span>
-        <span class="store-status">New arrivals</span>
-      </div>
+      <a class="store-media-link" href="stores/${store.slug}.html" aria-label="${store.name} store">
+        <div class="store-media">
+          ${imgHTML}
+          <span class="store-status">New arrivals</span>
+        </div>
+      </a>
       <div class="store-body">
+        <span class="store-badge">${badge}</span>
         <h3 class="store-name">${store.name}</h3>
         <p class="store-desc">${store.desc}</p>
         <p class="store-meta">Store • ${storeLabel}</p>
@@ -790,6 +823,7 @@ function renderStoreCard(store){
 </script>
 </body>
 </html>
+
 
 
 
