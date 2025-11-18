@@ -11,6 +11,10 @@
 
 <!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
 <base href="/rgztec/apps/web/public/">
+  
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
 <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
@@ -41,9 +45,11 @@
 /* RESET */
 *{box-sizing:border-box}
 html,body{margin:0;overflow-x:hidden}
-body{
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",
-               Roboto,"Helvetica Neue",Arial,sans-serif;
+body {
+  font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   color:var(--ink);
   background:var(--bg-soft);
   font-size:15px;
