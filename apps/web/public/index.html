@@ -299,6 +299,126 @@ ul{list-style:none;margin:0;padding:0}
   width:60%;right:auto;bottom:48px;
 }
 
+/* === MARKETPLACE SHOWCASE (banner + SEO metin) === */
+
+.marketplace-showcase{
+  padding:10px 0 34px;
+}
+
+.marketplace-showcase-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1.1fr);
+  gap:28px;
+  align-items:center;
+}
+
+.marketplace-copy{
+  padding:8px 4px;
+}
+
+.marketplace-eyebrow{
+  font-size:12px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:#9ca3af;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.marketplace-copy h2{
+  margin:0 0 10px;
+  font-size:26px;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+}
+
+.marketplace-copy h2 span{
+  color:var(--brand);
+}
+
+.marketplace-copy p.lead{
+  margin:0 0 14px;
+  font-size:15px;
+  color:#4b5563;
+  max-width:520px;
+}
+
+.marketplace-bullets{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin:14px 0 18px;
+}
+
+.marketplace-bullet{
+  background:#ffffff;
+  border-radius:16px;
+  padding:10px 12px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 10px 24px rgba(15,23,42,0.06);
+}
+
+.marketplace-bullet h3{
+  margin:0 0 4px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.marketplace-bullet p{
+  margin:0;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.marketplace-meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  align-items:center;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.marketplace-meta-row strong{
+  color:#111827;
+}
+
+.marketplace-meta-dot::before{
+  content:"• ";
+  color:#9ca3af;
+}
+
+.marketplace-cta-secondary{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  color:#111827;
+}
+
+.marketplace-cta-secondary span{
+  font-size:16px;
+}
+
+.marketplace-cta-secondary:hover{
+  color:var(--brand-dark);
+}
+
+.marketplace-banner{
+  position:relative;
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 28px 70px rgba(0,0,0,0.32);
+}
+
+.marketplace-banner img{
+  width:100%;
+  display:block;
+}
+
 /* SECTION BAND */
 .section-band{
   margin-top:12px;
@@ -379,7 +499,7 @@ ul{list-style:none;margin:0;padding:0}
   color:#92400e;
 }
 
-/* curated / featured etiketi artık kartın alt kısmında */
+/* curated / featured etiketi kartın alt kısmında */
 .store-badge{
   display:inline-flex;
   align-items:center;
@@ -475,15 +595,28 @@ ul{list-style:none;margin:0;padding:0}
 .footer-bottom a:hover{text-decoration:underline}
 
 /* RESPONSIVE ekstra */
+@media(max-width:1100px){
+  .marketplace-showcase-inner{
+    grid-template-columns:1fr;
+  }
+  .marketplace-banner{
+    order:-1;
+  }
+}
+
 @media(max-width:900px){
   .hero{
     grid-template-columns:1fr;
     padding:22px 18px;
   }
 }
+
 @media(max-width:768px){
   .footer-grid{grid-template-columns:1fr 1fr}
   .hdr-right{display:none}
+  .marketplace-bullets{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -577,7 +710,50 @@ ul{list-style:none;margin:0;padding:0}
   </div>
 </section>
 
-<!-- ONLY MARKETPLACE GALLERY – eski Featured Stores kaldırıldı -->
+<!-- MARKETPLACE SHOWCASE: banner + SEO metin -->
+<section class="marketplace-showcase">
+  <div class="page-section page-section--fluid marketplace-showcase-inner">
+    <div class="marketplace-copy">
+      <div class="marketplace-eyebrow">#1 BEST SELLING GLOBAL MARKETPLACE</div>
+      <h2>Premium <span>digital marketplace</span> for developers, designers & creators.</h2>
+      <p class="lead">
+        RGZTEC brings together high-quality HTML templates, React components, AI tools,
+        WordPress plugins, icons, games and curated hardware for modern builders.
+      </p>
+
+      <div class="marketplace-bullets">
+        <div class="marketplace-bullet">
+          <h3>For buyers</h3>
+          <p>Launch faster with production-ready UI kits, code starters, email flows and micro-tools.</p>
+        </div>
+        <div class="marketplace-bullet">
+          <h3>For creators</h3>
+          <p>Open your store, reach a global audience and earn recurring revenue from your products.</p>
+        </div>
+        <div class="marketplace-bullet">
+          <h3>For teams</h3>
+          <p>Standardize design systems, automate workflows and equip devs with curated hardware.</p>
+        </div>
+      </div>
+
+      <div class="marketplace-meta-row">
+        <span><strong>11+ curated stores</strong> across code, AI, design & hardware.</span>
+        <span class="marketplace-meta-dot">Instant digital delivery & secure payments.</span>
+      </div>
+
+      <a href="become-seller.html" class="marketplace-cta-secondary">
+        <span>➜</span> Start selling on RGZTEC
+      </a>
+    </div>
+
+    <div class="marketplace-banner">
+      <img src="assets/images/banners/global-marketplace-banner.webp"
+           alt="#1 Best Selling Global Marketplace banner">
+    </div>
+  </div>
+</section>
+
+<!-- MARKETPLACE GALLERY -->
 <div class="section-band">
   <main class="page-section page-section--fluid section-container">
     <h2 class="section-h">Marketplace gallery</h2>
@@ -671,7 +847,6 @@ ul{list-style:none;margin:0;padding:0}
 
 <script>
 /* 11 mağaza verisi + kartlar */
-/* image alanları artık .webp store bannerlarına işaret ediyor */
 const STORES_DATA = [
   {
     slug: "html-templates",
@@ -782,19 +957,16 @@ function renderStoreCard(store){
 }
 
 (function(){
-  // Marketplace gallery render
   const gallery = document.getElementById("gallery");
   if (gallery) {
     gallery.innerHTML = STORES_DATA.map(renderStoreCard).join("");
   }
 
-  // Footer year
   const y = document.getElementById("y");
   if (y) {
     y.textContent = new Date().getFullYear();
   }
 
-  // Category drawer
   const drawer = document.getElementById("drawer");
   const btnCats = document.getElementById("btnCats");
   const backdrop = document.getElementById("backdrop");
