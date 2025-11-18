@@ -12,6 +12,7 @@
 <!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
 <base href="/rgztec/apps/web/public/">
   
+<!-- Kurumsal fontlar -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -557,21 +558,6 @@ ul{list-style:none;margin:0;padding:0}
 }
 .store-link:hover{text-decoration:underline}
 
-/* DRAWER */
-.drawer{position:fixed;inset:0;display:none;z-index:40}
-.drawer.open{display:block}
-.back{position:absolute;inset:0;background:transparent}
-.panel{
-  position:absolute;width:280px;background:#fff;border-radius:12px;
-  box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);
-  padding:8px;overflow:auto;max-height:calc(100vh - 80px);
-}
-.panel nav a{
-  display:block;padding:10px 12px;border-radius:8px;
-  color:var(--ink);text-decoration:none;font-weight:500;font-size:14px;
-}
-.panel nav a:hover{background:#f3f4f6}
-
 /* FOOTER */
 .footer-outer{
   margin-top:40px;background:#232347;
@@ -599,6 +585,40 @@ ul{list-style:none;margin:0;padding:0}
 }
 .footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
 .footer-bottom a:hover{text-decoration:underline}
+
+/* === TYPOGRAPHY OVERRIDES – tam kurumsal görünüm === */
+
+h1, h2, h3, h4, h5{
+  font-family:'Inter','IBM Plex Sans',sans-serif;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  color:#0f172a;
+}
+
+.store-name{
+  font-family:'Inter',sans-serif;
+  font-weight:800;
+  letter-spacing:-0.015em;
+  font-size:18px;
+}
+
+.store-desc,
+.store-meta,
+.marketplace-copy p,
+.marketplace-bullet p{
+  font-family:'Inter',sans-serif;
+}
+
+.signin-link,
+.chip,
+.pill-open,
+.btn-cats,
+.badge,
+.store-badge,
+.marketplace-eyebrow,
+.marketplace-bullet h3{
+  font-family:'Inter',sans-serif;
+}
 
 /* RESPONSIVE ekstra */
 @media(max-width:1100px){
@@ -1001,5 +1021,6 @@ function renderStoreCard(store){
 </script>
 </body>
 </html>
+
 
  
