@@ -637,18 +637,85 @@ ul{list-style:none;margin:0;padding:0}
 
 <script>
 /* 11 mağaza verisi + kartlar */
+/* image alanları artık .webp store bannerlarına işaret ediyor */
 const STORES_DATA = [
-  { slug: "html-templates",  name: "HTML Templates",  desc: "Landing pages, dashboards, UI kits.",           badge: "Flagship store",   image: "assets/images/products/landing-kit-01.jpg" },
-  { slug: "email-forge",     name: "Email Forge",     desc: "Responsive email templates & flows.",          badge: "Featured",          image: "assets/images/products/react-dashboard-01.jpg" },
-  { slug: "icon-smith",      name: "Icon Smith",      desc: "SVG packs, UI icons, branding sets.",          badge: "Featured",          image: "assets/images/products/icon-pack-01.jpg" },
-  { slug: "ai-tools-hub",    name: "AI Tools Hub",    desc: "AI prompts, workflows & utilities.",           badge: "Curated",           image: "assets/images/products/hardware-kit-01.jpg" },
-  { slug: "dev-studio-one",  name: "Dev Studio One",  desc: "Reusable code, snippets & starters.",          badge: "Curated" },
-  { slug: "game-makers",     name: "Game Makers",     desc: "Assets, UI and starter kits for games.",       badge: "Curated" },
-  { slug: "reactorium",      name: "Reactorium",      desc: "React components, templates & dashboards.",    badge: "Curated" },
-  { slug: "tiny-js-lab",     name: "Tiny JS Lab",     desc: "Micro-widgets, effects and JS snippets.",      badge: "Curated" },
-  { slug: "unity-hub",       name: "Unity Hub",       desc: "Unity templates, shaders & tools.",            badge: "Curated" },
-  { slug: "wp-plugins",      name: "WP Plugins",      desc: "Premium plugins & blocks for WordPress.",      badge: "Curated" },
-  { slug: "hardware",        name: "Hardware",        desc: "Keyboards, dev boards & accessories.",         badge: "Curated" }
+  {
+    slug: "html-templates",
+    name: "HTML Templates",
+    desc: "Landing pages, dashboards, UI kits.",
+    badge: "Flagship store",
+    image: "assets/images/stores/html-templates.webp"
+  },
+  {
+    slug: "email-forge",
+    name: "Email Forge",
+    desc: "Responsive email templates & flows.",
+    badge: "Featured",
+    image: "assets/images/stores/email-forge.webp"
+  },
+  {
+    slug: "icon-smith",
+    name: "Icon Smith",
+    desc: "SVG packs, UI icons, branding sets.",
+    badge: "Featured",
+    image: "assets/images/stores/icon-smith.webp"
+  },
+  {
+    slug: "ai-tools-hub",
+    name: "AI Tools Hub",
+    desc: "AI prompts, workflows & utilities.",
+    badge: "Curated",
+    image: "assets/images/stores/ai-tools-hub.webp"
+  },
+  {
+    slug: "dev-studio-one",
+    name: "Dev Studio One",
+    desc: "Reusable code, snippets & starters.",
+    badge: "Curated",
+    image: "assets/images/stores/dev-studio-one.webp"
+  },
+  {
+    slug: "game-makers",
+    name: "Game Makers",
+    desc: "Assets, UI and starter kits for games.",
+    badge: "Curated",
+    image: "assets/images/stores/game-makers.webp"
+  },
+  {
+    slug: "reactorium",
+    name: "Reactorium",
+    desc: "React components, templates & dashboards.",
+    badge: "Curated",
+    image: "assets/images/stores/reactorium.webp"
+  },
+  {
+    slug: "tiny-js-lab",
+    name: "Tiny JS Lab",
+    desc: "Micro-widgets, effects and JS snippets.",
+    badge: "Curated",
+    image: "assets/images/stores/tiny-js-lab.webp"
+  },
+  {
+    slug: "unity-hub",
+    name: "Unity Hub",
+    desc: "Unity templates, shaders & tools.",
+    badge: "Curated",
+    image: "assets/images/stores/unity-hub.webp"
+  },
+  {
+    slug: "wp-plugins",
+    name: "WP Plugins",
+    desc: "Premium plugins & blocks for WordPress.",
+    badge: "Curated",
+    image: "assets/images/stores/wp-plugins.webp"
+  },
+  {
+    slug: "hardware",
+    name: "Hardware",
+    desc: "Keyboards, dev boards & accessories.",
+    badge: "Curated",
+    image: "assets/images/stores/hardware.webp"
+  }
 ];
 
 function renderStoreCard(store){
@@ -670,81 +737,53 @@ function renderStoreCard(store){
         <p class="store-desc">${store.desc}</p>
         <p class="store-meta">Store • ${storeLabel}</p>
         <div class="store-links">
-          <a class="store-link" href="listings.html?store=${encodeURIComponent(store.slug)}">View store</a>
-          <a class="store-link" href="listings.html?store=${encodeURIComponent(store.slug)}&sort=top">Top sellers</a>
+          <a class="store-link" href="stores/${store.slug}.html">Visit store →</a>
+          <a class="store-link" href="listings.html?store=${store.slug}">View products</a>
         </div>
       </div>
     </article>
   `;
 }
 
-document.getElementById('gallery').innerHTML =
-  STORES_DATA.map(renderStoreCard).join('');
+(function(){
+  // Marketplace gallery render
+  const gallery = document.getElementById("gallery");
+  if (gallery) {
+    gallery.innerHTML = STORES_DATA.map(renderStoreCard).join("");
+  }
 
-/* yıl */
-document.getElementById('y').textContent = new Date().getFullYear();
+  // Footer year
+  const y = document.getElementById("y");
+  if (y) {
+    y.textContent = new Date().getFullYear();
+  }
 
-/* drawer open/close */
-const drawer = document.getElementById('drawer');
-const back   = document.getElementById('backdrop');
-const panel  = drawer.querySelector('.panel');
-const openBtn = document.getElementById('btnCats');
+  // Category drawer
+  const drawer = document.getElementById("drawer");
+  const btnCats = document.getElementById("btnCats");
+  const backdrop = document.getElementById("backdrop");
 
-function openDrawer(){
-  const btnRect = openBtn.getBoundingClientRect();
-  panel.style.top  = `${btnRect.bottom + 8}px`;
-  panel.style.left = `${btnRect.left}px`;
-  drawer.classList.add('open');
-  drawer.setAttribute('aria-hidden','false');
-}
-function closeDrawer(){
-  drawer.classList.remove('open');
-  drawer.setAttribute('aria-hidden','true');
-}
+  function openDrawer(){
+    if (!drawer) return;
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden","false");
+  }
+  function closeDrawer(){
+    if (!drawer) return;
+    drawer.classList.remove("open");
+    drawer.setAttribute("aria-hidden","true");
+  }
 
-openBtn?.addEventListener('click', (e) => {
-  e.stopPropagation();
-  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
-});
-back?.addEventListener('click', closeDrawer);
-window.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
-
-/* PROMOS */
-(async function mountPromos(){
-  const box = document.getElementById('heroPromos');
-  if (!box) return;
-
-  const fallback = [
-    { title:"🔥 Hot deals",      href:"listings.html?tag=deals" },
-    { title:"🧰 Hardware picks", href:"listings.html?tag=hardware" }
-  ];
-
-  try{
-    const res = await fetch('assets/data/promos.json',{cache:'no-store'});
-    const items = res.ok ? await res.json() : fallback;
-
-    box.innerHTML = (Array.isArray(items) ? items : fallback).slice(0,2).map(p => `
-      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
-        <span class="promo-badge">${p.title}</span>
-        <div class="promo-media"></div>
-        <div class="promo-line"></div>
-        <div class="promo-line short"></div>
-      </a>
-    `).join('');
-  }catch(e){
-    console.warn('promos fallback', e);
-    box.innerHTML = fallback.map(p => `
-      <a class="promo-box" href="${p.href}" aria-label="${p.title}">
-        <span class="promo-badge">${p.title}</span>
-        <div class="promo-media"></div>
-        <div class="promo-line"></div>
-        <div class="promo-line short"></div>
-      </a>
-    `).join('');
+  if (btnCats && drawer && backdrop){
+    btnCats.addEventListener("click", openDrawer);
+    backdrop.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", (e)=>{
+      if (e.key === "Escape") {
+        closeDrawer();
+      }
+    });
   }
 })();
 </script>
 </body>
 </html>
-
-
