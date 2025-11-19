@@ -1,0 +1,97 @@
+{
+  "global": [
+    { "slug": "new",            "name": "New" },
+    { "slug": "trending",       "name": "Trending" },
+    { "slug": "top-sellers",    "name": "Top sellers" },
+    { "slug": "deals",          "name": "Deals" },
+    { "slug": "html-templates", "name": "HTML Templates" },
+    { "slug": "react",          "name": "React" },
+    { "slug": "ai",             "name": "AI" },
+    { "slug": "hardware",       "name": "Hardware" }
+  ],
+
+  "stores": {
+    "html-templates": [
+      { "slug": "landing-pages",       "name": "Landing Pages" },
+      { "slug": "portfolio",           "name": "Portfolio" },
+      { "slug": "admin-dashboards",    "name": "Admin & Dashboards" },
+      { "slug": "e-commerce",          "name": "E-commerce" },
+      { "slug": "email-templates",     "name": "Email Templates" }
+    ],
+    "email-forge": [
+      { "slug": "transactional", "name": "Transactional" },
+      { "slug": "marketing",     "name": "Marketing" },
+      { "slug": "drip-flows",    "name": "Drip Flows" },
+      { "slug": "mjml-blocks",   "name": "MJML Blocks" },
+      { "slug": "esp-integrations", "name": "ESP Integrations" }
+    ],
+    "icon-smith": [
+      { "slug": "outline", "name": "Outline" },
+      { "slug": "solid",   "name": "Solid" },
+      { "slug": "3d",      "name": "3D" },
+      { "slug": "flags",   "name": "Flags" },
+      { "slug": "brand",   "name": "Brand" }
+    ],
+    "ai-tools-hub": [
+      { "slug": "prompts",      "name": "Prompts" },
+      { "slug": "agents",       "name": "Agents" },
+      { "slug": "integrations", "name": "Integrations" },
+      { "slug": "workflows",    "name": "Workflows" },
+      { "slug": "analytics",    "name": "Analytics" }
+    ],
+    "dev-studio-one": [
+      { "slug": "html-templates",  "name": "HTML Templates" },
+      { "slug": "react-components","name": "React Components" },
+      { "slug": "auth-api",        "name": "Auth & API" },
+      { "slug": "dashboards",      "name": "Dashboards" },
+      { "slug": "e-commerce",      "name": "E-commerce" }
+    ],
+    "game-makers": [
+      { "slug": "unity-2d",     "name": "Unity 2D" },
+      { "slug": "unity-3d",     "name": "Unity 3D" },
+      { "slug": "unreal",       "name": "Unreal" },
+      { "slug": "controllers",  "name": "Controllers" },
+      { "slug": "vfx-sfx",      "name": "VFX / SFX" }
+    ],
+    "reactorium": [
+      { "slug": "ui-kit", "name": "UI Kit" },
+      { "slug": "tables", "name": "Tables" },
+      { "slug": "charts", "name": "Charts" },
+      { "slug": "forms",  "name": "Forms" },
+      { "slug": "hooks",  "name": "Hooks" }
+    ],
+    "tiny-js-lab": [
+      { "slug": "dates",     "name": "Dates" },
+      { "slug": "validation","name": "Validation" },
+      { "slug": "fetch",     "name": "Fetch" },
+      { "slug": "storage",   "name": "Storage" },
+      { "slug": "dom-utils", "name": "DOM Utils" }
+    ],
+    "unity-hub": [
+      { "slug": "2d-platformer", "name": "2D Platformer" },
+      { "slug": "fps",           "name": "FPS" },
+      { "slug": "racing",        "name": "Racing" },
+      { "slug": "multiplayer",   "name": "Multiplayer" },
+      { "slug": "vr-ar",         "name": "VR / AR" }
+    ],
+    "wp-plugins": [
+      { "slug": "seo",          "name": "SEO" },
+      { "slug": "security",     "name": "Security" },
+      { "slug": "performance",  "name": "Performance" },
+      { "slug": "forms",        "name": "Forms" },
+      { "slug": "woocommerce",  "name": "WooCommerce" }
+    ],
+    "hardware": [
+      { "slug": "cpus",           "name": "CPUs" },
+      { "slug": "motherboards",   "name": "Motherboards" },
+      { "slug": "gpus",           "name": "GPUs" },
+      { "slug": "memory-ram",     "name": "Memory (RAM)" },
+      { "slug": "storage",        "name": "Storage (SSD/HDD)" },
+      { "slug": "power-supplies", "name": "Power Supplies" },
+      { "slug": "cooling",        "name": "Cooling" },
+      { "slug": "cases",          "name": "Cases" },
+      { "slug": "peripherals",    "name": "Peripherals" },
+      { "slug": "networking",     "name": "Networking" }
+    ]
+  }
+}
