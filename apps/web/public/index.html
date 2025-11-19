@@ -448,6 +448,16 @@ ul{list-style:none;margin:0;padding:0}
   margin-top:12px;
 }
 
+/* desktop: 2 mağaza yan yana, hardware tam genişlik */
+@media(min-width:1024px){
+  .store-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .store-card--full{
+    grid-column:1 / -1;
+  }
+}
+
 .store-card{
   background:#f9fafb;
   border-radius:24px;
@@ -457,6 +467,10 @@ ul{list-style:none;margin:0;padding:0}
   display:flex;
   flex-direction:column;
   transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.store-card--full .store-media{
+  height:230px;
 }
 
 .store-card:hover{
@@ -642,6 +656,9 @@ h1, h2, h3, h4, h5{
   .footer-grid{grid-template-columns:1fr 1fr}
   .hdr-right{display:none}
   .marketplace-bullets{
+    grid-template-columns:1fr;
+  }
+  .store-grid{
     grid-template-columns:1fr;
   }
 }
@@ -950,7 +967,8 @@ const STORES_DATA = [
     name: "Hardware",
     desc: "Keyboards, dev boards & accessories.",
     badge: "Curated",
-    image: "assets/images/stores/hardware.webp"
+    image: "assets/images/stores/hardware.webp",
+    fullWidth: true
   }
 ];
 
@@ -960,9 +978,10 @@ function renderStoreCard(store){
     : "";
   const badge = store.badge || "Curated";
   const storeLabel = store.slug.replace(/-/g," ");
+  const fullClass = store.fullWidth ? " store-card--full" : "";
 
   return `
-    <article class="store-card">
+    <article class="store-card${fullClass}">
       <a class="store-media-link" href="stores/${store.slug}.html" aria-label="${store.name} store">
         <div class="store-media">
           ${imgHTML}
