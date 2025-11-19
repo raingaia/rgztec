@@ -11,3 +11,71 @@
   { "slug": "wp-plugins",     "name": "WP Plugins",     "tagline": "Production-ready WordPress plugins.", "color": "#8b5cf6" },
   { "slug": "hardware",       "name": "Hardware",       "tagline": "PC parts and peripherals.", "color": "#10b981" }
 ]
+[
+  { 
+    "slug": "html-templates", 
+    "name": "HTML Templates", 
+    "tagline": "Polished HTML/CSS templates and starters.", 
+    "color": "#3b82f6" 
+  },
+  { 
+    "slug": "email-forge", 
+    "name": "Email Forge", 
+    "tagline": "Responsive MJML templates and automation-focused email kits.", 
+    "color": "#ef4444" 
+  },
+  { 
+    "slug": "icon-smith", 
+    "name": "Icon Smith", 
+    "tagline": "Beautiful handcrafted icon packs for developers.", 
+    "color": "#0ea5e9" 
+  },
+  { 
+    "slug": "ai-tools-hub", 
+    "name": "AI Tools Hub", 
+    "tagline": "LLM-powered scripts and automation kits.", 
+    "color": "#a855f7" 
+  },
+  { 
+    "slug": "dev-studio-one", 
+    "name": "Dev Studio One", 
+    "tagline": "Modern HTML, CSS and React starters.", 
+    "color": "#10b981" 
+  },
+  { 
+    "slug": "Game Makers", 
+    "name": "Game Makers", 
+    "tagline": "Unity & Unreal templates and game kits.", 
+    "color": "#f59e0b" 
+  },
+  { 
+    "slug": "reactorium", 
+    "name": "Reactorium", 
+    "tagline": "React components, tables and charts.", 
+    "color": "#06b6d4" 
+  },
+  { 
+    "slug": "tiny-js-lab", 
+    "name": "Tiny JS Lab", 
+    "tagline": "Small but powerful JavaScript utilities.", 
+    "color": "#84cc16" 
+  },
+  { 
+    "slug": "unity-hub", 
+    "name": "Unity Hub", 
+    "tagline": "Unity extensions, prefabs and templates.", 
+    "color": "#f43f5e" 
+  },
+  { 
+    "slug": "wp-plugins", 
+    "name": "WP Plugins", 
+    "tagline": "Production-ready WordPress plugins.", 
+    "color": "#8b5cf6" 
+  },
+  { 
+    "slug": "hardware", 
+    "name": "Hardware", 
+    "tagline": "PC parts and peripherals.", 
+    "color": "#10b981" 
+  }
+]
