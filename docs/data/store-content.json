@@ -1,0 +1,46 @@
+{
+  "html-templates": {
+    "categories": ["Landing Pages", "Portfolio", "Admin & Dashboards", "E-commerce", "Email Templates"],
+    "featured": ["email-forge", "icon-smith", "dev-studio-one", "reactorium"]
+  },
+  "email-forge": {
+    "categories": ["Transactional", "Marketing", "Drip Flows", "MJML Blocks", "ESP Integrations"],
+    "featured": ["html-templates", "ai-tools-hub", "wp-plugins"]
+  },
+  "icon-smith": {
+    "categories": ["Outline", "Solid", "3D", "Flags", "Brand"],
+    "featured": ["reactorium", "html-templates", "ai-tools-hub"]
+  },
+  "ai-tools-hub": {
+    "categories": ["Prompts", "Agents", "Integrations", "Workflows", "Analytics"],
+    "featured": ["dev-studio-one", "reactorium", "tiny-js-lab"]
+  },
+  "dev-studio-one": {
+    "categories": ["HTML Templates", "React Components", "Auth & API", "Dashboards", "E-commerce"],
+    "featured": ["html-templates", "reactorium", "ai-tools-hub"]
+  },
+  "game-makers": {
+    "categories": ["Unity 2D", "Unity 3D", "Unreal", "Controllers", "VFX / SFX"],
+    "featured": ["unity-hub", "ai-tools-hub", "tiny-js-lab"]
+  },
+  "reactorium": {
+    "categories": ["UI Kit", "Tables", "Charts", "Forms", "Hooks"],
+    "featured": ["dev-studio-one", "html-templates", "icon-smith"]
+  },
+  "tiny-js-lab": {
+    "categories": ["Dates", "Validation", "Fetch", "Storage", "DOM Utils"],
+    "featured": ["reactorium", "ai-tools-hub", "dev-studio-one"]
+  },
+  "unity-hub": {
+    "categories": ["2D Platformer", "FPS", "Racing", "Multiplayer", "VR / AR"],
+    "featured": ["game-makers", "ai-tools-hub", "reactorium"]
+  },
+  "wp-plugins": {
+    "categories": ["SEO", "Security", "Performance", "Forms", "WooCommerce"],
+    "featured": ["html-templates", "email-forge", "ai-tools-hub"]
+  },
+  "hardware": {
+    "categories": ["CPUs", "Motherboards", "GPUs", "Memory (RAM)", "Storage (SSD/HDD)", "Power Supplies", "Cooling", "Cases", "Peripherals", "Networking"],
+    "featured": ["reactorium", "tiny-js-lab", "wp-plugins"]
+  }
+}
