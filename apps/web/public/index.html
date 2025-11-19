@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-  
+
 <!-- Kurumsal fontlar -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -788,7 +788,7 @@ h1, h2, h3, h4, h5{
     </div>
 
     <div class="marketplace-banner">
-      <img src="assets/img/banners/global-marketplace-banner.webp"
+      <img src="assets/images/banners/global-marketplace-banner.webp"
            alt="#1 Best Selling Global Marketplace banner">
     </div>
   </div>
@@ -887,108 +887,34 @@ h1, h2, h3, h4, h5{
 </footer>
 
 <script>
-/* 11 mağaza verisi + kartlar */
-const STORES_DATA = [
-  {
-    slug: "html-templates",
-    name: "HTML Templates",
-    desc: "Landing pages, dashboards, UI kits.",
-    badge: "Flagship store",
-    image: "assets/img/stores/html-templates.webp"
-  },
-  {
-    slug: "email-forge",
-    name: "Email Forge",
-    desc: "Responsive email templates & flows.",
-    badge: "Featured",
-    image: "assets/img/stores/email-forge.webp"
-  },
-  {
-    slug: "icon-smith",
-    name: "Icon Smith",
-    desc: "SVG packs, UI icons, branding sets.",
-    badge: "Featured",
-    image: "assets/img/stores/icon-smith.webp"
-  },
-  {
-    slug: "ai-tools-hub",
-    name: "AI Tools Hub",
-    desc: "AI prompts, workflows & utilities.",
-    badge: "Curated",
-    image: "assets/img/stores/ai-tools-hub.webp"
-  },
-  {
-    slug: "dev-studio-one",
-    name: "Dev Studio One",
-    desc: "Reusable code, snippets & starters.",
-    badge: "Curated",
-    image: "assets/img/stores/dev-studio-one.webp"
-  },
-  {
-    slug: "game-makers",
-    name: "Game Makers",
-    desc: "Assets, UI and starter kits for games.",
-    badge: "Curated",
-    image: "assets/img/stores/game-makers.webp"
-  },
-  {
-    slug: "reactorium",
-    name: "Reactorium",
-    desc: "React components, templates & dashboards.",
-    badge: "Curated",
-    image: "assets/img/stores/reactorium.webp"
-  },
-  {
-    slug: "tiny-js-lab",
-    name: "Tiny JS Lab",
-    desc: "Micro-widgets, effects and JS snippets.",
-    badge: "Curated",
-    image: "assets/img/stores/tiny-js-lab.webp"
-  },
-  {
-    slug: "unity-hub",
-    name: "Unity Hub",
-    desc: "Unity templates, shaders & tools.",
-    badge: "Curated",
-    image: "assets/img/stores/unity-hub.webp"
-  },
-  {
-    slug: "wp-plugins",
-    name: "WP Plugins",
-    desc: "Premium plugins & blocks for WordPress.",
-    badge: "Curated",
-    image: "assets/img/stores/wp-plugins.webp"
-  },
-  {
-    slug: "hardware",
-    name: "Hardware",
-    desc: "Keyboards, dev boards & accessories.",
-    badge: "Curated",
-    image: "assets/img/stores/hardware.webp",
-    fullWidth: true
-  }
-];
+const STORE_IMAGE_BASE = 'assets/images/store/';
+const STORE_IMAGE_EXT = '.webp';
+
+function getStoreBadge(slug){
+  if (slug === 'html-templates') return 'Flagship store';
+  if (slug === 'email-forge' || slug === 'icon-smith') return 'Featured';
+  return 'Curated';
+}
 
 function renderStoreCard(store){
-  const imgHTML = store.image
-    ? `<img src="${store.image}" alt="${store.name} preview">`
-    : "";
-  const badge = store.badge || "Curated";
+  const imgSrc = STORE_IMAGE_BASE + store.slug + STORE_IMAGE_EXT;
+  const fullClass = store.slug === 'hardware' ? ' store-card--full' : '';
+  const badge = getStoreBadge(store.slug);
+  const desc = store.tagline || store.desc || '';
   const storeLabel = store.slug.replace(/-/g," ");
-  const fullClass = store.fullWidth ? " store-card--full" : "";
 
   return `
     <article class="store-card${fullClass}">
       <a class="store-media-link" href="stores/${store.slug}.html" aria-label="${store.name} store">
         <div class="store-media">
-          ${imgHTML}
+          <img src="${imgSrc}" alt="${store.name} preview">
           <span class="store-status">New arrivals</span>
         </div>
       </a>
       <div class="store-body">
         <span class="store-badge">${badge}</span>
         <h3 class="store-name">${store.name}</h3>
-        <p class="store-desc">${store.desc}</p>
+        <p class="store-desc">${desc}</p>
         <p class="store-meta">Store • ${storeLabel}</p>
         <div class="store-links">
           <a class="store-link" href="stores/${store.slug}.html">Visit store →</a>
@@ -999,17 +925,12 @@ function renderStoreCard(store){
   `;
 }
 
-(function(){
-  const gallery = document.getElementById("gallery");
-  if (gallery) {
-    gallery.innerHTML = STORES_DATA.map(renderStoreCard).join("");
-  }
-
+(async function initPage(){
+  // Yıl
   const y = document.getElementById("y");
-  if (y) {
-    y.textContent = new Date().getFullYear();
-  }
+  if (y) y.textContent = new Date().getFullYear();
 
+  // Drawer
   const drawer = document.getElementById("drawer");
   const btnCats = document.getElementById("btnCats");
   const backdrop = document.getElementById("backdrop");
@@ -1029,15 +950,27 @@ function renderStoreCard(store){
     btnCats.addEventListener("click", openDrawer);
     backdrop.addEventListener("click", closeDrawer);
     document.addEventListener("keydown", (e)=>{
-      if (e.key === "Escape") {
-        closeDrawer();
-      }
+      if (e.key === "Escape") closeDrawer();
     });
+  }
+
+  // Stores gallery – data/stores.json'dan oku
+  try{
+    const res = await fetch('data/stores.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to load stores.json');
+    const stores = await res.json();
+    const gallery = document.getElementById("gallery");
+    if (gallery && Array.isArray(stores)){
+      gallery.innerHTML = stores.map(renderStoreCard).join("");
+    }
+  }catch(err){
+    console.error('Store data error:', err);
   }
 })();
 </script>
 </body>
 </html>
+
 
  
 
