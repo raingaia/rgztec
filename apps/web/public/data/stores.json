@@ -1,81 +1,168 @@
 [
-  { "slug": "html-templates", "name": "HTML Templates", "tagline": "Polished HTML/CSS templates and starters.", "color": "#3b82f6" },
-  { "slug": "email-forge",    "name": "Email Forge",    "tagline": "Responsive MJML templates and automation-focused email kits.", "color": "#ef4444" },
-  { "slug": "icon-smith",     "name": "Icon Smith",     "tagline": "Beautiful handcrafted icon packs for developers.", "color": "#0ea5e9" },
-  { "slug": "ai-tools-hub",   "name": "AI Tools Hub",   "tagline": "LLM-powered scripts and automation kits.", "color": "#a855f7" },
-  { "slug": "dev-studio-one", "name": "Dev Studio One", "tagline": "Modern HTML, CSS and React starters.", "color": "#10b981" },
-  { "slug": "game-makers",    "name": "Game Makers",    "tagline": "Unity & Unreal templates and game kits.", "color": "#f59e0b" },
-  { "slug": "reactorium",     "name": "Reactorium",     "tagline": "React components, tables and charts.", "color": "#06b6d4" },
-  { "slug": "tiny-js-lab",    "name": "Tiny JS Lab",    "tagline": "Small but powerful JavaScript utilities.", "color": "#84cc16" },
-  { "slug": "unity-hub",      "name": "Unity Hub",      "tagline": "Unity extensions, prefabs and templates.", "color": "#f43f5e" },
-  { "slug": "wp-plugins",     "name": "WP Plugins",     "tagline": "Production-ready WordPress plugins.", "color": "#8b5cf6" },
-  { "slug": "hardware",       "name": "Hardware",       "tagline": "PC parts and peripherals.", "color": "#10b981" }
-]
-[
-  { 
-    "slug": "html-templates", 
-    "name": "HTML Templates", 
-    "tagline": "Polished HTML/CSS templates and starters.", 
-    "color": "#3b82f6" 
+  {
+    "slug": "html-templates",
+    "name": "HTML Templates",
+    "tagline": "Polished HTML/CSS templates and starters for modern landing pages and dashboards.",
+    "category": "Code & Templates",
+    "type": "digital",
+    "primaryColor": "#3b82f6",
+    "badge": "Flagship store",
+    "productsCount": 64,
+    "status": "live",
+    "priority": 1,
+    "tags": ["html", "css", "landing-pages", "dashboards", "templates"],
+    "seoTitle": "HTML Templates Store • RGZTEC",
+    "seoDescription": "Production-ready HTML/CSS templates, landing pages and UI starters curated for fast shipping and clean code."
   },
-  { 
-    "slug": "email-forge", 
-    "name": "Email Forge", 
-    "tagline": "Responsive MJML templates and automation-focused email kits.", 
-    "color": "#ef4444" 
+  {
+    "slug": "email-forge",
+    "name": "Email Forge",
+    "tagline": "Responsive MJML templates and automation-focused email kits.",
+    "category": "Email & CRM",
+    "type": "digital",
+    "primaryColor": "#ef4444",
+    "badge": "Featured",
+    "productsCount": 32,
+    "status": "live",
+    "priority": 2,
+    "tags": ["email", "mjml", "campaigns", "newsletters", "automations"],
+    "seoTitle": "Email Forge • Responsive Email Templates",
+    "seoDescription": "High-converting MJML and HTML email templates optimized for deliverability, automation and CRM workflows."
   },
-  { 
-    "slug": "icon-smith", 
-    "name": "Icon Smith", 
-    "tagline": "Beautiful handcrafted icon packs for developers.", 
-    "color": "#0ea5e9" 
+  {
+    "slug": "icon-smith",
+    "name": "Icon Smith",
+    "tagline": "Beautiful handcrafted icon packs for developers.",
+    "category": "Icons & Graphics",
+    "type": "digital",
+    "primaryColor": "#0ea5e9",
+    "badge": "Featured",
+    "productsCount": 40,
+    "status": "live",
+    "priority": 3,
+    "tags": ["icons", "ui", "dashboards", "outline", "solid"],
+    "seoTitle": "Icon Smith • Icon Packs for Apps and Dashboards",
+    "seoDescription": "Curated icon packs for SaaS products, dashboards and design systems with consistent grids and stroke weights."
   },
-  { 
-    "slug": "ai-tools-hub", 
-    "name": "AI Tools Hub", 
-    "tagline": "LLM-powered scripts and automation kits.", 
-    "color": "#a855f7" 
+  {
+    "slug": "ai-tools-hub",
+    "name": "AI Tools Hub",
+    "tagline": "LLM-powered scripts, prompts and automation kits.",
+    "category": "AI & Automation",
+    "type": "digital",
+    "primaryColor": "#a855f7",
+    "badge": "Featured",
+    "productsCount": 36,
+    "status": "live",
+    "priority": 4,
+    "tags": ["ai", "llm", "workflows", "prompts", "automation"],
+    "seoTitle": "AI Tools Hub • LLM Automations and Prompts",
+    "seoDescription": "Ready-made AI workflows, prompts and integrations that connect LLMs to real-world products and internal tools."
   },
-  { 
-    "slug": "dev-studio-one", 
-    "name": "Dev Studio One", 
-    "tagline": "Modern HTML, CSS and React starters.", 
-    "color": "#10b981" 
+  {
+    "slug": "dev-studio-one",
+    "name": "Dev Studio One",
+    "tagline": "Modern HTML, CSS and React starters for serious teams.",
+    "category": "Full UI Kits",
+    "type": "digital",
+    "primaryColor": "#10b981",
+    "badge": "Curated",
+    "productsCount": 24,
+    "status": "live",
+    "priority": 5,
+    "tags": ["starter-kits", "ui-kits", "react", "design-systems"],
+    "seoTitle": "Dev Studio One • Full UI Kits and Starters",
+    "seoDescription": "End-to-end UI kits and starter projects for teams that need consistent design and production-grade code."
   },
-  { 
-    "slug": "Game Makers", 
-    "name": "Game Makers", 
-    "tagline": "Unity & Unreal templates and game kits.", 
-    "color": "#f59e0b" 
+  {
+    "slug": "game-makers",
+    "name": "Game Makers",
+    "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
+    "category": "Games & Real-time",
+    "type": "digital",
+    "primaryColor": "#f59e0b",
+    "badge": "Curated",
+    "productsCount": 29,
+    "status": "live",
+    "priority": 6,
+    "tags": ["unity", "unreal", "hud", "menus", "game-ui"],
+    "seoTitle": "Game Makers • Unity & Unreal Game Assets",
+    "seoDescription": "HUDs, menus, UI kits and templates designed for Unity, Unreal Engine and other modern game engines."
   },
-  { 
-    "slug": "reactorium", 
-    "name": "Reactorium", 
-    "tagline": "React components, tables and charts.", 
-    "color": "#06b6d4" 
+  {
+    "slug": "reactorium",
+    "name": "Reactorium",
+    "tagline": "React components, tables, charts and dashboard blocks.",
+    "category": "React Components",
+    "type": "digital",
+    "primaryColor": "#06b6d4",
+    "badge": "Curated",
+    "productsCount": 41,
+    "status": "live",
+    "priority": 7,
+    "tags": ["react", "components", "tables", "charts", "dashboards"],
+    "seoTitle": "Reactorium • React UI Components and Charts",
+    "seoDescription": "Composable React components, data tables and chart layouts for modern analytics dashboards and SaaS interfaces."
   },
-  { 
-    "slug": "tiny-js-lab", 
-    "name": "Tiny JS Lab", 
-    "tagline": "Small but powerful JavaScript utilities.", 
-    "color": "#84cc16" 
+  {
+    "slug": "tiny-js-lab",
+    "name": "Tiny JS Lab",
+    "tagline": "Small but powerful JavaScript utilities and micro-libraries.",
+    "category": "Scripts & Snippets",
+    "type": "digital",
+    "primaryColor": "#84cc16",
+    "badge": "Curated",
+    "productsCount": 22,
+    "status": "live",
+    "priority": 8,
+    "tags": ["javascript", "utilities", "snippets", "micro-libs"],
+    "seoTitle": "Tiny JS Lab • JavaScript Utilities",
+    "seoDescription": "Lightweight JavaScript utilities and micro-libraries that solve real problems without heavy dependencies."
   },
-  { 
-    "slug": "unity-hub", 
-    "name": "Unity Hub", 
-    "tagline": "Unity extensions, prefabs and templates.", 
-    "color": "#f43f5e" 
+  {
+    "slug": "unity-hub",
+    "name": "Unity Hub",
+    "tagline": "Unity extensions, prefabs and ready-to-ship scenes.",
+    "category": "Game Dev",
+    "type": "digital",
+    "primaryColor": "#f43f5e",
+    "badge": "Curated",
+    "productsCount": 18,
+    "status": "live",
+    "priority": 9,
+    "tags": ["unity", "prefabs", "extensions", "scenes"],
+    "seoTitle": "Unity Hub • Unity Assets and Extensions",
+    "seoDescription": "Prefabs, extensions and scenes that help Unity developers ship polished games and prototypes faster."
   },
-  { 
-    "slug": "wp-plugins", 
-    "name": "WP Plugins", 
-    "tagline": "Production-ready WordPress plugins.", 
-    "color": "#8b5cf6" 
+  {
+    "slug": "wp-plugins",
+    "name": "WP Plugins",
+    "tagline": "Production-ready WordPress plugins and add-ons.",
+    "category": "WordPress",
+    "type": "digital",
+    "primaryColor": "#8b5cf6",
+    "badge": "Featured",
+    "productsCount": 27,
+    "status": "live",
+    "priority": 10,
+    "tags": ["wordpress", "plugins", "woocommerce", "blocks"],
+    "seoTitle": "WP Plugins • WordPress & WooCommerce Extensions",
+    "seoDescription": "Carefully reviewed WordPress plugins and WooCommerce extensions for performance-focused sites and shops."
   },
-  { 
-    "slug": "hardware", 
-    "name": "Hardware", 
-    "tagline": "PC parts and peripherals.", 
-    "color": "#10b981" 
+  {
+    "slug": "hardware",
+    "name": "Hardware",
+    "tagline": "Curated PC parts, peripherals and creator-friendly devices.",
+    "category": "Hardware",
+    "type": "physical",
+    "primaryColor": "#10b981",
+    "badge": "Curated",
+    "productsCount": 15,
+    "status": "live",
+    "priority": 11,
+    "tags": ["keyboards", "monitors", "audio", "desk-setup", "pc-parts"],
+    "seoTitle": "Hardware • Curated Gear for Developers",
+    "seoDescription": "Keyboards, mice, monitors and peripherals hand-picked for developers, designers and creators who live at the desk."
   }
 ]
+
