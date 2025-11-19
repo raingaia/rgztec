@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Categories</title>
+<meta name="description" content="Browse RGZTEC categories and stores."/>
+
+<style>
+:root{
+  --wrap:1100px;
+  --ink:#0b1220; --sub:#64748b;
+  --line:#e5e7eb; --line-strong:#d7dbe3;
+  --brand:#f97316; --brand-dark:#ea580c;
+}
+*{box-sizing:border-box} html,body{margin:0} body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+
+/* header (same style family) */
+.header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
+.page{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
+.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
+.btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;text-decoration:none;color:var(--ink)}
+.btn-cats svg{width:18px;height:18px}
+.search{flex:1 1 auto;display:flex;align-items:center;height:44px;border:2px solid #111827;border-radius:999px;padding:0 8px 0 16px;max-width:760px}
+.search input{flex:1;border:0;outline:0;font-size:16px;padding:10px;background:transparent}
+.go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
+.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.hdr-right{display:flex;align-items:center;gap:12px}
+.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
+.pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
+.pill-open:hover{background:var(--brand-dark)}
+[hidden]{display:none!important}
+
+/* content */
+.section{padding:22px 0}
+.h1{font-weight:900;font-size:28px;margin:0 0 10px}
+.sub{color:var(--sub);margin:0 0 16px}
+
+/* grids */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.card a{display:flex;align-items:center;gap:12px;padding:12px 14px;text-decoration:none;color:var(--ink)}
+.badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:900;color:#fff}
+.ghost{background:#f3f4f6;border:1px dashed var(--line-strong);color:#6b7280}
+
+/* footer (short) */
+.footer-outer{margin-top:32px;background:#232347;color:#fff;padding:18px 0;font-size:14px;border-top:1px solid #3c3c62}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-bottom a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="header-outer">
+  <div class="page header-row">
+    <a class="brand" href="./">RGZTEC</a>
+
+    <!-- make the button a link here -->
+    <a class="btn-cats" href="categories.html" aria-label="All categories">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span>Categories</span>
+    </a>
+
+    <form class="search" role="search" action="listings.html">
+      <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
+      <button class="go" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
+      </button>
+    </form>
+
+    <div class="hdr-right">
+      <a href="#" class="icon-btn" title="Gift cards" aria-label="Gift cards">🎁</a>
+      <a href="open-store.html" class="pill-open">Open Store</a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <section class="section">
+    <h1 class="h1">Browse by category</h1>
+    <p class="sub">Click a category to see matching products.</p>
+    <div id="catGrid" class="grid"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="h1">Featured stores</h2>
+    <p class="sub">Jump into a store to filter by its collections.</p>
+    <div id="storeGrid" class="grid"></div>
+  </section>
+</main>
+
+<footer class="footer-outer">
+  <div class="page footer-bottom">
+    <span>© <span id="y"></span> RGZTEC, Inc.</span>
+    <div>
+      <a href="#">Terms of Use</a>
+      <a href="#" style="margin-left:16px">Privacy</a>
+      <a href="#" style="margin-left:16px">Interest-based ads</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+
+const CAT_COLORS = ['#3b82f6','#06b6d4','#8b5cf6','#10b981','#f59e0b','#ef4444','#84cc16','#0ea5e9'];
+const pick = (i)=> CAT_COLORS[i % CAT_COLORS.length];
+
+function catCard(slug, name, i){
+  const href = `listings.html?tag=${encodeURIComponent(slug)}`;
+  const letter = (name||slug||'?').charAt(0).toUpperCase();
+  return `
+    <div class="card">
+      <a href="${href}">
+        <span class="badge" style="background:${pick(i)}">${letter}</span>
+        <div>
+          <div style="font-weight:800">${name}</div>
+          <div class="sub">${slug}</div>
+        </div>
+      </a>
+    </div>`;
+}
+function storeCard(slug, name, color){
+  const href = `store.html?slug=${encodeURIComponent(slug)}`;
+  const letter = (name||slug||'?').charAt(0).toUpperCase();
+  return `
+    <div class="card">
+      <a href="${href}">
+        <span class="badge" style="background:${color || '#94a3b8'}">${letter}</span>
+        <div>
+          <div style="font-weight:800">${name || slug}</div>
+          <div class="sub">${slug}</div>
+        </div>
+      </a>
+    </div>`;
+}
+
+(async function init(){
+  try{
+    // categories from products.json
+    const pres = await fetch('assets/data/products.json',{cache:'no-store'});
+    let cats = [];
+    if(pres.ok){
+      const raw = await pres.json();
+      if (Array.isArray(raw?.categories)) cats = raw.categories;
+      // fallback: when file is the "gallery-only" (array), show a few common tags
+      if (!cats.length && Array.isArray(raw)) {
+        cats = [
+          {"slug":"html-templates","name":"HTML Templates"},
+          {"slug":"react","name":"React"},
+          {"slug":"svg-icons","name":"SVG / Icons"},
+          {"slug":"hardware","name":"Hardware"}
+        ];
+      }
+    }
+    const catGrid = document.getElementById('catGrid');
+    catGrid.innerHTML = cats.map((c,i)=>catCard(c.slug,c.name,i)).join('') || '<div class="card ghost"><a href="#"><span class="badge ghost"></span><div>No categories</div></a></div>';
+
+    // stores from stores.json
+    const sres = await fetch('data/stores.json',{cache:'no-store'});
+    const storeGrid = document.getElementById('storeGrid');
+    if(sres.ok){
+      const {stores=[]} = await sres.json();
+      storeGrid.innerHTML = stores.map(s=>storeCard(s.slug, s.name, s.color)).join('');
+    } else {
+      storeGrid.innerHTML = '<div class="card ghost"><a href="#"><span class="badge ghost"></span><div>No stores</div></a></div>';
+    }
+  }catch(e){
+    console.warn(e);
+  }
+})();
+</script>
+</body>
+</html>
