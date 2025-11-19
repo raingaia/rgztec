@@ -1,0 +1,5 @@
+[
+  { "id":"p-1001", "title":"Mechanical Keyboard TKL", "price":89, "img":"assets/img/products/kb-tkl.jpg", "href":"product/keyboard-tkl/" , "tag":"hardware" },
+  { "id":"p-1002", "title":"Ergonomic Wireless Mouse", "price":49, "img":"assets/img/products/mouse-erg.jpg", "href":"product/ergonomic-mouse/" , "tag":"hardware" }
+  // ... istediğin kadar
+]
