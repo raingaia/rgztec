@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RGZTEC • Product</title>
+<base href="/rgztec/apps/web/public/">
+
+<style>
+:root{
+  --wrap:1100px; --gutter-min:12px; --gutter-max:28px;
+  --ink:#0b1220; --sub:#64748b;
+  --line:#e5e7eb; --line-strong:#d7dbe3;
+  --brand:#f97316; --brand-dark:#ea580c;
+  --search-h:52px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+.page-section{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
+.page-section--fluid{max-width:none;padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max))}
+
+/* header */
+.header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
+.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0}
+.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
+.btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;cursor:pointer}
+.btn-cats svg{width:18px;height:18px}
+.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
+.search{display:flex;align-items:center;height:var(--search-h);border:2px solid #111827;border-radius:999px;padding:0 8px 0 16px;width:100%}
+.search input{flex:1;min-width:0;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent}
+.go{display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
+.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
+.pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
+.pill-open:hover{background:var(--brand-dark)}
+
+/* drawer */
+.drawer{position:fixed;inset:0;display:none;z-index:40}
+.drawer.open{display:block}
+.back{position:absolute;inset:0;background:transparent}
+.panel{position:absolute;width:280px;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);padding:8px;overflow:auto;max-height:calc(100vh - 80px)}
+.panel nav a{display:block;padding:10px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
+.panel nav a:hover{background:#f3f4f6}
+
+/* product view */
+.main{padding-top:20px;padding-bottom:28px}
+.breadcrumb{font-size:13px;color:var(--sub);margin:4px 0 12px}
+.breadcrumb a{color:inherit;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.p-view{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:860px){ .p-view{grid-template-columns:1fr} }
+
+.p-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.p-media{background:#f8fafc;display:grid;place-items:center;min-height:300px}
+.p-media img{max-width:100%;max-height:380px;object-fit:contain}
+.p-pad{padding:16px}
+.p-title{font-size:24px;font-weight:800;margin:0 0 8px}
+.p-desc{color:var(--sub);margin:0 0 12px}
+.p-price{font-size:22px;font-weight:900;margin-top:8px}
+.stars{color:#f59e0b}
+.cta{display:flex;gap:12px;margin-top:16px}
+.cta .btn{display:inline-block;padding:10px 16px;border-radius:12px;border:1px solid var(--line-strong);text-decoration:none;font-weight:700}
+.cta .buy{background:var(--brand);color:#fff;border-color:var(--brand)}
+.cta .buy:hover{background:var(--brand-dark)}
+.note{color:var(--sub)}
+.err{color:#b91c1c;background:#fee2e2;border:1px solid #fecaca;padding:12px;border-radius:12px}
+</style>
+</head>
+<body>
+
+<header class="header-outer">
+  <div class="page-section page-section--fluid header-row">
+    <a class="brand" href="./">RGZTEC</a>
+
+    <button id="btnCats" class="btn-cats" aria-haspopup="dialog" title="Categories">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span>Categories</span>
+    </button>
+
+    <div class="search-wrap">
+      <form class="search" role="search" action="listings.html">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="hdr-right">
+      <a class="icon-btn" href="gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
+      <a class="pill-open" href="open-store.html">Open Store</a>
+    </div>
+  </div>
+
+  <!-- nav strip (optional quick filters) -->
+  <div class="page-section page-section--fluid" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line-strong);padding:8px 16px;">
+    <nav id="quickChips" style="display:flex;gap:22px;flex-wrap:wrap;font-weight:600">
+      <!-- JS fills from categories.json (global) -->
+    </nav>
+  </div>
+</header>
+
+<main class="page-section page-section--fluid main">
+  <div class="breadcrumb" id="crumb"></div>
+
+  <div id="wrap" class="p-view">
+    <!-- left: image -->
+    <div class="p-card">
+      <div class="p-media"><img id="pimg" alt=""></div>
+    </div>
+
+    <!-- right: details -->
+    <div class="p-card">
+      <div class="p-pad">
+        <h1 id="ptitle" class="p-title">Product</h1>
+        <div class="stars" id="prate" aria-label="Rating"></div>
+        <p id="pdesc" class="p-desc"></p>
+        <div id="pprice" class="p-price"></div>
+
+        <div class="cta">
+          <a id="demoLink" class="btn" href="#" target="_blank" rel="noopener">Live Demo</a>
+          <a class="btn buy" href="#">Buy now</a>
+        </div>
+
+        <p id="pnote" class="note" style="margin-top:10px"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="err" class="err" style="display:none"></div>
+</main>
+
+<!-- drawer -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <nav id="drawerNav"></nav>
+  </aside>
+</div>
+
+<script>
+/* year, misc */
+const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
+const params = new URLSearchParams(location.search);
+const id = params.get('id') || '';
+
+/* drawer open/close */
+const drawer=document.getElementById('drawer'),
+      back=document.getElementById('backdrop'),
+      panel=drawer.querySelector('.panel'),
+      openBtn=document.getElementById('btnCats');
+
+function openDrawer(){
+  const r = openBtn.getBoundingClientRect();
+  panel.style.top = `${r.bottom + 8}px`;
+  panel.style.left = `${r.left}px`;
+  drawer.classList.add('open');
+  drawer.setAttribute('aria-hidden','false');
+}
+function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+openBtn?.addEventListener('click',e=>{ e.stopPropagation(); drawer.classList.contains('open')?closeDrawer():openDrawer(); });
+back?.addEventListener('click',closeDrawer);
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+
+/* fill quick chips (global categories) + drawer (context-aware) */
+(async function mountMenus(){
+  try{
+    const res = await fetch('data/categories.json',{cache:'no-store'});
+    if(!res.ok) return;
+    const cfg = await res.json();
+
+    // top chips (global)
+    const chips = document.getElementById('quickChips');
+    chips.innerHTML = (cfg.global||[]).map(x=>{
+      const slug = x.slug || x;
+      const name = x.name || x;
+      return `<a href="listings.html?tag=${encodeURIComponent(slug)}" style="color:var(--sub);text-decoration:none">${name}</a>`;
+    }).join('');
+
+    // drawer (global list)
+    const nav = document.getElementById('drawerNav');
+    nav.innerHTML = (cfg.global||[]).map(x=>{
+      const slug = x.slug || x, name = x.name || x;
+      return `<a href="listings.html?tag=${encodeURIComponent(slug)}">${name}</a>`;
+    }).join('') + `<a href="listings.html" style="font-weight:700;color:var(--brand);border-top:1px solid var(--line);margin-top:4px;padding-top:12px">All Categories →</a>`;
+  }catch(e){ console.warn('menu load fail', e); }
+})();
+
+/* load product */
+function normalize(raw){
+  if (Array.isArray(raw)) return raw.map(x=>({
+    id:String(x.id), cat:x.cat || '', title:x.title,
+    desc:x.description || x.desc || '', price:x.price,
+    thumb: x.thumb || (x.image ? `assets/thumbs/${String(x.image).replace(/\.(png|jpe?g|webp)$/i,'')}.png` : ''),
+    rating: x.rating || 0, demo: x.demo || '#'
+  }));
+  const prods = Array.isArray(raw.products)? raw.products : [];
+  return prods.map(p=>({
+    id:String(p.id), cat:p.cat || '', title:p.title,
+    desc:p.desc || '', price:p.price,
+    thumb:p.thumb || '', rating:p.rating || 0, demo:p.demo || '#'
+  }));
+}
+
+function stars(n=0){
+  const s = Math.max(0, Math.min(5, Number(n)||0));
+  return '★'.repeat(s) + '☆'.repeat(5-s);
+}
+
+(async function main(){
+  try{
+    const res = await fetch('data/products.json',{cache:'no-store'});
+    if(!res.ok) throw new Error(`products.json: ${res.status}`);
+    const list = normalize(await res.json());
+
+    const item = list.find(p => String(p.id) === String(id));
+    if(!item) throw new Error('Product not found');
+
+    // breadcrumb
+    const crumb = document.getElementById('crumb');
+    if (item.cat){
+      crumb.innerHTML = `<a href="store.html?slug=${encodeURIComponent(item.cat)}">${item.cat}</a> · <span>${item.title}</span>`;
+    } else {
+      crumb.textContent = item.title;
+    }
+
+    // fill
+    document.getElementById('ptitle').textContent = item.title;
+    document.getElementById('pdesc').textContent  = item.desc || '';
+    document.getElementById('pprice').textContent = usd.format(Number(item.price||0));
+    document.getElementById('prate').textContent  = stars(item.rating);
+
+    const img = document.getElementById('pimg');
+    img.src = item.thumb || 'assets/img/placeholder.png';
+    img.alt = item.title;
+
+    const demo = document.getElementById('demoLink');
+    demo.href = item.demo || '#';
+
+    document.title = `RGZTEC • ${item.title}`;
+  }catch(err){
+    console.error(err);
+    const e = document.getElementById('err');
+    e.style.display = 'block';
+    e.textContent = String(err.message || err);
+    document.getElementById('wrap').style.display = 'none';
+  }
+})();
+</script>
+</body>
+</html>
