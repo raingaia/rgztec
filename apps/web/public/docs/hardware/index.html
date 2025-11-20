@@ -6,16 +6,40 @@
 <title>RGZTEC • Hardware</title>
 <meta name="description" content="RGZTEC hardware storefront – boards, sensors, kits."/>
 
-<!-- BASE YOK; her şey sayfanın klasörüne göre ./assets/... -->
-<link rel="stylesheet" href="./assets/css/base.css">
-<link rel="stylesheet" href="./assets/css/styles.css">
-<link rel="stylesheet" href="./assets/css/card.css">
+<!-- ÖNEMLİ: tüm relative path'ler için kök: /rgztec/ -->
+<base href="/rgztec/">
 
-<!-- 📌 Bu dosya grid (.grid) ve store bar (.store-bar) düzenlerini getirir -->
-<link rel="stylesheet" href="./assets/css/store-page.css">
+<!-- Ana siteyle aynı CSS yığını -->
+<link rel="stylesheet" href="assets/css/base.css?v=4">
+<link rel="stylesheet" href="assets%20/css/base.css?v=4">
 
-<!-- Hardware’e özel küçük dokunuşlar -->
-<link rel="stylesheet" href="./assets/css/hardware-page.css">
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1">
+
+<link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
+<link rel="stylesheet" href="assets/css/styles.css?v=4">
+<link rel="stylesheet" href="assets%20/css/styles.css?v=4">
+
+<link rel="stylesheet" href="assets/css/card.css?v=4">
+<link rel="stylesheet" href="assets%20/css/card.css?v=4">
+
+<link rel="stylesheet" href="assets/css/hero-ambient.css?v=4">
+<link rel="stylesheet" href="assets%20/css/hero-ambient.css?v=4">
+
+<link rel="stylesheet" href="assets/css/interactions.css?v=4">
+<link rel="stylesheet" href="assets%20/css/interactions.css?v=4">
+
+<link rel="stylesheet" href="assets/css/theme-corporate.css?v=4">
+<link rel="stylesheet" href="assets%20/css/theme-corporate.css?v=4">
+
+<!-- Bu sayfaya özel grid / store layout -->
+<link rel="stylesheet" href="assets/css/store-page.css?v=1">
+<link rel="stylesheet" href="assets%20/css/store-page.css?v=1">
+
+<link rel="stylesheet" href="assets/css/hardware-page.css?v=1">
+<link rel="stylesheet" href="assets%20/css/hardware-page.css?v=1">
 </head>
 <body data-store="hardware">
 
@@ -23,13 +47,16 @@
   <div class="wrap">
     <div class="hdr">
       <div class="left">
+        <!-- base=/rgztec/ olduğu için ./ => ana sayfa -->
         <a class="brand" href="./">RGZTEC</a>
-        <span id="studioName" class="studio">Hardware</span>
+        <span id="studioName" class="studio">Hardware Lab</span>
       </div>
 
       <div class="rail">
-        <form class="search" id="searchForm">
-          <input id="q" type="search" placeholder="Search in hardware" aria-label="Search"/>
+        <form class="search" id="searchForm" action="listings.html">
+          <input id="q" name="q" type="search"
+                 placeholder="Search in hardware"
+                 aria-label="Search"/>
           <button type="submit" aria-label="Search" id="qBtn">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="11" cy="11" r="6"></circle>
@@ -40,10 +67,10 @@
       </div>
 
       <nav class="icons" aria-label="Quick actions">
-        <a href="./login" aria-label="Sign in">Sign in</a>
-        <a class="icon-btn" href="./gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
-        <a href="./cart" title="Cart" aria-label="Cart">🛒</a>
-        <a href="./become-seller" class="open-store" aria-label="Open your store">Open Store</a>
+        <a href="login/" aria-label="Sign in">Sign in</a>
+        <a class="icon-btn" href="gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
+        <a href="cart.html" title="Cart" aria-label="Cart">🛒</a>
+        <a href="become-seller.html" class="open-store" aria-label="Open your store">Open Store</a>
       </nav>
     </div>
   </div>
@@ -55,8 +82,10 @@
 
 <section class="hero">
   <div class="hero-inner wrap">
-    <h1 id="heroTitle" class="h1">Hardware</h1>
-    <p id="heroTag" class="tag">Boards • Sensors • Robotics • DIY Kits</p>
+    <h1 id="heroTitle" class="h1">Hardware Lab</h1>
+    <p id="heroTag" class="tag">
+      Boards • Sensors • Edge devices • AI accelerators • DIY Kits
+    </p>
   </div>
 </section>
 
@@ -66,6 +95,7 @@
     <ul id="storeRow" class="tiles" aria-label="Popular hardware stores"></ul>
   </div>
 </section>
+
 <main class="section">
   <div class="wrap">
     <h2>Hardware products</h2>
@@ -73,7 +103,9 @@
   </div>
 </main>
 
-<!-- Sayfaya özel script -->
-<script defer src="./assets/js/hardware-page.js"></script>
+<!-- Sayfaya özel JS -->
+<script defer src="assets/js/hardware-page.js?v=1"></script>
+<script defer src="assets%20/js/hardware-page.js?v=1"></script>
 </body>
 </html>
+
