@@ -1,90 +1,147 @@
-// Hardware main page JS
-// =====================
+// apps/web/public/assets/js/hardware-page.js
+// Hardware Lab için kategori barı + 6 mağaza + basit ürün grid'i
 
-console.log("Hardware page loaded.");
+(function () {
+  // 6 alt mağaza (hepsinin HTML'i docs/hardware klasöründe)
+  const categories = [
+    {
+      slug: 'iot',
+      label: 'IoT Devices',
+      href: 'iot.html',
+      tagline: 'Gateways, nodes and connected dev kits.',
+    },
+    {
+      slug: 'sensors',
+      label: 'Sensors & Kits',
+      href: 'sensors.html',
+      tagline: 'Temperature, motion, environment and lab sensors.',
+    },
+    {
+      slug: 'developer-boards',
+      label: 'Developer Boards',
+      href: 'developer-boards.html',
+      tagline: 'MCU/MPU boards, dev kits and starter bundles.',
+    },
+    {
+      slug: 'smart-controllers',
+      label: 'Smart Controllers',
+      href: 'smart-controllers.html',
+      tagline: 'Industrial controllers, PLC-style boards and hubs.',
+    },
+    {
+      slug: 'edge',
+      label: 'Edge Devices',
+      href: 'edge.html',
+      tagline: 'Edge compute nodes, gateways and NUC-style boxes.',
+    },
+    {
+      slug: 'ai-accelerators',
+      label: 'AI Accelerators',
+      href: 'ai-accelerators.html',
+      tagline: 'GPU/TPU accelerators for on-device AI workloads.',
+    },
+  ];
 
-const categoryBar = document.getElementById("storeBar");
-const storeRow = document.getElementById("storeRow");
-const grid = document.getElementById("grid");
+  const IMG_BASE = '../../assets/images/store/hardware-';
+  const IMG_EXT = '.webp';
 
-// Hardware docs path (index.html ile aynı klasördeyiz)
-const DOCS_BASE = "./";
+  function wireSearchForm() {
+    const form = document.getElementById('searchForm');
+    const qInput = document.getElementById('q');
+    if (!form) return;
 
-// Görseller için
-const IMG_BASE = "../../assets/images/hardware/";
-const DATA_URL = "../../data/hardware.json";
+    // listings.html tarafına hardware filtresi ile gönder
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const url = new URL(form.action, window.location.origin);
+      if (qInput && qInput.value.trim()) {
+        url.searchParams.set('q', qInput.value.trim());
+      }
+      url.searchParams.set('store', 'hardware');
+      window.location.href = url.toString();
+    });
 
-// ---------------------------
-// KATEGORİLER
-// ---------------------------
-const categories = [
-  { slug: "iot", label: "IoT Devices", href: "iot.html" },
-  { slug: "sensors", label: "Sensors & Connectivity", href: "sensors.html" },
-  { slug: "developer-boards", label: "Developer Boards", href: "developer-boards.html" },
-  { slug: "smart-controllers", label: "Smart Controllers", href: "smart-controllers.html" },
-  { slug: "edge", label: "Edge Devices", href: "edge.html" },
-  { slug: "ai-accelerators", label: "AI Accelerators", href: "ai-accelerators.html" }
-];
+    // store=hardware hidden input (URL elle yazılırsa da dursun)
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.name = 'store';
+    hidden.value = 'hardware';
+    form.appendChild(hidden);
+  }
 
-// ---------------------------
-// KATEGORİ BARINI OLUŞTUR
-// ---------------------------
-if (categoryBar) {
-  categoryBar.innerHTML = categories
-    .map(cat => {
-      return `<a href="${cat.href}" class="cat-link">${cat.label}</a>`;
-    })
-    .join("");
-}
+  function renderCategories() {
+    const bar = document.getElementById('storeBar');
+    if (!bar) return;
 
-// ---------------------------
-// POPULAR STORES (aynı kategoriler listeleniyor)
-// ---------------------------
-if (storeRow) {
-  storeRow.innerHTML = categories
-    .map(cat => {
-      return `
-      <li class="tile">
-        <a href="${cat.href}">
-          <div class="tile-media">
-            <img src="${IMG_BASE}hardware-${cat.slug}.webp" alt="${cat.label}">
-          </div>
-          <div class="tile-body">
-            <strong>${cat.label}</strong>
-          </div>
-        </a>
-      </li>`;
-    })
-    .join("");
-}
+    bar.innerHTML = categories
+      .map(
+        (cat) => `
+        <a href="${cat.href}">${cat.label}</a>
+      `
+      )
+      .join('');
+  }
 
-// ---------------------------
-// ÜRÜNLERİ YÜKLE (hardware.json)
-// ---------------------------
-async function loadHardwareProducts() {
-  try {
-    const res = await fetch(DATA_URL, { cache: "no-store" });
-    const items = await res.json();
+  function renderStores() {
+    const row = document.getElementById('storeRow');
+    if (!row) return;
 
-    grid.innerHTML = items
-      .map(item => {
+    row.innerHTML = categories
+      .map((cat) => {
+        const imgSrc = IMG_BASE + cat.slug + IMG_EXT;
         return `
-        <div class="card">
-          <div class="media loaded">
-            <img src="${IMG_BASE}${item.image}" alt="${item.name}">
+        <li class="tile">
+          <a class="card" href="${cat.href}">
+            <div class="media">
+              <img src="${imgSrc}" alt="${cat.label}">
+            </div>
+            <div class="body">
+              <h3 class="title">${cat.label}</h3>
+              <p class="meta">${cat.tagline}</p>
+            </div>
+          </a>
+        </li>
+      `;
+      })
+      .join('');
+  }
+
+  // Şimdilik ürün grid'i de aynı kategorilerle dolduralım.
+  // İleride docs/data/hardware.json bağlarız.
+  function renderGrid() {
+    const grid = document.getElementById('grid');
+    if (!grid) return;
+
+    grid.innerHTML = categories
+      .map((cat) => {
+        const imgSrc = IMG_BASE + cat.slug + IMG_EXT;
+        return `
+        <article class="card">
+          <div class="media">
+            <img src="${imgSrc}" alt="${cat.label}">
           </div>
           <div class="body">
-            <h3>${item.name}</h3>
-            <p>${item.desc}</p>
+            <h3 class="title">${cat.label}</h3>
+            <p class="meta">${cat.tagline}</p>
+            <a class="link" href="${cat.href}">View category →</a>
           </div>
-        </div>`;
+        </article>
+      `;
       })
-      .join("");
-  } catch (err) {
-    console.error("Hardware data error:", err);
-    grid.innerHTML = `<p style="color:#666;font-size:14px">Hardware products could not be loaded.</p>`;
+      .join('');
   }
-}
 
-loadHardwareProducts();
+  function init() {
+    wireSearchForm();
+    renderCategories();
+    renderStores();
+    renderGrid();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 
