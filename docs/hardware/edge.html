@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Hardware Lab • Edge Computing</title>
+  <meta name="description" content="Edge Computing category of RGZTEC Hardware Lab — premium UI kits for edge nodes, on-device inference, federated compute, node health dashboards and edge-to-cloud workflows."/>
+
+  <!-- Bu site /rgztec/docs/ altından servis ediliyor -->
+  <base href="/rgztec/docs/">
+
+  <!-- Cache kontrolü -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Kurumsal fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Global theme dosyaların -->
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
+  <meta name="theme-color" content="#f97316">
+
+  <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/interactions.css">
+
+  <style>
+    .ed-shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 2.2rem 1.25rem 3.5rem;
+    }
+
+    .ed-breadcrumb {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 0.9rem;
+    }
+    .ed-breadcrumb a {
+      opacity: 0.8;
+      text-decoration: none;
+    }
+    .ed-breadcrumb a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* HERO */
+    .ed-hero {
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+      background: radial-gradient(circle at 0% 0%, #020617, #000000 70%);
+      box-shadow: 0 32px 90px rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      margin-bottom: 2.4rem;
+      isolation: isolate;
+    }
+
+    .ed-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(248, 113, 22, 0.2), transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.2), transparent 55%),
+        linear-gradient(to bottom right, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.96));
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .ed-hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 2.4rem 2.4rem 2.1rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.3fr);
+      gap: 2.2rem;
+      align-items: center;
+    }
+
+    .ed-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .ed-pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .ed-hero-title {
+      font-size: 2rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.7rem;
+    }
+
+    .ed-hero-highlight {
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .ed-hero-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.82;
+      max-width: 32rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .ed-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .btn-ed-primary {
+      border-radius: 999px;
+      padding: 0.7rem 1.6rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #0f172a;
+      box-shadow: 0 18px 40px rgba(248, 113, 22, 0.55);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-ed-ghost {
+      border-radius: 999px;
+      padding: 0.65rem 1.3rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .ed-hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.3rem;
+      font-size: 0.78rem;
+    }
+
+    .ed-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .ed-metric strong {
+      font-size: 1rem;
+    }
+
+    .ed-hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem;
+    }
+
+    .ed-hero-visual-inner {
+      position: relative;
+      border-radius: 1.4rem;
+      padding: 1.4rem 1.1rem;
+      background:
+        radial-gradient(circle at 0 0, rgba(251, 146, 60, 0.25), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(248, 113, 22, 0.7);
+      box-shadow: 0 22px 60px rgba(248, 113, 22, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ed-hero-visual img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Tabs */
+    .ed-tabs {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+      padding-bottom: 0.35rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .ed-tab {
+      padding: 0.42rem 0.95rem;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    .ed-tab.is-active {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(148, 163, 184, 0.9);
+      opacity: 1;
+    }
+
+    /* Layout */
+    .ed-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 1.9rem;
+      align-items: flex-start;
+    }
+
+    .ed-section {
+      margin-bottom: 1.7rem;
+      padding: 1.25rem 1.3rem 1.15rem;
+      border-radius: 1.2rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: 0 20px 52px rgba(15, 23, 42, 0.9);
+    }
+
+    .ed-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .ed-section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.95;
+    }
+
+    .ed-section-subtitle {
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+
+    .ed-body-text {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    .ed-points {
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .ed-bullet {
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    .ed-bullet span:first-child {
+      font-size: 0.9rem;
+      color: #f97316;
+      margin-top: 0.05rem;
+    }
+
+    .ed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .ed-card {
+      border-radius: 1.1rem;
+      padding: 0.95rem;
+      background: radial-gradient(circle at 0 0, #020617, #020617 40%, #020617);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .ed-card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.75;
+    }
+
+    .ed-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .ed-card-body {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .ed-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.3rem;
+    }
+
+    .ed-card-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .ed-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .ed-stat-list {
+      list-style: none;
+      margin: 0.7rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    .ed-stat-label {
+      opacity: 0.7;
+      font-size: 0.75rem;
+    }
+
+    .ed-stat-value {
+      font-weight: 500;
+    }
+
+    .ed-faq-list {
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    .ed-faq-item strong {
+      display: block;
+      margin-bottom: 0.18rem;
+    }
+
+    @media (max-width: 980px) {
+      .ed-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.9rem 1.6rem 1.7rem;
+      }
+
+      .ed-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .ed-shell {
+        padding-inline: 1rem;
+      }
+
+      .ed-hero-inner {
+        padding: 1.6rem 1.3rem 1.5rem;
+      }
+
+      .ed-hero-title {
+        font-size: 1.6rem;
+      }
+
+      .ed-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body class="rgz-body">
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-logo">
+        <img src="assets/images/logo-rgztec-full.webp" alt="RGZTEC Logo" loading="lazy">
+      </a>
+      <nav class="site-nav">
+        <a href="index.html#stores">Stores</a>
+        <a href="index.html#products">Featured</a>
+        <a href="index.html#how-it-works">How it works</a>
+      </nav>
+      <div class="site-header-actions">
+        <a href="index.html#open-store" class="btn-ghost">Open your store</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="ed-shell">
+    <div class="ed-breadcrumb">
+      RGZTEC / <a href="hardware/">Hardware Lab</a> / <strong>Edge Computing</strong>
+    </div>
+
+    <!-- HERO -->
+    <section class="ed-hero">
+      <div class="ed-hero-inner">
+        <div>
+          <div class="ed-pill-row">
+            <span class="ed-pill">Edge Computing</span>
+            <span class="ed-pill">On-device inference</span>
+            <span class="ed-pill">Federated & hybrid</span>
+          </div>
+          <h1 class="ed-hero-title">
+            UI kits for <span class="ed-hero-highlight">edge nodes</span>,
+            on-device intelligence and near-data compute.
+          </h1>
+          <p class="ed-hero-subtitle">
+            This category focuses on frontends for edge platforms: node fleets,
+            local inference, streaming analytics, and control planes that sit
+            between sensors and cloud.
+          </p>
+          <div class="ed-hero-actions">
+            <button class="btn-ed-primary">Browse edge kits</button>
+            <button class="btn-ed-ghost">View edge workflows</button>
+            <button class="btn-ed-ghost">License options</button>
+          </div>
+          <div class="ed-hero-metrics">
+            <div class="ed-metric">
+              <strong>20+</strong>
+              <span>edge & node layouts</span>
+            </div>
+            <div class="ed-metric">
+              <strong>Streaming</strong>
+              <span>time-series & windows</span>
+            </div>
+            <div class="ed-metric">
+              <strong>Hybrid</strong>
+              <span>cloud + edge flows</span>
+            </div>
+          </div>
+        </div>
+        <div class="ed-hero-visual">
+          <div class="ed-hero-visual-inner">
+            <!-- 3D TRANSPARENT edge computing görseli -->
+            <img src="assets/images/store/hardware-edge.webp"
+                 alt="Edge Computing premium 3D banner"
+                 loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <nav class="ed-tabs">
+      <button class="ed-tab is-active">Overview</button>
+      <button class="ed-tab">Edge node fleets</button>
+      <button class="ed-tab">Streaming & inference</button>
+      <button class="ed-tab">Federated workflows</button>
+    </nav>
+
+    <section class="ed-layout">
+      <!-- LEFT -->
+      <div>
+        <!-- OVERVIEW -->
+        <section class="ed-section">
+          <div class="ed-section-header">
+            <h2 class="ed-section-title">Category overview</h2>
+          </div>
+          <p class="ed-section-subtitle">
+            Edge Computing is where data is processed close to where it’s created:
+            in gateways, boxes, racks and on-device accelerators.
+          </p>
+          <div class="ed-body-text" style="margin-top:0.6rem;">
+            These kits are designed for teams that run real workloads at the
+            edge: streaming transforms, local inference, rule engines and
+            time-critical decisions that cannot wait for a round trip to the cloud.
+          </div>
+          <div class="ed-points">
+            <div class="ed-bullet">
+              <span>•</span>
+              <span>Node and site-level views to see what’s running where,
+              with clear health and capacity signals.</span>
+            </div>
+            <div class="ed-bullet">
+              <span>•</span>
+              <span>Streaming dashboards that show windows, batches, rates and
+              backpressure in a way operators can act on.</span>
+            </div>
+            <div class="ed-bullet">
+              <span>•</span>
+              <span>Workflows that connect edge, sensors and cloud so product
+              teams can explain their architecture visually.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- UI KIT TYPES -->
+        <section class="ed-section">
+          <div class="ed-section-header">
+            <h2 class="ed-section-title">Edge UI kit types</h2>
+            <span class="ed-section-subtitle">Patterns derived from real edge platforms.</span>
+          </div>
+          <div class="ed-grid">
+            <article class="ed-card">
+              <div class="ed-card-label">Fleets</div>
+              <h3 class="ed-card-title">Edge node fleet consoles</h3>
+              <p class="ed-card-body">
+                Fleet overviews for edge nodes by site, region or customer,
+                including status, workloads, versions and connectivity.
+              </p>
+              <div class="ed-card-tags">
+                <span class="ed-card-tag">Nodes</span>
+                <span class="ed-card-tag">Sites</span>
+                <span class="ed-card-tag">Fleets</span>
+              </div>
+            </article>
+
+            <article class="ed-card">
+              <div class="ed-card-label">Streaming</div>
+              <h3 class="ed-card-title">Stream pipelines & windows</h3>
+              <p class="ed-card-body">
+                Dashboards for streaming tasks: window stats, lag, throughput,
+                dropped records and edge-side aggregations.
+              </p>
+              <div class="ed-card-tags">
+                <span class="ed-card-tag">Streaming</span>
+                <span class="ed-card-tag">Time-series</span>
+              </div>
+            </article>
+
+            <article class="ed-card">
+              <div class="ed-card-label">Inference</div>
+              <h3 class="ed-card-title">On-device model views</h3>
+              <p class="ed-card-body">
+                UI for models deployed at the edge: versions, input signals,
+                latency distributions and accuracy snapshots.
+              </p>
+              <div class="ed-card-tags">
+                <span class="ed-card-tag">AI</span>
+                <span class="ed-card-tag">Inference</span>
+              </div>
+            </article>
+
+            <article class="ed-card">
+              <div class="ed-card-label">Workflows</div>
+              <h3 class="ed-card-title">Edge-to-cloud flows</h3>
+              <p class="ed-card-body">
+                Visual flows that connect sensors, nodes, controllers and
+                cloud services into a single narrative diagram.
+              </p>
+              <div class="ed-card-tags">
+                <span class="ed-card-tag">Hybrid</span>
+                <span class="ed-card-tag">Architecture</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- BUNDLES -->
+        <section class="ed-section">
+          <div class="ed-section-header">
+            <h2 class="ed-section-title">Bundles & lab integration</h2>
+          </div>
+          <p class="ed-section-subtitle">
+            Edge Computing connects naturally with other Hardware Lab categories.
+          </p>
+          <div class="ed-body-text" style="margin-top:0.6rem;">
+            Combine Edge kits with IoT Devices, Sensors & Connectivity, Smart
+            Controllers and Developer Boards to tell complete stories: from
+            hardware in the field to compute sitting right next to it.
+          </div>
+          <div class="ed-points">
+            <div class="ed-bullet">
+              <span>•</span>
+              <span>Use with Sensors & Connectivity to show how signals are
+              cleaned and transformed close to the source.</span>
+            </div>
+            <div class="ed-bullet">
+              <span>•</span>
+              <span>Pair with AI Accelerators to highlight where specialized
+              compute lives in your architecture.</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="ed-sidebar">
+        <!-- PROFILE -->
+        <section class="ed-section">
+          <div class="ed-section-header">
+            <h2 class="ed-section-title">Category profile</h2>
+          </div>
+          <p class="ed-section-subtitle">
+            Who Edge Computing is designed for.
+          </p>
+          <ul class="ed-stat-list">
+            <li>
+              <div class="ed-stat-label">Best suited for</div>
+              <div class="ed-stat-value">
+                Edge platforms, IoT clouds, industrial and AI vendors
+              </div>
+            </li>
+            <li>
+              <div class="ed-stat-label">Primary use-cases</div>
+              <div class="ed-stat-value">
+                Node fleets, streaming analytics, near-data inference
+              </div>
+            </li>
+            <li>
+              <div class="ed-stat-label">Formats</div>
+              <div class="ed-stat-value">
+                Figma, HTML/CSS, React starter layouts
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- TECH -->
+        <section class="ed-section">
+          <div class="ed-section-header">
+            <h2 class="ed-section-title">Tech & formats</h2>
+          </div>
+          <p class="ed-section-subtitle">
+            Built for real-time systems, not static reports.
+          </p>
+          <ul class="ed-stat-list">
+            <li>
+              <div class="ed-stat-label">Design files</div>
+              <div class="ed-stat-value">
+                Figma components for nodes, pipelines and graphs
+              </div>
+            </li>
+            <li>
+              <div class="ed-stat-label">Code handoff</div>
+              <div class="ed-stat-value">
+                HTML/CSS & React snippets for dashboards
+              </div>
+            </li>
+            <li>
+              <div class="ed-stat-label">Key metrics</div>
+              <div class="ed-stat-value">
+                Throughput, latency, backpressure, utilization
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- FAQ -->
+        <section class="ed-section">
+          <div class="ed-section-header">
+            <h2 class="ed-section-title">FAQ</h2>
+          </div>
+          <div class="ed-faq-list">
+            <div class="ed-faq-item">
+              <strong>Can we adapt this for Kubernetes at the edge?</strong>
+              <span>Yes. Many patterns map directly to container and workload
+              abstractions used on edge clusters.</span>
+            </div>
+            <div class="ed-faq-item">
+              <strong>Do you support multi-tenant views?</strong>
+              <span>Layouts can be structured by tenant, site, project or
+              customer, depending on your model.</span>
+            </div>
+            <div class="ed-faq-item">
+              <strong>Is this only for AI workloads?</strong>
+              <span>No. It fits AI, rules engines, streaming ETL and hybrid
+              architectures where edge plays a central role.</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span>© RGZTEC • Code Mall for serious builders</span>
+      <nav class="site-footer-nav">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="assets/js/theme-corporate.js?v=1"></script>
+</body>
+</html>
