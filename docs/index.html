@@ -925,7 +925,6 @@ h1, h2, h3, h4, h5{
     </div>
   </div>
 </footer>
-
 <script>
 const STORE_IMAGE_BASE = 'assets/images/store/';
 const STORE_IMAGE_EXT = '.webp';
@@ -943,21 +942,28 @@ function renderStoreCard(store){
   const desc = store.tagline || store.desc || '';
   const storeLabel = store.slug.replace(/-/g," ");
 
+  // ▌ IMPORTANT: Hardware store → docs/hardware/ 
+  const storeHref = store.slug === 'hardware'
+    ? 'docs/hardware/'          // BASE: /rgztec/ altında çalışır
+    : `stores/${store.slug}.html`;
+
   return `
     <article class="store-card${fullClass}">
-      <a class="store-media-link" href="stores/${store.slug}.html" aria-label="${store.name} store">
+      <a class="store-media-link" href="${storeHref}" aria-label="${store.name} store">
         <div class="store-media">
           <img src="${imgSrc}" alt="${store.name} preview">
           <span class="store-status">New arrivals</span>
         </div>
       </a>
+
       <div class="store-body">
         <span class="store-badge">${badge}</span>
         <h3 class="store-name">${store.name}</h3>
         <p class="store-desc">${desc}</p>
         <p class="store-meta">Store • ${storeLabel}</p>
+
         <div class="store-links">
-          <a class="store-link" href="stores/${store.slug}.html">Visit store →</a>
+          <a class="store-link" href="${storeHref}">Visit store →</a>
           <a class="store-link" href="listings.html?store=${store.slug}">View products</a>
         </div>
       </div>
@@ -976,12 +982,10 @@ function renderStoreCard(store){
   const backdrop = document.getElementById("backdrop");
 
   function openDrawer(){
-    if (!drawer) return;
     drawer.classList.add("open");
     drawer.setAttribute("aria-hidden","false");
   }
   function closeDrawer(){
-    if (!drawer) return;
     drawer.classList.remove("open");
     drawer.setAttribute("aria-hidden","true");
   }
@@ -989,17 +993,19 @@ function renderStoreCard(store){
   if (btnCats && drawer && backdrop){
     btnCats.addEventListener("click", openDrawer);
     backdrop.addEventListener("click", closeDrawer);
-    document.addEventListener("keydown", (e)=>{
+    document.addEventListener("keydown", e => {
       if (e.key === "Escape") closeDrawer();
     });
   }
 
-  // Stores gallery – data/stores.json'dan oku
+  // Stores gallery – load /data/stores.json
   try{
     const res = await fetch('data/stores.json', { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to load stores.json: ' + res.status);
+
     const stores = await res.json();
     const gallery = document.getElementById("gallery");
+
     if (gallery && Array.isArray(stores)){
       gallery.innerHTML = stores.map(renderStoreCard).join("");
     }
@@ -1007,7 +1013,8 @@ function renderStoreCard(store){
     console.error('Store data error:', err);
     const gallery = document.getElementById("gallery");
     if (gallery){
-      gallery.innerHTML = '<p style="font-size:13px;color:#6b7280;">Stores could not be loaded. Check <code>data/stores.json</code>.</p>';
+      gallery.innerHTML =
+        '<p style="font-size:13px;color:#6b7280;">Stores could not be loaded. Check <code>data/stores.json</code>.</p>';
     }
   }
 })();
