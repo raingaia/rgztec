@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Hardware Lab • Sensors & Connectivity</title>
+  <meta name="description" content="Sensors & Connectivity category of RGZTEC Hardware Lab — premium UI kits for RF modules, wireless links, industrial sensors, network diagnostics and mesh topologies."/>
+
+  <!-- Bu site /rgztec/docs/ altından servis ediliyor -->
+  <base href="/rgztec/docs/">
+
+  <!-- Cache kontrolü -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Kurumsal fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Global theme dosyaların -->
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
+  <meta name="theme-color" content="#f97316">
+
+  <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/interactions.css">
+
+  <style>
+    .sn-shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 2.2rem 1.25rem 3.5rem;
+    }
+
+    .sn-breadcrumb {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 0.9rem;
+    }
+    .sn-breadcrumb a {
+      opacity: 0.8;
+      text-decoration: none;
+    }
+    .sn-breadcrumb a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* HERO */
+    .sn-hero {
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+      background: radial-gradient(circle at 0% 0%, #020617, #000000 70%);
+      box-shadow: 0 32px 90px rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      margin-bottom: 2.4rem;
+      isolation: isolate;
+    }
+
+    .sn-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(248, 113, 22, 0.2), transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.2), transparent 55%),
+        linear-gradient(to bottom right, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.96));
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .sn-hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 2.4rem 2.4rem 2.1rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.3fr);
+      gap: 2.2rem;
+      align-items: center;
+    }
+
+    .sn-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .sn-pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sn-hero-title {
+      font-size: 2rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.7rem;
+    }
+
+    .sn-hero-highlight {
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .sn-hero-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.82;
+      max-width: 32rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .sn-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .btn-sn-primary {
+      border-radius: 999px;
+      padding: 0.7rem 1.6rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #0f172a;
+      box-shadow: 0 18px 40px rgba(248, 113, 22, 0.55);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-sn-ghost {
+      border-radius: 999px;
+      padding: 0.65rem 1.3rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sn-hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.3rem;
+      font-size: 0.78rem;
+    }
+
+    .sn-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .sn-metric strong {
+      font-size: 1rem;
+    }
+
+    .sn-hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem;
+    }
+
+    .sn-hero-visual-inner {
+      position: relative;
+      border-radius: 1.4rem;
+      padding: 1.4rem 1.1rem;
+      background:
+        radial-gradient(circle at 0 0, rgba(251, 146, 60, 0.25), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(248, 113, 22, 0.7);
+      box-shadow: 0 22px 60px rgba(248, 113, 22, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sn-hero-visual img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Tabs */
+    .sn-tabs {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+      padding-bottom: 0.35rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .sn-tab {
+      padding: 0.42rem 0.95rem;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    .sn-tab.is-active {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(148, 163, 184, 0.9);
+      opacity: 1;
+    }
+
+    /* Layout */
+    .sn-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 1.9rem;
+      align-items: flex-start;
+    }
+
+    .sn-section {
+      margin-bottom: 1.7rem;
+      padding: 1.25rem 1.3rem 1.15rem;
+      border-radius: 1.2rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: 0 20px 52px rgba(15, 23, 42, 0.9);
+    }
+
+    .sn-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .sn-section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.95;
+    }
+
+    .sn-section-subtitle {
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+
+    .sn-body-text {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    .sn-points {
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .sn-bullet {
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    .sn-bullet span:first-child {
+      font-size: 0.9rem;
+      color: #f97316;
+      margin-top: 0.05rem;
+    }
+
+    .sn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .sn-card {
+      border-radius: 1.1rem;
+      padding: 0.95rem;
+      background: radial-gradient(circle at 0 0, #020617, #020617 40%, #020617);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .sn-card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.75;
+    }
+
+    .sn-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .sn-card-body {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .sn-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.3rem;
+    }
+
+    .sn-card-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .sn-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .sn-stat-list {
+      list-style: none;
+      margin: 0.7rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    .sn-stat-label {
+      opacity: 0.7;
+      font-size: 0.75rem;
+    }
+
+    .sn-stat-value {
+      font-weight: 500;
+    }
+
+    .sn-faq-list {
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    .sn-faq-item strong {
+      display: block;
+      margin-bottom: 0.18rem;
+    }
+
+    @media (max-width: 980px) {
+      .sn-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.9rem 1.6rem 1.7rem;
+      }
+
+      .sn-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sn-shell {
+        padding-inline: 1rem;
+      }
+
+      .sn-hero-inner {
+        padding: 1.6rem 1.3rem 1.5rem;
+      }
+
+      .sn-hero-title {
+        font-size: 1.6rem;
+      }
+
+      .sn-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body class="rgz-body">
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-logo">
+        <img src="assets/images/logo-rgztec-full.webp" alt="RGZTEC Logo" loading="lazy">
+      </a>
+      <nav class="site-nav">
+        <a href="index.html#stores">Stores</a>
+        <a href="index.html#products">Featured</a>
+        <a href="index.html#how-it-works">How it works</a>
+      </nav>
+      <div class="site-header-actions">
+        <a href="index.html#open-store" class="btn-ghost">Open your store</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="sn-shell">
+    <div class="sn-breadcrumb">
+      RGZTEC / <a href="hardware/">Hardware Lab</a> / <strong>Sensors & Connectivity</strong>
+    </div>
+
+    <!-- HERO -->
+    <section class="sn-hero">
+      <div class="sn-hero-inner">
+        <div>
+          <div class="sn-pill-row">
+            <span class="sn-pill">Sensors & Connectivity</span>
+            <span class="sn-pill">RF • Wireless • Links</span>
+            <span class="sn-pill">Diagnostics & mesh</span>
+          </div>
+          <h1 class="sn-hero-title">
+            Interfaces for <span class="sn-hero-highlight">sensors, radios</span>
+            and connectivity layers in real hardware systems.
+          </h1>
+          <p class="sn-hero-subtitle">
+            This category is about the signal layer: RF modules, wireless links,
+            industrial sensors and the diagnostics that keep them online —
+            RSSI, noise, latency, packet success and mesh health.
+          </p>
+          <div class="sn-hero-actions">
+            <button class="btn-sn-primary">Browse sensor kits</button>
+            <button class="btn-sn-ghost">View link diagnostics</button>
+            <button class="btn-sn-ghost">License options</button>
+          </div>
+          <div class="sn-hero-metrics">
+            <div class="sn-metric">
+              <strong>18+</strong>
+              <span>sensor & RF UI layouts</span>
+            </div>
+            <div class="sn-metric">
+              <strong>Multi-link</strong>
+              <span>short-range & long-range</span>
+            </div>
+            <div class="sn-metric">
+              <strong>Mesh aware</strong>
+              <span>topologies & path views</span>
+            </div>
+          </div>
+        </div>
+        <div class="sn-hero-visual">
+          <div class="sn-hero-visual-inner">
+            <!-- 3D TRANSPARENT sensors/connectivity görseli -->
+            <img src="assets/images/store/hardware-sensors-connectivity.webp"
+                 alt="Sensors & Connectivity premium 3D banner"
+                 loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <nav class="sn-tabs">
+      <button class="sn-tab is-active">Overview</button>
+      <button class="sn-tab">Sensor dashboards</button>
+      <button class="sn-tab">RF & wireless links</button>
+      <button class="sn-tab">Mesh & diagnostics</button>
+    </nav>
+
+    <section class="sn-layout">
+      <!-- LEFT -->
+      <div>
+        <!-- OVERVIEW -->
+        <section class="sn-section">
+          <div class="sn-section-header">
+            <h2 class="sn-section-title">Category overview</h2>
+          </div>
+          <p class="sn-section-subtitle">
+            Sensors & Connectivity covers the hardware that sees, measures and
+            transmits — and the UI you need to trust that layer.
+          </p>
+          <div class="sn-body-text" style="margin-top:0.6rem;">
+            These kits focus on visibility: how strong the link is, how noisy the
+            environment is, which nodes are online, and which parts of the sensor
+            stack are drifting or failing. It’s about making invisible signals
+            and numbers intuitive on-screen.
+          </div>
+          <div class="sn-points">
+            <div class="sn-bullet">
+              <span>•</span>
+              <span>Dashboards that surface readings from environmental, energy,
+              industrial and structural sensors.</span>
+            </div>
+            <div class="sn-bullet">
+              <span>•</span>
+              <span>Connectivity panels that track RSSI, SNR, packet success,
+              retries, latency and link quality over time.</span>
+            </div>
+            <div class="sn-bullet">
+              <span>•</span>
+              <span>Mesh- and gateway-aware layouts that show how data flows
+              from node to node, including hop paths and bottlenecks.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- UI KIT TYPES -->
+        <section class="sn-section">
+          <div class="sn-section-header">
+            <h2 class="sn-section-title">Sensors & connectivity UI kit types</h2>
+            <span class="sn-section-subtitle">Patterns built for RF & sensor operations.</span>
+          </div>
+          <div class="sn-grid">
+            <article class="sn-card">
+              <div class="sn-card-label">Environmental</div>
+              <h3 class="sn-card-title">Sensor walls & maps</h3>
+              <p class="sn-card-body">
+                Layouts for temperature, humidity, air quality and noise sensors
+                across buildings, rooms or industrial zones.
+              </p>
+              <div class="sn-card-tags">
+                <span class="sn-card-tag">Env sensors</span>
+                <span class="sn-card-tag">Heatmaps</span>
+                <span class="sn-card-tag">Zones</span>
+              </div>
+            </article>
+
+            <article class="sn-card">
+              <div class="sn-card-label">RF links</div>
+              <h3 class="sn-card-title">Link quality dashboards</h3>
+              <p class="sn-card-body">
+                Panels for link strength, interference, retries, bandwidth and
+                path selection across short- and long-range links.
+              </p>
+              <div class="sn-card-tags">
+                <span class="sn-card-tag">RSSI</span>
+                <span class="sn-card-tag">Latency</span>
+                <span class="sn-card-tag">Interference</span>
+              </div>
+            </article>
+
+            <article class="sn-card">
+              <div class="sn-card-label">Mesh</div>
+              <h3 class="sn-card-title">Topology & path views</h3>
+              <p class="sn-card-body">
+                Interactive node maps showing neighbours, hop counts, routes,
+                path costs and fallback options when nodes fail.
+              </p>
+              <div class="sn-card-tags">
+                <span class="sn-card-tag">Mesh</span>
+                <span class="sn-card-tag">Topology</span>
+                <span class="sn-card-tag">Nodes</span>
+              </div>
+            </article>
+
+            <article class="sn-card">
+              <div class="sn-card-label">Alarms</div>
+              <h3 class="sn-card-title">Alert lanes & triage</h3>
+              <p class="sn-card-body">
+                Views for handling sensor faults, link flaps and drift
+                conditions, with clear grouping and triage flows.
+              </p>
+              <div class="sn-card-tags">
+                <span class="sn-card-tag">Alerts</span>
+                <span class="sn-card-tag">Triage</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- BUNDLES -->
+        <section class="sn-section">
+          <div class="sn-section-header">
+            <h2 class="sn-section-title">Bundles & lab integration</h2>
+          </div>
+          <p class="sn-section-subtitle">
+            Sensors & Connectivity works best in combination with other Hardware Lab categories.
+          </p>
+          <div class="sn-body-text" style="margin-top:0.6rem;">
+            You can pair these kits with IoT Devices, Smart Controllers and Edge
+            Computing to show full signal flows: sensor → link → gateway →
+            controller → edge → cloud.
+          </div>
+          <div class="sn-points">
+            <div class="sn-bullet">
+              <span>•</span>
+              <span>Combine with IoT Devices to visualise sensor fleets attached
+              to gateways and hubs.</span>
+            </div>
+            <div class="sn-bullet">
+              <span>•</span>
+              <span>Attach to Edge Computing demos when you need to explain
+              where data is processed and how link quality affects it.</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="sn-sidebar">
+        <!-- PROFILE -->
+        <section class="sn-section">
+          <div class="sn-section-header">
+            <h2 class="sn-section-title">Category profile</h2>
+          </div>
+          <p class="sn-section-subtitle">
+            Who Sensors & Connectivity is designed for.
+          </p>
+          <ul class="sn-stat-list">
+            <li>
+              <div class="sn-stat-label">Best suited for</div>
+              <div class="sn-stat-value">
+                IoT platforms, industrial vendors, smart building providers
+              </div>
+            </li>
+            <li>
+              <div class="sn-stat-label">Primary use-cases</div>
+              <div class="sn-stat-value">
+                Wireless sensors, RF modules, mesh networks
+              </div>
+            </li>
+            <li>
+              <div class="sn-stat-label">Formats</div>
+              <div class="sn-stat-value">
+                Figma, HTML/CSS, React starter layouts
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- TECH -->
+        <section class="sn-section">
+          <div class="sn-section-header">
+            <h2 class="sn-section-title">Tech & formats</h2>
+          </div>
+          <p class="sn-section-subtitle">
+            Built for real RF & sensor stacks, not just pretty charts.
+          </p>
+          <ul class="sn-stat-list">
+            <li>
+              <div class="sn-stat-label">Design files</div>
+              <div class="sn-stat-value">
+                Figma components for nodes, links, metrics and maps
+              </div>
+            </li>
+            <li>
+              <div class="sn-stat-label">Code handoff</div>
+              <div class="sn-stat-value">
+                HTML/CSS & React examples for charts and maps
+              </div>
+            </li>
+            <li>
+              <div class="sn-stat-label">Signal metrics</div>
+              <div class="sn-stat-value">
+                RSSI, SNR, packet success, retries, latency
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- FAQ -->
+        <section class="sn-section">
+          <div class="sn-section-header">
+            <h2 class="sn-section-title">FAQ</h2>
+          </div>
+          <div class="sn-faq-list">
+            <div class="sn-faq-item">
+              <strong>Can we adapt these for our own RF stack?</strong>
+              <span>Yes. Metrics and labels are structured so you can rename
+              them to match your protocols and hardware.</span>
+            </div>
+            <div class="sn-faq-item">
+              <strong>Do you support both indoor and outdoor sensors?</strong>
+              <span>Layouts are agnostic: you can use them for buildings, cities,
+              plants, campuses or mixed deployments.</span>
+            </div>
+            <div class="sn-faq-item">
+              <strong>Can this be used for network operations?</strong>
+              <span>Yes. Many patterns fit directly into NOC/SOC-style consoles
+              focused on RF and sensor layers.</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span>© RGZTEC • Code Mall for serious builders</span>
+      <nav class="site-footer-nav">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="assets/js/theme-corporate.js?v=1"></script>
+</body>
+</html>
