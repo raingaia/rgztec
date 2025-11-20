@@ -1,143 +1,212 @@
-/* ========= RGZTEC • Hardware Page (clean) ========= */
+// apps/web/public/assets/js/hardware-page.js
 
-/* Sayfa klasörüne göre mutlaklaştır */
-const PAGE_BASE = location.origin + location.pathname.replace(/[^/]*$/, '');
-const abs = (p='') => new URL((p||'').replace(/^\.?\//,''), PAGE_BASE).href;
+(function () {
+  // ====== PATH & HELPERS ====================================================
 
-const usd = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'});
-const esc = (s='') => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  // /rgztec/docs/hardware/index.html -> repo adı "rgztec"
+  const pathParts = location.pathname.split("/"); // ["", "rgztec", "docs", ...]
+  const repo = pathParts[1] || "rgztec";
+  const ROOT = "/" + repo; // "/rgztec"
 
-const SLUG = 'hardware';
-document.body.dataset.store = SLUG;
+  // Data & listings yolları (her sayfada aynı çalışsın)
+  const DATA_URL = ROOT + "/data/hardware.json";
+  const LISTINGS_URL = ROOT + "/listings.html";
 
-/* Arama -> listings */
-document.getElementById('searchForm')?.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const q = (document.getElementById('q')?.value || '').trim();
-  location.href = `./listings.html?store=${encodeURIComponent(SLUG)}${q ? `&q=${encodeURIComponent(q)}`:''}`;
-});
+  const $ = (id) => document.getElementById(id);
 
-/* Store kutucuğu */
-function tile(s){
-  const name = s.name || s.slug;
-  const letter = (name||'?')[0].toUpperCase();
-  const [light,dark] = (s.colors || s.colorPalette || ['#a5d6ff','#3b82f6']);
+  const elTitle = $("heroTitle");
+  const elTag = $("heroTag");
+  const elStoreBar = $("storeBar");
+  const elStoreRow = $("storeRow");
+  const elGrid = $("grid");
+  const elSearchForm = $("searchForm");
+  const elSearchInput = $("q");
 
-  // HER ZAMAN store.html?slug=...
-  const href = `./store.html?slug=${encodeURIComponent(String(s.slug||'').toLowerCase())}`;
+  // ====== SEARCH: listings.html?store=hardware&q=... ========================
 
-  return `<li>
-    <a class="tile" href="${href}" title="${esc(name)}">
-      <div class="badge" style="background:radial-gradient(circle at 70% 30%, ${light}, ${dark})">
-        <div class="letter">${letter}</div>
-      </div>
-      <div class="sname">${esc(name)}</div>
-    </a>
-  </li>`;
-}
+  if (elSearchForm) {
+    elSearchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const q = (elSearchInput && elSearchInput.value.trim()) || "";
 
+      const url = new URL(LISTINGS_URL, location.origin);
+      url.searchParams.set("store", "hardware");
+      if (q) url.searchParams.set("q", q);
 
-/* Ürün kartı */
-function card(p){
-  const imgRel = p.thumb || `assets/thumbs/${(p.image||'').replace(/\.(png|jpe?g|webp)$/i,'')||'placeholder'}.png`;
-  const src = imgRel ? abs(imgRel) : '';
-  return `
-  <div class="card">
-    <div class="media">
-      <img loading="lazy" src="${src}" alt="${esc(p.title||'')}" onerror="this.src='';">
-    </div>
-    <div class="pad">
-      <div class="title">${esc(p.title||'')}</div>
-      <p class="sub">${esc(p.desc||'')}</p>
-      <div class="row">
-        <span class="price">${usd.format(Number(p.price||0))}</span>
-        <a class="btn" href="./product.html?id=${encodeURIComponent(p.id)}">Details</a>
-      </div>
-    </div>
-  </div>`;
-}
-
-/* Render */
-function renderProducts(list){
-  const g = document.getElementById('grid');
-  if(!list?.length){ g.innerHTML = `<div class="sub">No hardware products found.</div>`; return; }
-  g.innerHTML = list.map(card).join('');
-  // Görsel yüklenince skeleton'u kapat
-  document.querySelectorAll('.card .media img').forEach(img=>{
-    const done = () => img.parentElement.classList.add('loaded');
-    img.addEventListener('load', done, {once:true});
-    img.addEventListener('error', done, {once:true});
-  });
-}
-
-/* Normalizers */
-function normalizeProducts(raw){
-  const norm = o => ({
-    id:o.id,
-    cat:(o.cat||o.category||o.store||'').toLowerCase(),
-    title:o.title,
-    desc:o.desc||o.description||'',
-    price:o.price,
-    image:o.image||'',
-    thumb:o.thumb||'',
-    tags:Array.isArray(o.tags)?o.tags:[]
-  });
-
-  if (Array.isArray(raw)) return raw.map(norm);
-
-  const prods   = Array.isArray(raw?.products)? raw.products.map(norm) : [];
-  const gallery = Array.isArray(raw?.gallery)?  raw.gallery.map(x=>norm({id:`g-${x.id}`, ...x})) : [];
-  return prods.length ? prods : gallery;
-}
-
-/* JSON fetch */
-async function getJSON(url){
-  const full = abs(url);
-  const r = await fetch(full,{cache:'no-store'});
-  if(!r.ok) throw new Error(`${full}: ${r.status}`);
-  return r.json();
-}
-
-/* Sadece hardware ürünleri */
-function pickHardware(all){
-  return all.filter(p=>{
-    const cat  = (p.cat || p.category || p.store || '').toLowerCase();
-    const tags = Array.isArray(p.tags) ? p.tags.map(t=>String(t).toLowerCase()) : [];
-    return cat === SLUG || tags.includes(SLUG);
-  });
-}
-
-/* Main */
-(async function main(){
-  try{
-    /* Vitrin */
-    const storesDoc = await getJSON('./data/stores.json');
-    const stores = Array.isArray(storesDoc?.stores) ? storesDoc.stores : [];
-    document.getElementById('storeRow').innerHTML = stores.slice(0,20).map(tile).join('');
-
-    /* Üst kategori barı */
-    try{
-      const content = await getJSON('./data/store-content.json');
-      const cats = Array.isArray(content?.[SLUG]?.categories) ? content[SLUG].categories : [];
-      const bar = document.getElementById('storeBar');
-      if (bar) {
-        bar.innerHTML = cats.map(c => `<a href="./listings.html?store=${encodeURIComponent(SLUG)}&tag=${encodeURIComponent(c)}">${esc(c)}</a>`).join('');
-        bar.style.setProperty('--cols', String(Math.max(1, cats.length || 1)));
-      }
-    }catch(e){ console.warn('store-content.json yok/boş:', e); }
-
-    /* Ürünler */
-    const raw = await getJSON('./data/products.json');
-    const all = normalizeProducts(raw);
-    const list = pickHardware(all);
-    renderProducts(list);
-
-    /* Başlıklar */
-    document.getElementById('studioName').textContent = 'Hardware';
-    document.getElementById('heroTitle').textContent = 'Hardware';
-    document.title = 'RGZTEC • Hardware';
-  }catch(e){
-    console.error(e);
-    document.getElementById('grid').innerHTML = `<div class="sub">${esc(String(e.message||e))}</div>`;
+      location.href = url.toString();
+    });
   }
+
+  // ====== HERO ==============================================================
+
+  function applyHero(hero) {
+    if (!hero) return;
+
+    if (elTitle && hero.title) {
+      elTitle.textContent = hero.title;
+    }
+    if (elTag && hero.tagline) {
+      elTag.textContent = hero.tagline;
+    }
+  }
+
+  // ====== CATEGORY BAR (üstteki sekmeler) ===================================
+
+  function renderCategories(categories) {
+    if (!elStoreBar || !Array.isArray(categories)) return;
+
+    const currentFile = (function () {
+      const p = location.pathname.split("/").pop() || "index.html";
+      return p.toLowerCase();
+    })();
+
+    elStoreBar.innerHTML = "";
+
+    categories.forEach((cat) => {
+      const a = document.createElement("a");
+      a.textContent = cat.label || cat.name || "";
+      a.href = cat.href || cat.url || "#";
+
+      // Aktif sekmeyi boyamak için (match olarak dosya adını veriyoruz)
+      if (
+        cat.match &&
+        String(cat.match).toLowerCase() === currentFile
+      ) {
+        a.classList.add("is-active");
+      }
+
+      elStoreBar.appendChild(a);
+    });
+  }
+
+  // ====== POPULAR STORES (üstteki kartlar) ==================================
+
+  function renderStores(stores) {
+    if (!elStoreRow || !Array.isArray(stores)) return;
+    if (!stores.length) {
+      elStoreRow.innerHTML = "";
+      return;
+    }
+
+    elStoreRow.innerHTML = stores
+      .map((store) => {
+        const img = store.image || "";
+        const imgSrc = img.startsWith("http")
+          ? img
+          : ROOT + "/assets/images/" + img; // ör: "hardware-iot.webp"
+
+        const href = store.href || store.url || "#";
+
+        return `
+      <li class="tile">
+        <a class="tile-link" href="${href}">
+          <div class="tile-media">
+            ${
+              img
+                ? `<img src="${imgSrc}" alt="${store.name || ""} banner" loading="lazy">`
+                : ""
+            }
+          </div>
+          <div class="tile-body">
+            <h3 class="tile-title">${store.name || ""}</h3>
+            ${
+              store.tagline
+                ? `<p class="tile-text">${store.tagline}</p>`
+                : ""
+            }
+          </div>
+        </a>
+      </li>`;
+      })
+      .join("");
+  }
+
+  // ====== PRODUCT GRID ======================================================
+
+  function renderProducts(products) {
+    if (!elGrid || !Array.isArray(products)) return;
+
+    if (!products.length) {
+      elGrid.innerHTML =
+        '<p style="font-size:13px;color:#6b7280">No products yet. Coming soon.</p>';
+      return;
+    }
+
+    elGrid.innerHTML = products
+      .map((p) => {
+        const img = p.image || "";
+        const imgSrc = img.startsWith("http")
+          ? img
+          : ROOT + "/assets/images/" + img; // ör: "hardware-edge.webp"
+
+        const price = p.price ? `$${p.price}` : "";
+        const tagText = (p.tags || []).join(" • ");
+
+        return `
+      <article class="card">
+        <div class="media">
+          ${
+            img
+              ? `<img src="${imgSrc}" alt="${p.name || ""}" loading="lazy">`
+              : ""
+          }
+        </div>
+        <div class="body">
+          <h3 class="title">${p.name || ""}</h3>
+          ${
+            p.subtitle
+              ? `<p class="subtitle">${p.subtitle}</p>`
+              : ""
+          }
+          ${
+            tagText
+              ? `<p class="meta">${tagText}</p>`
+              : ""
+          }
+          ${
+            price
+              ? `<p class="price">${price}</p>`
+              : ""
+          }
+        </div>
+      </article>`;
+      })
+      .join("");
+  }
+
+  // ====== DATA LOAD =========================================================
+
+  async function loadHardwarePage() {
+    try {
+      const res = await fetch(DATA_URL, { cache: "no-store" });
+      if (!res.ok) {
+        throw new Error("HTTP " + res.status);
+      }
+
+      const data = await res.json();
+
+      // hero
+      applyHero(data.hero);
+
+      // category bar
+      renderCategories(data.categories || []);
+
+      // üstteki "popular stores"
+      renderStores(data.stores || []);
+
+      // ürün grid
+      renderProducts(data.products || []);
+    } catch (err) {
+      console.error("Hardware data load error:", err);
+      if (elGrid) {
+        elGrid.innerHTML =
+          '<p style="font-size:13px;color:#b91c1c">Hardware data could not be loaded. Check <code>/data/hardware.json</code>.</p>';
+      }
+    }
+  }
+
+  // ====== INIT ==============================================================
+
+  document.addEventListener("DOMContentLoaded", loadHardwarePage);
 })();
+
