@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Hardware Lab • Smart Controllers</title>
+  <meta name="description" content="Smart Controllers category of RGZTEC Hardware Lab — premium UI kits, dashboards and setup flows for embedded controllers, PLC-style devices and automation hardware."/>
+
+  <!-- Bu site /rgztec/docs/ altından servis ediliyor -->
+  <base href="/rgztec/docs/">
+
+  <!-- Cache kontrolü -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Kurumsal fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Global theme dosyaların -->
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
+  <meta name="theme-color" content="#f97316">
+
+  <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/interactions.css">
+
+  <style>
+    .sc-shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 2.2rem 1.25rem 3.5rem;
+    }
+
+    .sc-breadcrumb {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 0.9rem;
+    }
+    .sc-breadcrumb a {
+      opacity: 0.8;
+      text-decoration: none;
+    }
+    .sc-breadcrumb a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .sc-hero {
+      position: relative;
+      border-radius: 2rem;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 0% 0%, #020617, #020617 55%, #000000 100%);
+      box-shadow: 0 32px 90px rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      margin-bottom: 2.4rem;
+      isolation: isolate;
+    }
+
+    .sc-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(248, 113, 22, 0.18), transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.2), transparent 55%),
+        linear-gradient(to bottom right, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.96));
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .sc-hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 2.4rem 2.4rem 2.1rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.3fr);
+      gap: 2.2rem;
+      align-items: center;
+    }
+
+    .sc-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .sc-pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .sc-hero-title {
+      font-size: 2rem;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.7rem;
+    }
+
+    .sc-hero-highlight {
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .sc-hero-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.82;
+      max-width: 32rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .sc-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .btn-sc-primary {
+      border-radius: 999px;
+      padding: 0.7rem 1.6rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f97316, #fb923c);
+      color: #0f172a;
+      box-shadow: 0 18px 40px rgba(248, 113, 22, 0.55);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-sc-ghost {
+      border-radius: 999px;
+      padding: 0.65rem 1.3rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sc-hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.3rem;
+      font-size: 0.78rem;
+    }
+
+    .sc-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .sc-metric strong {
+      font-size: 1rem;
+    }
+
+    .sc-hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem;
+    }
+
+    .sc-hero-visual-inner {
+      position: relative;
+      border-radius: 1.4rem;
+      padding: 1.4rem 1.1rem;
+      background:
+        radial-gradient(circle at 0 0, rgba(251, 146, 60, 0.25), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(248, 113, 22, 0.7);
+      box-shadow: 0 22px 60px rgba(248, 113, 22, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sc-hero-visual img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .sc-tabs {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+      padding-bottom: 0.35rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .sc-tab {
+      padding: 0.42rem 0.95rem;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    .sc-tab.is-active {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(148, 163, 184, 0.9);
+      opacity: 1;
+    }
+
+    .sc-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 1.9rem;
+      align-items: flex-start;
+    }
+
+    .sc-section {
+      margin-bottom: 1.7rem;
+      padding: 1.25rem 1.3rem 1.15rem;
+      border-radius: 1.2rem;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: 0 20px 52px rgba(15, 23, 42, 0.9);
+    }
+
+    .sc-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .sc-section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.95;
+    }
+
+    .sc-section-subtitle {
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+
+    .sc-body-text {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    .sc-points {
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .sc-bullet {
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    .sc-bullet span:first-child {
+      font-size: 0.9rem;
+      color: #f97316;
+      margin-top: 0.05rem;
+    }
+
+    .sc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .sc-card {
+      border-radius: 1.1rem;
+      padding: 0.95rem;
+      background: radial-gradient(circle at 0 0, #020617, #020617 40%, #020617);
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .sc-card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.75;
+    }
+
+    .sc-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .sc-card-body {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .sc-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.3rem;
+    }
+
+    .sc-card-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .sc-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .sc-stat-list {
+      list-style: none;
+      margin: 0.7rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    .sc-stat-label {
+      opacity: 0.7;
+      font-size: 0.75rem;
+    }
+
+    .sc-stat-value {
+      font-weight: 500;
+    }
+
+    .sc-faq-list {
+      margin-top: 0.6rem;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+    }
+
+    .sc-faq-item strong {
+      display: block;
+      margin-bottom: 0.18rem;
+    }
+
+    @media (max-width: 980px) {
+      .sc-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.9rem 1.6rem 1.7rem;
+      }
+      .sc-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sc-shell {
+        padding-inline: 1rem;
+      }
+      .sc-hero-inner {
+        padding: 1.6rem 1.3rem 1.5rem;
+      }
+      .sc-hero-title {
+        font-size: 1.6rem;
+      }
+      .sc-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body class="rgz-body">
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" class="site-logo">
+        <img src="assets/images/logo-rgztec-full.webp" alt="RGZTEC Logo" loading="lazy">
+      </a>
+      <nav class="site-nav">
+        <a href="index.html#stores">Stores</a>
+        <a href="index.html#products">Featured</a>
+        <a href="index.html#how-it-works">How it works</a>
+      </nav>
+      <div class="site-header-actions">
+        <a href="index.html#open-store" class="btn-ghost">Open your store</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="sc-shell">
+    <div class="sc-breadcrumb">
+      RGZTEC / <a href="hardware/">Hardware Lab</a> / <strong>Smart Controllers</strong>
+    </div>
+
+    <!-- HERO -->
+    <section class="sc-hero">
+      <div class="sc-hero-inner">
+        <div>
+          <div class="sc-pill-row">
+            <span class="sc-pill">Smart Controllers</span>
+            <span class="sc-pill">Embedded & control UX</span>
+            <span class="sc-pill">Industrial & building automation</span>
+          </div>
+          <h1 class="sc-hero-title">
+            Interfaces for <span class="sc-hero-highlight">smart controllers</span>,
+            automation panels and embedded control flows.
+          </h1>
+          <p class="sc-hero-subtitle">
+            This category focuses on UX for boards and devices that orchestrate
+            hardware: from industrial controllers to smart building brains.
+            Setup, tuning, safety states and end-to-end control paths.
+          </p>
+          <div class="sc-hero-actions">
+            <button class="btn-sc-primary">Browse controller kits</button>
+            <button class="btn-sc-ghost">View control room demos</button>
+            <button class="btn-sc-ghost">Licensing & teams</button>
+          </div>
+          <div class="sc-hero-metrics">
+            <div class="sc-metric">
+              <strong>12+</strong>
+              <span>controller-focused UI kits</span>
+            </div>
+            <div class="sc-metric">
+              <strong>Multi-mode</strong>
+              <span>manual, scheduled, automatic</span>
+            </div>
+            <div class="sc-metric">
+              <strong>Safety-aware</strong>
+              <span>fault, lockout, overrides</span>
+            </div>
+          </div>
+        </div>
+        <div class="sc-hero-visual">
+          <div class="sc-hero-visual-inner">
+            <!-- Buraya Smart Controllers için ürettiğimiz 3D TRANSPARENT banner -->
+            <img src="assets/images/store/hardware-smart-controllers.webp"
+                 alt="Smart Controllers premium 3D banner"
+                 loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <nav class="sc-tabs">
+      <button class="sc-tab is-active">Overview</button>
+      <button class="sc-tab">Control surfaces</button>
+      <button class="sc-tab">Safety & states</button>
+      <button class="sc-tab">Bundles</button>
+    </nav>
+
+    <section class="sc-layout">
+      <!-- LEFT -->
+      <div>
+        <!-- OVERVIEW -->
+        <section class="sc-section">
+          <div class="sc-section-header">
+            <h2 class="sc-section-title">Category overview</h2>
+          </div>
+          <p class="sc-section-subtitle">
+            Smart Controllers is where Hardware Lab covers the brain of hardware:
+            boards and devices that make other things move, switch, heat or react.
+          </p>
+          <div class="sc-body-text" style="margin-top:0.6rem;">
+            These kits are designed for control UX: setting targets, applying
+            overrides, managing schedules and exposing safe, understandable
+            interfaces for technical and non-technical operators.
+          </div>
+          <div class="sc-points">
+            <div class="sc-bullet">
+              <span>•</span>
+              <span>Layouts for controller dashboards — from compact device-level
+              views to multi-zone control surfaces.</span>
+            </div>
+            <div class="sc-bullet">
+              <span>•</span>
+              <span>Patterns for modes (manual/auto), interlocks, safety states,
+              and "are you sure?" confirmation paths.</span>
+            </div>
+            <div class="sc-bullet">
+              <span>•
+              </span>
+              <span>Config flows for controllers that sit between field devices
+              and cloud logic: mapping inputs, outputs and rules.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- UI KIT TYPES -->
+        <section class="sc-section">
+          <div class="sc-section-header">
+            <h2 class="sc-section-title">Smart controller UI kit types</h2>
+            <span class="sc-section-subtitle">Focused on real devices and operators.</span>
+          </div>
+          <div class="sc-grid">
+            <article class="sc-card">
+              <div class="sc-card-label">Industrial control</div>
+              <div class="sc-card-title">Panel & rack controllers</div>
+              <div class="sc-card-body">
+                Interfaces for controllers mounted in panels or racks: multi-channel
+                status, overrides, interlocks and alarms.
+              </div>
+              <div class="sc-card-tags">
+                <span class="sc-card-tag">Industrial</span>
+                <span class="sc-card-tag">Alarms</span>
+                <span class="sc-card-tag">Rack-mounted</span>
+              </div>
+            </article>
+
+            <article class="sc-card">
+              <div class="sc-card-label">Smart building</div>
+              <div class="sc-card-title">HVAC & lighting controllers</div>
+              <div class="sc-card-body">
+                Control surfaces for building brains: zones, schedules, demand
+                response, comfort bands and occupancy logic.
+              </div>
+              <div class="sc-card-tags">
+                <span class="sc-card-tag">HVAC</span>
+                <span class="sc-card-tag">Lighting</span>
+                <span class="sc-card-tag">Scheduling</span>
+              </div>
+            </article>
+
+            <article class="sc-card">
+              <div class="sc-card-label">Embedded</div>
+              <div class="sc-card-title">Board-level control UIs</div>
+              <div class="sc-card-body">
+                UI patterns for embedded boards that expose web dashboards:
+                firmware parameters, control loops and diagnostics.
+              </div>
+              <div class="sc-card-tags">
+                <span class="sc-card-tag">Embedded</span>
+                <span class="sc-card-tag">Diagnostics</span>
+              </div>
+            </article>
+
+            <article class="sc-card">
+              <div class="sc-card-label">Safety</div>
+              <div class="sc-card-title">Lockouts & safe states</div>
+              <div class="sc-card-body">
+                UX treatments for safe-states: emergency stops, lockouts,
+                maintenance modes and audited overrides.
+              </div>
+              <div class="sc-card-tags">
+                <span class="sc-card-tag">Safety</span>
+                <span class="sc-card-tag">Lockout</span>
+                <span class="sc-card-tag">Audit trails</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- BUNDLES -->
+        <section class="sc-section">
+          <div class="sc-section-header">
+            <h2 class="sc-section-title">Bundles & lab integration</h2>
+          </div>
+          <p class="sc-section-subtitle">
+            Controllers rarely live alone — this category is built to plug into
+            the rest of Hardware Lab.
+          </p>
+          <div class="sc-body-text" style="margin-top:0.6rem;">
+            You can combine Smart Controllers with IoT Devices, Sensors &
+            Connectivity and Edge Computing kits to build coherent flows:
+            field devices → controllers → edge → cloud consoles.
+          </div>
+          <div class="sc-points">
+            <div class="sc-bullet">
+              <span>•</span>
+              <span>Pair with IoT Devices kits to give controllers a clear view of
+              gateways, sensors and physical endpoints.</span>
+            </div>
+            <div class="sc-bullet">
+              <span>•</span>
+              <span>Use with Edge Computing and Developer Boards when your
+              controllers run advanced logic at the edge.</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="sc-sidebar">
+        <section class="sc-section">
+          <div class="sc-section-header">
+            <h2 class="sc-section-title">Category profile</h2>
+          </div>
+          <p class="sc-section-subtitle">
+            Who Smart Controllers is for and how it fits into Hardware Lab.
+          </p>
+          <ul class="sc-stat-list">
+            <li>
+              <div class="sc-stat-label">Best suited for</div>
+              <div class="sc-stat-value">
+                Industrial OEMs, smart building vendors, automation teams
+              </div>
+            </li>
+            <li>
+              <div class="sc-stat-label">Primary use-cases</div>
+              <div class="sc-stat-value">
+                Control panels, automation hubs, embedded controllers
+              </div>
+            </li>
+            <li>
+              <div class="sc-stat-label">Update cadence</div>
+              <div class="sc-stat-value">
+                New controller-focused drops every quarter
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="sc-section">
+          <div class="sc-section-header">
+            <h2 class="sc-section-title">Tech & formats</h2>
+          </div>
+          <p class="sc-section-subtitle">
+            Built to sit on top of real hardware and firmware stacks.
+          </p>
+          <ul class="sc-stat-list">
+            <li>
+              <div class="sc-stat-label">Design files</div>
+              <div class="sc-stat-value">Figma, with Sketch export paths</div>
+            </li>
+            <li>
+              <div class="sc-stat-label">Code handoff</div>
+              <div class="sc-stat-value">
+                HTML/CSS, React, Tailwind-ready layouts
+              </div>
+            </li>
+            <li>
+              <div class="sc-stat-label">States</div>
+              <div class="sc-stat-value">
+                Normal, alarm, maintenance, lockout, manual override
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="sc-section">
+          <div class="sc-section-header">
+            <h2 class="sc-section-title">FAQ</h2>
+          </div>
+          <div class="sc-faq-list">
+            <div class="sc-faq-item">
+              <strong>Can we adapt these for PLC or DDC systems?</strong>
+              <span>Yes. Many patterns are designed with PLC, DDC and other
+              controller architectures in mind.</span>
+            </div>
+            <div class="sc-faq-item">
+              <strong>Do you cover both small and large systems?</strong>
+              <span>Layouts range from compact single-controller views to
+              multi-zone and multi-device orchestration surfaces.</span>
+            </div>
+            <div class="sc-faq-item">
+              <strong>What about safety reviews?</strong>
+              <span>Several kits are structured to make safety reviews and
+              audits easier with clear states and logs.</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span>© RGZTEC • Code Mall for serious builders</span>
+      <nav class="site-footer-nav">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="assets/js/theme-corporate.js?v=1"></script>
+</body>
+</html>
