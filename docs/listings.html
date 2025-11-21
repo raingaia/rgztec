@@ -8,13 +8,12 @@
 
 <!-- ➊ ALT YOL İÇİN ÖNEMLİ -->
 <base href="/rgztec/apps/web/public/">
+
 <!-- Corporate theme (safe overrides) -->
 <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
 <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
- 
-  <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
-<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1"> <!-- boşluklu klasör için fallback -->
-
+<link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1"><!-- boşluklu klasör için fallback -->
 <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
 <script defer src="assets/js/theme-corporate.js?v=1"></script>
 
@@ -182,21 +181,72 @@ body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--in
 <!-- store meta -->
 <script>
 const STORE_INFO = {
-  "html-templates": { name:"HTML Templates", tagline:"Polished HTML/CSS templates and starters.", categories:["Landing Pages","Portfolio","Admin & Dashboards","E-commerce","Email Templates"] },
-  "email-forge":   { name:"Email Forge",    tagline:"Responsive MJML templates and automation-focused email kits.", categories:["Transactional","Marketing","Drip Flows","MJML Blocks","ESP Integrations"] },
-  "icon-smith":    { name:"Icon Smith",     tagline:"Beautiful handcrafted icon packs for developers.", categories:["Outline","Solid","3D","Flags","Brand"] },
-  "ai-tools-hub":  { name:"AI Tools Hub",   tagline:"LLM-powered scripts and automation kits.", categories:["Prompts","Agents","Integrations","Workflows","Analytics"] },
-  "dev-studio-one":{ name:"Dev Studio One", tagline:"Modern HTML, CSS and React starters.", categories:["HTML Templates","React Components","Auth & API","Dashboards","E-commerce"] },
-  "game-makers":   { name:"Game Makers",    tagline:"Unity & Unreal templates and game kits.", categories:["Unity 2D","Unity 3D","Unreal","Controllers","VFX / SFX"] },
-  "reactorium":    { name:"Reactorium",     tagline:"React components, tables and charts.", categories:["UI Kit","Tables","Charts","Forms","Hooks"] },
-  "tiny-js-lab":   { name:"Tiny JS Lab",    tagline:"Small but powerful JavaScript utilities.", categories:["Dates","Validation","Fetch","Storage","DOM Utils"] },
-  "unity-hub":     { name:"Unity Hub",      tagline:"Unity extensions, prefabs and templates.", categories:["2D Platformer","FPS","Racing","Multiplayer","VR / AR"] },
-  "wp-plugins":    { name:"WP Plugins",     tagline:"Production-ready WordPress plugins.", categories:["SEO","Security","Performance","Forms","WooCommerce"] },
-  "hardware":      { name:"Hardware",       tagline:"PC parts and peripherals.", categories:[
-    "CPUs","Motherboards","GPUs","Memory (RAM)","Storage (SSD/HDD)","Power Supplies",
-    "Cooling","Cases","Peripherals","Networking"
-  ] }
+  "html-templates": {
+    name:"HTML Templates",
+    tagline:"Polished HTML/CSS templates and starters.",
+    categories:["Landing Pages","Portfolio","Admin & Dashboards","E-commerce","Email Templates"]
+  },
+  "email-forge":   {
+    name:"Email Forge",
+    tagline:"Responsive MJML templates and automation-focused email kits.",
+    categories:["Transactional","Marketing","Drip Flows","MJML Blocks","ESP Integrations"]
+  },
+  "icon-smith":    {
+    name:"Icon Smith",
+    tagline:"Beautiful handcrafted icon packs for developers.",
+    categories:["Outline","Solid","3D","Flags","Brand"]
+  },
+  "ai-tools-hub":  {
+    name:"AI Tools Hub",
+    tagline:"LLM-powered scripts and automation kits.",
+    categories:["Prompts","Agents","Integrations","Workflows","Analytics"]
+  },
+  "dev-studio-one":{
+    name:"Dev Studio One",
+    tagline:"Modern HTML, CSS and React starters.",
+    categories:["HTML Templates","React Components","Auth & API","Dashboards","E-commerce"]
+  },
+  "game-makers":   {
+    name:"Game Makers",
+    tagline:"Unity & Unreal templates and game kits.",
+    categories:["Unity 2D","Unity 3D","Unreal","Controllers","VFX / SFX"]
+  },
+  "reactorium":    {
+    name:"Reactorium",
+    tagline:"React components, tables and charts.",
+    categories:["UI Kit","Tables","Charts","Forms","Hooks"]
+  },
+  "tiny-js-lab":   {
+    name:"Tiny JS Lab",
+    tagline:"Small but powerful JavaScript utilities.",
+    categories:["Dates","Validation","Fetch","Storage","DOM Utils"]
+  },
+  "unity-hub":     {
+    name:"Unity Hub",
+    tagline:"Unity extensions, prefabs and templates.",
+    categories:["2D Platformer","FPS","Racing","Multiplayer","VR / AR"]
+  },
+  "wp-plugins":    {
+    name:"WP Plugins",
+    tagline:"Production-ready WordPress plugins.",
+    categories:["SEO","Security","Performance","Forms","WooCommerce"]
+  },
+
+  /* 🔧 GÜNCEL: Hardware Floor + MedTech yapımız */
+  "hardware":      {
+    name:"Hardware Floor",
+    tagline:"Devices, IoT, robotics, lab tools and MedTech hardware.",
+    categories:[
+      "Devices & Boards",
+      "IoT & Sensors",
+      "Robotics & Motion",
+      "PCB & Fabrication",
+      "Lab & Test Tools",
+      "MedTech Devices"
+    ]
+  }
 };
+
 const STORE_COLORS = {
   "html-templates":["#a5d6ff","#3b82f6"],
   "email-forge":["#fecaca","#ef4444"],
@@ -269,12 +319,14 @@ if (store && STORE_INFO[store]) {
     document.title = 'RGZTEC • Listings';
   }
 
+  /* 🔧 GÜNCEL: default kategori menüsü – ana mağazalar */
   document.getElementById('drawerNav').innerHTML = `
-    <a href="listings.html?tag=html-templates">HTML Templates</a>
-    <a href="listings.html?tag=react">React</a>
-    <a href="listings.html?tag=svg-icons">SVG / Icons</a>
-    <a href="listings.html?tag=hardware">Hardware</a>
-    <a href="listings.html">All Categories →</a>`;
+    <a href="listings.html?store=html-templates">HTML Templates</a>
+    <a href="listings.html?store=email-forge">Email Forge</a>
+    <a href="listings.html?store=icon-smith">Icon Smith</a>
+    <a href="listings.html?store=ai-tools-hub">AI Tools Hub</a>
+    <a href="listings.html?store=hardware">Hardware &amp; MedTech</a>
+    <a href="listings.html">All Products →</a>`;
 }
 
 /* drawer open/close */
