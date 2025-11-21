@@ -1,29 +1,46 @@
+// assets/js/hardware-category.js
 (function () {
-  // 1) Hangi kategori sayfasındayız? (body data attribute'ten alıyoruz)
-  const slug = document.body.dataset.hwSlug || "ai-accelerators";
+  // 1) Slug'ı body'den al
+  var body = document.body;
+  if (!body) return;
 
-  // 2) DOM referansları
-  const titleEl   = document.querySelector('[data-hw="title"]');
-  const taglineEl = document.querySelector('[data-hw="tagline"]');
-  const bannerImg = document.querySelector('[data-hw="banner-image"]');
-  const heroEl    = document.querySelector('[data-hw="hero"]');
-  const gridEl    = document.querySelector('[data-hw="grid"]');
-  const stateEl   = document.querySelector('[data-hw="state"]');
-
-  if (!gridEl) {
-    console.warn("HW: grid container bulunamadı.");
-    return;
+  var slug = body.dataset.hwSlug;
+  if (!slug) {
+    console.warn("HW: data-hw-slug bulunamadı, varsayılan 'ai-accelerators' kullanılıyor.");
+    slug = "ai-accelerators";
   }
 
-  // 3) JSON'dan kategorileri çek
+  // 2) DOM referansları
+  var titleEl    = document.querySelector('[data-hw="title"]');
+  var taglineEl  = document.querySelector('[data-hw="tagline"]');
+  var bannerImg  = document.querySelector('[data-hw="banner-image"]');
+  var heroWrap   = document.querySelector('[data-hw="hero"]');
+  var gridEl     = document.querySelector('[data-hw="grid"]');
+  var stateEl    = document.querySelector('[data-hw="state"]');
+  var metaDescEl = document.querySelector('meta[name="description"]');
+
+  if (!gridEl) {
+    console.warn("HW: [data-hw=\"grid\"] bulunamadı.");
+  }
+
+  // 3) JSON'ı yükle
   fetch("data/hardware-categories.json", { cache: "no-cache" })
-    .then(function (res) { return res.json(); })
+    .then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
     .then(function (categories) {
-      const category = categories.find(function (c) { return c.slug === slug; });
+      if (!Array.isArray(categories)) {
+        throw new Error("HW: JSON formatı dizi değil.");
+      }
+
+      var category = categories.find(function (c) {
+        return c.slug === slug;
+      });
 
       if (!category) {
+        console.error("HW: Slug bulunamadı:", slug);
         if (stateEl) stateEl.textContent = "Category not found.";
-        console.error("HW: Category slug bulunamadı:", slug);
         return;
       }
 
@@ -31,106 +48,129 @@
     })
     .catch(function (err) {
       console.error("HW: JSON yüklenirken hata:", err);
-      if (stateEl) stateEl.textContent = "Data yüklenemedi.";
+      if (stateEl) stateEl.textContent = "Unable to load devices.";
     });
 
-  // 4) Kategori verisini sayfaya bas
+  // 4) Kategori verisini sayfaya uygula
   function applyCategory(category) {
-    document.title = "RGZTEC • Hardware Lab • " + category.name;
-
-    if (titleEl)   titleEl.textContent   = category.name;
-    if (taglineEl) taglineEl.textContent = category.tagline || "";
-
-    if (bannerImg && category.bannerImage) {
-      bannerImg.src = category.bannerImage;
-      bannerImg.alt = category.name + " banner";
+    // Title
+    if (category.name) {
+      document.title = "RGZTEC • Hardware Lab • " + category.name;
+      if (titleEl) titleEl.textContent = category.name;
     }
 
-    if (heroEl) {
-      heroEl.style.setProperty(
-        "--hw-accent",
-        category.accentColor || "#f97316"
-      );
+    // Meta description
+    if (metaDescEl && category.metaDescription) {
+      metaDescEl.setAttribute("content", category.metaDescription);
     }
 
-    // Ürün grid'ini temizle
+    // Tagline
+    if (taglineEl) {
+      taglineEl.textContent = category.tagline || "";
+    }
+
+    // Banner görseli
+    if (bannerImg) {
+      if (category.bannerImage) {
+        bannerImg.src = category.bannerImage;
+      }
+      bannerImg.alt = (category.name || "Hardware category") + " banner";
+    }
+
+    // Accent color (istenirse hero'da kullanılabilir)
+    if (heroWrap && category.accentColor) {
+      heroWrap.style.setProperty("--hw-accent", category.accentColor);
+    }
+
+    // Grid'i doldur
+    if (!gridEl) return;
+
     gridEl.innerHTML = "";
 
     if (!category.products || !category.products.length) {
-      const empty = document.createElement("p");
-      empty.className = "hw-empty";
-      empty.textContent = "Bu kategori yakında güncellenecek.";
+      var empty = document.createElement("p");
+      empty.className = "section__meta";
+      empty.textContent = "This category will be updated soon.";
       gridEl.appendChild(empty);
+      if (stateEl) stateEl.textContent = "";
       return;
     }
 
     category.products.forEach(function (p) {
-      const card = createProductCard(p);
+      var card = createProductCard(p);
       gridEl.appendChild(card);
     });
 
-    if (stateEl) stateEl.textContent = ""; // loading mesajını temizle
+    if (stateEl) {
+      stateEl.textContent = category.products.length + " devices curated";
+    }
   }
 
-  // 5) Kart üretici
+  // 5) Product card (home'daki kart yapısına uyumlu)
   function createProductCard(p) {
-    const a = document.createElement("a");
-    a.className = "hw-card" + (p.highlight ? " hw-card--highlight" : "");
+    var a = document.createElement("a");
+    a.className = "card card--product";
+    if (p.highlight) {
+      a.className += " card--featured";
+    }
     a.href = p.url || "#";
 
-    const media = document.createElement("div");
-    media.className = "hw-card-media";
+    // MEDIA
+    var media = document.createElement("div");
+    media.className = "card__media";
 
-    const img = document.createElement("img");
+    var img = document.createElement("img");
     img.loading = "lazy";
     img.src = p.image || "assets/images/hardware/placeholder.webp";
     img.alt = p.name || "";
     media.appendChild(img);
 
+    // Badges (örn. Edge AI, M.2, Industrial)
     if (Array.isArray(p.badges) && p.badges.length) {
-      const badgesWrap = document.createElement("div");
-      badgesWrap.className = "hw-badges";
+      var badgesWrap = document.createElement("div");
+      badgesWrap.className = "card__badges";
       p.badges.forEach(function (b) {
-        const span = document.createElement("span");
-        span.className = "hw-badge";
+        var span = document.createElement("span");
+        span.className = "chip chip--tiny";
         span.textContent = b;
         badgesWrap.appendChild(span);
       });
       media.appendChild(badgesWrap);
     }
 
-    const body = document.createElement("div");
-    body.className = "hw-card-body";
+    // BODY
+    var body = document.createElement("div");
+    body.className = "card__body";
 
-    const titleRow = document.createElement("div");
-    titleRow.className = "hw-card-title-row";
+    var titleRow = document.createElement("div");
+    titleRow.className = "card__title-row";
 
-    const h3 = document.createElement("h3");
-    h3.className = "hw-card-title";
+    var h3 = document.createElement("h3");
+    h3.className = "card__title";
     h3.textContent = p.name || "";
 
-    const price = document.createElement("span");
-    price.className = "hw-card-price";
-    price.textContent = p.priceLabel || "";
-
     titleRow.appendChild(h3);
+
     if (p.priceLabel) {
+      var price = document.createElement("span");
+      price.className = "card__price";
+      price.textContent = p.priceLabel;
       titleRow.appendChild(price);
     }
 
-    const subtitle = document.createElement("p");
-    subtitle.className = "hw-card-subtitle";
+    var subtitle = document.createElement("p");
+    subtitle.className = "card__subtitle";
     subtitle.textContent = p.subtitle || "";
 
-    const vendor = document.createElement("p");
-    vendor.className = "hw-card-vendor";
+    var meta = document.createElement("p");
+    meta.className = "card__meta";
     if (p.vendor) {
-      vendor.textContent = "by " + p.vendor;
+      meta.textContent = "by " + p.vendor;
     }
 
     body.appendChild(titleRow);
     if (p.subtitle) body.appendChild(subtitle);
-    if (p.vendor)   body.appendChild(vendor);
+    if (p.vendor) body.appendChild(meta);
 
     a.appendChild(media);
     a.appendChild(body);
