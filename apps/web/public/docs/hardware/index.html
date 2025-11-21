@@ -23,656 +23,610 @@
   <link rel="stylesheet" href="assets/css/hero-ambient.css">
   <link rel="stylesheet" href="assets/css/interactions.css">
   <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
-  <link rel="stylesheet" href="assets/css/hardware-page.css?v=1">
+  <link rel="stylesheet" href="assets/css/hardware-page.css?v=1"><!-- ekstra donanım stilleri için -->
 
   <meta name="theme-color" content="#f97316"/>
 
-  <!-- Hardware Lab’e özel stil -->
+  <!-- Hardware Lab’e özel layout -->
   <style>
-    :root{
-      --wrap:1200px;
-      --gutter-min:12px; --gutter-max:28px;
-      --ink:#0b1220; --sub:#64748b;
-      --line:#e5e7eb; --line-strong:#d7dbe3;
-      --brand:#f97316; --brand-dark:#ea580c;
-      --bg-soft:#f3f4f6;
-    }
+  :root{
+    --wrap:1500px;
+    --gutter-min:12px; --gutter-max:28px;
+    --ink:#0b1220; --sub:#64748b;
+    --line:#e5e7eb; --line-strong:#d7dbe3;
+    --brand:#f97316; --brand-dark:#ea580c;
+    --bg-soft:#f3f4f6;
+    --search-h:52px;
+  }
 
-    *{box-sizing:border-box}
-    html,body{margin:0;overflow-x:hidden}
-    body{
-      font-family:'Inter','IBM Plex Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-      background:var(--bg-soft);
-      color:var(--ink);
-      font-size:15px;
-      line-height:1.6;
-      -webkit-font-smoothing:antialiased;
-    }
+  *{box-sizing:border-box}
+  html,body{margin:0;overflow-x:hidden}
+  body{
+    font-family:'Inter','IBM Plex Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg-soft);
+    color:var(--ink);
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
 
-    .page-section{
-      width:100%;
-      max-width:var(--wrap);
-      margin-inline:auto;
-      padding-inline:16px;
-    }
-    .page-section--fluid{
-      max-width:none;
-      padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
-    }
+  .page-section{
+    width:100%;
+    max-width:var(--wrap);
+    margin-inline:auto;
+    padding-inline:16px;
+  }
+  .page-section--fluid{
+    max-width:none;
+    padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+  }
 
-    /* HEADER – Home ile uyumlu kurumsal header */
-    .header-outer{
-      position:sticky;
-      top:0;
-      z-index:60;
-      background:linear-gradient(180deg,#f9fafb,#ffffff);
-      backdrop-filter:saturate(120%) blur(12px);
-      border-bottom:1px solid var(--line);
-    }
-    .header-row{
-      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-      padding:8px 0;
-    }
-    .brand{
-      font-weight:900;font-size:22px;letter-spacing:.08em;
-      color:var(--brand);text-decoration:none;margin-right:8px;
-    }
-    .search-wrap{flex:1 1 auto;min-width:260px;max-width:780px}
-    .search{
-      display:flex;align-items:center;
-      height:48px;
-      border-radius:999px;
-      border:1px solid var(--line-strong);
-      background:#f9fafb;
-      padding:0 8px 0 16px;
-      width:100%;
-      transition:border-color .18s,box-shadow .18s,background-color .18s;
-    }
-    .search input{
-      flex:1;min-width:0;border:0;outline:0;
-      font-size:14px;padding:10px 8px;background:transparent;
-    }
-    .search:hover{
-      border-color:#cbd5f5;background:#ffffff;
-      box-shadow:0 0 0 1px rgba(148,163,184,.35);
-    }
-    .search:focus-within{
-      border-color:var(--brand);background:#ffffff;
-      box-shadow:0 0 0 1px rgba(249,115,22,.45);
-    }
-    .go{
-      display:grid;place-items:center;
-      width:36px;height:36px;border-radius:999px;
-      background:var(--brand);border:0;cursor:pointer;
-      transition:background-color .18s,transform .12s;
-    }
-    .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-    .go:hover{background:var(--brand-dark);transform:translateY(-1px)}
+  /* === HEADER: Home ile aynı yapı === */
+  .header-outer{
+    position:sticky;
+    top:0;
+    z-index:60;
+    background:linear-gradient(180deg,#f9fafb,#ffffff);
+    backdrop-filter:saturate(120%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:8px 0;
+  }
+  .header-left,.hdr-right{flex-shrink:0}
+  .brand{
+    font-weight:900;font-size:22px;letter-spacing:.08em;
+    color:var(--brand);text-decoration:none;margin-right:8px;
+  }
+  .btn-cats{
+    display:inline-flex;align-items:center;gap:8px;
+    height:40px;padding:0 14px;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:#fff;cursor:pointer;
+    font-weight:500;font-size:14px;
+  }
+  .btn-cats svg{width:18px;height:18px}
+  .btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
 
-    .hdr-right{
-      display:flex;align-items:center;gap:10px;flex-wrap:nowrap;
-    }
-    .signin-link{
-      color:var(--ink);text-decoration:none;
-      font-weight:600;font-size:14px;white-space:nowrap;
-    }
-    .signin-link:hover{color:var(--brand)}
-    .pill-open{
-      display:inline-flex;align-items:center;justify-content:center;
-      height:38px;padding:0 18px;border-radius:999px;
-      background:var(--brand);color:#fff;
-      font-weight:700;font-size:13px;
-      text-decoration:none;
-      box-shadow:0 14px 30px rgba(249,115,22,.35);
-    }
-    .pill-open:hover{background:var(--brand-dark)}
+  .search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
+  .search{
+    display:flex;align-items:center;
+    height:var(--search-h);
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:#f9fafb;
+    padding:0 8px 0 16px;
+    width:100%;
+    transition:border-color .18s,box-shadow .18s,background-color .18s;
+  }
+  .search input{
+    flex:1;min-width:0;border:0;outline:0;
+    font-size:15px;padding:12px 10px;background:transparent;
+  }
+  .search:hover{
+    border-color:#cbd5f5;background:#ffffff;
+    box-shadow:0 0 0 1px rgba(148,163,184,.35);
+  }
+  .search:focus-within{
+    border-color:var(--brand);background:#ffffff;
+    box-shadow:0 0 0 1px rgba(249,115,22,.45);
+  }
+  .go{
+    display:grid;place-items:center;
+    width:38px;height:38px;
+    border-radius:999px;
+    background:var(--brand);
+    border:0;cursor:pointer;margin-right:4px;
+    transition:background-color .18s,transform .12s;
+  }
+  .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+  .go:hover{background:var(--brand-dark);transform:translateY(-1px)}
 
-    /* Quick chips – hardware’e özel */
-    .chips-outer{
-      border-top:1px solid #f3f4f6;
-      border-bottom:1px solid #eceef3;
-      background:#ffffff;
-      padding:6px 0;
-      box-shadow:0 3px 8px rgba(0,0,0,.03);
-      position:relative;
-      z-index:55;
-    }
-    .chips{
-      max-width:var(--wrap);
-      margin:0 auto;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      align-items:center;
-      column-gap:18px;
-      row-gap:10px;
-      padding:8px 16px 10px;
-      font-size:13px;
-    }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:6px 14px;
-      background:#f8fafc;
-      border-radius:999px;
-      border:1px solid #e2e8f0;
-      color:#475569;
-      font-weight:600;
-      text-decoration:none;
-      transition:all .18s ease;
-    }
-    .chip:hover{
-      background:#ffffff;
-      border-color:#cbd5e1;
-      color:#0f172a;
-      transform:translateY(-1px);
-      box-shadow:0 4px 10px rgba(0,0,0,.05);
-    }
+  .hdr-right{
+    display:flex;justify-content:flex-end;align-items:center;
+    gap:12px;flex-wrap:nowrap;
+  }
+  .signin-link{
+    color:var(--ink);text-decoration:none;
+    font-weight:600;font-size:14px;white-space:nowrap;
+  }
+  .signin-link:hover{color:var(--brand)}
+  .icon-btn{
+    display:grid;place-items:center;
+    width:32px;height:32px;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:#fff;
+    font-size:16px;text-decoration:none;
+  }
+  .icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
+  .pill-open{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:40px;padding:0 20px;
+    border-radius:999px;
+    background:var(--brand);color:#fff;
+    font-weight:700;text-decoration:none;font-size:14px;
+    box-shadow:0 14px 30px rgba(249,115,22,.35);
+  }
+  .pill-open:hover{background:var(--brand-dark)}
 
-    /* HERO */
-    .hero-outer{
-      padding:26px 0 30px;
-    }
-    .hero{
-      display:grid;
-      grid-template-columns:minmax(0,1.3fr) minmax(0,0.9fr);
-      gap:28px;
-      align-items:center;
-      background:linear-gradient(135deg,#fef3e7,#eff6ff);
-      border-radius:24px;
-      box-shadow:0 22px 60px rgba(15,23,42,.12);
-      padding:26px 26px 26px;
-    }
-    .hero-copy h1{
-      margin:0 0 10px;
-      font-size:clamp(26px,3.3vw,34px);
-      line-height:1.05;
-      letter-spacing:-0.03em;
-    }
-    .hero-subtitle{
-      margin:0;
-      max-width:540px;
-      color:var(--sub);
-      font-size:14px;
-    }
-    .hero-actions{
-      display:flex;flex-wrap:wrap;gap:10px;
-      margin-top:18px;
-    }
-    .hero-actions .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      height:40px;padding:0 18px;border-radius:999px;
-      font-weight:700;font-size:13px;
-      text-decoration:none;
-    }
-    .btn-primary{
-      background:#111827;color:#fff;
-      box-shadow:0 16px 32px rgba(15,23,42,.25);
-    }
-    .btn-primary:hover{background:#020617}
-    .btn-ghost{
-      background:#fff;color:#111827;border:1px solid #e5e7eb;
-    }
-    .btn-ghost:hover{border-color:#d1d5db}
-    .hero-kicker{
-      margin-top:14px;
-      font-size:12px;
-      color:#6b7280;
-    }
+  /* === HERO: büyük hardware hero + senin kart === */
+  .hero-outer{
+    padding:24px 0 32px;
+  }
+  .hero-hardware{
+    display:grid;
+    grid-template-columns:1.15fr 1.1fr;
+    gap:28px;align-items:center;
+    background:linear-gradient(135deg,#fef3e7,#eff6ff);
+    border-radius:32px;
+    box-shadow:0 22px 60px rgba(15,23,42,.16);
+    padding:32px 34px;
+  }
+  .hero-copy-eyebrow{
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:#9ca3af;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .hero-copy h1{
+    margin:0 0 12px;
+    font-size:clamp(28px,3.2vw,36px);
+    line-height:1.1;
+    letter-spacing:-0.03em;
+  }
+  .hero-copy p{
+    margin:0;
+    color:var(--sub);
+    max-width:520px;
+    font-size:15px;
+  }
+  .hero-badges{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-top:18px;
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;
+    padding:7px 12px;
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+    background:#fff;
+    font-size:12px;
+    font-weight:600;
+    color:#4b5563;
+  }
+  .hero-actions{
+    display:flex;flex-wrap:wrap;gap:12px;
+    margin-top:20px;
+  }
+  .hero-actions .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:44px;padding:0 20px;border-radius:999px;
+    font-weight:700;font-size:14px;
+    text-decoration:none;
+  }
+  .btn-primary{
+    background:#111827;color:#fff;
+    box-shadow:0 16px 32px rgba(15,23,42,.25);
+  }
+  .btn-primary:hover{background:#020617}
+  .btn-ghost{
+    background:#fff;color:#111827;border:1px solid #e5e7eb;
+  }
+  .btn-ghost:hover{border-color:#d1d5db}
 
-    /* HERO VISUAL – hardware banner kartı */
-    .hero-visual{
-      position:relative;
-      min-height:190px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      perspective:1000px;
-    }
-    .hero-banner-card{
-      position:relative;
-      width:100%;
-      max-width:360px;
-      border-radius:22px;
-      overflow:hidden;
-      background:radial-gradient(circle at 10% 0%,#ffffff,#e5e7eb);
-      box-shadow:0 24px 70px rgba(15,23,42,.45);
-      transform:rotateY(-8deg) rotateX(4deg);
-    }
-    .hero-banner-card img{
-      width:100%;
-      display:block;
-    }
-    .hero-chip{
-      position:absolute;
-      left:16px;
-      top:14px;
-      padding:6px 12px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.92);
-      color:#f9fafb;
-      font-size:11px;
-      font-weight:700;
-    }
-    .hero-dot{
-      position:absolute;
-      width:9px;height:9px;border-radius:999px;
-      box-shadow:0 0 0 4px rgba(249,115,22,.35);
-      background:#f97316;
-    }
-    .hero-dot--green{
-      background:#22c55e;
-      box-shadow:0 0 0 4px rgba(34,197,94,.35);
-    }
-    .hero-dot--blue{
-      background:#3b82f6;
-      box-shadow:0 0 0 4px rgba(59,130,246,.35);
-    }
-    .hero-dot.dot-1{right:10%;top:16%;}
-    .hero-dot.dot-2{right:4%;bottom:26%;}
-    .hero-dot.dot-3{left:6%;bottom:18%;}
+  .hero-kicker{
+    margin-top:12px;
+    font-size:13px;
+    color:#6b7280;
+  }
 
-    /* WHY SECTION */
-    .why-section{
-      padding:10px 0 32px;
-    }
-    .why-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:18px;
-      margin-top:16px;
-    }
-    .why-card{
-      background:#ffffff;
-      border-radius:18px;
-      padding:14px 16px 16px;
-      border:1px solid #e5e7eb;
-      box-shadow:0 14px 34px rgba(15,23,42,.06);
-    }
-    .why-card h3{
-      margin:0 0 6px;font-size:15px;
-    }
-    .why-card p{
-      margin:0;font-size:13px;color:#6b7280;
-    }
+  .hero-visual-wrapper{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-visual-bg{
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 10% 0%,rgba(255,255,255,.95),rgba(15,23,42,.9));
+    opacity:0.9;
+    border-radius:28px;
+  }
+  .hardware-hero-card{
+    position:relative;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 28px 80px rgba(0,0,0,.65);
+    max-width:560px;
+    width:100%;
+  }
+  .hardware-hero-card img{
+    width:100%;
+    display:block;
+  }
 
-    /* SECTION & HEADERS */
-    .section{
-      padding:26px 0 34px;
-    }
-    .section-muted{
-      background:#f9fafb;
-      border-top:1px solid #e5e7eb;
-    }
-    .section-head h2{
-      margin:0 0 4px;
-      font-size:20px;
-      letter-spacing:-0.02em;
-    }
-    .section-head p{
-      margin:0;
-      font-size:14px;
-      color:var(--sub);
-    }
+  /* Küçük uçan noktalar (ana sayfadaki gibi) */
+  .hero-orbit-dot{
+    position:absolute;
+    width:10px;height:10px;border-radius:999px;
+    background:#f97316;
+    box-shadow:0 0 0 4px rgba(251,146,60,.35);
+  }
+  .hero-orbit-dot--green{
+    background:#22c55e;
+    box-shadow:0 0 0 4px rgba(34,197,94,.35);
+  }
+  .hero-orbit-dot--blue{
+    background:#3b82f6;
+    box-shadow:0 0 0 4px rgba(59,130,246,.35);
+  }
+  .hero-orbit-dot.dot-1{top:22px;right:40px;}
+  .hero-orbit-dot.dot-2{bottom:34px;right:76px;}
+  .hero-orbit-dot.dot-3{top:70px;left:20px;}
 
-    /* STORE GRID – büyük kurumsal kartlar */
-    .store-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:22px;
-      margin-top:18px;
-    }
-    .store-card{
-      position:relative;
-      background:#ffffff;
-      border-radius:22px;
-      border:1px solid #e5e7eb;
-      box-shadow:0 18px 46px rgba(15,23,42,0.10);
-      overflow:hidden;
-      text-decoration:none;
-      color:inherit;
-      display:flex;
-      flex-direction:column;
-      transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
-    }
-    .store-card:hover{
-      transform:translateY(-4px);
-      border-color:#d1d5db;
-      box-shadow:0 26px 64px rgba(15,23,42,0.18);
-    }
-    .store-card-media{
-      padding:14px 16px 12px;
-      background:linear-gradient(135deg,#e5f0ff,#fef3e7);
-    }
-    .store-card-pill{
-      display:inline-flex;
-      align-items:center;
-      padding:6px 12px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.94);
-      color:#e5e7eb;
-      font-size:11px;
-      font-weight:600;
-    }
-    .store-card-body{
-      padding:14px 18px 16px;
-    }
-    .store-card-body h3{
-      margin:0 0 6px;
-      font-size:16px;
-      letter-spacing:-0.01em;
-    }
-    .store-card-body p{
-      margin:0;
-      font-size:13px;
-      color:#6b7280;
-    }
-    .store-meta{
-      margin-top:6px;
-      font-size:12px;
-      color:#9ca3af;
-    }
-    .store-link-row{
-      margin-top:10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .store-link{
-      font-size:13px;
-      font-weight:600;
-      text-decoration:none;
-      color:#2563eb;
-    }
-    .store-link:hover{text-decoration:underline}
+  /* === STORES GRID: ana sayfadaki büyük kart tasarımı === */
+  .section-band{
+    margin-top:8px;
+    padding:28px 0 40px;
+    background:linear-gradient(180deg,#f4f5fb 0%, #f7f8fc 40%, #f2f4fa 100%);
+    border-top:1px solid rgba(209,213,219,0.8);
+    box-shadow:0 -4px 20px rgba(15,23,42,0.04) inset;
+  }
+  .section-h{
+    font-weight:800;font-size:22px;margin:0 0 16px;
+    letter-spacing:-0.02em;
+  }
 
-    /* PRODUCTS SECTION */
-    .products-note{
-      margin-top:14px;
-      font-size:13px;
-      color:#6b7280;
-      max-width:640px;
-    }
+  .hardware-store-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:24px;
+    margin-top:12px;
+  }
 
-    /* FOOTER (mini versiyon) */
-    .site-footer{
-      margin-top:40px;
-      background:#232347;
-      color:#e5e7eb;
-      padding:18px 0;
-      font-size:13px;
-    }
-    .footer-inner{
-      max-width:var(--wrap);
-      margin:0 auto;
-      padding-inline:16px;
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-    .footer-note{
-      margin:0;
-      font-size:12px;
-      color:#9ca3af;
-    }
+  .hardware-store-card{
+    background:#f9fafb;
+    border-radius:24px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 20px 45px rgba(15,23,42,0.08);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    text-decoration:none;
+    color:inherit;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .hardware-store-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 26px 60px rgba(15,23,42,0.16);
+  }
+  .hardware-store-media{
+    position:relative;
+    height:190px;
+    background:linear-gradient(135deg,#020617,#0b1120);
+    overflow:hidden;
+  }
+  .hardware-store-media img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transform:translateZ(0);
+    transition:transform .22s ease;
+  }
+  .hardware-store-card:hover .hardware-store-media img{
+    transform:scale(1.04);
+  }
+  .hardware-store-pill{
+    position:absolute;
+    left:16px;top:16px;
+    padding:6px 11px;
+    border-radius:999px;
+    background:rgba(15,23,42,.9);
+    color:#e5e7eb;
+    font-size:11px;
+    font-weight:600;
+  }
+  .hardware-store-body{
+    padding:16px 18px 18px;
+    background:#f3f4f6;
+    border-top:1px solid #e5e7eb;
+  }
+  .hardware-store-body h3{
+    margin:0 0 6px;
+    font-size:17px;
+    font-weight:800;
+  }
+  .hardware-store-body p{
+    margin:0;
+    font-size:14px;
+    color:#6b7280;
+  }
+  .hardware-store-meta{
+    margin-top:4px;
+    font-size:12px;
+    color:#9ca3af;
+  }
 
-    /* RESPONSIVE */
-    @media(max-width:900px){
-      .hero{
-        grid-template-columns:1fr;
-        padding:22px 18px 22px;
-      }
-      .hero-visual{
-        order:-1;
-      }
+  /* PRODUCTS bölümü */
+  .section-muted{
+    background:#f9fafb;
+    border-top:1px solid #e5e7eb;
+    padding:26px 0 34px;
+  }
+
+  /* FOOTER */
+  .site-footer{
+    margin-top:40px;background:#232347;
+    color:#fff;padding:20px 0;font-size:13px;
+  }
+  .footer-inner{
+    max-width:var(--wrap);
+    margin:0 auto;
+    padding-inline:16px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .footer-note{color:#d1d5db;font-size:13px;}
+
+  /* RESPONSIVE */
+  @media(max-width:1024px){
+    .hero-hardware{
+      grid-template-columns:1fr;
+      padding:22px 20px 24px;
     }
-    @media(max-width:768px){
-      .hdr-right{display:none}
-      .chips{
-        justify-content:flex-start;
-      }
-      .store-grid{
-        grid-template-columns:1fr;
-      }
-      .why-grid{
-        grid-template-columns:1fr;
-      }
+    .hero-visual-wrapper{order:-1}
+  }
+  @media(max-width:768px){
+    .hdr-right{display:none}
+    .hardware-store-grid{
+      grid-template-columns:1fr;
     }
+  }
   </style>
 </head>
 <body class="page page-hardware">
 
-  <!-- HEADER -->
-  <header class="header-outer">
-    <div class="page-section page-section--fluid header-row">
+<header class="header-outer">
+  <div class="page-section page-section--fluid header-row">
+    <div class="header-left">
       <a class="brand" href="./">RGZTEC</a>
 
-      <div class="search-wrap">
-        <form class="search" action="listings.html" role="search">
-          <input type="hidden" name="store" value="hardware">
-          <input type="search" name="q" placeholder="Search in hardware" aria-label="Search in hardware">
-          <button class="go" type="submit" aria-label="Search">
-            <svg viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="6" stroke="currentColor"/>
-              <path d="M16.5 16.5 21 21" stroke="currentColor"/>
-            </svg>
-          </button>
-        </form>
-      </div>
-
-      <div class="hdr-right">
-        <a href="login/" class="signin-link">Sign in</a>
-        <a href="open-store.html" class="pill-open">Open Store</a>
-      </div>
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span>Categories</span>
+      </button>
     </div>
 
-    <!-- Hardware’e özel hızlı filtreler -->
-    <div class="chips-outer">
-      <div class="page-section page-section--fluid">
-        <nav class="chips" aria-label="Hardware quick filters">
-          <a class="chip" href="#stores">All hardware stores</a>
-          <a class="chip" href="hardware/developer-boards.htm">Developer boards</a>
-          <a class="chip" href="hardware/sensors.html">Sensors &amp; modules</a>
-          <a class="chip" href="hardware/iot.html">IoT &amp; connectivity</a>
-          <a class="chip" href="hardware/edge.html">Edge devices</a>
-          <a class="chip" href="hardware/ai-accelerators.html">AI accelerators</a>
-          <a class="chip" href="hardware/smart-controllers.html">Smart controllers</a>
-          <a class="chip" href="listings.html?store=hardware">View all products →</a>
-        </nav>
-      </div>
+    <div class="search-wrap">
+      <form class="search" role="search" action="listings.html">
+        <input type="hidden" name="store" value="hardware">
+        <input type="search" name="q" placeholder="Search in hardware" aria-label="Search in hardware"/>
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+          </svg>
+        </button>
+      </form>
     </div>
-  </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero-outer">
-      <div class="page-section page-section--fluid hero">
-        <div class="hero-copy">
-          <h1>Hardware Lab</h1>
-          <p class="hero-subtitle">
-            Boards • Sensors • Robotics • Edge devices • AI accelerators • Smart controllers &amp; DIY kits –
-            all curated inside a single technology floor.
-          </p>
-          <div class="hero-actions">
-            <a href="#stores" class="btn btn-primary">Browse hardware stores</a>
-            <a href="listings.html?store=hardware" class="btn btn-ghost">View hardware products</a>
-          </div>
-          <p class="hero-kicker">
-            Curated for developers, labs and medtech teams who need reliable hardware building blocks.
-          </p>
+    <div class="hdr-right">
+      <a href="editor/" class="signin-link">Dashboard / Editor</a>
+      <a href="login/" class="signin-link">Sign in</a>
+      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
+      <a class="pill-open" href="open-store.html">Open Store</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero-outer">
+    <div class="page-section page-section--fluid hero-hardware">
+      <div class="hero-copy">
+        <div class="hero-copy-eyebrow">RGZTEC HARDWARE LAB</div>
+        <h1>Premium hardware store for developers, labs & medtech teams.</h1>
+        <p>
+          Boards, sensors, robotics, edge devices, AI accelerators and smart controllers – all curated
+          as a single, reliable hardware floor inside RGZTEC.
+        </p>
+
+        <div class="hero-badges">
+          <div class="hero-badge">✔ Industrial &amp; IoT ready</div>
+          <div class="hero-badge">✔ Curated brands &amp; vendors</div>
+          <div class="hero-badge">✔ Global shipping options</div>
         </div>
 
-        <div class="hero-visual">
-          <div class="hero-banner-card">
-            <span class="hero-chip">RGZTEC Hardware Lab</span>
-            <!-- Hardware için mevcut banner; yoksa store görselini kullan -->
-            <img src="assets/images/store/hardware.webp"
-                 alt="RGZTEC Hardware Lab banner">
-          </div>
-          <span class="hero-dot dot-1"></span>
-          <span class="hero-dot hero-dot--green dot-2"></span>
-          <span class="hero-dot hero-dot--blue dot-3"></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY SECTION -->
-    <section class="why-section">
-      <div class="page-section page-section--fluid">
-        <div class="section-head">
-          <h2>Built for serious projects</h2>
-          <p>Why teams use RGZTEC Hardware Lab instead of random marketplace listings.</p>
+        <div class="hero-actions">
+          <a href="#stores" class="btn btn-primary">Browse hardware stores →</a>
+          <a href="listings.html?store=hardware" class="btn btn-ghost">View hardware products</a>
         </div>
 
-        <div class="why-grid">
-          <article class="why-card">
-            <h3>Curated &amp; documented</h3>
-            <p>Every board, sensor and kit is reviewed with datasheets, reference projects and clear specs.</p>
-          </article>
-          <article class="why-card">
-            <h3>Made for labs &amp; medtech</h3>
-            <p>Focus on reliability and repeatability for research, diagnostics, IoT and clinical environments.</p>
-          </article>
-          <article class="why-card">
-            <h3>Connected to digital tools</h3>
-            <p>Combine hardware with templates, dashboards and AI tools already available on RGZTEC.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- STORES -->
-    <section id="stores" class="section">
-      <div class="page-section page-section--fluid">
-        <div class="section-head">
-          <h2>Popular hardware stores</h2>
-          <p>Explore curated micro-stores inside the RGZTEC Hardware Lab.</p>
-        </div>
-
-        <div class="store-grid">
-          <!-- Developer Boards -->
-          <a href="hardware/developer-boards.htm" class="store-card">
-            <div class="store-card-media">
-              <span class="store-card-pill">Boards • MCU • SBC</span>
-            </div>
-            <div class="store-card-body">
-              <h3>Developer Boards</h3>
-              <p>Microcontroller and SBC boards for makers, labs and embedded projects.</p>
-              <p class="store-meta">STM32, ESP32, Raspberry Pi, NXP and more.</p>
-              <div class="store-link-row">
-                <span class="store-link">Enter store →</span>
-              </div>
-            </div>
-          </a>
-
-          <!-- Sensors -->
-          <a href="hardware/sensors.html" class="store-card">
-            <div class="store-card-media">
-              <span class="store-card-pill">Sensors • Modules</span>
-            </div>
-            <div class="store-card-body">
-              <h3>Sensors &amp; Modules</h3>
-              <p>Environmental, motion and industrial sensors ready to plug into your designs.</p>
-              <p class="store-meta">Pressure, flow, temperature, biomedical &amp; industrial sensing.</p>
-              <div class="store-link-row">
-                <span class="store-link">Enter store →</span>
-              </div>
-            </div>
-          </a>
-
-          <!-- IoT & Connectivity -->
-          <a href="hardware/iot.html" class="store-card">
-            <div class="store-card-media">
-              <span class="store-card-pill">IoT • Connectivity</span>
-            </div>
-            <div class="store-card-body">
-              <h3>IoT &amp; Connectivity</h3>
-              <p>Wi-Fi, LTE, LoRa and edge connectivity kits for connected devices.</p>
-              <p class="store-meta">Gateways, modems, modules and evaluation kits.</p>
-              <div class="store-link-row">
-                <span class="store-link">Enter store →</span>
-              </div>
-            </div>
-          </a>
-
-          <!-- Edge Devices -->
-          <a href="hardware/edge.html" class="store-card">
-            <div class="store-card-media">
-              <span class="store-card-pill">Edge • AI on device</span>
-            </div>
-            <div class="store-card-body">
-              <h3>Edge Devices</h3>
-              <p>AI edge computing hardware for real-time inference at the device level.</p>
-              <p class="store-meta">NVIDIA Jetson, Coral, edge TPUs and AI boxes.</p>
-              <div class="store-link-row">
-                <span class="store-link">Enter store →</span>
-              </div>
-            </div>
-          </a>
-
-          <!-- AI Accelerators -->
-          <a href="hardware/ai-accelerators.html" class="store-card">
-            <div class="store-card-media">
-              <span class="store-card-pill">AI • Accelerators</span>
-            </div>
-            <div class="store-card-body">
-              <h3>AI Accelerators</h3>
-              <p>GPU, TPU and dedicated accelerator boards optimized for demanding AI workloads.</p>
-              <p class="store-meta">From compact inference cards to data-center grade hardware.</p>
-              <div class="store-link-row">
-                <span class="store-link">Enter store →</span>
-              </div>
-            </div>
-          </a>
-
-          <!-- Smart Controllers -->
-          <a href="hardware/smart-controllers.html" class="store-card">
-            <div class="store-card-media">
-              <span class="store-card-pill">Control • Automation</span>
-            </div>
-            <div class="store-card-body">
-              <h3>Smart Controllers</h3>
-              <p>Industrial and home automation controllers ready for deployment.</p>
-              <p class="store-meta">PLC, DIN-rail controllers, gateways and HMI panels.</p>
-              <div class="store-link-row">
-                <span class="store-link">Enter store →</span>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRODUCTS BÖLÜMÜ -->
-    <section id="products" class="section section-muted">
-      <div class="page-section page-section--fluid">
-        <div class="section-head">
-          <h2>Hardware products</h2>
-          <p>Browse ready-to-ship products from all hardware stores.</p>
-        </div>
-        <p class="products-note">
-          Soon this section will list hardware products pulled from the main RGZTEC catalog
-          using the <code>store=hardware</code> filter. For now, you can use the global
-          search bar above or jump directly to
-          <a href="listings.html?store=hardware">hardware listings</a>.
+        <p class="hero-kicker">
+          Curated for R&amp;D labs, embedded teams and medtech projects that need trusted hardware building blocks.
         </p>
       </div>
-    </section>
-  </main>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p>© <span id="y"></span> RGZTEC • Technology Mall</p>
-      <p class="footer-note">Hardware Lab – curated boards, sensors, robotics and edge devices.</p>
+      <div class="hero-visual-wrapper">
+        <div class="hero-visual-bg"></div>
+        <div class="hardware-hero-card">
+          <!-- Buraya senin hazırladığın hero görseli gelecek -->
+          <img src="assets/images/store/hardware-hero.webp"
+               alt="Premium hardware store hero banner">
+        </div>
+
+        <span class="hero-orbit-dot dot-1"></span>
+        <span class="hero-orbit-dot hero-orbit-dot--green dot-2"></span>
+        <span class="hero-orbit-dot hero-orbit-dot--blue dot-3"></span>
+      </div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
+  <!-- STORES GRID -->
+  <section id="stores" class="section-band">
+    <div class="page-section page-section--fluid">
+      <h2 class="section-h">Popular hardware stores</h2>
+      <p style="margin:0 0 14px;color:#6b7280;font-size:14px;">
+        Explore curated micro-stores inside the RGZTEC Hardware Lab – each one focused on a specific hardware category.
+      </p>
+
+      <div class="hardware-store-grid">
+        <!-- Developer Boards -->
+        <a href="hardware/developer-boards.htm" class="hardware-store-card">
+          <div class="hardware-store-media">
+            <span class="hardware-store-pill">Boards • MCU • SBC</span>
+            <img src="assets/images/store/hardware-iot.webp" alt="Developer boards store banner">
+          </div>
+          <div class="hardware-store-body">
+            <h3>Developer Boards</h3>
+            <p>Microcontroller and SBC boards for makers, labs and embedded projects.</p>
+            <div class="hardware-store-meta">Store • developer boards</div>
+          </div>
+        </a>
+
+        <!-- Sensors & Modules -->
+        <a href="hardware/sensors.html" class="hardware-store-card">
+          <div class="hardware-store-media">
+            <span class="hardware-store-pill">Sensors • Modules</span>
+            <img src="assets/images/store/hardware-sensors.webp" alt="Sensors and modules store banner">
+          </div>
+          <div class="hardware-store-body">
+            <h3>Sensors &amp; Modules</h3>
+            <p>Environmental, motion and industrial sensors ready to plug into your designs.</p>
+            <div class="hardware-store-meta">Store • sensors &amp; modules</div>
+          </div>
+        </a>
+
+        <!-- IoT & Connectivity -->
+        <a href="hardware/iot.html" class="hardware-store-card">
+          <div class="hardware-store-media">
+            <span class="hardware-store-pill">IoT • Connectivity</span>
+            <img src="assets/images/store/hardware-iot.webp" alt="IoT and connectivity store banner">
+          </div>
+          <div class="hardware-store-body">
+            <h3>IoT &amp; Connectivity</h3>
+            <p>Wi-Fi, LTE, LoRa and edge connectivity kits for connected devices.</p>
+            <div class="hardware-store-meta">Store • IoT &amp; connectivity</div>
+          </div>
+        </a>
+
+        <!-- Edge Devices -->
+        <a href="hardware/edge.html" class="hardware-store-card">
+          <div class="hardware-store-media">
+            <span class="hardware-store-pill">Edge • AI on device</span>
+            <img src="assets/images/store/hardware-edge.webp" alt="Edge devices store banner">
+          </div>
+          <div class="hardware-store-body">
+            <h3>Edge Devices</h3>
+            <p>AI edge computing hardware for real-time inference at the device level.</p>
+            <div class="hardware-store-meta">Store • edge devices</div>
+          </div>
+        </a>
+
+        <!-- AI Accelerators -->
+        <a href="hardware/ai-accelerators.html" class="hardware-store-card">
+          <div class="hardware-store-media">
+            <span class="hardware-store-pill">AI • Accelerators</span>
+            <img src="assets/images/store/hardware-ai.webp" alt="AI accelerators store banner">
+          </div>
+          <div class="hardware-store-body">
+            <h3>AI Accelerators</h3>
+            <p>GPU, TPU and accelerator boards optimized for demanding AI workloads.</p>
+            <div class="hardware-store-meta">Store • AI accelerators</div>
+          </div>
+        </a>
+
+        <!-- Smart Controllers -->
+        <a href="hardware/smart-controllers.html" class="hardware-store-card">
+          <div class="hardware-store-media">
+            <span class="hardware-store-pill">Control • Automation</span>
+            <img src="assets/images/store/hardware-controllers.webp" alt="Smart controllers store banner">
+          </div>
+          <div class="hardware-store-body">
+            <h3>Smart Controllers</h3>
+            <p>Industrial and home automation controllers ready for deployment.</p>
+            <div class="hardware-store-meta">Store • smart controllers</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION (ileride dinamik gelecek) -->
+  <section id="products" class="section-muted">
+    <div class="page-section page-section--fluid">
+      <div class="section-head">
+        <h2>Hardware products</h2>
+        <p>
+          Soon this section will list hardware products pulled from the main RGZTEC catalog with the
+          <code>store=hardware</code> filter. For now you can browse all hardware listings from the search bar or
+          “View hardware products” button above.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>© <span id="y"></span> RGZTEC • Technology Mall</p>
+    <p class="footer-note">Hardware Lab – curated boards, sensors, robotics and edge devices for serious builders.</p>
+  </div>
+</footer>
+
+<script>
+  // Footer yılı
+  document.getElementById('y').textContent = new Date().getFullYear();
+
+  // Categories drawer basit JS (istersen sonra Home ile aynı yaparız)
+  const drawer = document.getElementById("drawer");
+  const btnCats = document.getElementById("btnCats");
+  const backdrop = document.getElementById("backdrop");
+
+  if (drawer && btnCats && backdrop) {
+    const open = () => {
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden","false");
+    };
+    const close = () => {
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden","true");
+    };
+    btnCats.addEventListener("click", open);
+    backdrop.addEventListener("click", close);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") close();
+    });
+  }
+</script>
+
+<!-- Drawer HTML (Home’dekiyle uyumlu basit versiyon) -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <nav>
+      <a href="listings.html?tag=html-templates">HTML Templates</a>
+      <a href="listings.html?tag=react-components">React Components</a>
+      <a href="listings.html?tag=ai-tools">AI Tools</a>
+      <a href="listings.html?tag=games">Games</a>
+      <a href="listings.html?tag=hardware">Hardware</a>
+      <a href="listings.html" style="font-weight:700;color:var(--brand);border-top:1px solid var(--line);margin-top:4px;padding-top:12px;">All Categories →</a>
+    </nav>
+  </aside>
+</div>
+
 </body>
 </html>
+
 
 
 
