@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Hardware Lab</title>
 
-  <!-- GitHub Pages kökü -->
+  <!-- GitHub Pages kökü (docs kökünden çalışıyorsan) -->
   <base href="/rgztec/">
 
+  <!-- Home ile aynı CSS stack (birebir kopyala) -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
   <link rel="stylesheet" href="assets/css/theme.css?v=4">
@@ -15,43 +16,69 @@
   <link rel="stylesheet" href="assets/css/interactions.css?v=1">
   <link rel="stylesheet" href="assets/css/styles.css?v=4">
 
-  <meta name="description" content="Premium hardware marketplace: AI accelerators, dev boards, edge devices, sensors, med-tech and robotics.">
+  <!-- BURASI YENİ: Hardware’e özel CSS’in -->
+  <link rel="stylesheet" href="assets/css/store-hardware.css?v=1">
+
+  <meta name="description"
+        content="Curated hardware marketplace: AI accelerators, dev boards, sensors, med-tech, robotics and edge computing."/>
 </head>
 
-<body class="bg-[#0b0b0d] text-white font-inter">
+<!-- DİKKAT: data-store="hardware" ZORUNLU -->
+<body data-store="hardware">
 
-  <header class="w-full py-6 px-6 flex items-center justify-between border-b border-white/10 backdrop-blur-md bg-black/20">
-    <a href="index.html" class="flex items-center gap-3">
-      <img src="assets/images/logo-light.svg" alt="RGZTEC" class="h-8">
-      <span class="text-xl font-semibold tracking-tight">RGZTEC Hardware Lab</span>
-    </a>
-  </header>
+  <!-- ÜST BAR (logo vs.) -->
+  <div class="topbar">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;height:64px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
+        <img src="assets/images/logo-light.svg" alt="RGZTEC" style="height:28px;">
+        <span style="font-weight:800;letter-spacing:.02em;">RGZTEC Hardware Lab</span>
+      </a>
+    </div>
+  </div>
 
-  <section class="relative h-[340px] overflow-hidden flex items-center">
-    <img src="assets/images/hardware/hardware-hero.webp"
-         class="absolute inset-0 w-full h-full object-cover opacity-60">
-    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-
-    <div class="relative px-8">
-      <h1 class="text-5xl font-extrabold mb-4">Hardware Lab</h1>
-      <p class="text-xl text-white/70 max-w-2xl">
-        Curated marketplace for AI accelerators, dev boards, sensors, robotics, med-tech and edge computing systems.
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap" style="padding-top:32px;padding-bottom:28px;">
+      <h1 class="h1">Hardware Lab</h1>
+      <p class="tag">
+        Curated marketplace for next-generation hardware: AI accelerators, dev boards,
+        sensors, medical kits, robotics and edge computing systems.
       </p>
     </div>
   </section>
 
-  <section class="py-12 px-8">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-8 border-b border-white/10 pb-3">Categories</h2>
-      <div id="hardwareCategories"
-           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+  <!-- (İstersen) KATEGORİ BAR (üstte küçük text menü) -->
+  <div class="cats-wrap">
+    <div class="store-bar wrap">
+      <!-- İstersen statik linkler koyabilirsin; slug’lar JSON ile de gelebilir -->
+      <a href="hardware-category.html?slug=ai-accelerators">AI Accelerators</a>
+      <a href="hardware-category.html?slug=dev-boards">Developer Boards</a>
+      <a href="hardware-category.html?slug=embedded-computers">Embedded & Edge</a>
+      <a href="hardware-category.html?slug=sensors">Sensors & Modules</a>
+      <a href="hardware-category.html?slug=medical-kits">Medical Kits</a>
+      <a href="hardware-category.html?slug=medical-tech">Medical Tech</a>
+      <a href="hardware-category.html?slug=robotics">Robotics</a>
+      <a href="hardware-category.html?slug=iot-gateways">IoT Gateways</a>
     </div>
-  </section>
+  </div>
 
-  <footer class="border-t border-white/10 mt-20 py-12 text-center text-white/50 text-sm">
-    © 2025 RGZTEC Hardware Lab — all rights reserved.
+  <!-- KATEGORİ / ÜRÜN GRID BÖLÜMÜ -->
+  <main class="section">
+    <h2>Featured categories</h2>
+
+    <div class="grid" id="hardwareCategories">
+      <!-- hardware-index.js buraya kart basacak -->
+    </div>
+  </main>
+
+  <!-- FOOTER (basit) -->
+  <footer style="border-top:1px solid #e5e7eb;margin-top:24px;">
+    <div class="wrap" style="padding:18px 0;font-size:12px;color:#64748b;">
+      © 2025 RGZTEC Hardware Lab — all rights reserved.
+    </div>
   </footer>
 
+  <!-- JS -->
   <script src="assets/js/hardware-index.js?v=1" defer></script>
 </body>
 </html>
