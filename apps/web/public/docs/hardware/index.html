@@ -6,14 +6,28 @@
   <title>RGZTEC • Hardware Lab</title>
   <meta name="description" content="Boards, sensors, robotics, edge devices, AI accelerators and smart controllers – all curated inside the RGZTEC Hardware Lab." />
 
-  <!-- /docs, GitHub Pages'te /rgztec kökü olarak yayınlanıyor -->
+  <!-- ÖNEMLİ: Project Pages kökü /rgztec/, docs klasörü URL'de görünmüyor -->
   <base href="/rgztec/">
 
-  <!-- Ana siteyle aynı CSS stack -->
+  <!-- Kurumsal token + global tema -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
-  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1"><!-- boşluk fallback -->
+
+  <!-- Ana layout / kart / mağaza sayfaları / hardware özel stiller -->
+  <link rel="stylesheet" href="assets/css/base.css?v=1">
+  <link rel="stylesheet" href="assets/css/card.css?v=1">
+  <link rel="stylesheet" href="assets/css/store-page.css?v=1">
+  <link rel="stylesheet" href="assets/css/store-corporate.css?v=1">
+  <link rel="stylesheet" href="assets/css/hardware-page.css?v=1">
+
+  <!-- Hero ambient + etkileşimler -->
+  <link rel="stylesheet" href="assets/css/hero-ambient.css?v=1">
+  <link rel="stylesheet" href="assets/css/interactions.css?v=1">
+
+  <!-- Üst kurumsal layer -->
   <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
 
   <meta name="theme-color" content="#f97316">
@@ -177,6 +191,11 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+
+  <!-- Kurumsal JS (header, etkileşimler, vs.) -->
+  <script src="assets/js/theme-corporate.js?v=1" defer></script>
+  <script src="assets/js/interactions.js?v=1" defer></script>
 </body>
 </html>
+
 
