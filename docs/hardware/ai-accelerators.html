@@ -6,8 +6,8 @@
   <title>RGZTEC • Hardware Lab • AI Accelerators</title>
   <meta name="description" content="AI Accelerators category of RGZTEC Hardware Lab — premium UI kits for embedded AI, on-device inference, accelerator dashboards, tensor performance analytics and hybrid AI pipelines."/>
 
-  <!-- Bu site /rgztec/docs/ altından servis ediliyor -->
-  <base href="/rgztec/docs/">
+  <!-- GitHub Pages: /docs kökü => /rgztec/ -->
+  <base href="/rgztec/">
 
   <!-- Cache kontrolü -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Global theme dosyaların -->
+  <!-- Global theme dosyaları -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
 
@@ -29,9 +29,181 @@
   <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
 
   <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/hero-ambient.css">
   <link rel="stylesheet" href="assets/css/interactions.css">
+  <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
 
   <style>
+    :root{
+      --wrap:1200px;
+      --gutter-min:12px; --gutter-max:28px;
+      --ink:#0b1220; --sub:#64748b;
+      --line:#e5e7eb; --line-strong:#d7dbe3;
+      --brand:#f97316; --brand-dark:#ea580c;
+      --bg-soft:#020617;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;overflow-x:hidden}
+    body{
+      font-family:'Inter','IBM Plex Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+      background:#020617;
+      color:#e5e7eb;
+      font-size:15px;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    .page-section{
+      width:100%;
+      max-width:var(--wrap);
+      margin-inline:auto;
+      padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+    }
+    .page-section--fluid{
+      max-width:none;
+    }
+
+    /* === HEADER (home ile aynı çizgide) === */
+    .header-outer{
+      position:sticky;
+      top:0;
+      z-index:60;
+      background:linear-gradient(180deg,#020617,#020617);
+      backdrop-filter:saturate(120%) blur(12px);
+      border-bottom:1px solid rgba(15,23,42,.9);
+    }
+    .header-row{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      padding:10px 0;
+    }
+    .header-left{display:flex;align-items:center;gap:10px}
+    .brand{
+      font-weight:900;font-size:22px;letter-spacing:.08em;
+      color:var(--brand);text-decoration:none;margin-right:8px;
+    }
+    .btn-cats{
+      display:inline-flex;align-items:center;gap:8px;
+      height:40px;padding:0 14px;
+      border-radius:999px;
+      border:1px solid rgba(51,65,85,.9);
+      background:#020617;cursor:pointer;
+      font-weight:500;font-size:14px;
+      color:#e5e7eb;
+    }
+    .btn-cats svg{width:18px;height:18px}
+    .btn-cats:hover{border-color:#818cf8;background:#020617}
+
+    .search-wrap{flex:1 1 auto;min-width:260px;max-width:780px}
+    .search{
+      display:flex;align-items:center;
+      height:48px;
+      border-radius:999px;
+      border:1px solid rgba(51,65,85,.9);
+      background:#020617;
+      padding:0 8px 0 16px;
+      width:100%;
+      transition:border-color .18s,box-shadow .18s,background-color .18s;
+    }
+    .search input{
+      flex:1;min-width:0;border:0;outline:0;
+      font-size:15px;padding:12px 10px;background:transparent;
+      color:#e5e7eb;
+    }
+    .search:hover{
+      border-color:#4f46e5;
+      box-shadow:0 0 0 1px rgba(79,70,229,.55);
+    }
+    .search:focus-within{
+      border-color:var(--brand);
+      box-shadow:0 0 0 1px rgba(249,115,22,.65);
+    }
+    .go{
+      display:grid;place-items:center;
+      width:38px;height:38px;
+      border-radius:999px;
+      background:var(--brand);
+      border:0;cursor:pointer;margin-right:4px;
+      transition:background-color .18s,transform .12s;
+    }
+    .go svg{width:18px;height:18px;stroke:#0b1020;fill:none;stroke-width:2}
+    .go:hover{background:var(--brand-dark);transform:translateY(-1px)}
+
+    .hdr-right{
+      display:flex;justify-content:flex-end;align-items:center;
+      gap:12px;flex-wrap:nowrap;
+    }
+    .signin-link{
+      color:#e5e7eb;text-decoration:none;
+      font-weight:600;font-size:14px;white-space:nowrap;
+    }
+    .signin-link:hover{color:var(--brand)}
+    .icon-btn{
+      display:grid;place-items:center;
+      width:32px;height:32px;
+      border-radius:999px;
+      border:1px solid rgba(51,65,85,.9);
+      background:#020617;
+      font-size:16px;text-decoration:none;
+    }
+    .icon-btn:hover{border-color:#4f46e5;background:#020617}
+    .pill-open{
+      display:inline-flex;align-items:center;justify-content:center;
+      height:40px;padding:0 20px;
+      border-radius:999px;
+      background:var(--brand);color:#0b1020;
+      font-weight:700;text-decoration:none;font-size:14px;
+      box-shadow:0 14px 30px rgba(249,115,22,.45);
+    }
+    .pill-open:hover{background:var(--brand-dark)}
+
+    /* QUICK FILTER CHIPS – AI özel */
+    .chips-outer{
+      border-top:1px solid rgba(15,23,42,.9);
+      border-bottom:1px solid rgba(15,23,42,.9);
+      background:#020617;
+      padding:6px 0;
+      box-shadow:0 3px 12px rgba(0,0,0,.55);
+    }
+    .chips{
+      max-width:var(--wrap);
+      margin:0 auto;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+      align-items:center;
+      column-gap:14px;
+      row-gap:8px;
+      padding:6px 24px 8px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:7px 14px;
+      background:#020617;
+      border-radius:999px;
+      border:1px solid rgba(51,65,85,.9);
+      color:#cbd5f5;
+      font-weight:600;
+      font-size:13px;
+      text-decoration:none;
+      transition:all .18s ease;
+    }
+    .chip:hover{
+      background:#111827;
+      border-color:#4f46e5;
+      color:#e5e7eb;
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(15,23,42,.8);
+    }
+
+    @media (max-width:768px){
+      .hdr-right{display:none}
+      .chips{justify-content:center}
+    }
+
+    /* === AI SAYFA İSKELETİ === */
     .ai-shell {
       max-width: 1240px;
       margin: 0 auto;
@@ -39,13 +211,15 @@
     }
 
     .ai-breadcrumb {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       opacity: 0.75;
       margin-bottom: 0.9rem;
+      color:#9ca3af;
     }
     .ai-breadcrumb a {
-      opacity: 0.8;
+      opacity: 0.9;
       text-decoration: none;
+      color:#e5e7eb;
     }
     .ai-breadcrumb a:hover {
       opacity: 1;
@@ -223,6 +397,8 @@
       border: 1px solid transparent;
       cursor: pointer;
       opacity: 0.8;
+      background:#020617;
+      color:#e5e7eb;
     }
 
     .ai-tab.is-active {
@@ -312,11 +488,29 @@
       gap: 0.55rem;
     }
 
+    /* Favori renk temaları */
+    .ai-card--indigo{
+      background:radial-gradient(circle at 0 0,#312e81,#020617 60%);
+      border-color:rgba(129,140,248,.95);
+    }
+    .ai-card--cyan{
+      background:radial-gradient(circle at 0 0,#083344,#020617 60%);
+      border-color:rgba(45,212,191,.95);
+    }
+    .ai-card--violet{
+      background:radial-gradient(circle at 0 0,#4c1d95,#020617 60%);
+      border-color:rgba(196,181,253,.95);
+    }
+    .ai-card--amber{
+      background:radial-gradient(circle at 0 0,#78350f,#020617 60%);
+      border-color:rgba(251,191,36,.95);
+    }
+
     .ai-card-label {
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      opacity: 0.75;
+      opacity: 0.8;
     }
 
     .ai-card-title {
@@ -326,7 +520,7 @@
 
     .ai-card-body {
       font-size: 0.8rem;
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     .ai-card-tags {
@@ -341,6 +535,7 @@
       padding: 0.2rem 0.5rem;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.6);
+      background:rgba(15,23,42,.75);
     }
 
     .ai-sidebar {
@@ -379,6 +574,35 @@
       margin-bottom: 0.18rem;
     }
 
+    /* FOOTER */
+    .site-footer{
+      margin-top:0;
+      background:#020617;
+      border-top:1px solid rgba(15,23,42,.95);
+      color:#9ca3af;
+      padding:16px 0;
+      font-size:13px;
+    }
+    .site-footer-inner{
+      max-width:var(--wrap);
+      margin:0 auto;
+      padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .site-footer-nav{
+      display:flex;gap:12px;flex-wrap:wrap;
+    }
+    .site-footer-nav a{
+      color:#9ca3af;
+      text-decoration:none;
+      font-size:13px;
+    }
+    .site-footer-nav a:hover{color:#e5e7eb;text-decoration:underline}
+
     @media (max-width: 980px) {
       .ai-hero-inner {
         grid-template-columns: minmax(0, 1fr);
@@ -410,314 +634,389 @@
     }
   </style>
 </head>
-<body class="rgz-body">
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="site-header-inner">
-      <a href="index.html" class="site-logo">
-        <img src="assets/images/logo-rgztec-full.webp" alt="RGZTEC Logo" loading="lazy">
-      </a>
-      <nav class="site-nav">
-        <a href="index.html#stores">Stores</a>
-        <a href="index.html#products">Featured</a>
-        <a href="index.html#how-it-works">How it works</a>
-      </nav>
-      <div class="site-header-actions">
-        <a href="index.html#open-store" class="btn-ghost">Open your store</a>
-      </div>
-    </div>
-  </header>
+<body class="page page-hardware">
 
-  <main class="ai-shell">
-    <div class="ai-breadcrumb">
-      RGZTEC / <a href="hardware/">Hardware Lab</a> / <strong>AI Accelerators</strong>
+<!-- HEADER -->
+<header class="header-outer">
+  <div class="page-section page-section--fluid header-row">
+    <div class="header-left">
+      <a class="brand" href="./">RGZTEC</a>
+
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span>Categories</span>
+      </button>
     </div>
 
-    <!-- HERO -->
-    <section class="ai-hero">
-      <div class="ai-hero-inner">
-        <div>
-          <div class="ai-pill-row">
-            <span class="ai-pill">AI Accelerators</span>
-            <span class="ai-pill">Embedded & edge AI</span>
-            <span class="ai-pill">Tensor compute</span>
-          </div>
-          <h1 class="ai-hero-title">
-            UI kits for <span class="ai-hero-highlight">embedded AI</span>,
-            inference dashboards and accelerator-ready products.
-          </h1>
-          <p class="ai-hero-subtitle">
-            This category is where models meet hardware: accelerators, on-device
-            inference, thermal envelopes, memory limits and real-time AI analytics.
-          </p>
-          <div class="ai-hero-actions">
-            <button class="btn-ai-primary">Browse accelerator kits</button>
-            <button class="btn-ai-ghost">View inference flows</button>
-            <button class="btn-ai-ghost">License options</button>
-          </div>
-          <div class="ai-hero-metrics">
-            <div class="ai-metric">
-              <strong>12+</strong>
-              <span>accelerator-focused UI kits</span>
-            </div>
-            <div class="ai-metric">
-              <strong>Multi-device</strong>
-              <span>boards, boxes & edge racks</span>
-            </div>
-            <div class="ai-metric">
-              <strong>Hybrid</strong>
-              <span>cloud + on-device inference</span>
-            </div>
-          </div>
-        </div>
-        <div class="ai-hero-vis">
-          <div class="ai-hero-vis-inner">
-            <!-- 3D TRANSPARENT AI ACCELERATOR GÖRSELİ -->
-            <img src="assets/images/store/hardware-ai.webp"
-                 alt="AI accelerators premium 3D banner"
-                 loading="lazy">
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="search-wrap">
+      <!-- AI Accelerators’a özel arama -->
+      <form class="search" role="search" action="listings.html">
+        <input type="hidden" name="store" value="hardware">
+        <input type="hidden" name="tag" value="ai-accelerators">
+        <input type="search" name="q" placeholder="Search in AI accelerators" aria-label="Search in AI accelerators">
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+          </svg>
+        </button>
+      </form>
+    </div>
 
-    <!-- TABS -->
-    <nav class="ai-tabs">
-      <button class="ai-tab is-active">Overview</button>
-      <button class="ai-tab">Inference dashboards</button>
-      <button class="ai-tab">Accelerator management</button>
-      <button class="ai-tab">Pipelines</button>
+    <div class="hdr-right">
+      <a href="editor/" class="signin-link">Dashboard / Editor</a>
+      <a href="login/" class="signin-link">Sign in</a>
+      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
+      <a class="pill-open" href="open-store.html">Open Store</a>
+    </div>
+  </div>
+
+  <!-- Hardware / AI quick filters -->
+  <div class="chips-outer">
+    <nav class="chips" aria-label="Hardware quick filters">
+      <a class="chip" href="hardware/">Hardware Lab home</a>
+      <a class="chip" href="#ai-kits">Accelerator UI kits</a>
+      <a class="chip" href="#ai-overview">Category overview</a>
+      <a class="chip" href="#ai-bundles">Bundles</a>
+      <a class="chip" href="listings.html?store=hardware&amp;tag=ai-accelerators">All AI accelerator products</a>
     </nav>
+  </div>
+</header>
 
-    <section class="ai-layout">
-      <!-- SOL KOLON -->
+<main class="ai-shell">
+  <div class="ai-breadcrumb">
+    RGZTEC / <a href="hardware/">Hardware Lab</a> / <strong>AI Accelerators</strong>
+  </div>
+
+  <!-- HERO -->
+  <section class="ai-hero">
+    <div class="ai-hero-inner">
       <div>
-        <!-- OVERVIEW -->
-        <section class="ai-section">
-          <div class="ai-section-header">
-            <h2 class="ai-section-title">Category overview</h2>
+        <div class="ai-pill-row">
+          <span class="ai-pill">AI Accelerators</span>
+          <span class="ai-pill">Embedded &amp; edge AI</span>
+          <span class="ai-pill">Tensor compute</span>
+        </div>
+        <h1 class="ai-hero-title">
+          UI kits for <span class="ai-hero-highlight">embedded AI</span>,
+          inference dashboards and accelerator-ready products.
+        </h1>
+        <p class="ai-hero-subtitle">
+          This category is where models meet hardware: accelerators, on-device
+          inference, thermal envelopes, memory limits and real-time AI analytics.
+        </p>
+        <div class="ai-hero-actions">
+          <button class="btn-ai-primary" type="button">Browse accelerator kits</button>
+          <button class="btn-ai-ghost" type="button">View inference flows</button>
+          <button class="btn-ai-ghost" type="button">License options</button>
+        </div>
+        <div class="ai-hero-metrics">
+          <div class="ai-metric">
+            <strong>12+</strong>
+            <span>accelerator-focused UI kits</span>
           </div>
-          <p class="ai-section-subtitle">
-            AI Accelerators covers the UIs that sit directly on top of tensor compute:
-            model runs, performance envelopes and device health.
-          </p>
-          <div class="ai-body-text" style="margin-top:0.6rem;">
-            These kits are made for teams who ship actual AI workloads on
-            boards, boxes and edge racks — not just cloud-only prototypes.
-            Latency, throughput, power, temperature and accuracy all surface here.
+          <div class="ai-metric">
+            <strong>Multi-device</strong>
+            <span>boards, boxes &amp; edge racks</span>
           </div>
-          <div class="ai-points">
-            <div class="ai-bullet">
-              <span>•</span>
-              <span>Model-centric dashboards that show inference rates, queues,
-              errors and input/output stats in real time.</span>
-            </div>
-            <div class="ai-bullet">
-              <span>•</span>
-              <span>Accelerator panels for memory, compute lanes, thermal headroom,
-              throttling and performance tuning.</span>
-            </div>
-            <div class="ai-bullet">
-              <span>•</span>
-              <span>Pipeline layouts for full AI flows: data in, transforms,
-              inference, post-processing and monitoring.</span>
-            </div>
+          <div class="ai-metric">
+            <strong>Hybrid</strong>
+            <span>cloud + on-device inference</span>
           </div>
-        </section>
-
-        <!-- UI KIT TYPES -->
-        <section class="ai-section">
-          <div class="ai-section-header">
-            <h2 class="ai-section-title">AI accelerator UI kit types</h2>
-            <span class="ai-section-subtitle">Patterns based on real AI deployments.</span>
-          </div>
-          <div class="ai-grid">
-            <article class="ai-card">
-              <div class="ai-card-label">Inference</div>
-              <h3 class="ai-card-title">Model inference consoles</h3>
-              <p class="ai-card-body">
-                Dashboards for throughput, latency, error rates, batch queues
-                and live request traces per model and per deployment.
-              </p>
-              <div class="ai-card-tags">
-                <span class="ai-card-tag">Latency</span>
-                <span class="ai-card-tag">Throughput</span>
-                <span class="ai-card-tag">Errors</span>
-              </div>
-            </article>
-
-            <article class="ai-card">
-              <div class="ai-card-label">Devices</div>
-              <h3 class="ai-card-title">Accelerator health views</h3>
-              <p class="ai-card-body">
-                Layouts for power, temperature, clocks, utilization and thermal
-                envelopes across devices and nodes.
-              </p>
-              <div class="ai-card-tags">
-                <span class="ai-card-tag">Thermals</span>
-                <span class="ai-card-tag">Power</span>
-                <span class="ai-card-tag">Utilization</span>
-              </div>
-            </article>
-
-            <article class="ai-card">
-              <div class="ai-card-label">Pipelines</div>
-              <h3 class="ai-card-title">End-to-end AI flows</h3>
-              <p class="ai-card-body">
-                Visual journeys that map data ingestion, feature extraction,
-                inference, post-processing and logging.
-              </p>
-              <div class="ai-card-tags">
-                <span class="ai-card-tag">Pipelines</span>
-                <span class="ai-card-tag">Monitoring</span>
-              </div>
-            </article>
-
-            <article class="ai-card">
-              <div class="ai-card-label">Hybrid</div>
-              <h3 class="ai-card-title">Cloud + device orchestration</h3>
-              <p class="ai-card-body">
-                Views for load-splitting, fallback, tiered models and location-aware
-                inference between cloud and devices.
-              </p>
-              <div class="ai-card-tags">
-                <span class="ai-card-tag">Hybrid</span>
-                <span class="ai-card-tag">Multi-region</span>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <!-- BUNDLES -->
-        <section class="ai-section">
-          <div class="ai-section-header">
-            <h2 class="ai-section-title">Bundles & lab integration</h2>
-          </div>
-          <p class="ai-section-subtitle">
-            AI Accelerators ties together Hardware Lab’s higher-level stories.
-          </p>
-          <div class="ai-body-text" style="margin-top:0.6rem;">
-            You can pair these kits with Edge Computing, Developer Boards and
-            Sensors & Connectivity to tell complete AI narratives:
-            from raw signals and boards to live AI decisions at the edge.
-          </div>
-          <div class="ai-points">
-            <div class="ai-bullet">
-              <span>•</span>
-              <span>Use with Edge kits to highlight where AI runs in the path:
-              in gateways, boxes, racks or devices.</span>
-            </div>
-            <div class="ai-bullet">
-              <span>•</span>
-              <span>Combine with Developer Boards to show model bring-up,
-              profiling and tuning flows on lab hardware.</span>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
-
-      <!-- SAĞ KOLON -->
-      <aside class="ai-sidebar">
-        <!-- PROFILE -->
-        <section class="ai-section">
-          <div class="ai-section-header">
-            <h2 class="ai-section-title">Category profile</h2>
-          </div>
-          <p class="ai-section-subtitle">
-            Who AI Accelerators is designed for.
-          </p>
-          <ul class="ai-stat-list">
-            <li>
-              <div class="ai-stat-label">Best suited for</div>
-              <div class="ai-stat-value">
-                Embedded AI, edge AI, robotics, CV/ML product teams
-              </div>
-            </li>
-            <li>
-              <div class="ai-stat-label">Primary use-cases</div>
-              <div class="ai-stat-value">
-                Inference dashboards, accelerator monitoring, AI pipelines
-              </div>
-            </li>
-            <li>
-              <div class="ai-stat-label">Formats</div>
-              <div class="ai-stat-value">
-                Figma, HTML/CSS, React starter layouts
-              </div>
-            </li>
-          </ul>
-        </section>
-
-        <!-- TECH -->
-        <section class="ai-section">
-          <div class="ai-section-header">
-            <h2 class="ai-section-title">Tech & formats</h2>
-          </div>
-          <p class="ai-section-subtitle">
-            Designed to sit directly on top of AI runtimes and hardware.
-          </p>
-          <ul class="ai-stat-list">
-            <li>
-              <div class="ai-stat-label">Design files</div>
-              <div class="ai-stat-value">
-                Figma components for graphs, consoles and tiles
-              </div>
-            </li>
-            <li>
-              <div class="ai-stat-label">Code handoff</div>
-              <div class="ai-stat-value">
-                HTML/CSS, React, Tailwind-ready layout examples
-              </div>
-            </li>
-            <li>
-              <div class="ai-stat-label">Metrics</div>
-              <div class="ai-stat-value">
-                Latency, throughput, power, temperature, accuracy
-              </div>
-            </li>
-          </ul>
-        </section>
-
-        <!-- FAQ -->
-        <section class="ai-section">
-          <div class="ai-section-header">
-            <h2 class="ai-section-title">FAQ</h2>
-          </div>
-          <div class="ai-faq-list">
-            <div class="ai-faq-item">
-              <strong>Can we use this for robotics and CV?</strong>
-              <span>Yes. These layouts are ideal for cameras, robots and real-time
-              perception stacks using on-device AI.</span>
-            </div>
-            <div class="ai-faq-item">
-              <strong>Does it assume a specific hardware vendor?</strong>
-              <span>No. Metrics and labels are neutral so you can adapt them to
-              your own accelerators and runtimes.</span>
-            </div>
-            <div class="ai-faq-item">
-              <strong>Can this work with hybrid inference?</strong>
-              <span>Absolutely. Many components are designed for split workloads,
-              where some calls run on devices and others in the cloud.</span>
-            </div>
-          </div>
-        </section>
-      </aside>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="site-footer-inner">
-      <span>© RGZTEC • Code Mall for serious builders</span>
-      <nav class="site-footer-nav">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-        <a href="#">Support</a>
-      </nav>
+      <div class="ai-hero-vis" aria-hidden="true">
+        <div class="ai-hero-vis-inner">
+          <!-- AI ACCELERATOR HERO BANNER -->
+          <img src="assets/images/store/hardware-ai.webp"
+               alt="AI accelerators premium 3D banner"
+               loading="lazy">
+        </div>
+      </div>
     </div>
-  </footer>
+  </section>
 
-  <script defer src="assets/js/theme-corporate.js?v=1"></script>
+  <!-- TABS -->
+  <nav class="ai-tabs">
+    <button class="ai-tab is-active" type="button">Overview</button>
+    <button class="ai-tab" type="button">Inference dashboards</button>
+    <button class="ai-tab" type="button">Accelerator management</button>
+    <button class="ai-tab" type="button">Pipelines &amp; bundles</button>
+  </nav>
+
+  <section class="ai-layout">
+    <!-- SOL KOLON -->
+    <div>
+      <!-- OVERVIEW -->
+      <section id="ai-overview" class="ai-section" data-ai-section="overview">
+        <div class="ai-section-header">
+          <h2 class="ai-section-title">Category overview</h2>
+        </div>
+        <p class="ai-section-subtitle">
+          AI Accelerators covers the UIs that sit directly on top of tensor compute:
+          model runs, performance envelopes and device health.
+        </p>
+        <div class="ai-body-text" style="margin-top:0.6rem;">
+          These kits are made for teams who ship actual AI workloads on
+          boards, boxes and edge racks — not just cloud-only prototypes.
+          Latency, throughput, power, temperature and accuracy all surface here.
+        </div>
+        <div class="ai-points">
+          <div class="ai-bullet">
+            <span>•</span>
+            <span>Model-centric dashboards that show inference rates, queues,
+            errors and input/output stats in real time.</span>
+          </div>
+          <div class="ai-bullet">
+            <span>•</span>
+            <span>Accelerator panels for memory, compute lanes, thermal headroom,
+            throttling and performance tuning.</span>
+          </div>
+          <div class="ai-bullet">
+            <span>•</span>
+            <span>Pipeline layouts for full AI flows: data in, transforms,
+            inference, post-processing and monitoring.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- UI KIT TYPES / FAVORİ RENKLER -->
+      <section id="ai-kits" class="ai-section" data-ai-section="dashboards">
+        <div class="ai-section-header">
+          <h2 class="ai-section-title">AI accelerator UI kit types</h2>
+          <span class="ai-section-subtitle">Patterns based on real AI deployments.</span>
+        </div>
+        <div class="ai-grid">
+          <article class="ai-card ai-card--indigo">
+            <div class="ai-card-label">Inference</div>
+            <h3 class="ai-card-title">Model inference consoles</h3>
+            <p class="ai-card-body">
+              Dashboards for throughput, latency, error rates, batch queues
+              and live request traces per model and per deployment.
+            </p>
+            <div class="ai-card-tags">
+              <span class="ai-card-tag">Latency</span>
+              <span class="ai-card-tag">Throughput</span>
+              <span class="ai-card-tag">Errors</span>
+            </div>
+          </article>
+
+          <article class="ai-card ai-card--cyan">
+            <div class="ai-card-label">Devices</div>
+            <h3 class="ai-card-title">Accelerator health views</h3>
+            <p class="ai-card-body">
+              Layouts for power, temperature, clocks, utilization and thermal
+              envelopes across devices and nodes.
+            </p>
+            <div class="ai-card-tags">
+              <span class="ai-card-tag">Thermals</span>
+              <span class="ai-card-tag">Power</span>
+              <span class="ai-card-tag">Utilization</span>
+            </div>
+          </article>
+
+          <article class="ai-card ai-card--violet">
+            <div class="ai-card-label">Pipelines</div>
+            <h3 class="ai-card-title">End-to-end AI flows</h3>
+            <p class="ai-card-body">
+              Visual journeys that map data ingestion, feature extraction,
+              inference, post-processing and logging.
+            </p>
+            <div class="ai-card-tags">
+              <span class="ai-card-tag">Pipelines</span>
+              <span class="ai-card-tag">Monitoring</span>
+            </div>
+          </article>
+
+          <article class="ai-card ai-card--amber">
+            <div class="ai-card-label">Hybrid</div>
+            <h3 class="ai-card-title">Cloud + device orchestration</h3>
+            <p class="ai-card-body">
+              Views for load-splitting, fallback, tiered models and location-aware
+              inference between cloud and devices.
+            </p>
+            <div class="ai-card-tags">
+              <span class="ai-card-tag">Hybrid</span>
+              <span class="ai-card-tag">Multi-region</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- BUNDLES -->
+      <section id="ai-bundles" class="ai-section" data-ai-section="bundles">
+        <div class="ai-section-header">
+          <h2 class="ai-section-title">Bundles &amp; lab integration</h2>
+        </div>
+        <p class="ai-section-subtitle">
+          AI Accelerators ties together Hardware Lab’s higher-level stories.
+        </p>
+        <div class="ai-body-text" style="margin-top:0.6rem;">
+          You can pair these kits with Edge Computing, Developer Boards and
+          Sensors &amp; Connectivity to tell complete AI narratives:
+          from raw signals and boards to live AI decisions at the edge.
+        </div>
+        <div class="ai-points">
+          <div class="ai-bullet">
+            <span>•</span>
+            <span>Use with Edge kits to highlight where AI runs in the path:
+            in gateways, boxes, racks or devices.</span>
+          </div>
+          <div class="ai-bullet">
+            <span>•</span>
+            <span>Combine with Developer Boards to show model bring-up,
+            profiling and tuning flows on lab hardware.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SAĞ KOLON -->
+    <aside class="ai-sidebar">
+      <!-- PROFILE -->
+      <section class="ai-section" data-ai-section="profile">
+        <div class="ai-section-header">
+          <h2 class="ai-section-title">Category profile</h2>
+        </div>
+        <p class="ai-section-subtitle">
+          Who AI Accelerators is designed for.
+        </p>
+        <ul class="ai-stat-list">
+          <li>
+            <div class="ai-stat-label">Best suited for</div>
+            <div class="ai-stat-value">
+              Embedded AI, edge AI, robotics, CV/ML product teams
+            </div>
+          </li>
+          <li>
+            <div class="ai-stat-label">Primary use-cases</div>
+            <div class="ai-stat-value">
+              Inference dashboards, accelerator monitoring, AI pipelines
+            </div>
+          </li>
+          <li>
+            <div class="ai-stat-label">Formats</div>
+            <div class="ai-stat-value">
+              Figma, HTML/CSS, React starter layouts
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- TECH -->
+      <section class="ai-section" data-ai-section="management">
+        <div class="ai-section-header">
+          <h2 class="ai-section-title">Tech &amp; formats</h2>
+        </div>
+        <p class="ai-section-subtitle">
+          Designed to sit directly on top of AI runtimes and hardware.
+        </p>
+        <ul class="ai-stat-list">
+          <li>
+            <div class="ai-stat-label">Design files</div>
+            <div class="ai-stat-value">
+              Figma components for graphs, consoles and tiles
+            </div>
+          </li>
+          <li>
+            <div class="ai-stat-label">Code handoff</div>
+            <div class="ai-stat-value">
+              HTML/CSS, React, Tailwind-ready layout examples
+            </div>
+          </li>
+          <li>
+            <div class="ai-stat-label">Metrics</div>
+            <div class="ai-stat-value">
+              Latency, throughput, power, temperature, accuracy
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- FAQ -->
+      <section class="ai-section" data-ai-section="pipelines">
+        <div class="ai-section-header">
+          <h2 class="ai-section-title">FAQ</h2>
+        </div>
+        <div class="ai-faq-list">
+          <div class="ai-faq-item">
+            <strong>Can we use this for robotics and CV?</strong>
+            <span>Yes. These layouts are ideal for cameras, robots and real-time
+            perception stacks using on-device AI.</span>
+          </div>
+          <div class="ai-faq-item">
+            <strong>Does it assume a specific hardware vendor?</strong>
+            <span>No. Metrics and labels are neutral so you can adapt them to
+            your own accelerators and runtimes.</span>
+          </div>
+          <div class="ai-faq-item">
+            <strong>Can this work with hybrid inference?</strong>
+            <span>Absolutely. Many components are designed for split workloads,
+            where some calls run on devices and others in the cloud.</span>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>© RGZTEC • Code Mall for serious builders</span>
+    <nav class="site-footer-nav">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Support</a>
+    </nav>
+  </div>
+</footer>
+
+<script defer src="assets/js/theme-corporate.js?v=1"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Tabs -> ilgili bölüme kaydır
+    const tabs = document.querySelectorAll('.ai-tab');
+    const sections = [
+      document.querySelector('[data-ai-section="overview"]'),
+      document.querySelector('[data-ai-section="dashboards"]'),
+      document.querySelector('[data-ai-section="management"]'),
+      document.querySelector('[data-ai-section="pipelines"]')
+    ];
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        const target = sections[index];
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Hero butonu -> kit gridine kaydır
+    const browseBtn = document.querySelector('.btn-ai-primary');
+    const kitsSection = document.getElementById('ai-kits');
+    if (browseBtn && kitsSection) {
+      browseBtn.addEventListener('click', () => {
+        kitsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    // Categories butonu -> kit gridine kaydır
+    const btnCats = document.getElementById('btnCats');
+    if (btnCats && kitsSection) {
+      btnCats.addEventListener('click', () => {
+        kitsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  });
+</script>
 </body>
 </html>
 
