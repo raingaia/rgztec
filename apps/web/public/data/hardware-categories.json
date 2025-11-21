@@ -1,0 +1,57 @@
+[
+  {
+    "slug": "ai-accelerators",
+    "name": "AI Accelerators",
+    "tagline": "On-device inference, NPUs, VPUs and compact GPUs for serious edge AI.",
+    "accentColor": "#f97316",
+    "bannerImage": "assets/images/hardware/banners/ai-accelerators.webp",
+
+    "products": [
+      {
+        "id": "jetson-orin-nano-devkit",
+        "name": "NVIDIA Jetson Orin Nano Dev Kit",
+        "subtitle": "40 TOPS edge AI, 8GB unified memory, compact form factor.",
+        "vendor": "NVIDIA",
+        "badges": ["Edge AI", "Developer Kit"],
+        "priceLabel": "Sponsor / Lead slot",
+        "highlight": true,
+        "image": "assets/images/hardware/products/jetson-orin-nano.webp",
+        "url": "#"
+      },
+      {
+        "id": "coral-tpu-pcie",
+        "name": "Google Coral Edge TPU PCIe",
+        "subtitle": "4 TOPS at 2W, low-latency inference accelerator.",
+        "vendor": "Google Coral",
+        "badges": ["PCIe", "Low Power"],
+        "priceLabel": "From $99 (placeholder)",
+        "highlight": false,
+        "image": "assets/images/hardware/products/coral-edge-tpu-pcie.webp",
+        "url": "#"
+      },
+      {
+        "id": "hailo-8-m2",
+        "name": "Hailo-8 M.2 Module",
+        "subtitle": "26 TOPS AI accelerator for industrial & embedded systems.",
+        "vendor": "Hailo",
+        "badges": ["Industrial", "M.2"],
+        "priceLabel": "Contact for quote",
+        "highlight": false,
+        "image": "assets/images/hardware/products/hailo-8-m2.webp",
+        "url": "#"
+      }
+    ]
+  }
+
+  /* BURAYA SONRA:
+   {
+     "slug": "dev-boards",
+     "name": "Developer Boards",
+     ...
+   },
+   {
+     "slug": "sensors",
+     ...
+   }
+  */
+]
