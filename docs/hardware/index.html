@@ -1,110 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>RGZTEC • Hardware Lab</title>
-<meta name="description" content="RGZTEC hardware storefront – boards, sensors, kits."/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Hardware Lab</title>
+  <meta name="description" content="Boards, sensors, robotics, edge devices, AI accelerators and smart controllers – all curated inside the RGZTEC Hardware Lab." />
 
-<!-- BURADA BASE YOK – her şey bu dosyanın konumuna göre relative -->
-<!-- apps/web/public/docs/hardware/index.html  -->
-<!-- assets => ../../assets/... -->
+  <!-- /docs GitHub Pages'te /rgztec kökü olarak yayınlanıyor -->
+  <base href="/rgztec/">
 
-<link rel="stylesheet" href="../../assets/css/base.css?v=4">
-<link rel="stylesheet" href="../../assets%20/css/base.css?v=4">
+  <!-- Kurumsal tema dosyaları (docs/assets içindekiyle aynı) -->
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
 
-<link rel="stylesheet" href="../../assets/css/theme-tokens.css?v=1">
-<link rel="stylesheet" href="../../assets%20/css/theme-tokens.css?v=1">
-
-<link rel="stylesheet" href="../../assets/css/theme-global.css?v=1">
-<link rel="stylesheet" href="../../assets%20/css/theme-global.css?v=1">
-
-<link rel="stylesheet" href="../../assets/css/styles.css?v=4">
-<link rel="stylesheet" href="../../assets%20/css/styles.css?v=4">
-
-<link rel="stylesheet" href="../../assets/css/card.css?v=4">
-<link rel="stylesheet" href="../../assets%20/css/card.css?v=4">
-
-<link rel="stylesheet" href="../../assets/css/hero-ambient.css?v=4">
-<link rel="stylesheet" href="../../assets%20/css/hero-ambient.css?v=4">
-
-<link rel="stylesheet" href="../../assets/css/interactions.css?v=4">
-<link rel="stylesheet" href="../../assets%20/css/interactions.css?v=4">
-
-<link rel="stylesheet" href="../../assets/css/theme-corporate.css?v=4">
-<link rel="stylesheet" href="../../assets%20/css/theme-corporate.css?v=4">
-
-<link rel="stylesheet" href="../../assets/css/store-page.css?v=1">
-<link rel="stylesheet" href="../../assets%20/css/store-page.css?v=1">
-
-<link rel="stylesheet" href="../../assets/css/hardware-page.css?v=1">
-<link rel="stylesheet" href="../../assets%20/css/hardware-page.css?v=1">
+  <meta name="theme-color" content="#f97316">
 </head>
-<body data-store="hardware">
+<body class="page page-hardware">
 
-<header class="topbar">
-  <div class="wrap">
-    <div class="hdr">
-      <div class="left">
-        <!-- iki klasör geri: /rgztec/ -->
-        <a class="brand" href="../../index.html">RGZTEC</a>
-        <span id="studioName" class="studio">Hardware Lab</span>
-      </div>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">RGZ</span>
+        <span class="logo-text">RGZTEC</span>
+      </a>
 
-      <div class="rail">
-        <form class="search" id="searchForm" action="../../listings.html">
-          <input id="q" name="q" type="search"
-                 placeholder="Search in hardware"
-                 aria-label="Search"/>
-          <button type="submit" aria-label="Search" id="qBtn">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="6"></circle>
-              <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-            </svg>
-          </button>
-        </form>
-      </div>
-
-      <nav class="icons" aria-label="Quick actions">
-        <a href="../../login/" aria-label="Sign in">Sign in</a>
-        <a class="icon-btn" href="../../gift-card.html" title="Gift cards" aria-label="Gift cards">🎁</a>
-        <a href="../../cart.html" title="Cart" aria-label="Cart">🛒</a>
-        <a href="../../become-seller.html" class="open-store" aria-label="Open your store">Open Store</a>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="hardware/index.html" class="is-active">Hardware Lab</a>
+        <a href="catalog/index.html">All Stores</a>
       </nav>
+
+      <div class="header-actions">
+        <form class="header-search" action="listings.html">
+          <input type="hidden" name="store" value="hardware">
+          <input type="search" name="q" placeholder="Search in hardware" aria-label="Search in hardware">
+        </form>
+        <a href="signin.html" class="link-ghost">Sign in</a>
+        <a href="open-store.html" class="btn btn-primary">Open Store</a>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<div class="cats-wrap">
-  <nav id="storeBar" class="store-bar" aria-label="Hardware Categories"></nav>
-</div>
+  <main>
+    <!-- HERO -->
+    <section class="hero hero-ambient hero-hardware">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>Hardware Lab</h1>
+          <p class="hero-subtitle">
+            Boards • Sensors • Robotics • Edge devices • AI accelerators • Smart controllers &amp; DIY kits –
+            all curated inside a single technology floor.
+          </p>
+          <div class="hero-actions">
+            <a href="#stores" class="btn btn-primary">Browse hardware stores</a>
+            <a href="#products" class="btn btn-ghost">View hardware products</a>
+          </div>
+        </div>
+        <div class="hero-visual hero-ambient-orbit">
+          <div class="hero-visual-orbit">
+            <div class="orbit-ring orbit-ring-lg"></div>
+            <div class="orbit-ring orbit-ring-md"></div>
+            <div class="orbit-dot orbit-dot-1"></div>
+            <div class="orbit-dot orbit-dot-2"></div>
+            <div class="orbit-dot orbit-dot-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="hero">
-  <div class="hero-inner wrap">
-    <h1 id="heroTitle" class="h1">Hardware Lab</h1>
-    <p id="heroTag" class="tag">
-      Boards • Sensors • Robotics • Edge devices • AI accelerators • DIY Kits
-    </p>
-  </div>
-</section>
+    <!-- STORES GRID -->
+    <section id="stores" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Popular hardware stores</h2>
+          <p>Explore curated micro-stores inside the RGZTEC Hardware Lab.</p>
+        </div>
 
-<section class="stores">
-  <div class="wrap">
-    <h2>Popular hardware stores</h2>
-    <ul id="storeRow" class="tiles" aria-label="Popular hardware stores"></ul>
-  </div>
-</section>
+        <div class="store-grid">
+          <a href="hardware/developer-boards.htm" class="store-card">
+            <div class="store-card-media">
+              <span class="store-tag">Boards</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Developer Boards</h3>
+              <p>Microcontroller and SBC boards for makers and embedded projects.</p>
+            </div>
+          </a>
 
-<main class="section">
-  <div class="wrap">
-    <h2>Hardware products</h2>
-    <div id="grid" class="grid"></div>
-  </div>
-</main>
+          <a href="hardware/sensors.html" class="store-card">
+            <div class="store-card-media">
+              <span class="store-tag">Sensors</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Sensors &amp; Modules</h3>
+              <p>Environmental, motion and industrial sensors ready to plug into your designs.</p>
+            </div>
+          </a>
 
-<!-- Sayfaya özel JS (relative: ../../assets/...) -->
-<script defer src="../../assets/js/hardware-page.js?v=1"></script>
-<script defer src="../../assets%20/js/hardware-page.js?v=1"></script>
+          <a href="hardware/iot.html" class="store-card">
+            <div class="store-card-media">
+              <span class="store-tag">IoT</span>
+            </div>
+            <div class="store-card-body">
+              <h3>IoT &amp; Connectivity</h3>
+              <p>Wi-Fi, LTE, LoRa and edge connectivity kits for connected devices.</p>
+            </div>
+          </a>
+
+          <a href="hardware/edge.html" class="store-card">
+            <div class="store-card-media">
+              <span class="store-tag">Edge</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Edge Devices</h3>
+              <p>AI accelerators and edge computing hardware for real-time inference.</p>
+            </div>
+          </a>
+
+          <a href="hardware/ai-accelerators.html" class="store-card">
+            <div class="store-card-media">
+              <span class="store-tag">AI</span>
+            </div>
+            <div class="store-card-body">
+              <h3>AI Accelerators</h3>
+              <p>GPU, TPU and dedicated AI accelerator boards for demanding workloads.</p>
+            </div>
+          </a>
+
+          <a href="hardware/smart-controllers.html" class="store-card">
+            <div class="store-card-media">
+              <span class="store-tag">Control</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Smart Controllers</h3>
+              <p>Industrial and home automation controllers ready for deployment.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS PLACEHOLDER -->
+    <section id="products" class="section section-muted">
+      <div class="container">
+        <div class="section-head">
+          <h2>Hardware products</h2>
+          <p>Soon this section will list products pulled from the main RGZTEC catalog.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="y"></span> RGZTEC • Technology Mall</p>
+      <p class="footer-note">Hardware Lab – curated boards, sensors, robotics and edge devices.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
 
