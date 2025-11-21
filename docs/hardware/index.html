@@ -6,10 +6,10 @@
   <title>RGZTEC • Hardware Lab</title>
   <meta name="description" content="Boards, sensors, robotics, edge devices, AI accelerators and smart controllers – all curated inside the RGZTEC Hardware Lab." />
 
-  <!-- /docs GitHub Pages'te /rgztec kökü olarak yayınlanıyor -->
+  <!-- /docs, GitHub Pages'te /rgztec kökü olarak yayınlanıyor -->
   <base href="/rgztec/">
 
-  <!-- Kurumsal tema dosyaları (docs/assets içindekiyle aynı) -->
+  <!-- Ana siteyle aynı CSS stack -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
@@ -80,20 +80,22 @@
           <p>Explore curated micro-stores inside the RGZTEC Hardware Lab.</p>
         </div>
 
-        <div class="store-grid">
+        <div class="store-grid store-grid--hardware">
+          <!-- Developer Boards -->
           <a href="hardware/developer-boards.htm" class="store-card">
             <div class="store-card-media">
-              <span class="store-tag">Boards</span>
+              <span class="store-card-pill">Boards • MCU • SBC</span>
             </div>
             <div class="store-card-body">
               <h3>Developer Boards</h3>
-              <p>Microcontroller and SBC boards for makers and embedded projects.</p>
+              <p>Microcontroller and SBC boards for makers, labs and embedded projects.</p>
             </div>
           </a>
 
+          <!-- Sensors -->
           <a href="hardware/sensors.html" class="store-card">
             <div class="store-card-media">
-              <span class="store-tag">Sensors</span>
+              <span class="store-card-pill">Sensors • Modules</span>
             </div>
             <div class="store-card-body">
               <h3>Sensors &amp; Modules</h3>
@@ -101,9 +103,10 @@
             </div>
           </a>
 
+          <!-- IoT & Connectivity -->
           <a href="hardware/iot.html" class="store-card">
             <div class="store-card-media">
-              <span class="store-tag">IoT</span>
+              <span class="store-card-pill">IoT • Connectivity</span>
             </div>
             <div class="store-card-body">
               <h3>IoT &amp; Connectivity</h3>
@@ -111,29 +114,32 @@
             </div>
           </a>
 
+          <!-- Edge Devices -->
           <a href="hardware/edge.html" class="store-card">
             <div class="store-card-media">
-              <span class="store-tag">Edge</span>
+              <span class="store-card-pill">Edge • AI on device</span>
             </div>
             <div class="store-card-body">
               <h3>Edge Devices</h3>
-              <p>AI accelerators and edge computing hardware for real-time inference.</p>
+              <p>AI edge computing hardware for real-time inference at the device level.</p>
             </div>
           </a>
 
+          <!-- AI Accelerators -->
           <a href="hardware/ai-accelerators.html" class="store-card">
             <div class="store-card-media">
-              <span class="store-tag">AI</span>
+              <span class="store-card-pill">AI • Accelerators</span>
             </div>
             <div class="store-card-body">
               <h3>AI Accelerators</h3>
-              <p>GPU, TPU and dedicated AI accelerator boards for demanding workloads.</p>
+              <p>GPU, TPU and dedicated accelerator boards for demanding AI workloads.</p>
             </div>
           </a>
 
+          <!-- Smart Controllers -->
           <a href="hardware/smart-controllers.html" class="store-card">
             <div class="store-card-media">
-              <span class="store-tag">Control</span>
+              <span class="store-card-pill">Control • Automation</span>
             </div>
             <div class="store-card-body">
               <h3>Smart Controllers</h3>
@@ -144,12 +150,18 @@
       </div>
     </section>
 
-    <!-- PRODUCTS PLACEHOLDER -->
+    <!-- PRODUCTS PLACEHOLDER (sonra katalogtan dolduracağız) -->
     <section id="products" class="section section-muted">
       <div class="container">
         <div class="section-head">
           <h2>Hardware products</h2>
-          <p>Soon this section will list products pulled from the main RGZTEC catalog.</p>
+          <p>
+            Soon this section will list hardware products pulled from the main RGZTEC catalog
+            (<code>store=hardware</code> filtresiyle).
+          </p>
+          <p>
+            For now you can search the full catalog and filter by hardware from the search bar above.
+          </p>
         </div>
       </div>
     </section>
@@ -167,5 +179,6 @@
   </script>
 </body>
 </html>
+
 
 
