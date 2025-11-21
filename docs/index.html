@@ -942,10 +942,11 @@ function renderStoreCard(store){
   const desc = store.tagline || store.desc || '';
   const storeLabel = store.slug.replace(/-/g," ");
 
-  // ▌ IMPORTANT: Hardware store → docs/hardware/ 
-  const storeHref = store.slug === 'hardware'
-    ? 'docs/hardware/'          // BASE: /rgztec/ altında çalışır
-    : `stores/${store.slug}.html`;
+ // Hardware kartı doğrudan /hardware/ katına gitsin
+const storeHref = store.slug === 'hardware'
+  ? 'hardware/'                // ✅ DOĞRU ADRES
+  : `stores/${store.slug}.html`;
+
 
   return `
     <article class="store-card${fullClass}">
