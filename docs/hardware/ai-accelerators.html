@@ -3,28 +3,20 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RGZTEC • Hardware Lab • AI Accelerators</title>
-  <meta name="description" content="AI Accelerators category of RGZTEC Hardware Lab — UI kits for embedded AI, on-device inference dashboards, accelerator monitoring and hybrid AI pipelines."/>
+  <title>RGZTEC • Hardware Lab</title>
+  <meta name="description" content="Premium hardware store for developers, labs & medtech teams – boards, sensors, robotics, edge devices, AI accelerators and smart controllers."/>
 
-  <!-- GitHub Pages kökü: /rgztec/ -->
+  <!-- GitHub Pages: /docs kökü => /rgztec/ -->
   <base href="/rgztec/">
-
-  <!-- Cache kontrolü -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
 
   <!-- Kurumsal fontlar -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Global theme stack -->
+  <!-- Ana tema stack (home ile aynı) -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
-
-  <meta name="theme-color" content="#f97316">
-
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
   <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
   <link rel="stylesheet" href="assets/css/theme.css">
@@ -32,485 +24,438 @@
   <link rel="stylesheet" href="assets/css/interactions.css">
   <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
 
+  <meta name="theme-color" content="#f97316"/>
+
   <style>
-    :root{
-      --ai-wrap:1200px;
-      --ai-gutter-min:14px; --ai-gutter-max:32px;
-    }
+  :root{
+    --wrap:1200px;
+    --gutter-min:12px; --gutter-max:28px;
+    --ink:#0b1220; --sub:#64748b;
+    --line:#e5e7eb; --line-strong:#d7dbe3;
+    --brand:#f97316; --brand-dark:#ea580c;
+    --bg-soft:#f3f4f6;
+  }
 
-    *{box-sizing:border-box}
+  *{box-sizing:border-box}
+  html,body{margin:0;overflow-x:hidden}
+  body{
+    font-family:'Inter','IBM Plex Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg-soft);
+    color:var(--ink);
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
 
-    body.page-ai {
-      margin:0;
-      font-family:'Inter','IBM Plex Sans',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased;
-      background:radial-gradient(circle at 0 0,#020617,#020617 40%,#020617 100%);
-      color:#e5e7eb;
-    }
+  .page-section{
+    width:100%;
+    max-width:var(--wrap);
+    margin-inline:auto;
+    padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+  }
+  .page-section--fluid{
+    max-width:none;
+  }
 
-    .ai-section {
-      width:100%;
-      max-width:var(--ai-wrap);
-      margin-inline:auto;
-      padding-inline:clamp(var(--ai-gutter-min),4vw,var(--ai-gutter-max));
-    }
+  /* === HEADER (home ile aynı hizada) === */
+  .header-outer{
+    position:sticky;
+    top:0;
+    z-index:60;
+    background:linear-gradient(180deg,#f9fafb,#ffffff);
+    backdrop-filter:saturate(120%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:8px 0;
+  }
+  .header-left{display:flex;align-items:center;gap:10px}
+  .brand{
+    font-weight:900;font-size:22px;letter-spacing:.08em;
+    color:var(--brand);text-decoration:none;margin-right:8px;
+  }
+  .btn-cats{
+    display:inline-flex;align-items:center;gap:8px;
+    height:40px;padding:0 14px;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:#fff;cursor:pointer;
+    font-weight:500;font-size:14px;
+  }
+  .btn-cats svg{width:18px;height:18px}
+  .btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
 
-    /* === HEADER (hardware header ile aynı yapı) === */
-    .header-outer{
-      position:sticky;
-      top:0;
-      z-index:60;
-      background:linear-gradient(180deg,#020617,#020617);
-      backdrop-filter:saturate(120%) blur(12px);
-      border-bottom:1px solid rgba(15,23,42,.8);
-    }
-    .header-row{
-      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-      padding:8px 0;
-      max-width:var(--ai-wrap);
-      margin:0 auto;
-      padding-inline:clamp(var(--ai-gutter-min),4vw,var(--ai-gutter-max));
-    }
-    .header-left{display:flex;align-items:center;gap:10px}
-    .brand{
-      font-weight:900;font-size:22px;letter-spacing:.08em;
-      color:#f97316;text-decoration:none;margin-right:8px;
-    }
-    .btn-cats{
-      display:inline-flex;align-items:center;gap:8px;
-      height:40px;padding:0 14px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,.9);
-      background:#020617;cursor:pointer;
-      font-weight:500;font-size:14px;
-      color:#e5e7eb;
-    }
-    .btn-cats svg{width:18px;height:18px}
-    .btn-cats:hover{border-color:#4b5563;background:#030712}
+  .search-wrap{flex:1 1 auto;min-width:260px;max-width:780px}
+  .search{
+    display:flex;align-items:center;
+    height:48px;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:#f9fafb;
+    padding:0 8px 0 16px;
+    width:100%;
+    transition:border-color .18s,box-shadow .18s,background-color .18s;
+  }
+  .search input{
+    flex:1;min-width:0;border:0;outline:0;
+    font-size:15px;padding:12px 10px;background:transparent;
+  }
+  .search:hover{
+    border-color:#cbd5f5;background:#ffffff;
+    box-shadow:0 0 0 1px rgba(148,163,184,.35);
+  }
+  .search:focus-within{
+    border-color:var(--brand);background:#ffffff;
+    box-shadow:0 0 0 1px rgba(249,115,22,.45);
+  }
+  .go{
+    display:grid;place-items:center;
+    width:38px;height:38px;
+    border-radius:999px;
+    background:var(--brand);
+    border:0;cursor:pointer;margin-right:4px;
+    transition:background-color .18s,transform .12s;
+  }
+  .go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+  .go:hover{background:var(--brand-dark);transform:translateY(-1px)}
 
-    .search-wrap{flex:1 1 auto;min-width:260px;max-width:780px}
-    .search{
-      display:flex;align-items:center;
-      height:48px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,1);
-      background:#020617;
-      padding:0 8px 0 16px;
-      width:100%;
-      transition:border-color .18s,box-shadow .18s,background-color .18s;
-    }
-    .search input{
-      flex:1;min-width:0;border:0;outline:0;
-      font-size:15px;padding:12px 10px;background:transparent;
-      color:#e5e7eb;
-    }
-    .search input::placeholder{color:#6b7280}
-    .search:hover{
-      border-color:#6366f1;
-      box-shadow:0 0 0 1px rgba(129,140,248,.45);
-    }
-    .search:focus-within{
-      border-color:#f97316;
-      box-shadow:0 0 0 1px rgba(249,115,22,.55);
-      background:#020617;
-    }
-    .go{
-      display:grid;place-items:center;
-      width:38px;height:38px;
-      border-radius:999px;
-      background:#f97316;
-      border:0;cursor:pointer;margin-right:4px;
-      transition:background-color .18s,transform .12s;
-    }
-    .go svg{width:18px;height:18px;stroke:#0f172a;fill:none;stroke-width:2}
-    .go:hover{background:#fb923c;transform:translateY(-1px)}
+  .hdr-right{
+    display:flex;justify-content:flex-end;align-items:center;
+    gap:12px;flex-wrap:nowrap;
+  }
+  .signin-link{
+    color:var(--ink);text-decoration:none;
+    font-weight:600;font-size:14px;white-space:nowrap;
+  }
+  .signin-link:hover{color:var(--brand)}
+  .icon-btn{
+    display:grid;place-items:center;
+    width:32px;height:32px;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:#fff;
+    font-size:16px;text-decoration:none;
+  }
+  .icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
+  .pill-open{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:40px;padding:0 20px;
+    border-radius:999px;
+    background:var(--brand);color:#fff;
+    font-weight:700;text-decoration:none;font-size:14px;
+    box-shadow:0 14px 30px rgba(249,115,22,.35);
+  }
+  .pill-open:hover{background:var(--brand-dark)}
 
-    .hdr-right{
-      display:flex;justify-content:flex-end;align-items:center;
-      gap:12px;flex-wrap:nowrap;
-      color:#e5e7eb;
-    }
-    .signin-link{
-      color:#e5e7eb;text-decoration:none;
-      font-weight:600;font-size:14px;white-space:nowrap;
-    }
-    .signin-link:hover{color:#f97316}
-    .icon-btn{
-      display:grid;place-items:center;
-      width:32px;height:32px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,.9);
-      background:#020617;
-      font-size:16px;text-decoration:none;
-    }
-    .icon-btn:hover{border-color:#6366f1;background:#030712}
-    .pill-open{
-      display:inline-flex;align-items:center;justify-content:center;
-      height:40px;padding:0 20px;
-      border-radius:999px;
-      background:#f97316;color:#0f172a;
-      font-weight:700;text-decoration:none;font-size:14px;
-      box-shadow:0 14px 30px rgba(249,115,22,.45);
-    }
-    .pill-open:hover{background:#fb923c}
+  /* QUICK FILTER CHIPS – hardware özel */
+  .chips-outer{
+    border-top:1px solid #f3f4f6;
+    border-bottom:1px solid #eceef3;
+    background:#ffffff;
+    padding:6px 0;
+    box-shadow:0 3px 8px rgba(0,0,0,.03);
+  }
+  .chips{
+    max-width:var(--wrap);
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    align-items:center;
+    column-gap:18px;
+    row-gap:10px;
+    padding:8px 24px 10px;
+  }
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 16px;
+    background:#f8fafc;
+    border-radius:999px;
+    border:1px solid #e2e8f0;
+    color:#475569;
+    font-weight:600;
+    font-size:13px;
+    text-decoration:none;
+    transition:all .18s ease;
+  }
+  .chip:hover{
+    background:#ffffff;
+    border-color:#cbd5e1;
+    color:#0f172a;
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
+  }
 
-    @media(max-width:880px){
-      .hdr-right{display:none}
-    }
+  @media (max-width:768px){
+    .hdr-right{display:none}
+    .chips{justify-content:center}
+  }
 
-    /* === SUB NAV (breadcrumbs) === */
-    .ai-subnav-shell{
-      background:radial-gradient(circle at 0 0,#020617,#020617 55%,#020617 100%);
-      border-bottom:1px solid rgba(31,41,55,.9);
-    }
-    .ai-subnav{
-      max-width:var(--ai-wrap);
-      margin:0 auto;
-      padding-inline:clamp(var(--ai-gutter-min),4vw,var(--ai-gutter-max));
-      padding-block:10px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-    }
-    .ai-crumb{
-      font-size:12px;
-      color:#9ca3af;
-    }
-    .ai-crumb a{
-      color:#e5e7eb;
-      text-decoration:none;
-      opacity:.8;
-    }
-    .ai-crumb a:hover{opacity:1;text-decoration:underline}
+  /* === HERO – hardware hero banner ile === */
+  .hero-outer{
+    padding:20px 0 26px;
+    background:radial-gradient(circle at 0 0,#eef2ff 0,#f9fafb 40%,#fef3e7 100%);
+  }
+  .hero-hardware{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);
+    gap:24px;
+    align-items:center;
+    background:#fdfdfd;
+    border-radius:26px;
+    box-shadow:0 22px 60px rgba(15,23,42,.14);
+    padding:22px 26px;
+  }
+  .hero-eyebrow{
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:#9ca3af;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .hero-hardware h1{
+    margin:0 0 10px;
+    font-size:clamp(26px,3vw,34px);
+    line-height:1.15;
+    letter-spacing:-0.03em;
+  }
+  .hero-subtitle{
+    margin:0;
+    max-width:520px;
+    color:#4b5563;
+    font-size:14px;
+  }
+  .hero-badges{
+    display:flex;flex-wrap:wrap;gap:8px;
+    margin-top:16px;
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;
+    padding:6px 11px;
+    border-radius:999px;
+    background:#0f172a;
+    color:#e5e7eb;
+    font-size:11px;
+    font-weight:600;
+  }
+  .hero-actions{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-top:18px;
+  }
+  .hero-actions .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:40px;padding:0 18px;border-radius:999px;
+    font-weight:700;font-size:13px;
+    text-decoration:none;
+  }
+  .btn-primary{
+    background:#111827;color:#fff;
+    box-shadow:0 14px 28px rgba(15,23,42,.25);
+  }
+  .btn-primary:hover{background:#020617}
+  .btn-ghost{
+    background:#fff;color:#111827;border:1px solid #e5e7eb;
+  }
+  .btn-ghost:hover{border-color:#d1d5db}
 
-    .ai-pill-nav{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-left:auto;
-    }
-    .ai-pill-nav a{
-      font-size:12px;
-      padding:5px 10px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,.9);
-      background:#020617;
-      color:#e5e7eb;
-      text-decoration:none;
-    }
-    .ai-pill-nav a:hover{
-      border-color:#f97316;
-      color:#f97316;
-    }
+  .hero-kicker{
+    margin-top:12px;
+    font-size:12px;
+    color:#6b7280;
+  }
 
-    /* === HERO === */
-    .ai-hero-outer{
-      padding:26px 0 22px;
-      background:radial-gradient(circle at 0 0,#020617,#020617 45%,#020617 100%);
-    }
-    .ai-hero{
-      position:relative;
-      border-radius:26px;
-      max-width:var(--ai-wrap);
-      margin:0 auto;
-      padding-inline:clamp(var(--ai-gutter-min),4vw,var(--ai-gutter-max));
-    }
-    .ai-hero-card{
-      position:relative;
-      border-radius:26px;
-      overflow:hidden;
-      background:radial-gradient(circle at 0 0,#0b1120,#020617 60%);
-      box-shadow:0 26px 90px rgba(15,23,42,.95);
-      border:1px solid rgba(30,64,175,.9);
-      padding:26px 26px 22px;
-      display:grid;
-      grid-template-columns:minmax(0,3.1fr) minmax(0,2.4fr);
-      gap:26px;
-      align-items:center;
-      isolation:isolate;
-    }
-    .ai-hero-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 0%,rgba(251,146,60,.18),transparent 55%),
-        radial-gradient(circle at 92% 85%,rgba(56,189,248,.20),transparent 55%);
-      mix-blend-mode:soft-light;
-      opacity:.9;
-      z-index:0;
-    }
-    .ai-hero-left,
-    .ai-hero-right{
-      position:relative;
-      z-index:1;
-    }
+  .hero-visual{
+    position:relative;
+    border-radius:24px;
+    overflow:hidden;
+    background:radial-gradient(circle at 10% 0,#ffffff,#d4d4d8);
+    box-shadow:0 20px 55px rgba(15,23,42,.38);
+    max-height:420px;
+  }
+  .hero-visual img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .hero-dot{
+    position:absolute;
+    width:12px;height:12px;
+    border-radius:999px;
+    background:#f97316;
+    box-shadow:0 0 0 6px rgba(249,115,22,.30);
+  }
+  .hero-dot.dot-1{top:26px;right:26px;}
+  .hero-dot.dot-2{bottom:28px;left:32px;background:#22c55e;box-shadow:0 0 0 6px rgba(34,197,94,.30);}
+  .hero-dot.dot-3{bottom:56px;right:64px;background:#3b82f6;box-shadow:0 0 0 6px rgba(59,130,246,.30);}
 
-    .ai-hero-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-bottom:10px;
+  @media(max-width:980px){
+    .hero-hardware{
+      grid-template-columns:1fr;
+      padding:20px 18px;
     }
-    .ai-hero-tag{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      padding:4px 9px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.8);
-      background:rgba(15,23,42,.9);
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-    }
-    .ai-hero-title{
-      margin:0 0 8px;
-      font-size:clamp(24px,3vw,30px);
-      line-height:1.15;
-      font-weight:800;
-    }
-    .ai-hero-title span.ai-highlight{
-      background:linear-gradient(135deg,#f97316,#fb923c);
-      -webkit-background-clip:text;
-      color:transparent;
-    }
-    .ai-hero-sub{
-      margin:0 0 14px;
-      max-width:480px;
-      font-size:14px;
-      opacity:.86;
-    }
+  }
 
-    .ai-hero-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom:14px;
-    }
-    .btn-ai-primary{
-      border-radius:999px;
-      padding:9px 18px;
-      font-size:13px;
-      font-weight:600;
-      border:0;
-      cursor:pointer;
-      background:linear-gradient(135deg,#f97316,#fb923c);
-      color:#0f172a;
-      box-shadow:0 18px 40px rgba(248,113,22,.65);
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
-    .btn-ai-ghost{
-      border-radius:999px;
-      padding:8px 14px;
-      font-size:12px;
-      font-weight:500;
-      border:1px solid rgba(148,163,184,.75);
-      cursor:pointer;
-      background:rgba(15,23,42,.9);
-      color:#e5e7eb;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
+  /* === SECTION BANDS + STORE CARDS === */
+  .section-shell{
+    background:linear-gradient(180deg,#f4f5fb 0%, #f7f8fc 45%, #f2f4fa 100%);
+    border-top:1px solid rgba(209,213,219,0.8);
+    box-shadow:0 -4px 20px rgba(15,23,42,0.04) inset;
+    padding:26px 0 40px;
+  }
+  .section-shell + .section-shell{
+    background:linear-gradient(180deg,#ecfeff 0%, #eff6ff 40%, #fef3e7 100%);
+  }
 
-    .ai-hero-metrics{
-      display:flex;
-      flex-wrap:wrap;
-      gap:18px;
-      font-size:12px;
-    }
-    .ai-metric strong{font-size:15px;display:block;margin-bottom:2px;}
+  .section-head{
+    margin-bottom:16px;
+  }
+  .section-head h2{
+    margin:0 0 6px;
+    font-size:20px;
+  }
+  .section-head p{
+    margin:0;
+    font-size:14px;
+    color:#6b7280;
+  }
 
-    .ai-hero-right{
-      display:flex;
-      justify-content:center;
-      padding:4px;
+  .store-grid{
+    display:grid;
+    gap:22px;
+    margin-top:14px;
+  }
+  /* Desktop: 3 kart */
+  @media(min-width:980px){
+    .store-grid--3{
+      grid-template-columns:repeat(3,minmax(0,1fr));
     }
-    .ai-hero-vis{
-      border-radius:22px;
-      padding:16px 14px;
-      background:
-        radial-gradient(circle at 0 0,rgba(251,146,60,.30),rgba(15,23,42,.95));
-      border:1px solid rgba(251,146,60,.85);
-      box-shadow:0 28px 80px rgba(248,113,22,.65);
-      max-width:420px;
-      width:100%;
+  }
+  @media(max-width:979px){
+    .store-grid--3{
+      grid-template-columns:repeat(2,minmax(0,1fr));
     }
-    .ai-hero-vis img{
-      width:100%;
-      height:auto;
-      display:block;
-      border-radius:18px;
+  }
+  @media(max-width:640px){
+    .store-grid--3{
+      grid-template-columns:1fr;
     }
+  }
 
-    @media(max-width:980px){
-      .ai-hero-card{
-        grid-template-columns:1fr;
-        padding:20px 18px 18px;
-      }
-      .ai-hero-right{
-        order:-1;
-      }
-    }
+  .store-card{
+    background:#ffffff;
+    border-radius:24px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 18px 45px rgba(15,23,42,0.10);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    text-decoration:none;
+    color:inherit;
+    transition:transform .16s ease,box-shadow .16s ease;
+  }
+  .store-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 24px 60px rgba(15,23,42,0.16);
+  }
+  .store-card-media{
+    position:relative;
+    height:190px;
+    background:radial-gradient(circle at 10% 0,#020617,#111827);
+  }
+  .store-card-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transform:translateZ(0);
+    transition:transform .22s ease;
+  }
+  .store-card:hover .store-card-media img{
+    transform:scale(1.03);
+  }
+  .store-card-pill{
+    position:absolute;
+    left:16px;
+    top:14px;
+    padding:6px 12px;
+    border-radius:999px;
+    background:rgba(15,23,42,0.92);
+    color:#e5e7eb;
+    font-size:11px;
+    font-weight:600;
+  }
 
-    /* === ALT İÇERİK (mevcut layout) === */
-    .ai-shell{
-      max-width:var(--ai-wrap);
-      margin:0 auto;
-      padding:0  clamp(var(--ai-gutter-min),4vw,var(--ai-gutter-max)) 40px;
-    }
+  .store-card-body{
+    padding:16px 18px 16px;
+    background:#f3f4f6;
+  }
+  .store-card-body h3{
+    margin:0 0 6px;
+    font-size:16px;
+    font-weight:800;
+  }
+  .store-card-body p{
+    margin:0;
+    font-size:13px;
+    color:#6b7280;
+  }
+  .store-meta{
+    margin-top:4px;
+    font-size:12px;
+    color:#9ca3af;
+  }
+  .store-links{
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .store-link{
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none;
+    color:#2563eb;
+  }
+  .store-link:hover{text-decoration:underline}
 
-    .ai-tabs{
-      margin-top:22px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      border-bottom:1px solid rgba(55,65,81,.9);
-      padding-bottom:8px;
-      margin-bottom:18px;
-    }
-    .ai-tab{
-      padding:7px 12px;
-      font-size:12px;
-      border-radius:999px;
-      border:1px solid transparent;
-      cursor:pointer;
-      opacity:.8;
-      background:transparent;
-      color:#e5e7eb;
-    }
-    .ai-tab.is-active{
-      background:#020617;
-      border-color:#f97316;
-      opacity:1;
-    }
-
-    .ai-layout{
-      display:grid;
-      grid-template-columns:minmax(0,3fr) minmax(0,2fr);
-      gap:20px;
-      align-items:flex-start;
-    }
-    @media(max-width:980px){
-      .ai-layout{grid-template-columns:1fr;}
-    }
-
-    .ai-section-panel{
-      margin-bottom:18px;
-      padding:16px 16px 14px;
-      border-radius:18px;
-      background:radial-gradient(circle at 0 0,#020617,#020617 55%,#020617);
-      border:1px solid rgba(31,41,55,.95);
-      box-shadow:0 20px 52px rgba(15,23,42,.95);
-      font-size:13px;
-    }
-    .ai-section-header{
-      display:flex;justify-content:space-between;align-items:center;
-      margin-bottom:8px;
-      gap:12px;
-    }
-    .ai-section-title{
-      font-size:13px;
-      font-weight:600;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      opacity:.96;
-    }
-    .ai-section-subtitle{
-      font-size:12px;
-      opacity:.78;
-    }
-
-    .ai-body-text{
-      font-size:13px;
-      opacity:.86;
-      line-height:1.6;
-    }
-    .ai-points{
-      margin-top:8px;
-      display:grid;
-      gap:5px;
-      font-size:13px;
-      opacity:.86;
-    }
-    .ai-bullet{
-      display:flex;gap:6px;align-items:flex-start;
-    }
-    .ai-bullet span:first-child{
-      color:#f97316;
-      margin-top:2px;
-    }
-
-    .ai-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
-      gap:12px;
-      margin-top:6px;
-    }
-    .ai-card{
-      border-radius:16px;
-      padding:11px;
-      background:radial-gradient(circle at 0 0,#020617,#020617 40%,#020617);
-      border:1px solid rgba(30,64,175,.8);
-      box-shadow:0 18px 46px rgba(15,23,42,.95);
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      font-size:13px;
-    }
-    .ai-card-label{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.1em;
-      opacity:.75;
-    }
-    .ai-card-title{
-      font-size:14px;
-      font-weight:600;
-    }
-    .ai-card-body{
-      font-size:13px;
-      opacity:.82;
-    }
-    .ai-card-tags{
-      display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;
-    }
-    .ai-card-tag{
-      font-size:11px;
-      padding:2px 7px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.7);
-    }
-
-    .ai-sidebar{display:flex;flex-direction:column;gap:16px;}
-    .ai-stat-list{
-      list-style:none;margin:6px 0 0;padding:0;
-      display:grid;gap:7px;font-size:13px;
-    }
-    .ai-stat-label{font-size:12px;opacity:.72;}
-    .ai-stat-value{font-size:13px;}
-
-    .ai-faq-list{
-      margin-top:6px;
-      display:grid;gap:7px;
-      font-size:13px;
-    }
-    .ai-faq-item strong{
-      display:block;margin-bottom:2px;
-    }
+  /* FOOTER */
+  .site-footer{
+    margin-top:32px;
+    background:#232347;
+    color:#e5e7eb;
+    padding:18px 0;
+    font-size:13px;
+  }
+  .footer-inner{
+    max-width:var(--wrap);
+    margin:0 auto;
+    padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .footer-note{
+    margin:0;
+    font-size:13px;
+    color:#cbd5f5;
+  }
   </style>
 </head>
+<body class="page page-hardware">
 
-<body class="page page-hardware page-ai">
 <header class="header-outer">
-  <div class="header-row">
+  <div class="page-section page-section--fluid header-row">
     <div class="header-left">
       <a class="brand" href="./">RGZTEC</a>
-      <button id="btnCats" class="btn-cats" type="button">
+
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -519,10 +464,10 @@
     </div>
 
     <div class="search-wrap">
-      <form class="search" action="listings.html" role="search">
+      <!-- Hardware’a özel arama -->
+      <form class="search" role="search" action="listings.html">
         <input type="hidden" name="store" value="hardware">
-        <input type="hidden" name="category" value="ai-accelerators">
-        <input type="search" name="q" placeholder="Search in AI accelerators" aria-label="Search in AI accelerators">
+        <input type="search" name="q" placeholder="Search in hardware" aria-label="Search in hardware">
         <button class="go" type="submit" aria-label="Search">
           <svg viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="6" stroke="currentColor"/>
@@ -541,320 +486,216 @@
       <a class="pill-open" href="open-store.html">Open Store</a>
     </div>
   </div>
+
+  <!-- Hardware quick filters -->
+  <div class="chips-outer">
+    <nav class="chips" aria-label="Hardware quick filters">
+      <a class="chip" href="#stores-top">Boards</a>
+      <a class="chip" href="#stores-top">Sensors</a>
+      <a class="chip" href="#stores-top">IoT &amp; Connectivity</a>
+      <a class="chip" href="#stores-bottom">Edge devices</a>
+      <a class="chip" href="#stores-bottom">AI accelerators</a>
+      <a class="chip" href="#stores-bottom">Smart controllers</a>
+      <a class="chip" href="listings.html?tag=hardware">All hardware products</a>
+    </nav>
+  </div>
 </header>
 
-<!-- üst breadcrumb + küçük pill nav -->
-<div class="ai-subnav-shell">
-  <div class="ai-subnav">
-    <div class="ai-crumb">
-      RGZTEC / <a href="hardware/">Hardware Lab</a> / <strong>AI Accelerators</strong>
-    </div>
-    <div class="ai-pill-nav">
-      <a href="#overview">Category overview</a>
-      <a href="#kits">UI kit types</a>
-      <a href="#bundles">Bundles</a>
-      <a href="#profile">Profile</a>
-    </div>
-  </div>
-</div>
+<main>
+  <!-- HERO -->
+  <section class="hero-outer">
+    <div class="page-section hero-hardware">
+      <div>
+        <div class="hero-eyebrow">RGZTEC HARDWARE LAB</div>
+        <h1>Premium hardware store for developers, labs &amp; medtech teams.</h1>
+        <p class="hero-subtitle">
+          Boards, sensors, robotics, edge devices, AI accelerators and smart controllers –
+          all curated as a single, reliable hardware floor inside RGZTEC.
+        </p>
 
-<!-- HERO -->
-<section class="ai-hero-outer">
-  <div class="ai-hero">
-    <div class="ai-hero-card">
-      <div class="ai-hero-right">
-        <div class="ai-hero-vis">
-          <!-- ÖNEMLİ: yeni banner -->
-          <img src="docs/assets/images/store/hardware-ai-accelerators.webp"
-               alt="AI accelerator – neural compute modules hero banner">
+        <div class="hero-badges" role="list">
+          <span class="hero-badge">✓ Industrial &amp; IoT ready</span>
+          <span class="hero-badge">✓ Curated brands &amp; vendors</span>
+          <span class="hero-badge">✓ Global shipping options</span>
         </div>
+
+        <div class="hero-actions">
+          <a href="#stores-top" class="btn btn-primary">Browse hardware stores →</a>
+          <a href="listings.html?store=hardware" class="btn btn-ghost">View hardware products</a>
+        </div>
+
+        <p class="hero-kicker">
+          Curated for R&amp;D labs, embedded teams and medtech projects that need trusted hardware building blocks.
+        </p>
       </div>
 
-      <div class="ai-hero-left">
-        <div class="ai-hero-tags">
-          <span class="ai-hero-tag">AI Accelerators</span>
-          <span class="ai-hero-tag">Embedded &amp; edge AI</span>
-          <span class="ai-hero-tag">Tensor compute</span>
-        </div>
-        <h1 class="ai-hero-title">
-          UI kits for <span class="ai-highlight">embedded AI</span>,
-          inference dashboards and accelerator-ready products.
-        </h1>
-        <p class="ai-hero-sub">
-          This category is where models meet hardware: accelerators, on-device inference,
-          thermal envelopes, memory limits and real-time AI analytics.
-        </p>
-        <div class="ai-hero-actions">
-          <button type="button" class="btn-ai-primary">Browse accelerator kits</button>
-          <button type="button" class="btn-ai-ghost">View inference flows</button>
-          <button type="button" class="btn-ai-ghost">License options</button>
-        </div>
-        <div class="ai-hero-metrics">
-          <div class="ai-metric">
-            <strong>12+</strong>
-            <span>accelerator-focused UI kits</span>
-          </div>
-          <div class="ai-metric">
-            <strong>Multi-device</strong>
-            <span>boards, boxes &amp; edge racks</span>
-          </div>
-          <div class="ai-metric">
-            <strong>Hybrid</strong>
-            <span>cloud + on-device inference</span>
-          </div>
-        </div>
+      <div class="hero-visual" aria-hidden="true">
+        <!-- Buradaki dosya adını kendi yüklediğin hero görseline göre güncelle -->
+        <img src="assets/images/store/hardware-hero.webp"
+             alt="Hardware store hero banner – premium devices & IoT equipment">
+        <span class="hero-dot dot-1"></span>
+        <span class="hero-dot dot-2"></span>
+        <span class="hero-dot dot-3"></span>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<main class="ai-shell">
-  <!-- TABS -->
-  <nav class="ai-tabs" aria-label="AI Accelerators views">
-    <button class="ai-tab is-active" data-tab="overview">Overview</button>
-    <button class="ai-tab" data-tab="inference">Inference dashboards</button>
-    <button class="ai-tab" data-tab="management">Accelerator management</button>
-    <button class="ai-tab" data-tab="pipelines">Pipelines &amp; bundles</button>
-  </nav>
+  <!-- TOP STRIP – 3 mağaza -->
+  <section id="stores-top" class="section-shell">
+    <div class="page-section">
+      <div class="section-head">
+        <h2>Popular hardware stores</h2>
+        <p>Explore curated micro-stores inside the RGZTEC Hardware Lab — each one focused on a specific hardware category.</p>
+      </div>
 
-  <section class="ai-layout">
-    <!-- SOL KOLON -->
-    <div>
-      <!-- OVERVIEW -->
-      <section id="overview" class="ai-section-panel">
-        <div class="ai-section-header">
-          <h2 class="ai-section-title">Category overview</h2>
-        </div>
-        <p class="ai-section-subtitle">
-          AI Accelerators covers the UIs that sit directly on top of tensor compute:
-          model runs, performance envelopes and device health.
-        </p>
-        <div class="ai-body-text" style="margin-top:0.6rem;">
-          These kits are made for teams who ship actual AI workloads on boards, boxes
-          and edge racks — not just cloud-only prototypes. Latency, throughput, power,
-          temperature and accuracy all surface here.
-        </div>
-        <div class="ai-points">
-          <div class="ai-bullet">
-            <span>•</span>
-            <span>Model-centric dashboards that show inference rates, queues,
-              errors and input/output stats in real time.</span>
+      <div class="store-grid store-grid--3">
+        <!-- Developer Boards -->
+        <article class="store-card">
+          <div class="store-card-media">
+            <!-- GÖRSEL: boards -->
+            <img src="assets/images/store/hardware-boards.webp"
+                 alt="Developer boards store banner">
+            <span class="store-card-pill">Boards • MCU • SBC</span>
           </div>
-          <div class="ai-bullet">
-            <span>•</span>
-            <span>Accelerator panels for memory, compute lanes, thermal headroom,
-              throttling and performance tuning.</span>
-          </div>
-          <div class="ai-bullet">
-            <span>•</span>
-            <span>Pipeline layouts for full AI flows: data in, transforms,
-              inference, post-processing and monitoring.</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- UI KIT TYPES -->
-      <section id="kits" class="ai-section-panel">
-        <div class="ai-section-header">
-          <h2 class="ai-section-title">AI accelerator UI kit types</h2>
-          <span class="ai-section-subtitle">Patterns based on real AI deployments.</span>
-        </div>
-        <div class="ai-grid">
-          <article class="ai-card">
-            <div class="ai-card-label">Inference</div>
-            <h3 class="ai-card-title">Model inference consoles</h3>
-            <p class="ai-card-body">
-              Dashboards for throughput, latency, error rates, batch queues
-              and live request traces per model and per deployment.
-            </p>
-            <div class="ai-card-tags">
-              <span class="ai-card-tag">Latency</span>
-              <span class="ai-card-tag">Throughput</span>
-              <span class="ai-card-tag">Errors</span>
+          <div class="store-card-body">
+            <h3>Developer Boards</h3>
+            <p>Microcontroller and SBC boards for makers, labs and embedded projects.</p>
+            <p class="store-meta">Store • developer boards</p>
+            <div class="store-links">
+              <a class="store-link" href="hardware/developer-boards.htm">Visit store →</a>
+              <a class="store-link" href="listings.html?store=hardware&amp;tag=boards">View products</a>
             </div>
-          </article>
-
-          <article class="ai-card">
-            <div class="ai-card-label">Devices</div>
-            <h3 class="ai-card-title">Accelerator health views</h3>
-            <p class="ai-card-body">
-              Layouts for power, temperature, clocks, utilization and thermal
-              envelopes across devices and nodes.
-            </p>
-            <div class="ai-card-tags">
-              <span class="ai-card-tag">Thermals</span>
-              <span class="ai-card-tag">Power</span>
-              <span class="ai-card-tag">Utilization</span>
-            </div>
-          </article>
-
-          <article class="ai-card">
-            <div class="ai-card-label">Pipelines</div>
-            <h3 class="ai-card-title">End-to-end AI flows</h3>
-            <p class="ai-card-body">
-              Visual journeys that map data ingestion, feature extraction,
-              inference, post-processing and logging.
-            </p>
-            <div class="ai-card-tags">
-              <span class="ai-card-tag">Pipelines</span>
-              <span class="ai-card-tag">Monitoring</span>
-            </div>
-          </article>
-
-          <article class="ai-card">
-            <div class="ai-card-label">Hybrid</div>
-            <h3 class="ai-card-title">Cloud + device orchestration</h3>
-            <p class="ai-card-body">
-              Views for load-splitting, fallback, tiered models and location-aware
-              inference between cloud and devices.
-            </p>
-            <div class="ai-card-tags">
-              <span class="ai-card-tag">Hybrid</span>
-              <span class="ai-card-tag">Multi-region</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- BUNDLES -->
-      <section id="bundles" class="ai-section-panel">
-        <div class="ai-section-header">
-          <h2 class="ai-section-title">Bundles &amp; lab integration</h2>
-        </div>
-        <p class="ai-section-subtitle">
-          AI Accelerators ties together Hardware Lab’s higher-level stories.
-        </p>
-        <div class="ai-body-text" style="margin-top:0.6rem;">
-          You can pair these kits with Edge Computing, Developer Boards and
-          Sensors &amp; Connectivity to tell complete AI narratives:
-          from raw signals and boards to live AI decisions at the edge.
-        </div>
-        <div class="ai-points">
-          <div class="ai-bullet">
-            <span>•</span>
-            <span>Use with Edge kits to highlight where AI runs in the path:
-              in gateways, boxes, racks or devices.</span>
           </div>
-          <div class="ai-bullet">
-            <span>•</span>
-            <span>Combine with Developer Boards to show model bring-up,
-              profiling and tuning flows on lab hardware.</span>
+        </article>
+
+        <!-- Sensors & Modules -->
+        <article class="store-card">
+          <div class="store-card-media">
+            <!-- GÖRSEL: sensors -->
+            <img src="assets/images/store/hardware-sensors.webp"
+                 alt="Sensors & modules store banner">
+            <span class="store-card-pill">Sensors • Modules</span>
           </div>
-        </div>
-      </section>
+          <div class="store-card-body">
+            <h3>Sensors &amp; Modules</h3>
+            <p>Environmental, motion and industrial sensors ready to plug into your designs.</p>
+            <p class="store-meta">Store • sensors &amp; modules</p>
+            <div class="store-links">
+              <a class="store-link" href="hardware/sensors.html">Visit store →</a>
+              <a class="store-link" href="listings.html?store=hardware&amp;tag=sensors">View products</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- IoT & Connectivity -->
+        <article class="store-card">
+          <div class="store-card-media">
+            <!-- GÖRSEL: iot -->
+            <img src="assets/images/store/hardware-iot.webp"
+                 alt="IoT & connectivity store banner">
+            <span class="store-card-pill">IoT • Connectivity</span>
+          </div>
+          <div class="store-card-body">
+            <h3>IoT &amp; Connectivity</h3>
+            <p>Wi-Fi, LTE, LoRa and edge connectivity kits for connected devices.</p>
+            <p class="store-meta">Store • IoT &amp; connectivity</p>
+            <div class="store-links">
+              <a class="store-link" href="hardware/iot.html">Visit store →</a>
+              <a class="store-link" href="listings.html?store=hardware&amp;tag=iot">View products</a>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
+  </section>
 
-    <!-- SAĞ KOLON -->
-    <aside class="ai-sidebar">
-      <!-- PROFILE -->
-      <section id="profile" class="ai-section-panel">
-        <div class="ai-section-header">
-          <h2 class="ai-section-title">Category profile</h2>
-        </div>
-        <p class="ai-section-subtitle">
-          Who AI Accelerators is designed for.
-        </p>
-        <ul class="ai-stat-list">
-          <li>
-            <div class="ai-stat-label">Best suited for</div>
-            <div class="ai-stat-value">
-              Embedded AI, edge AI, robotics, CV/ML product teams
-            </div>
-          </li>
-          <li>
-            <div class="ai-stat-label">Primary use-cases</div>
-            <div class="ai-stat-value">
-              Inference dashboards, accelerator monitoring, AI pipelines
-            </div>
-          </li>
-          <li>
-            <div class="ai-stat-label">Formats</div>
-            <div class="ai-stat-value">
-              Figma, HTML/CSS, React starter layouts
-            </div>
-          </li>
-        </ul>
-      </section>
+  <!-- BOTTOM STRIP – 3 mağaza -->
+  <section id="stores-bottom" class="section-shell">
+    <div class="page-section">
+      <div class="section-head">
+        <h2>Advanced hardware floors</h2>
+        <p>Edge computing, acceleration and automation hardware curated for demanding workloads.</p>
+      </div>
 
-      <!-- TECH -->
-      <section class="ai-section-panel">
-        <div class="ai-section-header">
-          <h2 class="ai-section-title">Tech &amp; formats</h2>
-        </div>
-        <p class="ai-section-subtitle">
-          Designed to sit directly on top of AI runtimes and hardware.
-        </p>
-        <ul class="ai-stat-list">
-          <li>
-            <div class="ai-stat-label">Design files</div>
-            <div class="ai-stat-value">
-              Figma components for graphs, consoles and tiles
+      <div class="store-grid store-grid--3">
+        <!-- Edge Devices -->
+        <article class="store-card">
+          <div class="store-card-media">
+            <!-- GÖRSEL: edge devices -->
+            <img src="assets/images/store/hardware-edge.webp"
+                 alt="Edge devices store banner">
+            <span class="store-card-pill">Edge • AI on device</span>
+          </div>
+          <div class="store-card-body">
+            <h3>Edge Devices</h3>
+            <p>AI edge computing hardware for real-time inference at the device level.</p>
+            <p class="store-meta">Store • edge devices</p>
+            <div class="store-links">
+              <a class="store-link" href="hardware/edge.html">Visit store →</a>
+              <a class="store-link" href="listings.html?store=hardware&amp;tag=edge">View products</a>
             </div>
-          </li>
-          <li>
-            <div class="ai-stat-label">Code handoff</div>
-            <div class="ai-stat-value">
-              HTML/CSS, React, Tailwind-ready layout examples
-            </div>
-          </li>
-          <li>
-            <div class="ai-stat-label">Metrics</div>
-            <div class="ai-stat-value">
-              Latency, throughput, power, temperature, accuracy
-            </div>
-          </li>
-        </ul>
-      </section>
+          </div>
+        </article>
 
-      <!-- FAQ -->
-      <section class="ai-section-panel">
-        <div class="ai-section-header">
-          <h2 class="ai-section-title">FAQ</h2>
-        </div>
-        <div class="ai-faq-list">
-          <div class="ai-faq-item">
-            <strong>Can we use this for robotics and CV?</strong>
-            <span>Yes. These layouts are ideal for cameras, robots and real-time
-              perception stacks using on-device AI.</span>
+        <!-- AI Accelerators -->
+        <article class="store-card">
+          <div class="store-card-media">
+            <!-- GÖRSEL: AI accelerators -->
+            <img src="assets/images/store/hardware-ai.webp"
+                 alt="AI accelerators store banner">
+            <span class="store-card-pill">AI • Accelerators</span>
           </div>
-          <div class="ai-faq-item">
-            <strong>Does it assume a specific hardware vendor?</strong>
-            <span>No. Metrics and labels are neutral so you can adapt them to
-              your own accelerators and runtimes.</span>
+          <div class="store-card-body">
+            <h3>AI Accelerators</h3>
+            <p>GPU, TPU and accelerator boards optimized for demanding AI workloads.</p>
+            <p class="store-meta">Store • AI accelerators</p>
+            <div class="store-links">
+              <a class="store-link" href="hardware/ai-accelerators.html">Visit store →</a>
+              <a class="store-link" href="listings.html?store=hardware&amp;tag=ai-accelerators">View products</a>
+            </div>
           </div>
-          <div class="ai-faq-item">
-            <strong>Can this work with hybrid inference?</strong>
-            <span>Absolutely. Many components are designed for split workloads,
-              where some calls run on devices and others in the cloud.</span>
+        </article>
+
+        <!-- Smart Controllers -->
+        <article class="store-card">
+          <div class="store-card-media">
+            <!-- GÖRSEL: smart controllers -->
+            <img src="assets/images/store/hardware-controllers.webp"
+                 alt="Smart controllers store banner">
+            <span class="store-card-pill">Control • Automation</span>
           </div>
-        </div>
-      </section>
-    </aside>
+          <div class="store-card-body">
+            <h3>Smart Controllers</h3>
+            <p>Industrial and home automation controllers ready for deployment.</p>
+            <p class="store-meta">Store • smart controllers</p>
+            <div class="store-links">
+              <a class="store-link" href="hardware/smart-controllers.html">Visit store →</a>
+              <a class="store-link" href="listings.html?store=hardware&amp;tag=controllers">View products</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
   </section>
 </main>
 
 <footer class="site-footer">
-  <div class="site-footer-inner">
-    <span>© RGZTEC • Code Mall for serious builders</span>
-    <nav class="site-footer-nav">
-      <a href="#">Terms</a>
-      <a href="#">Privacy</a>
-      <a href="#">Support</a>
-    </nav>
+  <div class="footer-inner">
+    <p>© <span id="y"></span> RGZTEC • Technology Mall</p>
+    <p class="footer-note">Hardware Lab – curated boards, sensors, robotics and edge devices.</p>
   </div>
 </footer>
 
-<script defer src="assets/js/theme-corporate.js?v=1"></script>
 <script>
-  // Basit tab highlight
-  document.querySelectorAll('.ai-tab').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.ai-tab').forEach(b => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-    });
-  });
+  // Footer yılı
+  document.getElementById('y').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
+
+
+
+
+
 
 
