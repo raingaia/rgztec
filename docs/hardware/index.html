@@ -5,24 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Hardware Lab</title>
 
-  <meta name="description"
-        content="Premium hardware marketplace: AI accelerators, dev boards, embedded computers, sensors, med-tech modules and robotics."/>
-
-  <!-- TÜM ASSETLERİN GERÇEK KÖKÜ -->
+  <!-- GitHub Pages kökü -->
   <base href="/rgztec/">
 
-  <!-- FULL corporate CSS stack (same as home) -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
   <link rel="stylesheet" href="assets/css/theme.css?v=4">
   <link rel="stylesheet" href="assets/css/hero-ambient.css?v=1">
   <link rel="stylesheet" href="assets/css/interactions.css?v=1">
   <link rel="stylesheet" href="assets/css/styles.css?v=4">
+
+  <meta name="description" content="Premium hardware marketplace: AI accelerators, dev boards, edge devices, sensors, med-tech and robotics.">
 </head>
 
 <body class="bg-[#0b0b0d] text-white font-inter">
 
-  <!-- HEADER -->
   <header class="w-full py-6 px-6 flex items-center justify-between border-b border-white/10 backdrop-blur-md bg-black/20">
     <a href="index.html" class="flex items-center gap-3">
       <img src="assets/images/logo-light.svg" alt="RGZTEC" class="h-8">
@@ -30,44 +27,32 @@
     </a>
   </header>
 
-  <!-- HERO -->
-  <section class="relative h-[340px] w-full overflow-hidden flex items-center">
+  <section class="relative h-[340px] overflow-hidden flex items-center">
     <img src="assets/images/hardware/hardware-hero.webp"
-         class="absolute inset-0 w-full h-full object-cover opacity-60"/>
-
+         class="absolute inset-0 w-full h-full object-cover opacity-60">
     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
 
     <div class="relative px-8">
-      <h1 class="text-5xl font-extrabold mb-4 drop-shadow-lg">
-        Hardware Lab
-      </h1>
-      <p class="text-xl text-white/70 max-w-2xl leading-relaxed">
-        Curated marketplace for next-generation hardware:
-        AI accelerators, dev boards, sensors, medical tech, robotics and edge computing systems.
+      <h1 class="text-5xl font-extrabold mb-4">Hardware Lab</h1>
+      <p class="text-xl text-white/70 max-w-2xl">
+        Curated marketplace for AI accelerators, dev boards, sensors, robotics, med-tech and edge computing systems.
       </p>
     </div>
   </section>
 
-  <!-- CATEGORY GRID -->
   <section class="py-12 px-8">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-2xl font-semibold mb-8 border-b border-white/10 pb-3">Categories</h2>
-
       <div id="hardwareCategories"
-           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        <!-- JS dolduracak -->
-      </div>
+           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-white/10 mt-20 py-12 px-6 text-center text-white/50 text-sm">
-      © 2025 RGZTEC Hardware Lab — all rights reserved.
+  <footer class="border-t border-white/10 mt-20 py-12 text-center text-white/50 text-sm">
+    © 2025 RGZTEC Hardware Lab — all rights reserved.
   </footer>
 
-  <!-- JS -->
   <script src="assets/js/hardware-index.js?v=1" defer></script>
-
 </body>
 </html>
 
