@@ -2,56 +2,338 @@
   {
     "slug": "ai-accelerators",
     "name": "AI Accelerators",
-    "tagline": "On-device inference, NPUs, VPUs and compact GPUs for serious edge AI.",
+    "tagline": "On-device inference modules, NPUs and compact AI compute boards.",
     "accentColor": "#f97316",
     "bannerImage": "assets/images/hardware/banners/ai-accelerators.webp",
-
     "products": [
       {
-        "id": "jetson-orin-nano-devkit",
-        "name": "NVIDIA Jetson Orin Nano Dev Kit",
-        "subtitle": "40 TOPS edge AI, 8GB unified memory, compact form factor.",
-        "vendor": "NVIDIA",
-        "badges": ["Edge AI", "Developer Kit"],
-        "priceLabel": "Sponsor / Lead slot",
+        "id": "pcie-ai-module",
+        "name": "PCIe AI Accelerator Module",
+        "subtitle": "Low-power inference module with compact PCIe interface for edge workloads.",
+        "vendor": "Premium OEM Partner",
+        "badges": ["PCIe", "Edge AI"],
+        "priceLabel": "Contact for quote",
         "highlight": true,
-        "image": "assets/images/hardware/products/jetson-orin-nano.webp",
+        "image": "assets/images/hardware/products/pcie-ai-module.webp",
         "url": "#"
       },
       {
-        "id": "coral-tpu-pcie",
-        "name": "Google Coral Edge TPU PCIe",
-        "subtitle": "4 TOPS at 2W, low-latency inference accelerator.",
-        "vendor": "Google Coral",
-        "badges": ["PCIe", "Low Power"],
-        "priceLabel": "From $99 (placeholder)",
+        "id": "m2-ai-card",
+        "name": "M.2 Edge AI Card",
+        "subtitle": "Industrial-grade M.2 accelerator for real-time analytics and vision.",
+        "vendor": "Industrial Hardware Vendor",
+        "badges": ["M.2", "Industrial"],
+        "priceLabel": "From $89",
         "highlight": false,
-        "image": "assets/images/hardware/products/coral-edge-tpu-pcie.webp",
+        "image": "assets/images/hardware/products/m2-ai-card.webp",
         "url": "#"
       },
       {
-        "id": "hailo-8-m2",
-        "name": "Hailo-8 M.2 Module",
-        "subtitle": "26 TOPS AI accelerator for industrial & embedded systems.",
-        "vendor": "Hailo",
-        "badges": ["Industrial", "M.2"],
+        "id": "embedded-ai-kit",
+        "name": "Embedded AI Development Kit",
+        "subtitle": "Compact compute module designed for embedded machine learning projects.",
+        "vendor": "Global Producer",
+        "badges": ["Dev Kit", "Edge AI"],
+        "priceLabel": "Sponsor / Lead slot",
+        "highlight": false,
+        "image": "assets/images/hardware/products/embedded-ai-kit.webp",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "slug": "dev-boards",
+    "name": "Developer Boards",
+    "tagline": "Single-board computers and dev kits for rapid prototyping.",
+    "accentColor": "#22c55e",
+    "bannerImage": "assets/images/hardware/banners/dev-boards.webp",
+    "products": [
+      {
+        "id": "rgz-sbc-pro",
+        "name": "RGZ SBC Pro Board",
+        "subtitle": "Quad-core CPU, GPU, and high-speed I/O for desktop-class embedded work.",
+        "vendor": "RGZTEC Hardware Partner",
+        "badges": ["SBC", "Prototyping"],
+        "priceLabel": "From $79",
+        "highlight": true,
+        "image": "assets/images/hardware/products/rgz-sbc-pro.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-micro-dev",
+        "name": "RGZ Micro Dev Kit",
+        "subtitle": "Ultra-small microcontroller board with USB-C and castellated edges.",
+        "vendor": "Premium Board House",
+        "badges": ["Microcontroller", "USB-C"],
+        "priceLabel": "Volume friendly",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-micro-dev.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-wireless-dev",
+        "name": "Wireless IoT Dev Board",
+        "subtitle": "Built-in Wi-Fi and BLE for connected prototypes and small IoT fleets.",
+        "vendor": "IoT Design Partner",
+        "badges": ["Wi-Fi", "BLE"],
+        "priceLabel": "Contact for samples",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-wireless-dev.webp",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "slug": "embedded-computers",
+    "name": "Embedded & Edge Computers",
+    "tagline": "Fanless box PCs and edge computers for field deployments.",
+    "accentColor": "#0ea5e9",
+    "bannerImage": "assets/images/hardware/banners/embedded-computers.webp",
+    "products": [
+      {
+        "id": "rgz-fanless-box",
+        "name": "Fanless Edge Box PC",
+        "subtitle": "Rugged aluminum enclosure, wide temperature range and multiple LAN ports.",
+        "vendor": "Industrial Hardware Vendor",
+        "badges": ["Fanless", "Rugged"],
+        "priceLabel": "Industrial pricing",
+        "highlight": true,
+        "image": "assets/images/hardware/products/rgz-fanless-box.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-ai-edge-box",
+        "name": "AI Edge Computer",
+        "subtitle": "Integrated AI accelerator ready for on-site analytics and vision workloads.",
+        "vendor": "Edge Compute Partner",
+        "badges": ["Edge AI", "Box PC"],
         "priceLabel": "Contact for quote",
         "highlight": false,
-        "image": "assets/images/hardware/products/hailo-8-m2.webp",
+        "image": "assets/images/hardware/products/rgz-ai-edge-box.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-din-rail-pc",
+        "name": "DIN-Rail Embedded PC",
+        "subtitle": "Compact system for cabinets and industrial automation projects.",
+        "vendor": "Automation Supplier",
+        "badges": ["DIN-Rail", "Automation"],
+        "priceLabel": "From $249",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-din-rail-pc.webp",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "slug": "sensors",
+    "name": "Sensors & Modules",
+    "tagline": "Precision sensors and modular boards for data acquisition.",
+    "accentColor": "#eab308",
+    "bannerImage": "assets/images/hardware/banners/sensors.webp",
+    "products": [
+      {
+        "id": "rgz-environment-sensor",
+        "name": "Environmental Sensor Module",
+        "subtitle": "Temperature, humidity and air quality sensing in a single compact board.",
+        "vendor": "Sensor Design Partner",
+        "badges": ["Env", "I²C"],
+        "priceLabel": "OEM ready",
+        "highlight": true,
+        "image": "assets/images/hardware/products/rgz-environment-sensor.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-imu-module",
+        "name": "9-Axis IMU Module",
+        "subtitle": "Accelerometer, gyroscope and magnetometer for motion tracking.",
+        "vendor": "Precision Module Supplier",
+        "badges": ["IMU", "SPI/I²C"],
+        "priceLabel": "From $19",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-imu-module.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-analog-io-hat",
+        "name": "Analog I/O Expansion Board",
+        "subtitle": "High-resolution ADC and DAC channels for SBCs and dev boards.",
+        "vendor": "Global Producer",
+        "badges": ["ADC/DAC", "Expansion"],
+        "priceLabel": "Contact for bulk",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-analog-io-hat.webp",
+        "url": "#"
+      }
+    ]
+  },
+  {
+  "slug": "medical-kits",
+  "name": "Medical Kits & Starter Packs",
+  "tagline": "Prototype-friendly medical starter kits for training, labs and simulation setups.",
+  "accentColor": "#ec4899",
+  "bannerImage": "assets/images/hardware/banners/medical-kits.webp",
+  "products": [
+    {
+      "id": "rgz-vital-signs-kit",
+      "name": "Vital Signs Training Kit",
+      "subtitle": "Non-clinical training kit for experimenting with heart rate, SpO₂ and temperature signals.",
+      "vendor": "RGZTEC Lab Partner",
+      "badges": ["Training", "Lab Use"],
+      "priceLabel": "Education focused",
+      "highlight": true,
+      "image": "assets/images/hardware/products/rgz-vital-signs-kit.webp",
+      "url": "#"
+    },
+    {
+      "id": "rgz-sim-care-kit",
+      "name": "Simulation Care Kit",
+      "subtitle": "Component bundle for building demo patient-monitoring dashboards and prototypes.",
+      "vendor": "Simulation OEM",
+      "badges": ["Simulation", "Demo"],
+      "priceLabel": "Contact for bundles",
+      "highlight": false,
+      "image": "assets/images/hardware/products/rgz-sim-care-kit.webp",
+      "url": "#"
+    },
+    {
+      "id": "rgz-bio-signal-starter",
+      "name": "Biosignal Starter Pack",
+      "subtitle": "Electrode cables, breakout boards and reference circuits for biosignal R&D.",
+      "vendor": "R&D Hardware Supplier",
+      "badges": ["R&D", "Prototype"],
+      "priceLabel": "Lab & R&D only",
+      "highlight": false,
+      "image": "assets/images/hardware/products/rgz-bio-signal-starter.webp",
+      "url": "#"
+    }
+  ]
+},
+{
+  "slug": "medical-tech",
+  "name": "Medical Technologies & Bio-Sensing",
+  "tagline": "Reference boards and modules for health analytics, bio-sensing and med-tech R&D.",
+  "accentColor": "#14b8a6",
+  "bannerImage": "assets/images/hardware/banners/medical-tech.webp",
+  "products": [
+    {
+      "id": "rgz-ecg-ref-board",
+      "name": "ECG Reference Board",
+      "subtitle": "Evaluation board for ECG-style signal acquisition in research and demo environments.",
+      "vendor": "Bio-Sensing Partner",
+      "badges": ["ECG", "Reference"],
+      "priceLabel": "R&D only",
+      "highlight": true,
+      "image": "assets/images/hardware/products/rgz-ecg-ref-board.webp",
+      "url": "#"
+    },
+    {
+      "id": "rgz-health-gateway",
+      "name": "Health Data Gateway",
+      "subtitle": "Edge gateway for aggregating non-clinical sensor data streams into cloud dashboards.",
+      "vendor": "Edge Health OEM",
+      "badges": ["Gateway", "Edge"],
+      "priceLabel": "Integration focused",
+      "highlight": false,
+      "image": "assets/images/hardware/products/rgz-health-gateway.webp",
+      "url": "#"
+    },
+    {
+      "id": "rgz-wearable-sensor-module",
+      "name": "Wearable Sensor Module",
+      "subtitle": "Compact board for wearable health R&D with wireless connectivity options.",
+      "vendor": "Wearable Design Partner",
+      "badges": ["Wearable", "Prototype"],
+      "priceLabel": "Contact for labs",
+      "highlight": false,
+      "image": "assets/images/hardware/products/rgz-wearable-sensor-module.webp",
+      "url": "#"
+    }
+  ]
+},
+  {
+    "slug": "robotics",
+    "name": "Robotics & Motion",
+    "tagline": "Motor drivers, controllers and motion kits for robots and automation.",
+    "accentColor": "#6366f1",
+    "bannerImage": "assets/images/hardware/banners/robotics.webp",
+    "products": [
+      {
+        "id": "rgz-motor-driver",
+        "name": "High-Current Motor Driver Board",
+        "subtitle": "Dual-channel driver module for DC motors and small actuators.",
+        "vendor": "Motion Control Partner",
+        "badges": ["Motor Driver", "DC"],
+        "priceLabel": "From $29",
+        "highlight": true,
+        "image": "assets/images/hardware/products/rgz-motor-driver.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-robotics-controller",
+        "name": "Robotics Controller Board",
+        "subtitle": "Multi-axis control with encoder inputs and fieldbus integration.",
+        "vendor": "Industrial Robotics Vendor",
+        "badges": ["Controller", "Multi-axis"],
+        "priceLabel": "Integration focused",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-robotics-controller.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-motion-kit",
+        "name": "Motion Prototype Kit",
+        "subtitle": "Starter kit for small robotic platforms and motion experiments.",
+        "vendor": "RGZTEC Hardware Partner",
+        "badges": ["Kit", "Prototyping"],
+        "priceLabel": "Sponsor / Lead slot",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-motion-kit.webp",
+        "url": "#"
+      }
+    ]
+  },
+  {
+    "slug": "iot-gateways",
+    "name": "IoT Gateways & Connectivity",
+    "tagline": "Gateways and connectivity modules for fleet and field deployments.",
+    "accentColor": "#f97316",
+    "bannerImage": "assets/images/hardware/banners/iot-gateways.webp",
+    "products": [
+      {
+        "id": "rgz-lte-gateway",
+        "name": "LTE IoT Gateway",
+        "subtitle": "Cellular edge gateway with secure remote management capabilities.",
+        "vendor": "Connectivity Partner",
+        "badges": ["LTE", "Edge"],
+        "priceLabel": "Contact for quote",
+        "highlight": true,
+        "image": "assets/images/hardware/products/rgz-lte-gateway.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-lora-node",
+        "name": "LoRaWAN Node Module",
+        "subtitle": "Ultra-low-power module for long-range sensor networks.",
+        "vendor": "IoT Design Partner",
+        "badges": ["LoRaWAN", "Low Power"],
+        "priceLabel": "From $15",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-lora-node.webp",
+        "url": "#"
+      },
+      {
+        "id": "rgz-ethernet-field",
+        "name": "Industrial Ethernet Node",
+        "subtitle": "Rugged Ethernet module for PLC and OT network integration.",
+        "vendor": "Industrial Hardware Vendor",
+        "badges": ["Ethernet", "Industrial"],
+        "priceLabel": "OEM focused",
+        "highlight": false,
+        "image": "assets/images/hardware/products/rgz-ethernet-field.webp",
         "url": "#"
       }
     ]
   }
-
-  /* BURAYA SONRA:
-   {
-     "slug": "dev-boards",
-     "name": "Developer Boards",
-     ...
-   },
-   {
-     "slug": "sensors",
-     ...
-   }
-  */
 ]
+
