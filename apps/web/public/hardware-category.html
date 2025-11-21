@@ -3,103 +3,68 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RGZTEC • Hardware Lab</title>
-  <meta name="description" content="Curated hardware marketplace: AI accelerators, dev boards, sensors and edge computing devices."/>
+  <title>RGZTEC • Hardware Category</title>
 
-  <!-- Bu sayfa /rgztec/apps/web/public/ altından servis ediliyor -->
+  <meta name="description"
+        content="Curated hardware marketplace: AI accelerators, dev boards, sensors, medical tech and edge computing devices."/>
+
+  <!-- Tüm site kökü -->
   <base href="/rgztec/">
-  <!-- Home ile aynı CSS stack -->
+
+  <!-- Home ile aynı kurumsal CSS stack -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
-
-  <meta name="theme-color" content="#f97316">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
-  <link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
-
-  <link rel="stylesheet" href="assets/css/theme.css">
-  <link rel="stylesheet" href="assets/css/hero-ambient.css">
-  <link rel="stylesheet" href="assets/css/interactions.css">
-
+  <link rel="stylesheet" href="assets/css/theme.css?v=4">
+  <link rel="stylesheet" href="assets/css/hero-ambient.css?v=1">
+  <link rel="stylesheet" href="assets/css/interactions.css?v=1">
   <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 
-<!-- 🔑 Buradaki slug, JSON içindeki kategori slug’ı ile bire bir aynı olacak -->
-<body class="theme-corporate page page--hardware" data-hw-slug="ai-accelerators">
+<body class="bg-[#0b0b0d] text-white font-inter">
 
-  <!-- HEADER: home.html’de kullandığın header’ı olduğu gibi buraya kopyalayabilirsin -->
-  <header class="site-header">
-    <!-- Örnek iskelet, sen kendi nav'ını buraya yapıştıracaksın -->
-    <!--
-    <div class="shell site-header__inner">
-      <a href="index.html" class="logo">RGZTEC</a>
-      ...
-    </div>
-    -->
+  <!-- HEADER -->
+  <header class="w-full py-6 px-6 flex items-center justify-between border-b border-white/10 backdrop-blur-md bg-black/20">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="assets/images/logo-light.svg" alt="RGZTEC" class="h-8">
+      <span class="text-xl font-semibold tracking-tight">RGZTEC Hardware Lab</span>
+    </a>
   </header>
 
-  <main>
-    <!-- HERO: home’daki hero yapısının “kategori versiyonu” -->
-    <section class="hero hero--dark hero--compact">
-      <div class="shell hero__inner hero__inner--balanced" data-hw="hero">
-        <div class="hero__content">
-          <p class="hero__eyebrow">RGZTEC • Hardware Lab</p>
-          <h1 class="hero__title" data-hw="title">
-            AI Accelerators
-          </h1>
-          <p class="hero__subtitle" data-hw="tagline">
-            On-device inference, NPUs, VPUs and compact GPUs for serious edge AI workloads.
-          </p>
-          <div class="hero__meta-row">
-            <span class="chip chip--soft">
-              Curated devices • Sponsor-ready slots • Global visibility
-            </span>
-          </div>
-        </div>
+  <!-- HERO BANNER -->
+  <section id="hardwareHero" class="relative w-full h-[260px] md:h-[320px] bg-black overflow-hidden flex items-center justify-center">
+      <img id="hardwareBanner"
+           src=""
+           class="w-full h-full object-cover opacity-70"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
-        <div class="hero__media hero__media--card">
-          <div class="hero__media-inner hero__media-inner--glow">
-            <img
-              data-hw="banner-image"
-              src="assets/images/hardware/banners/ai-accelerators.webp"
-              alt="AI accelerators banner"
-              loading="lazy"
-            />
-          </div>
-        </div>
+      <div class="absolute bottom-6 left-6">
+        <h1 id="hardwareTitle" class="text-4xl font-bold mb-2"></h1>
+        <p id="hardwareTagline" class="text-lg text-white/70"></p>
       </div>
-    </section>
+  </section>
 
-    <!-- GRID: home’daki card-grid yapısının aynısı -->
-    <section class="section section--tight">
-      <div class="shell">
-        <div class="section__header">
-          <h2 class="section__title">
-            Featured hardware in this category
-          </h2>
-          <p class="section__meta" data-hw="state">
-            Loading devices…
-          </p>
-        </div>
+  <!-- PRODUCT GRID -->
+  <section class="py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-semibold mb-6 border-b border-white/10 pb-3">
+        Products
+      </h2>
 
-        <div class="card-grid card-grid--3" data-hw="grid">
-          <!-- Ürün kartları JS ile otomatik doldurulacak -->
-        </div>
+      <div id="hardwareProducts"
+           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- JS dynamic product cards -->
       </div>
-    </section>
-  </main>
-
-  <!-- FOOTER: home.html’de ne kullanıyorsan aynısını koy -->
-  <footer class="site-footer">
-    <!--
-    <div class="shell site-footer__inner">
-      ...
     </div>
-    -->
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 mt-16 py-12 px-6 text-center text-white/50 text-sm">
+      © 2025 RGZTEC Hardware Lab — all rights reserved.
   </footer>
 
-  <!-- Ortak hardware JS motoru -->
+  <!-- JS -->
   <script src="assets/js/hardware-category.js?v=1" defer></script>
+
 </body>
 </html>
+
