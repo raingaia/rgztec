@@ -1,94 +1,76 @@
 // docs/assets/js/hardware-index.js
 
 (function () {
-  const GRID_ID = "hardwareCategories";
-  const DATA_URL = "data/hardware.json"; // base href=/rgztec/ olduğu için => /rgztec/data/hardware.json
+  const container = document.getElementById("hardwareCategories");
+  if (!container) return;
 
-  async function loadHardwareCategories() {
-    const grid = document.getElementById(GRID_ID);
-    if (!grid) {
-      console.warn("[hardware-index] #hardwareCategories bulunamadı.");
-      return;
-    }
+  // JSON dosyan: docs/data/hardware-categories.json
+  const DATA_URL = "data/hardware-categories.json?v=1";
 
-    try {
-      // JSON'u çek
-      const res = await fetch(DATA_URL, { cache: "no-store" });
-      if (!res.ok) {
-        throw new Error("HTTP " + res.status + " " + res.statusText);
-      }
+  fetch(DATA_URL)
+    .then((res) => {
+      if (!res.ok) throw new Error("JSON yüklenemedi: " + res.status);
+      return res.json();
+    })
+    .then(renderCategories)
+    .catch((err) => {
+      console.error(err);
+      container.innerHTML =
+        '<p style="color:#64748b;font-size:14px;">Hardware categories could not be loaded.</p>';
+    });
 
-      const data = await res.json();
-      const categories = (data && data.categories) || [];
+  function renderCategories(categories) {
+    if (!Array.isArray(categories)) return;
 
-      // Boşsa info göster
-      if (!categories.length) {
-        grid.innerHTML =
-          '<p style="font-size:14px;color:#64748b;">No hardware categories configured yet.</p>';
-        return;
-      }
-
-      // Sıralama (order alanına göre)
-      categories.sort((a, b) => (a.order || 0) - (b.order || 0));
-
-      // Mevcut içeriği temizle
-      grid.innerHTML = "";
-
-      // Her kategori için kart oluştur
-      categories.forEach((cat) => {
+    const html = categories
+      .map((cat) => {
         const slug = cat.slug || "";
-        const name = cat.name || "";
-        const desc =
-          cat.description ||
+        const name = cat.name || "Hardware category";
+        const tagline =
           cat.tagline ||
-          "Explore hardware in this category.";
-        const hero = cat.heroImage || "";
-        const color = cat.accentColor || "#f97316";
+          cat.description ||
+          "Curated hardware for this domain.";
+        const banner = cat.bannerImage || "assets/images/store/hardware-hero.webp";
 
-        // Kartın tamamı tıklanabilir olsun
-        const card = document.createElement("a");
-        card.className = "card";
-        card.href = "hardware-category.html?slug=" + encodeURIComponent(slug);
-        card.style.textDecoration = "none";
-        card.style.color = "inherit";
+        // JSON içindeki ürünler → pill için 1 tane seç
+        let featured = null;
+        if (Array.isArray(cat.products) && cat.products.length > 0) {
+          featured =
+            cat.products.find((p) => p.highlight) || cat.products[0];
+        }
 
-        card.innerHTML = `
-          <div class="media">
-            ${
-              hero
-                ? `<img src="${hero}" alt="${name}" loading="lazy" />`
-                : ""
-            }
-          </div>
-          <div class="pad">
-            <div class="title">${name}</div>
-            <p class="sub">${desc}</p>
-            <div class="row">
-              <span class="price" style="color:${color};">
-                ${cat.shortName || "Category"}
-              </span>
-              <span class="btn">View category</span>
+        const pillText =
+          (featured && (featured.badges || []).join(" • ")) ||
+          (featured && featured.name) ||
+          "Curated selection";
+
+        return `
+          <a href="hardware-category.html?slug=${encodeURIComponent(
+            slug
+          )}" class="store-card">
+            <div class="store-card-media">
+              <img src="${banner}" alt="${name}">
+              <span class="store-card-pill">${pillText}</span>
             </div>
-          </div>
+            <div class="store-card-body">
+              <h3>${name}</h3>
+              <p>${tagline}</p>
+              <div class="store-links">
+                <span class="store-link">Open category →</span>
+                ${
+                  featured
+                    ? `<span class="store-link store-link--muted">${featured.vendor || ""}</span>`
+                    : ""
+                }
+              </div>
+            </div>
+          </a>
         `;
+      })
+      .join("");
 
-        grid.appendChild(card);
-      });
-    } catch (err) {
-      console.error("[hardware-index] veri yüklenirken hata:", err);
-      const grid = document.getElementById(GRID_ID);
-      if (grid) {
-        grid.innerHTML =
-          '<p style="font-size:14px;color:#b91c1c;">Hardware categories could not be loaded. Check console log.</p>';
-      }
-    }
-  }
-
-  // DOM hazır olunca çalıştır
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", loadHardwareCategories);
-  } else {
-    loadHardwareCategories();
+    container.innerHTML = html;
   }
 })();
+
 
