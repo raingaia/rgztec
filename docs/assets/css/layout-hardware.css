@@ -1,17 +1,15 @@
 /* -------------------------------------------------------
-   RGZTEC • Hardware Lab Layout
-   Bu dosya SADECE data-store="hardware" olan sayfayı
-   ve içindeki "Hardware categories" bölümünü taşır.
-
-   Home, ana store vs. etkilenmesin diye her şey
-   [data-store="hardware"] ile scope'landı.
+   RGZTEC • Hardware Lab Layout (FINAL)
+   Bu dosya SADECE data-store="hardware" sayfasını etkiler.
+   Home ve diğer store sayfalarına dokunmaz.
 ------------------------------------------------------- */
 
-/* === HERO BLOKU ==================================================== */
+/* === HERO BLOKU ======================================= */
 
 body[data-store="hardware"] .hero-outer {
-  background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 60%),
-              radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.12), transparent 55%);
+  background:
+    radial-gradient(circle at top left, rgba(249, 115, 22, 0.16), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.18), transparent 55%);
 }
 
 body[data-store="hardware"] .hero-hardware {
@@ -88,7 +86,7 @@ body[data-store="hardware"] .hero-visual img {
   display: block;
 }
 
-/* === HARDWARE CATEGORIES BÖLÜMÜ ==================================== */
+/* === HARDWARE CATEGORIES BÖLÜMÜ ======================= */
 
 body[data-store="hardware"] #hw-categories {
   background: #f8fafc;
@@ -100,7 +98,6 @@ body[data-store="hardware"] #hw-categories .page-section {
   padding-bottom: 3rem;
 }
 
-/* Section başlık */
 body[data-store="hardware"] #hw-categories .section-head {
   display: flex;
   flex-direction: column;
@@ -120,25 +117,113 @@ body[data-store="hardware"] #hw-categories .section-head p {
   max-width: 520px;
 }
 
-/* Kategori grid'i – JS buraya kart basıyor */
-body[data-store="hardware"] #hardwareCategories.store-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.5rem;
+/* === KATEGORİ GRID + KARTLAR ========================== */
+
+/* Grid wrapper */
+body[data-store="hardware"] #hardwareCategories {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  align-items: stretch;
 }
 
-/* İhtiyaten store-grid--4 varyantı (başka CSS ile çakışmasın diye scope'lu) */
-body[data-store="hardware"] #hardwareCategories.store-grid--4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-/* Kategori kartı (kart CSS'i store-page.css'den geliyor, burada hafif layout dokunuşu) */
-body[data-store="hardware"] #hardwareCategories .store-card,
+/* Kategori kartı (JS ile gelen store-category-card) */
 body[data-store="hardware"] #hardwareCategories .store-category-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   height: 100%;
 }
 
-/* === FOOTER ======================================================== */
+body[data-store="hardware"] #hardwareCategories .store-category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+/* Kart içindeki görsel */
+body[data-store="hardware"] #hardwareCategories img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* Başlık ve metinler hafif ayar */
+body[data-store="hardware"] #hardwareCategories h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+body[data-store="hardware"] #hardwareCategories p {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+/* === HEADER FIX – SADECE HARDWARE ===================== */
+
+body[data-store="hardware"] .header-outer {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+body[data-store="hardware"] .header-row {
+  display: grid !important;
+  grid-template-columns: 1fr minmax(0, 520px) auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Sol: logo + categories */
+body[data-store="hardware"] .header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+body[data-store="hardware"] .btn-cats {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.5rem;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+}
+
+/* Orta: arama */
+body[data-store="hardware"] .search-wrap {
+  width: 100%;
+  max-width: 520px;
+}
+
+body[data-store="hardware"] .search-wrap .search {
+  width: 100%;
+}
+
+/* Sağ: linkler + open store */
+body[data-store="hardware"] .hdr-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  white-space: nowrap;
+}
+
+body[data-store="hardware"] .pill-open {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+}
+
+/* === FOOTER =========================================== */
 
 body[data-store="hardware"] .site-footer {
   border-top: 1px solid rgba(148, 163, 184, 0.35);
@@ -156,7 +241,7 @@ body[data-store="hardware"] .site-footer .footer-inner {
   align-items: center;
 }
 
-/* === RESPONSIVE ==================================================== */
+/* === RESPONSIVE ======================================= */
 
 @media (max-width: 1024px) {
   body[data-store="hardware"] .hero-hardware {
@@ -164,8 +249,18 @@ body[data-store="hardware"] .site-footer .footer-inner {
   }
 
   body[data-store="hardware"] .hero-visual {
-    order: -1; /* görseli üstte göster */
+    order: -1;
     margin-bottom: 1.5rem;
+  }
+
+  body[data-store="hardware"] .header-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  body[data-store="hardware"] .hdr-right {
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
@@ -186,4 +281,5 @@ body[data-store="hardware"] .site-footer .footer-inner {
     gap: 0.5rem;
   }
 }
+
 
