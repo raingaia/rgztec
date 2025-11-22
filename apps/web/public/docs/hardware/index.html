@@ -3,111 +3,236 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
   <title>RGZTEC • Hardware Lab</title>
-  <meta name="description" content="Premium hardware marketplace – developer boards, AI accelerators, sensors, edge devices, robotics."/>
+  <meta name="description"
+        content="Curated hardware marketplace: AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways."/>
+
+  <!-- GitHub Pages root -->
   <base href="/rgztec/">
 
-  <!-- Senin mevcut CSS’ler -->
+  <!-- Ana siteyle aynı CSS stack -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
-  <link rel="stylesheet" href="assets/css/hero-ambient.css">
-  <link rel="stylesheet" href="assets/css/interactions.css">
+  <link rel="stylesheet" href="assets/css/theme.css?v=4">
+  <link rel="stylesheet" href="assets/css/hero-ambient.css?v=1">
+  <link rel="stylesheet" href="assets/css/interactions.css?v=1">
   <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
+
 <body data-store="hardware">
 
-<header class="header-outer">
-  <div class="page-section page-section--fluid header-row">
-    <div class="header-left">
-      <a class="brand" href="./">RGZTEC</a>
-      <button class="btn-cats">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <span>Categories</span>
-      </button>
-    </div>
-    <div class="search-wrap">
-      <form class="search" action="listings.html">
-        <input type="hidden" name="store" value="hardware">
-        <input type="search" name="q" placeholder="Search in hardware">
-        <button class="go" type="submit">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
+  <!-- HEADER (home/store ile aynı yapı) -->
+  <header class="header-outer">
+    <div class="page-section page-section--fluid header-row">
+      <div class="header-left">
+        <a class="brand" href="./">RGZTEC</a>
+
+        <button class="btn-cats">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <span>Categories</span>
         </button>
-      </form>
-    </div>
-    <div class="hdr-right">
-      <a href="editor/" class="signin-link">Dashboard / Editor</a>
-      <a href="login/" class="signin-link">Sign in</a>
-      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
-      <a class="icon-btn" href="cart.html">Cart</a>
-      <a class="pill-open" href="open-store.html">Open Store</a>
-    </div>
-  </div>
-</header>
+      </div>
 
-<main>
+      <div class="search-wrap">
+        <form class="search" action="listings.html">
+          <input type="hidden" name="store" value="hardware">
+          <input type="search" name="q" placeholder="Search in hardware">
+          <button class="go" type="submit">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+              <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <div class="hdr-right">
+        <a href="editor/" class="signin-link">Dashboard / Editor</a>
+        <a href="login/" class="signin-link">Sign in</a>
+        <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+        <a class="icon-btn" href="cart.html">Cart</a>
+        <a class="pill-open" href="open-store.html">Open Store</a>
+      </div>
+    </div>
+  </header>
+
   <!-- HERO -->
-  <section class="hero-outer">
-    <div class="page-section hero-hardware">
-      <div>
-        <div class="hero-eyebrow">RGZTEC HARDWARE LAB</div>
-        <h1>Premium hardware store for<br>developers, labs & medtech teams.</h1>
-        <p class="hero-subtitle">
-          Boards, sensors, robotics, edge devices, AI accelerators and smart controllers – all curated as a single, reliable hardware floor inside RGZTEC.
-        </p>
-        <div class="hero-badges">
-          <span class="hero-badge">Industrial & IoT ready</span>
-          <span class="hero-badge">Curated brands & vendors</span>
-          <span class="hero-badge">Global shipping</span>
-        </div>
-        <div class="hero-actions">
-          <a href="#stores" class="btn-primary">Browse stores →</a>
-          <a href="listings.html?store=hardware" class="btn-ghost">View all products</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <img src="assets/images/store/hardware-hero.webp" alt="Hardware Lab Hero">
-      </div>
-    </div>
-  </section>
+  <main>
+    <section class="hero-outer">
+      <div class="page-section hero-hardware">
+        <div class="hero-copy">
+          <div class="hero-eyebrow">RGZTEC HARDWARE LAB</div>
+          <h1>Premium hardware floor for<br>developers, labs & med-tech teams.</h1>
+          <p class="hero-subtitle">
+            AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways –
+            all curated as a single, reliable hardware floor inside RGZTEC.
+          </p>
 
-  <!-- STORES -->
-  <section id="stores" class="section-shell">
-    <div class="page-section">
-      <div class="section-head">
-        <h2>Hardware Stores</h2>
-        <p>Curated micro-stores — each focused on a specific domain</p>
-      </div>
-      <div class="store-grid store-grid--3">
-        <!-- Örnek kartlar – senin istediğin 3D kalite -->
-        <a href="hardware/ai-accelerators.html" class="store-card">
-          <div class="store-card-media">
-            <img src="assets/images/store/hardware-ai-accelerators.webp" alt="AI Accelerators">
-            <span class="store-card-pill">GPU • TPU • NPU</span>
+          <div class="hero-badges">
+            <span class="hero-badge">Industrial & IoT ready</span>
+            <span class="hero-badge">Curated brands & vendors</span>
+            <span class="hero-badge">Global shipping focus</span>
           </div>
-          <div class="store-card-body">
-            <h3>AI Accelerators</h3>
-            <p>Google Coral, Hailo-8, NVIDIA Jetson Orin, Intel Movidius</p>
-            <div class="store-links">
-              <a class="store-link" href="hardware/ai-accelerators.html">Visit store →</a>
-              <a class="store-link" href="listings.html?store=hardware&tag=ai">View products</a>
+
+          <div class="hero-actions">
+            <a href="#stores" class="btn-primary">Browse hardware categories →</a>
+            <a href="listings.html?store=hardware" class="btn-ghost">View all hardware UI kits</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <img src="assets/images/store/hardware-hero.webp" alt="RGZTEC Hardware Lab">
+        </div>
+      </div>
+    </section>
+
+    <!-- HARDWARE CATEGORY CARDS (STATİK, 8 KART) -->
+    <section id="stores" class="section-shell">
+      <div class="page-section">
+        <div class="section-head">
+          <h2>Hardware categories</h2>
+          <p>Each micro-store is focused on a specific hardware domain.</p>
+        </div>
+
+        <div class="store-grid store-grid--4">
+          <!-- 1. AI Accelerators -->
+          <a class="store-card" href="hardware-category.html?slug=ai-accelerators">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/ai-accelerators.webp" alt="AI Accelerators">
+              <span class="store-card-pill">GPU • TPU • NPU</span>
             </div>
-          </div>
-        </a>
+            <div class="store-card-body">
+              <h3>AI Accelerators</h3>
+              <p>On-device inference modules, NPUs and compact AI compute boards.</p>
+              <div class="store-links">
+                <span class="store-link">Visit AI accelerators →</span>
+              </div>
+            </div>
+          </a>
 
-        <!-- Diğer kartlar aynı şekilde -->
-        <!-- ... -->
+          <!-- 2. Developer Boards -->
+          <a class="store-card" href="hardware-category.html?slug=dev-boards">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/dev-boards.webp" alt="Developer Boards">
+              <span class="store-card-pill">SBC • MCU • Kits</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Developer Boards</h3>
+              <p>Single-board computers and dev kits for rapid prototyping.</p>
+              <div class="store-links">
+                <span class="store-link">Visit dev boards →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 3. Embedded & Edge Computers -->
+          <a class="store-card" href="hardware-category.html?slug=embedded-computers">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/embedded-computers.webp" alt="Embedded & Edge Computers">
+              <span class="store-card-pill">Fanless • Box PC</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Embedded & Edge Computers</h3>
+              <p>Rugged edge systems for field deployments and industrial racks.</p>
+              <div class="store-links">
+                <span class="store-link">Visit embedded & edge →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 4. Sensors & Modules -->
+          <a class="store-card" href="hardware-category.html?slug=sensors">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/sensors.webp" alt="Sensors & Modules">
+              <span class="store-card-pill">IMU • Env • I/O</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Sensors & Modules</h3>
+              <p>Precision sensing modules and expansion boards for data acquisition.</p>
+              <div class="store-links">
+                <span class="store-link">Visit sensors & modules →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 5. Medical Kits -->
+          <a class="store-card" href="hardware-category.html?slug=medical-kits">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/medical-kits.webp" alt="Medical Kits">
+              <span class="store-card-pill">Training • Simulation</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Medical Kits & Starter Packs</h3>
+              <p>Prototype-friendly kits for labs, education and simulation setups.</p>
+              <div class="store-links">
+                <span class="store-link">Visit medical kits →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 6. Medical Technologies -->
+          <a class="store-card" href="hardware-category.html?slug=medical-tech">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/medical-tech.webp" alt="Medical Technologies">
+              <span class="store-card-pill">Bio-sensing • ECG</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Medical Technologies & Bio-Sensing</h3>
+              <p>Reference boards and modules for health analytics and med-tech R&D.</p>
+              <div class="store-links">
+                <span class="store-link">Visit medical tech →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 7. Robotics -->
+          <a class="store-card" href="hardware-category.html?slug=robotics">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/robotics.webp" alt="Robotics & Motion">
+              <span class="store-card-pill">Motion • Drivers</span>
+            </div>
+            <div class="store-card-body">
+              <h3>Robotics & Motion</h3>
+              <p>Motor drivers, controllers and motion kits for robotics and automation.</p>
+              <div class="store-links">
+                <span class="store-link">Visit robotics →</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- 8. IoT Gateways -->
+          <a class="store-card" href="hardware-category.html?slug=iot-gateways">
+            <div class="store-card-media">
+              <img src="assets/images/hardware/banners/iot-gateways.webp" alt="IoT Gateways & Connectivity">
+              <span class="store-card-pill">LTE • LoRa • Edge</span>
+            </div>
+            <div class="store-card-body">
+              <h3>IoT Gateways & Connectivity</h3>
+              <p>Gateways and connectivity modules for fleets and field deployments.</p>
+              <div class="store-links">
+                <span class="store-link">Visit IoT gateways →</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <p>© 2025 RGZTEC • Technology Mall</p>
-  </div>
-</footer>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2025 RGZTEC • Technology Mall</p>
+    </div>
+  </footer>
+
 </body>
 </html>
+
 
 
 
