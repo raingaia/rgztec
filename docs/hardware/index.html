@@ -3,144 +3,112 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-
   <title>RGZTEC • Hardware Lab</title>
   <meta name="description"
-        content="Premium hardware floor for developers, labs and med-tech teams – AI accelerators, dev boards, sensors, edge computers, robotics and medical tech kits."/>
-   <base href="/rgztec/">
+        content="Premium hardware marketplace – developer boards, AI accelerators, sensors, edge devices, robotics."/>
 
-  <!-- PROJE KÖKÜ: tum assetler /rgztec/... altından geliyor -->
-  <link rel="stylesheet" href="assets/css/store-hardware.css?v=3">
-  <link rel="stylesheet" href="/rgztec/assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="/rgztec/assets/css/theme-global.css?v=1">
-  <link rel="stylesheet" href="/rgztec/assets/css/theme.css?v=4">
-  <link rel="stylesheet" href="/rgztec/assets/css/hero-ambient.css?v=1">
-  <link rel="stylesheet" href="/rgztec/assets/css/interactions.css?v=1">
-  <!-- Hardware’a özel kart/grid stilleri -->
-  <link rel="stylesheet" href="/rgztec/assets/css/store-hardware.css?v=1">
+  <!-- GitHub Pages kökü -->
+  <base href="/rgztec/">
+
+  <!-- Sitenin genel CSS stack'i (HOME / STORE ile aynı) -->
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+  <link rel="stylesheet" href="assets/css/hero-ambient.css?v=1">
+  <link rel="stylesheet" href="assets/css/interactions.css?v=1">
+  <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
+
+  <!-- Mağaza kart tasarımları (store.html ile aynı) -->
+  <link rel="stylesheet" href="assets/css/store-page.css?v=1">
+  <link rel="stylesheet" href="assets/css/store-corporate.css?v=1">
 </head>
 
-<!-- ÖNEMLİ: data-store="hardware" -->
 <body data-store="hardware">
+  <!-- ÜST BAR (store.html ile aynı yapı) -->
+  <header class="header-outer">
+    <div class="page-section page-section--fluid header-row">
+      <div class="header-left">
+        <a class="brand" href="./">RGZTEC</a>
 
-<!-- HEADER (home ile aynı sınıf isimleri) -->
-<header class="header-outer">
-  <div class="page-section page-section--fluid header-row">
-    <div class="header-left">
-      <a class="brand" href="/rgztec/">RGZTEC</a>
-
-      <button class="btn-cats" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 6h16M4 12h16M4 18h16"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>Categories</span>
-      </button>
-    </div>
-
-    <div class="search-wrap">
-      <form class="search" action="/rgztec/listings.html">
-        <input type="hidden" name="store" value="hardware">
-        <input type="search" name="q" placeholder="Search in hardware">
-        <button class="go" type="submit">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor"/>
-            <path d="M16.5 16.5 21 21" fill="none" stroke="currentColor"
-                  stroke-linecap="round"/>
+        <button class="btn-cats">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
+          <span>Categories</span>
         </button>
-      </form>
+      </div>
+
+      <div class="search-wrap">
+        <form class="search" action="listings.html">
+          <input type="hidden" name="store" value="hardware">
+          <input type="search" name="q" placeholder="Search in hardware">
+          <button class="go" type="submit">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+              <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <div class="hdr-right">
+        <a href="editor/" class="signin-link">Dashboard / Editor</a>
+        <a href="login/" class="signin-link">Sign in</a>
+        <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+        <a class="icon-btn" href="cart.html">Cart</a>
+        <a class="pill-open" href="open-store.html">Open Store</a>
+      </div>
     </div>
+  </header>
 
-    <div class="hdr-right">
-      <a href="/rgztec/editor/" class="signin-link">Dashboard / Editor</a>
-      <a href="/rgztec/login/" class="signin-link">Sign in</a>
-      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
-      <a class="icon-btn" href="/rgztec/cart.html">Cart</a>
-      <a class="pill-open" href="/rgztec/open-store.html">Open Store</a>
-    </div>
-  </div>
-</header>
+  <main>
+    <!-- HERO -->
+    <section class="hero-outer">
+      <div class="page-section hero-hardware">
+        <div>
+          <div class="hero-eyebrow">RGZTEC HARDWARE LAB</div>
+          <h1>Premium hardware floor for<br>developers, labs &amp; med-tech teams.</h1>
+          <p class="hero-subtitle">
+            AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways –
+            all curated as a single, reliable hardware floor inside RGZTEC.
+          </p>
+          <div class="hero-badges">
+            <span class="hero-badge">Industrial &amp; IoT ready</span>
+            <span class="hero-badge">Curated brands &amp; vendors</span>
+            <span class="hero-badge">Global shipping focus</span>
+          </div>
+          <div class="hero-actions">
+            <a href="#hw-categories" class="btn-primary">Browse hardware categories →</a>
+            <a href="listings.html?store=hardware" class="btn-ghost">View all hardware UI kits</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="assets/images/store/hardware-hero.webp" alt="Hardware Lab Hero">
+        </div>
+      </div>
+    </section>
 
-<main>
-
-  <!-- HERO BLOK -->
-  <section class="hero-outer">
-    <div class="page-section hero-hardware">
-      <div class="hero-copy">
-        <div class="hero-eyebrow">RGZTEC HARDWARE LAB</div>
-        <h1>
-          Premium hardware floor for<br/>
-          developers, labs &amp; med-tech teams.
-        </h1>
-        <p class="hero-subtitle">
-          AI accelerators, dev boards, embedded computers, sensors, medical kits,
-          robotics and IoT gateways – all curated as a single, reliable hardware
-          floor inside RGZTEC.
-        </p>
-
-        <div class="hero-badges">
-          <span class="hero-badge">Industrial &amp; IoT ready</span>
-          <span class="hero-badge">Curated brands &amp; vendors</span>
-          <span class="hero-badge">Global shipping focus</span>
+    <!-- HARDWARE CATEGORIES (JSON'dan beslenen bölüm) -->
+    <section id="hw-categories" class="section-shell">
+      <div class="page-section">
+        <div class="section-head">
+          <h2>Hardware categories</h2>
+          <p>Each micro-store is focused on a specific hardware domain.</p>
         </div>
 
-        <div class="hero-actions">
-          <a href="#hardware-cats" class="btn-primary">Browse hardware categories →</a>
-          <a href="/rgztec/listings.html?store=hardware" class="btn-ghost">View all hardware UI kits</a>
-        </div>
+        <!-- JS buraya kart basacak -->
+        <div class="store-grid store-grid--4" id="hardwareCategories"></div>
       </div>
+    </section>
+  </main>
 
-      <div class="hero-visual">
-        <img src="/rgztec/assets/images/store/hardware-hero.webp"
-             alt="Hardware devices – IoT, controllers, edge computers"/>
-      </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2025 RGZTEC • Technology Mall</p>
     </div>
-  </section>
+  </footer>
 
-  <!-- ÜSTTEKİ TEXT MENÜ (kategori şeridi) -->
-  <div class="cats-wrap">
-    <div class="store-bar page-section">
-      <a href="/rgztec/hardware-category.html?slug=ai-accelerators">AI Accelerators</a>
-      <a href="/rgztec/hardware-category.html?slug=dev-boards">Developer Boards</a>
-      <a href="/rgztec/hardware-category.html?slug=embedded-computers">Embedded &amp; Edge</a>
-      <a href="/rgztec/hardware-category.html?slug=sensors">Sensors &amp; Modules</a>
-      <a href="/rgztec/hardware-category.html?slug=medical-kits">Medical Kits</a>
-      <a href="/rgztec/hardware-category.html?slug=medical-tech">Medical Tech</a>
-      <a href="/rgztec/hardware-category.html?slug=robotics">Robotics</a>
-      <a href="/rgztec/hardware-category.html?slug=iot-gateways">IoT Gateways</a>
-    </div>
-  </div>
-
-  <!-- FEATURED CATEGORIES GRID -->
-  <section id="hardware-cats" class="section-shell">
-    <div class="page-section">
-      <div class="section-head">
-        <h2>Hardware categories</h2>
-        <p>Each micro-store is focused on a specific hardware domain.</p>
-      </div>
-
-      <!-- JS buraya kart basacak -->
-      <div id="hardwareCategories" class="grid">
-        <!-- hardware-index.js → /docs/assets/js/hardware-index.js -->
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <p>© 2025 RGZTEC • Technology Mall</p>
-  </div>
-</footer>
-
-<!-- JS: hepsi absolute path -->
-<script src="/rgztec/assets/js/core.js" defer></script>
-<script src="/rgztec/assets/js/effects.js" defer></script>
-<script src="/rgztec/assets/js/hardware-index.js?v=1" defer></script>
-
+  <!-- Hardware kategorilerini çeken JS -->
+  <script src="assets/js/hardware-index.js?v=3" defer></script>
 </body>
 </html>
 
