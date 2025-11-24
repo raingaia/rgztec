@@ -4,15 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("hardwareCategories");
   if (!grid) return;
 
-  // Tüm görseller için ortak base path
-  const BASE_PATH = "assets/images/store/";
+  // Tüm görseller için ortak base path (mutlak)
+  const BASE_PATH = "/rgztec/assets/images/store/";
 
   const categories = [
     {
       slug: "ai-accelerators",
       title: "AI Accelerators",
       tagline: "PCIe • Edge AI",
-      description: "On-device inference modules, NPUs and compact AI compute boards.",
+      description:
+        "On-device inference modules, NPUs and compact AI compute boards.",
       partner: "Open category → Premium OEM Partner",
       image: BASE_PATH + "hardware-ai-accelerators.webp",
     },
@@ -20,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
       slug: "dev-boards",
       title: "Developer Boards",
       tagline: "SBC • Prototyping",
-      description: "Single-board computers and dev kits for rapid prototyping.",
+      description:
+        "Single-board computers and dev kits for rapid prototyping.",
       partner: "Open category → RGZTEC Hardware Partner",
       image: BASE_PATH + "hardware-developer-boards.webp",
     },
@@ -28,7 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
       slug: "embedded-computers",
       title: "Embedded & Edge Computers",
       tagline: "Fanless • Rugged",
-      description: "Fanless box PCs and edge computers for field deployments.",
+      description:
+        "Fanless box PCs and edge computers for field deployments.",
       partner: "Open category → Industrial Hardware Vendor",
       image: BASE_PATH + "hardware-edge.webp",
     },
@@ -36,7 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
       slug: "sensors",
       title: "Sensors & Modules",
       tagline: "Env • I²C",
-      description: "Precision sensors and modular boards for data acquisition.",
+      description:
+        "Precision sensors and modular boards for data acquisition.",
       partner: "Open category → Sensor Design Partner",
       image: BASE_PATH + "hardware-sensors.webp",
     },
@@ -44,34 +48,37 @@ document.addEventListener("DOMContentLoaded", () => {
       slug: "medical-kits",
       title: "Medical Kits & Starter Packs",
       tagline: "Training • Lab Use",
-      description: "Prototype-friendly medical starter kits for training, labs and simulation.",
+      description:
+        "Prototype-friendly medical starter kits for training, labs and simulation.",
       partner: "Open category → RGZTEC Lab Partner",
-      // Dosya adın aynen böyleyse:
-      image: BASE_PATH + "Medical Kits & Starter Packs.webp",
+      // Dosya adını: hardware-medical-kits.webp olarak kaydettik
+      image: BASE_PATH + "hardware-medical-kits.webp",
     },
     {
       slug: "medical-tech",
       title: "Medical Technologies & Bio-Sensing",
       tagline: "ECG • Reference",
-      description: "Reference boards and modules for health analytics and med-tech R&D.",
+      description:
+        "Reference boards and modules for health analytics and med-tech R&D.",
       partner: "Open category → Bio-Sensing Partner",
-      // Dosya adın aynen böyleyse:
-      image: BASE_PATH + "Medical Technologies & Bio-Sensing.webp",
+      // Dosya adını: hardware-medical-tech.webp olarak kaydettik
+      image: BASE_PATH + "hardware-medical-tech.webp",
     },
     {
       slug: "robotics",
       title: "Robotics & Motion",
       tagline: "Motor Driver • DC",
-      description: "Motor drivers, controllers and motion kits for robots and automation.",
+      description:
+        "Motor drivers, controllers and motion kits for robots and automation.",
       partner: "Open category → Motion Control Partner",
-      // Robotics için kullandığın görsel:
       image: BASE_PATH + "hardware-smart-controllers.webp",
     },
     {
       slug: "iot-gateways",
       title: "IoT Gateways & Connectivity",
       tagline: "LTE • Edge",
-      description: "Gateways and connectivity modules for fleet and field deployments.",
+      description:
+        "Gateways and connectivity modules for fleet and field deployments.",
       partner: "Open category → Connectivity Partner",
       image: BASE_PATH + "hardware-iot.webp",
     },
@@ -82,7 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
   categories.forEach((cat) => {
     const card = document.createElement("a");
     card.className = "store-category-card";
-    card.href = `listings.html?store=hardware&cat=${encodeURIComponent(cat.slug)}`;
+    card.href = `listings.html?store=hardware&cat=${encodeURIComponent(
+      cat.slug
+    )}`;
 
     card.innerHTML = `
       <img src="${cat.image}" alt="${cat.title}" loading="lazy">
