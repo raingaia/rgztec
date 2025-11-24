@@ -153,7 +153,7 @@
       box-shadow: 0 10px 25px rgba(249,115,22,0.35);
     }
 
-    /* HEADER CATEGORY TABS (search altı 8 kategori) */
+    /* HEADER CATEGORY TABS */
     .hw-header-tabs-wrap {
       border-top: 1px solid rgba(226,232,240,0.9);
       padding: 0.4rem 0 0.55rem;
@@ -398,87 +398,61 @@
       font-weight: 500;
     }
 
-    /* >>> BURADAN İTİBAREN KART TASARIMI YENİ <<< */
     .hw-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 1.6rem;
     }
 
-    /* KART: daha güçlü zemin + tam tıklanabilir alan */
-.hw-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(to bottom, #ffffff, #edf2f7);
-  border-radius: 1.2rem;
-  border: 1px solid rgba(148,163,184,0.6);
-  box-shadow: 0 18px 40px rgba(15,23,42,0.14);
-  overflow: hidden;
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
+    /* KART TASARIMI */
+    .hw-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(to bottom, #ffffff, #edf2f7);
+      border-radius: 1.2rem;
+      border: 1px solid rgba(148,163,184,0.6);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.14);
+      overflow: hidden;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
 
-/* Görsel: kesme yok, net ve büyük görünür */
-.hw-card img {
-  width: 100%;
-  height: 210px;        /* 150px yerine daha büyük */
-  object-fit: contain;  /* cover değil, kart komple görünür */
-  display: block;
-  padding: 12px;
-  background: radial-gradient(circle at top, #e5f2ff 0, #f8fafc 65%);
-  border-bottom: 1px solid rgba(148,163,184,0.25);
-}
-
-/* Alt text alanı biraz sıkı */
-.hw-card-body {
-  padding: 0.85rem 1.1rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-/* Hover: kart “canlanır” ve tıklanabilirlik hissi gelir */
-.hw-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  background: radial-gradient(circle at top left, #fff1e0, #ffffff 55%);
-  box-shadow: 0 24px 55px rgba(15,23,42,0.2);
-}
-
-.hw-card:hover img {
-  transform: scale(1.03);
-  transition: transform 0.22s ease;
-}
-
- .hw-card img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  background: linear-gradient(135deg,#ffffff,#eef6ff);
-  border-bottom: 1px solid rgba(148,163,184,0.25);
-  padding: 0.4rem;
-  border-radius: 0.9rem;
-}   
-
-    .hw-card:hover img {
-      transform: scale(1.04);
-      filter: saturate(1.18) contrast(1.06);
+    .hw-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: contain;
+      display: block;
+      padding: 12px;
+      background: radial-gradient(circle at top, #e5f2ff 0, #f8fafc 65%);
+      border-bottom: 1px solid rgba(148,163,184,0.25);
     }
 
     .hw-card-body {
-      padding: 1rem 1.15rem 1.25rem;
+      padding: 0.9rem 1.15rem 1.15rem;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
       background: linear-gradient(180deg,
         rgba(255,255,255,0.98),
         rgba(248,250,252,0.98));
+    }
+
+    .hw-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      background: radial-gradient(circle at top left, #fff1e0, #ffffff 55%);
+      box-shadow: 0 24px 55px rgba(15,23,42,0.2);
+    }
+
+    .hw-card:hover img {
+      transform: scale(1.03);
+      transition: transform 0.22s ease;
+      filter: saturate(1.12) contrast(1.05);
     }
 
     .hw-card-tag {
@@ -776,6 +750,7 @@
   </script>
 </body>
 </html>
+
 
 
 
