@@ -119,11 +119,14 @@
     var media = document.createElement("div");
     media.className = "card__media";
 
-    var img = document.createElement("img");
-    img.loading = "lazy";
-    img.src = p.image || "assets/images/hardware/placeholder.webp";
-    img.alt = p.name || "";
-    media.appendChild(img);
+   var img = document.createElement("img");
+img.loading = "lazy";
+
+// p.image tanımlı değilse fallback olarak genel hardware kartını kullan
+img.src = p.image || "assets/images/store/hardware.webp";
+img.alt = p.name || "";
+media.appendChild(img);
+
 
     // Badges (örn. Edge AI, M.2, Industrial)
     if (Array.isArray(p.badges) && p.badges.length) {
