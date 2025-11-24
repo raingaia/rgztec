@@ -673,20 +673,24 @@
     </div>
   </footer>
 
-  <!-- JS BUNDLE: core + layout + hardware -->
-  <script defer src="assets/js/app.js"></script>
-  <script defer src="assets/js/core.js"></script>
-  <script defer src="assets/js/effects.js"></script>
-  <script defer src="assets/js/layout.js"></script>
-  <script defer src="assets/js/layout-header.js"></script>
-  <script defer src="assets/js/theme-corporate.js"></script>
+ <!-- JS — ONLY HARDWARE SCRIPTS (SAFE) -->
 
-  <!-- Hardware-specific JS -->
-  <script defer src="assets/js/card.js"></script>
-  <script defer src="assets/js/store-page.js"></script>
-  <script defer src="assets/js/hardware-page.js"></script>
-  <script defer src="assets/js/hardware-index.js"></script>
-  <script defer src="assets/js/hardware-category.js"></script>
+<script defer src="assets/js/core.js"></script>
+<script defer src="assets/js/effects.js"></script>
+
+<!-- DO NOT LOAD global layout scripts -->
+<!-- <script defer src="assets/js/app.js"></script> -->
+<!-- <script defer src="assets/js/layout.js"></script> -->
+<!-- <script defer src="assets/js/layout-header.js"></script> -->
+<!-- <script defer src="assets/js/theme-corporate.js"></script> -->
+
+<!-- Hardware-specific JS -->
+<script defer src="assets/js/card.js"></script>
+<script defer src="assets/js/store-page.js"></script>
+<script defer src="assets/js/hardware-page.js"></script>
+<script defer src="assets/js/hardware-index.js"></script>
+<script defer src="assets/js/hardware-category.js"></script>
+
 
   <!-- INLINE JS – HARDWARE CATEGORIES (şimdilik kalsın) -->
   <script>
