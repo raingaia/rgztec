@@ -7,24 +7,29 @@
   
   <base href="/rgztec/">
 
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/theme-tokens.css">
-<link rel="stylesheet" href="assets/css/theme-global.css">
-<link rel="stylesheet" href="assets/css/theme-corporate.css">
+  <!-- Core CSS stack -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/theme-tokens.css">
+  <link rel="stylesheet" href="assets/css/theme-global.css">
+  <link rel="stylesheet" href="assets/css/theme-corporate.css">
 
-<link rel="stylesheet" href="assets/css/hero-ambient.css">
-<link rel="stylesheet" href="assets/css/interactions.css">
+  <!-- Effects / interactions -->
+  <link rel="stylesheet" href="assets/css/hero-ambient.css">
+  <link rel="stylesheet" href="assets/css/interactions.css">
 
-<link rel="stylesheet" href="assets/css/layout-hardware.css">
-<link rel="stylesheet" href="assets/css/store-hardware.css">
-<link rel="stylesheet" href="assets/css/hardware-page.css">
-<link rel="stylesheet" href="assets/css/card.css">
-<link rel="stylesheet" href="assets/css/active.css">
+  <!-- Hardware layout -->
+  <link rel="stylesheet" href="assets/css/layout-hardware.css">
+  <link rel="stylesheet" href="assets/css/store-hardware.css">
+  <link rel="stylesheet" href="assets/css/hardware-page.css">
+  <link rel="stylesheet" href="assets/css/card.css">
+  <link rel="stylesheet" href="assets/css/active.css">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- INLINE STYLE (şimdilik kalsın, sonra istersek CSS dosyalarına taşırız) -->
   <style>
     :root {
       --accent: #f97316;
@@ -668,104 +673,120 @@
     </div>
   </footer>
 
-  <!-- INLINE JS – HARDWARE CATEGORIES -->
+  <!-- JS BUNDLE: core + layout + hardware -->
+  <script defer src="assets/js/app.js"></script>
+  <script defer src="assets/js/core.js"></script>
+  <script defer src="assets/js/effects.js"></script>
+  <script defer src="assets/js/layout.js"></script>
+  <script defer src="assets/js/layout-header.js"></script>
+  <script defer src="assets/js/theme-corporate.js"></script>
+
+  <!-- Hardware-specific JS -->
+  <script defer src="assets/js/card.js"></script>
+  <script defer src="assets/js/store-page.js"></script>
+  <script defer src="assets/js/hardware-page.js"></script>
+  <script defer src="assets/js/hardware-index.js"></script>
+  <script defer src="assets/js/hardware-category.js"></script>
+
+  <!-- INLINE JS – HARDWARE CATEGORIES (şimdilik kalsın) -->
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const grid = document.getElementById("hardwareCategories");
-    if (!grid) return;
+    document.addEventListener("DOMContentLoaded", function () {
+      const grid = document.getElementById("hardwareCategories");
+      if (!grid) return;
 
-    const IMG = "/rgztec/assets/images/store/";
+      const IMG = "/rgztec/assets/images/store/";
 
-    const categories = [
-      {
-        slug: "ai-accelerators",
-        title: "AI Accelerators",
-        tagline: "PCIe • Edge AI",
-        description: "On-device inference modules, NPUs and compact AI compute boards.",
-        partner: "Open category → Premium OEM Partner",
-        image: IMG + "hardware-ai-accelerators.webp",
-      },
-      {
-        slug: "dev-boards",
-        title: "Developer Boards",
-        tagline: "SBC • Prototyping",
-        description: "Single-board computers and dev kits for rapid prototyping.",
-        partner: "Open category → RGZTEC Hardware Partner",
-        image: IMG + "hardware-developer-boards.webp",
-      },
-      {
-        slug: "embedded-computers",
-        title: "Embedded & Edge Computers",
-        tagline: "Fanless • Rugged",
-        description: "Fanless box PCs and edge computers for field deployments.",
-        partner: "Open category → Industrial Hardware Vendor",
-        image: IMG + "hardware-edge.webp",
-      },
-      {
-        slug: "sensors",
-        title: "Sensors & Modules",
-        tagline: "Env • I²C",
-        description: "Precision sensors and modular boards for data acquisition.",
-        partner: "Open category → Sensor Design Partner",
-        image: IMG + "hardware-sensors.webp",
-      },
-      {
-        slug: "medical-kits",
-        title: "Medical Kits & Starter Packs",
-        tagline: "Training • Lab Use",
-        description: "Prototype-friendly medical starter kits for training, labs and simulations.",
-        partner: "Open category → RGZTEC Lab Partner",
-        image: IMG + "hardware-Medical Kits & Starter Packs.webp",
-      },
-      {
-        slug: "medical-tech",
-        title: "Medical Technologies & Bio-Sensing",
-        tagline: "ECG • Reference",
-        description: "Boards and modules for health analytics, bio-sensing and med-tech R&D.",
-        partner: "Open category → Bio-Sensing Partner",
-        image: IMG + "hardware-Medical Technologies & Bio-Sensing.webp",
-      },
-      {
-        slug: "robotics",
-        title: "Robotics & Motion",
-        tagline: "Motor Driver • DC",
-        description: "Motor drivers, controllers and motion kits for robots and automation.",
-        partner: "Open category → Motion Control Partner",
-        image: IMG + "hardware-smart-controllers.webp",
-      },
-      {
-        slug: "iot-gateways",
-        title: "IoT Gateways & Connectivity",
-        tagline: "LTE • Edge",
-        description: "Gateways and connectivity modules for fleet and field deployments.",
-        partner: "Open category → Connectivity Partner",
-        image: IMG + "hardware-iot.webp",
-      },
-    ];
+      const categories = [
+        {
+          slug: "ai-accelerators",
+          title: "AI Accelerators",
+          tagline: "PCIe • Edge AI",
+          description: "On-device inference modules, NPUs and compact AI compute boards.",
+          partner: "Open category → Premium OEM Partner",
+          image: IMG + "hardware-ai-accelerators.webp",
+        },
+        {
+          slug: "dev-boards",
+          title: "Developer Boards",
+          tagline: "SBC • Prototyping",
+          description: "Single-board computers and dev kits for rapid prototyping.",
+          partner: "Open category → RGZTEC Hardware Partner",
+          image: IMG + "hardware-developer-boards.webp",
+        },
+        {
+          slug: "embedded-computers",
+          title: "Embedded & Edge Computers",
+          tagline: "Fanless • Rugged",
+          description: "Fanless box PCs and edge computers for field deployments.",
+          partner: "Open category → Industrial Hardware Vendor",
+          image: IMG + "hardware-edge.webp",
+        },
+        {
+          slug: "sensors",
+          title: "Sensors & Modules",
+          tagline: "Env • I²C",
+          description: "Precision sensors and modular boards for data acquisition.",
+          partner: "Open category → Sensor Design Partner",
+          image: IMG + "hardware-sensors.webp",
+        },
+        {
+          slug: "medical-kits",
+          title: "Medical Kits & Starter Packs",
+          tagline: "Training • Lab Use",
+          description: "Prototype-friendly medical starter kits for training, labs and simulations.",
+          partner: "Open category → RGZTEC Lab Partner",
+          image: IMG + "hardware-Medical Kits & Starter Packs.webp",
+        },
+        {
+          slug: "medical-tech",
+          title: "Medical Technologies & Bio-Sensing",
+          tagline: "ECG • Reference",
+          description: "Boards and modules for health analytics, bio-sensing and med-tech R&D.",
+          partner: "Open category → Bio-Sensing Partner",
+          image: IMG + "hardware-Medical Technologies & Bio-Sensing.webp",
+        },
+        {
+          slug: "robotics",
+          title: "Robotics & Motion",
+          tagline: "Motor Driver • DC",
+          description: "Motor drivers, controllers and motion kits for robots and automation.",
+          partner: "Open category → Motion Control Partner",
+          image: IMG + "hardware-smart-controllers.webp",
+        },
+        {
+          slug: "iot-gateways",
+          title: "IoT Gateways & Connectivity",
+          tagline: "LTE • Edge",
+          description: "Gateways and connectivity modules for fleet and field deployments.",
+          partner: "Open category → Connectivity Partner",
+          image: IMG + "hardware-iot.webp",
+        },
+      ];
 
-    grid.innerHTML = "";
+      grid.innerHTML = "";
 
-    categories.forEach((cat) => {
-      const card = document.createElement("a");
-      card.className = "hw-card";
-      card.href = "/rgztec/listings.html?store=hardware&cat=" + encodeURIComponent(cat.slug);
+      categories.forEach((cat) => {
+        const card = document.createElement("a");
+        card.className = "hw-card";
+        card.href = "/rgztec/listings.html?store=hardware&cat=" + encodeURIComponent(cat.slug);
 
-      card.innerHTML = `
-        <img src="${cat.image}" alt="${cat.title}" loading="lazy">
-        <div class="hw-card-body">
-          <div class="hw-card-tag">${cat.tagline}</div>
-          <div class="hw-card-title">${cat.title}</div>
-          <div class="hw-card-desc">${cat.description}</div>
-          <div class="hw-card-partner">${cat.partner}</div>
-        </div>
-      `;
+        card.innerHTML = `
+          <img src="${cat.image}" alt="${cat.title}" loading="lazy">
+          <div class="hw-card-body">
+            <div class="hw-card-tag">${cat.tagline}</div>
+            <div class="hw-card-title">${cat.title}</div>
+            <div class="hw-card-desc">${cat.description}</div>
+            <div class="hw-card-partner">${cat.partner}</div>
+          </div>
+        `;
 
-      grid.appendChild(card);
+        grid.appendChild(card);
+      });
     });
-  });
   </script>
 </body>
 </html>
+
 
 
 
