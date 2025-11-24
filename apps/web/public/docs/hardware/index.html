@@ -305,7 +305,7 @@
       justify-content: center;
     }
 
-    /* HERO CARD – ana sayfa kart stili, açık / gradient */
+    /* HERO CARD */
     .hw-hero-card {
       width: 100%;
       max-width: 420px;
@@ -341,7 +341,7 @@
       width: 100%;
       display: block;
       border-radius: 1.1rem;
-      background: transparent; /* PNG transparan */
+      background: transparent;
     }
 
     .hw-hero-card-tags {
@@ -398,6 +398,7 @@
       font-weight: 500;
     }
 
+    /* >>> BURADAN İTİBAREN KART TASARIMI YENİ <<< */
     .hw-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -405,58 +406,101 @@
     }
 
     .hw-card {
-      background: var(--card-bg);
-      border-radius: 1.1rem;
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow-soft);
+      position: relative;
+      background:
+        radial-gradient(circle at top left, rgba(249,115,22,0.08) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(56,189,248,0.10) 0, transparent 55%),
+        #ffffff;
+      border-radius: 1.25rem;
+      border: 1px solid rgba(148,163,184,0.45);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.16);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      transform-origin: center;
+      transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease;
+    }
+
+    .hw-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg,
+        rgba(249,115,22,0.18),
+        rgba(56,189,248,0.18));
+      opacity: 0;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
     }
 
     .hw-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
       border-color: var(--accent);
-      background: radial-gradient(circle at top left, #fff1e0, transparent 60%), #ffffff;
-      box-shadow: 0 20px 45px rgba(15,23,42,0.18);
+      box-shadow: 0 24px 55px rgba(15,23,42,0.22);
+      background:
+        radial-gradient(circle at top left, #fff1e0 0, transparent 60%),
+        radial-gradient(circle at bottom right, #e0f2fe 0, transparent 60%),
+        #ffffff;
+    }
+
+    .hw-card:hover::after {
+      opacity: 1;
     }
 
     .hw-card img {
       width: 100%;
-      height: 150px;
+      height: 170px;
       object-fit: cover;
       display: block;
+      border-bottom: 1px solid rgba(148,163,184,0.45);
+      filter: saturate(1.05) contrast(1.02);
+      transition: transform 0.28s ease, filter 0.28s ease;
+    }
+
+    .hw-card:hover img {
+      transform: scale(1.04);
+      filter: saturate(1.18) contrast(1.06);
     }
 
     .hw-card-body {
-      padding: 1rem 1.1rem 1.2rem;
+      padding: 1rem 1.15rem 1.25rem;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
+      background: linear-gradient(180deg,
+        rgba(255,255,255,0.98),
+        rgba(248,250,252,0.98));
     }
 
     .hw-card-tag {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       color: var(--text-muted);
     }
 
     .hw-card-title {
-      font-size: 0.96rem;
+      font-size: 0.98rem;
       font-weight: 600;
-      color: #111827;
+      color: #0f172a;
     }
 
     .hw-card-desc {
       font-size: 0.86rem;
       color: var(--text-sub);
+      line-height: 1.4;
     }
 
     .hw-card-partner {
       font-size: 0.78rem;
       color: var(--text-muted);
-      margin-top: 0.3rem;
+      margin-top: 0.45rem;
     }
 
     /* FOOTER */
@@ -522,14 +566,12 @@
           <a href="/rgztec/editor/" class="hw-pill">Dashboard</a>
           <a href="/rgztec/login/" class="hw-pill">Sign in</a>
           <a href="mailto:support@rgztec.com" class="hw-pill">Support</a>
-          <a href="/rgztec/cart.html" class="hw-pill">
-  Gift cart
-</a>
+          <a href="/rgztec/cart.html" class="hw-pill">Gift cart</a>
           <a href="/rgztec/open-store.html" class="hw-pill hw-pill-primary">Open Store</a>
         </div>
       </div>
 
-      <!-- SEARCH ALTINDA 8 HARDWARE KATEGORİ TABI -->
+      <!-- HEADER TABS -->
       <div class="hw-header-tabs-wrap">
         <div class="hw-header-tabs">
           <a class="hw-header-tab hw-header-tab--primary" href="#hw-categories">
@@ -572,8 +614,7 @@
           <div class="hw-eyebrow">RGZTEC • HARDWARE LAB</div>
           <h1>Premium hardware floor for developers, labs &amp; med-tech teams.</h1>
           <p class="hw-hero-sub">
-            AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways –
-            all curated as a single, reliable hardware floor inside RGZTEC.
+            AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways – all curated as a single, reliable hardware floor inside RGZTEC.
           </p>
 
           <div class="hw-hero-badges">
@@ -621,7 +662,7 @@
       </div>
 
       <div class="hw-grid" id="hardwareCategories">
-        <!-- JS buraya kart basacak -->
+        <!-- JS will inject cards -->
       </div>
     </div>
   </section>
@@ -635,101 +676,101 @@
   </footer>
 
   <!-- INLINE JS – HARDWARE CATEGORIES -->
- <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const grid = document.getElementById("hardwareCategories");
-  if (!grid) return;
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const grid = document.getElementById("hardwareCategories");
+    if (!grid) return;
 
-  const IMG = "/rgztec/assets/images/store/";
+    const IMG = "/rgztec/assets/images/store/";
 
-  const categories = [
-    {
-      slug: "ai-accelerators",
-      title: "AI Accelerators",
-      tagline: "PCIe • Edge AI",
-      description: "On-device inference modules, NPUs and compact AI compute boards.",
-      partner: "Open category → Premium OEM Partner",
-      image: IMG + "hardware-ai-accelerators.webp",
-    },
-    {
-      slug: "dev-boards",
-      title: "Developer Boards",
-      tagline: "SBC • Prototyping",
-      description: "Single-board computers and dev kits for rapid prototyping.",
-      partner: "Open category → RGZTEC Hardware Partner",
-      image: IMG + "hardware-developer-boards.webp",
-    },
-    {
-      slug: "embedded-computers",
-      title: "Embedded & Edge Computers",
-      tagline: "Fanless • Rugged",
-      description: "Fanless box PCs and edge computers for field deployments.",
-      partner: "Open category → Industrial Hardware Vendor",
-      image: IMG + "hardware-edge.webp",
-    },
-    {
-      slug: "sensors",
-      title: "Sensors & Modules",
-      tagline: "Env • I²C",
-      description: "Precision sensors and modular boards for data acquisition.",
-      partner: "Open category → Sensor Design Partner",
-      image: IMG + "hardware-sensors.webp",
-    },
-    {
-      slug: "medical-kits",
-      title: "Medical Kits & Starter Packs",
-      tagline: "Training • Lab Use",
-      description: "Prototype-friendly medical starter kits for training, labs and simulations.",
-      partner: "Open category → RGZTEC Lab Partner",
-      image: IMG + "hardware-Medical Kits & Starter Packs.webp",
-    },
-    {
-      slug: "medical-tech",
-      title: "Medical Technologies & Bio-Sensing",
-      tagline: "ECG • Reference",
-      description: "Boards and modules for health analytics, bio-sensing and med-tech R&D.",
-      partner: "Open category → Bio-Sensing Partner",
-      image: IMG + "hardware-Medical Technologies & Bio-Sensing.webp",
-    },
-    {
-      slug: "robotics",
-      title: "Robotics & Motion",
-      tagline: "Motor Driver • DC",
-      description: "Motor drivers, controllers and motion kits for robots and automation.",
-      partner: "Open category → Motion Control Partner",
-      image: IMG + "hardware-smart-controllers.webp",
-    },
-    {
-      slug: "iot-gateways",
-      title: "IoT Gateways & Connectivity",
-      tagline: "LTE • Edge",
-      description: "Gateways and connectivity modules for fleet and field deployments.",
-      partner: "Open category → Connectivity Partner",
-      image: IMG + "hardware-iot.webp",
-    },
-  ];
+    const categories = [
+      {
+        slug: "ai-accelerators",
+        title: "AI Accelerators",
+        tagline: "PCIe • Edge AI",
+        description: "On-device inference modules, NPUs and compact AI compute boards.",
+        partner: "Open category → Premium OEM Partner",
+        image: IMG + "hardware-ai-accelerators.webp",
+      },
+      {
+        slug: "dev-boards",
+        title: "Developer Boards",
+        tagline: "SBC • Prototyping",
+        description: "Single-board computers and dev kits for rapid prototyping.",
+        partner: "Open category → RGZTEC Hardware Partner",
+        image: IMG + "hardware-developer-boards.webp",
+      },
+      {
+        slug: "embedded-computers",
+        title: "Embedded & Edge Computers",
+        tagline: "Fanless • Rugged",
+        description: "Fanless box PCs and edge computers for field deployments.",
+        partner: "Open category → Industrial Hardware Vendor",
+        image: IMG + "hardware-edge.webp",
+      },
+      {
+        slug: "sensors",
+        title: "Sensors & Modules",
+        tagline: "Env • I²C",
+        description: "Precision sensors and modular boards for data acquisition.",
+        partner: "Open category → Sensor Design Partner",
+        image: IMG + "hardware-sensors.webp",
+      },
+      {
+        slug: "medical-kits",
+        title: "Medical Kits & Starter Packs",
+        tagline: "Training • Lab Use",
+        description: "Prototype-friendly medical starter kits for training, labs and simulations.",
+        partner: "Open category → RGZTEC Lab Partner",
+        image: IMG + "hardware-Medical Kits & Starter Packs.webp",
+      },
+      {
+        slug: "medical-tech",
+        title: "Medical Technologies & Bio-Sensing",
+        tagline: "ECG • Reference",
+        description: "Boards and modules for health analytics, bio-sensing and med-tech R&D.",
+        partner: "Open category → Bio-Sensing Partner",
+        image: IMG + "hardware-Medical Technologies & Bio-Sensing.webp",
+      },
+      {
+        slug: "robotics",
+        title: "Robotics & Motion",
+        tagline: "Motor Driver • DC",
+        description: "Motor drivers, controllers and motion kits for robots and automation.",
+        partner: "Open category → Motion Control Partner",
+        image: IMG + "hardware-smart-controllers.webp",
+      },
+      {
+        slug: "iot-gateways",
+        title: "IoT Gateways & Connectivity",
+        tagline: "LTE • Edge",
+        description: "Gateways and connectivity modules for fleet and field deployments.",
+        partner: "Open category → Connectivity Partner",
+        image: IMG + "hardware-iot.webp",
+      },
+    ];
 
-  grid.innerHTML = "";
+    grid.innerHTML = "";
 
-  categories.forEach((cat) => {
-    const card = document.createElement("a");
-    card.className = "hw-card";
-    card.href = "/rgztec/listings.html?store=hardware&cat=" + encodeURIComponent(cat.slug);
+    categories.forEach((cat) => {
+      const card = document.createElement("a");
+      card.className = "hw-card";
+      card.href = "/rgztec/listings.html?store=hardware&cat=" + encodeURIComponent(cat.slug);
 
-    card.innerHTML = `
-      <img src="${cat.image}" alt="${cat.title}" loading="lazy">
-      <div class="hw-card-body">
-        <div class="hw-card-tag">${cat.tagline}</div>
-        <div class="hw-card-title">${cat.title}</div>
-        <div class="hw-card-desc">${cat.description}</div>
-        <div class="hw-card-partner">${cat.partner}</div>
-      </div>
-    `;
+      card.innerHTML = `
+        <img src="${cat.image}" alt="${cat.title}" loading="lazy">
+        <div class="hw-card-body">
+          <div class="hw-card-tag">${cat.tagline}</div>
+          <div class="hw-card-title">${cat.title}</div>
+          <div class="hw-card-desc">${cat.description}</div>
+          <div class="hw-card-partner">${cat.partner}</div>
+        </div>
+      `;
 
-    grid.appendChild(card);
+      grid.appendChild(card);
+    });
   });
-});
-</script>
+  </script>
 </body>
 </html>
 
