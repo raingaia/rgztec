@@ -1,403 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RGZTEC • Hardware Lab</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RGZTEC • Hardware Lab</title>
+<!-- TEMEL ADRES: /rgztec/ hardware/ değil, /rgztec/ olmalı -->
+<base href="/rgztec/">
+<!-- Tailwind CSS CDN (Düzeltildi) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Google Fonts: Roboto (Düzeltildi) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- Tailwind Yapılandırması -->
+<script>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+sans: ['Roboto', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+},
+colors: {
+// Orijinal parlak turuncu renkler
+brand: {
+DEFAULT: '#f97316', // Turuncu (Ana)
+dark: '#ea580c',   // Koyu Turuncu
+light: '#fff7ed',  // Çok Açık Turuncu
+},
+graphite: '#2A2D32',
+neutral: {
+900: '#111827',
+700: '#374151',
+500: '#6b7280',
+300: '#d1d5db',
+200: '#e5e7eb',
+100: '#f3f4f6',
+50: '#f9fafb',
+}
+}
+}
+}
+}
+</script>
+<style>
+/* Temel stiller */
+body {
+background-color: #f5f6fa; /* Ana arka plan rengi */
+font-family: 'Roboto', sans-serif;
+}
+/* Kaydırma çubuğunu gizle */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  <!-- TEMEL ADRES: /rgztec/ hardware/ değil, /rgztec/ olmalı -->
-  <base href="/rgztec/">
+/*
+  PREMIUM STİLLER (hardware-styles.css dosyasından buraya taşındı)
+*/
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+/* 🎯 4. Body için profesyonel ambient zemin */
+body.hardware-page {
+  background-color: #f5f6fa;
+  background-image:
+    /* Sol üstte çok yumuşak bir "gün ışığı" hissi */
+    radial-gradient(circle at 10% 10%, hsl(30, 100%, 97%) 0%, transparent 50%),
+    /* Sağ altta çok yumuşak bir "teknoloji" hissi */
+    radial-gradient(circle at 90% 80%, hsl(200, 100%, 97%) 0%, transparent 50%);
+  background-attachment: fixed; /* Kaydırma sırasında arka plan sabit kalır */
+}
 
-  <!-- Google Fonts: Inter -> Roboto olarak değiştirildi -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+/* 🎯 1. HERO arka planı (ve ::after için hazırlık) */
+.hw-hero {
+  /* Temel arka plan beyaz */
+  background-color: #ffffff;
+  /* Üzerine yumuşak kurumsal gradient'ler */
+  background-image:
+    /* Sol üstte hafif turuncu/krem ışık */
+    radial-gradient(circle at top left, hsl(31, 90%, 95%) 0%, transparent 40%),
+    /* Sağ altta hafif açık mavi yayılma */
+    radial-gradient(circle at bottom right, hsl(200, 100%, 95%) 0%, transparent 40%);
+  
+  position: relative;
+  overflow: hidden; /* Gradient'lerin taşmasını engeller */
+}
 
-  <!-- Tailwind Yapılandırması -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Roboto', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'], // Inter -> Roboto
-          },
-          colors: {
-            // Orijinal parlak turuncu renklere geri dönüldü
-            brand: {
-              DEFAULT: '#f97316', // Turuncu (Ana) - Orijinal
-              dark: '#ea580c',   // Koyu Turuncu - Orijinal
-              light: '#fff7ed',  // Çok Açık Turuncu - Orijinal
-            },
-            graphite: '#2A2D32', // Yeni eklenen grafit rengi
-            neutral: {
-              // Daha profesyonel gri tonları
-              900: '#111827',
-              700: '#374151',
-              500: '#6b7280',
-              300: '#d1d5db',
-              200: '#e5e7eb',
-              100: '#f3f4f6',
-              50: '#f9fafb',
-            }
-          }
-        }
-      }
-    }
-  </script>
+/* 🎯 2. HERO altında morumsu şerit efekti */
+.hw-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; /* Şerit kalınlığı */
+  background-color: #C4B5FD; /* İstenen lila tonu */
+  opacity: 0.4; /* Düşük opaklık */
+  z-index: 2; /* Diğer içeriğin üzerinde, ama hero'nun içinde */
+}
 
-  <style>
-    /* Sayfaya hafif bir arka plan deseni ekleyelim (Görsel 3'teki gibi) */
-    body {
-      background-color: #f5f6fa; /* Ana arka plan rengi olarak ayarlandı */
-      font-family: 'Roboto', sans-serif; /* Inter -> Roboto */
-    }
-    /* Kaydırma çubuğunu gizle */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  </style>
+/* 🎯 3. Kart yapısı hover efekti (Temel Durum) */
+.hw-hero-card {
+  /* HTML'deki 'shadow-xl' ile uyumlu temel gölge */
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Temel transform durumu (hareketsiz) */
+  transform: translateY(0);
+  
+  /* Yumuşak geçiş animasyonu */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
 
+/* 🎯 3. Kart yapısı hover efekti (Hover Durumu) */
+.hw-hero-card:hover {
+  /* 8px yukarı kaldır */
+  transform: translateY(-8px);
+  
+  /* "Daha güçlü" gölge (Tailwind 'shadow-2xl' eşdeğeri) */
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+</style>
 </head>
-<body class="text-neutral-900 antialiased"> <!-- Varsayılan metin rengi koyu -->
+<body class="text-neutral-900 antialiased hardware-page"> <!-- hardware-page class'ı eklendi -->
+<!-- HEADER -->
+<header class="sticky top-0 z-30 w-full bg-white/95 backdrop-blur-lg border-b border-neutral-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-  <!-- HEADER -->
-  <!-- Tamamen Açık Tema Header -->
-  <header class="sticky top-0 z-30 w-full bg-white/95 backdrop-blur-lg border-b border-neutral-200"> <!-- Açık header (Beyaz) -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Üst Satır: Marka, Arama, Hesap Linkleri -->
-      <div class="flex justify-between items-center h-16">
-        
-        <!-- Sol Taraf: Marka ve Kategori Butonu -->
-        <div class="flex items-center gap-4">
-          <a href="/rgztec/" class="text-xl font-extrabold tracking-widest uppercase text-brand-dark">
-            RGZTEC
-          </a>
-          <button type="button" class="hidden sm:flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-full text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"> <!-- Açık tema butonu -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-neutral-500">
-              <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 9.75A.75.75 0 0 1 2.75 9h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 9.75Zm0 5A.75.75 0 0 1 2.75 14h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 14.75Z" clip-rule="evenodd" />
-            </svg>
-            <span>Browse categories</span>
-          </button>
-        </div>
-
-        <!-- Orta: Arama Çubuğu (Görsel 4'teki gibi) -->
-        <div class="flex-1 max-w-lg mx-4 hidden md:block">
-          <form class="relative" action="/rgztec/listings.html">
-            <input type="hidden" name="store" value="hardware">
-            <input 
-              type="search" 
-              name="q" 
-              placeholder="Search in Hardware Lab" 
-              class="w-full pl-10 pr-4 py-2.5 rounded-full border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent text-sm placeholder:text-neutral-400"
-            >
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-            </svg>
-            <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-1.5 rounded-full bg-brand hover:bg-brand-dark text-white text-sm font-semibold shadow-lg shadow-brand/30 transition-all">
-              Search
-            </button>
-          </form>
-        </div>
-
-        <!-- Sağ Taraf: Linkler ve CTA Butonu -->
-        <div class="flex items-center gap-4">
-          <div class="hidden lg:flex items-center gap-4 text-sm font-medium text-neutral-700"> <!-- Açık tema metin rengi -->
-            <a href="/rgztec/editor/" class="hover:text-brand">Dashboard</a>
-            <a href="/rgztec/login/" class="hover:text-brand">Sign in</a>
-            <a href="mailto:support@rgztec.com" class="hover:text-brand">Support</a>
-            <a href="/rgztec/cart.html" class="hover:text-brand">Gift cart</a>
-          </div>
-          <a href="/rgztec/open-store.html" class="px-5 py-2.5 rounded-full bg-brand hover:bg-brand-dark text-white text-sm font-semibold shadow-lg shadow-brand/30 transition-all">
-            Open Store
-          </a>
-        </div>
-      </div>
-
-      <!-- Alt Satır: Kategori Navigasyonu -->
-      <div class="border-t border-neutral-200"> <!-- Açık tema kenarlık -->
-        <nav class="flex gap-2.5 overflow-x-auto no-scrollbar pt-3">
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-bold border-b-2 border-brand text-brand-dark" href="#hw-categories">
-            <strong>All hardware</strong>
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=ai-accelerators"> <!-- Tab stili -->
-            AI accelerators
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=dev-boards"> <!-- Tab stili -->
-            Developer boards
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=embedded-computers"> <!-- Tab stili -->
-            Embedded & edge PCs
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=sensors"> <!-- Tab stili -->
-            Sensors & modules
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=medical-kits"> <!-- Tab stili -->
-            Medical kits
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=medical-tech"> <!-- Tab stili -->
-            Med tech & bio
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=robotics"> <!-- Tab stili -->
-            Robotics & motion
-          </a>
-          <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=iot-gateways"> <!-- Tab stili -->
-            IoT gateways
-          </a>
-        </nav>
-      </div>
+  <!-- Üst Satır: Marka, Arama, Hesap Linkleri -->
+  <div class="flex justify-between items-center h-16">
+    
+    <!-- Sol Taraf: Marka ve Kategori Butonu -->
+    <div class="flex items-center gap-4">
+      <a href="/rgztec/" class="text-xl font-extrabold tracking-widest uppercase text-brand-dark">
+        RGZTEC
+      </a>
+      <button type="button" class="hidden sm:flex items-center gap-2 px-4 py-2 border border-neutral-500 rounded-full text-sm font-medium text-neutral-900 hover:bg-neutral-100 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-neutral-600">
+          <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 9.75A.75.75 0 0 1 2.75 9h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 9.75Zm0 5A.75.75 0 0 1 2.75 14h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 14.75Z" clip-rule="evenodd" />
+        </svg>
+        <span>Browse categories</span>
+      </button>
     </div>
-  </header>
 
-  <!-- YENİ BÖLÜM: DALGALI AYIRGAÇ -->
-  <!-- Buradan kaldırıldı -->
-  <!-- / YENİ BÖLÜM -->
+    <!-- Orta: Arama Çubuğu -->
+    <div class="flex-1 max-w-lg mx-4 hidden md:block">
+      <form class="relative" action="/rgztec/listings.html">
+        <input type="hidden" name="store" value="hardware">
+        <input 
+          type="search" 
+          name="q" 
+          placeholder="Search in Hardware Lab" 
+          class="w-full pl-10 pr-4 py-2.5 rounded-full border border-neutral-500 bg-white text-neutral-900 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent text-sm placeholder:text-neutral-500"
+        >
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+        </svg>
+        <button type="submit" class="absolute right-1.5 top-1/2 -translate-y-1/2 px-5 py-1.5 rounded-full bg-brand hover:bg-brand-dark text-white text-sm font-semibold shadow-lg shadow-brand/30 transition-all">
+          Search
+        </button>
+      </form>
+    </div>
 
+    <!-- Sağ Taraf: Linkler ve CTA Butonu -->
+    <div class="flex items-center gap-4">
+      <div class="hidden lg:flex items-center gap-4 text-sm font-medium text-neutral-700">
+        <a href="/rgztec/editor/" class="hover:text-brand">Dashboard</a>
+        <a href="/rgztec/login/" class="hover:text-brand">Sign in</a>
+        <a href="mailto:support@rgztec.com" class="hover:text-brand">Support</a>
+        <a href="/rgztec/cart.html" class="hover:text-brand">Gift cart</a>
+      </div>
+      <a href="/rgztec/open-store.html" class="px-5 py-2.5 rounded-full bg-brand hover:bg-brand-dark text-white text-sm font-semibold shadow-lg shadow-brand/30 transition-all">
+        Open Store
+      </a>
+    </div>
+  </div>
 
-  <!-- HERO -->
-  <!-- Görsel 1'deki içerik, Görsel 3'teki yerleşimle -->
-  <main>
-    <section class="relative py-16 sm:py-24 overflow-hidden bg-white"> <!-- Arka plan gradient'ı beyaza çevrildi -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
-          <!-- Sol Taraf: Metin İçeriği -->
-          <div>
-            <span class="inline-block px-3 py-1 rounded-full bg-brand-light text-brand-dark text-xs font-semibold tracking-wider uppercase">
-              RGZTEC • HARDWARE LAB
-            </span>
-            <h1 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900"> <!-- Açık tema metin -->
-              Premium hardware floor for developers, labs & med-tech teams.
-            </h1>
-            <p class="mt-6 text-lg text-neutral-700"> <!-- Açık tema metin -->
-              AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways – all curated as a single, reliable hardware floor inside RGZTEC.
-            </p>
-            
-            <!-- Rozetler -->
-            <div class="mt-8 flex flex-wrap gap-3">
-              <span class="px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-700 shadow-sm"> <!-- Açık tema rozet -->
-                Industrial & IoT ready
-              </span>
-              <span class="px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-700 shadow-sm"> <!-- Açık tema rozet -->
-                Curated brands & vendors
-              </span>
-              <span class="px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-700 shadow-sm"> <!-- Açık tema rozet -->
-                Global shipping focus
-              </span>
-            </div>
+  <!-- Alt Satır: Kategori Navigasyonu -->
+  <div class="border-t border-neutral-200">
+    <nav class="flex flex-wrap gap-2.5 pt-3"> <!-- flex-wrap eklendi -->
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-bold border-b-2 border-brand text-brand-dark" href="#hw-categories">
+        <strong>All hardware</strong>
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=ai-accelerators">
+        AI accelerators
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=dev-boards">
+        Developer boards
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=embedded-computers">
+        Embedded & edge PCs
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=sensors">
+        Sensors & modules
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=medical-kits">
+        Medical kits
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=medical-tech">
+        Med tech & bio
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=robotics">
+        Robotics & motion
+      </a>
+      <a class="flex-shrink-0 px-4 pb-3 text-sm font-medium border-b-2 border-transparent text-neutral-700 hover:border-brand hover:text-brand-dark transition-colors" href="/rgztec/listings.html?store=hardware&cat=iot-gateways">
+        IoT gateways
+      </a>
+    </nav>
+  </div>
+</div>
+</header>
+<!-- HERO -->
+<main>
+<section class="relative py-16 sm:py-24 overflow-hidden hw-hero"> <!-- hw-hero class'ı eklendi -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-            <!-- Eylem Butonları -->
-            <div class="mt-10 flex flex-wrap gap-4">
-              <a href="#hw-categories" class="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-brand hover:bg-brand-dark text-white text-base font-semibold shadow-lg shadow-brand/30 transition-all">
-                Browse hardware categories
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ml-2">
-                  <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
-                </svg>
-              </a>
-              <a href="/rgztec/listings.html?store=hardware" class="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-white border border-neutral-300 text-neutral-700 text-base font-semibold hover:bg-neutral-50 shadow-sm transition-all"> <!-- Açık tema ikincil buton -->
-                View all hardware listings
-              </a>
-            </div>
-          </div>
+      <!-- Sol Taraf: Metin İçeriği -->
+      <div>
+        <span class="inline-block px-3 py-1 rounded-full bg-brand-light text-brand-dark text-xs font-semibold tracking-wider uppercase">
+          RGZTEC • HARDWARE LAB
+        </span>
+        <h1 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900">
+          Premium hardware floor for developers, labs & med-tech teams.
+        </h1>
+        <p class="mt-6 text-lg text-neutral-700">
+          AI accelerators, dev boards, embedded computers, sensors, medical kits, robotics and IoT gateways – all curated as a single, reliable hardware floor inside RGZTEC.
+        </p>
+        
+        <!-- Rozetler -->
+        <div class="mt-8 flex flex-wrap gap-3">
+          <span class="px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-700 shadow-sm">
+            Industrial & IoT ready
+          </span>
+          <span class="px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-700 shadow-sm">
+            Curated brands & vendors
+          </span>
+          <span class="px-4 py-1.5 rounded-full bg-white border border-neutral-200 text-sm font-medium text-neutral-700 shadow-sm">
+            Global shipping focus
+          </span>
+        </div>
 
-          <!-- Sağ Taraf: Görsel Kart -->
-          <!-- Görsel 1'deki kartı daha modern hale getirdim -->
-          <div class="flex items-center justify-center">
-            <div class="w-full max-w-md bg-white rounded-3xl border border-neutral-200 shadow-xl overflow-hidden"> <!-- Açık tema kart -->
-              <div class="p-6 border-b border-neutral-200"> <!-- Açık tema kenarlık -->
-                <div class="text-sm font-semibold tracking-wider uppercase text-neutral-900">HARDWARE STORE</div> <!-- Açık tema metin -->
-                <p class="mt-1 text-sm text-neutral-600"> <!-- Açık tema metin -->
-                  Premium devices & IoT equipment • Industrial • Smart home • Edge computing
-                </p>
-              </div>
-              <div class="p-6 bg-neutral-50"> <!-- Açık tema iç arka plan -->
-                <img 
-                  src="/rgztec/assets/images/store/hardware-hero.webp" 
-                  alt="Hardware Lab Hero" 
-                  class="w-full h-auto rounded-2xl"
-                >
-                <div class="mt-5 flex flex-wrap gap-2.5">
-                  <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">IoT devices</span> <!-- Açık tema etiket -->
-                  <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">Industrial hardware</span> <!-- Açık tema etiket -->
-                  <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">Smart controllers</span> <!-- Açık tema etiket -->
-                  <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">Edge devices</span> <!-- Açık tema etiket -->
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <!-- Eylem Butonları -->
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a href="#hw-categories" class="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-brand hover:bg-brand-dark text-white text-base font-semibold shadow-lg shadow-brand/30 transition-all">
+            Browse hardware categories
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ml-2">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a href="/rgztec/listings.html?store=hardware" class="inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-white border border-neutral-300 text-neutral-700 text-base font-semibold hover:bg-neutral-50 shadow-sm transition-all">
+            View all hardware listings
+          </a>
         </div>
       </div>
-    </section>
 
-    <!-- YENİ BÖLÜM: DALGALI AYIRGAÇ -->
-    <!-- Ayırgaç buraya taşındı (Hero ile Kategoriler arasına) -->
-    <div class="w-full bg-white"> <!-- Görselin tam oturması için ebeveynine beyaz bg verdim -->
-      <!-- 
-        NOT: Lütfen 'image_9e5b8a.png' dosyanızın adını 
-        'hero-wave-divider.png' olarak değiştirin ve 
-        bu yola (/rgztec/assets/images/) yükleyin. 
-      -->
-      <img src="/rgztec/assets/images/hero-wave-divider.png" alt="Wavy Section Divider" class="w-full h-auto object-cover -mt-1"> <!-- -mt-1 ile boşlukları kapattım -->
-    </div>
-    <!-- / YENİ BÖLÜM -->
-
-
-    <!-- KATEGORİLER -->
-    <!-- Görsel 2'deki içerik, Görsel 5'teki kart tasarımıyla -->
-    <section class="py-16 sm:py-24 bg-[#f5f6fa]" id="hw-categories"> <!-- bg-white -> bg-[#f5f6fa] olarak değiştirildi -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <!-- Başlık Alanı -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
-          <div>
-            <h2 class="text-3xl font-extrabold tracking-tight text-neutral-900"> <!-- Açık tema metin -->
-              Hardware categories
-            </h2>
-            <p class="mt-3 text-lg text-neutral-700 max-w-2xl"> <!-- Açık tema metin -->
-              Each micro-store focuses on a dedicated hardware domain – from AI accelerators to connectivity gateways.
+      <!-- Sağ Taraf: Görsel Kart -->
+      <div class="flex items-center justify-center">
+        <div class="w-full max-w-md bg-white rounded-3xl border border-neutral-200 shadow-xl overflow-hidden hw-hero-card"> <!-- hw-hero-card class'ı eklendi -->
+          <div class="p-6 border-b border-neutral-200">
+            <div class="text-sm font-semibold tracking-wider uppercase text-neutral-900">HARDWARE STORE</div>
+            <p class="mt-1 text-sm text-neutral-600">
+              Premium devices & IoT equipment • Industrial • Smart home • Edge computing
             </p>
           </div>
-          <div class="flex-shrink-0">
-            <a href="/rgztec/listings.html?store=hardware" class="text-sm font-medium text-brand-dark hover:text-brand transition-colors">
-              Open full hardware catalog →
-            </a>
-          </div>
-        </div>
-
-        <!-- Kategori Kartları Grid'i -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8" id="hardwareCategories">
-          <!-- JS burayı dolduracak -->
-          <!-- Yükleniyor... GÖSTERGESİ -->
-          <div class="col-span-full text-center text-neutral-500">
-            Loading categories...
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-white border-t border-neutral-200"> <!-- Açık tema footer -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <span class="text-sm text-neutral-600">© 2025 RGZTEC • Technology Mall</span> <!-- Açık tema metin -->
-      <span class="text-sm text-neutral-600 text-center sm:text-right">Hardware Lab • Boards • AI • IoT • Robotics</span> <!-- Açık tema metin -->
-    </div>
-  </footer>
-
-  <!-- INLINE JS – HARDWARE KATEGORİLERİ -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const grid = document.getElementById("hardwareCategories");
-      if (!grid) return;
-
-      const IMG = "/rgztec/assets/images/store/";
-
-      const categories = [
-        {
-          slug: "ai-accelerators",
-          title: "AI Accelerators",
-          tagline: "PCIe • Edge AI",
-          description: "On-device inference modules, NPUs and compact AI compute boards.",
-          partner: "Open category → Premium OEM Partner",
-          image: IMG + "hardware-ai-accelerators.webp",
-        },
-        {
-          slug: "dev-boards",
-          title: "Developer Boards",
-          tagline: "SBC • Prototyping",
-          description: "Single-board computers and dev kits for rapid prototyping.",
-          partner: "Open category → RGZTEC Hardware Partner",
-          image: IMG + "hardware-developer-boards.webp",
-        },
-        {
-          slug: "embedded-computers",
-          title: "Embedded & Edge Computers",
-          tagline: "Fanless • Rugged",
-          description: "Fanless box PCs and edge computers for field deployments.",
-          partner: "Open category → Industrial Hardware Vendor",
-          image: IMG + "hardware-edge.webp",
-        },
-        {
-          slug: "sensors",
-          title: "Sensors & Modules",
-          tagline: "Env • I²C",
-          description: "Precision sensors and modular boards for data acquisition.",
-          partner: "Open category → Sensor Design Partner",
-          image: IMG + "hardware-sensors.webp",
-        },
-        {
-          slug: "medical-kits",
-          title: "Medical Kits & Starter Packs",
-          tagline: "Training • Lab use",
-          description: "Prototype-friendly medical starter kits for training, labs and simulations.",
-          partner: "Open category → RGZTEC Lab Partner",
-          image: IMG + "hardware-medical-kits.webp",
-        },
-        {
-          slug: "medical-tech",
-          title: "MedTech & Bio-Sensing",
-          tagline: "ECG • Reference",
-          description: "Boards and modules for health analytics, bio-sensing and med-tech R&D.",
-          partner: "Open category → Bio-sensing Partner",
-          image: IMG + "hardware-medical-tech.webp",
-        },
-        {
-          slug: "robotics",
-          title: "Robotics & Motion",
-          tagline: "Motor control",
-          description: "Motor drivers, controllers and motion kits for robots and automation.",
-          partner: "Open category → Motion Control Partner",
-          image: IMG + "hardware-smart-controllers.webp",
-        },
-        {
-          slug: "iot-gateways",
-          title: "IoT Gateways & Connectivity",
-          tagline: "LTE • Edge",
-          description: "Gateways and connectivity modules for fleet and field deployments.",
-          partner: "Open category → Connectivity Partner",
-          image: IMG + "hardware-iot.webp",
-        },
-      ];
-
-      // Grid'i temizle
-      grid.innerHTML = "";
-
-      // Yeni Tailwind kart yapısını kullanarak kartları oluştur
-      categories.forEach((cat) => {
-        const card = document.createElement("a");
-        card.className = "group block bg-white rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]"; // PROMPT'a göre güncellenmiş card class'ı
-        card.href = "/rgztec/listings.html?store=hardware&cat=" + encodeURIComponent(cat.slug);
-
-        // Görsel 5'teki gibi bir kart yapısı
-        card.innerHTML = `
-          <div class="aspect-[16/10] bg-neutral-100 overflow-hidden"> <!-- Resim oranı 16:10 olarak güncellendi -->
+          <div class="p-6 bg-neutral-50">
             <img 
-              src="${cat.image}" 
-              alt="${cat.title}" 
-              loading="lazy" 
-              class="w-full h-full object-contain p-4 sm:p-6 transition-transform duration-300"
+              src="/rgztec/assets/images/store/hardware-hero.webp" 
+              alt="Hardware Lab Hero" 
+              class="w-full h-auto rounded-2xl"
             >
+            <div class="mt-5 flex flex-wrap gap-2.5">
+              <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">IoT devices</span>
+              <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">Industrial hardware</span>
+              <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">Smart controllers</span>
+              <span class="px-3 py-1 rounded-full bg-white border border-neutral-200 text-xs font-medium text-neutral-700">Edge devices</span>
+            </div>
           </div>
-          <div class="p-5">
-            <div class="text-xs font-semibold tracking-wider uppercase text-neutral-500">${cat.tagline}</div>
-            <div class="mt-2 text-base font-bold text-[#0f172a] group-hover:text-brand">${cat.title}</div> <!-- text-main renk kodu uygulandı -->
-            <div class="mt-2 text-sm text-[#475569]">${cat.description}</div> <!-- text-sub renk kodu uygulandı -->
-            <div class="mt-4 text-xs font-medium text-brand-dark group-hover:text-brand">${cat.partner}</div>
-          </div>
-        `;
+        </div>
+      </div>
 
-        grid.appendChild(card);
-      });
-    });
-  </script>
+    </div>
+  </div>
+</section>
 
+<!-- DALGALI AYIRGAÇ -->
+<div class="w-full bg-white">
+  <!-- 
+    NOT: Lütfen 'image_9e5b8a.png' dosyanızın adını 
+    'hero-wave-divider.png' olarak değiştirin ve 
+    bu yola (/rgztec/assets/images/) yükleyin. 
+    (Yer tutucu ile değiştirildi)
+  -->
+  <img src="/rgztec/assets/images/hero-wave-divider.png" alt="Wavy Section Divider" class="w-full h-auto object-cover -mt-1">
+</div>
+<!-- / DALGALI AYIRGAÇ -->
+
+
+<!-- KATEGORİLER -->
+<section class="py-16 sm:py-24 bg-[#f5f6fa]" id="hw-categories"> <!-- Arka plan body ile aynı griye ayarlandı -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Başlık Alanı -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
+      <div>
+        <h2 class="text-3xl font-extrabold tracking-tight text-neutral-900">
+          Hardware categories
+        </h2>
+        <p class="mt-3 text-lg text-neutral-700 max-w-2xl">
+          Each micro-store focuses on a dedicated hardware domain – from AI accelerators to connectivity gateways.
+        </p>
+      </div>
+      <div class="flex-shrink-0">
+        <a href="/rgztec/listings.html?store=hardware" class="text-sm font-medium text-brand-dark hover:text-brand transition-colors">
+          Open full hardware catalog →
+        </a>
+      </div>
+    </div>
+
+    <!-- Kategori Kartları Grid'i -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8" id="hardwareCategories">
+      <!-- JS burayı dolduracak -->
+      <div class="col-span-full text-center text-neutral-500">
+        Loading categories...
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="bg-white border-t border-neutral-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+<span class="text-sm text-neutral-600">© 2025 RGZTEC • Technology Mall</span>
+<span class="text-sm text-neutral-600 text-center sm:text-right">Hardware Lab • Boards • AI • IoT • Robotics</span>
+</div>
+</footer>
+<!-- INLINE JS – HARDWARE KATEGORİLERİ -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+const grid = document.getElementById("hardwareCategories");
+if (!grid) return;
+
+  const IMG = "/rgztec/assets/images/store/";
+
+  const categories = [
+    {
+      slug: "ai-accelerators",
+      title: "AI Accelerators",
+      tagline: "PCIe • Edge AI",
+      description: "On-device inference modules, NPUs and compact AI compute boards.",
+      partner: "Open category → Premium OEM Partner",
+      image: IMG + "hardware-ai-accelerators.webp",
+    },
+    {
+      slug: "dev-boards",
+      title: "Developer Boards",
+      tagline: "SBC • Prototyping",
+      description: "Single-board computers and dev kits for rapid prototyping.",
+      partner: "Open category → RGZTEC Hardware Partner",
+      image: IMG + "hardware-developer-boards.webp",
+    },
+    {
+      slug: "embedded-computers",
+      title: "Embedded & Edge Computers",
+      tagline: "Fanless • Rugged",
+      description: "Fanless box PCs and edge computers for field deployments.",
+      partner: "Open category → Industrial Hardware Vendor",
+      image: IMG + "hardware-edge.webp",
+    },
+    {
+      slug: "sensors",
+      title: "Sensors & Modules",
+      tagline: "Env • I²C",
+      description: "Precision sensors and modular boards for data acquisition.",
+      partner: "Open category → Sensor Design Partner",
+      image: IMG + "hardware-sensors.webp",
+    },
+    {
+      slug: "medical-kits",
+      title: "Medical Kits & Starter Packs",
+      tagline: "Training • Lab use",
+      description: "Prototype-friendly medical starter kits for training, labs and simulations.",
+      partner: "Open category → RGZTEC Lab Partner",
+      image: IMG + "hardware-medical-kits.webp",
+    },
+    {
+      slug: "medical-tech",
+      title: "MedTech & Bio-Sensing",
+      tagline: "ECG • Reference",
+      description: "Boards and modules for health analytics, bio-sensing and med-tech R&D.",
+      partner: "Open category → Bio-sensing Partner",
+      image: IMG + "hardware-medical-tech.webp",
+    },
+    {
+      slug: "robotics",
+      title: "Robotics & Motion",
+      tagline: "Motor control",
+      description: "Motor drivers, controllers and motion kits for robots and automation.",
+      partner: "Open category → Motion Control Partner",
+      image: IMG + "hardware-smart-controllers.webp",
+    },
+    {
+      slug: "iot-gateways",
+      title: "IoT Gateways & Connectivity",
+      tagline: "LTE • Edge",
+      description: "Gateways and connectivity modules for fleet and field deployments.",
+      partner: "Open category → Connectivity Partner",
+      image: IMG + "hardware-iot.webp",
+    },
+  ];
+
+  // Grid'i temizle
+  grid.innerHTML = "";
+
+  // Yeni Tailwind kart yapısını kullanarak kartları oluştur
+  categories.forEach((cat) => {
+    const card = document.createElement("a");
+    card.className = "group block bg-white rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]"; // PROMPT'a göre güncellenmiş card class'ı
+    card.href = "/rgztec/listings.html?store=hardware&cat=" + encodeURIComponent(cat.slug);
+
+    // Görsel 5'teki gibi bir kart yapısı
+    card.innerHTML = `
+      <div class="aspect-[16/10] bg-neutral-100 overflow-hidden"> <!-- Resim oranı 16:10 olarak güncellendi -->
+        <img 
+          src="${cat.image}" 
+          alt="${cat.title}" 
+          loading="lazy" 
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        >
+      &lt;/div>
+      <div class="p-5">
+        <div class="text-xs font-semibold tracking-wider uppercase text-neutral-500">${cat.tagline}</div>
+        <div class="mt-2 text-base font-bold text-[#0f172a] group-hover:text-brand">${cat.title}</div> <!-- text-main renk kodu uygulandı -->
+        <div class="mt-2 text-sm text-[#475569]">${cat.description}</div> <!-- text-sub renk kodu uygulandı -->
+        <div class="mt-4 text-xs font-medium text-brand-dark group-hover:text-brand">${cat.partner}</div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+});
+</script>
 </body>
 </html>
-
-
 
 
 
