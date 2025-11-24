@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("hardwareCategories");
   if (!grid) return;
 
+  // Tüm görseller için ortak base path
+  const BASE_PATH = "assets/images/store/";
+
   const categories = [
     {
       slug: "ai-accelerators",
@@ -11,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "PCIe • Edge AI",
       description: "On-device inference modules, NPUs and compact AI compute boards.",
       partner: "Open category → Premium OEM Partner",
-      image: "assets/images/store/hardware/ai-accelerators.webp",
+      image: BASE_PATH + "hardware-ai-accelerators.webp",
     },
     {
       slug: "dev-boards",
@@ -19,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "SBC • Prototyping",
       description: "Single-board computers and dev kits for rapid prototyping.",
       partner: "Open category → RGZTEC Hardware Partner",
-      image: "assets/images/store/hardware/dev-boards.webp",
+      image: BASE_PATH + "hardware-developer-boards.webp",
     },
     {
       slug: "embedded-computers",
@@ -27,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "Fanless • Rugged",
       description: "Fanless box PCs and edge computers for field deployments.",
       partner: "Open category → Industrial Hardware Vendor",
-      image: "assets/images/store/hardware/embedded-computers.webp",
+      image: BASE_PATH + "hardware-edge.webp",
     },
     {
       slug: "sensors",
@@ -35,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "Env • I²C",
       description: "Precision sensors and modular boards for data acquisition.",
       partner: "Open category → Sensor Design Partner",
-      image: "assets/images/store/hardware/sensors.webp",
+      image: BASE_PATH + "hardware-sensors.webp",
     },
     {
       slug: "medical-kits",
@@ -43,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "Training • Lab Use",
       description: "Prototype-friendly medical starter kits for training, labs and simulation.",
       partner: "Open category → RGZTEC Lab Partner",
-      image: "assets/images/store/hardware/medical-kits.webp",
+      // Dosya adın aynen böyleyse:
+      image: BASE_PATH + "Medical Kits & Starter Packs.webp",
     },
     {
       slug: "medical-tech",
@@ -51,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "ECG • Reference",
       description: "Reference boards and modules for health analytics and med-tech R&D.",
       partner: "Open category → Bio-Sensing Partner",
-      image: "assets/images/store/hardware/medical-tech.webp",
+      // Dosya adın aynen böyleyse:
+      image: BASE_PATH + "Medical Technologies & Bio-Sensing.webp",
     },
     {
       slug: "robotics",
@@ -59,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "Motor Driver • DC",
       description: "Motor drivers, controllers and motion kits for robots and automation.",
       partner: "Open category → Motion Control Partner",
-      image: "assets/images/store/hardware/robotics.webp",
+      // Robotics için kullandığın görsel:
+      image: BASE_PATH + "hardware-smart-controllers.webp",
     },
     {
       slug: "iot-gateways",
@@ -67,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tagline: "LTE • Edge",
       description: "Gateways and connectivity modules for fleet and field deployments.",
       partner: "Open category → Connectivity Partner",
-      image: "assets/images/store/hardware/iot-gateways.webp",
+      image: BASE_PATH + "hardware-iot.webp",
     },
   ];
 
@@ -95,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.appendChild(card);
   });
 });
+
 
 
 
