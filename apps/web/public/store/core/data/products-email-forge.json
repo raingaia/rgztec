@@ -1,0 +1,10 @@
+{
+  "categories": [
+    { "slug": "transactional", "name": "Transactional Emails" },
+    { "slug": "marketing", "name": "Marketing Emails" },
+    { "slug": "newsletter", "name": "Newsletter Kits" },
+    { "slug": "mjml-blocks", "name": "MJML Blocks" },
+    { "slug": "email-flows", "name": "Email Flows" }
+  ],
+  "products": []
+}
