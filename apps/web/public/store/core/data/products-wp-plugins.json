@@ -1,10 +1,13 @@
 {
   "categories": [
-    { "slug": "seo", "name": "SEO Plugins" },
-    { "slug": "security", "name": "Security Plugins" },
-    { "slug": "performance", "name": "Performance Tools" },
-    { "slug": "forms", "name": "Forms" },
-    { "slug": "woocommerce", "name": "WooCommerce Tools" }
+    { "slug": "seo",          "name": "SEO" },
+    { "slug": "performance",  "name": "Performance" },
+    { "slug": "security",     "name": "Security" },
+    { "slug": "forms",        "name": "Forms" },
+    { "slug": "ecommerce",    "name": "E-commerce" },
+    { "slug": "membership",   "name": "Membership" },
+    { "slug": "blocks-editor", "name": "Blocks & Editor" }
   ],
   "products": []
 }
+
