@@ -109,11 +109,11 @@ body.store-body {
 }
 
 /* Ürün grid'i */
-
 .store-products .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.6rem;
+  padding-top: 0.3rem;
 }
 
 .product-card {
