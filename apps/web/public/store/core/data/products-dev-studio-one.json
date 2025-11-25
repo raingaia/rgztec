@@ -1,11 +1,11 @@
 {
   "categories": [
-    { "slug": "react-starters", "name": "React Starters" },
-    { "slug": "html-starters", "name": "HTML Starters" },
-    { "slug": "components", "name": "Components" },
-    { "slug": "auth-templates", "name": "Auth Templates" },
-    { "slug": "dashboards", "name": "Dashboard Starters" },
-    { "slug": "commerce", "name": "E-commerce Starters" }
+    { "slug": "html-starters",    "name": "HTML Starters" },
+    { "slug": "react-starters",   "name": "React Starters" },
+    { "slug": "dashboard-kits",   "name": "Dashboard Kits" },
+    { "slug": "auth-stacks",      "name": "Auth Stacks" },
+    { "slug": "api-boilerplates", "name": "API Boilerplates" },
+    { "slug": "design-systems",   "name": "Design Systems" }
   ],
   "products": []
 }
