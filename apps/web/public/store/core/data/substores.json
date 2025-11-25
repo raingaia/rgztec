@@ -1,0 +1,58 @@
+[
+  {
+    "parent": "hardware",
+    "slug": "ai-accelerators",
+    "title": "AI Accelerators",
+    "description": "High-performance modules and accelerator boards for AI workloads.",
+    "banner": "hardware/ai-accelerators/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "dev-kits",
+    "title": "Developer Kits",
+    "description": "Development kits designed for labs, prototypes, and edge projects.",
+    "banner": "hardware/dev-kits/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "sbc",
+    "title": "Single Board Computers",
+    "description": "Compact single-board computing platforms for embedded and edge use.",
+    "banner": "hardware/sbc/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "sensors",
+    "title": "Sensors",
+    "description": "Industrial-grade sensors for temperature, pressure, motion and more.",
+    "banner": "hardware/sensors/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "robotics",
+    "title": "Robotics",
+    "description": "Modules and components for robotics, motion systems, and automation.",
+    "banner": "hardware/robotics/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "edge-computing",
+    "title": "Edge Computing",
+    "description": "Edge computing units optimized for real-time and on-site processing.",
+    "banner": "hardware/edge-computing/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "power-modules",
+    "title": "Power Modules",
+    "description": "Power regulation boards, converters, and compact UPS modules.",
+    "banner": "hardware/power-modules/banner.webp"
+  },
+  {
+    "parent": "hardware",
+    "slug": "kits-bundles",
+    "title": "Kits & Bundles",
+    "description": "Ready-to-use kits and bundled hardware packages.",
+    "banner": "hardware/kits-bundles/banner.webp"
+  }
+]
