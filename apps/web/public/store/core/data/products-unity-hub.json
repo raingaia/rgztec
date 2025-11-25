@@ -1,0 +1,11 @@
+{
+  "categories": [
+    { "slug": "2d-platformer", "name": "2D Platformer Kits" },
+    { "slug": "fps", "name": "FPS Kits" },
+    { "slug": "racing", "name": "Racing Kits" },
+    { "slug": "multiplayer", "name": "Multiplayer Templates" },
+    { "slug": "vr", "name": "VR Templates" },
+    { "slug": "ar", "name": "AR Templates" }
+  ],
+  "products": []
+}
