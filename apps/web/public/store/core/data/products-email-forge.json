@@ -1,10 +1,12 @@
 {
   "categories": [
-    { "slug": "transactional", "name": "Transactional Emails" },
-    { "slug": "marketing", "name": "Marketing Emails" },
-    { "slug": "newsletter", "name": "Newsletter Kits" },
-    { "slug": "mjml-blocks", "name": "MJML Blocks" },
-    { "slug": "email-flows", "name": "Email Flows" }
+    { "slug": "transactional",      "name": "Transactional Emails" },
+    { "slug": "marketing-campaigns","name": "Marketing Campaigns" },
+    { "slug": "drip-flows",         "name": "Drip Flows" },
+    { "slug": "onboarding",         "name": "Onboarding Sequences" },
+    { "slug": "notifications",      "name": "Product Notifications" },
+    { "slug": "receipts-invoices",  "name": "Receipts & Invoices" },
+    { "slug": "newsletters",        "name": "Newsletters" }
   ],
   "products": []
 }
