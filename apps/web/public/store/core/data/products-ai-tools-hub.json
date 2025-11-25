@@ -1,13 +1,14 @@
 {
   "categories": [
-    { "slug": "prompts", "name": "Prompts" },
-    { "slug": "agents", "name": "AI Agents" },
+    { "slug": "prompts",      "name": "Prompt Packs" },
+    { "slug": "agents",       "name": "AI Agents" },
+    { "slug": "workflows",    "name": "Workflows" },
+    { "slug": "automations",  "name": "Automations" },
     { "slug": "integrations", "name": "Integrations" },
-    { "slug": "workflows", "name": "Workflows" },
-    { "slug": "scripts", "name": "AI Scripts" },
-    { "slug": "analytics", "name": "AI Analytics" },
-    { "slug": "generators", "name": "Content Generators" },
-    { "slug": "utilities", "name": "AI Utilities" }
+    { "slug": "analytics",    "name": "Analytics" },
+    { "slug": "generators",   "name": "Content Generators" },
+    { "slug": "utilities",    "name": "Utilities" }
   ],
   "products": []
 }
+
