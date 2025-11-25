@@ -1,69 +1,531 @@
 [
+  /* ----------------------------------------------------
+     HTML Templates — 7 Stores
+  ---------------------------------------------------- */
   {
-    "slug": "html-templates",
-    "title": "HTML Templates",
-    "description": "Polished HTML/CSS templates, landing pages, dashboards and full-page layouts.",
-    "banner": "banners/html-templates.webp"
+    "parent": "html-templates",
+    "slug": "landing-pages",
+    "title": "Landing Pages",
+    "description": "High-conversion landing page templates for startups and businesses.",
+    "banner": "html-templates/landing-pages/banner.webp"
   },
   {
-    "slug": "email-forge",
-    "title": "Email Forge",
-    "description": "Responsive email templates, transactional flows and marketing sequences.",
-    "banner": "banners/email-forge.webp"
+    "parent": "html-templates",
+    "slug": "portfolio",
+    "title": "Portfolio Templates",
+    "description": "Personal portfolio and resume templates for creatives and developers.",
+    "banner": "html-templates/portfolio/banner.webp"
   },
   {
-    "slug": "icon-smith",
-    "title": "Icon Smith",
-    "description": "Handcrafted outline, solid and animated icon packs for modern interfaces.",
-    "banner": "banners/icon-smith.webp"
+    "parent": "html-templates",
+    "slug": "dashboards",
+    "title": "Dashboard UI",
+    "description": "Admin dashboards, CRM layouts and analytic interfaces.",
+    "banner": "html-templates/dashboards/banner.webp"
   },
   {
-    "slug": "ai-tools-hub",
-    "title": "AI Tools Hub",
-    "description": "LLM-powered tools, prompts, agents and integration kits.",
-    "banner": "banners/ai-tools-hub.webp"
+    "parent": "html-templates",
+    "slug": "ecommerce",
+    "title": "E-commerce Templates",
+    "description": "Product pages, shopping carts and modern storefront layouts.",
+    "banner": "html-templates/ecommerce/banner.webp"
   },
   {
-    "slug": "dev-studio-one",
-    "title": "Dev Studio One",
-    "description": "Modern starters, boilerplates and component libraries for web projects.",
-    "banner": "banners/dev-studio-one.webp"
+    "parent": "html-templates",
+    "slug": "email-templates",
+    "title": "Email HTML",
+    "description": "Responsive email templates for newsletters and transaction flows.",
+    "banner": "html-templates/email-templates/banner.webp"
   },
   {
-    "slug": "game-makers",
-    "title": "Game Makers",
-    "description": "Game-ready UI kits, scenes, packs and starter templates.",
-    "banner": "banners/game-makers.webp"
+    "parent": "html-templates",
+    "slug": "sections",
+    "title": "UI Sections",
+    "description": "Hero sections, pricing blocks, testimonials and layout modules.",
+    "banner": "html-templates/sections/banner.webp"
   },
   {
-    "slug": "reactorium",
-    "title": "Reactorium",
-    "description": "React dashboards, landing pages, hooks and utility components.",
-    "banner": "banners/reactorium.webp"
+    "parent": "html-templates",
+    "slug": "components",
+    "title": "HTML Components",
+    "description": "Reusable HTML/CSS components for rapid prototyping.",
+    "banner": "html-templates/components/banner.webp"
   },
-  {
-    "slug": "tiny-js-lab",
-    "title": "Tiny JS Lab",
-    "description": "Small but powerful JavaScript widgets, effects and utilities.",
-    "banner": "banners/tiny-js-lab.webp"
-  },
-  {
-    "slug": "unity-hub",
-    "title": "Unity Hub",
-    "description": "Unity-ready scenes, prefabs, templates and starter kits.",
-    "banner": "banners/unity-hub.webp"
-  },
-  {
-    "slug": "wp-plugins",
-    "title": "WP Plugins",
-    "description": "Production-ready WordPress plugins for SEO, security and commerce.",
-    "banner": "banners/wp-plugins.webp"
-  },
-  {
-    "slug": "hardware",
-    "title": "Hardware Floor",
-    "description": "Devices, IoT, robotics, lab tools and MedTech hardware.",
-    "banner": "banners/hardware.webp"
-  }
-]
 
+
+  /* ----------------------------------------------------
+     Email Forge — 5 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "email-forge",
+    "slug": "transactional",
+    "title": "Transactional Emails",
+    "description": "Order confirmations, password resets and system notices.",
+    "banner": "email-forge/transactional/banner.webp"
+  },
+  {
+    "parent": "email-forge",
+    "slug": "marketing",
+    "title": "Marketing Emails",
+    "description": "Promotional messages and product launch campaigns.",
+    "banner": "email-forge/marketing/banner.webp"
+  },
+  {
+    "parent": "email-forge",
+    "slug": "newsletter",
+    "title": "Newsletter Kits",
+    "description": "Newsletter layouts and multi-section email templates.",
+    "banner": "email-forge/newsletter/banner.webp"
+  },
+  {
+    "parent": "email-forge",
+    "slug": "mjml-blocks",
+    "title": "MJML Blocks",
+    "description": "Drag-and-drop MJML components for ESPs.",
+    "banner": "email-forge/mjml-blocks/banner.webp"
+  },
+  {
+    "parent": "email-forge",
+    "slug": "email-flows",
+    "title": "Email Flows",
+    "description": "Drip sequences and automated onboarding flows.",
+    "banner": "email-forge/email-flows/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Icon Smith — 5 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "icon-smith",
+    "slug": "outline",
+    "title": "Outline Icons",
+    "description": "Crisp line icons designed for clean UI systems.",
+    "banner": "icon-smith/outline/banner.webp"
+  },
+  {
+    "parent": "icon-smith",
+    "slug": "solid",
+    "title": "Solid Icons",
+    "description": "Bold solid icons for dashboards and mobile apps.",
+    "banner": "icon-smith/solid/banner.webp"
+  },
+  {
+    "parent": "icon-smith",
+    "slug": "3d",
+    "title": "3D Icons",
+    "description": "Modern 3D icons for hero sections and landing pages.",
+    "banner": "icon-smith/3d/banner.webp"
+  },
+  {
+    "parent": "icon-smith",
+    "slug": "flags",
+    "title": "Flag Icons",
+    "description": "Vector flag icons for global apps and dashboards.",
+    "banner": "icon-smith/flags/banner.webp"
+  },
+  {
+    "parent": "icon-smith",
+    "slug": "brand",
+    "title": "Brand Icons",
+    "description": "Minimal brand icons for login and integration flows.",
+    "banner": "icon-smith/brand/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     AI Tools Hub — 8 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "ai-tools-hub",
+    "slug": "prompts",
+    "title": "Prompts",
+    "description": "Curated prompt packs for writing, coding and workflows.",
+    "banner": "ai-tools-hub/prompts/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "agents",
+    "title": "AI Agents",
+    "description": "Autonomous task agents for productivity and automation.",
+    "banner": "ai-tools-hub/agents/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "integrations",
+    "title": "Integrations",
+    "description": "API connectors and workflow integrations.",
+    "banner": "ai-tools-hub/integrations/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "workflows",
+    "title": "Workflows",
+    "description": "Multi-step automation flows and AI pipelines.",
+    "banner": "ai-tools-hub/workflows/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "scripts",
+    "title": "AI Scripts",
+    "description": "Developer scripts and automation tools.",
+    "banner": "ai-tools-hub/scripts/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "analytics",
+    "title": "AI Analytics",
+    "description": "Analysis dashboards and AI-powered insights.",
+    "banner": "ai-tools-hub/analytics/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "generators",
+    "title": "Content Generators",
+    "description": "Text, image and media generation tools.",
+    "banner": "ai-tools-hub/generators/banner.webp"
+  },
+  {
+    "parent": "ai-tools-hub",
+    "slug": "utilities",
+    "title": "AI Utilities",
+    "description": "Small utility tools for enhancing workflows.",
+    "banner": "ai-tools-hub/utilities/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Dev Studio One — 6 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "dev-studio-one",
+    "slug": "react-starters",
+    "title": "React Starters",
+    "description": "Lightweight React boilerplates and UI starters.",
+    "banner": "dev-studio-one/react-starters/banner.webp"
+  },
+  {
+    "parent": "dev-studio-one",
+    "slug": "html-starters",
+    "title": "HTML Starters",
+    "description": "Clean HTML/CSS starting points for rapid builds.",
+    "banner": "dev-studio-one/html-starters/banner.webp"
+  },
+  {
+    "parent": "dev-studio-one",
+    "slug": "components",
+    "title": "Components",
+    "description": "Reusable front-end components for any project.",
+    "banner": "dev-studio-one/components/banner.webp"
+  },
+  {
+    "parent": "dev-studio-one",
+    "slug": "auth-templates",
+    "title": "Auth Templates",
+    "description": "Login, register and account UI templates.",
+    "banner": "dev-studio-one/auth-templates/banner.webp"
+  },
+  {
+    "parent": "dev-studio-one",
+    "slug": "dashboards",
+    "title": "Dashboard Starters",
+    "description": "Starter dashboard templates and layouts.",
+    "banner": "dev-studio-one/dashboards/banner.webp"
+  },
+  {
+    "parent": "dev-studio-one",
+    "slug": "commerce",
+    "title": "E-commerce Starters",
+    "description": "Product pages and checkout flows.",
+    "banner": "dev-studio-one/commerce/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Game Makers — 6 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "game-makers",
+    "slug": "unity-2d",
+    "title": "Unity 2D",
+    "description": "2D game kits and controllers for Unity.",
+    "banner": "game-makers/unity-2d/banner.webp"
+  },
+  {
+    "parent": "game-makers",
+    "slug": "unity-3d",
+    "title": "Unity 3D",
+    "description": "3D scenes and prefabs for Unity.",
+    "banner": "game-makers/unity-3d/banner.webp"
+  },
+  {
+    "parent": "game-makers",
+    "slug": "unreal",
+    "title": "Unreal Kits",
+    "description": "Blueprint-based game starter kits.",
+    "banner": "game-makers/unreal/banner.webp"
+  },
+  {
+    "parent": "game-makers",
+    "slug": "controllers",
+    "title": "Game Controllers",
+    "description": "FPS, platformer and character controllers.",
+    "banner": "game-makers/controllers/banner.webp"
+  },
+  {
+    "parent": "game-makers",
+    "slug": "effects",
+    "title": "VFX / SFX",
+    "description": "Visual and sound effect packs.",
+    "banner": "game-makers/effects/banner.webp"
+  },
+  {
+    "parent": "game-makers",
+    "slug": "game-ui",
+    "title": "Game UI",
+    "description": "Custom UI kits for games and overlays.",
+    "banner": "game-makers/game-ui/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Reactorium — 7 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "reactorium",
+    "slug": "ui-kit",
+    "title": "UI Kit",
+    "description": "React UI components for modern apps.",
+    "banner": "reactorium/ui-kit/banner.webp"
+  },
+  {
+    "parent": "reactorium",
+    "slug": "tables",
+    "title": "Tables",
+    "description": "Data tables, sorting and pagination components.",
+    "banner": "reactorium/tables/banner.webp"
+  },
+  {
+    "parent": "reactorium",
+    "slug": "charts",
+    "title": "Charts",
+    "description": "Chart components for dashboards.",
+    "banner": "reactorium/charts/banner.webp"
+  },
+  {
+    "parent": "reactorium",
+    "slug": "forms",
+    "title": "Form Components",
+    "description": "Input controls and validation components.",
+    "banner": "reactorium/forms/banner.webp"
+  },
+  {
+    "parent": "reactorium",
+    "slug": "hooks",
+    "title": "Hooks",
+    "description": "Custom React hooks for state and data.",
+    "banner": "reactorium/hooks/banner.webp"
+  },
+  {
+    "parent": "reactorium",
+    "slug": "layouts",
+    "title": "Layouts",
+    "description": "Page layouts and navigation systems.",
+    "banner": "reactorium/layouts/banner.webp"
+  },
+  {
+    "parent": "reactorium",
+    "slug": "widgets",
+    "title": "Widgets",
+    "description": "Mini components and dashboard widgets.",
+    "banner": "reactorium/widgets/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Tiny JS Lab — 5 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "tiny-js-lab",
+    "slug": "dates",
+    "title": "Date Utilities",
+    "description": "Date helpers and time utilities.",
+    "banner": "tiny-js-lab/dates/banner.webp"
+  },
+  {
+    "parent": "tiny-js-lab",
+    "slug": "validation",
+    "title": "Validation Tools",
+    "description": "Field and form validation utilities.",
+    "banner": "tiny-js-lab/validation/banner.webp"
+  },
+  {
+    "parent": "tiny-js-lab",
+    "slug": "fetch",
+    "title": "Fetch Utilities",
+    "description": "Lightweight HTTP fetch helpers.",
+    "banner": "tiny-js-lab/fetch/banner.webp"
+  },
+  {
+    "parent": "tiny-js-lab",
+    "slug": "storage",
+    "title": "Storage Helpers",
+    "description": "LocalStorage and session utilities.",
+    "banner": "tiny-js-lab/storage/banner.webp"
+  },
+  {
+    "parent": "tiny-js-lab",
+    "slug": "dom-utils",
+    "title": "DOM Utilities",
+    "description": "DOM helpers and mini-scripts.",
+    "banner": "tiny-js-lab/dom-utils/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Unity Hub — 6 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "unity-hub",
+    "slug": "2d-platformer",
+    "title": "2D Platformer Kits",
+    "description": "2D engines and controller templates.",
+    "banner": "unity-hub/2d-platformer/banner.webp"
+  },
+  {
+    "parent": "unity-hub",
+    "slug": "fps",
+    "title": "FPS Kits",
+    "description": "Shooter controllers and prefabs.",
+    "banner": "unity-hub/fps/banner.webp"
+  },
+  {
+    "parent": "unity-hub",
+    "slug": "racing",
+    "title": "Racing Kits",
+    "description": "Car physics, scenes and controllers.",
+    "banner": "unity-hub/racing/banner.webp"
+  },
+  {
+    "parent": "unity-hub",
+    "slug": "multiplayer",
+    "title": "Multiplayer Templates",
+    "description": "Multiplayer-ready game kits.",
+    "banner": "unity-hub/multiplayer/banner.webp"
+  },
+  {
+    "parent": "unity-hub",
+    "slug": "vr",
+    "title": "VR Templates",
+    "description": "Virtual reality starter packs.",
+    "banner": "unity-hub/vr/banner.webp"
+  },
+  {
+    "parent": "unity-hub",
+    "slug": "ar",
+    "title": "AR Templates",
+    "description": "Augmented reality starter packs.",
+    "banner": "unity-hub/ar/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     WP Plugins — 5 Stores
+  ---------------------------------------------------- */
+  {
+    "parent": "wp-plugins",
+    "slug": "seo",
+    "title": "SEO Plugins",
+    "description": "Search optimization tools and analyzers.",
+    "banner": "wp-plugins/seo/banner.webp"
+  },
+  {
+    "parent": "wp-plugins",
+    "slug": "security",
+    "title": "Security Plugins",
+    "description": "Security scanners and protection tools.",
+    "banner": "wp-plugins/security/banner.webp"
+  },
+  {
+    "parent": "wp-plugins",
+    "slug": "performance",
+    "title": "Performance Tools",
+    "description": "Caching, optimization and speed boosters.",
+    "banner": "wp-plugins/performance/banner.webp"
+  },
+  {
+    "parent": "wp-plugins",
+    "slug": "forms",
+    "title": "Forms",
+    "description": "Form builders, validators and submission tools.",
+    "banner": "wp-plugins/forms/banner.webp"
+  },
+  {
+    "parent": "wp-plugins",
+    "slug": "woocommerce",
+    "title": "WooCommerce Tools",
+    "description": "Commerce extensions for WooCommerce.",
+    "banner": "wp-plugins/woocommerce/banner.webp"
+  },
+
+
+  /* ----------------------------------------------------
+     Hardware Floor — 8 Stores (already confirmed)
+  ---------------------------------------------------- */
+ {
+  "parent": "hardware",
+  "slug": "ai-accelerators",
+  "title": "AI Accelerators",
+  "description": "Accelerator boards and modules for on-device machine learning workloads.",
+  "banner": "banners/hardware-ai-accelerators.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "developer-boards",
+  "title": "Developer Boards",
+  "description": "General-purpose developer and evaluation boards used for prototyping.",
+  "banner": "banners/hardware-developer-boards.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "smart-controllers",
+  "title": "Smart Controllers",
+  "description": "Programmable controllers and control modules for automation projects.",
+  "banner": "banners/hardware-smart-controllers.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "sensors-kits",
+  "title": "Sensor & Connectivity Kits",
+  "description": "Sensor bundles and connectivity kits for hardware experiments.",
+  "banner": "banners/hardware-sensors.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "iot-devices",
+  "title": "IoT Devices",
+  "description": "Gateways and IoT-focused devices ready for connected projects.",
+  "banner": "banners/hardware-iot.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "edge-devices",
+  "title": "Edge Devices",
+  "description": "Compact edge-computing devices for deployments in the field.",
+  "banner": "banners/hardware-edge.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "medtech-biosensing",
+  "title": "Medical Technologies & Bio-Sensing",
+  "description": "Hardware focused on medical-grade sensing and bio-signal acquisition.",
+  "banner": "banners/hardware-medical-technologies-bio-sensing.webp"
+},
+{
+  "parent": "hardware",
+  "slug": "medtech-kits",
+  "title": "Medical Kits & Starter Packs",
+  "description": "Starter kits and packs for medical and health-related prototyping.",
+  "banner": "banners/hardware-medical-kits-starter-packs.webp"
+ }
+]
