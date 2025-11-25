@@ -1,10 +1,13 @@
 {
   "categories": [
-    { "slug": "outline", "name": "Outline Icons" },
-    { "slug": "solid", "name": "Solid Icons" },
-    { "slug": "3d", "name": "3D Icons" },
-    { "slug": "flags", "name": "Flag Icons" },
-    { "slug": "brand", "name": "Brand Icons" }
+    { "slug": "outline-icons", "name": "Outline Icons" },
+    { "slug": "solid-icons",   "name": "Solid Icons" },
+    { "slug": "duotone-icons", "name": "Duotone Icons" },
+    { "slug": "filled-icons",  "name": "Filled Icons" },
+    { "slug": "3d-icons",      "name": "3D Icons" },
+    { "slug": "flags-icons",   "name": "Flags" },
+    { "slug": "brand-icons",   "name": "Brand Icons" },
+    { "slug": "system-icons",  "name": "System & UI Icons" }
   ],
   "products": []
 }
