@@ -1,0 +1,11 @@
+{
+  "categories": [
+    { "slug": "unity-2d", "name": "Unity 2D" },
+    { "slug": "unity-3d", "name": "Unity 3D" },
+    { "slug": "unreal", "name": "Unreal Kits" },
+    { "slug": "controllers", "name": "Game Controllers" },
+    { "slug": "effects", "name": "VFX / SFX" },
+    { "slug": "game-ui", "name": "Game UI" }
+  ],
+  "products": []
+}
