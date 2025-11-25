@@ -1,0 +1,16 @@
+[
+  {
+    "store": "hardware",
+    "slug": "ai-accelerators",
+    "title": "AI Accelerators",
+    "description": "NVIDIA, Intel and custom AI accelerator boards.",
+    "banner": "hardware/ai-accelerators/banner.webp"
+  },
+  {
+    "store": "hardware",
+    "slug": "dev-kits",
+    "title": "Developer Kits",
+    "description": "Starter and pro kits for labs, prototypes and production.",
+    "banner": "hardware/dev-kits/banner.webp"
+  }
+]
