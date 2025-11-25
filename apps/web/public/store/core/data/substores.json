@@ -1,7 +1,5 @@
 [
-  /* ----------------------------------------------------
-     HTML Templates — 7 Stores
-  ---------------------------------------------------- */
+
   {
     "parent": "html-templates",
     "slug": "landing-pages",
@@ -52,10 +50,6 @@
     "banner": "html-templates/components/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Email Forge — 5 Stores
-  ---------------------------------------------------- */
   {
     "parent": "email-forge",
     "slug": "transactional",
@@ -92,10 +86,6 @@
     "banner": "email-forge/email-flows/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Icon Smith — 5 Stores
-  ---------------------------------------------------- */
   {
     "parent": "icon-smith",
     "slug": "outline",
@@ -132,10 +122,6 @@
     "banner": "icon-smith/brand/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     AI Tools Hub — 8 Stores
-  ---------------------------------------------------- */
   {
     "parent": "ai-tools-hub",
     "slug": "prompts",
@@ -193,10 +179,6 @@
     "banner": "ai-tools-hub/utilities/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Dev Studio One — 6 Stores
-  ---------------------------------------------------- */
   {
     "parent": "dev-studio-one",
     "slug": "react-starters",
@@ -240,10 +222,6 @@
     "banner": "dev-studio-one/commerce/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Game Makers — 6 Stores
-  ---------------------------------------------------- */
   {
     "parent": "game-makers",
     "slug": "unity-2d",
@@ -287,10 +265,6 @@
     "banner": "game-makers/game-ui/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Reactorium — 7 Stores
-  ---------------------------------------------------- */
   {
     "parent": "reactorium",
     "slug": "ui-kit",
@@ -341,10 +315,6 @@
     "banner": "reactorium/widgets/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Tiny JS Lab — 5 Stores
-  ---------------------------------------------------- */
   {
     "parent": "tiny-js-lab",
     "slug": "dates",
@@ -381,10 +351,6 @@
     "banner": "tiny-js-lab/dom-utils/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Unity Hub — 6 Stores
-  ---------------------------------------------------- */
   {
     "parent": "unity-hub",
     "slug": "2d-platformer",
@@ -428,10 +394,6 @@
     "banner": "unity-hub/ar/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     WP Plugins — 5 Stores
-  ---------------------------------------------------- */
   {
     "parent": "wp-plugins",
     "slug": "seo",
@@ -468,10 +430,6 @@
     "banner": "wp-plugins/woocommerce/banner.webp"
   },
 
-
-  /* ----------------------------------------------------
-     Hardware Floor — 8 Stores (already confirmed)
-  ---------------------------------------------------- */
  {
   "parent": "hardware",
   "slug": "ai-accelerators",
@@ -528,4 +486,5 @@
   "description": "Starter kits and packs for medical and health-related prototyping.",
   "banner": "banners/hardware-medical-kits-starter-packs.webp"
  }
+  
 ]
