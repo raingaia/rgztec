@@ -210,23 +210,6 @@ body.store-body {
   text-align: center;
 }
 
-/* Responsive — ONLY HERO + IMG (GRID YOK!) */
-@media (max-width: 960px) {
-  #store-root {
-    padding-inline: 1rem;
-  }
-
-  .store-hero .hero-inner {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 1.4rem;
-  }
-
-  .store-hero .hero-banner {
-    max-width: 380px;
-    margin-inline: auto;
-  }
-}
-
 @media (max-width: 640px) {
   .product-media img {
     height: 200px;
