@@ -1,0 +1,12 @@
+{
+  "categories": [
+    { "slug": "landing-pages", "name": "Landing Pages" },
+    { "slug": "portfolio", "name": "Portfolio Templates" },
+    { "slug": "dashboards", "name": "Dashboard UI" },
+    { "slug": "ecommerce", "name": "E-commerce Templates" },
+    { "slug": "email-templates", "name": "Email HTML" },
+    { "slug": "sections", "name": "UI Sections" },
+    { "slug": "components", "name": "HTML Components" }
+  ],
+  "products": []
+}
