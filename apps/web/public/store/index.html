@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Store</title>
+  <meta name="description" content="Explore premium templates, hardware, tools and digital products on RGZTEC Marketplace."/>
+
+  <!-- BASE PATH (çok önemli) -->
+  <base href="/rgztec/apps/web/public/store/">
+
+  <!-- CORE CSS (global theme + store styling) -->
+  <link rel="stylesheet" href="core/assets/css/store-core.css">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+
+<!--
+  BU SAYFA TÜM MAĞAZALAR İÇİN ORTAK
+  SADECE "data-store" DEĞİŞECEK!
+
+  Örnekler:
+  data-store="hardware"
+  data-store="html-templates"
+  data-store="email-forge"
+-->
+<body class="store-body" data-store="hardware">
+
+  <!-- ANA ROOT -->
+  <div id="store-root"></div>
+
+  <!-- STORE ENGINE -->
+  <script src="core/assets/js/store-shell.js" defer></script>
+
+</body>
+</html>
