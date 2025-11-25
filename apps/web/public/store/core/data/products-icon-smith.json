@@ -1,0 +1,10 @@
+{
+  "categories": [
+    { "slug": "outline", "name": "Outline Icons" },
+    { "slug": "solid", "name": "Solid Icons" },
+    { "slug": "3d", "name": "3D Icons" },
+    { "slug": "flags", "name": "Flag Icons" },
+    { "slug": "brand", "name": "Brand Icons" }
+  ],
+  "products": []
+}
