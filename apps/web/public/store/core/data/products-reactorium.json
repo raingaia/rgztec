@@ -1,12 +1,13 @@
 {
   "categories": [
-    { "slug": "ui-kit", "name": "UI Kit" },
-    { "slug": "tables", "name": "Tables" },
-    { "slug": "charts", "name": "Charts" },
-    { "slug": "forms", "name": "Form Components" },
-    { "slug": "hooks", "name": "Hooks" },
-    { "slug": "layouts", "name": "Layouts" },
-    { "slug": "widgets", "name": "Widgets" }
+    { "slug": "ui-kit",      "name": "UI Kit" },
+    { "slug": "tables",      "name": "Tables" },
+    { "slug": "charts",      "name": "Charts" },
+    { "slug": "forms",       "name": "Forms" },
+    { "slug": "navigation",  "name": "Navigation" },
+    { "slug": "layouts",     "name": "Layouts" },
+    { "slug": "hooks",       "name": "Hooks" }
   ],
   "products": []
 }
+
