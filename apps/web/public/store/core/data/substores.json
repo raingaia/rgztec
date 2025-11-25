@@ -1,58 +1,69 @@
 [
   {
-    "parent": "hardware",
-    "slug": "ai-accelerators",
-    "title": "AI Accelerators",
-    "description": "High-performance modules and accelerator boards for AI workloads.",
-    "banner": "hardware/ai-accelerators/banner.webp"
+    "slug": "html-templates",
+    "title": "HTML Templates",
+    "description": "Polished HTML/CSS templates, landing pages, dashboards and full-page layouts.",
+    "banner": "banners/html-templates.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "dev-kits",
-    "title": "Developer Kits",
-    "description": "Development kits designed for labs, prototypes, and edge projects.",
-    "banner": "hardware/dev-kits/banner.webp"
+    "slug": "email-forge",
+    "title": "Email Forge",
+    "description": "Responsive email templates, transactional flows and marketing sequences.",
+    "banner": "banners/email-forge.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "sbc",
-    "title": "Single Board Computers",
-    "description": "Compact single-board computing platforms for embedded and edge use.",
-    "banner": "hardware/sbc/banner.webp"
+    "slug": "icon-smith",
+    "title": "Icon Smith",
+    "description": "Handcrafted outline, solid and animated icon packs for modern interfaces.",
+    "banner": "banners/icon-smith.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "sensors",
-    "title": "Sensors",
-    "description": "Industrial-grade sensors for temperature, pressure, motion and more.",
-    "banner": "hardware/sensors/banner.webp"
+    "slug": "ai-tools-hub",
+    "title": "AI Tools Hub",
+    "description": "LLM-powered tools, prompts, agents and integration kits.",
+    "banner": "banners/ai-tools-hub.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "robotics",
-    "title": "Robotics",
-    "description": "Modules and components for robotics, motion systems, and automation.",
-    "banner": "hardware/robotics/banner.webp"
+    "slug": "dev-studio-one",
+    "title": "Dev Studio One",
+    "description": "Modern starters, boilerplates and component libraries for web projects.",
+    "banner": "banners/dev-studio-one.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "edge-computing",
-    "title": "Edge Computing",
-    "description": "Edge computing units optimized for real-time and on-site processing.",
-    "banner": "hardware/edge-computing/banner.webp"
+    "slug": "game-makers",
+    "title": "Game Makers",
+    "description": "Game-ready UI kits, scenes, packs and starter templates.",
+    "banner": "banners/game-makers.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "power-modules",
-    "title": "Power Modules",
-    "description": "Power regulation boards, converters, and compact UPS modules.",
-    "banner": "hardware/power-modules/banner.webp"
+    "slug": "reactorium",
+    "title": "Reactorium",
+    "description": "React dashboards, landing pages, hooks and utility components.",
+    "banner": "banners/reactorium.webp"
   },
   {
-    "parent": "hardware",
-    "slug": "kits-bundles",
-    "title": "Kits & Bundles",
-    "description": "Ready-to-use kits and bundled hardware packages.",
-    "banner": "hardware/kits-bundles/banner.webp"
+    "slug": "tiny-js-lab",
+    "title": "Tiny JS Lab",
+    "description": "Small but powerful JavaScript widgets, effects and utilities.",
+    "banner": "banners/tiny-js-lab.webp"
+  },
+  {
+    "slug": "unity-hub",
+    "title": "Unity Hub",
+    "description": "Unity-ready scenes, prefabs, templates and starter kits.",
+    "banner": "banners/unity-hub.webp"
+  },
+  {
+    "slug": "wp-plugins",
+    "title": "WP Plugins",
+    "description": "Production-ready WordPress plugins for SEO, security and commerce.",
+    "banner": "banners/wp-plugins.webp"
+  },
+  {
+    "slug": "hardware",
+    "title": "Hardware Floor",
+    "description": "Devices, IoT, robotics, lab tools and MedTech hardware.",
+    "banner": "banners/hardware.webp"
   }
 ]
+
