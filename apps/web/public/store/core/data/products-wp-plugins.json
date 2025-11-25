@@ -1,0 +1,10 @@
+{
+  "categories": [
+    { "slug": "seo", "name": "SEO Plugins" },
+    { "slug": "security", "name": "Security Plugins" },
+    { "slug": "performance", "name": "Performance Tools" },
+    { "slug": "forms", "name": "Forms" },
+    { "slug": "woocommerce", "name": "WooCommerce Tools" }
+  ],
+  "products": []
+}
