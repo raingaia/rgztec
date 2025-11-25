@@ -1,10 +1,13 @@
 {
   "categories": [
-    { "slug": "dates", "name": "Date Utilities" },
-    { "slug": "validation", "name": "Validation Tools" },
-    { "slug": "fetch", "name": "Fetch Utilities" },
-    { "slug": "storage", "name": "Storage Helpers" },
-    { "slug": "dom-utils", "name": "DOM Utilities" }
+    { "slug": "dom-utils",        "name": "DOM Utilities" },
+    { "slug": "data-fetching",    "name": "Data Fetching" },
+    { "slug": "state-management", "name": "State Management" },
+    { "slug": "animations",       "name": "Animations" },
+    { "slug": "validation",       "name": "Validation" },
+    { "slug": "storage",          "name": "Storage" },
+    { "slug": "widgets",          "name": "Widgets" }
   ],
   "products": []
 }
+
