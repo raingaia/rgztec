@@ -1,0 +1,13 @@
+{
+  "categories": [
+    { "slug": "prompts", "name": "Prompts" },
+    { "slug": "agents", "name": "AI Agents" },
+    { "slug": "integrations", "name": "Integrations" },
+    { "slug": "workflows", "name": "Workflows" },
+    { "slug": "scripts", "name": "AI Scripts" },
+    { "slug": "analytics", "name": "AI Analytics" },
+    { "slug": "generators", "name": "Content Generators" },
+    { "slug": "utilities", "name": "AI Utilities" }
+  ],
+  "products": []
+}
