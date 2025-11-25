@@ -213,34 +213,5 @@ body.store-body {
   text-align: center;
 }
 
-/* Responsive */
-
-@media (max-width: 960px) {
-  #store-root {
-    padding-inline: 1rem;
-  }
-
-  .store-hero .hero-inner {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 1.4rem;
-  }
-
-  .store-hero .hero-banner {
-    max-width: 380px;
-    margin-inline: auto;
-  }
-
-  .store-products .products-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .store-products .products-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .product-media img {
-    height: 200px;
   }
 }
