@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RGZTEC • Store</title>
-  <meta name="description" content="Explore premium templates, hardware, tools and digital products on RGZTEC Marketplace."/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RGZTEC • Stores</title>
+  <meta name="description" content="Explore all RGZTEC stores: hardware, templates, AI tools and more." />
 
-  <!-- BASE PATH (çok önemli) -->
+  <!-- ÖNEMLİ: store altından çalışıyoruz -->
   <base href="/rgztec/apps/web/public/store/">
 
-  <!-- CORE CSS (global theme + store styling) -->
-  <link rel="stylesheet" href="core/assets/css/store-core.css">
+  <!-- Core store CSS -->
+  <link rel="stylesheet" href="core/assets/css/store-core.css" />
 
-  <!-- Fonts -->
+  <!-- Fontlar -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+<body data-page="stores-home">
+  <div class="store-shell">
+    <header class="store-header">
+      <h1 class="store-title">RGZTEC Stores</h1>
+      <p class="store-subtitle">Choose a store and start exploring products.</p>
+    </header>
 
-<!--
-  BU SAYFA TÜM MAĞAZALAR İÇİN ORTAK
-  SADECE "data-store" DEĞİŞECEK!
+    <main class="store-content">
+      <!-- Mağaza kartları buraya JS ile gelecek -->
+      <section id="stores-grid" class="stores-grid"></section>
+    </main>
+  </div>
 
-  Örnekler:
-  data-store="hardware"
-  data-store="html-templates"
-  data-store="email-forge"
--->
-<body class="store-body" data-store="hardware">
-
-  <!-- ANA ROOT -->
-  <div id="store-root"></div>
-
-  <!-- STORE ENGINE -->
-  <script src="core/assets/js/store-shell.js" defer></script>
-
+  <!-- Core JS -->
+  <script src="core/assets/js/store-shell.js"></script>
 </body>
 </html>
