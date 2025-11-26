@@ -1,0 +1,12 @@
+{
+  "categories": [
+    { "slug": "ui-kit",      "name": "UI Kit" },
+    { "slug": "tables",      "name": "Tables" },
+    { "slug": "charts",      "name": "Charts" },
+    { "slug": "forms",       "name": "Forms" },
+    { "slug": "navigation",  "name": "Navigation" },
+    { "slug": "layouts",     "name": "Layouts" },
+    { "slug": "hooks",       "name": "Hooks" }
+  ],
+  "products": []
+}
