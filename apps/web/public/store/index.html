@@ -4,11 +4,11 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
 
-  <title>RGZTEC • Game Makers</title>
-  <meta name="description" content="Game Makers store – packs, tools and templates for your next game." />
+  <title>RGZTEC • Stores</title>
+  <meta name="description" content="Browse all RGZTEC stores and sections – 11 curated stores and 79 sections for developers, makers and creators." />
 
-  <!-- DOĞRU ASSETS YOLU -->
-  <link rel="stylesheet" href="/rgztec/assets/css/store-core.css">
+  <!-- STORE'A ÖZEL CSS (store klasörü içinden) -->
+  <link rel="stylesheet" href="assets/css/store-core.css">
 
   <!-- Fontlar -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,29 +17,14 @@
 </head>
 
 <body
-  data-page="store-detail"
-  data-store-slug="game-makers"
+  data-data-path="data"                 <!-- JSON kökü: /store/data/... -->
+  data-image-base="assets/images/store" <!-- Görsel kökü: /store/assets/images/store/... -->
 >
-  <div class="store-shell">
-    <header id="store-hero" class="store-hero">
-      <h1 class="store-title">Game Makers</h1>
-      <p class="store-subtitle">Choose packs and tools for your next game.</p>
-    </header>
+  <!-- Tüm içerik JS tarafından buraya çizilecek -->
+  <div id="store-root"></div>
 
-    <main class="store-content">
-      <section class="store-section">
-        <h2 class="section-title">Sections</h2>
-        <p class="section-subtitle">
-          Explore ready-to-use assets, UI kits, templates and systems built for game developers.
-        </p>
-
-        <div id="products-grid" class="products-grid"></div>
-      </section>
-    </main>
-  </div>
-
-  <!-- DOĞRU JS YOLU -->
-  <script src="/rgztec/assets/js/store-core.js"></script>
+  <!-- STORE SHELL JS (store klasörü içinden) -->
+  <script src="assets/js/store-shell.js" defer></script>
 </body>
 </html>
 
