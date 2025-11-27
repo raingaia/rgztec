@@ -942,11 +942,8 @@ function renderStoreCard(store){
   const desc = store.tagline || store.desc || '';
   const storeLabel = store.slug.replace(/-/g," ");
 
- // Hardware kartı doğrudan /hardware/ katına gitsin
-const storeHref = store.slug === 'hardware'
-  ? 'hardware/'                // ✅ DOĞRU ADRES
-  : `stores/${store.slug}.html`;
-
+  // 🚀 **YENİ:** Tüm mağazalar artık /store/{slug}/ formatında açılacak
+  const storeHref = `store/${store.slug}/`;
 
   return `
     <article class="store-card${fullClass}">
