@@ -1,0 +1,12 @@
+{
+  "categories": [
+    { "slug": "transactional",      "name": "Transactional Emails" },
+    { "slug": "marketing-campaigns","name": "Marketing Campaigns" },
+    { "slug": "drip-flows",         "name": "Drip Flows" },
+    { "slug": "onboarding",         "name": "Onboarding Sequences" },
+    { "slug": "notifications",      "name": "Product Notifications" },
+    { "slug": "receipts-invoices",  "name": "Receipts & Invoices" },
+    { "slug": "newsletters",        "name": "Newsletters" }
+  ],
+  "products": []
+}
