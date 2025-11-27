@@ -88,22 +88,43 @@
       throw new Error("Store not found: " + storeSlug);
     }
 
-    // 3) substores (her mağaza için ayrı json varsa onu oku)
+    // 3) substores + storeLevelData
     let substores = [];
+    let storeLevelData = null;
 
+    // Önce substores-{store}.json var mı bak
     const perStoreSubstores = await fetchJSON(
       `substores-${storeSlug}.json`,
       { optional: true }
     );
 
     if (Array.isArray(perStoreSubstores)) {
+      // substores-game-makers.json vb. varsa direkt onu kullan
       substores = perStoreSubstores;
     } else {
-      const allSubstores = await fetchJSON("substores.json", {
-        optional: true
-      });
-      if (Array.isArray(allSubstores)) {
-        substores = allSubstores.filter((s) => s.parent === storeSlug);
+      // Yoksa: products-{store}.json içinden categories alanından üret
+      storeLevelData = await fetchJSON(
+        `products-${storeSlug}.json`,
+        { optional: true }
+      );
+
+      if (storeLevelData && Array.isArray(storeLevelData.categories)) {
+        substores = storeLevelData.categories.map((c) => ({
+          parent: storeSlug,
+          slug: c.slug,
+          title: c.name || c.title || slugToTitle(c.slug),
+          description: c.description || "",
+          // varsa kategoriye özel banner kullan, yoksa varsayılan yol
+          banner: c.banner || `${storeSlug}/${c.slug}/banner.webp`
+        }));
+      } else {
+        // Son çare: büyük substores.json varsa oradan filtrele
+        const allSubstores = await fetchJSON("substores.json", {
+          optional: true
+        });
+        if (Array.isArray(allSubstores)) {
+          substores = allSubstores.filter((s) => s.parent === storeSlug);
+        }
       }
     }
 
@@ -134,12 +155,19 @@
 
       products = Array.isArray(subProducts) ? subProducts : [];
     } else {
-      // Store ana view → products-{storeSlug}.json
-      const storeProducts = await fetchJSON(
-        `products-${storeSlug}.json`,
-        { optional: true }
-      );
-      products = Array.isArray(storeProducts) ? storeProducts : [];
+      // Mağaza ana view
+      if (storeLevelData && Array.isArray(storeLevelData.products)) {
+        // products-{store}.json içinde products array'i varsa onu kullan
+        products = storeLevelData.products;
+      } else {
+        const storeProducts = await fetchJSON(
+          `products-${storeSlug}.json`,
+          { optional: true }
+        );
+        if (Array.isArray(storeProducts)) {
+          products = storeProducts;
+        }
+      }
     }
 
     // 6) render
@@ -179,7 +207,7 @@
           </div>
         </div>
       </section>
-    `;
+    ";
 
     html += `
       <section class="store-substores">
@@ -230,15 +258,15 @@
   function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
     const title =
       (subMeta && subMeta.title) ||
-      storeMeta.name ||            // stores.json'daki name
-      storeMeta.title ||           // varsa eski title
-      slugToTitle(storeMeta.slug); // son çare slug
+      storeMeta.name ||
+      storeMeta.title ||
+      slugToTitle(storeMeta.slug);
 
     const description =
       (subMeta && subMeta.description) ||
-      storeMeta.tagline ||         // tagline'ı kullan
-      storeMeta.seoDescription ||  // yoksa SEO açıklaması
-      storeMeta.description ||     // varsa eski description
+      storeMeta.tagline ||
+      storeMeta.seoDescription ||
+      storeMeta.description ||
       "";
 
     const bannerPath =
@@ -285,20 +313,16 @@
       `;
     }
 
-    // Products
-    html += `
-      <section class="store-products">
-        ${
-          products && products.length
-            ? `
+    // Products – gerçekten ürün varsa göster
+    if (products && products.length) {
+      html += `
+        <section class="store-products">
           <div class="products-grid">
             ${products.map(renderProductCard).join("")}
           </div>
-        `
-            : `<p class="store-empty">No products found in this view yet.</p>`
-        }
-      </section>
-    `;
+        </section>
+      `;
+    }
 
     root.innerHTML = html;
   }
@@ -356,4 +380,5 @@
     `;
   }
 })();
+
 
