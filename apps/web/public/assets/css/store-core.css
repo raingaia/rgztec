@@ -1,23 +1,21 @@
 :root {
   --accent: #f97316;
   --accent-strong: #ea580c;
-
-  --bg-body: #020617;
-  --bg-header: #020617;
+  --bg-page: #020617;
+  --bg-hero: #020617;
+  --bg-hero-light: #0b1120;
   --bg-card: #020617;
-  --bg-soft: #050816;
-
-  --border-subtle: rgba(148, 163, 184, 0.18);
-
-  --text-main: #e5e7eb;
-  --text-sub: #9ca3af;
-  --text-muted: #6b7280;
-
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.75rem;
-
-  --shadow-soft: 0 26px 80px rgba(15, 23, 42, 0.75);
-  --shadow-card: 0 18px 40px rgba(15, 23, 42, 0.8);
+  --bg-soft: #020617;
+  --border-subtle: rgba(148, 163, 184, 0.25);
+  --border-strong: rgba(148, 163, 184, 0.45);
+  --text-main: #f9fafb;
+  --text-sub: #cbd5f5;
+  --text-muted: #9ca3af;
+  --chip-bg: rgba(15, 23, 42, 0.85);
+  --radius-xl: 1.25rem;
+  --radius-lg: 1rem;
+  --shadow-soft: 0 26px 80px rgba(15, 23, 42, 0.8);
+  --shadow-card: 0 18px 50px rgba(15, 23, 42, 0.85);
 }
 
 *,
@@ -32,291 +30,302 @@ body {
   padding: 0;
 }
 
+/* PAGE BACKGROUND — ana sayfa kalitesine yakın, koyu ama canlı */
 body.store-body {
   min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-  background:
-    radial-gradient(circle at top left, #111827 0, #020617 38%, #000 100%);
   color: var(--text-main);
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 55%),
+    radial-gradient(circle at top right, rgba(236, 72, 153, 0.18), transparent 55%),
+    radial-gradient(circle at bottom, rgba(56, 189, 248, 0.16), transparent 55%),
+    #020617;
 }
 
-/* SHELL WRAPPER – geniş, ana sayfa kalitesinde */
+/* MAIN WRAPPER */
 #store-root {
-  max-width: 1240px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 1.75rem 1.25rem 3.25rem;
+  padding: 1.75rem 1.25rem 3.5rem;
 }
 
-/* ============ HERO ============ */
+/* --------- HERO --------- */
 
 .store-hero {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .store-hero .hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
-  gap: 2rem;
-  align-items: center;
-  padding: 2rem 2.1rem;
-  border-radius: var(--radius-xl);
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1.35fr);
+  gap: 1.75rem;
+  align-items: stretch;
+  padding: 1.9rem 1.9rem 1.7rem;
+  border-radius: 1.6rem;
   background:
-    radial-gradient(circle at top left, rgba(248, 250, 252, 0.15) 0, transparent 60%),
-    radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9) 0, #020617 60%);
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow: var(--shadow-soft);
+    linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.95)),
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.16), transparent 60%);
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: var(--shadow-soft);
 }
 
-.store-hero .hero-inner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(249, 115, 22, 0.08),
-      transparent 45%,
-      rgba(59, 130, 246, 0.12),
-      transparent 80%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-.store-hero .hero-text {
+.hero-left {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .store-hero .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.18rem 0.8rem;
+  gap: 0.4rem;
+  padding: 0.2rem 0.8rem;
   border-radius: 999px;
-  border: 1px solid rgba(248, 250, 252, 0.28);
-  background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.5));
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4));
   font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-sub);
   margin-bottom: 0.85rem;
 }
 
 .store-hero h1 {
-  font-size: clamp(2rem, 3vw, 2.5rem);
-  line-height: 1.05;
-  margin: 0 0 0.7rem;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.9rem, 2.9vw, 2.5rem);
+  line-height: 1.1;
+  margin: 0 0 0.55rem;
 }
 
 .store-hero p {
   margin: 0;
   color: var(--text-sub);
-  font-size: 0.98rem;
-  max-width: 32rem;
+  font-size: 0.95rem;
+  max-width: 34rem;
 }
 
-.hero-meta-row {
-  margin-top: 1rem;
+.store-meta-chips {
+  margin-top: 1.1rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.55rem;
 }
 
-.hero-chip {
-  padding: 0.16rem 0.7rem;
+.store-chip {
+  padding: 0.18rem 0.7rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.45);
+  border: 1px solid rgba(148, 163, 184, 0.4);
   font-size: 0.75rem;
-  color: #e5e7eb;
-  background: rgba(15, 23, 42, 0.8);
+  color: var(--text-muted);
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.85));
 }
 
-/* HERO BANNER */
-.store-hero .hero-banner {
+/* HERO RIGHT / BANNER */
+
+.hero-right {
   position: relative;
-  border-radius: 1.35rem;
-  isolation: isolate;
+  border-radius: 1.3rem;
   overflow: hidden;
   background:
-    radial-gradient(circle at top, rgba(248, 250, 252, 0.18), transparent 60%);
-  border: 1px solid rgba(148, 163, 184, 0.32);
-  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.85);
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.32), transparent 60%),
+    radial-gradient(circle at bottom, rgba(249, 115, 22, 0.28), transparent 55%),
+    #020617;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: var(--shadow-card);
 }
 
-.store-hero .hero-banner::before {
-  content: "";
+.hero-banner-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.hero-right-fallback {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at top, rgba(59, 130, 246, 0.25), transparent 55%),
-    radial-gradient(circle at bottom, rgba(249, 115, 22, 0.22), transparent 60%);
-  mix-blend-mode: soft-light;
+  display: grid;
+  place-items: center;
+  color: rgba(248, 250, 252, 0.5);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-.store-hero .hero-banner img {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  display: block;
-  object-fit: contain;
+/* --------- TOOLBAR (SEARCH) --------- */
+
+.store-toolbar {
+  margin: 0 0 1.4rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* ============ SECTIONS (SUBSTORES GRID) ============ */
+.store-search {
+  flex: 1 1 260px;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.98));
+  border-radius: 999px;
+  padding: 0.25rem 0.3rem 0.25rem 0.8rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.store-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.88rem;
+  color: var(--text-main);
+}
+
+.store-search input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.store-search button {
+  border: none;
+  outline: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: not-allowed; /* şimdilik dummy */
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #0b1120;
+  box-shadow: 0 10px 30px rgba(248, 113, 22, 0.45);
+}
+
+.store-toolbar-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* --------- SECTIONS GRID (SUBSTORES) --------- */
 
 .store-substores {
-  margin-bottom: 2.4rem;
+  margin-top: 0.4rem;
+  margin-bottom: 2.2rem;
 }
 
 .store-substores-header {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.9rem;
 }
 
 .store-substores-header h2 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   letter-spacing: -0.02em;
 }
 
-.store-substores-count {
-  font-size: 0.8rem;
-  color: var(--text-sub);
+.store-substores-header span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 
-/* Etsy tarzı büyük kartlar */
 .substores-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.4rem;
+  gap: 1.35rem;
 }
 
 .substore-card {
   display: flex;
   flex-direction: column;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
+  padding: 1.1rem 1.25rem;
   background:
-    radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), #020617);
+    radial-gradient(circle at top left, rgba(30, 64, 175, 0.24), transparent 55%),
+    #020617;
   border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-card);
   text-decoration: none;
   color: inherit;
+  box-shadow: var(--shadow-card);
+  position: relative;
   overflow: hidden;
   transition:
     transform 150ms ease,
     box-shadow 150ms ease,
     border-color 150ms ease,
     background 150ms ease;
-  position: relative;
-}
-
-.substore-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 60%);
-  opacity: 0;
-  transition: opacity 150ms ease;
-  pointer-events: none;
 }
 
 .substore-card:hover {
   transform: translateY(-4px);
   border-color: rgba(249, 115, 22, 0.7);
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.95);
-}
-
-.substore-card:hover::before {
-  opacity: 1;
+  box-shadow: 0 26px 70px rgba(15, 23, 42, 0.95);
+  background:
+    radial-gradient(circle at top left, rgba(249, 115, 22, 0.28), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.22), transparent 55%),
+    #020617;
 }
 
 .substore-banner {
-  padding: 1rem 1rem 0.5rem;
-  background:
-    radial-gradient(circle at top, rgba(30, 64, 175, 0.26), transparent 60%);
+  height: 120px;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 1));
+  display: grid;
+  place-items: center;
 }
 
 .substore-banner img {
   width: 100%;
-  height: 170px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
-.substore-body {
-  padding: 0.85rem 1rem 1rem;
-}
-
 .substore-body h3 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.35rem;
   font-size: 0.98rem;
 }
 
 .substore-body p {
   margin: 0;
-  font-size: 0.83rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
-/* ============ PRODUCTS GRID ============ */
+/* --------- PRODUCTS GRID (ADVANCED SAYFA İÇİN HAZIR) --------- */
 
-.store-products {
-  margin-top: 0.75rem;
-}
-
-.store-products-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.store-products-header h2 {
-  margin: 0;
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
-}
-
-.store-products-count {
-  font-size: 0.8rem;
-  color: var(--text-sub);
-}
-
-/* Premium Etsy-style grid */
-.products-grid {
+.store-products .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.6rem;
+  gap: 1.8rem;
   align-items: stretch;
 }
 
-/* Product Card */
 .product-card {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), #020617);
+    radial-gradient(circle at top left, rgba(15, 23, 42, 1), #020617);
   border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
   position: relative;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
 }
 
 .product-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.15), transparent 60%);
+  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 60%);
   opacity: 0;
   transition: opacity 160ms ease;
   pointer-events: none;
@@ -325,7 +334,7 @@ body.store-body {
 .product-card:hover {
   transform: translateY(-4px);
   border-color: rgba(249, 115, 22, 0.7);
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.95);
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 1);
 }
 
 .product-card:hover::before {
@@ -333,9 +342,8 @@ body.store-body {
 }
 
 .product-media {
-  background:
-    radial-gradient(circle at top, rgba(30, 64, 175, 0.3), transparent 60%);
-  padding: 1rem 1rem 0.5rem;
+  background: radial-gradient(circle at top, rgba(37, 99, 235, 0.3), transparent 65%);
+  padding: 0.9rem 0.9rem 0.5rem;
 }
 
 .product-media img {
@@ -346,10 +354,10 @@ body.store-body {
 }
 
 .product-body {
-  padding: 0.95rem 1rem 1.05rem;
+  padding: 0.9rem 0.95rem 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.4rem;
 }
 
 .product-body h2 {
@@ -359,7 +367,7 @@ body.store-body {
 
 .product-body p {
   margin: 0;
-  font-size: 0.83rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
@@ -372,53 +380,48 @@ body.store-body {
 }
 
 .product-meta .price {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--accent);
 }
 
 .product-meta .tag {
-  padding: 0.12rem 0.55rem;
+  padding: 0.1rem 0.55rem;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.5);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--text-sub);
 }
 
-/* ============ EMPTY / ERROR ============ */
+/* --------- EMPTY / ERROR --------- */
 
 .store-error,
 .store-empty {
-  margin-top: 2.2rem;
+  margin-top: 2.5rem;
   font-size: 0.9rem;
-  color: var(--text-sub);
+  color: var(--text-muted);
   text-align: center;
 }
 
-/* ============ RESPONSIVE ============ */
+/* --------- RESPONSIVE --------- */
 
-@media (max-width: 960px) {
-  #store-root {
-    padding-inline: 1rem;
-  }
-
+@media (max-width: 900px) {
   .store-hero .hero-inner {
     grid-template-columns: minmax(0, 1fr);
-    padding: 1.6rem 1.4rem 1.7rem;
-  }
-
-  .store-hero .hero-banner {
-    order: -1;
   }
 }
 
 @media (max-width: 640px) {
-  .store-hero h1 {
-    font-size: 1.6rem;
+  #store-root {
+    padding-inline: 1rem;
   }
 
-  .substore-banner img,
+  .substores-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .product-media img {
     height: 210px;
   }
 }
+
