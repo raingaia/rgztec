@@ -167,8 +167,7 @@
   }
 
   // ---------- render: mağaza / section ----------
-
- function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
+function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
   const title =
     (subMeta && subMeta.title) ||
     storeMeta.name ||
@@ -191,7 +190,7 @@
 
   document.title = `RGZTEC • ${title}`;
 
-  // ---------- HERO ----------
+  // ---------- HERO (ana sayfa kalitesinde geniş blok) ----------
   let html = `
     <section class="store-hero">
       <div class="hero-inner">
@@ -202,7 +201,7 @@
           <div class="hero-meta-row">
             <span class="hero-chip">Global marketplace</span>
             <span class="hero-chip">Secure payments</span>
-            <span class="hero-chip">Instant digital delivery</span>
+            <span class="hero-chip">Instant delivery</span>
           </div>
         </div>
         <div class="hero-banner">
@@ -216,7 +215,7 @@
     </section>
   `;
 
-  // ---------- MAĞAZA ANA SAYFA: SECTIONS GRID ----------
+  // ---------- MAĞAZA ANA SAYFA: SADECE SECTIONS GRID ----------
   if (!subMeta && substores && substores.length) {
     html += `
       <section class="store-substores">
@@ -231,7 +230,7 @@
     `;
   }
 
-  // ---------- DÜKKAN (SUBSTORE) SAYFASI: PRODUCT GRID ----------
+  // ---------- DÜKKÂN SAYFASI: PRODUCT GRID ----------
   if (subMeta && products && products.length) {
     html += `
       <section class="store-products">
@@ -245,7 +244,7 @@
       </section>
     `;
   } else if (subMeta && (!products || !products.length)) {
-    // SADECE DÜKKAN SAYFASINDA boş mesaj
+    // SADECE DÜKKÂNDA “No products…”
     html += `
       <section class="store-products">
         <p class="store-empty">No products found in this section yet.</p>
@@ -253,9 +252,10 @@
     `;
   }
 
-  // Ana mağazada (subMeta yok) product alanı hiç eklenmiyor
+  // Ana mağazada (subMeta yokken) product bloğu hiç eklenmiyor
   root.innerHTML = html;
 }
+
 
 
   function renderSubstoreCard(ss) {
