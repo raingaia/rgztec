@@ -167,86 +167,95 @@
   }
 
   // ---------- render: mağaza / section ----------
+function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
+  const title =
+    (subMeta && subMeta.title) ||
+    storeMeta.name ||
+    storeMeta.title ||
+    slugToTitle(storeMeta.slug);
 
-  function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
-    const title =
-      (subMeta && subMeta.title) ||
-      storeMeta.name ||
-      storeMeta.title ||
-      slugToTitle(storeMeta.slug);
+  const description =
+    (subMeta && subMeta.description) ||
+    storeMeta.tagline ||
+    storeMeta.seoDescription ||
+    storeMeta.description ||
+    "";
 
-    const description =
-      (subMeta && subMeta.description) ||
-      storeMeta.tagline ||
-      storeMeta.seoDescription ||
-      storeMeta.description ||
-      "";
+  const bannerPath =
+    (subMeta && subMeta.banner) ||
+    storeMeta.banner ||
+    null;
 
-    const bannerPath =
-      (subMeta && subMeta.banner) ||
-      storeMeta.banner ||
-      null;
-    const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
+  const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
 
-    document.title = `RGZTEC • ${title}`;
+  document.title = `RGZTEC • ${title}`;
 
-    let html = `
-      <section class="store-hero">
-        <div class="hero-inner">
-          <div class="hero-text">
-            <span class="badge">${(storeMeta.slug || "STORE").toUpperCase()}</span>
-            <h1>${escapeHTML(title)}</h1>
-            <p>${description ? escapeHTML(description) : ""}</p>
+  // ---------- HERO ----------
+  let html = `
+    <section class="store-hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <span class="badge">${(storeMeta.slug || "STORE").toUpperCase()}</span>
+          <h1>${escapeHTML(title)}</h1>
+          <p>${description ? escapeHTML(description) : ""}</p>
+          <div class="hero-meta-row">
+            <span class="hero-chip">Global marketplace</span>
+            <span class="hero-chip">Secure payments</span>
+            <span class="hero-chip">Instant digital delivery</span>
           </div>
-          <div class="hero-banner">
-            ${
-              bannerUrl
-                ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + ' banner')}">`
-                : ""
-            }
-          </div>
+        </div>
+        <div class="hero-banner">
+          ${
+            bannerUrl
+              ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + " banner")}">`
+              : ""
+          }
+        </div>
+      </div>
+    </section>
+  `;
+
+  // ---------- MAĞAZA ANA SAYFA: SECTIONS GRID ----------
+  if (!subMeta && substores && substores.length) {
+    html += `
+      <section class="store-substores">
+        <div class="store-substores-header">
+          <h2>Sections</h2>
+          <span class="store-substores-count">${substores.length} sections</span>
+        </div>
+        <div class="substores-grid">
+          ${substores.map(renderSubstoreCard).join("")}
         </div>
       </section>
     `;
-
-    // Sections grid – sadece mağaza ana sayfasında
-    if (!subMeta && substores && substores.length) {
-      html += `
-        <section class="store-substores">
-          <div class="store-substores-header">
-            <h2>Sections</h2>
-            <span class="store-substores-count">${substores.length} sections</span>
-          </div>
-          <div class="substores-grid">
-            ${substores.map(renderSubstoreCard).join("")}
-          </div>
-        </section>
-      `;
-    }
-
-    // Product grid – Etsy vari kartlar
-    if (products && products.length) {
-      html += `
-        <section class="store-products">
-          <div class="store-products-header">
-            <h2>Featured products</h2>
-            <span class="store-products-count">${products.length} items</span>
-          </div>
-          <div class="products-grid">
-            ${products.map(renderProductCard).join("")}
-          </div>
-        </section>
-      `;
-    } else {
-      html += `
-        <section class="store-products">
-          <p class="store-empty">No products found in this view yet.</p>
-        </section>
-      `;
-    }
-
-    root.innerHTML = html;
   }
+
+  // ---------- DÜKKAN (SUBSTORE) SAYFASI: PRODUCT GRID ----------
+  if (subMeta && products && products.length) {
+    html += `
+      <section class="store-products">
+        <div class="store-products-header">
+          <h2>Featured products</h2>
+          <span class="store-products-count">${products.length} items</span>
+        </div>
+        <div class="products-grid">
+          ${products.map(renderProductCard).join("")}
+        </div>
+      </section>
+    `;
+  } else if (subMeta && (!products || !products.length)) {
+    // SADECE DÜKKAN SAYFASINDA boş mesaj
+    html += `
+      <section class="store-products">
+        <p class="store-empty">No products found in this section yet.</p>
+      </section>
+    `;
+  }
+
+  // Ana mağazada (subMeta yok) product alanı hiç eklenmiyor
+  root.innerHTML = html;
+}
+
 
   function renderSubstoreCard(ss) {
     const href = `${ss.slug}/`; // /store/{storeSlug}/{slug}/
