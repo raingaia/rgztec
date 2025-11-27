@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
 
   <title>RGZTEC • Game Makers</title>
-  <meta name="description" content="Game Makers store – packs, tools and templates for your next game." />
+  <meta name="description"
+        content="Game Makers store – packs, tools and templates for your next game." />
 
-  <!-- Global store CSS (mutlak yol) -->
+  <!-- Bu sayfa GitHub Pages'te şurada çalışıyor:
+       https://raingaia.github.io/rgztec/store/game-makers/ -->
+  <base href="/rgztec/store/game-makers/">
+
+  <!-- STORE CSS -->
   <link rel="stylesheet" href="/rgztec/assets/css/store-core.css">
 
   <!-- Fontlar -->
@@ -21,13 +26,14 @@
   data-data-path="/rgztec/data"
   data-image-base="/rgztec/assets/images/store"
 >
-  <!-- BÜTÜN içerik JS tarafından buraya çizilecek -->
-  <div id="store-root"></div>
+  <!-- BÜTÜN SAYFAYI JS BURAYA YAZACAK -->
+  <div id="store-root" class="store-shell"></div>
 
-  <!-- DOĞRU JS YOLU (mutlak) -->
-  <script src="/rgztec/assets/js/store-shell.js" defer></script>
+  <!-- STORE JS -->
+  <script src="/rgztec/assets/js/store-shell.js"></script>
 </body>
 </html>
+
 
 
 
