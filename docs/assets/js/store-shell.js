@@ -194,6 +194,7 @@
 
   // ---------- render: root /store/ hub ----------
 
+ 
   function renderStoreHub({ stores }) {
     document.title = "RGZTEC • Stores";
 
@@ -207,7 +208,7 @@
           </div>
         </div>
       </section>
-    ";
+    `;
 
     html += `
       <section class="store-substores">
