@@ -1,9 +1,9 @@
 // /rgztec/assets/js/store-shell.js
 // RGZTEC STORE SHELL – 11 store + 79 section
-// - DATA:   /rgztec/data/*.json (veya body[data-data-path])
-// - IMAGES: /rgztec/assets/images/store/... (veya body[data-image-base])
+// DATA:   /rgztec/data/*.json  (body[data-data-path] ile override edilebilir)
+// IMAGES: /rgztec/assets/images/store/... (body[data-image-base] ile override edilebilir)
 
-(async function () {
+(function () {
   const body = document.body;
   const root = document.getElementById("store-root");
 
@@ -18,11 +18,12 @@
   const DATA_BASE =
     (body.dataset.dataPath || "/rgztec/data").replace(/\/+$/, "") + "/";
   const IMAGE_BASE =
-    (body.dataset.imageBase || "/rgztec/assets/images/store").replace(/\/+$/, "") + "/";
+    (body.dataset.imageBase || "/rgztec/assets/images/store")
+      .replace(/\/+$/, "") + "/";
 
   // ---------- helpers ----------
 
-  async function fetchJSON(path, { optional = false } = {}) {
+  async function fetchJSON(path, optional) {
     const url = DATA_BASE + path.replace(/^\/+/, "");
     try {
       const res = await fetch(url + "?v=" + Date.now());
@@ -65,193 +66,72 @@
       .join(" ");
   }
 
-  // ---------- main flow ----------
+  // ---------- main ----------
 
-  try {
-    // 1) Tüm mağazalar
-    const stores = await fetchJSON("stores.json");
-    if (!Array.isArray(stores)) {
-      throw new Error("stores.json did not return an array");
-    }
+  async function main() {
+    try {
+      // 1) tüm mağazalar
+      const stores = await fetchJSON("stores.json", false);
+      if (!Array.isArray(stores)) {
+        throw new Error("stores.json did not return an array");
+      }
 
-    // A) Root /store/ sayfası → tüm mağaza hub’ı
-    if (!storeSlug) {
-      renderStoreHub({ stores });
-      return;
-    }
+      // 2) aktif store meta
+      const storeMeta = stores.find((s) => s.slug === storeSlug);
+      if (!storeMeta) {
+        throw new Error("Store not found: " + storeSlug);
+      }
 
-    // B) Tekil mağaza / dükkân sayfaları
+      // 3) mağaza seviyesinde kategori + ürünler
+      let substores = [];
+      const storeLevel = await fetchJSON(`products-${storeSlug}.json`, true);
 
-    // 2) aktif store meta
-    const storeMeta = stores.find((s) => s.slug === storeSlug) || null;
-    if (!storeMeta) {
-      throw new Error("Store not found: " + storeSlug);
-    }
-
-    // 3) substores + storeLevelData
-    let substores = [];
-    let storeLevelData = null;
-
-    // Önce substores-{store}.json var mı bak
-    const perStoreSubstores = await fetchJSON(
-      `substores-${storeSlug}.json`,
-      { optional: true }
-    );
-
-    if (Array.isArray(perStoreSubstores)) {
-      // substores-game-makers.json vb. varsa direkt onu kullan
-      substores = perStoreSubstores;
-    } else {
-      // Yoksa: products-{store}.json içinden categories alanından üret
-      storeLevelData = await fetchJSON(
-        `products-${storeSlug}.json`,
-        { optional: true }
-      );
-
-      if (storeLevelData && Array.isArray(storeLevelData.categories)) {
-        substores = storeLevelData.categories.map((c) => ({
+      // products-game-makers.json içindeki categories[] → sections grid
+      if (storeLevel && Array.isArray(storeLevel.categories)) {
+        substores = storeLevel.categories.map((c) => ({
           parent: storeSlug,
           slug: c.slug,
           title: c.name || c.title || slugToTitle(c.slug),
           description: c.description || "",
-          // varsa kategoriye özel banner kullan, yoksa varsayılan yol
           banner: c.banner || `${storeSlug}/${c.slug}/banner.webp`
         }));
-      } else {
-        // Son çare: büyük substores.json varsa oradan filtrele
-        const allSubstores = await fetchJSON("substores.json", {
-          optional: true
-        });
-        if (Array.isArray(allSubstores)) {
-          substores = allSubstores.filter((s) => s.parent === storeSlug);
-        }
-      }
-    }
-
-    // 4) aktif substore meta
-    let subMeta = null;
-    if (subSlug) {
-      subMeta = substores.find((s) => s.slug === subSlug) || null;
-      if (!subMeta) {
-        console.warn("Substore not found:", storeSlug, subSlug);
-      }
-    }
-
-    // 5) ürünler
-    let products = [];
-    if (subSlug) {
-      // Önce: products-{storeSlug}-{subSlug}.json
-      let subProducts = await fetchJSON(
-        `products-${storeSlug}-${subSlug}.json`,
-        { optional: true }
-      );
-
-      // Olmazsa: products-{subSlug}.json
-      if (!Array.isArray(subProducts)) {
-        subProducts = await fetchJSON(`products-${subSlug}.json`, {
-          optional: true
-        });
       }
 
-      products = Array.isArray(subProducts) ? subProducts : [];
-    } else {
-      // Mağaza ana view
-      if (storeLevelData && Array.isArray(storeLevelData.products)) {
-        // products-{store}.json içinde products array'i varsa onu kullan
-        products = storeLevelData.products;
-      } else {
-        const storeProducts = await fetchJSON(
-          `products-${storeSlug}.json`,
-          { optional: true }
+      // 4) aktif section (substore)
+      let subMeta = null;
+      if (subSlug) {
+        subMeta = substores.find((s) => s.slug === subSlug) || null;
+      }
+
+      // 5) ürünler
+      let products = [];
+
+      if (subSlug) {
+        // Önce: products-{store}-{section}.json
+        let subProducts = await fetchJSON(
+          `products-${storeSlug}-${subSlug}.json`,
+          true
         );
-        if (Array.isArray(storeProducts)) {
-          products = storeProducts;
+        // yoksa: products-{section}.json
+        if (!Array.isArray(subProducts)) {
+          subProducts = await fetchJSON(`products-${subSlug}.json`, true);
         }
+        products = Array.isArray(subProducts) ? subProducts : [];
+      } else if (storeLevel && Array.isArray(storeLevel.products)) {
+        // store ana view → aynı JSON içindeki products[]
+        products = storeLevel.products;
       }
+
+      // 6) render
+      renderStoreLayout({ storeMeta, substores, subMeta, products });
+    } catch (err) {
+      console.error(err);
+      root.innerHTML =
+        '<p class="store-error">Store could not be loaded. Please try again later.</p>';
     }
-
-    // 6) render
-    renderStoreLayout({ storeMeta, substores, subMeta, products });
-
-    // 7) extension hook (varsa)
-    if (
-      window.RGZTEC_STORE_EXT &&
-      typeof window.RGZTEC_STORE_EXT.init === "function"
-    ) {
-      window.RGZTEC_STORE_EXT.init({
-        store: storeMeta,
-        substore: subMeta,
-        substores,
-        products,
-        root
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    root.innerHTML =
-      `<p class="store-error">Store could not be loaded. Please try again later.</p>`;
   }
 
-    function renderStoreHub({ stores }) {
-    document.title = "RGZTEC • Stores";
-
-    let html = `
-      <section class="store-hero">
-        <div class="hero-inner">
-          <div class="hero-text">
-            <span class="badge">RGZTEC</span>
-            <h1>Explore all RGZTEC Stores</h1>
-            <p>11 curated stores and 79 sections, built for developers, makers and creators.</p>
-          </div>
-        </div>
-      </section>
-    `;
-
-    html += `
-      <section class="store-substores">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;">
-          <h2 style="font-size:0.95rem;margin:0;letter-spacing:-.02em;">All stores</h2>
-          <span style="font-size:.75rem;color:#9ca3af;">${stores.length} stores</span>
-        </div>
-        <div class="substores-grid">
-          ${stores.map(renderMainStoreCard).join("")}
-        </div>
-      </section>
-    `;
-
-    root.innerHTML = html;
-  }
-
-  function renderMainStoreCard(store) {
-    const href = `${store.slug}/`;
-    const title =
-      store.name || store.title || slugToTitle(store.slug);
-    const description =
-      store.tagline ||
-      store.seoDescription ||
-      store.description ||
-      "";
-    const bannerPath = store.banner || "";
-    const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
-
-    return `
-      <a class="substore-card" href="${href}">
-        <div class="substore-banner">
-          ${
-            bannerUrl
-              ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + ' banner')}">`
-              : ""
-          }
-        </div>
-        <div class="substore-body">
-          <h3>${escapeHTML(title)}</h3>
-          <p>${description ? escapeHTML(description) : ""}</p>
-        </div>
-      </a>
-    `;
-  }
-
-  // ---------- render: tekil store / substore ----------
+  // ---------- render ----------
 
   function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
     const title =
@@ -271,7 +151,6 @@
       (subMeta && subMeta.banner) ||
       storeMeta.banner ||
       null;
-
     const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
 
     document.title = `RGZTEC • ${title}`;
@@ -288,7 +167,7 @@
           <div class="hero-banner">
             ${
               bannerUrl
-                ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + " banner")}">`
+                ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + ' banner')}">`
                 : ""
             }
           </div>
@@ -296,7 +175,7 @@
       </section>
     `;
 
-    // Substore grid – sadece mağaza ana view'da
+    // Section grid – sadece mağaza ana sayfasında
     if (!subMeta && substores && substores.length) {
       html += `
         <section class="store-substores">
@@ -311,7 +190,7 @@
       `;
     }
 
-    // Products – gerçekten ürün varsa göster
+    // Products (şimdilik boşsa hiç göstermiyoruz)
     if (products && products.length) {
       html += `
         <section class="store-products">
@@ -326,7 +205,8 @@
   }
 
   function renderSubstoreCard(ss) {
-    const href = `${ss.slug}/`; // /store/{storeSlug}/{slug}/
+    // /rgztec/store/game-makers/unity-2d/
+    const href = `${ss.slug}/`;
     const title = ss.title || slugToTitle(ss.slug);
     const description = ss.description || "";
     const bannerPath = ss.banner || "";
@@ -377,5 +257,9 @@
       </article>
     `;
   }
+
+  // başlat
+  main();
 })();
+
 
