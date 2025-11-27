@@ -1,23 +1,35 @@
+/* =========================================================
+   RGZTEC STORE CORE
+   - Tüm mağaza sayfaları için ortak tasarım
+   - Game Makers, HTML Templates, Hardware vb.
+   ========================================================= */
+
+/* ---------- ROOT TOKENS ---------- */
 :root {
   --accent: #f97316;
   --accent-strong: #ea580c;
-  --bg-page: #020617;
-  --bg-hero: #020617;
-  --bg-hero-light: #0b1120;
-  --bg-card: #020617;
-  --bg-soft: #020617;
-  --border-subtle: rgba(148, 163, 184, 0.25);
-  --border-strong: rgba(148, 163, 184, 0.45);
-  --text-main: #f9fafb;
-  --text-sub: #cbd5f5;
+
+  --bg-page-top: #f4f4ff;
+  --bg-page-bottom: #fefaf7;
+
+  --bg-card: #ffffff;
+  --bg-card-soft: #f8fafc;
+
+  --border-soft: rgba(148, 163, 184, 0.35);
+  --border-strong: rgba(15, 23, 42, 0.08);
+
+  --text-main: #0f172a;
+  --text-sub: #64748b;
   --text-muted: #9ca3af;
-  --chip-bg: rgba(15, 23, 42, 0.85);
-  --radius-xl: 1.25rem;
-  --radius-lg: 1rem;
-  --shadow-soft: 0 26px 80px rgba(15, 23, 42, 0.8);
-  --shadow-card: 0 18px 50px rgba(15, 23, 42, 0.85);
+
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-soft: 0 18px 60px rgba(15, 23, 42, 0.18);
+  --shadow-card: 0 14px 40px rgba(15, 23, 42, 0.12);
 }
 
+/* ---------- RESET ---------- */
 *,
 *::before,
 *::after {
@@ -30,26 +42,36 @@ body {
   padding: 0;
 }
 
-/* PAGE BACKGROUND — ana sayfa kalitesine yakın, koyu ama canlı */
-body.store-body {
+/* ---------- PAGE BACKGROUND (AVM hissi) ---------- */
+body {
   min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
   color: var(--text-main);
   background:
-    radial-gradient(circle at top left, rgba(59, 130, 246, 0.25), transparent 55%),
-    radial-gradient(circle at top right, rgba(236, 72, 153, 0.18), transparent 55%),
-    radial-gradient(circle at bottom, rgba(56, 189, 248, 0.16), transparent 55%),
-    #020617;
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.16), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(249, 115, 22, 0.16), transparent 55%),
+    linear-gradient(to bottom, var(--bg-page-top), var(--bg-page-bottom));
 }
 
-/* MAIN WRAPPER */
-#store-root {
-  max-width: 1180px;
+/* ---------- MAIN WRAPPER ---------- */
+#store-root,
+.store-shell {
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 1.75rem 1.25rem 3.5rem;
+  padding: 2.25rem 1.75rem 3.5rem;
 }
 
-/* --------- HERO --------- */
+/* Kenarlarda boş beyaz alan hissini azaltmak için */
+@media (min-width: 1440px) {
+  #store-root,
+  .store-shell {
+    max-width: 1320px;
+  }
+}
+
+/* =========================================================
+   HERO (Mağaza başlığı + sağda banner)
+   ========================================================= */
 
 .store-hero {
   margin-bottom: 1.75rem;
@@ -57,173 +79,186 @@ body.store-body {
 
 .store-hero .hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1.35fr);
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.35fr);
   gap: 1.75rem;
   align-items: stretch;
-  padding: 1.9rem 1.9rem 1.7rem;
-  border-radius: 1.6rem;
+  padding: 1.8rem 1.9rem;
+  border-radius: var(--radius-xl);
   background:
-    linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.95)),
-    radial-gradient(circle at top left, rgba(96, 165, 250, 0.16), transparent 60%);
+    radial-gradient(circle at 0% 0%, rgba(248, 250, 252, 0.55), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(15, 23, 42, 0.20), rgba(15, 23, 42, 0.75)),
+    #020617;
+  box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: var(--shadow-soft);
 }
 
-.hero-left {
-  position: relative;
-  z-index: 2;
-}
-
-.store-hero .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.2rem 0.8rem;
+/* Üstte ince çizgi */
+.store-hero::before {
+  content: "";
+  position: absolute;
+  inset: 1.1rem 1.6rem auto;
+  height: 1px;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4));
+  background: linear-gradient(
+    to right,
+    rgba(148, 163, 184, 0.1),
+    rgba(248, 250, 252, 0.65),
+    rgba(148, 163, 184, 0.1)
+  );
+  opacity: 0.85;
+}
+
+.store-hero .hero-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  color: #e5e7eb;
+}
+
+/* Mağaza badge (GAME MAKERS, HTML TEMPLATES vs.) */
+.store-hero .badge {
+  align-self: flex-start;
+  padding: 0.18rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 250, 252, 0.32);
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 0.85),
+    rgba(15, 23, 42, 0.4)
+  );
   font-size: 0.7rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-sub);
-  margin-bottom: 0.85rem;
+  color: rgba(226, 232, 240, 0.95);
 }
 
 .store-hero h1 {
-  font-size: clamp(1.9rem, 2.9vw, 2.5rem);
-  line-height: 1.1;
-  margin: 0 0 0.55rem;
+  font-size: clamp(1.9rem, 2.7vw, 2.35rem);
+  line-height: 1.05;
+  margin: 0;
 }
 
 .store-hero p {
   margin: 0;
-  color: var(--text-sub);
-  font-size: 0.95rem;
-  max-width: 34rem;
+  font-size: 0.94rem;
+  color: rgba(203, 213, 225, 0.95);
+  max-width: 32rem;
 }
 
-.store-meta-chips {
-  margin-top: 1.1rem;
+/* Küçük feature chip'ler (Global marketplace / Secure payments vs.) */
+.store-hero .hero-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
 }
 
-.store-chip {
+.store-hero .hero-chip {
   padding: 0.18rem 0.7rem;
+  font-size: 0.72rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.85));
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.8);
+  color: rgba(226, 232, 240, 0.96);
 }
 
-/* HERO RIGHT / BANNER */
-
-.hero-right {
+/* Sağdaki banner alanı */
+.store-hero .hero-banner {
   position: relative;
-  border-radius: 1.3rem;
+  border-radius: 1.2rem;
   overflow: hidden;
   background:
-    radial-gradient(circle at top, rgba(59, 130, 246, 0.32), transparent 60%),
-    radial-gradient(circle at bottom, rgba(249, 115, 22, 0.28), transparent 55%),
-    #020617;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: var(--shadow-card);
-}
-
-.hero-banner-img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.hero-right-fallback {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: rgba(248, 250, 252, 0.5);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* --------- TOOLBAR (SEARCH) --------- */
-
-.store-toolbar {
-  margin: 0 0 1.4rem;
+    radial-gradient(circle at 0% 0%, rgba(251, 251, 255, 0.25), transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(37, 99, 235, 0.45), rgba(15, 23, 42, 1));
+  border: 1px solid rgba(148, 163, 184, 0.45);
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
+
+.store-hero .hero-banner img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Banner yoksa placeholder gradient */
+.store-hero .hero-banner:empty::before {
+  content: "GAME MAKERS";
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+/* =========================================================
+   SEARCH BAR (üstte, full genişlik)
+   ========================================================= */
 
 .store-search {
-  flex: 1 1 260px;
-  max-width: 520px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.98));
-  border-radius: 999px;
-  padding: 0.25rem 0.3rem 0.25rem 0.8rem;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  margin: 1.35rem 0 2.0rem;
 }
 
-.store-search input {
+.store-search-inner {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+.store-search input[type="search"],
+.store-search input[type="text"] {
   flex: 1;
-  background: transparent;
   border: none;
+  background: transparent;
   outline: none;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-main);
 }
 
 .store-search input::placeholder {
-  color: rgba(148, 163, 184, 0.7);
+  color: var(--text-muted);
 }
 
 .store-search button {
   border: none;
-  outline: none;
-  padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  font-size: 0.8rem;
+  padding: 0.45rem 1.6rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  cursor: not-allowed; /* şimdilik dummy */
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  color: #0b1120;
-  box-shadow: 0 10px 30px rgba(248, 113, 22, 0.45);
+  cursor: not-allowed; /* şimdilik passive */
+  background: radial-gradient(circle at 0% 0%, #fed7aa, #f97316);
+  color: #0f172a;
+  box-shadow: 0 10px 25px rgba(248, 113, 22, 0.45);
 }
 
-.store-toolbar-meta {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-/* --------- SECTIONS GRID (SUBSTORES) --------- */
+/* =========================================================
+   SECTIONS (substores grid)
+   ========================================================= */
 
 .store-substores {
-  margin-top: 0.4rem;
-  margin-bottom: 2.2rem;
+  margin-bottom: 2.4rem;
 }
 
 .store-substores-header {
   display: flex;
-  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 0.9rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
 }
 
 .store-substores-header h2 {
   margin: 0;
-  font-size: 0.95rem;
-  letter-spacing: -0.02em;
+  font-size: 0.98rem;
+  letter-spacing: -0.01em;
 }
 
 .store-substores-header span {
@@ -231,110 +266,124 @@ body.store-body {
   color: var(--text-muted);
 }
 
+/* AVM vitrin kartları – büyük ve ferah */
 .substores-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.35rem;
+  gap: 1.4rem;
 }
 
 .substore-card {
   display: flex;
   flex-direction: column;
-  border-radius: var(--radius-xl);
-  padding: 1.1rem 1.25rem;
-  background:
-    radial-gradient(circle at top left, rgba(30, 64, 175, 0.24), transparent 55%),
-    #020617;
-  border: 1px solid var(--border-subtle);
-  text-decoration: none;
-  color: inherit;
+  border-radius: 1.1rem;
+  background: radial-gradient(circle at 0% 0%, #0f172a, #020617);
+  color: #e5e7eb;
   box-shadow: var(--shadow-card);
-  position: relative;
+  border: 1px solid rgba(15, 23, 42, 0.65);
+  text-decoration: none;
   overflow: hidden;
+  position: relative;
   transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
-    border-color 150ms ease,
-    background 150ms ease;
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out,
+    border-color 150ms ease-out;
+}
+
+.substore-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(248, 250, 252, 0.18), transparent 55%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease-out;
 }
 
 .substore-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.7);
-  box-shadow: 0 26px 70px rgba(15, 23, 42, 0.95);
-  background:
-    radial-gradient(circle at top left, rgba(249, 115, 22, 0.28), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.22), transparent 55%),
-    #020617;
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.8);
+  border-color: rgba(249, 115, 22, 0.75);
+}
+
+.substore-card:hover::before {
+  opacity: 1;
 }
 
 .substore-banner {
-  height: 120px;
-  border-radius: 1rem;
-  overflow: hidden;
-  margin-bottom: 0.85rem;
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 1));
-  display: grid;
-  place-items: center;
+  padding: 0.9rem 0.9rem 0.4rem;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .substore-banner img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: 130px;
+  object-fit: contain;
   display: block;
 }
 
+.substore-body {
+  padding: 0.9rem 1rem 1rem;
+}
+
 .substore-body h3 {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.2rem;
   font-size: 0.98rem;
 }
 
 .substore-body p {
   margin: 0;
-  font-size: 0.82rem;
-  color: var(--text-muted);
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.95);
 }
 
-/* --------- PRODUCTS GRID (ADVANCED SAYFA İÇİN HAZIR) --------- */
+/* =========================================================
+   PRODUCTS GRID (Etsy / premium kartlar)
+   ========================================================= */
+
+.store-products {
+  margin-top: 0.5rem;
+}
 
 .store-products .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.8rem;
-  align-items: stretch;
+  gap: 1.6rem;
 }
 
+/* Ürün kartı – büyük, premium */
 .product-card {
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(circle at top left, rgba(15, 23, 42, 1), #020617);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.9);
+  border-radius: 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
   transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    border-color 160ms ease;
+    transform 150ms ease-out,
+    box-shadow 150ms ease-out,
+    border-color 150ms ease-out;
 }
 
 .product-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 60%);
-  opacity: 0;
-  transition: opacity 160ms ease;
   pointer-events: none;
+  background: radial-gradient(circle at 0% 0%, rgba(248, 250, 252, 0.18), transparent 55%);
+  opacity: 0;
+  transition: opacity 150ms ease-out;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.7);
-  box-shadow: 0 22px 70px rgba(15, 23, 42, 1);
+  transform: translateY(-5px);
+  border-color: rgba(249, 115, 22, 0.8);
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.32);
 }
 
 .product-card:hover::before {
@@ -342,8 +391,8 @@ body.store-body {
 }
 
 .product-media {
-  background: radial-gradient(circle at top, rgba(37, 99, 235, 0.3), transparent 65%);
-  padding: 0.9rem 0.9rem 0.5rem;
+  background: radial-gradient(circle at 0% 0%, #e0f2fe, #eff6ff);
+  padding: 1rem 1rem 0.5rem;
 }
 
 .product-media img {
@@ -354,10 +403,10 @@ body.store-body {
 }
 
 .product-body {
-  padding: 0.9rem 0.95rem 1.1rem;
+  padding: 0.95rem 1rem 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .product-body h2 {
@@ -368,11 +417,11 @@ body.store-body {
 .product-body p {
   margin: 0;
   font-size: 0.82rem;
-  color: var(--text-muted);
+  color: var(--text-sub);
 }
 
 .product-meta {
-  margin-top: 0.5rem;
+  margin-top: 0.45rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -382,42 +431,58 @@ body.store-body {
 .product-meta .price {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .product-meta .tag {
-  padding: 0.1rem 0.55rem;
+  padding: 0.14rem 0.55rem;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.5);
   font-size: 0.72rem;
   color: var(--text-sub);
+  background: rgba(248, 250, 252, 0.8);
 }
 
-/* --------- EMPTY / ERROR --------- */
-
+/* Empty / error mesajları */
 .store-error,
 .store-empty {
   margin-top: 2.5rem;
-  font-size: 0.9rem;
-  color: var(--text-muted);
   text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-sub);
 }
 
-/* --------- RESPONSIVE --------- */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
+  #store-root,
+  .store-shell {
+    padding: 1.6rem 1.1rem 2.6rem;
+  }
+
   .store-hero .hero-inner {
     grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+  }
+
+  .store-hero .hero-banner {
+    max-height: 220px;
   }
 }
 
 @media (max-width: 640px) {
-  #store-root {
-    padding-inline: 1rem;
+  .store-search-inner {
+    padding-inline: 0.9rem;
   }
 
-  .substores-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .store-search button {
+    padding-inline: 1.1rem;
+  }
+
+  .substore-banner {
+    min-height: 120px;
   }
 
   .product-media img {
