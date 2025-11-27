@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "unity-2d-platformer-kit",
+    "title": "Unity 2D Platformer Kit",
+    "subtitle": "Complete 2D platformer controller, enemies, pickups and camera.",
+    "price": "$29",
+    "tag": "Bestseller",
+    "image": "game-makers/unity-2d/platformer-kit.webp"
+  },
+  {
+    "slug": "unity-2d-metroidvania-ui",
+    "title": "Metroidvania UI Pack",
+    "subtitle": "Health bars, inventory, map and dialog UI ready for Unity 2D.",
+    "price": "$24",
+    "tag": "UI Kit",
+    "image": "game-makers/unity-2d/metroidvania-ui.webp"
+  },
+  {
+    "slug": "unity-2d-shooter-pack",
+    "title": "2D Shooter Starter Pack",
+    "subtitle": "Top-down shooter controllers, FX and basic enemy AI.",
+    "price": "$34",
+    "tag": "Starter",
+    "image": "game-makers/unity-2d/shooter-pack.webp"
+  }
+]
