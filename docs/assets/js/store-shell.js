@@ -190,7 +190,7 @@ function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
 
   document.title = `RGZTEC • ${title}`;
 
-  // ---------- HERO ----------
+  // ---------- HERO (ana sayfa kalitesinde geniş blok) ----------
   let html = `
     <section class="store-hero">
       <div class="hero-inner">
@@ -201,7 +201,7 @@ function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
           <div class="hero-meta-row">
             <span class="hero-chip">Global marketplace</span>
             <span class="hero-chip">Secure payments</span>
-            <span class="hero-chip">Instant digital delivery</span>
+            <span class="hero-chip">Instant delivery</span>
           </div>
         </div>
         <div class="hero-banner">
@@ -215,7 +215,7 @@ function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
     </section>
   `;
 
-  // ---------- MAĞAZA ANA SAYFA: SECTIONS GRID ----------
+  // ---------- MAĞAZA ANA SAYFA: SADECE SECTIONS GRID ----------
   if (!subMeta && substores && substores.length) {
     html += `
       <section class="store-substores">
@@ -230,7 +230,7 @@ function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
     `;
   }
 
-  // ---------- DÜKKAN (SUBSTORE) SAYFASI: PRODUCT GRID ----------
+  // ---------- DÜKKÂN SAYFASI: PRODUCT GRID ----------
   if (subMeta && products && products.length) {
     html += `
       <section class="store-products">
@@ -244,7 +244,7 @@ function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
       </section>
     `;
   } else if (subMeta && (!products || !products.length)) {
-    // SADECE DÜKKAN SAYFASINDA boş mesaj
+    // SADECE DÜKKÂNDA “No products…”
     html += `
       <section class="store-products">
         <p class="store-empty">No products found in this section yet.</p>
@@ -252,7 +252,7 @@ function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
     `;
   }
 
-  // Ana mağazada (subMeta yok) product alanı hiç eklenmiyor
+  // Ana mağazada (subMeta yokken) product bloğu hiç eklenmiyor
   root.innerHTML = html;
 }
 
