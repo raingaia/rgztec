@@ -1,15 +1,23 @@
 :root {
   --accent: #f97316;
   --accent-strong: #ea580c;
-  --bg-body: #0b1120;
+
+  --bg-body: #020617;
+  --bg-header: #020617;
   --bg-card: #020617;
-  --bg-soft: #020617;
-  --border-subtle: rgba(148, 163, 184, 0.2);
+  --bg-soft: #050816;
+
+  --border-subtle: rgba(148, 163, 184, 0.18);
+
   --text-main: #e5e7eb;
   --text-sub: #9ca3af;
   --text-muted: #6b7280;
-  --radius-xl: 1.25rem;
-  --shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.65);
+
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+
+  --shadow-soft: 0 26px 80px rgba(15, 23, 42, 0.75);
+  --shadow-card: 0 18px 40px rgba(15, 23, 42, 0.8);
 }
 
 *,
@@ -27,37 +35,55 @@ body {
 body.store-body {
   min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-  background: radial-gradient(circle at top left, #111827 0, #020617 40%, #000 100%);
+  background:
+    radial-gradient(circle at top left, #111827 0, #020617 38%, #000 100%);
   color: var(--text-main);
 }
 
-/* Main wrapper */
+/* SHELL WRAPPER – geniş, ana sayfa kalitesinde */
 #store-root {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 3rem;
+  padding: 1.75rem 1.25rem 3.25rem;
 }
 
-/* ---------------------- HERO ---------------------- */
+/* ============ HERO ============ */
 
 .store-hero {
-  margin-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
 }
 
 .store-hero .hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
-  gap: 1.75rem;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+  gap: 2rem;
   align-items: center;
-  padding: 1.75rem;
-  border-radius: 1.5rem;
+  padding: 2rem 2.1rem;
+  border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at top left, rgba(248, 250, 252, 0.1) 0, transparent 55%),
-    radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.8) 0, #020617 55%);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+    radial-gradient(circle at top left, rgba(248, 250, 252, 0.15) 0, transparent 60%),
+    radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9) 0, #020617 60%);
+  border: 1px solid rgba(148, 163, 184, 0.28);
   box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
+}
+
+.store-hero .hero-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(249, 115, 22, 0.08),
+      transparent 45%,
+      rgba(59, 130, 246, 0.12),
+      transparent 80%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  pointer-events: none;
 }
 
 .store-hero .hero-text {
@@ -68,113 +94,142 @@ body.store-body {
 .store-hero .badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.18rem 0.75rem;
+  gap: 0.45rem;
+  padding: 0.18rem 0.8rem;
   border-radius: 999px;
   border: 1px solid rgba(248, 250, 252, 0.28);
-  background: linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.4));
+  background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.5));
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-sub);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
 }
 
 .store-hero h1 {
-  font-size: clamp(1.8rem, 2.6vw, 2.3rem);
-  line-height: 1.1;
-  margin: 0 0 0.6rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  line-height: 1.05;
+  margin: 0 0 0.7rem;
+  letter-spacing: -0.03em;
 }
 
 .store-hero p {
   margin: 0;
   color: var(--text-sub);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   max-width: 32rem;
 }
 
+.hero-meta-row {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hero-chip {
+  padding: 0.16rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  font-size: 0.75rem;
+  color: #e5e7eb;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+/* HERO BANNER */
 .store-hero .hero-banner {
   position: relative;
-  border-radius: 1.25rem;
+  border-radius: 1.35rem;
   isolation: isolate;
   overflow: hidden;
-  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 60%);
-  border: 1px solid rgba(148, 163, 184, 0.3);
+  background:
+    radial-gradient(circle at top, rgba(248, 250, 252, 0.18), transparent 60%);
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.85);
+}
+
+.store-hero .hero-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top, rgba(59, 130, 246, 0.25), transparent 55%),
+    radial-gradient(circle at bottom, rgba(249, 115, 22, 0.22), transparent 60%);
+  mix-blend-mode: soft-light;
 }
 
 .store-hero .hero-banner img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   display: block;
   object-fit: contain;
 }
 
-/* ---------------------- SECTIONS GRID (Sections başlığı altı) ---------------------- */
+/* ============ SECTIONS (SUBSTORES GRID) ============ */
 
 .store-substores {
-  margin: 2.5rem auto 0;
-  max-width: 1200px;
+  margin-bottom: 2.4rem;
 }
 
 .store-substores-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1.1rem;
 }
 
 .store-substores-header h2 {
-  font-size: 0.95rem;
   margin: 0;
+  font-size: 1.05rem;
   letter-spacing: -0.02em;
 }
 
 .store-substores-count {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-sub);
 }
 
+/* Etsy tarzı büyük kartlar */
 .substores-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.5rem;
-  margin-top: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.4rem;
 }
 
 .substore-card {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  text-decoration: none;
-  border-radius: var(--radius-xl);
-  padding: 0.9rem;
-  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), var(--bg-card));
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), #020617);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.75);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: inherit;
   overflow: hidden;
-  position: relative;
   transition:
-    transform 150ms ease-out,
-    box-shadow 150ms ease-out,
-    border-color 150ms ease-out,
-    background 150ms ease-out;
-  color: var(--text-main);
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease;
+  position: relative;
 }
 
 .substore-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.09), transparent 55%);
+  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 60%);
   opacity: 0;
+  transition: opacity 150ms ease;
   pointer-events: none;
-  transition: opacity 150ms ease-out;
 }
 
 .substore-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.65);
-  background: radial-gradient(circle at top left, rgba(15, 23, 42, 1), #020617);
+  border-color: rgba(249, 115, 22, 0.7);
   box-shadow: 0 22px 60px rgba(15, 23, 42, 0.95);
 }
 
@@ -183,71 +238,73 @@ body.store-body {
 }
 
 .substore-banner {
-  border-radius: 1rem;
-  overflow: hidden;
+  padding: 1rem 1rem 0.5rem;
+  background:
+    radial-gradient(circle at top, rgba(30, 64, 175, 0.26), transparent 60%);
 }
 
 .substore-banner img {
-  display: block;
   width: 100%;
-  height: 130px;
-  object-fit: cover;
+  height: 170px;
+  object-fit: contain;
+  display: block;
+}
+
+.substore-body {
+  padding: 0.85rem 1rem 1rem;
 }
 
 .substore-body h3 {
-  margin: 0 0 0.25rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #f9fafb;
+  margin: 0 0 0.4rem;
+  font-size: 0.98rem;
 }
 
 .substore-body p {
   margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--text-sub);
+  font-size: 0.83rem;
+  color: var(--text-muted);
 }
 
-/* ---------------------- PRODUCTS GRID — ETSY-STYLE ---------------------- */
+/* ============ PRODUCTS GRID ============ */
 
 .store-products {
-  margin-top: 2.5rem;
+  margin-top: 0.75rem;
 }
 
 .store-products-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .store-products-header h2 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   letter-spacing: -0.02em;
 }
 
 .store-products-count {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-sub);
 }
 
-.store-products .products-grid {
+/* Premium Etsy-style grid */
+.products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.8rem;
-  padding-top: 0.5rem;
+  gap: 1.6rem;
   align-items: stretch;
 }
 
-/* Product card */
+/* Product Card */
 .product-card {
-  border-radius: var(--radius-xl);
-  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), #020617);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), #020617);
   border: 1px solid var(--border-subtle);
-  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.7);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -259,7 +316,7 @@ body.store-body {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.12), transparent 55%);
+  background: radial-gradient(circle at top, rgba(248, 250, 252, 0.15), transparent 60%);
   opacity: 0;
   transition: opacity 160ms ease;
   pointer-events: none;
@@ -267,8 +324,8 @@ body.store-body {
 
 .product-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.65);
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+  border-color: rgba(249, 115, 22, 0.7);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.95);
 }
 
 .product-card:hover::before {
@@ -276,22 +333,23 @@ body.store-body {
 }
 
 .product-media {
-  background: radial-gradient(circle at top, rgba(30, 64, 175, 0.25), transparent 60%);
-  padding: 0.9rem 0.9rem 0.4rem;
+  background:
+    radial-gradient(circle at top, rgba(30, 64, 175, 0.3), transparent 60%);
+  padding: 1rem 1rem 0.5rem;
 }
 
 .product-media img {
   width: 100%;
-  height: 180px;
+  height: 190px;
   object-fit: contain;
   display: block;
 }
 
 .product-body {
-  padding: 0.9rem 0.95rem 1rem;
+  padding: 0.95rem 1rem 1.05rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .product-body h2 {
@@ -301,59 +359,67 @@ body.store-body {
 
 .product-body p {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 0.83rem;
   color: var(--text-muted);
 }
 
 .product-meta {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .product-meta .price {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--accent);
 }
 
 .product-meta .tag {
-  padding: 0.1rem 0.5rem;
+  padding: 0.12rem 0.55rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  font-size: 0.72rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  font-size: 0.74rem;
   color: var(--text-sub);
 }
 
-/* Error / Empty */
+/* ============ EMPTY / ERROR ============ */
+
 .store-error,
 .store-empty {
-  margin-top: 2rem;
+  margin-top: 2.2rem;
   font-size: 0.9rem;
   color: var(--text-sub);
   text-align: center;
 }
 
-/* ---------------------- RESPONSIVE ---------------------- */
+/* ============ RESPONSIVE ============ */
 
-@media (max-width: 900px) {
-  .store-hero .hero-inner {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 960px) {
   #store-root {
     padding-inline: 1rem;
   }
 
-  .product-media img {
-    height: 200px;
+  .store-hero .hero-inner {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.6rem 1.4rem 1.7rem;
   }
 
-  .substore-banner img {
-    height: 110px;
+  .store-hero .hero-banner {
+    order: -1;
   }
 }
+
+@media (max-width: 640px) {
+  .store-hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .substore-banner img,
+  .product-media img {
+    height: 210px;
+  }
+}
+
