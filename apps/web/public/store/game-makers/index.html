@@ -7,7 +7,7 @@
   <title>RGZTEC • Game Makers</title>
   <meta name="description" content="Game Makers store – packs, tools and templates for your next game." />
 
-  <!-- DOĞRU ASSETS YOLU -->
+  <!-- Global store CSS (mutlak yol) -->
   <link rel="stylesheet" href="/rgztec/assets/css/store-core.css">
 
   <!-- Fontlar -->
@@ -17,31 +17,18 @@
 </head>
 
 <body
-  data-page="store-detail"
-  data-store-slug="game-makers"
+  data-store="game-makers"
+  data-data-path="/rgztec/data"
+  data-image-base="/rgztec/assets/images/store"
 >
-  <div class="store-shell">
-    <header id="store-hero" class="store-hero">
-      <h1 class="store-title">Game Makers</h1>
-      <p class="store-subtitle">Choose packs and tools for your next game.</p>
-    </header>
+  <!-- BÜTÜN içerik JS tarafından buraya çizilecek -->
+  <div id="store-root"></div>
 
-    <main class="store-content">
-      <section class="store-section">
-        <h2 class="section-title">Sections</h2>
-        <p class="section-subtitle">
-          Explore ready-to-use assets, UI kits, templates and systems built for game developers.
-        </p>
-
-        <div id="products-grid" class="products-grid"></div>
-      </section>
-    </main>
-  </div>
-
-  <!-- DOĞRU JS YOLU -->
-  <script src="/rgztec/assets/js/store-core.js"></script>
+  <!-- DOĞRU JS YOLU (mutlak) -->
+  <script src="/rgztec/assets/js/store-shell.js" defer></script>
 </body>
 </html>
+
 
 
 
