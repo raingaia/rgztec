@@ -3,19 +3,47 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RGZTEC • Game Makers</title>
 
-  <!-- RGZTEC kökü -->
+  <title>RGZTEC • Game Makers</title>
+  <meta name="description" content="Game Makers store – packs, tools and templates for your next game." />
+
+  <!-- ÖNEMLİ: GitHub Pages kökü -->
   <base href="/rgztec/">
 
-  <!-- STORE CORE CSS (dikkat: store/core yolu) -->
-  <link rel="stylesheet" href="store/core/assets/css/store-core.css">
-</head>
-<body data-page="store-root" data-store-slug="game-makers">
-  <div id="store-root"></div>
+  <!-- Ortak store core CSS -->
+  <link rel="stylesheet" href="core/assets/css/store-core.css">
 
-  <!-- STORE CORE JS -->
-  <script type="module" src="store/core/assets/js/store-shell.js"></script>
+  <!-- Fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body
+  data-page="store-detail"
+  data-store-slug="game-makers"
+>
+  <div class="store-shell">
+    <header id="store-hero" class="store-hero">
+      <h1 class="store-title">Game Makers</h1>
+      <p class="store-subtitle">Choose packs and tools for your next game.</p>
+    </header>
+
+    <main class="store-content">
+      <section class="store-section">
+        <h2 class="section-title">Sections</h2>
+        <p class="section-subtitle">
+          Explore ready-to-use assets, UI kits, templates and systems built for game developers.
+        </p>
+
+        <!-- JS burayı dolduracak -->
+        <div id="products-grid" class="products-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Ortak store JS (core) -->
+  <script src="core/assets/js/store-core.js"></script>
 </body>
 </html>
 
