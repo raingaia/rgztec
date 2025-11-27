@@ -1,7 +1,8 @@
-// docs/assets/js/store-shell.js
-// RGZTEC STORE • tüm mağazalar & alt mağazalar için ortak shell
-// core klasörü yok; tüm JSON'lar "data/" altından okunur,
-// görseller JSON içinde gelen path'leri (assets/images/...) olduğu gibi kullanır.
+// /rgztec/assets/js/store-shell.js
+// RGZTEC STORE SHELL
+// - 11 mağaza (stores)
+// - Her mağaza için ayrı dükkan (substores-${storeSlug}.json)
+// - Ürünler products-${storeSlug}.json / products-${storeSlug}-${subSlug}.json
 
 (async function () {
   const body = document.body;
@@ -12,16 +13,16 @@
     return;
   }
 
-  // JSON'lar için temel yol (ör: "data/")
-  // İstersen <body data-data-path="data/"> ile override edebilirsin.
+  // JSON ve görsel kökleri – istersen body'den override edebilirsin
   const DATA_BASE =
-    (body.dataset.dataPath || "data")
-      .replace(/\/+$/, "") + "/";
+    (body.dataset.dataPath || "/rgztec/data").replace(/\/+$/, "") + "/";
+  const IMAGE_BASE =
+    (body.dataset.imageBase || "/rgztec/assets/images/store").replace(/\/+$/, "") + "/";
 
-  const storeSlug = body.dataset.store || "";    // örn: "hardware"
-  const subSlug   = body.dataset.substore || ""; // örn: "ai-tools-hub"
+  const storeSlug = body.dataset.store || "";    // "hardware", "game-makers" ...
+  const subSlug   = body.dataset.substore || ""; // "ai-accelerators", "unity-2d" ...
 
-  // ---- helpers ----
+  // -------- helpers --------
 
   async function fetchJSON(path, { optional = false } = {}) {
     const url = DATA_BASE + path.replace(/^\/+/, "");
@@ -51,54 +52,60 @@
       .replace(/</g, "&lt;");
   }
 
-  // ---- main flow ----
+  function buildImageUrl(relativePath) {
+    if (!relativePath) return "";
+    // Eğer JSON'da zaten "/" ile başlayan tam yol varsa dokunma
+    if (/^https?:\/\//.test(relativePath) || relativePath.startsWith("/")) {
+      return relativePath;
+    }
+    return IMAGE_BASE + relativePath.replace(/^\/+/, "");
+  }
+
+  // -------- main flow --------
 
   try {
-    // 1) Tüm store meta datası (data/stores.json)
+    // 1) Mağazalar – küçük, tek dosya: stores.json
     const stores = await fetchJSON("stores.json");
     if (!Array.isArray(stores)) {
       throw new Error("stores.json did not return an array");
     }
 
-    // storeSlug YOKSA: STORE HUB (ör: docs/store/index.html)
+    // A) STORE ROOT (11 mağazayı gösteren merkez) → data-store YOK
     if (!storeSlug) {
-      const allSubstores = await fetchJSON("substores.json", {
-        optional: true
-      });
-
-      const substoresByParent = {};
-      if (Array.isArray(allSubstores)) {
-        for (const ss of allSubstores) {
-          if (!ss.parent) continue;
-          if (!substoresByParent[ss.parent]) {
-            substoresByParent[ss.parent] = [];
-          }
-          substoresByParent[ss.parent].push(ss);
-        }
-      }
-
-      renderStoreHub({ stores, substoresByParent });
+      renderStoreHub({ stores });
       return;
     }
 
-    // ---- BURADAN SONRA: TEKİL STORE / ALT STORE ----
+    // B) TEKİL MAĞAZA / DÜKKAN VIEW → data-store VAR
 
-    // 2) aktif store meta
+    // 2) aktif mağaza meta
     const storeMeta = stores.find((s) => s.slug === storeSlug) || null;
     if (!storeMeta) {
       throw new Error("Store not found: " + storeSlug);
     }
 
-    // 3) tüm substores (data/substores.json)
-    const allSubstores = await fetchJSON("substores.json", {
-      optional: true
-    });
+    // 3) dükkanlar (substores)
+    let substores = [];
 
-    const substores = Array.isArray(allSubstores)
-      ? allSubstores.filter((s) => s.parent === storeSlug)
-      : [];
+    // Önce: substores-{storeSlug}.json (sadece o mağazaya ait, senin yapın)
+    const perStoreSubstores = await fetchJSON(
+      `substores-${storeSlug}.json`,
+      { optional: true }
+    );
 
-    // 4) aktif substore (varsa)
+    if (Array.isArray(perStoreSubstores)) {
+      substores = perStoreSubstores;
+    } else {
+      // Yedek: büyük substores.json varsa ordan parent filtrele
+      const allSubstores = await fetchJSON("substores.json", {
+        optional: true
+      });
+      if (Array.isArray(allSubstores)) {
+        substores = allSubstores.filter((s) => s.parent === storeSlug);
+      }
+    }
+
+    // 4) aktif dükkan (substore) meta
     let subMeta = null;
     if (subSlug) {
       subMeta = substores.find((s) => s.slug === subSlug) || null;
@@ -108,15 +115,23 @@
     }
 
     // 5) ürünler
-    // Senin data yapına göre: products-hardware.json, products-ai-tools-hub.json vb.
     let products = [];
     if (subSlug) {
-      const subProducts = await fetchJSON(
-        `products-${subSlug}.json`,
-        { optional: true }
-      );
+      // Örn: products-game-makers-unity-2d.json veya products-unity-2d.json
+      let subProducts =
+        await fetchJSON(`products-${storeSlug}-${subSlug}.json`, {
+          optional: true
+        });
+
+      if (!Array.isArray(subProducts)) {
+        subProducts = await fetchJSON(`products-${subSlug}.json`, {
+          optional: true
+        });
+      }
+
       products = Array.isArray(subProducts) ? subProducts : [];
     } else {
+      // Örn: products-game-makers.json
       const storeProducts = await fetchJSON(
         `products-${storeSlug}.json`,
         { optional: true }
@@ -124,31 +139,18 @@
       products = Array.isArray(storeProducts) ? storeProducts : [];
     }
 
-    // 6) layout render
+    // 6) layout
     renderStoreLayout({ storeMeta, substores, subMeta, products });
 
-    // 7) extension hook – mağaza bazlı ekstra JS için açık kapı
-    if (
-      window.RGZTEC_STORE_EXT &&
-      typeof window.RGZTEC_STORE_EXT.init === "function"
-    ) {
-      window.RGZTEC_STORE_EXT.init({
-        store: storeMeta,
-        substore: subMeta,
-        substores,
-        products,
-        root
-      });
-    }
   } catch (err) {
     console.error(err);
     root.innerHTML =
       `<p class="store-error">Store could not be loaded. Please try again later.</p>`;
   }
 
-  // ---- render: STORE HUB (tüm mağazalar) ----
+  // -------- render: ROOT (11 mağaza) --------
 
-  function renderStoreHub({ stores, substoresByParent }) {
+  function renderStoreHub({ stores }) {
     document.title = "RGZTEC • Stores";
 
     let html = `
@@ -157,7 +159,7 @@
           <div class="hero-text">
             <span class="badge">RGZTEC</span>
             <h1>Explore all RGZTEC Stores</h1>
-            <p>Premium templates, tools, and hardware – organized into specialized stores for creators, developers, and makers.</p>
+            <p>11 curated stores and 79 sections, built for developers, makers and creators.</p>
           </div>
         </div>
       </section>
@@ -170,7 +172,7 @@
           <span style="font-size:.75rem;color:#9ca3af;">${stores.length} stores</span>
         </div>
         <div class="substores-grid">
-          ${stores.map((store) => renderMainStoreCard(store, substoresByParent)).join("")}
+          ${stores.map(renderMainStoreCard).join("")}
         </div>
       </section>
     `;
@@ -178,45 +180,39 @@
     root.innerHTML = html;
   }
 
-  function renderMainStoreCard(store, substoresByParent) {
-    // HUB → /store/index.html içindeysek, "hardware/" gibi relative link yeterli
-    const href = `${store.slug}/`;
+  function renderMainStoreCard(store) {
+    const href = `${store.slug}/`; // /store/ altında relative link
     const title = store.title || "";
     const description = store.description || "";
-    const banner = store.banner || "";
-    const categories = substoresByParent?.[store.slug] || [];
-    const catCount = categories.length;
+    const bannerPath = store.banner || ""; // örn: "game-makers/banner.webp"
+    const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
 
     return `
       <a class="substore-card" href="${href}">
         <div class="substore-banner">
           ${
-            banner
-              ? `<img src="${encodeURI(banner)}" alt="${escapeAttr(title + ' banner')}">`
+            bannerUrl
+              ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + ' banner')}">`
               : ""
           }
         </div>
         <div class="substore-body">
           <h3>${escapeHTML(title)}</h3>
           <p>${description ? escapeHTML(description) : ""}</p>
-          ${
-            catCount
-              ? `<span class="substore-pill">${catCount} categories</span>`
-              : ""
-          }
         </div>
       </a>
     `;
   }
 
-  // ---- render: TEKİL STORE LAYOUT ----
+  // -------- render: TEKİL MAĞAZA / DÜKKAN --------
 
   function renderStoreLayout({ storeMeta, substores, subMeta, products }) {
     const title = subMeta ? subMeta.title : storeMeta.title;
     const description = subMeta
       ? subMeta.description
       : storeMeta.description;
-    const banner = subMeta ? subMeta.banner : storeMeta.banner;
+    const bannerPath = subMeta ? subMeta.banner : storeMeta.banner;
+    const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
 
     document.title = `RGZTEC • ${title}`;
 
@@ -231,8 +227,8 @@
           </div>
           <div class="hero-banner">
             ${
-              banner
-                ? `<img src="${encodeURI(banner)}" alt="${escapeAttr(title + " banner")}">`
+              bannerUrl
+                ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title + " banner")}">`
                 : ""
             }
           </div>
@@ -240,29 +236,29 @@
       </section>
     `;
 
-    // SUBSTORE GRID – sadece ana store view'da (subMeta yokken)
+    // Substore grid – sadece mağaza ana view'da (subMeta yokken)
     if (!subMeta && substores && substores.length) {
       html += `
         <section class="store-substores">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;">
-            <h2 style="font-size:0.95rem;margin:0;letter-spacing:-.02em;">Shop categories</h2>
-            <span style="font-size:.75rem;color:#9ca3af;">${substores.length} categories</span>
+            <h2 style="font-size:0.95rem;margin:0;letter-spacing:-.02em;">Sections</h2>
+            <span style="font-size:.75rem;color:#9ca3af;">${substores.length} sections</span>
           </div>
           <div class="substores-grid">
-            ${substores.map((ss) => renderSubstoreCard(ss)).join("")}
+            ${substores.map(renderSubstoreCard).join("")}
           </div>
         </section>
       `;
     }
 
-    // PRODUCTS
+    // Products
     html += `
       <section class="store-products">
         ${
           products && products.length
             ? `
           <div class="products-grid">
-            ${products.map((p) => renderProductCard(p)).join("")}
+            ${products.map(renderProductCard).join("")}
           </div>
         `
             : `<p class="store-empty">No products found in this view yet.</p>`
@@ -274,18 +270,18 @@
   }
 
   function renderSubstoreCard(ss) {
-    // /store/hardware/index.html içindeyiz → "ai-tools-hub/" gibi relative link
-    const href = `${ss.slug}/`;
+    const href = `${ss.slug}/`; // /store/{storeSlug}/ altındaki index.html'lere gider
     const title = ss.title || "";
     const description = ss.description || "";
-    const banner = ss.banner || "";
+    const bannerPath = ss.banner || "";
+    const bannerUrl = bannerPath ? buildImageUrl(bannerPath) : "";
 
     return `
       <a class="substore-card" href="${href}">
         <div class="substore-banner">
           ${
-            banner
-              ? `<img src="${encodeURI(banner)}" alt="${escapeAttr(title)}">`
+            bannerUrl
+              ? `<img src="${encodeURI(bannerUrl)}" alt="${escapeAttr(title)}">`
               : ""
           }
         </div>
@@ -302,14 +298,15 @@
     const subtitle = p.subtitle || "";
     const price = p.price || "";
     const tag = p.tag || "";
-    const image = p.image || ""; // örn: "assets/images/store/hardware/board-1.webp"
+    const imagePath = p.image || ""; // örn: "hardware/boards/nvidia-1.webp"
+    const imageUrl = imagePath ? buildImageUrl(imagePath) : "";
 
     return `
       <article class="product-card">
         <div class="product-media">
           ${
-            image
-              ? `<img src="${encodeURI(image)}" alt="${escapeAttr(title)}">`
+            imageUrl
+              ? `<img src="${encodeURI(imageUrl)}" alt="${escapeAttr(title)}">`
               : ""
           }
         </div>
