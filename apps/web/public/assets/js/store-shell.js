@@ -192,9 +192,7 @@
       `<p class="store-error">Store could not be loaded. Please try again later.</p>`;
   }
 
-  // ---------- render: root /store/ hub ----------
-
-  function renderStoreHub({ stores }) {
+    function renderStoreHub({ stores }) {
     document.title = "RGZTEC • Stores";
 
     let html = `
@@ -207,7 +205,7 @@
           </div>
         </div>
       </section>
-    ";
+    `;
 
     html += `
       <section class="store-substores">
