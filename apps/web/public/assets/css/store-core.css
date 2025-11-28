@@ -28,11 +28,14 @@ body.store-body {
 
 /* Ortadaki ana container */
 
-#store-root {
-  max-width: 1200px;
+/* Store sayfalarında gövdeyi daha geniş kullan */
+body.store-body[data-store="game-makers"] #store-root {
+  width: 100%;
+  max-width: none;            /* genişlik sınırı yok */
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 4rem;
+  padding: 2.5rem 2.5rem 4rem; /* sağ/sol biraz daha açtık */
 }
+
 
 /* =========================
    HERO (büyük üst kart)
