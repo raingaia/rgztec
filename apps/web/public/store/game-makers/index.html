@@ -1,215 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>RGZTEC • Game Makers</title>
   <meta name="description"
-        content="Game Makers – Unity, Unreal templates, UI kits, controllers and game-ready VFX/SFX assets." />
+    content="Premium Unity & Unreal templates, UI kits, controllers, VFX/SFX, and game-ready assets in the RGZTEC Game Makers marketplace." />
 
-  <!-- GLOBAL CSS -->
-  <link rel="stylesheet" href="/rgztec/assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="/rgztec/assets/css/base.css?v=4">
-  <link rel="stylesheet" href="/rgztec/assets/css/theme-global.css?v=1">
-  <link rel="stylesheet" href="/rgztec/assets/css/theme-corporate.css?v=1">
+  <!-- BASE PATH -->
+  <base href="/rgztec/">
 
-  <!-- STORE CSS -->
-  <link rel="stylesheet" href="/rgztec/assets/css/store-core.css?v=4">
+  <!-- CORE CSS -->
+  <link rel="stylesheet" href="assets/css/store-core.css?v=4" />
+  <link rel="stylesheet" href="assets/css/index.css?v=4" />
 
-  <!-- PAGE CSS -->
-  <link rel="stylesheet" href="/rgztec/assets/css/index.css?v=4">
-
-  <!-- FONT -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" />
 </head>
 
-<body class="store-body" data-store="game-makers" data-page="store-game-makers">
+<!-- STORE BODY -->
+<body class="store-body" data-store="game-makers">
 
-  <!-- =======================================================
-       STORE HERO  (Yeni mağaza header)
-       ======================================================= -->
-  <section class="store-hero" style="padding:32px 0 20px;">
-    <div class="hero-inner" style="display:flex; gap:28px; align-items:center; max-width:1280px; margin:auto;">
+  <!-- ROOT -->
+  <div id="store-root">
 
-      <!-- LEFT TEXT -->
-      <div class="hero-text" style="flex:1;">
-        <div class="badge" style="margin-bottom:12px;">
-          <span>GAME MAKERS</span>
+    <!-- ========================================================= -->
+    <!-- GAME MAKERS HERO (ANA SAYFA DUVAR TEKRARI) -->
+    <!-- ========================================================= -->
+    <section class="gm-hero">
+      <div class="gm-hero-inner">
+
+        <div class="gm-left">
+          <div class="gm-eyebrow">#1 Best Selling Game Kits Marketplace</div>
+
+          <h1 class="gm-title">
+            Premium <span class="accent">Game Makers</span> Marketplace
+          </h1>
+
+          <p class="gm-desc">
+            Unity & Unreal templates, UI kits, controllers, VFX/SFX and
+            high-quality game-ready assets trusted by thousands of creators.
+          </p>
+
+          <!-- HERO MINI CARDS -->
+          <div class="gm-cards">
+            <div class="gm-card">
+              <h3>For Unity Devs</h3>
+              <p>2D/3D ready-to-use kits & controllers.</p>
+            </div>
+
+            <div class="gm-card">
+              <h3>For Unreal Devs</h3>
+              <p>Blueprint-based starter kits.</p>
+            </div>
+
+            <div class="gm-card">
+              <h3>For Studios</h3>
+              <p>Standardized UI & production assets.</p>
+            </div>
+          </div>
+
+          <div class="gm-meta">
+            6+ curated game sections • Instant digital delivery • Secure checkout
+          </div>
+
+          <a class="gm-cta" href="#">
+            Explore Game Maker Stores →
+          </a>
         </div>
 
-        <h1 style="font-size:38px; font-weight:900; margin:0 0 12px;">Game Makers</h1>
-
-        <p style="max-width:520px; color:#6b7280; font-size:17px;">
-          Unity & Unreal templates, UI kits, controllers and game-ready VFX/SFX assets.
-        </p>
-
-        <div class="hero-tags" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-          <span>Unity</span>
-          <span>Unreal Engine</span>
-          <span>Game UI</span>
-          <span>Controllers</span>
+        <div class="gm-right">
+          <img src="apps/web/public/assets/images/store/game-makers.webp"
+               alt="Game Makers Banner"/>
         </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- ARAMA ÇUBUĞU -->
+    <!-- ========================================================= -->
+    <div class="store-search">
+      <div class="store-search-row">
+        <input
+          type="text"
+          class="store-search-input"
+          placeholder="Search inside Game Makers (coming soon)"
+          disabled
+        />
+        <button class="store-search-button" disabled>Search</button>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- SUBSTORES (BÜYÜK 6 KART) -->
+    <!-- ========================================================= -->
+    <div class="store-substores">
+
+      <div class="store-section-header">
+        <h2>Sections</h2>
+        <span>6 curated sub-stores</span>
       </div>
 
-      <!-- RIGHT HERO BANNER -->
-      <div class="hero-banner" style="width:420px; height:220px; border-radius:20px; overflow:hidden;">
-        <img src="/rgztec/assets/images/store/game-makers/banner.webp"
-             alt="Game Makers – Unity & Unreal kits"
-             style="width:100%; height:100%; object-fit:cover;">
+      <div class="substores-grid">
+
+        <!-- Unity 2D -->
+        <a href="#" class="substore-card">
+          <div class="substore-banner">
+            <img src="apps/web/public/assets/images/store/game-makers/unity2d.webp" alt="">
+          </div>
+          <div class="substore-body">
+            <h3>Unity 2D</h3>
+            <p>Complete 2D starter kits for Unity developers.</p>
+          </div>
+        </a>
+
+        <!-- Unity 3D -->
+        <a href="#" class="substore-card">
+          <div class="substore-banner">
+            <img src="apps/web/public/assets/images/store/game-makers/unity3d.webp" alt="">
+          </div>
+          <div class="substore-body">
+            <h3>Unity 3D</h3>
+            <p>3D environments, prefabs and assets.</p>
+          </div>
+        </a>
+
+        <!-- Unreal Kits -->
+        <a href="#" class="substore-card">
+          <div class="substore-banner">
+            <img src="apps/web/public/assets/images/store/game-makers/unreal.webp" alt="">
+          </div>
+          <div class="substore-body">
+            <h3>Unreal Kits</h3>
+            <p>Blueprint-based starter kits.</p>
+          </div>
+        </a>
+
+        <!-- Controllers -->
+        <a href="#" class="substore-card">
+          <div class="substore-banner">
+            <img src="apps/web/public/assets/images/store/game-makers/controllers.webp" alt="">
+          </div>
+          <div class="substore-body">
+            <h3>Controllers</h3>
+            <p>FPS, platformer and character controllers.</p>
+          </div>
+        </a>
+
+        <!-- VFX/SFX -->
+        <a href="#" class="substore-card">
+          <div class="substore-banner">
+            <img src="apps/web/public/assets/images/store/game-makers/vfxsfx.webp" alt="">
+          </div>
+          <div class="substore-body">
+            <h3>VFX / SFX</h3>
+            <p>Visual and sound effects.</p>
+          </div>
+        </a>
+
+        <!-- Game UI -->
+        <a href="#" class="substore-card">
+          <div class="substore-banner">
+            <img src="apps/web/public/assets/images/store/game-makers/ui.webp" alt="">
+          </div>
+          <div class="substore-body">
+            <h3>Game UI</h3>
+            <p>UI packs and overlays.</p>
+          </div>
+        </a>
+
       </div>
-
-    </div>
-  </section>
-
-  <!-- =======================================================
-       DEVBANNER – Ana sayfadaki büyük banner (tam genişlik)
-       ======================================================= -->
-  <section class="promo-banner" style="max-width:1400px; margin:0 auto 30px;">
-    <img src="/rgztec/assets/images/store/game-makers.webp"
-         alt="Game Makers Promotion"
-         style="width:100%; border-radius:24px; display:block;">
-  </section>
-
-
-  <!-- =======================================================
-       STORE INTERNAL SEARCH
-       ======================================================= -->
-  <section class="store-search" style="max-width:780px; margin:0 auto 40px;">
-    <div class="store-search-row" style="display:flex; gap:16px;">
-      <input
-        type="search"
-        class="store-search-input"
-        placeholder="Search inside Game Makers (coming soon)"
-        disabled
-        style="flex:1; height:48px; padding:0 16px; border-radius:14px; border:1px solid #d1d5db;">
-      <button disabled
-              style="padding:0 26px; border-radius:14px; background:#f97316; color:white; border:none;">
-        Search
-      </button>
-    </div>
-  </section>
-
-
-  <!-- =======================================================
-       SECTIONS – Büyük kart grid (3x2)
-       ======================================================= -->
-  <section class="store-substores" style="max-width:1280px; margin:0 auto 80px;">
-    <div class="store-section-header" style="margin-bottom:24px;">
-      <h2 style="margin:0; font-size:24px; font-weight:800;">Sections</h2>
-      <span style="color:#6b7280;">Unity, Unreal & game-ready kits</span>
     </div>
 
-    <div class="substores-grid"
-         style="
-          display:grid;
-          grid-template-columns:repeat(3, 1fr);
-          gap:32px;
-        ">
+  </div>
 
-      <!-- UNITY 2D -->
-      <a href="/rgztec/store/listing.html?store=game-makers&shop=unity-2d"
-         class="substore-card"
-         style="border:1px solid #e5e7eb; border-radius:20px; overflow:hidden; background:white;">
-        <img src="/rgztec/assets/images/store/game-makers/unity-2d/banner.webp"
-             style="width:100%; height:200px; object-fit:cover;">
-        <div style="padding:20px;">
-          <h3 style="margin:0 0 6px; font-size:20px;">Unity 2D</h3>
-          <p style="color:#6b7280;">Complete 2D starter kits for Unity developers.</p>
-        </div>
-      </a>
-
-      <!-- UNITY 3D -->
-      <a href="/rgztec/store/listing.html?store=game-makers&shop=unity-3d"
-         class="substore-card"
-         style="border:1px solid #e5e7eb; border-radius:20px; overflow:hidden; background:white;">
-        <img src="/rgztec/assets/images/store/game-makers/unity-3d/banner.webp"
-             style="width:100%; height:200px; object-fit:cover;">
-        <div style="padding:20px;">
-          <h3 style="margin:0 0 6px; font-size:20px;">Unity 3D</h3>
-          <p style="color:#6b7280;">3D environments, prefabs and assets.</p>
-        </div>
-      </a>
-
-      <!-- UNREAL -->
-      <a href="/rgztec/store/listing.html?store=game-makers&shop=unreal"
-         class="substore-card"
-         style="border:1px solid #e5e7eb; border-radius:20px; overflow:hidden; background:white;">
-        <img src="/rgztec/assets/images/store/game-makers/unreal/banner.webp"
-             style="width:100%; height:200px; object-fit:cover;">
-        <div style="padding:20px;">
-          <h3 style="margin:0 0 6px; font-size:20px;">Unreal Kits</h3>
-          <p style="color:#6b7280;">Blueprint-based starter kits.</p>
-        </div>
-      </a>
-
-      <!-- CONTROLLERS -->
-      <a href="/rgztec/store/listing.html?store=game-makers&shop=controllers"
-         class="substore-card"
-         style="border:1px solid #e5e7eb; border-radius:20px; overflow:hidden; background:white;">
-        <img src="/rgztec/assets/images/store/game-makers/controllers/banner.webp"
-             style="width:100%; height:200px; object-fit:cover;">
-        <div style="padding:20px;">
-          <h3 style="margin:0 0 6px; font-size:20px;">Controllers</h3>
-          <p style="color:#6b7280;">FPS, platformer and character controllers.</p>
-        </div>
-      </a>
-
-      <!-- EFFECTS -->
-      <a href="/rgztec/store/listing.html?store=game-makers&shop=effects"
-         class="substore-card"
-         style="border:1px solid #e5e7eb; border-radius:20px; overflow:hidden; background:white;">
-        <img src="/rgztec/assets/images/store/game-makers/effects/banner.webp"
-             style="width:100%; height:200px; object-fit:cover;">
-        <div style="padding:20px;">
-          <h3 style="margin:0 0 6px; font-size:20px;">VFX / SFX</h3>
-          <p style="color:#6b7280;">Visual and sound effects.</p>
-        </div>
-      </a>
-
-      <!-- GAME UI -->
-      <a href="/rgztec/store/listing.html?store=game-makers&shop=game-ui"
-         class="substore-card"
-         style="border:1px solid #e5e7eb; border-radius:20px; overflow:hidden; background:white;">
-        <img src="/rgztec/assets/images/store/game-makers/game-ui/banner.webp"
-             style="width:100%; height:200px; object-fit:cover;">
-        <div style="padding:20px;">
-          <h3 style="margin:0 0 6px; font-size:20px;">Game UI</h3>
-          <p style="color:#6b7280;">UI packs and overlays.</p>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer class="site-footer" style="padding:26px 0; background:#f9fafb;">
-    <div class="site-footer-inner" style="text-align:center; color:#6b7280;">
-      © <span id="yearSpan"></span> RGZTEC Marketplace — Game Makers
-    </div>
-  </footer>
-
-  <script>
-    document.getElementById("yearSpan").textContent = new Date().getFullYear();
-  </script>
+  <!-- STORE SHELL -->
+  <script src="apps/web/public/store/core/assets/js/store-shell.js?v=4"></script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
