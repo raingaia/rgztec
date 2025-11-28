@@ -7,7 +7,7 @@
   <meta name="description"
         content="Game Makers — Unity & Unreal templates, UI kits and game-ready assets on RGZTEC Marketplace." />
 
-  <!-- ÖNEMLİ: docs kökü /rgztec/ -->
+  <!-- KÖK: /rgztec/ -->
   <base href="/rgztec/">
 
   <!-- ANA SAYFAYLA AYNI CSS STACK -->
@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="assets/css/theme-tokens.css">
   <link rel="stylesheet" href="assets/css/theme-global.css">
   <link rel="stylesheet" href="assets/css/theme-corporate.css">
-
   <link rel="stylesheet" href="assets/css/card.css">
   <link rel="stylesheet" href="assets/css/store-core.css">
   <link rel="stylesheet" href="assets/css/store-page.css">
@@ -24,7 +23,7 @@
 
 <body class="store-body" data-page="store-game-makers" data-store="game-makers">
   <!-- =======================================================
-       HEADER – ana sayfa ile aynı yapı
+       HEADER – ana sayfayla aynı
        ======================================================= -->
   <header class="topbar">
     <div class="topbar-inner">
@@ -59,7 +58,7 @@
   <main>
     <div id="store-root">
 
-      <!-- HERO – ekrandaki görünüm -->
+      <!-- HERO – Game Makers başlık + sağda kendi banner’ı -->
       <section class="store-hero">
         <div class="hero-inner">
           <div class="hero-text">
@@ -78,13 +77,12 @@
           </div>
 
           <div class="hero-banner">
-            <div class="hero-banner-placeholder">
-              <div class="hero-badge-line">GAME MAKERS</div>
-              <div class="hero-banner-title">Unity &amp; Unreal kits</div>
-              <div class="hero-banner-subtitle">
-                Game-ready assets for modern engines.
-              </div>
-            </div>
+            <!-- Buraya kendi .webp bannerın gelecek -->
+            <img
+              src="assets/images/store/game-makers/banner.webp"
+              alt="Game Makers – Unity & Unreal kits"
+              style="width:100%;height:100%;object-fit:cover;"
+            />
           </div>
         </div>
       </section>
@@ -105,10 +103,79 @@
         </div>
       </section>
 
-      <!-- ŞİMDİLİK SADECE MESAJ -->
-      <section class="store-products">
-        <div class="store-empty-soft">
-          Sections coming soon.
+      <!-- GAME MAKERS DÜKKANLARI (Unity 2D, 3D, Unreal, vb.) -->
+      <section class="store-substores">
+        <div class="store-section-header">
+          <h2>Sections</h2>
+          <span>Unity, Unreal &amp; game-ready kits</span>
+        </div>
+
+        <div class="substores-grid">
+          <!-- Unity 2D -->
+          <a href="store/listing.html?store=game-makers&amp;shop=unity-2d" class="substore-card">
+            <div class="substore-banner">
+              <img src="assets/images/store/game-makers/unity-2d/banner.webp" alt="Unity 2D">
+            </div>
+            <div class="substore-body">
+              <h3>Unity 2D</h3>
+              <p>2D game kits and controllers for Unity.</p>
+            </div>
+          </a>
+
+          <!-- Unity 3D -->
+          <a href="store/listing.html?store=game-makers&amp;shop=unity-3d" class="substore-card">
+            <div class="substore-banner">
+              <img src="assets/images/store/game-makers/unity-3d/banner.webp" alt="Unity 3D">
+            </div>
+            <div class="substore-body">
+              <h3>Unity 3D</h3>
+              <p>3D scenes and prefabs for Unity.</p>
+            </div>
+          </a>
+
+          <!-- Unreal Kits -->
+          <a href="store/listing.html?store=game-makers&amp;shop=unreal" class="substore-card">
+            <div class="substore-banner">
+              <img src="assets/images/store/game-makers/unreal/banner.webp" alt="Unreal Kits">
+            </div>
+            <div class="substore-body">
+              <h3>Unreal Kits</h3>
+              <p>Blueprint-based game starter kits.</p>
+            </div>
+          </a>
+
+          <!-- Game Controllers -->
+          <a href="store/listing.html?store=game-makers&amp;shop=controllers" class="substore-card">
+            <div class="substore-banner">
+              <img src="assets/images/store/game-makers/controllers/banner.webp" alt="Game Controllers">
+            </div>
+            <div class="substore-body">
+              <h3>Game Controllers</h3>
+              <p>FPS, platformer and character controllers.</p>
+            </div>
+          </a>
+
+          <!-- VFX / SFX -->
+          <a href="store/listing.html?store=game-makers&amp;shop=effects" class="substore-card">
+            <div class="substore-banner">
+              <img src="assets/images/store/game-makers/effects/banner.webp" alt="VFX / SFX">
+            </div>
+            <div class="substore-body">
+              <h3>VFX / SFX</h3>
+              <p>Visual and sound effect packs.</p>
+            </div>
+          </a>
+
+          <!-- Game UI -->
+          <a href="store/listing.html?store=game-makers&amp;shop=game-ui" class="substore-card">
+            <div class="substore-banner">
+              <img src="assets/images/store/game-makers/game-ui/banner.webp" alt="Game UI">
+            </div>
+            <div class="substore-body">
+              <h3>Game UI</h3>
+              <p>Custom UI kits for games and overlays.</p>
+            </div>
+          </a>
         </div>
       </section>
     </div>
@@ -122,7 +189,7 @@
     </div>
   </footer>
 
-  <!-- Ortak JS (header koruma + vs.) -->
+  <!-- Ortak JS -->
   <script src="app.js?v=1" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -132,6 +199,7 @@
   </script>
 </body>
 </html>
+
 
 
 
