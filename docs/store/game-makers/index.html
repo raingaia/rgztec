@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>RGZTEC • Game Makers</title>
+  <meta name="description" content="Game Makers store on RGZTEC — Unity & Unreal templates, UI kits and game-ready assets." />
 
-  <!-- TÜM PATHLERİN DOĞRUSU -->
+  <!-- TÜM RELATIVE YOLLARIN KÖKÜ -->
   <base href="/rgztec/">
 
   <!-- ANA SAYFA İLE AYNI CSS SIRASI -->
@@ -24,11 +25,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
-
-
 <body class="store-body" data-page="store-game-makers" data-store="game-makers">
   <!-- =======================================================
-       HEADER – ana sayfayla aynı
+       HEADER – ana sayfayla aynı yapı
        ======================================================= -->
   <header class="topbar">
     <div class="topbar-inner">
@@ -62,7 +61,6 @@
        ======================================================= -->
   <main>
     <div id="store-root">
-
       <!-- HERO – Game Makers başlık + sağda kendi banner’ı -->
       <section class="store-hero">
         <div class="hero-inner">
@@ -82,9 +80,9 @@
           </div>
 
           <div class="hero-banner">
-            <!-- Buraya kendi .webp bannerın gelecek -->
+            <!-- Game Makers ana banner (.webp) -->
             <img
-              src="assets/images/store/game-makers/banner.webp"
+              src="docs/assets/images/store/game-makers/banner.webp"
               alt="Game Makers – Unity & Unreal kits"
               style="width:100%;height:100%;object-fit:cover;"
             />
@@ -119,7 +117,7 @@
           <!-- Unity 2D -->
           <a href="store/listing.html?store=game-makers&amp;shop=unity-2d" class="substore-card">
             <div class="substore-banner">
-              <img src="assets/images/store/game-makers/unity-2d/banner.webp" alt="Unity 2D">
+              <img src="docs/assets/images/store/game-makers/unity-2d/banner.webp" alt="Unity 2D">
             </div>
             <div class="substore-body">
               <h3>Unity 2D</h3>
@@ -130,7 +128,7 @@
           <!-- Unity 3D -->
           <a href="store/listing.html?store=game-makers&amp;shop=unity-3d" class="substore-card">
             <div class="substore-banner">
-              <img src="assets/images/store/game-makers/unity-3d/banner.webp" alt="Unity 3D">
+              <img src="docs/assets/images/store/game-makers/unity-3d/banner.webp" alt="Unity 3D">
             </div>
             <div class="substore-body">
               <h3>Unity 3D</h3>
@@ -141,7 +139,7 @@
           <!-- Unreal Kits -->
           <a href="store/listing.html?store=game-makers&amp;shop=unreal" class="substore-card">
             <div class="substore-banner">
-              <img src="assets/images/store/game-makers/unreal/banner.webp" alt="Unreal Kits">
+              <img src="docs/assets/images/store/game-makers/unreal/banner.webp" alt="Unreal Kits">
             </div>
             <div class="substore-body">
               <h3>Unreal Kits</h3>
@@ -152,7 +150,7 @@
           <!-- Game Controllers -->
           <a href="store/listing.html?store=game-makers&amp;shop=controllers" class="substore-card">
             <div class="substore-banner">
-              <img src="assets/images/store/game-makers/controllers/banner.webp" alt="Game Controllers">
+              <img src="docs/assets/images/store/game-makers/controllers/banner.webp" alt="Game Controllers">
             </div>
             <div class="substore-body">
               <h3>Game Controllers</h3>
@@ -163,7 +161,7 @@
           <!-- VFX / SFX -->
           <a href="store/listing.html?store=game-makers&amp;shop=effects" class="substore-card">
             <div class="substore-banner">
-              <img src="assets/images/store/game-makers/effects/banner.webp" alt="VFX / SFX">
+              <img src="docs/assets/images/store/game-makers/effects/banner.webp" alt="VFX / SFX">
             </div>
             <div class="substore-body">
               <h3>VFX / SFX</h3>
@@ -174,7 +172,7 @@
           <!-- Game UI -->
           <a href="store/listing.html?store=game-makers&amp;shop=game-ui" class="substore-card">
             <div class="substore-banner">
-              <img src="assets/images/store/game-makers/game-ui/banner.webp" alt="Game UI">
+              <img src="docs/assets/images/store/game-makers/game-ui/banner.webp" alt="Game UI">
             </div>
             <div class="substore-body">
               <h3>Game UI</h3>
@@ -194,8 +192,8 @@
     </div>
   </footer>
 
-  <!-- Ortak JS -->
-  <script src="app.js?v=1" defer></script>
+  <!-- Ortak JS (ANA SAYFA İLE AYNI) -->
+  <script src="docs/app.js?v=1" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       var el = document.getElementById("yearSpan");
@@ -204,6 +202,7 @@
   </script>
 </body>
 </html>
+
 
 
 
