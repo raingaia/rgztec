@@ -105,6 +105,10 @@
   color: var(--text-sub);
   background: #f9fafb;
 }
+/* Game Makers sayfasında kategori barının alt çizgisini kaldır */
+body[data-store="game-makers"] .cats-wrap::after {
+  border-bottom: none;
+}
 
 /* Responsive sadece ürün görseli için */
 
