@@ -6,30 +6,26 @@
   <title>RGZTEC • Game Makers</title>
   <meta name="description" content="Game Makers — Unity & Unreal templates, UI kits and game-ready assets on RGZTEC Marketplace." />
 
-  <!-- Tüm relative path'ler için kök -->
-  <base href="/rgztec/">
+  <!-- ANA SAYFADAKİYLE AYNI CSS STACK (renkleri vs hiç bozmadım) -->
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/base.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/theme-tokens.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/theme-global.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/theme-corporate.css">
 
-  <!-- Ana stil katmanı (home ile aynı stack) -->
-  <link rel="stylesheet" href="docs/assets/css/base.css">
-  <link rel="stylesheet" href="docs/assets/css/theme-tokens.css">
-  <link rel="stylesheet" href="docs/assets/css/theme-global.css">
-  <link rel="stylesheet" href="docs/assets/css/theme-corporate.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/card.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/store-core.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/store-page.css">
 
-  <!-- Kart + store özel stiller -->
-  <link rel="stylesheet" href="docs/assets/css/card.css">
-  <link rel="stylesheet" href="docs/assets/css/store-core.css">
-  <link rel="stylesheet" href="docs/assets/css/store-page.css">
-
-  <link rel="stylesheet" href="docs/assets/css/interactions.css">
+  <link rel="stylesheet" href="/rgztec/docs/assets/css/interactions.css">
 </head>
 
 <body class="store-body" data-page="store-game-makers" data-store="game-makers">
   <!-- =======================================================
-       HEADER – Ana sayfayla aynı kalite
+       HEADER – ANA SAYFANIN BİREBİR AYNI YAPISI
        ======================================================= -->
   <header class="topbar">
     <div class="topbar-inner">
-      <a href="index.html" class="brand">
+      <a href="/rgztec/index.html" class="brand">
         <div class="brand-mark">R</div>
         <div class="brand-text">
           <span class="brand-title">RGZTEC</span>
@@ -38,16 +34,16 @@
       </a>
 
       <nav class="categories">
-        <a href="catalog/dev-studio-one.html" data-key="web">Web &amp; UI</a>
-        <a href="catalog/ecommerce.html" data-key="ecom">E-commerce</a>
-        <a href="catalog/widgets.html" data-key="widgets">Widgets &amp; Tools</a>
-        <a href="catalog/software.html" data-key="software">Apps &amp; Games</a>
-        <a href="catalog/email-forge.html" data-key="niche">Email &amp; Niche</a>
+        <a href="/rgztec/catalog/dev-studio-one.html" data-key="web">Web &amp; UI</a>
+        <a href="/rgztec/catalog/ecommerce.html" data-key="ecom">E-commerce</a>
+        <a href="/rgztec/catalog/widgets.html" data-key="widgets">Widgets &amp; Tools</a>
+        <a href="/rgztec/catalog/software.html" data-key="software">Apps &amp; Games</a>
+        <a href="/rgztec/catalog/email-forge.html" data-key="niche">Email &amp; Niche</a>
       </nav>
 
       <div class="topbar-cta">
-        <a href="create-account/index.html" class="btn-ghost">Open a Store</a>
-        <a href="catalog/index.html" class="btn-primary">Browse Catalog</a>
+        <a href="/rgztec/create-account/index.html" class="btn-ghost">Open a Store</a>
+        <a href="/rgztec/catalog/index.html" class="btn-primary">Browse Catalog</a>
       </div>
     </div>
   </header>
@@ -60,7 +56,7 @@
   <main>
     <div id="store-root">
 
-      <!-- HERO – Ekran görüntüsündeki yapı -->
+      <!-- HERO – Senin gösterdiğin ekranla aynı yapı -->
       <section class="store-hero">
         <div class="hero-inner">
           <div class="hero-text">
@@ -79,7 +75,6 @@
           </div>
 
           <div class="hero-banner">
-            <!-- Burayı gradient + metinle dolduralım (sen istersen görsel de koyarsın) -->
             <div class="hero-banner-placeholder">
               <div class="hero-badge-line">GAME MAKERS</div>
               <div class="hero-banner-title">Unity &amp; Unreal kits</div>
@@ -116,9 +111,9 @@
 
         <div class="substores-grid">
           <!-- Unity 2D -->
-          <a href="store/listing.html?store=game-makers&amp;shop=unity-2d" class="substore-card">
+          <a href="/rgztec/store/listing.html?store=game-makers&amp;shop=unity-2d" class="substore-card">
             <div class="substore-banner">
-              <img src="docs/assets/images/store/game-makers/unity-2d/banner.webp" alt="Unity 2D">
+              <img src="/rgztec/docs/assets/images/store/game-makers/unity-2d/banner.webp" alt="Unity 2D">
             </div>
             <div class="substore-body">
               <h3>Unity 2D</h3>
@@ -127,9 +122,9 @@
           </a>
 
           <!-- Unity 3D -->
-          <a href="store/listing.html?store=game-makers&amp;shop=unity-3d" class="substore-card">
+          <a href="/rgztec/store/listing.html?store=game-makers&amp;shop=unity-3d" class="substore-card">
             <div class="substore-banner">
-              <img src="docs/assets/images/store/game-makers/unity-3d/banner.webp" alt="Unity 3D">
+              <img src="/rgztec/docs/assets/images/store/game-makers/unity-3d/banner.webp" alt="Unity 3D">
             </div>
             <div class="substore-body">
               <h3>Unity 3D</h3>
@@ -138,9 +133,9 @@
           </a>
 
           <!-- Unreal Kits -->
-          <a href="store/listing.html?store=game-makers&amp;shop=unreal" class="substore-card">
+          <a href="/rgztec/store/listing.html?store=game-makers&amp;shop=unreal" class="substore-card">
             <div class="substore-banner">
-              <img src="docs/assets/images/store/game-makers/unreal/banner.webp" alt="Unreal Kits">
+              <img src="/rgztec/docs/assets/images/store/game-makers/unreal/banner.webp" alt="Unreal Kits">
             </div>
             <div class="substore-body">
               <h3>Unreal Kits</h3>
@@ -149,9 +144,9 @@
           </a>
 
           <!-- Game Controllers -->
-          <a href="store/listing.html?store=game-makers&amp;shop=controllers" class="substore-card">
+          <a href="/rgztec/store/listing.html?store=game-makers&amp;shop=controllers" class="substore-card">
             <div class="substore-banner">
-              <img src="docs/assets/images/store/game-makers/controllers/banner.webp" alt="Game Controllers">
+              <img src="/rgztec/docs/assets/images/store/game-makers/controllers/banner.webp" alt="Game Controllers">
             </div>
             <div class="substore-body">
               <h3>Game Controllers</h3>
@@ -160,9 +155,9 @@
           </a>
 
           <!-- VFX / SFX -->
-          <a href="store/listing.html?store=game-makers&amp;shop=effects" class="substore-card">
+          <a href="/rgztec/store/listing.html?store=game-makers&amp;shop=effects" class="substore-card">
             <div class="substore-banner">
-              <img src="docs/assets/images/store/game-makers/effects/banner.webp" alt="VFX / SFX">
+              <img src="/rgztec/docs/assets/images/store/game-makers/effects/banner.webp" alt="VFX / SFX">
             </div>
             <div class="substore-body">
               <h3>VFX / SFX</h3>
@@ -171,9 +166,9 @@
           </a>
 
           <!-- Game UI -->
-          <a href="store/listing.html?store=game-makers&amp;shop=game-ui" class="substore-card">
+          <a href="/rgztec/store/listing.html?store=game-makers&amp;shop=game-ui" class="substore-card">
             <div class="substore-banner">
-              <img src="docs/assets/images/store/game-makers/game-ui/banner.webp" alt="Game UI">
+              <img src="/rgztec/docs/assets/images/store/game-makers/game-ui/banner.webp" alt="Game UI">
             </div>
             <div class="substore-body">
               <h3>Game UI</h3>
@@ -194,7 +189,7 @@
   </footer>
 
   <!-- Ortak JS -->
-  <script src="docs/app.js?v=1" defer></script>
+  <script src="/rgztec/docs/app.js?v=1" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       var el = document.getElementById("yearSpan");
@@ -203,6 +198,7 @@
   </script>
 </body>
 </html>
+
 
 
 
