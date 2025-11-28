@@ -28,7 +28,7 @@ body.store-body {
 
 /* Ortadaki ana container */
 
-#store-root {
+body.store-body #store-root {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
@@ -38,11 +38,11 @@ body.store-body {
    HERO (büyük üst kart)
    ========================= */
 
-.store-hero {
+body.store-body .store-hero {
   margin-bottom: 1.8rem;
 }
 
-.store-hero .hero-inner {
+body.store-body .store-hero .hero-inner {
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
   gap: 2rem;
@@ -54,13 +54,13 @@ body.store-body {
   box-shadow: var(--shadow-soft);
 }
 
-.store-hero .hero-text {
+body.store-body .store-hero .hero-text {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.store-hero .badge {
+body.store-body .store-hero .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -74,27 +74,27 @@ body.store-body {
   color: #4b5563;
 }
 
-.store-hero h1 {
+body.store-body .store-hero h1 {
   font-size: clamp(1.9rem, 2.7vw, 2.4rem);
   line-height: 1.1;
   margin: 0;
 }
 
-.store-hero p {
+body.store-body .store-hero p {
   margin: 0;
   color: var(--text-sub);
   font-size: 0.95rem;
   max-width: 32rem;
 }
 
-.hero-tags {
+body.store-body .hero-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
   margin-top: 0.3rem;
 }
 
-.hero-tags span {
+body.store-body .hero-tags span {
   padding: 0.16rem 0.7rem;
   border-radius: 999px;
   background: #f3f4ff;
@@ -104,7 +104,7 @@ body.store-body {
 
 /* Sağ taraftaki banner alanı */
 
-.store-hero .hero-banner {
+body.store-body .store-hero .hero-banner {
   border-radius: 1.25rem;
   background: radial-gradient(circle at top, #dbeafe 0, #bfdbfe 40%, #a5b4fc 100%);
   position: relative;
@@ -114,7 +114,7 @@ body.store-body {
   justify-content: center;
 }
 
-.store-hero .hero-banner img {
+body.store-body .store-hero .hero-banner img {
   max-width: 100%;
   height: auto;
   display: block;
@@ -122,25 +122,25 @@ body.store-body {
 
 /* Placeholder kullandığımızda */
 
-.hero-banner-placeholder {
+body.store-body .hero-banner-placeholder {
   text-align: center;
   color: #0f172a;
 }
 
-.hero-banner-placeholder .hero-badge-line {
+body.store-body .hero-banner-placeholder .hero-badge-line {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   opacity: 0.7;
 }
 
-.hero-banner-placeholder .hero-banner-title {
+body.store-body .hero-banner-placeholder .hero-banner-title {
   font-size: 1.5rem;
   font-weight: 700;
   margin-top: 0.3rem;
 }
 
-.hero-banner-placeholder .hero-banner-subtitle {
+body.store-body .hero-banner-placeholder .hero-banner-subtitle {
   font-size: 0.9rem;
   opacity: 0.75;
   margin-top: 0.2rem;
@@ -150,17 +150,17 @@ body.store-body {
    ARAMA ÇUBUĞU
    ========================= */
 
-.store-search {
+body.store-body .store-search {
   margin-bottom: 1.75rem;
 }
 
-.store-search-row {
+body.store-body .store-search-row {
   display: flex;
   gap: 0.75rem;
   align-items: center;
 }
 
-.store-search-input {
+body.store-body .store-search-input {
   flex: 1;
   height: 44px;
   padding: 0 1rem;
@@ -171,11 +171,11 @@ body.store-body {
   background: #ffffff;
 }
 
-.store-search-input::placeholder {
+body.store-body .store-search-input::placeholder {
   color: #9ca3af;
 }
 
-.store-search-button {
+body.store-body .store-search-button {
   height: 44px;
   padding: 0 1.5rem;
   border-radius: 999px;
@@ -188,7 +188,7 @@ body.store-body {
   box-shadow: 0 10px 24px rgba(234, 88, 12, 0.5);
 }
 
-.store-search-button:disabled {
+body.store-body .store-search-button:disabled {
   opacity: 0.7;
   cursor: default;
 }
@@ -197,28 +197,28 @@ body.store-body {
    SECTIONS GRID (substores)
    ========================= */
 
-.store-substores {
+body.store-body .store-substores {
   margin-bottom: 2.25rem;
 }
 
-.store-section-header {
+body.store-body .store-section-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 0.9rem;
 }
 
-.store-section-header h2 {
+body.store-body .store-section-header h2 {
   font-size: 1rem;
   margin: 0;
 }
 
-.store-section-header span {
+body.store-body .store-section-header span {
   font-size: 0.8rem;
   color: var(--text-sub);
 }
 
-.substores-grid {
+body.store-body .substores-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.2rem;
@@ -226,7 +226,7 @@ body.store-body {
 
 /* Store kartları (vitrin) */
 
-.substore-card {
+body.store-body .substore-card {
   display: flex;
   flex-direction: column;
   border-radius: 1rem;
@@ -239,13 +239,13 @@ body.store-body {
   transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
 }
 
-.substore-card:hover {
+body.store-body .substore-card:hover {
   transform: translateY(-4px);
   border-color: rgba(249, 115, 22, 0.9);
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
 }
 
-.substore-banner {
+body.store-body .substore-banner {
   height: 120px;
   margin-bottom: 0.75rem;
   border-radius: 0.8rem;
@@ -253,18 +253,18 @@ body.store-body {
   overflow: hidden;
 }
 
-.substore-banner img {
+body.store-body .substore-banner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.substore-body h3 {
+body.store-body .substore-body h3 {
   margin: 0 0 0.35rem;
   font-size: 0.95rem;
 }
 
-.substore-body p {
+body.store-body .substore-body p {
   margin: 0;
   font-size: 0.8rem;
   color: #9ca3af;
@@ -274,11 +274,11 @@ body.store-body {
    PRODUCT GRID – ETSY STİLİ
    ========================= */
 
-.store-products {
+body.store-body .store-products {
   margin-top: 0.5rem;
 }
 
-.store-products .products-grid {
+body.store-body .store-products .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.6rem;
@@ -287,7 +287,7 @@ body.store-body {
 
 /* Ürün kartı – büyük, temiz, premium */
 
-.product-card {
+body.store-body .product-card {
   border-radius: var(--radius-xl);
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -299,7 +299,7 @@ body.store-body {
   position: relative;
 }
 
-.product-card::before {
+body.store-body .product-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -309,22 +309,22 @@ body.store-body {
   transition: opacity 150ms ease;
 }
 
-.product-card:hover {
+body.store-body .product-card:hover {
   transform: translateY(-4px);
   border-color: rgba(249, 115, 22, 0.7);
   box-shadow: 0 22px 70px rgba(15, 23, 42, 0.16);
 }
 
-.product-card:hover::before {
+body.store-body .product-card:hover::before {
   opacity: 1;
 }
 
-.product-media {
+body.store-body .product-media {
   background: radial-gradient(circle at top, #e0f2fe 0, #eff6ff 40%, #f9fafb 100%);
   padding: 0.9rem 0.9rem 0.4rem;
 }
 
-.product-media img {
+body.store-body .product-media img {
   width: 100%;
   height: 190px;
   object-fit: contain;
@@ -333,21 +333,21 @@ body.store-body {
 
 /* Kart gövdesi */
 
-.product-body {
+body.store-body .product-body {
   padding: 0.95rem 1rem 1.1rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-.product-body h2 {
+body.store-body .product-body h2 {
   margin: 0;
   font-size: 0.98rem;
   font-weight: 600;
   color: var(--text-main);
 }
 
-.product-body p {
+body.store-body .product-body p {
   margin: 0;
   font-size: 0.82rem;
   color: var(--text-sub);
@@ -355,7 +355,7 @@ body.store-body {
 
 /* Fiyat ve etiketler */
 
-.product-meta {
+body.store-body .product-meta {
   margin-top: 0.45rem;
   display: flex;
   align-items: center;
@@ -363,13 +363,13 @@ body.store-body {
   gap: 0.5rem;
 }
 
-.product-meta .price {
+body.store-body .product-meta .price {
   font-size: 0.94rem;
   font-weight: 700;
   color: var(--accent-strong);
 }
 
-.product-meta .tag {
+body.store-body .product-meta .tag {
   padding: 0.12rem 0.6rem;
   border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, 0.4);
@@ -382,16 +382,16 @@ body.store-body {
    DURUM MESAJLARI
    ========================= */
 
-.store-error,
-.store-empty,
-.store-empty-soft {
+body.store-body .store-error,
+body.store-body .store-empty,
+body.store-body .store-empty-soft {
   margin-top: 2rem;
   font-size: 0.9rem;
   color: var(--text-sub);
   text-align: center;
 }
 
-.store-error {
+body.store-body .store-error {
   color: #b91c1c;
 }
 
@@ -400,33 +400,34 @@ body.store-body {
    ========================= */
 
 @media (max-width: 960px) {
-  #store-root {
+  body.store-body #store-root {
     padding: 1.8rem 1.1rem 3rem;
   }
 
-  .store-hero .hero-inner {
+  body.store-body .store-hero .hero-inner {
     grid-template-columns: minmax(0, 1fr);
     padding: 1.6rem 1.5rem;
   }
 
-  .store-hero .hero-banner {
+  body.store-body .store-hero .hero-banner {
     margin-top: 0.8rem;
     min-height: 160px;
   }
 }
 
 @media (max-width: 640px) {
-  .store-search-row {
+  body.store-body .store-search-row {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .store-search-button {
+  body.store-body .store-search-button {
     width: 100%;
   }
 
-  .product-media img {
+  body.store-body .product-media img {
     height: 210px;
   }
 }
+
 
