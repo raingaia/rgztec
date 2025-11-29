@@ -2,173 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Game Makers</title>
+  <meta name="description" content="Game Makers store on RGZTEC — premium templates, UI kits and tools."/>
 
-  <!-- BASE PATH (çok önemli) -->
+  <!-- Path kesin: store/ altında -->
   <base href="/rgztec/apps/web/public/">
 
-  <!-- CORE STYLES -->
-  <link rel="stylesheet" href="assets/css/store-core.css?v=4">
+  <!-- STORE CSS -->
+  <link rel="stylesheet" href="store/assets/css/store.fonts.css">
+  <link rel="stylesheet" href="store/assets/css/store.tokens.css">
+  <link rel="stylesheet" href="store/assets/css/store.layout.css">
+  <link rel="stylesheet" href="store/assets/css/store.header.css">
+  <link rel="stylesheet" href="store/assets/css/store.card.css">
+  <link rel="stylesheet" href="store/assets/css/store.banner.css">
 </head>
 
-<body class="store-body" data-store="game-makers">
+<body class="store-body" data-store="game-makers" data-substore="">
+  <header class="store-header">
+    <div id="store-header-root" class="store-header-inner"></div>
+  </header>
 
-<div id="store-root">
+  <main class="store-page">
 
-  <!-- ========================= -->
-  <!--        GM HERO (duvar)    -->
-  <!-- ========================= -->
+    <!-- HERO -->
+    <section class="store-hero store-section">
+      <div id="store-hero-banner" class="store-hero-banner-slot"></div>
+      <div id="store-hero-text" class="store-hero-text"></div>
+    </section>
 
-  <section class="gm-hero">
-    <div class="gm-hero-inner">
+    <!-- PRODUCT LIST -->
+    <section class="store-products-section store-section">
+      <aside id="store-filters-root" class="store-filters"></aside>
 
-      <!-- SOL TARAF -->
-      <div class="gm-left">
-        <div class="gm-eyebrow">#1 Best Selling Game Kits Marketplace</div>
-
-        <h1 class="gm-title">
-          Premium <span class="accent">Game Makers</span> Marketplace
-        </h1>
-
-        <p class="gm-desc">
-          Unity & Unreal templates, UI kits, controllers, VFX/SFX and 
-          high-quality game-ready assets trusted by thousands of creators.
-        </p>
-
-        <div class="gm-cards">
-          <div class="gm-card">
-            <h3>For Unity Devs</h3>
-            <p>2D/3D ready-to-use kits & controllers.</p>
-          </div>
-
-          <div class="gm-card">
-            <h3>For Unreal Devs</h3>
-            <p>Blueprint starter kits.</p>
-          </div>
-
-          <div class="gm-card">
-            <h3>For Studios</h3>
-            <p>Standardized UI & production assets.</p>
-          </div>
-        </div>
-
-        <div class="gm-meta">
-          6+ curated game sections • Instant digital delivery • Secure checkout
-        </div>
-
-        <a class="gm-cta" href="#">Explore Game Maker Stores →</a>
+      <div class="store-products">
+        <div id="store-root" class="products-grid"></div>
       </div>
+    </section>
 
-      <!-- SAĞ TARAF – ANA SAYFADAKİ DUVAR GÖRSELİ -->
-      <div class="gm-right">
-        <img src="assets/images/store/game-makers.webp" 
-             alt="Game Makers Banner"/>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ========================= -->
-  <!--      SEARCH BAR           -->
-  <!-- ========================= -->
-
-  <div class="store-search">
-    <div class="store-search-row">
-      <input type="text"
-             class="store-search-input"
-             placeholder="Search inside Game Makers (coming soon)"
-             disabled />
-
-      <button class="store-search-button" disabled>
-        Search
-      </button>
-    </div>
-  </div>
-
-
-  <!-- ========================= -->
-  <!--     KATEGORİ BÖLÜMLERİ    -->
-  <!-- ========================= -->
-
-  <div class="store-substores">
-    <div class="store-section-header">
-      <h2>Sections</h2>
-      <span>6 curated sub-categories</span>
-    </div>
-
-    <div class="substores-grid">
-      
-      <a class="substore-card" href="#">
-        <div class="substore-banner">
-          <img src="assets/images/store/game/2d.webp" alt="">
-        </div>
-        <div class="substore-body">
-          <h3>Unity 2D</h3>
-          <p>Complete starter kits.</p>
-        </div>
-      </a>
-
-      <a class="substore-card" href="#">
-        <div class="substore-banner">
-          <img src="assets/images/store/game/3d.webp" alt="">
-        </div>
-        <div class="substore-body">
-          <h3>Unity 3D</h3>
-          <p>3D environments & prefabs.</p>
-        </div>
-      </a>
-
-      <a class="substore-card" href="#">
-        <div class="substore-banner">
-          <img src="assets/images/store/game/unreal.webp" alt="">
-        </div>
-        <div class="substore-body">
-          <h3>Unreal Kits</h3>
-          <p>Blueprint frameworks.</p>
-        </div>
-      </a>
-
-      <a class="substore-card" href="#">
-        <div class="substore-banner">
-          <img src="assets/images/store/game/controllers.webp" alt="">
-        </div>
-        <div class="substore-body">
-          <h3>Controllers</h3>
-          <p>FPS & character kits.</p>
-        </div>
-      </a>
-
-      <a class="substore-card" href="#">
-        <div class="substore-banner">
-          <img src="assets/images/store/game/vfx.webp" alt="">
-        </div>
-        <div class="substore-body">
-          <h3>VFX / SFX</h3>
-          <p>Visual & sound effects.</p>
-        </div>
-      </a>
-
-      <a class="substore-card" href="#">
-        <div class="substore-banner">
-          <img src="assets/images/store/game/ui.webp" alt="">
-        </div>
-        <div class="substore-body">
-          <h3>Game UI</h3>
-          <p>UI packs & overlays.</p>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
-</div>
-
+  </main>
 </body>
-</html>
 
+<!-- STORE JS (sırası doğru) -->
+<script src="store/assets/js/store.utils.js" defer></script>
+<script src="store/assets/js/store.header.js" defer></script>
+<script src="store/assets/js/store.cards.js" defer></script>
+<script src="store/assets/js/store.banner.js" defer></script>
+<script src="store/assets/js/store.filters.js" defer></script>
+<script src="store/assets/js/store.search.js" defer></script>
+<script src="store/assets/js/store.core.js" defer></script>
+
+</html>
 
 
 
