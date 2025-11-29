@@ -1,5 +1,5 @@
-// store/core/assets/js/store.core.js
-// Tüm akışı yöneten çekirdek – diğer modülleri burada çağırıyoruz
+// store/assets/js/store.core.js
+// RGZTEC STORE • core – tüm mağazalar bu dosyayı kullanır
 
 (function (window, document, utils) {
   "use strict";
@@ -13,13 +13,10 @@
 
   (async function initStore() {
     const body = document.body;
-    if (!body.classList.contains("store-body")) {
-      console.warn("[store.core] body.store-body yok, çıkılıyor.");
-      return;
-    }
+    if (!body.classList.contains("store-body")) return;
 
-    const storeSlug = body.dataset.store;
-    const subSlug = body.dataset.substore || "";
+    const storeSlug = body.dataset.store;        // "game-makers"
+    const subSlug = body.dataset.substore || ""; // şimdilik boş
 
     if (!storeSlug) {
       console.error("[store.core] data-store tanımlı değil.");
@@ -27,36 +24,56 @@
       return;
     }
 
-    const headerRoot = qs("#store-header-root");
-    const heroBannerRoot = qs("#store-hero-banner");
-    const heroTextRoot = qs("#store-hero-text");
-    const filtersRoot = qs("#store-filters-root");
-    const productsRoot = qs("#store-root");
+    const headerRoot      = qs("#store-header-root");
+    const heroBannerRoot  = qs("#store-hero-banner");
+    const heroTextRoot    = qs("#store-hero-text");
+    const filtersRoot     = qs("#store-filters-root");
+    const productsRoot    = qs("#store-root");
 
     if (!productsRoot) {
       console.error("[store.core] #store-root bulunamadı.");
       return;
     }
 
-    // İlk aşamada skeleton kartlar göster
+    // İlk açılışta skeleton kartlar
     renderSkeletonCards(productsRoot, 6);
 
     try {
-      // 1) Store config (title, subtitle, hero görsel)
-      const storeConfigPath = `store/core/data/stores/${storeSlug}.json`;
-      const storeConfig = await fetchJSON(storeConfigPath);
+      // 1) STORE CONFIG → data/stores.json içinden slug'a göre çekiyoruz
+      let storeConfig = null;
+      try {
+        const storesAll = await fetchJSON("data/stores.json");
+        if (Array.isArray(storesAll)) {
+          storeConfig = storesAll.find((s) => s.slug === storeSlug) || null;
+        }
+      } catch (e) {
+        console.warn("[store.core] stores.json okunamadı, fallback kullanılacak.");
+      }
 
-      // 2) Ürünler
+      // Fallback (her ihtimale karşı)
+      if (!storeConfig) {
+        storeConfig = {
+          slug: storeSlug,
+          title: "Game Makers",
+          subtitle: "Templates, UI kits and tools for your next hit game.",
+          heroImage: "store/assets/images/store/game-makers.webp"
+        };
+      }
+
+      // 2) PRODUCTS → data/products-game-makers.json
       const productsPath = subSlug
-        ? `store/core/data/products/${storeSlug}-${subSlug}.json`
-        : `store/core/data/products/${storeSlug}.json`;
+        ? `data/products-${storeSlug}-${subSlug}.json`
+        : `data/products-${storeSlug}.json`;
+
       const products = await fetchJSON(productsPath);
 
-      // 3) Bannerlar (opsiyonel)
-      const bannersPath = subSlug
-        ? `store/core/data/banners/${storeSlug}-${subSlug}.json`
-        : `store/core/data/banners/${storeSlug}.json`;
-      const banners = await fetchJSON(bannersPath, { optional: true });
+      // 3) BANNERS → şimdilik opsiyonel: data/ubstores.json içinden hero'ya uygun kayıtlar
+      let banners = null;
+      try {
+        banners = await fetchJSON("data/ubstores.json", { optional: true });
+      } catch (e) {
+        console.warn("[store.core] ubstores.json yok veya okunamadı (opsiyonel).");
+      }
 
       // HEADER
       if (typeof window.initStoreHeader === "function") {
@@ -64,13 +81,12 @@
       }
 
       // HERO TEXT
-      if (heroTextRoot && storeConfig) {
+      if (heroTextRoot) {
         heroTextRoot.innerHTML = `
           <h1 class="store-title">${storeConfig.title || ""}</h1>
           <p class="store-subtitle">${storeConfig.subtitle || ""}</p>
           <div class="store-hero-meta">
             <span><strong>${products.length}</strong> product(s)</span>
-            ${subSlug ? `<span>Substore: ${subSlug}</span>` : ""}
           </div>
         `;
       }
