@@ -1,76 +1,57 @@
-// store/core/assets/js/store.header.js
-// Store header'ı data'dan doldurur ve mobil nav davranışını yönetir
+// assets/js/store.header.js
+// RGZTEC STORE • Header
 
 (function (window, document, utils) {
   "use strict";
 
   if (!utils) {
-    console.error("[store.header] StoreUtils yok.");
+    console.error("[store.header] StoreUtils yok. store.utils.js yüklü mü?");
     return;
   }
 
-  const { qs, createEl } = utils;
+  const { qs } = utils;
 
-  /**
-   * @param {Object} storeConfig
-   * @param {HTMLElement} root
-   */
   function initStoreHeader(storeConfig, root) {
     root = root || qs("#store-header-root");
-    if (!root || !storeConfig) return;
+    if (!root) return;
 
-    const storeTitle = storeConfig.title || "RGZTEC Store";
+    const storeSlug =
+      storeConfig?.slug || "";
+
+    const storeTitle =
+      storeConfig?.title ||
+      storeConfig?.name ||
+      storeSlug ||
+      "Store";
+
+    const accent =
+      storeConfig?.accent || "#f97316";
+
+    // Accent rengini CSS değişkeni olarak header'a bas
+    root.parentElement.style.setProperty("--store-accent", accent);
 
     root.innerHTML = `
       <a href="/rgztec/" class="store-logo">
         <div class="store-logo-mark"></div>
-        <div>
-          <div class="store-logo-text-main">RGZTEC</div>
-          <div class="store-logo-text-sub">${escapeHtml(storeTitle)}</div>
+        <div class="store-logo-text">
+          <span class="store-logo-main">RGZTEC</span>
+          <span class="store-logo-sub">${escapeHtml(storeTitle)}</span>
         </div>
       </a>
 
-      <nav class="store-nav" aria-label="Store sections">
-        <!-- İleride nav linkleri stores.json'dan doldurulabilir -->
-      </nav>
+      <div class="store-header-spacer"></div>
 
       <div class="store-header-actions">
-        <button class="store-search-trigger" type="button" id="store-search-trigger">
-          <span>Search in this store</span>
-        </button>
-        <button class="store-nav-toggle" type="button" id="store-nav-toggle" aria-label="Toggle navigation">
-          ☰
-        </button>
-      </div>
-
-      <div class="store-nav-panel" id="store-nav-panel">
-        <div class="store-nav-panel-inner" id="store-nav-panel-inner"></div>
+        <div class="store-search">
+          <input
+            type="search"
+            class="store-search-input"
+            id="store-search-input"
+            placeholder="Search in this store"
+          />
+        </div>
       </div>
     `;
-
-    // Basic nav panel içeriği – şimdilik sadece "All products"
-    const panelInner = qs("#store-nav-panel-inner", root);
-    if (panelInner) {
-      panelInner.innerHTML = `
-        <a href="#store-root">All products</a>
-      `;
-    }
-
-    // Mobil nav toggle
-    const navToggle = qs("#store-nav-toggle", root);
-    const navPanel = qs("#store-nav-panel", root);
-
-    if (navToggle && navPanel) {
-      navToggle.addEventListener("click", () => {
-        navPanel.classList.toggle("is-open");
-      });
-
-      navPanel.addEventListener("click", (e) => {
-        if (e.target === navPanel) {
-          navPanel.classList.remove("is-open");
-        }
-      });
-    }
   }
 
   function escapeHtml(str) {
