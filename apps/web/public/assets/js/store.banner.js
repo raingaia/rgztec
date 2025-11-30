@@ -1,75 +1,59 @@
-// store/core/assets/js/store.banner.js
-// Hero banner ve diğer banner yapılarını yönetir
+// assets/js/store.banner.js
+// RGZTEC • Store Banner (tek görsellik hero kart)
 
-(function (window, utils) {
+(function (window, document) {
   "use strict";
 
-  if (!utils) {
-    console.error("[store.banner] StoreUtils yok.");
-    return;
-  }
+  function renderStoreBanner(storeConfig) {
+    const bannerRoot = document.getElementById("store-banner");
+    const textRoot = document.getElementById("store-banner-text");
+    if (!bannerRoot) return;
 
-  const { createEl } = utils;
+    const body = document.body;
 
-  /**
-   * storeConfig.heroImage + banners içinden hero slot'unu kullanır
-   * @param {Object} storeConfig
-   * @param {Array} banners
-   * @param {HTMLElement} root
-   */
-  function renderStoreHeroBanner(storeConfig, banners, root) {
-    root = root || document.getElementById("store-hero-banner");
-    if (!root || !storeConfig) return;
+    const storeSlug =
+      storeConfig?.slug ||
+      body.dataset.store ||
+      "";
 
-    const heroBannerData =
-      (Array.isArray(banners) &&
-        banners.find((b) => b.slot === "hero" && b.type === "image")) ||
-      null;
+    const title =
+      storeConfig?.name ||
+      storeConfig?.title ||
+      "Game Makers";
 
-    const bgImage = heroBannerData?.image || storeConfig.heroImage;
+    const subtitle =
+      storeConfig?.subtitle ||
+      storeConfig?.tagline ||
+      "Unity & Unreal templates, UI kits and game-ready assets.";
 
-    root.classList.add("store-hero-banner");
-    if (bgImage) {
-      root.style.backgroundImage = `url(${bgImage})`;
+    // Görsel yolu: önce config.heroImage, yoksa slug tabanlı
+    let imgPath = storeConfig?.heroImage;
+    if (!imgPath && storeSlug) {
+      imgPath = `assets/images/store/${storeSlug}-banner.webp`;
+    }
+    if (!imgPath) {
+      imgPath = "assets/images/store/default-store-banner.webp";
     }
 
-    const kicker = heroBannerData?.kicker || `RGZTEC • ${storeConfig.title}`;
-    const title = heroBannerData?.title || storeConfig.title;
-    const subtitle = heroBannerData?.subtitle || storeConfig.subtitle;
-    const actionText = heroBannerData?.actionText || "Browse products";
-    const actionUrl = heroBannerData?.actionUrl || "#store-root";
+    bannerRoot.classList.add("store-banner-shell");
 
-    root.innerHTML = `
-      <div class="store-hero-banner-inner">
-        <div class="store-hero-banner-kicker">${escapeHtml(kicker)}</div>
-        <h2 class="store-hero-banner-title">${escapeHtml(title || "")}</h2>
-        <p class="store-hero-banner-subtitle">
-          ${escapeHtml(subtitle || "")}
-        </p>
-        <a href="${escapeAttr(actionUrl)}" class="store-hero-banner-cta">
-          ${escapeHtml(actionText)} →
-        </a>
-      </div>
+    bannerRoot.innerHTML = `
+      <figure class="store-banner-card">
+        <img
+          src="${imgPath}"
+          alt="${title} banner"
+          loading="lazy"
+        />
+      </figure>
     `;
+
+    if (textRoot) {
+      textRoot.innerHTML = `
+        <h1 class="store-title">${title}</h1>
+        ${subtitle ? `<p class="store-subtitle">${subtitle}</p>` : ""}
+      `;
+    }
   }
 
-  /**
-   * İleride: content/sponsor/slider banner'ları da burada işleyebiliriz.
-   * Şimdilik sadece hero'ya odaklanıyoruz.
-   */
-
-  function escapeHtml(str) {
-    if (str == null) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
-  function escapeAttr(str) {
-    if (str == null) return "";
-    return String(str).replace(/"/g, "&quot;");
-  }
-
-  window.renderStoreHeroBanner = renderStoreHeroBanner;
-})(window, window.StoreUtils);
+  window.renderStoreBanner = renderStoreBanner;
+})(window, document);
