@@ -40,15 +40,27 @@
 
     try {
       // 1) STORE CONFIG → data/stores.json içinden slug'a göre çekiyoruz
-      let storeConfig = null;
-      try {
-        const storesAll = await fetchJSON("data/stores.json");
-        if (Array.isArray(storesAll)) {
-          storeConfig = storesAll.find((s) => s.slug === storeSlug) || null;
-        }
-      } catch (e) {
-        console.warn("[store.core] stores.json okunamadı, fallback kullanılacak.");
-      }
+     // 1) STORE CONFIG – sadece store engine için: /data/store-registry.json
+let storeConfig = null;
+try {
+  const registry = await fetchJSON("data/store-registry.json", { optional: true });
+  if (Array.isArray(registry)) {
+    storeConfig = registry.find((s) => s.slug === storeSlug) || null;
+  }
+} catch (e) {
+  console.warn("[store.core] data/store-registry.json okunamadı:", e);
+}
+
+// Fallback – registry’de kayıt yoksa bile sayfa patlamasın
+if (!storeConfig) {
+  storeConfig = {
+    slug: storeSlug,
+    name: storeSlug,
+    subtitle: "",
+    accent: "#f97316"
+  };
+}
+
 
       // Fallback (her ihtimale karşı)
       if (!storeConfig) {
