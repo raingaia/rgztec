@@ -1,11 +1,27 @@
-{
-  "categories": [
-    { "slug": "unity-2d",      "name": "Unity 2D" },
-    { "slug": "unity-3d",      "name": "Unity 3D" },
-    { "slug": "unreal",        "name": "Unreal Templates" },
-    { "slug": "ui-hud",        "name": "UI & HUD" },
-    { "slug": "vfx-sfx",       "name": "VFX & SFX" },
-    { "slug": "prototypes",    "name": "Playable Prototypes" }
-  ],
-  "products": []
-}
+[
+  {
+    "slug": "unity-2d-starter",
+    "title": "Unity 2D Starter Pack",
+    "description": "Core UI and HUD templates for 2D games.",
+    "price": 39,
+    "currency": "USD",
+    "tags": ["Unity 2D", "UI Kit"],
+    "category": "unity-2d",
+    "image": "store/assets/images/products/unity-2d-starter.webp",
+    "badge": "New",
+    "license": "Single-site license"
+  },
+  {
+    "slug": "unity-3d-hud-pack",
+    "title": "Unity 3D HUD Pack",
+    "description": "Clean HUD and overlay pack for 3D shooters.",
+    "price": 49,
+    "currency": "USD",
+    "tags": ["Unity 3D", "HUD"],
+    "category": "unity-3d",
+    "image": "store/assets/images/products/unity-3d-hud.webp",
+    "badge": "Best Seller",
+    "license": "Single-site license"
+  }
+]
+
