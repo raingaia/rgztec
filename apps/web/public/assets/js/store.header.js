@@ -1,19 +1,31 @@
-(function (window, document, utils) {
+// assets/js/store.header.js
+// RGZTEC • Store Header (ince şerit + store etiketi)
+
+(function (window, document) {
   "use strict";
 
-  if (!utils) {
-    console.error("[store.header] StoreUtils yok. store.utils.js yüklü mü?");
-    return;
+  function qs(sel) {
+    return document.querySelector(sel);
   }
 
-  const { qs } = utils;
+  function escapeHtml(str) {
+    if (str == null) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
 
-  function initStoreHeader(storeConfig, root) {
-    root = root || qs("#store-header-root");
+  function initStoreHeader(storeConfig) {
+    const root = qs("#store-header-root");
     if (!root) return;
 
+    const body = document.body;
+
     const storeSlug =
-      storeConfig?.slug || "";
+      storeConfig?.slug ||
+      body.dataset.store ||
+      "";
 
     const storeTitle =
       storeConfig?.name ||
@@ -58,13 +70,5 @@
     `;
   }
 
-  function escapeHtml(str) {
-    if (str == null) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
   window.initStoreHeader = initStoreHeader;
-})(window, document, window.StoreUtils);
+})(window, document);
