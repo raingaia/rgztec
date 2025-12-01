@@ -1,28 +1,64 @@
-(function (window, document, utils) {
+// assets/js/store.header.js
+// RGZTEC • Store Header – bağımsız çalışan sürüm
+
+(function (window, document) {
   "use strict";
 
-  if (!utils) {
-    console.error("[store.header] StoreUtils yok. store.utils.js yüklü mü?");
-    return;
+  const REGISTRY_PATH = "data/store-registry.json";
+
+  function qs(sel) {
+    return document.querySelector(sel);
   }
 
-  const { qs } = utils;
+  function escapeHtml(str) {
+    if (str == null) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
 
-  function initStoreHeader(storeConfig, root) {
-    root = root || qs("#store-header-root");
+  async function loadStoreConfig() {
+    const body = document.body;
+    const slug = body.dataset.store || "";
+    if (!slug) return null;
+
+    try {
+      const res = await fetch(REGISTRY_PATH);
+      if (!res.ok) throw new Error("registry fetch failed");
+      const list = await res.json();
+      if (Array.isArray(list)) {
+        return list.find((s) => s.slug === slug) || {
+          slug,
+          name: slug,
+          subtitle: "",
+          accent: "#f97316",
+        };
+      }
+    } catch (err) {
+      console.warn("[store.header] registry okunamadı:", err);
+    }
+
+    return {
+      slug,
+      name: slug,
+      subtitle: "",
+      accent: "#f97316",
+    };
+  }
+
+  function renderHeader(storeConfig) {
+    const root = qs("#store-header-root");
     if (!root) return;
 
-    const storeSlug =
-      storeConfig?.slug || "";
-
+    const storeSlug = storeConfig.slug || "";
     const storeTitle =
-      storeConfig?.name ||
-      storeConfig?.title ||
+      storeConfig.name ||
+      storeConfig.title ||
       storeSlug ||
       "Store";
 
-    const accent =
-      storeConfig?.accent || "#f97316";
+    const accent = storeConfig.accent || "#f97316";
 
     // Accent rengini header elementine yaz
     root.parentElement.style.setProperty("--store-accent", accent);
@@ -58,13 +94,15 @@
     `;
   }
 
-  function escapeHtml(str) {
-    if (str == null) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  async function bootstrapHeader() {
+    const root = qs("#store-header-root");
+    if (!root) return; // Bu sayfada header yoksa hiç çalışmasın
+
+    const cfg = await loadStoreConfig();
+    if (!cfg) return;
+    renderHeader(cfg);
   }
 
-  window.initStoreHeader = initStoreHeader;
-})(window, document, window.StoreUtils);
+  // DOM hazır olduğunda otomatik çalışsın
+  document.addEventListener("DOMContentLoaded", bootstrapHeader);
+})(window, document);
