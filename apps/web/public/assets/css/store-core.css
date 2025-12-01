@@ -2,7 +2,7 @@
 
 /*
  * RGZTEC Store Stylesheet
- * Version: 12.2.0 (Premium Header & Nav + Hero Card)
+ * Version: 12.3.0 (Premium Header & Nav + Hero Card)
  */
 
 /* TOKENS */
@@ -64,7 +64,7 @@ body.store-body {
   font-weight: var(--font-weight-regular);
   line-height: 1.6;
   color: var(--color-text-main);
-  /* Tam beyaz yerine çok hafif kurumsal gradient */
+  /* Kurumsal arka plan gradient’i */
   background:
     radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
   -webkit-font-smoothing: antialiased;
@@ -98,131 +98,243 @@ a:hover {
 img, video { max-width: 100%; height: auto; display: block; }
 button { font-family: inherit; font-size: 100%; cursor: pointer; }
 
-/* HEADER – ÜST BAR */
+/* =========================================================
+   HEADER – PREMIUM (ana sayfa ile aynı kalite)
+   ======================================================= */
 .store-header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: var(--header-height);
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
 }
+
 .store-header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
   height: 100%;
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 0 var(--container-padding);
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
 }
 
-/* SOL – LOGO + MENÜ */
+/* SOL – LOGO + CATEGORIES */
 .store-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-shrink: 0;
+}
+
+.store-header-logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-text-main);
+}
+.store-header-logo:hover {
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.store-header-categories-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.45);
+  background: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  box-shadow: 0 2px 4px rgba(15,23,42,0.08);
+  transition: var(--transition-fast);
+}
+.store-header-categories-btn span {
+  transform: translateY(0.5px);
+}
+.store-header-categories-btn:hover {
+  background: #f9fafb;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.10);
+}
+
+/* ORTA – ARAMA ÇUBUĞU (Etsy benzeri) */
+.store-header-center {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.store-header-search {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: stretch;
+  background: #f3f4f6;
+  border-radius: 999px;
+  border: 1.5px solid #111827;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.9),
+    0 10px 30px rgba(15,23,42,0.10);
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+.store-header-search:focus-within {
+  border-color: var(--color-brand-strong);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,1),
+    0 0 0 3px rgba(249,115,22,0.15),
+    0 16px 40px rgba(15,23,42,0.20);
+  background: #ffffff;
+}
+
+.store-header-search input {
+  flex: 1 1 auto;
+  border: none;
+  background: transparent;
+  padding: 0.95rem 1.25rem;
+  font-size: 0.95rem;
+  color: var(--color-text-main);
+  outline: none;
+}
+
+.store-header-search input::placeholder {
+  color: #9ca3af;
+}
+
+.store-header-search button {
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+  width: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-brand);
+  color: #ffffff;
+  font-size: 1.2rem;
+  border-radius: 999px;
+  margin: 4px;
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 10px 25px rgba(249,115,22,0.55);
+  transition: var(--transition-fast);
+}
+
+.store-header-search button:hover {
+  background: var(--color-brand-strong);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 14px 32px rgba(249,115,22,0.65);
+}
+
+/* SAĞ – ÜST MENÜ + CTA’lar */
+.store-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+/* Dashboard / Sign in / Support linkleri */
+.store-header-secondary {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-.store-header-logo {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-main);
-}
-.store-header-logo:hover { opacity: 0.85; text-decoration: none; }
 
-.store-header-categories-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border: none;
-  background-color: transparent;
-  color: var(--color-text-main);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--border-radius-md);
-  transition: var(--transition-fast);
+.store-header-secondary-link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-sub);
+  white-space: nowrap;
 }
-.store-header-categories-btn:hover {
-  background-color: var(--color-bg-neutral);
+.store-header-secondary-link:hover {
+  color: var(--color-text-main);
+  text-decoration: none;
 }
 
-/* ORTA – ARAMA ÇUBUĞU (Etsy tarzı premium) */
-.store-header-search {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  max-width: 700px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--color-border-subtle);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  border-radius: 999px;
-  overflow: hidden;
-  transition: var(--transition-fast);
-}
-.store-header-search:focus-within {
-  border-color: var(--color-brand);
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.18);
-}
-.store-header-search input {
-  flex-grow: 1;
-  border: none;
-  background-color: transparent;
-  padding: 0.8rem 1.25rem;
-  font-size: var(--font-size-base);
-  color: var(--color-text-main);
-  outline: none;
-}
-.store-header-search input::placeholder {
-  color: #9ca3af;
-}
-/* Turuncu blok yerine sade ikon alanı */
-.store-header-search button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.1rem;
-  border: none;
-  border-left: 1px solid #e5e7eb;
-  background-color: transparent;
-  color: var(--color-brand-strong);
-  font-size: 1.1rem;
-  transition: var(--transition-fast);
-}
-.store-header-search button:hover {
-  background-color: rgba(249, 115, 22, 0.06);
-}
-
-/* SAĞ – HESAP / SEPET */
+/* sağdaki ikon + CTA buton grubu */
 .store-header-actions {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-}
-.store-header-link {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-main);
-}
-.store-header-link:hover {
-  color: var(--color-brand-strong);
-  text-decoration: none;
-}
-.store-header-icon-btn {
-  font-size: 1.5rem;
-  color: var(--color-text-main);
-  background: none;
-  border: none;
-  padding: 0;
-}
-.store-header-icon-btn:hover {
-  color: var(--color-brand-strong);
+  gap: 0.5rem;
 }
 
-/* ANA STORE NAV (Game Makers, AI Tools Hub, ...) */
+.store-header-icon-pill {
+  border: 1px solid rgba(148,163,184,0.45);
+  background: #ffffff;
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--color-text-main);
+  box-shadow: 0 4px 10px rgba(15,23,42,0.08);
+  transition: var(--transition-fast);
+}
+.store-header-icon-pill:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15,23,42,0.18);
+}
+
+/* Open Store ana CTA */
+.store-header-cta {
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong));
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.9),
+    0 12px 30px rgba(249,115,22,0.65);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+.store-header-cta:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,1),
+    0 16px 40px rgba(249,115,22,0.8);
+}
+
+/* küçük ekranlarda sağ tarafı sadeleştir */
+@media (max-width: 960px) {
+  .store-header-inner {
+    gap: 1rem;
+  }
+  .store-header-secondary {
+    display: none;
+  }
+  .store-header-cta {
+    padding-inline: 0.9rem;
+  }
+}
+
+/* =========================================================
+   ANA STORE NAV (Game Makers, AI Tools Hub, ...)
+   ======================================================= */
 .store-main-nav {
   background-color: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid #e5e7eb;
@@ -261,7 +373,9 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   border-bottom-color: var(--color-brand-strong);
 }
 
-/* DÜKKAN NAV (Hardware içi kategoriler – AI Accelerators vs.) */
+/* =========================================================
+   DÜKKAN NAV (Hardware içi kategoriler – AI Accelerators vs.)
+   ======================================================= */
 .store-section-nav {
   background-color: rgba(255, 255, 255, 0.98);
   border-top: 1px solid #e5e7eb;
@@ -282,7 +396,6 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 .store-section-nav__list::-webkit-scrollbar { display: none; }
 
-/* Ayırma çizgileri – li + li */
 .store-section-nav__list > li {
   margin: 0;
 }
@@ -290,7 +403,6 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   border-left: 1px solid var(--color-border-subtle);
 }
 
-/* Linkler – class olsa da olmasa da */
 .store-section-nav__list a,
 .store-section-nav__link {
   display: block;
@@ -308,7 +420,6 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   background-color: rgba(15, 23, 42, 0.02);
 }
 
-/* Aktif dükkan linki */
 .store-section-nav__list a.active,
 .store-section-nav__link.active {
   color: var(--color-brand-strong);
@@ -316,7 +427,9 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   box-shadow: inset 0 -2px 0 0 var(--color-brand-strong);
 }
 
-/* HERO – kart gibi sayfanın üstünde float etsin */
+/* =========================================================
+   HERO – kart gibi sayfanın üstünde
+   ======================================================= */
 .store-hero {
   padding: 3.5rem 0 2.5rem;
   background: transparent;
@@ -331,7 +444,6 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   align-items: center;
   text-align: center;
   gap: 2rem;
-
   background: rgba(255, 255, 255, 0.96);
   border-radius: 1.5rem;
   box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
@@ -382,7 +494,9 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   transform: scale(1.02);
 }
 
-/* SHOP SECTION */
+/* =========================================================
+   SHOP SECTION
+   ======================================================= */
 .store-shops {
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -395,7 +509,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   color: var(--color-text-main);
 }
 
-/* SHOP CARDS – daha premium görünüm */
+/* SHOP CARDS – premium */
 .shop-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -444,7 +558,9 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   color: var(--color-text-sub);
 }
 
-/* PRODUCTS SECTION */
+/* =========================================================
+   PRODUCTS SECTION
+   ======================================================= */
 .store-products {
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -568,7 +684,9 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   margin: 0 auto;
 }
 
-/* RESPONSIVE */
+/* =========================================================
+   RESPONSIVE
+   ======================================================= */
 @media (min-width: 480px) {
   :root { --container-padding: 2rem; }
   .store-hero-left h1 { font-size: var(--font-size-5xl); }
@@ -611,4 +729,5 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   .store-hero { padding: 6rem 0; }
   .store-hero-inner { gap: 5rem; }
 }
+
 
