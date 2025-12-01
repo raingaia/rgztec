@@ -1,54 +1,38 @@
 // =========================================
-// RGZTEC STORE SHELL (TEK JS, FINAL)
-// Header + Hero + Nav + Grid
+// RGZTEC STORE • store-shell.js (FINAL)
+// Tek JS: Data → Header → Hero → Grid
 // =========================================
 
+const STORE_DATA_URL = "/rgztec/data/store.data.json";
+const STORE_BANNER_BASE = "/rgztec/asset/images/store/";
+
+// IIFE
 (async function () {
   const root = document.getElementById("store-root");
   const headerMount = document.getElementById("store-header");
   const storeSlug = document.body.dataset.store;
 
-  if (!root || !storeSlug) {
-    console.error("Store root or storeSlug missing.");
+  if (!root || !headerMount || !storeSlug) {
+    console.error("Store shell: root/header/storeSlug eksik.");
     return;
   }
 
   // -------------------------------
   // 1) DATA LOAD
   // -------------------------------
-  // -------------------------------
-  // 1) DATA LOAD (iki olası yol)
-  // -------------------------------
-  async function fetchData() {
-    const paths = [
-      "/rgztec/data/store.data.json",          // tercih ettiğimiz yer
-      "/rgztec/assets/data/store.data.json"   // yedek (eski yer)
-    ];
-
-    let lastError;
-
-    for (const base of paths) {
-      try {
-        const res = await fetch(base + "?v=" + Date.now());
-        if (!res.ok) {
-          lastError = new Error("HTTP " + res.status + " for " + base);
-          continue;
-        }
-        return await res.json();
-      } catch (err) {
-        lastError = err;
-      }
+  async function fetchStoreData() {
+    const res = await fetch(STORE_DATA_URL + "?v=" + Date.now());
+    if (!res.ok) {
+      throw new Error("Store data fetch failed: " + res.status);
     }
-
-    console.error("Store data load failed:", lastError);
-    throw lastError || new Error("DATA FAILED");
+    return await res.json();
   }
-
 
   let data;
   try {
-    data = await fetchData();
+    data = await fetchStoreData();
   } catch (err) {
+    console.error(err);
     root.innerHTML = `
       <div class="store-error">
         <h2>Data Error</h2>
@@ -59,7 +43,6 @@
   }
 
   const storeConfig = data[storeSlug];
-
   if (!storeConfig) {
     root.innerHTML = `
       <div class="store-error">
@@ -70,33 +53,31 @@
     return;
   }
 
-  // Aktif section'ı URL'e göre belirleme
-  const pathParts = window.location.pathname
-    .replace(/\/+$/, "")
-    .split("/");
+  // -------------------------------
+  // 2) ACTIVE SECTION (overview / substore)
+  // -------------------------------
+  const pathParts = window.location.pathname.replace(/\/+$/, "").split("/");
+  const last = pathParts[pathParts.length - 1];
+  let activeSection = "overview";
 
-  let activeSection = "overview"; 
-  const lastPart = pathParts[pathParts.length - 1];
-
-  if (lastPart && lastPart !== storeSlug) {
-    // substore folder is active
-    activeSection = lastPart;
+  if (last && last !== storeSlug) {
+    activeSection = last; // örn: unity-3d
   }
 
-  // Body class → tema tanımları için
+  // Tema class'ı
   document.body.classList.add("store-" + storeSlug);
 
   // -------------------------------
-  // 2) HEADER (ETSY TARZI)
+  // 3) HEADER (ETSY TARZI)
   // -------------------------------
-  function buildHeader(storeConfig, activeSection) {
+  function buildHeader() {
     const header = document.createElement("header");
     header.className = "store-header";
 
     const inner = document.createElement("div");
     inner.className = "store-header-inner";
 
-    // ---- Brand ----
+    // Brand
     const brand = document.createElement("a");
     brand.className = "store-brand";
     brand.href = "/rgztec/";
@@ -120,44 +101,43 @@
     brand.appendChild(dot);
     brand.appendChild(textBlock);
 
-    // ---- Search ----
-    const search = document.createElement("div");
-    search.className = "store-search";
+    // Search
+    const searchWrap = document.createElement("div");
+    searchWrap.className = "store-search";
 
-    const input = document.createElement("input");
-    input.className = "store-search-input";
-    input.type = "text";
-    input.placeholder = "Search products…";
+    const searchInput = document.createElement("input");
+    searchInput.type = "text";
+    searchInput.className = "store-search-input";
+    searchInput.placeholder = "Search products…";
 
-    search.appendChild(input);
+    searchWrap.appendChild(searchInput);
 
-    // ---- Nav (dükkanlar) ----
+    // Nav
     const nav = document.createElement("nav");
     nav.className = "store-nav";
 
     // Overview link
     const overviewLink = document.createElement("a");
+    overviewLink.href = `/rgztec/store/${storeSlug}/`;
     overviewLink.className =
       "store-nav-link" + (activeSection === "overview" ? " store-nav-link-active" : "");
-    overviewLink.href = `/rgztec/store/${storeSlug}/`;
     overviewLink.textContent = "Overview";
     nav.appendChild(overviewLink);
 
-    // Subsections from data
+    // Sections
     if (Array.isArray(storeConfig.sections)) {
       storeConfig.sections.forEach((s) => {
         const a = document.createElement("a");
+        a.href = `/rgztec/store/${storeSlug}/${s.slug}/`;
         a.className =
           "store-nav-link" + (activeSection === s.slug ? " store-nav-link-active" : "");
-        a.href = `/rgztec/store/${storeSlug}/${s.slug}/`;
         a.textContent = s.name;
         nav.appendChild(a);
       });
     }
 
-    // Append header items
     inner.appendChild(brand);
-    inner.appendChild(search);
+    inner.appendChild(searchWrap);
     inner.appendChild(nav);
     header.appendChild(inner);
 
@@ -165,13 +145,13 @@
   }
 
   // -------------------------------
-  // 3) HERO (ANA SAYFA TARZI BANNER)
+  // 4) HERO + BANNER
   // -------------------------------
-  function buildHero(storeConfig, activeSection) {
+  function buildHero() {
     const hero = document.createElement("section");
     hero.className = "store-hero";
 
-    // ---- Left text ----
+    // Left / text
     const left = document.createElement("div");
     left.className = "store-hero-text";
 
@@ -181,11 +161,13 @@
 
     const h1 = document.createElement("h1");
     h1.className = "store-hero-title";
-    h1.textContent =
-      activeSection === "overview"
-        ? storeConfig.title + " templates & UI kits."
-        : (storeConfig.sections.find((s) => s.slug === activeSection)?.name ||
-           storeConfig.title);
+
+    if (activeSection === "overview") {
+      h1.textContent = storeConfig.title + " templates & UI kits.";
+    } else {
+      const sec = (storeConfig.sections || []).find((s) => s.slug === activeSection);
+      h1.textContent = sec ? sec.name : storeConfig.title;
+    }
 
     const p = document.createElement("p");
     p.className = "store-hero-sub";
@@ -195,19 +177,17 @@
     left.appendChild(h1);
     left.appendChild(p);
 
-    // ---- Right banner ----
+    // Right / banner
     const right = document.createElement("div");
     right.className = "store-hero-banner";
 
     const art = document.createElement("div");
     art.className = "store-hero-banner-art";
-    
+
     const img = document.createElement("img");
-img.src = "/rgztec/asset/images/store/" + storeConfig.banner;
-img.alt = storeConfig.title + " banner";
-
-
-
+    img.alt = storeConfig.title + " banner";
+    // Banner dosyası: /rgztec/asset/images/store/{banner}
+    img.src = STORE_BANNER_BASE + storeConfig.banner;
 
     const glass = document.createElement("div");
     glass.className = "store-hero-banner-glass";
@@ -223,9 +203,9 @@ img.alt = storeConfig.title + " banner";
   }
 
   // -------------------------------
-  // 4) PRODUCTS GRID (Şimdilik placeholder)
+  // 5) PRODUCTS GRID (şimdilik placeholder)
   // -------------------------------
-  function buildProducts(storeConfig, activeSection) {
+  function buildProducts() {
     const wrap = document.createElement("section");
     wrap.className = "store-products";
 
@@ -233,11 +213,12 @@ img.alt = storeConfig.title + " banner";
     header.className = "store-products-header";
 
     const h2 = document.createElement("h2");
-    h2.textContent =
-      activeSection === "overview"
-        ? "Featured Products"
-        : (storeConfig.sections.find((s) => s.slug === activeSection)?.name ||
-           "Products");
+    if (activeSection === "overview") {
+      h2.textContent = "Featured Products";
+    } else {
+      const sec = (storeConfig.sections || []).find((s) => s.slug === activeSection);
+      h2.textContent = sec ? sec.name : "Products";
+    }
 
     const sub = document.createElement("p");
     sub.textContent = "Product grid will be connected soon.";
@@ -248,7 +229,7 @@ img.alt = storeConfig.title + " banner";
     const grid = document.createElement("div");
     grid.className = "products-grid";
 
-    // Placeholder 8 ürün kartı
+    // 8 tane placeholder kart (sonra gerçek data'ya bağlanacak)
     for (let i = 0; i < 8; i++) {
       const card = document.createElement("div");
       card.className = "product-card";
@@ -263,11 +244,11 @@ img.alt = storeConfig.title + " banner";
   }
 
   // -------------------------------
-  // 5) DOM’A BAS
+  // 6) RENDER
   // -------------------------------
-  headerMount.appendChild(buildHeader(storeConfig, activeSection));
-  root.appendChild(buildHero(storeConfig, activeSection));
-  root.appendChild(buildProducts(storeConfig, activeSection));
+  headerMount.appendChild(buildHeader());
+  root.appendChild(buildHero());
+  root.appendChild(buildProducts());
 
 })();
 
