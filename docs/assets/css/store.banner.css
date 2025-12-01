@@ -1,31 +1,38 @@
 /* ============================================
    RGZTEC STORE — HERO / BANNER CSS
-   Ana sayfa tarzı: solda SEO yazısı, sağda büyük kart
+   Ana sayfa hissi: gradient panel + beyaz kart
    ============================================ */
 
-/* HERO bölüm genel */
+/* HERO bölüm genel (arka planla uyum) */
 .store-hero-section {
   margin-top: 2rem;
   margin-bottom: 3rem;
   width: 100%;
 }
 
+/* İç panel – ana sayfa ambient gibi */
 .store-hero-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 1.8rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2.5rem;
   box-sizing: border-box;
+
+  /* Arka planı, ana sayfa gradient’ine benzetiyoruz */
+  border-radius: 1.75rem;
+  background:
+    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.16);
 }
 
 /* ============================================
    SOL KOLON: SEO METİN BÖLÜMÜ
    ============================================ */
 .store-hero-text {
-  flex: 0 0 45%;
+  flex: 0 0 42%;
   display: flex;
   flex-direction: column;
 }
@@ -42,7 +49,7 @@
 
 /* Büyük başlık */
 .store-hero-title {
-  font-size: 2.1rem;
+  font-size: 2rem;
   font-weight: 800;
   margin: 0 0 0.6rem;
   color: #0f172a;
@@ -70,30 +77,36 @@
    SAĞ KOLON: BANNER GÖRSEL KARTI
    ============================================ */
 .store-hero-banner {
-  flex: 0 0 55%;
+  flex: 0 0 58%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Dış kart – burada ekstra beyaz board vermiyoruz,
+   senin görsel zaten beyaz board taşıyor */
 .store-banner-card {
   width: 100%;
-  max-width: 680px;
-  border-radius: 1.75rem;
+  max-width: 640px;
+  border-radius: 1.5rem;
   overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.28);
-  transition: transform 0.25s ease;
+
+  background: transparent;            /* <— önemli */
+  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.24);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .store-banner-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 26px 90px rgba(15, 23, 42, 0.28);
 }
 
+/* Görsel – hafif radius, full genişlik */
 .store-banner-card img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 1.5rem;
 }
 
 /* ============================================
@@ -102,40 +115,48 @@
 @media (max-width: 1020px) {
   .store-hero-inner {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     text-align: center;
+    padding: 1.6rem 1.6rem;
   }
 
   .store-hero-text {
     order: 2;
     flex: unset;
     max-width: 600px;
+    margin: 0 auto;
   }
 
   .store-hero-banner {
     order: 1;
     width: 100%;
+    margin-bottom: 0.8rem;
   }
 
   .store-banner-card {
     max-width: 460px;
+    margin: 0 auto;
   }
 
   .store-hero-title {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 }
 
 @media (max-width: 600px) {
   .store-hero-inner {
-    padding: 0 1rem;
+    padding: 1.4rem 1.1rem;
   }
 
   .store-banner-card {
     border-radius: 1.25rem;
   }
 
+  .store-banner-card img {
+    border-radius: 1.25rem;
+  }
+
   .store-hero-title {
-    font-size: 1.55rem;
+    font-size: 1.5rem;
   }
 }
