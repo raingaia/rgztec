@@ -2,7 +2,7 @@
 
 /*
  * RGZTEC Store Stylesheet
- * Version: 12.1.0 (Premium Header & Nav)
+ * Version: 12.2.0 (Premium Header & Nav + Hero Card)
  */
 
 /* TOKENS */
@@ -64,7 +64,9 @@ body.store-body {
   font-weight: var(--font-weight-regular);
   line-height: 1.6;
   color: var(--color-text-main);
-  background-color: var(--color-bg-neutral);
+  /* Tam beyaz yerine çok hafif kurumsal gradient */
+  background:
+    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: var(--header-height);
@@ -148,28 +150,28 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   background-color: var(--color-bg-neutral);
 }
 
-/* ORTA – ARAMA ÇUBUĞU (premium) */
+/* ORTA – ARAMA ÇUBUĞU (Etsy tarzı premium) */
 .store-header-search {
   flex-grow: 1;
   display: flex;
   align-items: center;
   max-width: 700px;
-  background-color: #f3f4f6;
-  border: 1px solid var(--color-border-strong);
-  box-shadow: var(--shadow-sm);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   border-radius: 999px;
   overflow: hidden;
   transition: var(--transition-fast);
 }
 .store-header-search:focus-within {
   border-color: var(--color-brand);
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.18);
 }
 .store-header-search input {
   flex-grow: 1;
   border: none;
   background-color: transparent;
-  padding: 0.85rem 1.25rem;
+  padding: 0.8rem 1.25rem;
   font-size: var(--font-size-base);
   color: var(--color-text-main);
   outline: none;
@@ -177,16 +179,21 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 .store-header-search input::placeholder {
   color: #9ca3af;
 }
+/* Turuncu blok yerine sade ikon alanı */
 .store-header-search button {
-  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.1rem;
   border: none;
-  background-color: var(--color-brand);
-  color: var(--color-white);
-  transition: var(--transition-fast);
+  border-left: 1px solid #e5e7eb;
+  background-color: transparent;
+  color: var(--color-brand-strong);
   font-size: 1.1rem;
+  transition: var(--transition-fast);
 }
 .store-header-search button:hover {
-  background-color: var(--color-brand-strong);
+  background-color: rgba(249, 115, 22, 0.06);
 }
 
 /* SAĞ – HESAP / SEPET */
@@ -217,8 +224,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 
 /* ANA STORE NAV (Game Makers, AI Tools Hub, ...) */
 .store-main-nav {
-  background-color: var(--color-bg-card);
-  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  background-color: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid #e5e7eb;
 }
 .store-main-nav__list {
   display: flex;
@@ -256,9 +263,10 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 
 /* DÜKKAN NAV (Hardware içi kategoriler – AI Accelerators vs.) */
 .store-section-nav {
-  background-color: var(--color-bg-neutral);
-  border-bottom: var(--border-width) solid var(--color-border-subtle);
-  box-shadow: var(--shadow-sm);
+  background-color: rgba(255, 255, 255, 0.98);
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 0 rgba(148, 163, 184, 0.18);
 }
 .store-section-nav__list {
   display: flex;
@@ -308,21 +316,25 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   box-shadow: inset 0 -2px 0 0 var(--color-brand-strong);
 }
 
-/* HERO */
+/* HERO – kart gibi sayfanın üstünde float etsin */
 .store-hero {
-  padding: 3rem 0;
-  background-color: var(--color-bg-card);
-  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  padding: 3.5rem 0 2.5rem;
+  background: transparent;
+  border-bottom: none;
 }
 .store-hero-inner {
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0 var(--container-padding);
+  padding: 2.5rem var(--container-padding);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 2rem;
+
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 1.5rem;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
 }
 .store-hero-left { max-width: 600px; }
 .store-badge {
@@ -374,7 +386,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 .store-shops {
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 3rem var(--container-padding);
+  padding: 2.5rem var(--container-padding) 4rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
 }
 .store-shops-header { margin-bottom: 2rem; }
 .store-shops-header h2 {
@@ -382,7 +395,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   color: var(--color-text-main);
 }
 
-/* SHOP CARDS */
+/* SHOP CARDS – daha premium görünüm */
 .shop-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -390,22 +403,23 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 .shop-card {
   display: block;
-  background-color: var(--color-bg-card);
-  border: var(--border-width) solid var(--color-border-subtle);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-sm);
+  background: radial-gradient(circle at top, #ffffff 0, #f9fafb 55%, #eef2ff 100%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.10);
   overflow: hidden;
-  transition: var(--transition-base);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 .shop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  border-color: var(--color-brand);
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.16);
 }
 .shop-card-media {
   position: relative;
   width: 100%;
   padding-top: 60%;
-  background-color: var(--color-bg-neutral);
+  background-color: transparent;
   overflow: hidden;
 }
 .shop-card-media img {
@@ -571,6 +585,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   .store-badge { margin-bottom: 1.5rem; }
   .store-hero-left h1 { font-size: var(--font-size-6xl); }
   .store-hero-tagline { font-size: var(--font-size-xl); }
+
   .store-products,
   .store-shops { padding-top: 4rem; padding-bottom: 4rem; }
   .shop-grid { gap: 2rem; }
@@ -578,8 +593,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 @media (min-width: 1024px) {
   :root { --container-padding: 3rem; }
   .products-grid { gap: 2rem; }
-  .store-hero { padding: 5rem 0; }
 
+  .store-hero { padding: 5rem 0; }
   .store-products,
   .store-shops { padding-top: 5rem; padding-bottom: 5rem; }
 
@@ -587,7 +602,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
     display: none;
   }
 
-  /* Masaüstünde dükkan nav da ortalı olsun istersen: */
+  /* Masaüstünde dükkan nav da ortalı olsun */
   .store-section-nav__list {
     justify-content: center;
   }
@@ -596,3 +611,4 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   .store-hero { padding: 6rem 0; }
   .store-hero-inner { gap: 5rem; }
 }
+
