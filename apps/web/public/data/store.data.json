@@ -2,7 +2,7 @@
   "game-makers": {
     "title": "Game Makers",
     "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
-    "banner": "store-banners/game-makers.webp",
+    "banner": "banner": "game-makers.webp",
     "sections": [
       { "slug": "prototypes", "name": "Prototypes" },
       { "slug": "ui-hud", "name": "UI & HUD" },
