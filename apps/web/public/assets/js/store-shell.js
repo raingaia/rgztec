@@ -120,39 +120,61 @@
 
   // ---- HTML Render Fonksiyonları ----
 
-  // 1) Ana Header
+  // 1) Ana Header (Etsy tarzı – Dashboard / Editor, Sign In, Support, Gift, Cart, Open Store)
   function renderHeader() {
     const categoriesIcon = "☰";
     const searchIcon = "🔍";
+    const giftIcon = "🎁";
     const cartIcon = "🛒";
 
     return `
       <header class="store-header">
         <div class="store-header-inner">
+
+          <!-- Sol: Logo + Categories -->
           <div class="store-header-left">
             <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
             <button class="store-header-categories-btn" type="button">
-              ${categoriesIcon} <span>Categories</span>
+              ${categoriesIcon}
+              <span>Categories</span>
             </button>
           </div>
 
-          <form class="store-header-search" role="search">
-            <input
-              type="search"
-              placeholder="Search for anything"
-              aria-label="Search RGZTEC marketplace"
-            />
-            <button type="submit" aria-label="Search">
-              ${searchIcon}
-            </button>
-          </form>
-
-          <div class="store-header-actions">
-            <a href="#" class="store-header-link">Sign In</a>
-            <button class="store-header-icon-btn" type="button" aria-label="Cart">
-              ${cartIcon}
-            </button>
+          <!-- Orta: Arama çubuğu -->
+          <div class="store-header-center">
+            <form class="store-header-search" role="search">
+              <input
+                type="search"
+                placeholder="Search for anything"
+                aria-label="Search RGZTEC marketplace"
+              />
+              <button type="submit" aria-label="Search">
+                ${searchIcon}
+              </button>
+            </form>
           </div>
+
+          <!-- Sağ: Üst linkler + ikonlar + Open Store -->
+          <div class="store-header-right">
+            <div class="store-header-secondary">
+              <a href="#" class="store-header-secondary-link">Dashboard / Editor</a>
+              <a href="#" class="store-header-secondary-link">Sign In</a>
+              <a href="#" class="store-header-secondary-link">Support</a>
+            </div>
+
+            <div class="store-header-actions">
+              <button class="store-header-icon-pill" type="button" aria-label="Gift cards">
+                ${giftIcon}
+              </button>
+              <button class="store-header-icon-pill" type="button" aria-label="Cart">
+                ${cartIcon}
+              </button>
+              <a href="#" class="store-header-cta">
+                <span>Open Store</span>
+              </a>
+            </div>
+          </div>
+
         </div>
       </header>
     `;
@@ -398,7 +420,6 @@
         const input = searchForm.querySelector("input[type='search']");
         const q = input ? input.value.trim() : "";
         if (!q) return;
-        // Şimdilik sadece console, sonra gerçek arama entegrasyonu
         console.log("[RGZTEC] Search:", q);
       });
     }
@@ -452,26 +473,6 @@
     const str = String(unsafe || "");
     return str
       .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  function formatPrice(price) {
-    const num = parseFloat(price);
-    if (isNaN(num)) {
-      return escapeHtml(price);
-    }
-    try {
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(num);
-    } catch (e) {
-      return "$" + num.toFixed(2);
-    }
-  }
-})();
+      .replace(/</g, "&lt;`)
 
 
