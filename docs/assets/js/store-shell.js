@@ -16,11 +16,34 @@
   // -------------------------------
   // 1) DATA LOAD
   // -------------------------------
+   // -------------------------------
+  // 1) DATA LOAD (iki olası yol)
+  // -------------------------------
   async function fetchData() {
-    const res = await fetch("/rgztec/assets/data/store.data.json?v=" + Date.now());
-    if (!res.ok) throw new Error("DATA FAILED");
-    return await res.json();
+    const paths = [
+      "/rgztec/data/store.data.json",          // tercih ettiğimiz yer
+      "/rgztec/assets/data/store.data.json"   // yedek (eski yer)
+    ];
+
+    let lastError;
+
+    for (const base of paths) {
+      try {
+        const res = await fetch(base + "?v=" + Date.now());
+        if (!res.ok) {
+          lastError = new Error("HTTP " + res.status + " for " + base);
+          continue;
+        }
+        return await res.json();
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    console.error("Store data load failed:", lastError);
+    throw lastError || new Error("DATA FAILED");
   }
+
 
   let data;
   try {
