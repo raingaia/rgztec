@@ -1,75 +1,96 @@
-// store/core/assets/js/store.banner.js
-// Hero banner ve diğer banner yapılarını yönetir
+// assets/js/store.banner.js
+// RGZTEC • Store Banner – bağımsız çalışan sürüm
 
-(function (window, utils) {
+(function (window, document) {
   "use strict";
 
-  if (!utils) {
-    console.error("[store.banner] StoreUtils yok.");
-    return;
+  const REGISTRY_PATH = "data/store-registry.json";
+
+  function el(id) {
+    return document.getElementById(id);
   }
 
-  const { createEl } = utils;
+  async function loadStoreConfig() {
+    const body = document.body;
+    const slug = body.dataset.store || "";
+    if (!slug) return null;
 
-  /**
-   * storeConfig.heroImage + banners içinden hero slot'unu kullanır
-   * @param {Object} storeConfig
-   * @param {Array} banners
-   * @param {HTMLElement} root
-   */
-  function renderStoreHeroBanner(storeConfig, banners, root) {
-    root = root || document.getElementById("store-hero-banner");
-    if (!root || !storeConfig) return;
-
-    const heroBannerData =
-      (Array.isArray(banners) &&
-        banners.find((b) => b.slot === "hero" && b.type === "image")) ||
-      null;
-
-    const bgImage = heroBannerData?.image || storeConfig.heroImage;
-
-    root.classList.add("store-hero-banner");
-    if (bgImage) {
-      root.style.backgroundImage = `url(${bgImage})`;
+    try {
+      const res = await fetch(REGISTRY_PATH);
+      if (!res.ok) throw new Error("registry fetch failed");
+      const list = await res.json();
+      if (Array.isArray(list)) {
+        return list.find((s) => s.slug === slug) || {
+          slug,
+          name: slug,
+          subtitle: "",
+        };
+      }
+    } catch (err) {
+      console.warn("[store.banner] registry okunamadı:", err);
     }
 
-    const kicker = heroBannerData?.kicker || `RGZTEC • ${storeConfig.title}`;
-    const title = heroBannerData?.title || storeConfig.title;
-    const subtitle = heroBannerData?.subtitle || storeConfig.subtitle;
-    const actionText = heroBannerData?.actionText || "Browse products";
-    const actionUrl = heroBannerData?.actionUrl || "#store-root";
+    return {
+      slug,
+      name: slug,
+      subtitle: "",
+    };
+  }
 
-    root.innerHTML = `
-      <div class="store-hero-banner-inner">
-        <div class="store-hero-banner-kicker">${escapeHtml(kicker)}</div>
-        <h2 class="store-hero-banner-title">${escapeHtml(title || "")}</h2>
-        <p class="store-hero-banner-subtitle">
-          ${escapeHtml(subtitle || "")}
-        </p>
-        <a href="${escapeAttr(actionUrl)}" class="store-hero-banner-cta">
-          ${escapeHtml(actionText)} →
-        </a>
-      </div>
+  function renderBanner(storeConfig) {
+    const bannerRoot = el("store-banner");
+    const textRoot = el("store-banner-text");
+    if (!bannerRoot) return;
+
+    const slug = storeConfig.slug || "";
+    const title =
+      storeConfig.name ||
+      storeConfig.title ||
+      "Store";
+
+    const subtitle =
+      storeConfig.subtitle ||
+      storeConfig.tagline ||
+      "";
+
+    // Görsel yolu: önce config.heroImage, yoksa slug tabanlı
+    let imgPath = storeConfig.heroImage;
+    if (!imgPath && slug) {
+      imgPath = `assets/images/store/${slug}-banner.webp`;
+    }
+    if (!imgPath) {
+      imgPath = "assets/images/store/default-store-banner.webp";
+    }
+
+    bannerRoot.classList.add("store-banner-shell");
+
+    bannerRoot.innerHTML = `
+      <figure class="store-banner-card">
+        <img
+          src="${imgPath}"
+          alt="${title} banner"
+          loading="lazy"
+        />
+      </figure>
     `;
+
+    if (textRoot) {
+      textRoot.innerHTML = `
+        <h1 class="store-title">${title}</h1>
+        ${subtitle ? `<p class="store-subtitle">${subtitle}</p>` : ""}
+      `;
+    }
   }
 
-  /**
-   * İleride: content/sponsor/slider banner'ları da burada işleyebiliriz.
-   * Şimdilik sadece hero'ya odaklanıyoruz.
-   */
+  async function bootstrapBanner() {
+    const bannerRoot = el("store-banner");
+    if (!bannerRoot) return; // Bu sayfada banner yoksa çalışmasın
 
-  function escapeHtml(str) {
-    if (str == null) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+    const cfg = await loadStoreConfig();
+    if (!cfg) return;
+    renderBanner(cfg);
   }
 
-  function escapeAttr(str) {
-    if (str == null) return "";
-    return String(str).replace(/"/g, "&quot;");
-  }
+  document.addEventListener("DOMContentLoaded", bootstrapBanner);
+})(window, document);
 
-  window.renderStoreHeroBanner = renderStoreHeroBanner;
-})(window, window.StoreUtils);
