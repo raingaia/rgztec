@@ -1,17 +1,17 @@
-{
-  "game-makers": {
-    "title": "Game Makers",
-    "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
-    "banner": "banner": "store-banners/game-makers.webp",
-    "sections": [
-      { "slug": "prototypes", "name": "Prototypes" },
-      { "slug": "ui-hud", "name": "UI & HUD" },
-      { "slug": "unity-2d", "name": "Unity 2D" },
-      { "slug": "unity-3d", "name": "Unity 3D" },
-      { "slug": "unreal", "name": "Unreal" },
-      { "slug": "vfx-sfx", "name": "VFX & SFX" }
-    ]
-  },
+"game-makers": {
+  "title": "Game Makers",
+  "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
+  "banner": "store-banners/game-makers.webp",
+  "sections": [
+    { "slug": "prototypes", "name": "Prototypes" },
+    { "slug": "ui-hud", "name": "UI & HUD" },
+    { "slug": "unity-2d", "name": "Unity 2D" },
+    { "slug": "unity-3d", "name": "Unity 3D" },
+    { "slug": "unreal", "name": "Unreal" },
+    { "slug": "vfx-sfx", "name": "VFX & SFX" }
+  ]
+},
+
 
   "ai-tools-hub": {
     "title": "AI Tools Hub",
