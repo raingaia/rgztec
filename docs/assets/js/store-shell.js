@@ -1,12 +1,10 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 9.0.0 (Etsy-style Shop Card Grid)
- * Bu versiyon, sistemi kökten değiştirir:
- * 1. Ana Mağaza sayfası (/hardware/): Artık "Dükkanları" (Sections) büyük kartlar olarak gösterir.
- * 2. Dükkan sayfası (/hardware/medical-kits/): O dükkana ait "Ürünleri" gösterir.
- * 3. Yeni JSON yapısını (sections > image, tagline) okur.
- * 4. Eski sections-nav bar'ı kaldırır.
+ * @version 10.0.0 (Etsy-style Header)
+ * Bu versiyon, 'renderHeader' fonksiyonunu ve ilgili CSS'i,
+ * 'Kategoriler', Arama Çubuğu ve 'Actions' (Giriş/Sepet)
+ * içerecek şekilde günceller.
  */
 (function() {
   "use strict";
@@ -93,15 +91,41 @@
 
   // --- HTML Rendering Functions ---
 
-  // 1. Header (Değişiklik yok)
+  // 1. Header (GÜNCELLENDİ v10 - Etsy Tarzı)
   function renderHeader(data) {
-    const storeTitle = escapeHtml(data.title || "RGZTEC Store");
+    // const storeTitle = escapeHtml(data.title || "RGZTEC Store"); // Artık logoda
+    
+    // Basit ikonlar (emoji veya SVG kullanabilirsiniz, şimdilik metin)
+    const categoriesIcon = "☰"; // Hamburger icon
+    const searchIcon = "🔍"; // Search icon
+    const cartIcon = "🛒"; // Cart icon
+
     return `
       <header class="store-header">
         <div class="store-header-inner">
-          <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
-          <span class="store-header-title">${storeTitle}</span>
-          <nav class="store-header-nav"></nav>
+          
+          <div class="store-header-left">
+            <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
+            <button class.="store-header-categories-btn">
+              ${categoriesIcon}
+              <span>Categories</span>
+            </button>
+          </div>
+
+          <div class="store-header-search">
+            <input type="search" placeholder="Search for anything" />
+            <button type="submit" aria-label="Search">
+              ${searchIcon}
+            </button>
+          </div>
+
+          <div class="store-header-actions">
+            <a href="#" class="store-header-link">Sign In</a>
+            <a href="#" class="store-header-icon-btn" aria-label="Cart">
+              ${cartIcon}
+            </a>
+          </div>
+
         </div>
       </header>
     `;
@@ -172,13 +196,12 @@
 
     const name = escapeHtml(section.name || "Untitled Shop");
     const tagline = escapeHtml(section.tagline || "");
-    // DİKKAT: Resim yolu artık IMAGE_BASE_PATH'ten geliyor
     const imageUrl = section.image ? `${IMAGE_BASE_PATH}${escapeHtml(section.image)}` : "";
     const linkHref = `${escapeHtml(section.slug)}/`; // örn: "medical-kits/"
 
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${name}" loading="lazy">`
-      : `<div class="product-media-placeholder"></div>`; // CSS'den gelen placeholder'ı kullan
+      : `<div class="product-media-placeholder"></div>`; 
 
     return `
       <a href="${linkHref}" class="shop-card">
@@ -307,7 +330,6 @@
     if (isNaN(num)) {
       return escapeHtml(price); 
     }
-    // Para birimini ve formatı ABD standardına göre ayarla
     try {
       return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(num);
     } catch (e) {
