@@ -1,9 +1,9 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 6.0.0 (Sections Navigation)
- * Bu versiyon, 'store.data.json' içindeki 'sections' dizisini okur
- * ve Hero bölümünün altına bir alt kategori navigasyon menüsü ekler.
+ * @version 7.0.0 (Layout Order Fix)
+ * Bu versiyon, kullanıcının talebi üzerine 'Sections Nav' (Dükkanlar) menüsünü
+ * 'Hero' bölümünün ÜSTÜNE taşır.
  *
  * * Header (v3) aktiftir.
  * * "Ortak Kart" ve "Eksik Fiyat" korumalarını içerir.
@@ -64,16 +64,19 @@
           badge: "Yeni Mağaza",
           banner: null, 
           products: [],
-          sections: [] // Ortak kartın 'sections' dizisi boş olmalı
+          sections: [] 
         };
       }
 
-      // Render all components
+      // --- SIRALAMA GÜNCELLENDİ (v7) ---
       let storeHtml = "";
       
-      storeHtml += renderHeader(storeData); 
-      storeHtml += renderHero(storeData);   
-      storeHtml += renderMainContent(storeData); // Bu fonksiyon artık sections'ları da render edecek
+      storeHtml += renderHeader(storeData);                 // 1. Header
+      storeHtml += renderSectionsNav(storeData.sections || []); // 2. Dükkanlar Menüsü
+      storeHtml += renderHero(storeData);                   // 3. Hero
+      storeHtml += renderMainContent(storeData.products || []); // 4. Ürünler
+      
+      // --- BİTTİ ---
 
       targetElement.innerHTML = storeHtml;
 
@@ -83,12 +86,11 @@
     }
   }
 
-  // --- HTML Rendering Functions (CSS ile Uyumlu) ---
+  // --- HTML Rendering Functions ---
 
   // Header (Aktif)
   function renderHeader(data) {
     const storeTitle = escapeHtml(data.title || "RGZTEC Store");
-
     return `
       <header class="store-header">
         <div class="store-header-inner">
@@ -100,11 +102,41 @@
     `;
   }
 
+  // YENİ YER: Dükkanlar Menüsü
+  function renderSectionsNav(sections) {
+    if (!Array.isArray(sections) || sections.length === 0) {
+      return ''; 
+    }
+
+    const navItems = sections
+      .map(section => {
+        const slug = escapeHtml(section.slug || '#');
+        const name = escapeHtml(section.name || 'Unnamed Section');
+        return `
+          <li class="store-sections-nav__item">
+            <a href="#${slug}" class="store-sections-nav__link">${name}</a>
+          </li>
+        `;
+      })
+      .join("");
+
+    // Bu menü artık kendi 'nav' etiketi içinde, tam genişlikte bir çubukta
+    return `
+      <nav class="store-sections-nav">
+        <div class="store-sections-nav__inner">
+          <ul class="store-sections-nav__list">
+            ${navItems}
+          </ul>
+        </div>
+      </nav>
+    `;
+  }
+  
   // Hero (Açıklama alanı dahil)
   function renderHero(data) {
     const title = escapeHtml(data.title || "Welcome");
     const tagline = escapeHtml(data.tagline || "");
-    const badge = escapeHtml(data.badge || "Official Store");
+    const badge = escapeHtml(data.badge || "Official Store"); 
     const description = escapeHtml(data.description || ""); 
     const bannerUrl = data.banner ? `${IMAGE_BASE_PATH}${escapeHtml(data.banner)}` : "";
 
@@ -114,10 +146,8 @@
           <div class="store-hero-left">
             <span class="store-badge">${badge}</span>
             <h1>${title}</h1>
-            
             ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ''}
             ${description ? `<p class="store-hero-description">${description}</p>` : ''}
-
           </div>
           <div class="store-hero-right">
             ${bannerUrl ? `<img src="${bannerUrl}" alt="${title}" class="store-hero-img">` : ''}
@@ -127,63 +157,19 @@
     `;
   }
 
-  // Main Content (GÜNCELLENDİ)
-  function renderMainContent(data) {
-    // Bu fonksiyon artık hem 'sections' menüsünü hem de 'products' grid'ini çağırıyor
+  // Main Content (GÜNCELLENDİ - Sadece Ürünleri içerir)
+  function renderMainContent(products) {
     return `
       <main class="store-products">
-        
-        ${renderSectionsNav(data.sections || [])}
-
         <div class="store-products-header">
           <h2>Products</h2>
         </div>
-        ${renderProductGrid(data.products || [])}
+        ${renderProductGrid(products)}
       </main>
     `;
   }
 
-  // *** YENİ FONKSİYON ***
-  /**
-   * Mağaza alt kategorilerini (dükkanlarını) premium bir navigasyon menüsü olarak render eder.
-   * @param {Array<object>} sections - Mağazanın sections dizisi
-   * @returns {string} HTML string for the sections navigation bar.
-   */
-  function renderSectionsNav(sections) {
-    // Eğer 'sections' yoksa veya boşsa, hiçbir şey gösterme
-    if (!Array.isArray(sections) || sections.length === 0) {
-      return ''; 
-    }
-
-    // Her bir 'section' objesini bir link ('li') elemanına dönüştür
-    const navItems = sections
-      .map(section => {
-        const slug = escapeHtml(section.slug || '#');
-        const name = escapeHtml(section.name || 'Unnamed Section');
-        
-        // Slug'ı bir sayfa içi çapa (#) olarak kullanıyoruz.
-        // İleride burayı '/hardware/sensors' gibi tam bir linke dönüştürebilirsiniz.
-        return `
-          <li class="store-sections-nav__item">
-            <a href="#${slug}" class="store-sections-nav__link">${name}</a>
-          </li>
-        `;
-      })
-      .join("");
-
-    // Linkleri bir navigasyon çubuğu içine sar
-    return `
-      <nav class="store-sections-nav">
-        <ul class="store-sections-nav__list">
-          ${navItems}
-        </ul>
-      </nav>
-    `;
-  }
-  // *** YENİ FONKSİYON BİTTİ ***
-
-
-  // Product Grid (Değişiklik yok)
+  // Product Grid
   function renderProductGrid(products) {
     if (!Array.isArray(products) || products.length === 0) {
       return `
@@ -205,7 +191,7 @@
     `;
   }
 
-  // Product Card (Değişiklik yok, Fiyat Koruması aktif)
+  // Product Card (Fiyat Koruması aktif)
   function renderProductCard(product) {
     if (!product) return ""; 
 
@@ -234,7 +220,7 @@
     `;
   }
 
-  // Error (Değişiklik yok)
+  // Error
   function renderError(error, targetElement) {
     targetElement.innerHTML = `
       <div style="padding: 40px; text-align: center;">
@@ -282,7 +268,5 @@
   }
 
 })();
-
-
 
 
