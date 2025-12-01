@@ -201,10 +201,13 @@
 
     const art = document.createElement("div");
     art.className = "store-hero-banner-art";
-
+    
     const img = document.createElement("img");
-    img.src = "/rgztec/assets/img/" + storeConfig.banner; 
-    img.alt = storeConfig.title + " banner";
+img.src = "/rgztec/asset/images/store/" + storeConfig.banner;
+img.alt = storeConfig.title + " banner";
+
+
+
 
     const glass = document.createElement("div");
     glass.className = "store-hero-banner-glass";
