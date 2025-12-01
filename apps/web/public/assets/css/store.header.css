@@ -1,138 +1,92 @@
-/* İnce, üstte oturan header bar */
-.store-header {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  backdrop-filter: blur(18px);
-  background: rgba(249, 250, 251, 0.96);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+/* ============================================
+   RGZTEC STORE – GENEL SAYFA İSKELETİ
+   Ana sayfa gibi tam genişlik, yanlarda sponsor
+   kolonu YOK. Tek merkez kolon.
+   ============================================ */
+
+/* Body arka planı – ana sayfadaki kurumsal zemin */
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
-/* İçerik hizası */
-.store-header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.55rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  box-sizing: border-box;
+body.store-body {
+  min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-}
-
-/* Sol taraftaki RGZTEC markası */
-.store-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-}
-
-.store-brand-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 20%, #fed7aa, var(--store-accent, #f97316));
-  box-shadow: 0 8px 20px rgba(248, 153, 66, 0.6);
-}
-
-.store-brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.store-brand-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background:
+    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
   color: #0f172a;
 }
 
-.store-brand-subtitle {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: #9ca3af;
-}
-
-/* Orta çizgi */
-.store-header-divider {
-  width: 1px;
-  height: 28px;
-  background: rgba(148, 163, 184, 0.5);
-}
-
-/* Aktif store etiketi */
-.store-current-store {
+/* Tüm store içeriği – header altında kalan alan */
+.store-page {
+  width: 100%;
+  max-width: 1200px;          /* ana sayfa ile uyumlu genişlik */
+  margin: 0 auto;             /* ortala */
+  padding: 1.75rem 1.75rem 3rem;
+  box-sizing: border-box;
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: rgba(249, 115, 22, 0.06);
-  border: 1px solid rgba(249, 115, 22, 0.18);
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.store-current-label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: #9ca3af;
+/* Genel section standardı */
+.store-section {
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.store-current-name {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--store-accent, #f97316);
+/* ============================================
+   ÜRÜNLER BÖLÜMÜ: SOL FİLTRE + SAĞ ÜRÜNLER
+   ============================================ */
+
+.store-products-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.75rem;
 }
 
-/* Logo ile arama arasını açan boşluk */
-.store-header-spacer {
+/* Sol panel (filtre / info kutusu) */
+.store-filters {
+  flex: 0 0 260px;
+}
+
+/* Sağ taraf (ürün / alt-dükkan kartları) */
+.store-products {
   flex: 1 1 auto;
 }
 
-/* Sağ taraf (arama) */
-.store-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+/* Ürün grid’i (Etsy-style kartlar) */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.6rem;
+  align-items: stretch;
 }
 
-/* Arama kutusu */
-.store-search {
-  position: relative;
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1020px) {
+  .store-page {
+    padding-inline: 1.25rem;
+  }
+
+  .store-products-section {
+    flex-direction: column;
+  }
+
+  .store-filters {
+    flex: 1 1 auto;
+    width: 100%;
+  }
 }
 
-.store-search-input {
-  min-width: 220px;
-  max-width: 280px;
-  padding: 0.4rem 0.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(255, 255, 255, 0.92);
-  font-size: 0.78rem;
-  outline: none;
-}
-
-.store-search-input:focus {
-  border-color: var(--store-accent, #f97316);
-  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.3);
-}
-
-/* Mobil uyarlama */
-@media (max-width: 768px) {
-  .store-header-inner {
+@media (max-width: 640px) {
+  .store-page {
     padding-inline: 1rem;
-    gap: 0.75rem;
-  }
-
-  .store-current-store {
-    display: none; /* çok sıkışırsa gizlenebilir */
-  }
-
-  .store-search-input {
-    min-width: 170px;
-    max-width: 200px;
   }
 }
+
