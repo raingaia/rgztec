@@ -2,7 +2,7 @@
 
 /*
  * RGZTEC Store Stylesheet
- * Version: 11.0.0 (Etsy-style Main Nav)
+ * Version: 12.0.0 (3-Tier Header & Styling)
  */
 
 /*
@@ -16,6 +16,7 @@
   --color-bg-neutral: #f9fafb;
   --color-bg-card: #ffffff;
   --color-border-subtle: rgba(148, 163, 184, 0.25);
+  --color-border-strong: #d1d5db; /* Arama çubuğu için yeni renk */
   --color-text-main: #0f172a;
   --color-text-sub: #6b7280;
   --color-white: #ffffff;
@@ -25,7 +26,7 @@
   --font-size-xs: 0.75rem; --font-size-sm: 0.875rem; --font-size-base: 1rem; --font-size-lg: 1.125rem; --font-size-xl: 1.25rem; --font-size-2xl: 1.5rem; --font-size-3xl: 1.875rem; --font-size-4xl: 2.25rem; --font-size-5xl: 3rem; --font-size-6xl: 3.75rem;
   --font-weight-regular: 400; --font-weight-medium: 500; --font-weight-semibold: 600; --font-weight-bold: 700;
   /* Sizing */
-  --header-height: 72px; /* Header'ı biraz yükselttik */
+  --header-height: 72px; 
   --container-max-width: 1440px;
   --container-padding: 1.5rem; /* 24px */
   /* Borders & Radius */
@@ -64,164 +65,180 @@ button {
 }
 
 /*
- * --- GÜNCELLENDİ (v10) ---
+ * --- GÜNCELLENDİ (v12) ---
  * Header Component (Etsy-style)
  * -----------------------------------------------
  */
 .store-header {
   position: fixed; top: 0; left: 0; right: 0;
   height: var(--header-height); z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.95); /* Daha az transparan */
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-bottom: var(--border-width) solid var(--color-border-subtle);
 }
 .store-header-inner {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 1.5rem; /* Elemanlar arası boşluk */
-  height: 100%; max-width: var(--container-max-width);
+  gap: 1.5rem; height: 100%; max-width: var(--container-max-width);
   margin: 0 auto; padding: 0 var(--container-padding);
 }
 
 /* Sol Taraf: Logo + Kategoriler */
-.store-header-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+.store-header-left { display: flex; align-items: center; gap: 1rem; }
 .store-header-logo {
-  font-size: var(--font-size-xl); /* Biraz daha büyük */
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-main);
-  text-decoration: none;
+  font-size: var(--font-size-xl); font-weight: var(--font-weight-bold);
+  color: var(--color-text-main); text-decoration: none;
 }
 .store-header-logo:hover { text-decoration: none; opacity: 0.8; }
 
 .store-header-categories-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border: none;
-  background-color: transparent;
-  color: var(--color-text-main);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--border-radius-md);
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.75rem; border: none; background-color: transparent;
+  color: var(--color-text-main); font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium); border-radius: var(--border-radius-md);
   transition: var(--transition-fast);
 }
-.store-header-categories-btn:hover {
-  background-color: var(--color-bg-neutral);
-}
+.store-header-categories-btn:hover { background-color: var(--color-bg-neutral); }
 
-/* Orta: Arama Çubuğu */
+/* Orta: Arama Çubuğu (GÜNCELLENDİ v12) */
 .store-header-search {
-  flex-grow: 1; /* Ortadaki tüm boşluğu kapla */
-  display: flex;
-  align-items: center;
-  max-width: 700px; /* Çok fazla büyümesin */
-  background-color: var(--color-bg-neutral);
-  border: var(--border-width) solid var(--color-border-subtle);
-  border-radius: var(--border-radius-xl); /* Etsy gibi yuvarlak */
+  flex-grow: 1; display: flex; align-items: center;
+  max-width: 700px;
+  background-color: var(--color-bg-card);
+  /* Arama çubuğunu daha kalın ve görünür yap */
+  border: 1px solid var(--color-border-strong);
+  box-shadow: var(--shadow-sm); 
+  border-radius: var(--border-radius-xl);
   overflow: hidden;
+  transition: var(--transition-fast);
+}
+.store-header-search:focus-within {
+  /* Tıklandığında parlama efekti */
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
 }
 .store-header-search input {
-  flex-grow: 1;
-  border: none;
-  background-color: transparent;
-  padding: 0.75rem 1rem; /* Daha dolgun */
-  font-size: var(--font-size-base);
-  color: var(--color-text-main);
+  flex-grow: 1; border: none; background-color: transparent;
+  padding: 0.85rem 1.25rem; /* Kalınlık için padding artırıldı */
+  font-size: var(--font-size-base); color: var(--color-text-main);
   outline: none;
 }
 .store-header-search button {
-  padding: 0.75rem 1rem;
-  border: none;
-  background-color: var(--color-brand);
-  color: var(--color-white);
-  transition: var(--transition-fast);
-  font-size: 1.1rem; /* İkonu büyüt */
+  padding: 0.85rem 1.25rem; border: none;
+  background-color: var(--color-brand); color: var(--color-white);
+  transition: var(--transition-fast); font-size: 1.1rem;
 }
-.store-header-search button:hover {
-  background-color: var(--color-brand-strong);
-}
+.store-header-search button:hover { background-color: var(--color-brand-strong); }
 
 /* Sağ Taraf: Eylemler */
-.store-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
+.store-header-actions { display: flex; align-items: center; gap: 1.25rem; }
 .store-header-link {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-main);
-  text-decoration: none;
+  font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);
+  color: var(--color-text-main); text-decoration: none;
 }
-.store-header-link:hover {
-  color: var(--color-brand-strong);
-  text-decoration: none;
-}
+.store-header-link:hover { color: var(--color-brand-strong); text-decoration: none; }
 .store-header-icon-btn {
-  font-size: 1.5rem; /* İkonu büyüt */
-  color: var(--color-text-main);
-  text-decoration: none;
-  background: none;
-  border: none;
-  padding: 0;
+  font-size: 1.5rem; color: var(--color-text-main);
+  text-decoration: none; background: none; border: none; padding: 0;
 }
-.store-header-icon-btn:hover {
-  color: var(--color-brand-strong);
-}
+.store-header-icon-btn:hover { color: var(--color-brand-strong); }
 
 
 /*
- * --- YENİ (v11) ---
- * Main Store Navigation (Header Altı Mağaza Linkleri)
+ * --- GÜNCELLENDİ (v12) ---
+ * Main Store Navigation (Ana Mağaza Linkleri)
  * -----------------------------------------------
  */
 .store-main-nav {
   background-color: var(--color-bg-card);
   border-bottom: var(--border-width) solid var(--color-border-subtle);
-  /* Bu menü fixed DEĞİL, sayfa ile kayar */
 }
 .store-main-nav__list {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   justify-content: center; /* Linkleri ortala */
-  gap: 1.5rem; /* Linkler arası boşluk */
-  list-style: none;
-  margin: 0 auto;
+  gap: 2rem; /* Linkler arası boşluk (artırıldı) */
+  list-style: none; margin: 0 auto;
   padding: 0.75rem var(--container-padding); /* Dikeyde boşluk */
   max-width: var(--container-max-width);
   overflow-x: auto; /* Mobilde kaydırma */
   
   /* Kaydırma çubuğunu gizle */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: none; scrollbar-width: none;
 }
-.store-main-nav__list::-webkit-scrollbar {
-  display: none;
-}
+.store-main-nav__list::-webkit-scrollbar { display: none; }
+
 .store-main-nav__link {
-  display: block;
-  white-space: nowrap; /* "Hardware Lab" gibi isimler bölünmesin */
+  display: block; white-space: nowrap;
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-sub); /* Normalde sönük renk */
+  /* "Premium" görünüm için font koyu ve kalın */
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-main); 
   text-decoration: none;
-  padding-bottom: 0.25rem; /* Alt çizgi için yer */
-  border-bottom: 2px solid transparent; /* Gizli border */
+  padding-bottom: 0.25rem; 
+  border-bottom: 2px solid transparent; 
   transition: var(--transition-fast);
 }
 .store-main-nav__link:hover {
-  color: var(--color-text-main);
+  color: var(--color-brand);
   text-decoration: none;
 }
 /* Aktif mağaza linki */
 .store-main-nav__link.active {
   color: var(--color-brand-strong);
-  font-weight: var(--font-weight-semibold);
   border-bottom-color: var(--color-brand-strong);
+}
+
+
+/*
+ * --- YENİ (v12) ---
+ * Section Navigation (Dükkan Linkleri)
+ * -----------------------------------------------
+ */
+.store-section-nav {
+  background-color: var(--color-bg-neutral); /* Hafif farklı arka plan */
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  box-shadow: var(--shadow-sm); /* Hafif gölge */
+}
+.store-section-nav__list {
+  display: flex; align-items: center;
+  /* Linkleri sola dayalı başlat (merkezde değil) */
+  justify-content: flex-start; 
+  list-style: none; margin: 0 auto;
+  padding: 0 var(--container-padding); /* İç boşluk */
+  max-width: var(--container-max-width);
+  overflow-x: auto; /* Mobilde kaydırma */
+  
+  /* Kaydırma çubuğunu gizle */
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.store-section-nav__list::-webkit-scrollbar { display: none; }
+
+.store-section-nav__item {
+  /* Ayırgaç çizgi için */
+  border-left: 1px solid var(--color-border-subtle);
+}
+.store-section-nav__list li:first-child {
+  border-left: none; /* İlk linkte çizgi olmasın */
+}
+
+.store-section-nav__link {
+  display: block; white-space: nowrap;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-sub); /* Daha sönük renk */
+  text-decoration: none;
+  padding: 0.75rem 1rem; /* Link boşlukları */
+  transition: var(--transition-fast);
+}
+.store-section-nav__link:hover {
+  color: var(--color-text-main);
+  background-color: rgba(0,0,0,0.03);
+  text-decoration: none;
+}
+/* Aktif dükkan linki */
+.store-section-nav__link.active {
+  color: var(--color-brand-strong);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: inset 0 -2px 0 0 var(--color-brand-strong); /* Alttan çizgi */
 }
 
 
@@ -440,9 +457,13 @@ button {
   .store-hero { padding: 5rem 0; }
   .store-products, .store-shops { padding-top: 5rem; padding-bottom: 5rem; }
   
-  /* Masaüstünde "Categories" yazısını gizle, sadece ikon kalsın */
   .store-header-categories-btn span {
     display: none;
+  }
+  
+  /* Masaüstünde "dükkan" menüsünü de ortala */
+  .store-section-nav__list {
+    justify-content: center;
   }
 }
 @media (min-width: 1440px) {
