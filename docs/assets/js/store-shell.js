@@ -1,13 +1,13 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 4.0.0 (Headerless Design)
- * Bu versiyon, kullanıcının son tasarım isteğine (image_4bb7a4.jpg)
- * uymak için 'renderHeader()' fonksiyon çağrısını kaldırır.
- * Sayfa artık doğrudan 'Hero' bölümü ile başlar.
+ * @version 6.0.0 (Sections Navigation)
+ * Bu versiyon, 'store.data.json' içindeki 'sections' dizisini okur
+ * ve Hero bölümünün altına bir alt kategori navigasyon menüsü ekler.
  *
- * * Harici 'store-core.css' dosyasıyla %100 uyumludur.
+ * * Header (v3) aktiftir.
  * * "Ortak Kart" ve "Eksik Fiyat" korumalarını içerir.
+ * * Hero "description" (v5) alanı aktiftir.
  */
 (function() {
   "use strict";
@@ -53,29 +53,29 @@
 
       storeData = allStoresData[storeSlug];
 
+      // "Ortak Kart" (Generic Store) Koruması
       if (!storeData) {
         console.warn(`Store Shell Engine: "${escapeHtml(storeSlug)}" slug'ı için veri bulunamadı. Ortak bir mağaza (common card) oluşturuluyor.`);
         
         storeData = {
           title: `${escapeHtml(storeSlug)} Mağazası`,
           tagline: "Bu mağaza yakında sizlerle.",
+          description: "İçerik yakında yüklenecek. Lütfen daha sonra tekrar kontrol edin.",
           badge: "Yeni Mağaza",
           banner: null, 
-          products: []  
+          products: [],
+          sections: [] // Ortak kartın 'sections' dizisi boş olmalı
         };
       }
 
-      // --- DEĞİŞİKLİK BURADA ---
-      // Artık 'storeData'nın var olduğu garanti, render et
+      // Render all components
       let storeHtml = "";
       
-      // storeHtml += renderHeader(storeData); // <-- BU SATIR DEVRE DIŞI BIRAKILDI
-      
-      storeHtml += renderHero(storeData);     // Sayfa Hero ile başlıyor
-      storeHtml += renderMainContent(storeData);
+      storeHtml += renderHeader(storeData); 
+      storeHtml += renderHero(storeData);   
+      storeHtml += renderMainContent(storeData); // Bu fonksiyon artık sections'ları da render edecek
 
       targetElement.innerHTML = storeHtml;
-      // --- DEĞİŞİKLİK BİTTİ ---
 
     } catch (error) {
       console.error(`Store Shell Engine: Mağaza yüklenemedi "${escapeHtml(storeSlug)}".`, error);
@@ -85,10 +85,10 @@
 
   // --- HTML Rendering Functions (CSS ile Uyumlu) ---
 
-  // renderHeader fonksiyonu artık çağrılmıyor, ancak silmiyoruz,
-  // ileride tekrar gerekebilir.
+  // Header (Aktif)
   function renderHeader(data) {
     const storeTitle = escapeHtml(data.title || "RGZTEC Store");
+
     return `
       <header class="store-header">
         <div class="store-header-inner">
@@ -100,11 +100,12 @@
     `;
   }
 
-  // Bu Hero fonksiyonu, 'image_4bb7a4.jpg'deki tasarımla BİREBİR UYUMLUDUR
+  // Hero (Açıklama alanı dahil)
   function renderHero(data) {
     const title = escapeHtml(data.title || "Welcome");
     const tagline = escapeHtml(data.tagline || "");
     const badge = escapeHtml(data.badge || "Official Store");
+    const description = escapeHtml(data.description || ""); 
     const bannerUrl = data.banner ? `${IMAGE_BASE_PATH}${escapeHtml(data.banner)}` : "";
 
     return `
@@ -113,7 +114,10 @@
           <div class="store-hero-left">
             <span class="store-badge">${badge}</span>
             <h1>${title}</h1>
-            ${tagline ? `<p>${tagline}</p>` : ''}
+            
+            ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ''}
+            ${description ? `<p class="store-hero-description">${description}</p>` : ''}
+
           </div>
           <div class="store-hero-right">
             ${bannerUrl ? `<img src="${bannerUrl}" alt="${title}" class="store-hero-img">` : ''}
@@ -123,9 +127,14 @@
     `;
   }
 
+  // Main Content (GÜNCELLENDİ)
   function renderMainContent(data) {
+    // Bu fonksiyon artık hem 'sections' menüsünü hem de 'products' grid'ini çağırıyor
     return `
       <main class="store-products">
+        
+        ${renderSectionsNav(data.sections || [])}
+
         <div class="store-products-header">
           <h2>Products</h2>
         </div>
@@ -134,6 +143,47 @@
     `;
   }
 
+  // *** YENİ FONKSİYON ***
+  /**
+   * Mağaza alt kategorilerini (dükkanlarını) premium bir navigasyon menüsü olarak render eder.
+   * @param {Array<object>} sections - Mağazanın sections dizisi
+   * @returns {string} HTML string for the sections navigation bar.
+   */
+  function renderSectionsNav(sections) {
+    // Eğer 'sections' yoksa veya boşsa, hiçbir şey gösterme
+    if (!Array.isArray(sections) || sections.length === 0) {
+      return ''; 
+    }
+
+    // Her bir 'section' objesini bir link ('li') elemanına dönüştür
+    const navItems = sections
+      .map(section => {
+        const slug = escapeHtml(section.slug || '#');
+        const name = escapeHtml(section.name || 'Unnamed Section');
+        
+        // Slug'ı bir sayfa içi çapa (#) olarak kullanıyoruz.
+        // İleride burayı '/hardware/sensors' gibi tam bir linke dönüştürebilirsiniz.
+        return `
+          <li class="store-sections-nav__item">
+            <a href="#${slug}" class="store-sections-nav__link">${name}</a>
+          </li>
+        `;
+      })
+      .join("");
+
+    // Linkleri bir navigasyon çubuğu içine sar
+    return `
+      <nav class="store-sections-nav">
+        <ul class="store-sections-nav__list">
+          ${navItems}
+        </ul>
+      </nav>
+    `;
+  }
+  // *** YENİ FONKSİYON BİTTİ ***
+
+
+  // Product Grid (Değişiklik yok)
   function renderProductGrid(products) {
     if (!Array.isArray(products) || products.length === 0) {
       return `
@@ -155,6 +205,7 @@
     `;
   }
 
+  // Product Card (Değişiklik yok, Fiyat Koruması aktif)
   function renderProductCard(product) {
     if (!product) return ""; 
 
@@ -163,10 +214,7 @@
     const imageUrl = product.image ? `${IMAGE_BASE_PATH}${escapeHtml(product.image)}` : "";
 
     const hasPrice = product.price !== null && product.price !== undefined && String(product.price).trim() !== "";
-    
-    const priceText = hasPrice
-      ? formatPrice(product.price) 
-      : "Fiyat Sorunuz"; 
+    const priceText = hasPrice ? formatPrice(product.price) : "Fiyat Sorunuz"; 
 
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
@@ -186,6 +234,7 @@
     `;
   }
 
+  // Error (Değişiklik yok)
   function renderError(error, targetElement) {
     targetElement.innerHTML = `
       <div style="padding: 40px; text-align: center;">
@@ -202,9 +251,7 @@
   // --- Helper Functions ---
 
   async function fetchJSON(url) {
-    const response = await fetch(url, {
-      cache: "no-store" 
-    });
+    const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`HTTP error fetching ${url}: ${response.status} ${response.statusText}`);
     }
