@@ -1,10 +1,9 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 10.0.0 (Etsy-style Header)
- * Bu versiyon, 'renderHeader' fonksiyonunu ve ilgili CSS'i,
- * 'Kategoriler', Arama Çubuğu ve 'Actions' (Giriş/Sepet)
- * içerecek şekilde günceller.
+ * @version 10.0.0 (FINAL - Etsy Header + Etsy Shop Cards)
+ * Bu versiyon, 'renderHeader' fonksiyonunu ve 'Shop/Product'
+ * mantığını birleştirir.
  */
 (function() {
   "use strict";
@@ -62,12 +61,12 @@
         };
       }
 
-      // --- ANA SAYFA / DÜKKAN SAYFASI MANTIĞI (v9) ---
+      // --- ANA SAYFA / DÜKKAN SAYFASI MANTIĞI ---
       
       let storeHtml = "";
       
-      storeHtml += renderHeader(storeData); // 1. Header (Her zaman)
-      storeHtml += renderHero(storeData);   // 2. Ana Hero (Her zaman)
+      storeHtml += renderHeader(storeData); // 1. Etsy Header
+      storeHtml += renderHero(storeData);   // 2. Ana Hero
 
       if (sectionSlug) {
         // --- DÜKKAN SAYFASINDAYIZ (örn: /medical-kits/) ---
@@ -93,8 +92,6 @@
 
   // 1. Header (GÜNCELLENDİ v10 - Etsy Tarzı)
   function renderHeader(data) {
-    // const storeTitle = escapeHtml(data.title || "RGZTEC Store"); // Artık logoda
-    
     // Basit ikonlar (emoji veya SVG kullanabilirsiniz, şimdilik metin)
     const categoriesIcon = "☰"; // Hamburger icon
     const searchIcon = "🔍"; // Search icon
@@ -106,7 +103,7 @@
           
           <div class="store-header-left">
             <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
-            <button class.="store-header-categories-btn">
+            <button class="store-header-categories-btn">
               ${categoriesIcon}
               <span>Categories</span>
             </button>
@@ -338,7 +335,6 @@
   }
 
 })();
-
 
 
 
