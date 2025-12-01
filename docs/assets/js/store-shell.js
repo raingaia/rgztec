@@ -1,10 +1,13 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 2.0.0 (CSS UYUMLU VERSİYON)
- * Bu versiyon, harici bir 'store-core.css' dosyasıyla çalışmak üzere
- * tasarlanmıştır. HTML class adları bu CSS ile eşleşir ve
- * dahili stil enjeksiyonu kaldırılmıştır.
+ * @version 4.0.0 (Headerless Design)
+ * Bu versiyon, kullanıcının son tasarım isteğine (image_4bb7a4.jpg)
+ * uymak için 'renderHeader()' fonksiyon çağrısını kaldırır.
+ * Sayfa artık doğrudan 'Hero' bölümü ile başlar.
+ *
+ * * Harici 'store-core.css' dosyasıyla %100 uyumludur.
+ * * "Ortak Kart" ve "Eksik Fiyat" korumalarını içerir.
  */
 (function() {
   "use strict";
@@ -13,17 +16,10 @@
 
   const DATA_URL = "/rgztec/data/store.data.json";
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
-  
-  // PARA BİRİMİ (İsteğe bağlı, JS'den kaldırıldı, CSS ile halledilebilir)
-  // const CURRENCY_OPTIONS = {
-  //   style: "currency",
-  //   currency: "USD",
-  // };
 
   // --- Main Initialization ---
 
   document.addEventListener("DOMContentLoaded", () => {
-    // HTML'deki store-root hedefini seçiyoruz
     const storeRoot = document.getElementById("store-root");
     const storeBody = document.querySelector("body.store-body");
 
@@ -39,10 +35,6 @@
       return;
     }
 
-    // CSS enjeksiyonu kaldırıldı. Harici CSS'e güveniyoruz.
-    // injectStyles(); 
-
-    // Mağazayı oluştur
     initStore(storeSlug, storeRoot);
   });
 
@@ -50,6 +42,8 @@
    * Main asynchronous function
    */
   async function initStore(storeSlug, targetElement) {
+    let storeData; 
+
     try {
       const allStoresData = await fetchJSON(DATA_URL);
 
@@ -57,19 +51,31 @@
         throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
       }
 
-      const storeData = allStoresData[storeSlug];
+      storeData = allStoresData[storeSlug];
 
       if (!storeData) {
-        throw new Error(`"${escapeHtml(storeSlug)}" slug'ına sahip mağaza verisi bulunamadı.`);
+        console.warn(`Store Shell Engine: "${escapeHtml(storeSlug)}" slug'ı için veri bulunamadı. Ortak bir mağaza (common card) oluşturuluyor.`);
+        
+        storeData = {
+          title: `${escapeHtml(storeSlug)} Mağazası`,
+          tagline: "Bu mağaza yakında sizlerle.",
+          badge: "Yeni Mağaza",
+          banner: null, 
+          products: []  
+        };
       }
 
-      // Tüm bileşenleri oluştur ve targetElement'in içine yerleştir
+      // --- DEĞİŞİKLİK BURADA ---
+      // Artık 'storeData'nın var olduğu garanti, render et
       let storeHtml = "";
-      storeHtml += renderHeader(storeData);
-      storeHtml += renderHero(storeData);
+      
+      // storeHtml += renderHeader(storeData); // <-- BU SATIR DEVRE DIŞI BIRAKILDI
+      
+      storeHtml += renderHero(storeData);     // Sayfa Hero ile başlıyor
       storeHtml += renderMainContent(storeData);
 
       targetElement.innerHTML = storeHtml;
+      // --- DEĞİŞİKLİK BİTTİ ---
 
     } catch (error) {
       console.error(`Store Shell Engine: Mağaza yüklenemedi "${escapeHtml(storeSlug)}".`, error);
@@ -79,24 +85,23 @@
 
   // --- HTML Rendering Functions (CSS ile Uyumlu) ---
 
+  // renderHeader fonksiyonu artık çağrılmıyor, ancak silmiyoruz,
+  // ileride tekrar gerekebilir.
   function renderHeader(data) {
-    // Harici CSS (.store-core.css) dosyamızdaki class adları kullanılıyor
     const storeTitle = escapeHtml(data.title || "RGZTEC Store");
-
     return `
       <header class="store-header">
         <div class="store-header-inner">
           <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
           <span class="store-header-title">${storeTitle}</span>
-          <nav class="store-header-nav">
-            </nav>
+          <nav class="store-header-nav"></nav>
         </div>
       </header>
     `;
   }
 
+  // Bu Hero fonksiyonu, 'image_4bb7a4.jpg'deki tasarımla BİREBİR UYUMLUDUR
   function renderHero(data) {
-    // Harici CSS (.store-core.css) dosyamızdaki class adları kullanılıyor
     const title = escapeHtml(data.title || "Welcome");
     const tagline = escapeHtml(data.tagline || "");
     const badge = escapeHtml(data.badge || "Official Store");
@@ -108,7 +113,7 @@
           <div class="store-hero-left">
             <span class="store-badge">${badge}</span>
             <h1>${title}</h1>
-            <p>${tagline}</p>
+            ${tagline ? `<p>${tagline}</p>` : ''}
           </div>
           <div class="store-hero-right">
             ${bannerUrl ? `<img src="${bannerUrl}" alt="${title}" class="store-hero-img">` : ''}
@@ -119,7 +124,6 @@
   }
 
   function renderMainContent(data) {
-    // Harici CSS (.store-core.css) dosyamızdaki class adları kullanılıyor
     return `
       <main class="store-products">
         <div class="store-products-header">
@@ -132,7 +136,6 @@
 
   function renderProductGrid(products) {
     if (!Array.isArray(products) || products.length === 0) {
-      // Harici CSS (.store-core.css) dosyamızdaki class adı kullanılıyor
       return `
         <div class="products-grid-empty">
           <h3>Products Coming Soon</h3>
@@ -145,7 +148,6 @@
       .map(product => renderProductCard(product))
       .join("");
 
-    // Harici CSS (.store-core.css) dosyamızdaki class adı kullanılıyor
     return `
       <div class="products-grid">
         ${productCards}
@@ -156,15 +158,19 @@
   function renderProductCard(product) {
     if (!product) return ""; 
 
-    // Harici CSS (.store-core.css) dosyamızdaki class adları kullanılıyor
     const title = escapeHtml(product.title || "Untitled Product");
     const tagline = escapeHtml(product.tagline || "");
-    const price = formatPrice(product.price); // formatPrice'ı basit tutuyoruz
     const imageUrl = product.image ? `${IMAGE_BASE_PATH}${escapeHtml(product.image)}` : "";
+
+    const hasPrice = product.price !== null && product.price !== undefined && String(product.price).trim() !== "";
+    
+    const priceText = hasPrice
+      ? formatPrice(product.price) 
+      : "Fiyat Sorunuz"; 
 
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
-      : `<div class="product-media-placeholder"></div>`; // Basit bir placeholder
+      : `<div class="product-media-placeholder"></div>`; 
 
     return `
       <a href="#" class="product-card">
@@ -174,14 +180,13 @@
         <div class="product-body">
           <h3 class="product-title">${title}</h3>
           <p class="product-tagline">${tagline}</p>
-          <div class="product-price">${price}</div>
+          <div class="product-price">${priceText}</div>
         </div>
       </a>
     `;
   }
 
   function renderError(error, targetElement) {
-    // Hata stili için CSS'e güveniyoruz (veya basit inline stil)
     targetElement.innerHTML = `
       <div style="padding: 40px; text-align: center;">
         <h1 style="font-size: 1.5rem; font-weight: 700;">RGZTEC</h1>
@@ -198,9 +203,8 @@
 
   async function fetchJSON(url) {
     const response = await fetch(url, {
-      cache: "no-store" // Önbelleği önlemek için 'no-store' kullanmak daha güvenli
+      cache: "no-store" 
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error fetching ${url}: ${response.status} ${response.statusText}`);
     }
@@ -223,20 +227,14 @@
   }
 
   function formatPrice(price) {
-    // Fiyatı formatlamayı basitleştiriyoruz, CSS halledebilir
-    // veya Intl.NumberFormat kullanmaya devam edebilirsiniz.
     const num = parseFloat(price);
     if (isNaN(num)) {
-      return escapeHtml(price || "");
+      return escapeHtml(price); 
     }
-    // Örnek basit formatlama:
     return "$" + num.toFixed(2);
   }
 
-  // injectStyles() fonksiyonu buradan kaldırıldı.
-
 })();
-
 
 
 
