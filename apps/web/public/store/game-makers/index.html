@@ -5,15 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <title>RGZTEC • Game Makers</title>
-  <meta
-    name="description"
-    content="Game Makers store on RGZTEC — Unity & Unreal templates, UI kits and game-ready assets."
-  />
+  <meta name="description"
+        content="Game Makers store on RGZTEC — Unity & Unreal templates, UI kits and game-ready assets." />
 
   <!-- ÖNEMLİ: Github Pages ana kökümüz /rgztec/ -->
   <base href="/rgztec/">
 
-  <!-- STORE CSS STACK (tamamı rgztec/assets/css altında) -->
+  <!-- STORE CSS STACK -->
   <link rel="stylesheet" href="assets/css/store.fonts.css" />
   <link rel="stylesheet" href="assets/css/store.tokens.css" />
   <link rel="stylesheet" href="assets/css/store.layout.css" />
@@ -24,34 +22,38 @@
 </head>
 
 <body class="store-body" data-store="game-makers" data-substore="">
-  <!-- HEADER – ince, üstte duran şerit -->
+  <!-- HEADER -->
   <header class="store-header">
     <div id="store-header-root" class="store-header-inner"></div>
   </header>
 
-  <!-- SAYFA GÖVDESİ -->
+  <!-- ANA İÇERİK -->
   <main class="store-page">
-    <!-- BANNER BÖLÜMÜ -->
-<section class="store-hero-section">
-  <div class="store-hero-inner">
-    <div id="store-hero-text" class="store-hero-text"></div>
-    <div id="store-banner" class="store-hero-banner"></div>
-  </div>
-</section>
 
-    <!-- ÜRÜNLER + FİLTRE BÖLÜMÜ -->
+    <!-- HERO / BANNER ŞERİDİ -->
+    <section class="store-hero-section">
+      <div class="store-hero-inner">
+        <!-- Sol: SEO metinleri -->
+        <div id="store-hero-text" class="store-hero-text"></div>
+
+        <!-- Sağ: banner görseli -->
+        <div id="store-banner" class="store-hero-banner"></div>
+      </div>
+    </section>
+
+    <!-- ÜRÜNLER + FİLTRELER -->
     <section class="store-products-section store-section">
-      <!-- Sol kolon: filtreler / info panel -->
+      <!-- Sol kolon: filtreler -->
       <aside id="store-filters-root" class="store-filters"></aside>
 
-      <!-- Sağ kolon: ürün / alt-dükkan kartları -->
+      <!-- Sağ kolon: ürün kartları -->
       <div class="store-products">
         <div id="store-root" class="products-grid"></div>
       </div>
     </section>
   </main>
 
-  <!-- STORE JS STACK (tamamı rgztec/assets/js altında) -->
+  <!-- STORE JS STACK -->
   <script src="assets/js/store.utils.js" defer></script>
   <script src="assets/js/store.header.js" defer></script>
   <script src="assets/js/store.banner.js" defer></script>
@@ -61,5 +63,6 @@
   <script src="assets/js/store.core.js" defer></script>
 </body>
 </html>
+
 
 
