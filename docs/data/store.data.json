@@ -1,22 +1,21 @@
-"game-makers": {
-  "title": "Game Makers",
-  "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
-  "banner": "store-banners/game-makers.webp",
-  "sections": [
-    { "slug": "prototypes", "name": "Prototypes" },
-    { "slug": "ui-hud", "name": "UI & HUD" },
-    { "slug": "unity-2d", "name": "Unity 2D" },
-    { "slug": "unity-3d", "name": "Unity 3D" },
-    { "slug": "unreal", "name": "Unreal" },
-    { "slug": "vfx-sfx", "name": "VFX & SFX" }
-  ]
-},
-
-
+{
+  "game-makers": {
+    "title": "Game Makers",
+    "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
+    "banner": "game-makers.webp",
+    "sections": [
+      { "slug": "prototypes", "name": "Prototypes" },
+      { "slug": "ui-hud", "name": "UI & HUD" },
+      { "slug": "unity-2d", "name": "Unity 2D" },
+      { "slug": "unity-3d", "name": "Unity 3D" },
+      { "slug": "unreal", "name": "Unreal" },
+      { "slug": "vfx-sfx", "name": "VFX & SFX" }
+    ]
+  },
   "ai-tools-hub": {
     "title": "AI Tools Hub",
     "tagline": "Agents, automations and AI workflows ready to plug into your stack.",
-    "banner": "store-banners/ai-tools-hub.webp",
+    "banner": "ai-tools-hub.webp",
     "sections": [
       { "slug": "agents", "name": "Agents" },
       { "slug": "analytics", "name": "Analytics" },
@@ -28,11 +27,10 @@
       { "slug": "workflows", "name": "Workflows" }
     ]
   },
-
   "dev-studio-one": {
     "title": "Dev Studio One",
     "tagline": "Production-ready starters, dashboards and design systems for modern apps.",
-    "banner": "store-banners/dev-studio-one.webp",
+    "banner": "dev-studio-one.webp",
     "sections": [
       { "slug": "api-boilerplates", "name": "API Boilerplates" },
       { "slug": "auth-stacks", "name": "Auth Stacks" },
@@ -41,11 +39,10 @@
       { "slug": "html-starters", "name": "HTML Starters" }
     ]
   },
-
   "email-forge": {
     "title": "Email Forge",
     "tagline": "High-converting email templates for campaigns, flows and notifications.",
-    "banner": "store-banners/email-forge.webp",
+    "banner": "email-forge.webp",
     "sections": [
       { "slug": "drip-flows", "name": "Drip Flows" },
       { "slug": "marketing-campaigns", "name": "Marketing Campaigns" },
@@ -56,11 +53,10 @@
       { "slug": "transactional", "name": "Transactional" }
     ]
   },
-
   "hardware": {
     "title": "Hardware Lab",
     "tagline": "AI accelerators, dev boards, sensors and edge devices for serious builds.",
-    "banner": "store-banners/hardware.webp",
+    "banner": "hardware.webp",
     "sections": [
       { "slug": "ai-accelerators", "name": "AI Accelerators" },
       { "slug": "dev-boards", "name": "Dev Boards" },
@@ -71,11 +67,10 @@
       { "slug": "smart-controllers", "name": "Smart Controllers" }
     ]
   },
-
   "html-templates": {
     "title": "HTML Templates",
     "tagline": "Landing pages, dashboards and section packs built with clean HTML.",
-    "banner": "store-banners/html-templates.webp",
+    "banner": "html-templates.webp",
     "sections": [
       { "slug": "components", "name": "Components" },
       { "slug": "dashboards", "name": "Dashboards" },
@@ -86,11 +81,10 @@
       { "slug": "sections", "name": "Sections" }
     ]
   },
-
   "icon-smith": {
     "title": "Icon Smith",
     "tagline": "Icon systems crafted for apps, dashboards and brand libraries.",
-    "banner": "store-banners/icon-smith.webp",
+    "banner": "icon-smith.webp",
     "sections": [
       { "slug": "3d-icons", "name": "3D Icons" },
       { "slug": "brand-icons", "name": "Brand Icons" },
@@ -102,11 +96,10 @@
       { "slug": "system-icons", "name": "System Icons" }
     ]
   },
-
   "reactorium": {
     "title": "Reactorium",
     "tagline": "React UI kits, charts and navigation patterns for production apps.",
-    "banner": "store-banners/reactorium.webp",
+    "banner": "reactorium.webp",
     "sections": [
       { "slug": "charts", "name": "Charts" },
       { "slug": "forms", "name": "Forms" },
@@ -117,11 +110,10 @@
       { "slug": "ui-kit", "name": "UI Kit" }
     ]
   },
-
   "tiny-js-lab": {
     "title": "Tiny JS Lab",
     "tagline": "Vanilla JS utilities, widgets and micro-patterns for the web.",
-    "banner": "store-banners/tiny-js-lab.webp",
+    "banner": "tiny-js-lab.webp",
     "sections": [
       { "slug": "animations", "name": "Animations" },
       { "slug": "data-fetching", "name": "Data Fetching" },
@@ -132,11 +124,10 @@
       { "slug": "widgets", "name": "Widgets" }
     ]
   },
-
   "unity-hub": {
     "title": "Unity Hub",
     "tagline": "Unity camera, character, environment and multiplayer templates.",
-    "banner": "store-banners/unity-hub.webp",
+    "banner": "unity-hub.webp",
     "sections": [
       { "slug": "camera-systems", "name": "Camera Systems" },
       { "slug": "character-controllers", "name": "Character Controllers" },
@@ -146,11 +137,10 @@
       { "slug": "tools-editors", "name": "Tools & Editors" }
     ]
   },
-
   "wp-plugins": {
     "title": "WP Plugins",
     "tagline": "High-quality WordPress plugins for commerce, SEO and membership.",
-    "banner": "store-banners/wp-plugins.webp",
+    "banner": "wp-plugins.webp",
     "sections": [
       { "slug": "blocks-editor", "name": "Blocks Editor" },
       { "slug": "ecommerce", "name": "E-commerce" },
