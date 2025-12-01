@@ -2,7 +2,7 @@
 
 /*
  * RGZTEC Store Stylesheet
- * Version: 10.0.0 (FINAL - Etsy Header + Etsy Shop Cards)
+ * Version: 11.0.0 (Etsy-style Main Nav)
  */
 
 /*
@@ -171,6 +171,57 @@ button {
 }
 .store-header-icon-btn:hover {
   color: var(--color-brand-strong);
+}
+
+
+/*
+ * --- YENİ (v11) ---
+ * Main Store Navigation (Header Altı Mağaza Linkleri)
+ * -----------------------------------------------
+ */
+.store-main-nav {
+  background-color: var(--color-bg-card);
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+  /* Bu menü fixed DEĞİL, sayfa ile kayar */
+}
+.store-main-nav__list {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Linkleri ortala */
+  gap: 1.5rem; /* Linkler arası boşluk */
+  list-style: none;
+  margin: 0 auto;
+  padding: 0.75rem var(--container-padding); /* Dikeyde boşluk */
+  max-width: var(--container-max-width);
+  overflow-x: auto; /* Mobilde kaydırma */
+  
+  /* Kaydırma çubuğunu gizle */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.store-main-nav__list::-webkit-scrollbar {
+  display: none;
+}
+.store-main-nav__link {
+  display: block;
+  white-space: nowrap; /* "Hardware Lab" gibi isimler bölünmesin */
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-sub); /* Normalde sönük renk */
+  text-decoration: none;
+  padding-bottom: 0.25rem; /* Alt çizgi için yer */
+  border-bottom: 2px solid transparent; /* Gizli border */
+  transition: var(--transition-fast);
+}
+.store-main-nav__link:hover {
+  color: var(--color-text-main);
+  text-decoration: none;
+}
+/* Aktif mağaza linki */
+.store-main-nav__link.active {
+  color: var(--color-brand-strong);
+  font-weight: var(--font-weight-semibold);
+  border-bottom-color: var(--color-brand-strong);
 }
 
 
