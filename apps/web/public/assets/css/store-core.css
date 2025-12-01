@@ -1,3 +1,8 @@
+/* ===========================
+   RGZTEC • STORE CORE / LAYOUT
+   Game Makers + tüm store'lar
+   =========================== */
+
 :root {
   --accent: #f97316;
   --accent-strong: #ea580c;
@@ -10,7 +15,7 @@
   --shadow-soft: 0 24px 80px rgba(15, 23, 42, 0.12);
 }
 
-/* === SAYFA ZEMİNİ – ANA SAYFAYLA UYUMLU === */
+/* === SAYFA ZEMİNİ (STORE) === */
 
 html,
 body {
@@ -18,317 +23,344 @@ body {
   padding: 0;
 }
 
-/* Store sayfalarında gövdeyi daha geniş kullan */
-body.store-body[data-store="game-makers"] #store-root {
-  width: 100%;
-  max-width: none;            /* genişlik sınırı yok */
-  margin: 0 auto;
-  padding: 2.5rem 2.5rem 4rem; /* sağ/sol biraz daha açtık */
+body.store-body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  background:
+    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
+  color: var(--text-main);
 }
 
-
-/* Ortadaki ana container */
+/* ANA CONTAINER – sponsor’lardan kurtulmak için full width */
 
 #store-root {
   max-width: 1200px;
+  margin: 1.5rem auto 2.5rem auto;
+  padding: 0 1.5rem 2.5rem 1.5rem;
+  box-sizing: border-box;
+}
+
+/* Eğer eski mimariden kalan sponsor rail vs. varsa öldür */
+.sponsor-left,
+.sponsor-right,
+.page-sponsor-rail,
+.layout-sponsor,
+.home-sponsor {
+  display: none !important;
+}
+
+/* ======================
+   HEADER (ince şerit)
+   ====================== */
+
+.store-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(18px);
+  background: rgba(249, 250, 251, 0.96);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.store-header-inner {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 4rem;
-}
-
-
-/* =========================
-   HERO (büyük üst kart)
-   ========================= */
-
-.store-hero {
-  margin-bottom: 1.8rem;
-}
-
-.store-hero .hero-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
-  gap: 2rem;
-  align-items: stretch;
-  padding: 2rem 2.25rem;
-  border-radius: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0, #f9fafb 55%, #eef2ff 100%);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
-}
-
-.store-hero .hero-text {
+  padding: 0.55rem 1.5rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 1.25rem;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
 }
 
-.store-hero .badge {
-  display: inline-flex;
+.store-brand {
+  display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.18rem 0.75rem;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.store-brand-dot {
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #f3f4ff;
-  font-size: 0.7rem;
+  background: radial-gradient(circle at 30% 10%, #fed7aa, #f97316);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.25),
+    0 12px 30px rgba(15, 23, 42, 0.45);
+}
+
+.store-brand-text {
+  font-size: 0.95rem;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #4b5563;
+  color: #0f172a;
 }
 
-.store-hero h1 {
-  font-size: clamp(1.9rem, 2.7vw, 2.4rem);
-  line-height: 1.1;
-  margin: 0;
+.store-search {
+  margin-left: auto;
+  flex: 0 0 260px;
 }
 
-.store-hero p {
-  margin: 0;
-  color: var(--text-sub);
+.store-search-input {
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(255, 255, 255, 0.9);
+  outline: none;
+}
+
+/* =====================
+   HERO BLOK
+   ===================== */
+
+.store-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 1.8rem;
+  align-items: stretch;
+  margin-top: 1.8rem;
+}
+
+.store-hero-left {
+  padding: 1.6rem 1.8rem;
+  border-radius: calc(var(--radius-xl) * 1.2);
+  background:
+    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fefce8 100%);
+  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.store-hero-kicker {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-strong);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.store-hero-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.store-hero-sub {
   font-size: 0.95rem;
+  color: var(--text-sub);
   max-width: 32rem;
+  line-height: 1.6;
+  margin-bottom: 0.9rem;
 }
 
-.hero-tags {
+.store-hero-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.3rem;
+  gap: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-sub);
 }
 
-.hero-tags span {
-  padding: 0.16rem 0.7rem;
+.store-hero-pill {
+  padding: 0.3rem 0.7rem;
   border-radius: 999px;
-  background: #f3f4ff;
-  font-size: 0.72rem;
-  color: #4b5563;
+  border: 1px dashed rgba(148, 163, 184, 0.7);
 }
 
-/* Sağ taraftaki banner alanı */
-
-.store-hero .hero-banner {
-  border-radius: 1.25rem;
-  background: radial-gradient(circle at top, #dbeafe 0, #bfdbfe 40%, #a5b4fc 100%);
-  position: relative;
-  overflow: hidden;
+.store-hero-right {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.store-hero .hero-banner img {
-  max-width: 100%;
-  height: auto;
+/* Hero kart (senin Game Makers görseli için) */
+.store-hero-card {
+  width: 100%;
+  max-width: 340px;
+  border-radius: calc(var(--radius-xl) * 1.2);
+  padding: 0.9rem;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.18), transparent 55%),
+    #ffffff;
+  box-shadow: 0 30px 90px rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+/* Banner içindeki img boşlukları düzgün dursun */
+.store-hero-card img {
   display: block;
-}
-
-/* Placeholder kullandığımızda */
-
-.hero-banner-placeholder {
-  text-align: center;
-  color: #0f172a;
-}
-
-.hero-banner-placeholder .hero-badge-line {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.7;
-}
-
-.hero-banner-placeholder .hero-banner-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 0.3rem;
-}
-
-.hero-banner-placeholder .hero-banner-subtitle {
-  font-size: 0.9rem;
-  opacity: 0.75;
-  margin-top: 0.2rem;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-xl) * 0.9);
 }
 
 /* =========================
-   ARAMA ÇUBUĞU
+   PRODUCT GRID – ETSY STYLE
    ========================= */
 
-.store-search {
-  margin-bottom: 1.75rem;
+.store-products {
+  margin-top: 1.5rem;
 }
 
-.store-search-row {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.store-search-input {
-  flex: 1;
-  height: 44px;
-  padding: 0 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  font-size: 0.9rem;
-  color: #111827;
-  background: #ffffff;
-}
-
-.store-search-input::placeholder {
-  color: #9ca3af;
-}
-
-.store-search-button {
-  height: 44px;
-  padding: 0 1.5rem;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(135deg, #f97316, #ea580c);
-  color: white;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  box-shadow: 0 10px 24px rgba(234, 88, 12, 0.5);
-}
-
-.store-search-button:disabled {
-  opacity: 0.7;
-  cursor: default;
-}
-
-/* =========================
-   SECTIONS GRID (substores)
-   ========================= */
-
-.store-substores {
-  margin-bottom: 2.25rem;
-}
-
-.store-section-header {
+.store-products-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.9rem;
+  align-items: center;
+  margin-bottom: 0.7rem;
 }
 
-.store-section-header h2 {
-  font-size: 1rem;
-  margin: 0;
+.store-products-title {
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-.store-section-header span {
-  font-size: 0.8rem;
+.store-products-count {
+  font-size: 0.85rem;
   color: var(--text-sub);
 }
 
-.substores-grid {
+/* GRID */
+
+.store-products .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.6rem;
+  align-items: stretch;
 }
 
-/* Store kartları – ana sayfa kalitesinde AÇIK kartlar */
+/* ÜRÜN KARTI */
 
-.substore-card {
-  display: flex;
-  flex-direction: column;
+.product-card {
   border-radius: var(--radius-xl);
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
-  color: var(--text-main);
-  text-decoration: none;
-  padding: 1rem 1.2rem 1.2rem;
-  transition:
-    transform 140ms ease,
-    box-shadow 140ms ease,
-    border-color 140ms ease;
-}
-
-.substore-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.7);
-  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.16);
-}
-
-.substore-banner {
-  height: 120px;
-  margin-bottom: 0.8rem;
-  border-radius: 0.9rem;
-  background: radial-gradient(
-    circle at top,
-    #e0f2fe 0,
-    #eff6ff 40%,
-    #f9fafb 100%
-  );
+  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.10);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+  position: relative;
 }
 
-.substore-banner img {
+.product-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(249, 115, 22, 0.09), transparent);
+  opacity: 0;
+  transition: opacity 150ms ease;
+  pointer-events: none;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.16);
+  border-color: rgba(249, 115, 22, 0.7);
+}
+
+.product-card:hover::before {
+  opacity: 1;
+}
+
+/* Kart üst görsel alanı */
+
+.product-thumb {
+  position: relative;
+  padding: 0.9rem 0.9rem 0 0.9rem;
+}
+
+.product-thumb img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
+  border-radius: calc(var(--radius-xl) * 0.9);
 }
 
-.substore-body h3 {
-  margin: 0 0 0.35rem;
-  font-size: 0.95rem;
+/* İçerik */
+
+.product-body {
+  padding: 0.95rem 1rem 1.05rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.product-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.product-sub {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.product-price {
   font-weight: 600;
 }
 
-.substore-body p {
-  margin: 0;
-  font-size: 0.82rem;
-  color: var(--text-sub);
+.product-cta {
+  margin-top: 0.7rem;
 }
 
-/* =========================
-   DURUM MESAJLARI
-   ========================= */
-
-.store-error,
-.store-empty,
-.store-empty-soft {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: var(--text-sub);
-  text-align: center;
+.product-cta button,
+.product-cta a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white;
 }
 
-.store-error {
-  color: #b91c1c;
-}
-
-/* =========================
+/* =====================
    RESPONSIVE
-   ========================= */
+   ===================== */
 
-@media (max-width: 960px) {
+@media (max-width: 900px) {
   #store-root {
-    padding: 1.8rem 1.1rem 3rem;
+    margin-top: 1rem;
+    padding: 0 1rem 2rem 1rem;
   }
 
-  .store-hero .hero-inner {
+  .store-hero {
     grid-template-columns: minmax(0, 1fr);
-    padding: 1.6rem 1.5rem;
   }
 
-  .store-hero .hero-banner {
-    margin-top: 0.8rem;
-    min-height: 160px;
+  .store-hero-right {
+    order: -1;
+  }
+
+  .store-header-inner {
+    padding-inline: 1rem;
+  }
+
+  .store-search {
+    display: none;
   }
 }
 
-@media (max-width: 640px) {
-  .store-search-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .store-search-button {
-    width: 100%;
-  }
-}
 
 
 
