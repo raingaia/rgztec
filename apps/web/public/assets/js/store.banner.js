@@ -1,35 +1,62 @@
 // assets/js/store.banner.js
-// RGZTEC • Store Banner (tek görsellik hero kart)
+// RGZTEC • Store Banner – bağımsız çalışan sürüm
 
 (function (window, document) {
   "use strict";
 
-  function renderStoreBanner(storeConfig) {
-    const bannerRoot = document.getElementById("store-banner");
-    const textRoot = document.getElementById("store-banner-text");
+  const REGISTRY_PATH = "data/store-registry.json";
+
+  function el(id) {
+    return document.getElementById(id);
+  }
+
+  async function loadStoreConfig() {
+    const body = document.body;
+    const slug = body.dataset.store || "";
+    if (!slug) return null;
+
+    try {
+      const res = await fetch(REGISTRY_PATH);
+      if (!res.ok) throw new Error("registry fetch failed");
+      const list = await res.json();
+      if (Array.isArray(list)) {
+        return list.find((s) => s.slug === slug) || {
+          slug,
+          name: slug,
+          subtitle: "",
+        };
+      }
+    } catch (err) {
+      console.warn("[store.banner] registry okunamadı:", err);
+    }
+
+    return {
+      slug,
+      name: slug,
+      subtitle: "",
+    };
+  }
+
+  function renderBanner(storeConfig) {
+    const bannerRoot = el("store-banner");
+    const textRoot = el("store-banner-text");
     if (!bannerRoot) return;
 
-    const body = document.body;
-
-    const storeSlug =
-      storeConfig?.slug ||
-      body.dataset.store ||
-      "";
-
+    const slug = storeConfig.slug || "";
     const title =
-      storeConfig?.name ||
-      storeConfig?.title ||
-      "Game Makers";
+      storeConfig.name ||
+      storeConfig.title ||
+      "Store";
 
     const subtitle =
-      storeConfig?.subtitle ||
-      storeConfig?.tagline ||
-      "Unity & Unreal templates, UI kits and game-ready assets.";
+      storeConfig.subtitle ||
+      storeConfig.tagline ||
+      "";
 
     // Görsel yolu: önce config.heroImage, yoksa slug tabanlı
-    let imgPath = storeConfig?.heroImage;
-    if (!imgPath && storeSlug) {
-      imgPath = `assets/images/store/${storeSlug}-banner.webp`;
+    let imgPath = storeConfig.heroImage;
+    if (!imgPath && slug) {
+      imgPath = `assets/images/store/${slug}-banner.webp`;
     }
     if (!imgPath) {
       imgPath = "assets/images/store/default-store-banner.webp";
@@ -55,5 +82,14 @@
     }
   }
 
-  window.renderStoreBanner = renderStoreBanner;
+  async function bootstrapBanner() {
+    const bannerRoot = el("store-banner");
+    if (!bannerRoot) return; // Bu sayfada banner yoksa çalışmasın
+
+    const cfg = await loadStoreConfig();
+    if (!cfg) return;
+    renderBanner(cfg);
+  }
+
+  document.addEventListener("DOMContentLoaded", bootstrapBanner);
 })(window, document);
