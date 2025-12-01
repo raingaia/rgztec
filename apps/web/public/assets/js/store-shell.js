@@ -12,7 +12,7 @@
   // ---- Sabitler ----
 
   // 🔴 ÖNEMLİ: JSON yolu assets/data altında
-  const DATA_URL = "/rgztec/assets/data/store.data.json";
+  const DATA_URL = "/rgztec/data/store.data.json";
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   // ---- Başlatma ----
