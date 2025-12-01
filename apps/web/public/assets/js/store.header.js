@@ -1,8 +1,10 @@
 // assets/js/store.header.js
-// RGZTEC • Store Header (ince şerit + store etiketi)
+// RGZTEC • Store Header – bağımsız çalışan sürüm
 
 (function (window, document) {
   "use strict";
+
+  const REGISTRY_PATH = "data/store-registry.json";
 
   function qs(sel) {
     return document.querySelector(sel);
@@ -16,25 +18,47 @@
       .replace(/>/g, "&gt;");
   }
 
-  function initStoreHeader(storeConfig) {
+  async function loadStoreConfig() {
+    const body = document.body;
+    const slug = body.dataset.store || "";
+    if (!slug) return null;
+
+    try {
+      const res = await fetch(REGISTRY_PATH);
+      if (!res.ok) throw new Error("registry fetch failed");
+      const list = await res.json();
+      if (Array.isArray(list)) {
+        return list.find((s) => s.slug === slug) || {
+          slug,
+          name: slug,
+          subtitle: "",
+          accent: "#f97316",
+        };
+      }
+    } catch (err) {
+      console.warn("[store.header] registry okunamadı:", err);
+    }
+
+    return {
+      slug,
+      name: slug,
+      subtitle: "",
+      accent: "#f97316",
+    };
+  }
+
+  function renderHeader(storeConfig) {
     const root = qs("#store-header-root");
     if (!root) return;
 
-    const body = document.body;
-
-    const storeSlug =
-      storeConfig?.slug ||
-      body.dataset.store ||
-      "";
-
+    const storeSlug = storeConfig.slug || "";
     const storeTitle =
-      storeConfig?.name ||
-      storeConfig?.title ||
+      storeConfig.name ||
+      storeConfig.title ||
       storeSlug ||
       "Store";
 
-    const accent =
-      storeConfig?.accent || "#f97316";
+    const accent = storeConfig.accent || "#f97316";
 
     // Accent rengini header elementine yaz
     root.parentElement.style.setProperty("--store-accent", accent);
@@ -70,5 +94,15 @@
     `;
   }
 
-  window.initStoreHeader = initStoreHeader;
+  async function bootstrapHeader() {
+    const root = qs("#store-header-root");
+    if (!root) return; // Bu sayfada header yoksa hiç çalışmasın
+
+    const cfg = await loadStoreConfig();
+    if (!cfg) return;
+    renderHeader(cfg);
+  }
+
+  // DOM hazır olduğunda otomatik çalışsın
+  document.addEventListener("DOMContentLoaded", bootstrapHeader);
 })(window, document);
