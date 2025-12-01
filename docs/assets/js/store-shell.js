@@ -1,283 +1,155 @@
-// =========================================
-// RGZTEC STORE • store-shell.js (FINAL)
-// - Base path otomatik: /rgztec/ veya /
-// - Data:   {BASE}data/store.data.json
-// - Banner: {BASE}asset/images/store/{banner}.webp
-// =========================================
+// ===============================
+// RGZTEC STORE SHELL (tek dosya)
+// ===============================
 
-(function () {
-  console.log("RGZTEC STORE SHELL: loaded, path =", window.location.pathname);
+// 1) KÖK PATH
+// GitHub Pages altında /rgztec altında çalışıyorsun:
+const ROOT_PREFIX = "/rgztec";
 
-  // ---- BASE PATH HESABI ----
-  // Örnek path: /rgztec/store/game-makers/
-  var parts = window.location.pathname.split("/").filter(Boolean); // ["rgztec","store","game-makers"]
-  var project = parts[0] || "";
-  var BASE = "/";
+// Eğer ileride lokalde kökten çalıştırırsan, şunu yaparsın:
+// const ROOT_PREFIX = "";
 
-  // Eğer ilk parça 'store', 'data', 'asset' değilse proje ismi olarak kabul et
-  if (project && ["store", "data", "asset"].indexOf(project) === -1) {
-    BASE = "/" + project + "/";
+// 2) TÜM YOLLAR BURADAN TÜRETİLİYOR
+const STORE_DATA_URL    = ROOT_PREFIX + "/assets/data/store.data.json";
+const STORE_BANNER_BASE = ROOT_PREFIX + "/assets/images/store/";
+
+// Kontrol için log:
+console.log("STORE_DATA_URL    =", STORE_DATA_URL);
+console.log("STORE_BANNER_BASE =", STORE_BANNER_BASE);
+
+(async function () {
+  const body = document.body;
+  const root = document.getElementById("store-root");
+
+  if (!root) {
+    console.error("#store-root bulunamadı.");
+    return;
   }
 
-  console.log("BASE path =", BASE);
+  // HTML: <body class="store-body" data-store="hardware" data-substore="ai-accelerators">
+  const storeSlug = body.dataset.store || "";
+  const subSlug   = body.dataset.substore || "";
 
-  console.log("STORE_DATA_URL =", STORE_DATA_URL);
-  console.log("STORE_BANNER_BASE =", STORE_BANNER_BASE);
-
-  function showError(message) {
-    var root = document.getElementById("store-root");
-    if (!root) return;
-    root.innerHTML =
-      '<div class="store-error">' +
-      "<h2>Store Error</h2>" +
-      "<p>" + message + "</p>" +
-      "</div>";
+  if (!storeSlug) {
+    root.innerHTML = `
+      <p style="padding:1.5rem;color:#b91c1c;">
+        <code>data-store</code> attribute'u tanımlı değil.
+      </p>
+    `;
+    return;
   }
 
-  async function fetchStoreData() {
-    console.log("Fetching data from", STORE_DATA_URL);
-    var res = await fetch(STORE_DATA_URL + "?v=" + Date.now());
+  try {
+    // 3) JSON'U ÇEK
+    const res = await fetch(STORE_DATA_URL + "?v=" + Date.now());
     if (!res.ok) {
-      throw new Error("HTTP " + res.status + " on " + STORE_DATA_URL);
-    }
-    var json = await res.json();
-    console.log("Data loaded:", json);
-    return json;
-  }
-
-  async function init() {
-    var root = document.getElementById("store-root");
-    var headerMount = document.getElementById("store-header");
-    var body = document.body;
-    var storeSlug = body && body.dataset ? body.dataset.store : null;
-
-    if (!root || !headerMount) {
-      console.error("store-root veya store-header bulunamadı.");
-      return;
-    }
-    if (!storeSlug) {
-      showError("data-store attribute is missing on <body>.");
-      return;
+      throw new Error("JSON bulunamadı: " + STORE_DATA_URL + " (status " + res.status + ")");
     }
 
-    console.log("INIT for store slug =", storeSlug);
-    body.classList.add("store-" + storeSlug);
+    const data = await res.json();
+    console.log("store.data.json yüklendi:", data);
 
-    var data;
-    try {
-      data = await fetchStoreData();
-    } catch (err) {
-      console.error("Data error:", err);
-      showError("Store configuration could not be loaded. " + err.message);
-      return;
-    }
-
-    var storeConfig = data[storeSlug];
+    // 4) İLGİLİ STORE'U BUL
+    const storeConfig = data[storeSlug];
     if (!storeConfig) {
-      showError("No config found for store slug: " + storeSlug);
+      root.innerHTML = `
+        <div style="padding:2rem;">
+          <h2 style="margin:0 0 0.5rem;font-size:1.2rem;">Store bulunamadı</h2>
+          <p style="margin:0;color:#6b7280;">
+            <code>store.data.json</code> içinde <code>${storeSlug}</code> anahtarı yok.
+          </p>
+        </div>
+      `;
       return;
     }
 
-    console.log("storeConfig =", storeConfig);
-
-    // Aktif section (overview / unity-3d vs.)
-    var path = window.location.pathname.replace(/\/+$/, "");
-    var pp = path.split("/").filter(Boolean); // örn ["rgztec","store","game-makers"]
-    var last = pp[pp.length - 1];
-    var activeSection = "overview";
-    if (last && last !== storeSlug) {
-      activeSection = last;
-    }
-    console.log("activeSection =", activeSection);
-
-    // ----- HEADER -----
-    function buildHeader() {
-      var header = document.createElement("header");
-      header.className = "store-header";
-
-      var inner = document.createElement("div");
-      inner.className = "store-header-inner";
-
-      var brand = document.createElement("a");
-      brand.className = "store-brand";
-      brand.href = BASE; // ana sayfa
-
-      var dot = document.createElement("div");
-      dot.className = "store-brand-dot";
-
-      var textBlock = document.createElement("div");
-      textBlock.className = "store-brand-text-block";
-
-      var title = document.createElement("div");
-      title.className = "store-brand-title";
-      title.textContent = "RGZTEC";
-
-      var sub = document.createElement("div");
-      sub.className = "store-brand-sub";
-      sub.textContent = storeConfig.title || "";
-
-      textBlock.appendChild(title);
-      textBlock.appendChild(sub);
-      brand.appendChild(dot);
-      brand.appendChild(textBlock);
-
-      var searchWrap = document.createElement("div");
-      searchWrap.className = "store-search";
-
-      var searchInput = document.createElement("input");
-      searchInput.type = "text";
-      searchInput.className = "store-search-input";
-      searchInput.placeholder = "Search products…";
-
-      searchWrap.appendChild(searchInput);
-
-      var nav = document.createElement("nav");
-      nav.className = "store-nav";
-
-      var overviewLink = document.createElement("a");
-      overviewLink.href = BASE + "store/" + storeSlug + "/";
-      overviewLink.className =
-        "store-nav-link" + (activeSection === "overview" ? " store-nav-link-active" : "");
-      overviewLink.textContent = "Overview";
-      nav.appendChild(overviewLink);
-
-      var sections = Array.isArray(storeConfig.sections) ? storeConfig.sections : [];
-      sections.forEach(function (s) {
-        var a = document.createElement("a");
-        a.href = BASE + "store/" + storeSlug + "/" + s.slug + "/";
-        a.className =
-          "store-nav-link" + (activeSection === s.slug ? " store-nav-link-active" : "");
-        a.textContent = s.name;
-        nav.appendChild(a);
-      });
-
-      inner.appendChild(brand);
-      inner.appendChild(searchWrap);
-      inner.appendChild(nav);
-      header.appendChild(inner);
-      return header;
+    // Substore varsa, içeriden çek (JSON yapına göre)
+    let subConfig = null;
+    if (subSlug && storeConfig.substores && storeConfig.substores[subSlug]) {
+      subConfig = storeConfig.substores[subSlug];
     }
 
-    // ----- HERO + BANNER -----
-    function buildHero() {
-      var hero = document.createElement("section");
-      hero.className = "store-hero";
+    const headerTitle   = subConfig?.title    || storeConfig.title   || "Store";
+    const headerTagline = subConfig?.tagline  || storeConfig.tagline || "";
+    const bannerImage   = subConfig?.banner   || storeConfig.banner  || "";
+    const products      = (subConfig?.products || storeConfig.products || []).slice();
 
-      var left = document.createElement("div");
-      left.className = "store-hero-text";
-
-      var eyebrow = document.createElement("div");
-      eyebrow.className = "store-hero-eyebrow";
-      eyebrow.textContent = "Store • " + (storeConfig.title || "");
-
-      var h1 = document.createElement("h1");
-      h1.className = "store-hero-title";
-
-      if (activeSection === "overview") {
-        h1.textContent = (storeConfig.title || "") + " templates & UI kits.";
-      } else {
-        var sec = (storeConfig.sections || []).find(function (s) {
-          return s.slug === activeSection;
-        });
-        h1.textContent = sec ? sec.name : (storeConfig.title || "");
-      }
-
-      var p = document.createElement("p");
-      p.className = "store-hero-sub";
-      p.textContent = storeConfig.tagline || "";
-
-      left.appendChild(eyebrow);
-      left.appendChild(h1);
-      left.appendChild(p);
-
-      var right = document.createElement("div");
-      right.className = "store-hero-banner";
-
-      var art = document.createElement("div");
-      art.className = "store-hero-banner-art";
-
-      var img = document.createElement("img");
-      img.alt = (storeConfig.title || "") + " banner";
-      img.src = STORE_BANNER_BASE + (storeConfig.banner || "");
-      console.log("Banner src =", img.src);
-      img.onerror = function () {
-        console.error("Banner failed to load:", img.src);
-      };
-
-      var glass = document.createElement("div");
-      glass.className = "store-hero-banner-glass";
-
-      art.appendChild(img);
-      art.appendChild(glass);
-      right.appendChild(art);
-
-      hero.appendChild(left);
-      hero.appendChild(right);
-      return hero;
+    // 5) HERO BÖLÜMÜ
+    let bannerHtml = "";
+    if (bannerImage) {
+      const bannerSrc = STORE_BANNER_BASE + bannerImage;
+      bannerHtml = `
+        <div class="store-hero">
+          <div class="store-hero-left">
+            <h1 class="store-hero-title">${headerTitle}</h1>
+            <p class="store-hero-tagline">${headerTagline || ""}</p>
+          </div>
+          <div class="store-hero-right">
+            <img src="${bannerSrc}" alt="${headerTitle} banner" class="store-hero-img"/>
+          </div>
+        </div>
+      `;
+    } else {
+      bannerHtml = `
+        <div class="store-hero store-hero--simple">
+          <h1 class="store-hero-title">${headerTitle}</h1>
+          <p class="store-hero-tagline">${headerTagline || ""}</p>
+        </div>
+      `;
     }
 
-    // ----- PRODUCTS (placeholder) -----
-    function buildProducts() {
-      var wrap = document.createElement("section");
-      wrap.className = "store-products";
-
-      var header = document.createElement("div");
-      header.className = "store-products-header";
-
-      var h2 = document.createElement("h2");
-      if (activeSection === "overview") {
-        h2.textContent = "Featured Products";
-      } else {
-        var sec = (storeConfig.sections || []).find(function (s) {
-          return s.slug === activeSection;
-        });
-        h2.textContent = sec ? sec.name : "Products";
-      }
-
-      var sub = document.createElement("p");
-      sub.textContent = "Product grid will be connected soon.";
-
-      header.appendChild(h2);
-      header.appendChild(sub);
-
-      var grid = document.createElement("div");
-      grid.className = "products-grid";
-
-      for (var i = 0; i < 8; i++) {
-        var card = document.createElement("div");
-        card.className = "product-card";
-        card.textContent = "Product card placeholder";
-        grid.appendChild(card);
-      }
-
-      wrap.appendChild(header);
-      wrap.appendChild(grid);
-      return wrap;
+    // 6) ÜRÜN KARTLARI
+    let productsHtml = "";
+    if (products.length) {
+      productsHtml = `
+        <div class="store-products">
+          <div class="products-grid">
+            ${products.map(p => {
+              const img = p.image ? (STORE_BANNER_BASE + p.image) : "";
+              return `
+                <article class="product-card">
+                  ${img ? `
+                    <div class="product-media">
+                      <img src="${img}" alt="${p.title || ""}"/>
+                    </div>
+                  ` : ""}
+                  <div class="product-body">
+                    <h3 class="product-title">${p.title || "Untitled"}</h3>
+                    ${p.tagline ? `<p class="product-tagline">${p.tagline}</p>` : ""}
+                    ${p.price   ? `<p class="product-price">${p.price}</p>`   : ""}
+                  </div>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    } else {
+      productsHtml = `
+        <div style="padding:2rem 0;color:#6b7280;">
+          Şu anda bu store için ürün eklenmemiş.
+        </div>
+      `;
     }
 
-    // ----- RENDER -----
-    headerMount.innerHTML = "";
-    root.innerHTML = "";
+    // 7) SAYFAYI BAS
+    root.innerHTML = `
+      <div class="store-page">
+        ${bannerHtml}
+        ${productsHtml}
+      </div>
+    `;
 
-    headerMount.appendChild(buildHeader());
-    root.appendChild(buildHero());
-    root.appendChild(buildProducts());
-
-    console.log("STORE SHELL: render complete");
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      init().catch(function (err) {
-        console.error("INIT ERROR (DOMContentLoaded):", err);
-        showError("Unexpected error: " + err.message);
-      });
-    });
-  } else {
-    init().catch(function (err) {
-      console.error("INIT ERROR:", err);
-      showError("Unexpected error: " + err.message);
-    });
+  } catch (err) {
+    console.error("Store yüklenirken hata:", err);
+    root.innerHTML = `
+      <div style="padding:2rem;border-radius:1rem;background:#fee2e2;color:#b91c1c;">
+        <strong>Bir hata oluştu.</strong><br/>
+        JSON yolu veya içeriği yanlış olabilir.<br/>
+        Detay için console'a bak:
+        <pre style="margin-top:0.75rem;font-size:0.8rem;white-space:pre-wrap;">${String(err)}</pre>
+      </div>
+    `;
   }
 })();
 
