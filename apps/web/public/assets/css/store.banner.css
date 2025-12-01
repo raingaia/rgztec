@@ -1,43 +1,40 @@
 /* ============================================
-   RGZTEC STORE — HERO / BANNER CSS
-   Ana sayfa hissi: gradient panel + beyaz kart
+   RGZTEC STORE — HERO / BANNER ŞERİDİ
+   Üstte-altta çizgi, sol SEO metni, sağda banner
    ============================================ */
 
-/* HERO bölüm genel (arka planla uyum) */
+/* ŞERİT: sayfanın içinde ayrı bir alan gibi */
 .store-hero-section {
-  margin-top: 2rem;
-  margin-bottom: 3rem;
-  width: 100%;
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding: 1.6rem 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.35);   /* üst çizgi */
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);/* alt çizgi */
 }
 
-/* İç panel – ana sayfa ambient gibi */
+/* İç kolon düzeni */
 .store-hero-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.8rem 2rem;
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2.5rem;
   box-sizing: border-box;
-
-  /* Arka planı, ana sayfa gradient’ine benzetiyoruz */
-  border-radius: 1.75rem;
-  background:
-    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.16);
 }
 
 /* ============================================
-   SOL KOLON: SEO METİN BÖLÜMÜ
+   SOL KOLON: SEO METİN ALANI
    ============================================ */
+
 .store-hero-text {
-  flex: 0 0 42%;
+  flex: 0 0 44%;
   display: flex;
   flex-direction: column;
 }
 
-/* Küçük kicker */
+/* Küçük üst başlık (kicker) */
 .store-hero-kicker {
   font-size: 0.78rem;
   font-weight: 600;
@@ -47,7 +44,7 @@
   margin: 0 0 0.4rem;
 }
 
-/* Büyük başlık */
+/* Büyük H1 başlık */
 .store-hero-title {
   font-size: 2rem;
   font-weight: 800;
@@ -56,7 +53,7 @@
   line-height: 1.2;
 }
 
-/* Orta açıklama */
+/* Orta boy satır (tagline) */
 .store-hero-subtitle {
   font-size: 1rem;
   font-weight: 500;
@@ -64,7 +61,7 @@
   margin: 0 0 0.7rem;
 }
 
-/* Ana paragraf */
+/* SEO açıklama paragrafı */
 .store-hero-body {
   font-size: 0.95rem;
   color: #6b7280;
@@ -74,34 +71,33 @@
 }
 
 /* ============================================
-   SAĞ KOLON: BANNER GÖRSEL KARTI
+   SAĞ KOLON: BANNER GÖRSELİ
    ============================================ */
+
 .store-hero-banner {
-  flex: 0 0 58%;
+  flex: 0 0 56%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
-/* Dış kart – burada ekstra beyaz board vermiyoruz,
-   senin görsel zaten beyaz board taşıyor */
+/* Banner kartı – görseli taşıyan kart */
 .store-banner-card {
   width: 100%;
-  max-width: 640px;
+  max-width: 620px;
   border-radius: 1.5rem;
   overflow: hidden;
-
-  background: transparent;            /* <— önemli */
-  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.24);
+  background: transparent; /* görsel kendi beyaz board'unu taşıyor */
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.26);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .store-banner-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 26px 90px rgba(15, 23, 42, 0.28);
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.3);
 }
 
-/* Görsel – hafif radius, full genişlik */
+/* Banner görseli */
 .store-banner-card img {
   display: block;
   width: 100%;
@@ -110,27 +106,28 @@
 }
 
 /* ============================================
-   RESPONSIVE — Tablet ve Mobil
+   RESPONSIVE — Tablet & Mobil
    ============================================ */
+
 @media (max-width: 1020px) {
   .store-hero-inner {
     flex-direction: column;
     align-items: stretch;
+    gap: 1.6rem;
+    padding: 0 1.2rem;
     text-align: center;
-    padding: 1.6rem 1.6rem;
   }
 
   .store-hero-text {
     order: 2;
     flex: unset;
-    max-width: 600px;
+    max-width: 620px;
     margin: 0 auto;
   }
 
   .store-hero-banner {
     order: 1;
-    width: 100%;
-    margin-bottom: 0.8rem;
+    justify-content: center;
   }
 
   .store-banner-card {
@@ -145,13 +142,10 @@
 
 @media (max-width: 600px) {
   .store-hero-inner {
-    padding: 1.4rem 1.1rem;
+    padding: 0 1rem;
   }
 
-  .store-banner-card {
-    border-radius: 1.25rem;
-  }
-
+  .store-banner-card,
   .store-banner-card img {
     border-radius: 1.25rem;
   }
@@ -160,4 +154,5 @@
     font-size: 1.5rem;
   }
 }
+
 
