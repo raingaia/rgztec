@@ -21,9 +21,6 @@
 
   console.log("BASE path =", BASE);
 
-  var STORE_DATA_URL = BASE + "data/store.data.json";
-  var STORE_BANNER_BASE = BASE + "asset/images/store/";
-
   console.log("STORE_DATA_URL =", STORE_DATA_URL);
   console.log("STORE_BANNER_BASE =", STORE_BANNER_BASE);
 
