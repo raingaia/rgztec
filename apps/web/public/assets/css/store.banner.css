@@ -1,25 +1,93 @@
-/* Banner bölümü */
-.store-banner-section {
-  margin-top: 1.75rem;
-  margin-bottom: 2.25rem;
+/* ============================================
+   RGZTEC STORE — HERO / BANNER CSS
+   Ana sayfa tarzı: solda SEO yazısı, sağda büyük kart
+   ============================================ */
+
+/* HERO bölüm genel */
+.store-hero-section {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  width: 100%;
 }
 
-/* Banner slotu */
-.store-banner-slot {
+.store-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   SOL KOLON: SEO METİN BÖLÜMÜ
+   ============================================ */
+.store-hero-text {
+  flex: 0 0 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Küçük kicker */
+.store-hero-kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+  text-transform: uppercase;
+  margin: 0 0 0.4rem;
+}
+
+/* Büyük başlık */
+.store-hero-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin: 0 0 0.6rem;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+/* Orta açıklama */
+.store-hero-subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin: 0 0 0.7rem;
+}
+
+/* Ana paragraf */
+.store-hero-body {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 95%;
+}
+
+/* ============================================
+   SAĞ KOLON: BANNER GÖRSEL KARTI
+   ============================================ */
+.store-hero-banner {
+  flex: 0 0 55%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Kart görünümü */
-.store-banner-shell,
 .store-banner-card {
-  max-width: 1040px;
   width: 100%;
+  max-width: 680px;
   border-radius: 1.75rem;
   overflow: hidden;
-  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.18);
   background: #ffffff;
+  box-shadow: 0 28px 90px rgba(15, 23, 42, 0.28);
+  transition: transform 0.25s ease;
+}
+
+.store-banner-card:hover {
+  transform: translateY(-4px);
 }
 
 .store-banner-card img {
@@ -28,21 +96,47 @@
   height: auto;
 }
 
-/* Banner altındaki metin */
-.store-banner-text {
-  max-width: 1040px;
-  margin: 1.25rem auto 0;
+/* ============================================
+   RESPONSIVE — Tablet ve Mobil
+   ============================================ */
+@media (max-width: 1020px) {
+  .store-hero-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .store-hero-text {
+    order: 2;
+    flex: unset;
+    max-width: 600px;
+  }
+
+  .store-hero-banner {
+    order: 1;
+    width: 100%;
+  }
+
+  .store-banner-card {
+    max-width: 460px;
+  }
+
+  .store-hero-title {
+    font-size: 1.8rem;
+  }
 }
 
-.store-title {
-  font-size: 1.9rem;
-  line-height: 1.2;
-  font-weight: 700;
-  margin: 0 0 0.25rem;
+@media (max-width: 600px) {
+  .store-hero-inner {
+    padding: 0 1rem;
+  }
+
+  .store-banner-card {
+    border-radius: 1.25rem;
+  }
+
+  .store-hero-title {
+    font-size: 1.55rem;
+  }
 }
 
-.store-subtitle {
-  margin: 0;
-  color: #6b7280;
-  font-size: 0.98rem;
-}
