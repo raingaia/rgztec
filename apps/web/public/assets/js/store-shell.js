@@ -1,4 +1,17 @@
 // =========================================
+// RGZTEC STORE • store-shell.js (AUTO PATH)
+// =========================================
+
+// Mevcut URL'den base path'i çıkar (örn: "/rgztec")
+const fullPath = window.location.pathname;
+const storeIndex = fullPath.indexOf("/store/");
+const BASE_PATH = storeIndex !== -1 ? fullPath.slice(0, storeIndex) : "";
+
+// Örn: "/rgztec/data/store.data.json"
+const STORE_DATA_URL = BASE_PATH + "/data/store.data.json";
+// Örn: "/rgztec/asset/images/store/"
+const STORE_BANNER_BASE = BASE_PATH + "/asset/images/store/";
+// =========================================
 // RGZTEC STORE • store-shell.js (FINAL)
 // Tek JS: Data → Header → Hero → Grid
 // =========================================
