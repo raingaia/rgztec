@@ -1,393 +1,490 @@
-/* ============================================
-   RGZTEC STORE • store-core.css (FINAL)
-   Tek CSS: Base + Layout + Header + Hero + Grid
-   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* ---------- Base ---------- */
+/*
+ * RGZTEC Store Stylesheet
+ * Version: 1.0.0
+ * This file contains all styles for the RGZTEC marketplace store shell.
+ */
 
-html,
-body {
+/*
+ * :root - CSS Variables (Tokens)
+ * -----------------------------------------------
+ */
+:root {
+  /* Colors */
+  --color-brand: #f97316;
+  --color-brand-strong: #ea580c;
+  --color-bg-neutral: #f9fafb;
+  --color-bg-card: #ffffff;
+  --color-border-subtle: rgba(148, 163, 184, 0.25);
+  --color-text-main: #0f172a;
+  --color-text-sub: #6b7280;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Typography */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  
+  --font-size-xs: 0.75rem;   /* 12px */
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;  /* 18px */
+  --font-size-xl: 1.25rem;   /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  --font-size-6xl: 3.75rem;   /* 60px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing */
+  --spacing-unit: 0.25rem; /* 4px */
+
+  /* Sizing */
+  --header-height: 64px;
+  --container-max-width: 1440px;
+  --container-padding: 1.5rem; /* 24px */
+
+  /* Borders & Radius */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-width: 1px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-brand: 0 10px 40px -10px var(--color-brand);
+
+  /* Transitions */
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-base: all 0.25s ease-in-out;
+}
+
+/*
+ * Global Styles & Resets
+ * -----------------------------------------------
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body.store-body {
-  min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-  background:
-    radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
-  color: #0f172a;
+html {
+  font-size: 100%; /* 16px */
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
-/* Kök container'lar */
-#store-header {
-  position: relative;
-  z-index: 50;
+body.store-body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-neutral);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Account for fixed header */
+  padding-top: var(--header-height);
 }
 
 #store-root {
-  max-width: 1200px;
-  margin: 1.8rem auto 2.8rem auto;
-  padding: 0 1.5rem 2.5rem 1.5rem;
-  box-sizing: border-box;
-}
-
-/* Hata alanı (data veya JS çökerse) */
-.store-error {
-  margin-top: 3rem;
-  padding: 1.8rem 1.6rem;
-  border-radius: 1.25rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #7f1d1d;
-}
-
-.store-error h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.1rem;
-}
-
-.store-error p {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-/* ---------- HEADER (ETSY STİLİ) ---------- */
-
-.store-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.97);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-}
-
-/* İç yapı: logo + arama + nav (wrap ile 2 satır) */
-.store-header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.65rem 1.5rem 0.45rem 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1rem;
-  box-sizing: border-box;
-}
-
-/* Sol: marka (logo) */
-.store-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  flex: 0 0 auto;
-}
-
-.store-brand-dot {
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 10%, #fed7aa, #f97316);
-  box-shadow:
-    0 0 0 1px rgba(249, 115, 22, 0.35),
-    0 14px 32px rgba(15, 23, 42, 0.55);
-}
-
-.store-brand-text-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.12rem;
-}
-
-.store-brand-title {
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #111827;
-}
-
-.store-brand-sub {
-  font-size: 0.78rem;
-  color: #6b7280;
-}
-
-/* Ortada: ETSY tarzı geniş arama barı */
-.store-search {
-  flex: 1 1 320px;
-  max-width: 640px;
-  order: 1;
-}
-
-.store-search-input {
-  width: 100%;
-  font-size: 0.9rem;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.9);
-  background: #f9fafb;
-  outline: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-}
-
-.store-search-input::placeholder {
-  color: #9ca3af;
-}
-
-.store-search-input:focus {
-  border-color: rgba(249, 115, 22, 0.9);
-  box-shadow:
-    0 0 0 1px rgba(249, 115, 22, 0.9),
-    0 0 0 4px rgba(249, 115, 22, 0.15);
-}
-
-/* Üst satır hizalama */
-.store-brand {
-  order: 0;
-}
-
-/* ETSY gibi alt satırda kategori/dükkan şeridi */
-.store-nav {
-  order: 2;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.86rem;
-  margin-top: 0.35rem;
-  padding-top: 0.45rem;
-  border-top: 1px solid rgba(226, 232, 240, 0.9);
-}
-
-.store-nav-link {
-  text-decoration: none;
-  color: #6b7280;
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  transition:
-    color 120ms ease,
-    background 120ms ease,
-    border-color 120ms ease;
-}
-
-.store-nav-link:hover {
-  color: #0f172a;
-  background: rgba(148, 163, 184, 0.12);
-  border-color: rgba(148, 163, 184, 0.35);
-}
-
-/* Aktif dükkan Etsy'deki selected kategori gibi */
-.store-nav-link-active {
-  color: #111827;
-  background: rgba(249, 115, 22, 0.12);
-  border-color: rgba(249, 115, 22, 0.75);
-  font-weight: 600;
-}
-
-/* Mobile davranış */
-@media (max-width: 900px) {
-  .store-header-inner {
-    padding-inline: 1rem;
-  }
-
-  .store-brand {
-    flex: 0 0 auto;
-  }
-
-  .store-search {
-    flex: 1 1 100%;
-    order: 2;
-  }
-
-  .store-nav {
-    order: 3;
-    overflow-x: auto;
-    padding-bottom: 0.3rem;
-    margin-bottom: 0.1rem;
-  }
-
-  .store-nav::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .store-nav::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: rgba(148, 163, 184, 0.6);
-  }
-}
-
-/* ---------- HERO + BANNER (ANA SAYFA STİLİ) ---------- */
-
-.store-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
-  gap: 1.8rem;
-  margin-bottom: 2.2rem;
-  align-items: stretch;
-}
-
-/* Sol blok: yazı kısmı */
-.store-hero-text {
-  padding: 1.7rem 1.6rem;
-  border-radius: 1.6rem;
-  background: #ffffff;
-  border: 1px solid rgba(148, 163, 184, 0.32);
-  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
-}
-
-.store-hero-eyebrow {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #6b7280;
-  margin-bottom: 0.55rem;
-}
-
-.store-hero-title {
-  margin: 0 0 0.6rem 0;
-  font-size: 1.7rem;
-  line-height: 1.15;
-}
-
-.store-hero-sub {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #6b7280;
-}
-
-/* Sağ blok: ana sayfa tarzı 3D banner kartı */
-.store-hero-banner {
-  position: relative;
-  border-radius: 1.8rem;
-  padding: 1.6rem;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.20), transparent 65%),
-    linear-gradient(135deg, #020617, #020617 35%, #0b1220 100%);
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  box-shadow:
-    0 28px 80px rgba(15, 23, 42, 0.70),
-    0 0 0 1px rgba(15, 23, 42, 0.7);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Arka plan glow halkaları */
-.store-hero-banner::before,
-.store-hero-banner::after {
-  content: "";
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(28px);
-  opacity: 0.72;
-}
-
-.store-hero-banner::before {
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent 70%);
-  top: -60px;
-  left: -40px;
-}
-
-.store-hero-banner::after {
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.8), transparent 70%);
-  bottom: -80px;
-  right: -40px;
-}
-
-/* Asıl 3D kart + webp görsel */
-.store-hero-banner-art {
+  display: block;
   position: relative;
   width: 100%;
-  max-width: 420px;
-  aspect-ratio: 16 / 10;
-  border-radius: 1.4rem;
-  background: radial-gradient(circle at 20% 0%, #1f2937, #020617 80%);
-  box-shadow:
-    0 24px 70px rgba(15, 23, 42, 0.85),
-    0 0 0 1px rgba(148, 163, 184, 0.55);
-  overflow: hidden;
-  transform: translateY(4px) rotate3d(1, -1, 0, 6deg);
-  transform-origin: center;
 }
 
-/* Banner görseli – 3D transparent webp */
-.store-hero-banner-art img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--color-text-sub);
+}
+
+a {
+  color: var(--color-brand-strong);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-brand);
+  text-decoration: underline;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
   display: block;
 }
 
-/* Hafif cam efekti */
-.store-hero-banner-glass {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.12), transparent 60%);
-  mix-blend-mode: screen;
-  pointer-events: none;
+/*
+ * Header Component
+ * -----------------------------------------------
+ */
+.store-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 1000;
+  
+  /* Glassmorphism Effect */
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
 }
 
-/* ---------- PRODUCTS GRID (ETSY STİLİ ALTYAPI) ---------- */
+.store-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
 
-.store-products-header {
+.store-header-logo {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-main);
+  text-decoration: none;
+}
+.store-header-logo:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.store-header-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-sub);
+  padding: 0 1rem;
+}
+
+.store-header-nav a {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-sub);
+  text-decoration: none;
+  margin-left: 1.5rem;
+  transition: var(--transition-fast);
+}
+.store-header-nav a:hover {
+  color: var(--color-brand-strong);
+  text-decoration: none;
+}
+
+/*
+ * Hero Component
+ * -----------------------------------------------
+ */
+.store-hero {
+  padding: 3rem 0;
+  background-color: var(--color-bg-card);
+  border-bottom: var(--border-width) solid var(--color-border-subtle);
+}
+
+.store-hero-inner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+}
+
+.store-hero-left {
+  max-width: 600px;
+}
+
+.store-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-brand);
+  color: var(--color-white);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  border-radius: var(--border-radius-sm);
   margin-bottom: 1rem;
 }
 
+.store-hero-left h1 {
+  font-size: var(--font-size-4xl);
+  color: var(--color-text-main);
+  margin-bottom: 1rem;
+}
+
+.store-hero-left p {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-sub);
+  margin-bottom: 0;
+}
+
+.store-hero-right {
+  width: 100%;
+  max-width: 500px;
+}
+
+.store-hero-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--border-radius-xl);
+  /* Hero Image Glow/Shadow */
+  filter: drop-shadow(var(--shadow-lg));
+  transition: var(--transition-base);
+}
+
+.store-hero-img:hover {
+  filter: drop-shadow(var(--shadow-xl));
+  transform: scale(1.02);
+}
+
+/*
+ * Products Section
+ * -----------------------------------------------
+ */
+.store-products {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 3rem var(--container-padding);
+}
+
+.store-products-header {
+  margin-bottom: 2rem;
+}
+
 .store-products-header h2 {
-  margin: 0;
-  font-size: 1.2rem;
+  font-size: var(--font-size-3xl);
+  color: var(--color-text-main);
 }
 
-.store-products-header p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-/* Grid iskeleti – kartları JS ile dolduracağız */
+/*
+ * Products Grid
+ * -----------------------------------------------
+ */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.4rem;
+  gap: 1.5rem;
 }
 
-/* Placeholder kart (istersen sonra gerçek kart CSS’inle değiştirirsin) */
+/*
+ * Product Card Component
+ * -----------------------------------------------
+ */
 .product-card {
-  border-radius: 1.25rem;
-  background: #ffffff;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.10);
-  padding: 1rem;
-  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-subtle);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: var(--transition-base);
+  text-decoration: none;
 }
 
-/* ---------- Responsive ---------- */
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+}
 
-@media (max-width: 900px) {
-  #store-root {
-    padding-inline: 1rem;
+.product-media {
+  position: relative;
+  width: 100%;
+  /* 4:3 Aspect Ratio */
+  padding-top: 75%; 
+  background-color: var(--color-bg-neutral);
+  overflow: hidden;
+}
+
+.product-media img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-media img {
+  transform: scale(1.05);
+}
+
+.product-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-main);
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+/* Truncate long titles */
+.product-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.6em; /* 2 lines * 1.3 line-height */
+}
+
+
+.product-tagline {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-sub);
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  /* Truncate long taglines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.1em; /* 2 lines * 1.5 line-height (approx) */
+}
+
+.product-price {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-main);
+}
+
+.product-price-original {
+  text-decoration: line-through;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-sub);
+  font-size: var(--font-size-sm);
+  margin-left: 0.5rem;
+}
+
+/*
+ * Empty/Fallback State
+ * -----------------------------------------------
+ */
+.products-grid-empty {
+  grid-column: 1 / -1; /* Span full grid width */
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--color-bg-card);
+  border: var(--border-width) dashed var(--color-border-subtle);
+  border-radius: var(--border-radius-xl);
+}
+
+.products-grid-empty h3 {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-main);
+  margin-bottom: 0.5rem;
+}
+
+.products-grid-empty p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-sub);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/*
+ * Responsive Breakpoints (Mobile-First)
+ * -----------------------------------------------
+ */
+
+/* Small devices (phones, 480px and up) */
+@media (min-width: 480px) {
+  :root {
+    --container-padding: 2rem;
   }
+  .store-hero-left h1 {
+    font-size: var(--font-size-5xl);
+  }
+}
 
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .store-hero-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    gap: 3rem;
+  }
+  .store-hero-left {
+    max-width: 50%;
+  }
+  .store-hero-right {
+    max-width: 45%;
+  }
+  .store-badge {
+    margin-bottom: 1.5rem;
+  }
+  .store-hero-left h1 {
+    font-size: var(--font-size-6xl);
+  }
+  .store-hero-left p {
+    font-size: var(--font-size-xl);
+  }
+  .store-products {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: 3rem;
+  }
+  .products-grid {
+    gap: 2rem;
+  }
   .store-hero {
-    grid-template-columns: minmax(0, 1fr);
+    padding: 5rem 0;
   }
+  .store-products {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+}
 
-  .store-hero-banner {
-    order: -1; /* mobile’da banner’ı üste çekiyoruz */
-    margin-bottom: 0.75rem;
+/* Extra large devices (large desktops, 1440px and up) */
+@media (min-width: 1440px) {
+  .store-hero {
+    padding: 6rem 0;
+  }
+  .store-hero-inner {
+    gap: 5rem;
   }
 }
 
