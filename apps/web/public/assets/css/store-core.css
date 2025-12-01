@@ -2,7 +2,7 @@
 
 /*
  * RGZTEC Store Stylesheet
- * Version: 1.0.0
+ * Version: 6.0.0 (Sections Nav & Description Update)
  * This file contains all styles for the RGZTEC marketplace store shell.
  */
 
@@ -238,11 +238,24 @@ video {
   margin-bottom: 1rem;
 }
 
-.store-hero-left p {
+/* *** DEĞİŞİKLİK BURADA (v5) *** */
+/* Hero Tagline (Büyük Alt Başlık) */
+.store-hero-tagline {
   font-size: var(--font-size-lg);
   color: var(--color-text-sub);
-  margin-bottom: 0;
+  margin-bottom: 1.5rem; /* Açıklama için boşluk bırak */
 }
+
+/* YENİ: Hero Açıklaması (Normal Paragraf Metni) */
+.store-hero-description {
+  font-size: var(--font-size-base); /* 16px */
+  color: var(--color-text-sub);
+  line-height: 1.6;
+  margin-bottom: 0;
+  max-width: 500px; /* Çok uzamasını engelle */
+}
+/* *** DEĞİŞİKLİK BİTTİ *** */
+
 
 .store-hero-right {
   width: 100%;
@@ -452,9 +465,16 @@ video {
   .store-hero-left h1 {
     font-size: var(--font-size-6xl);
   }
-  .store-hero-left p {
-    font-size: var(--font-size-xl);
+  
+  /* *** DEĞİŞİKLİK BURADA (v5) *** */
+  .store-hero-tagline {
+    font-size: var(--font-size-xl); /* 20px */
   }
+  .store-hero-description {
+    font-size: var(--font-size-base); /* 16px */
+  }
+  /* *** DEĞİŞİKLİK BİTTİ *** */
+
   .store-products {
     padding-top: 4rem;
     padding-bottom: 4rem;
@@ -488,6 +508,66 @@ video {
   }
 }
 
+/*
+ * *** YENİ BÖLÜM (v6) ***
+ * Sections Navigation (Alt Kategori Menüsü)
+ * -----------------------------------------------
+ */
+
+/* Navigasyon çubuğunun kendisi */
+.store-sections-nav {
+  /* Hero bölümünden ayırmak için üstte boşluk */
+  margin-top: 1.5rem;
+  /* Ürünler başlığından ayırmak için altta boşluk */
+  margin-bottom: 2rem; 
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-subtle);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem 1rem;
+}
+
+/* Liste (ul) */
+.store-sections-nav__list {
+  display: flex;
+  flex-wrap: nowrap; /* Linklerin alt satıra kaymasını engelle */
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+  /* En önemlisi: Mobilde yatay kaydırma */
+  overflow-x: auto; 
+  
+  /* Kaydırma çubuğunu gizle (isteğe bağlı) */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+/* Chrome, Safari için kaydırma çubuğunu gizle */
+.store-sections-nav__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Linkler (a) */
+.store-sections-nav__link {
+  display: block;
+  white-space: nowrap; /* Metnin bölünmesini engelle */
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-sub);
+  background-color: var(--color-bg-neutral);
+  border-radius: var(--border-radius-md);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+/* Linklerin hover (üzerine gelme) durumu */
+.store-sections-nav__link:hover {
+  background-color: var(--color-brand);
+  color: var(--color-white);
+  text-decoration: none;
+}
 
 
 
