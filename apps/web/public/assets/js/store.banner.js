@@ -1,5 +1,5 @@
 // assets/js/store.banner.js
-// RGZTEC • Store Banner – bağımsız çalışan sürüm
+// RGZTEC • Store Hero (SEO metni + banner kart)
 
 (function (window, document) {
   "use strict";
@@ -20,11 +20,14 @@
       if (!res.ok) throw new Error("registry fetch failed");
       const list = await res.json();
       if (Array.isArray(list)) {
-        return list.find((s) => s.slug === slug) || {
-          slug,
-          name: slug,
-          subtitle: "",
-        };
+        return (
+          list.find((s) => s.slug === slug) || {
+            slug,
+            name: slug,
+            subtitle: "",
+            accent: "#f97316",
+          }
+        );
       }
     } catch (err) {
       console.warn("[store.banner] registry okunamadı:", err);
@@ -34,62 +37,83 @@
       slug,
       name: slug,
       subtitle: "",
+      accent: "#f97316",
     };
   }
 
-  function renderBanner(storeConfig) {
+  function renderHero(storeConfig) {
     const bannerRoot = el("store-banner");
-    const textRoot = el("store-banner-text");
-    if (!bannerRoot) return;
+    const textRoot = el("store-hero-text");
+    if (!bannerRoot || !textRoot) return;
 
     const slug = storeConfig.slug || "";
+    const name = storeConfig.name || "Store";
+
+    // SEO yazıları
+    const kicker =
+      storeConfig.heroKicker || "For Unity & Unreal teams";
+
     const title =
-      storeConfig.name ||
-      storeConfig.title ||
-      "Store";
+      storeConfig.heroTitle || name;
 
     const subtitle =
       storeConfig.subtitle ||
       storeConfig.tagline ||
       "";
 
-    // Görsel yolu: önce config.heroImage, yoksa slug tabanlı
+    const body =
+      storeConfig.heroBody ||
+      storeConfig.seoDescription ||
+      "";
+
+    // Görsel yolu
     let imgPath = storeConfig.heroImage;
     if (!imgPath && slug) {
-      imgPath = `assets/images/store/${slug}-banner.webp`;
+      imgPath = `assets/images/store/${slug}.webp`;
     }
     if (!imgPath) {
       imgPath = "assets/images/store/default-store-banner.webp";
     }
 
-    bannerRoot.classList.add("store-banner-shell");
-
+    // Sağdaki kart
     bannerRoot.innerHTML = `
       <figure class="store-banner-card">
         <img
           src="${imgPath}"
-          alt="${title} banner"
+          alt="${name} banner"
           loading="lazy"
         />
       </figure>
     `;
 
-    if (textRoot) {
-      textRoot.innerHTML = `
-        <h1 class="store-title">${title}</h1>
-        ${subtitle ? `<p class="store-subtitle">${subtitle}</p>` : ""}
-      `;
-    }
+    // Soldaki SEO alanı
+    textRoot.innerHTML = `
+      <p class="store-hero-kicker">${kicker}</p>
+      <h1 class="store-hero-title">${title}</h1>
+      ${
+        subtitle
+          ? `<p class="store-hero-subtitle">${subtitle}</p>`
+          : ""
+      }
+      ${
+        body
+          ? `<p class="store-hero-body">${body}</p>`
+          : ""
+      }
+    `;
   }
 
-  async function bootstrapBanner() {
+  async function bootstrapHero() {
     const bannerRoot = el("store-banner");
-    if (!bannerRoot) return; // Bu sayfada banner yoksa çalışmasın
+    const textRoot = el("store-hero-text");
+    if (!bannerRoot || !textRoot) return;
 
     const cfg = await loadStoreConfig();
     if (!cfg) return;
-    renderBanner(cfg);
+
+    renderHero(cfg);
   }
 
-  document.addEventListener("DOMContentLoaded", bootstrapBanner);
+  document.addEventListener("DOMContentLoaded", bootstrapHero);
 })(window, document);
+
