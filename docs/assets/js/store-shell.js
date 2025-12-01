@@ -1,9 +1,9 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 10.0.0 (FINAL - Etsy Header + Etsy Shop Cards)
- * Bu versiyon, 'renderHeader' fonksiyonunu ve 'Shop/Product'
- * mantığını birleştirir.
+ * @version 11.0.0 (Etsy-style Main Nav)
+ * Bu versiyon, 'renderHeader'ın altına tüm ana mağazaları
+ * listeleyen ikinci bir navigasyon menüsü ekler.
  */
 (function() {
   "use strict";
@@ -11,7 +11,7 @@
   // --- Constants ---
 
   const DATA_URL = "/rgztec/data/store.data.json";
-  const IMAGE_BASE_PATH = "/rgztec/assets/images/store/"; // Resimlerin ana klasörü
+  const IMAGE_BASE_PATH = "/rgztec/assets/images/store/"; 
 
   // --- Main Initialization ---
 
@@ -40,15 +40,16 @@
    */
   async function initStore(storeSlug, sectionSlug, targetElement) {
     let storeData; 
+    let allStoresData; // Tüm mağaza verisini tutmak için
 
     try {
-      const allStoresData = await fetchJSON(DATA_URL);
+      allStoresData = await fetchJSON(DATA_URL); // DEĞİŞİKLİK: Veriyi burada al
 
       if (!allStoresData) {
         throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
       }
 
-      storeData = allStoresData[storeSlug];
+      storeData = allStoresData[storeSlug]; // Sadece bu mağazanın verisini seç
 
       // "Ortak Kart" (Generic Store) Koruması
       if (!storeData) {
@@ -61,12 +62,16 @@
         };
       }
 
-      // --- ANA SAYFA / DÜKKAN SAYFASI MANTIĞI ---
+      // --- HTML SIRALAMASI GÜNCELLENDİ (v11) ---
       
       let storeHtml = "";
       
       storeHtml += renderHeader(storeData); // 1. Etsy Header
-      storeHtml += renderHero(storeData);   // 2. Ana Hero
+      
+      // YENİ: Ana Mağaza Navigasyon Menüsü
+      storeHtml += renderStoreNav(allStoresData, storeSlug); 
+      
+      storeHtml += renderHero(storeData);   // 3. Ana Hero
 
       if (sectionSlug) {
         // --- DÜKKAN SAYFASINDAYIZ (örn: /medical-kits/) ---
@@ -90,45 +95,63 @@
 
   // --- HTML Rendering Functions ---
 
-  // 1. Header (GÜNCELLENDİ v10 - Etsy Tarzı)
+  // 1. Header (v10 - Değişiklik yok)
   function renderHeader(data) {
-    // Basit ikonlar (emoji veya SVG kullanabilirsiniz, şimdilik metin)
-    const categoriesIcon = "☰"; // Hamburger icon
-    const searchIcon = "🔍"; // Search icon
-    const cartIcon = "🛒"; // Cart icon
-
+    const categoriesIcon = "☰"; const searchIcon = "🔍"; const cartIcon = "🛒";
     return `
       <header class="store-header">
         <div class="store-header-inner">
-          
           <div class="store-header-left">
             <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
             <button class="store-header-categories-btn">
-              ${categoriesIcon}
-              <span>Categories</span>
+              ${categoriesIcon} <span>Categories</span>
             </button>
           </div>
-
           <div class="store-header-search">
             <input type="search" placeholder="Search for anything" />
-            <button type="submit" aria-label="Search">
-              ${searchIcon}
-            </button>
+            <button type="submit" aria-label="Search">${searchIcon}</button>
           </div>
-
           <div class="store-header-actions">
             <a href="#" class="store-header-link">Sign In</a>
-            <a href="#" class="store-header-icon-btn" aria-label="Cart">
-              ${cartIcon}
-            </a>
+            <a href="#" class="store-header-icon-btn" aria-label="Cart">${cartIcon}</a>
           </div>
-
         </div>
       </header>
     `;
   }
   
-  // 2. Hero (Değişiklik yok)
+  // 2. YENİ FONKSİYON (v11) - Ana Mağaza Navigasyonu
+  function renderStoreNav(allStoresData, currentStoreSlug) {
+    // JSON'daki tüm anahtarları ('hardware', 'software' vb.) al
+    const storeLinks = Object.keys(allStoresData).map(slug => {
+      const store = allStoresData[slug];
+      if (!store || !store.title) return ''; // Hatalı veya eksik veriyi atla
+      
+      const name = escapeHtml(store.title);
+      // Linki oluştur (örn: /rgztec/store/hardware/)
+      const href = `/rgztec/store/${slug}/`;
+      
+      // Aktif mağaza linkini işaretle
+      const isActive = (slug === currentStoreSlug);
+      const linkClass = isActive ? "store-main-nav__link active" : "store-main-nav__link";
+
+      return `
+        <li class="store-main-nav__item">
+          <a href="${href}" class="${linkClass}">${name}</a>
+        </li>
+      `;
+    }).join('');
+
+    return `
+      <nav class="store-main-nav">
+        <ul class="store-main-nav__list">
+          ${storeLinks}
+        </ul>
+      </nav>
+    `;
+  }
+
+  // 3. Hero (Değişiklik yok)
   function renderHero(data) {
     const title = escapeHtml(data.title || "Welcome");
     const tagline = escapeHtml(data.tagline || "");
@@ -153,7 +176,7 @@
     `;
   }
 
-  // 3A. DÜKKAN BÖLÜMÜ (Ana Mağaza Sayfası için)
+  // 4A. DÜKKAN BÖLÜMÜ (Ana Mağaza Sayfası için)
   function renderShopSection(sections) {
     return `
       <main class="store-shops">
@@ -165,7 +188,7 @@
     `;
   }
 
-  // 3B. DÜKKAN KARTLARI (Etsy Tarzı)
+  // 4B. DÜKKAN KARTLARI (Etsy Tarzı)
   function renderShopGrid(sections) {
     if (!Array.isArray(sections) || sections.length === 0) {
       return `
@@ -175,36 +198,23 @@
         </div>
       `;
     }
-
-    const shopCards = sections
-      .map(section => renderShopCard(section))
-      .join("");
-
-    return `
-      <div class="shop-grid">
-        ${shopCards}
-      </div>
-    `;
+    const shopCards = sections.map(section => renderShopCard(section)).join("");
+    return `<div class="shop-grid">${shopCards}</div>`;
   }
 
-  // 3C. TEK BİR DÜKKAN KARTI
+  // 4C. TEK BİR DÜKKAN KARTI
   function renderShopCard(section) {
     if (!section) return ""; 
-
     const name = escapeHtml(section.name || "Untitled Shop");
     const tagline = escapeHtml(section.tagline || "");
     const imageUrl = section.image ? `${IMAGE_BASE_PATH}${escapeHtml(section.image)}` : "";
     const linkHref = `${escapeHtml(section.slug)}/`; // örn: "medical-kits/"
-
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${name}" loading="lazy">`
       : `<div class="product-media-placeholder"></div>`; 
-
     return `
       <a href="${linkHref}" class="shop-card">
-        <div class="shop-card-media">
-          ${imageElement}
-        </div>
+        <div class="shop-card-media">${imageElement}</div>
         <div class="shop-card-body">
           <h3 class="shop-card-title">${name}</h3>
           <p class="shop-card-tagline">${tagline}</p>
@@ -213,30 +223,24 @@
     `;
   }
 
-
-  // 4A. ÜRÜN BÖLÜMÜ (Dükkan Sayfası için)
+  // 5A. ÜRÜN BÖLÜMÜ (Dükkan Sayfası için)
   function renderProductSection(products, sectionInfo) {
     const title = sectionInfo ? escapeHtml(sectionInfo.name) : "Products";
     return `
       <main class="store-products">
-        <div class="store-products-header">
-          <h2>${title}</h2>
-        </div>
+        <div class="store-products-header"><h2>${title}</h2></div>
         ${renderProductGrid(products, sectionInfo ? sectionInfo.slug : null)}
       </main>
     `;
   }
 
-  // 4B. ÜRÜN KARTLARI
+  // 5B. ÜRÜN KARTLARI
   function renderProductGrid(products, sectionSlug) {
     if (!Array.isArray(products) || products.length === 0) {
-      const emptyTitle = sectionSlug 
-        ? "No Products in This Shop Yet" 
-        : "Products Coming Soon";
+      const emptyTitle = sectionSlug ? "No Products in This Shop Yet" : "Products Coming Soon";
       const emptyMessage = sectionSlug
         ? "Sellers will add products to this shop soon. Please check back later!"
         : "This store is currently setting up. Please check back later!";
-
       return `
         <div class="products-grid-empty">
           <h3>${emptyTitle}</h3>
@@ -244,19 +248,11 @@
         </div>
       `;
     }
-
-    const productCards = products
-      .map(product => renderProductCard(product))
-      .join("");
-
-    return `
-      <div class="products-grid">
-        ${productCards}
-      </div>
-    `;
+    const productCards = products.map(product => renderProductCard(product)).join("");
+    return `<div class="products-grid">${productCards}</div>`;
   }
 
-  // 4C. TEK BİR ÜRÜN KARTI
+  // 5C. TEK BİR ÜRÜN KARTI
   function renderProductCard(product) {
     if (!product) return ""; 
     const title = escapeHtml(product.title || "Untitled Product");
@@ -264,16 +260,12 @@
     const imageUrl = product.image ? `${IMAGE_BASE_PATH}${escapeHtml(product.image)}` : "";
     const hasPrice = product.price !== null && product.price !== undefined && String(product.price).trim() !== "";
     const priceText = hasPrice ? formatPrice(product.price) : "Contact for Price"; 
-
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
       : `<div class="product-media-placeholder"></div>`; 
-
     return `
       <a href="#" class="product-card">
-        <div class="product-media">
-          ${imageElement}
-        </div>
+        <div class="product-media">${imageElement}</div>
         <div class="product-body">
           <h3 class="product-title">${title}</h3>
           <p class="product-tagline">${tagline}</p>
