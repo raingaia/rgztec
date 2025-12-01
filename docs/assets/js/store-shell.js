@@ -27,7 +27,7 @@
       return;
     }
 
-    const storeSlug = storeBody.dataset.store;   // örn: "hardware"
+    const storeSlug = storeBody.dataset.store;          // örn: "hardware"
     const sectionSlug = storeBody.dataset.section || null; // örn: "ai-accelerators"
 
     if (!storeSlug) {
@@ -91,7 +91,7 @@
 
       // 5) İçerik: Ana mağaza mı / alt dükkan mı?
       if (sectionSlug) {
-        // Alt dükkan sayfasındayız: /rgztec/store/hardware/ai-accelerators/
+        // Alt dükkan sayfası: /rgztec/store/hardware/ai-accelerators/
         const sectionInfo = (storeData.sections || []).find(
           (s) => s.slug === sectionSlug
         );
@@ -104,7 +104,11 @@
         storeHtml += renderShopSection(storeData.sections || []);
       }
 
+      // DOM'a bas
       targetElement.innerHTML = storeHtml;
+
+      // Header içindeki form vb. etkileşimleri bağla
+      wireInteractions(targetElement);
     } catch (error) {
       console.error(
         `Store Shell Engine: Mağaza yüklenemedi "${escapeHtml(storeSlug)}".`,
@@ -133,8 +137,14 @@
           </div>
 
           <form class="store-header-search" role="search">
-            <input type="search" placeholder="Search for anything" aria-label="Search RGZTEC marketplace" />
-            <button type="submit" aria-label="Search">${searchIcon}</button>
+            <input
+              type="search"
+              placeholder="Search for anything"
+              aria-label="Search RGZTEC marketplace"
+            />
+            <button type="submit" aria-label="Search">
+              ${searchIcon}
+            </button>
           </form>
 
           <div class="store-header-actions">
@@ -197,7 +207,7 @@
           ? "store-section-nav__link active"
           : "store-section-nav__link";
 
-        // Ana sayfadayken: "ai-accelerators/"  
+        // Ana sayfadayken: "ai-accelerators/"
         // Alt dükkandayken: "../dev-boards/"
         const href = isActive
           ? "#"
@@ -239,7 +249,11 @@
             <span class="store-badge">${badge}</span>
             <h1>${title}</h1>
             ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ""}
-            ${description ? `<p class="store-hero-description">${description}</p>` : ""}
+            ${
+              description
+                ? `<p class="store-hero-description">${description}</p>`
+                : ""
+            }
           </div>
           <div class="store-hero-right">
             ${
@@ -373,6 +387,21 @@
         </div>
       </a>
     `;
+  }
+
+  // ---- Etkileşimleri bağla (search submit vb.) ----
+  function wireInteractions(root) {
+    const searchForm = root.querySelector(".store-header-search");
+    if (searchForm) {
+      searchForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // sayfa yenilemesin
+        const input = searchForm.querySelector("input[type='search']");
+        const q = input ? input.value.trim() : "";
+        if (!q) return;
+        // Şimdilik sadece console, sonra gerçek arama entegrasyonu
+        console.log("[RGZTEC] Search:", q);
+      });
+    }
   }
 
   // ---- Hata Çıktısı ----
