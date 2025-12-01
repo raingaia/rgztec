@@ -1,190 +1,250 @@
-// /rgztec/assets/js/store-shell.js
-// RGZTEC STORE SHELL – tüm mağaza index & listing sayfaları için ortak JS
+// =========================================
+// RGZTEC STORE SHELL (TEK JS, FINAL)
+// Header + Hero + Nav + Grid
+// =========================================
 
-(function () {
-  const DATA_BASE = "/rgztec/data";
-  const IMG_BASE  = "/rgztec/assets/images/store";
+(async function () {
+  const root = document.getElementById("store-root");
+  const headerMount = document.getElementById("store-header");
+  const storeSlug = document.body.dataset.store;
 
-  const body = document.body;
-
-  function getQueryParam(key) {
-    return new URLSearchParams(window.location.search).get(key) || "";
+  if (!root || !storeSlug) {
+    console.error("Store root or storeSlug missing.");
+    return;
   }
 
-  function getStoreSlug() {
-    // 1) body data-store, 2) URL ?store=
-    return body.dataset.store || getQueryParam("store") || "";
+  // -------------------------------
+  // 1) DATA LOAD
+  // -------------------------------
+  async function fetchData() {
+    const res = await fetch("/rgztec/assets/data/store.data.json?v=" + Date.now());
+    if (!res.ok) throw new Error("DATA FAILED");
+    return await res.json();
   }
 
-  function getSubstoreSlug() {
-    // 1) body data-substore, 2) URL ?shop=
-    return body.dataset.substore || getQueryParam("shop") || "";
+  let data;
+  try {
+    data = await fetchData();
+  } catch (err) {
+    root.innerHTML = `
+      <div class="store-error">
+        <h2>Data Error</h2>
+        <p>Store configuration could not be loaded.</p>
+      </div>
+    `;
+    return;
   }
 
-  async function fetchJSON(fileName, optional = false) {
-    const url = `${DATA_BASE}/${fileName}?v=${Date.now()}`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) {
-        if (optional) return null;
-        throw new Error("Fetch failed " + res.status + " for " + url);
-      }
-      return await res.json();
-    } catch (err) {
-      console.error("[store-shell] JSON error:", fileName, err);
-      return optional ? null : null;
+  const storeConfig = data[storeSlug];
+
+  if (!storeConfig) {
+    root.innerHTML = `
+      <div class="store-error">
+        <h2>Store Not Found</h2>
+        <p>No configuration found for store slug: <b>${storeSlug}</b></p>
+      </div>
+    `;
+    return;
+  }
+
+  // Aktif section'ı URL'e göre belirleme
+  const pathParts = window.location.pathname
+    .replace(/\/+$/, "")
+    .split("/");
+
+  let activeSection = "overview"; 
+  const lastPart = pathParts[pathParts.length - 1];
+
+  if (lastPart && lastPart !== storeSlug) {
+    // substore folder is active
+    activeSection = lastPart;
+  }
+
+  // Body class → tema tanımları için
+  document.body.classList.add("store-" + storeSlug);
+
+  // -------------------------------
+  // 2) HEADER (ETSY TARZI)
+  // -------------------------------
+  function buildHeader(storeConfig, activeSection) {
+    const header = document.createElement("header");
+    header.className = "store-header";
+
+    const inner = document.createElement("div");
+    inner.className = "store-header-inner";
+
+    // ---- Brand ----
+    const brand = document.createElement("a");
+    brand.className = "store-brand";
+    brand.href = "/rgztec/";
+
+    const dot = document.createElement("div");
+    dot.className = "store-brand-dot";
+
+    const textBlock = document.createElement("div");
+    textBlock.className = "store-brand-text-block";
+
+    const title = document.createElement("div");
+    title.className = "store-brand-title";
+    title.textContent = "RGZTEC";
+
+    const sub = document.createElement("div");
+    sub.className = "store-brand-sub";
+    sub.textContent = storeConfig.title;
+
+    textBlock.appendChild(title);
+    textBlock.appendChild(sub);
+    brand.appendChild(dot);
+    brand.appendChild(textBlock);
+
+    // ---- Search ----
+    const search = document.createElement("div");
+    search.className = "store-search";
+
+    const input = document.createElement("input");
+    input.className = "store-search-input";
+    input.type = "text";
+    input.placeholder = "Search products…";
+
+    search.appendChild(input);
+
+    // ---- Nav (dükkanlar) ----
+    const nav = document.createElement("nav");
+    nav.className = "store-nav";
+
+    // Overview link
+    const overviewLink = document.createElement("a");
+    overviewLink.className =
+      "store-nav-link" + (activeSection === "overview" ? " store-nav-link-active" : "");
+    overviewLink.href = `/rgztec/store/${storeSlug}/`;
+    overviewLink.textContent = "Overview";
+    nav.appendChild(overviewLink);
+
+    // Subsections from data
+    if (Array.isArray(storeConfig.sections)) {
+      storeConfig.sections.forEach((s) => {
+        const a = document.createElement("a");
+        a.className =
+          "store-nav-link" + (activeSection === s.slug ? " store-nav-link-active" : "");
+        a.href = `/rgztec/store/${storeSlug}/${s.slug}/`;
+        a.textContent = s.name;
+        nav.appendChild(a);
+      });
     }
+
+    // Append header items
+    inner.appendChild(brand);
+    inner.appendChild(search);
+    inner.appendChild(nav);
+    header.appendChild(inner);
+
+    return header;
   }
 
-  /* ==========================================================
-     STORE INDEX (örnek: /rgztec/store/game-makers/)
-     — .substores-grid içini JSON'dan doldurur
-     ========================================================== */
-  async function initStoreIndex() {
-    const storeSlug = getStoreSlug();
-    if (!storeSlug) return;
+  // -------------------------------
+  // 3) HERO (ANA SAYFA TARZI BANNER)
+  // -------------------------------
+  function buildHero(storeConfig, activeSection) {
+    const hero = document.createElement("section");
+    hero.className = "store-hero";
 
-    const grid = document.querySelector(".substores-grid");
-    if (!grid) return;
+    // ---- Left text ----
+    const left = document.createElement("div");
+    left.className = "store-hero-text";
 
-    const allSubstores = await fetchJSON("substores.json");
-    if (!allSubstores || !Array.isArray(allSubstores)) return;
+    const eyebrow = document.createElement("div");
+    eyebrow.className = "store-hero-eyebrow";
+    eyebrow.textContent = "Store • " + storeConfig.title;
 
-    const rows = allSubstores.filter((s) => s.parent === storeSlug);
-    if (!rows.length) return;
+    const h1 = document.createElement("h1");
+    h1.className = "store-hero-title";
+    h1.textContent =
+      activeSection === "overview"
+        ? storeConfig.title + " templates & UI kits."
+        : (storeConfig.sections.find((s) => s.slug === activeSection)?.name ||
+           storeConfig.title);
 
-    // Eski statik kartları temizle
-    grid.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "store-hero-sub";
+    p.textContent = storeConfig.tagline;
 
-    rows.forEach((sub) => {
-      const imgPath = sub.banner
-        ? `${IMG_BASE}/${sub.banner}`
-        : `${IMG_BASE}/placeholder.webp`;
+    left.appendChild(eyebrow);
+    left.appendChild(h1);
+    left.appendChild(p);
 
-      const href = `/rgztec/store/listing.html?store=${encodeURIComponent(
-        storeSlug
-      )}&shop=${encodeURIComponent(sub.slug)}`;
+    // ---- Right banner ----
+    const right = document.createElement("div");
+    right.className = "store-hero-banner";
 
-      const cardHtml = `
-        <a href="${href}" class="substore-card">
-          <div class="substore-banner">
-            <img src="${imgPath}" alt="${sub.title}">
-          </div>
-          <div class="substore-body">
-            <h3>${sub.title}</h3>
-            <p>${sub.description || ""}</p>
-          </div>
-        </a>
-      `;
+    const art = document.createElement("div");
+    art.className = "store-hero-banner-art";
 
-      grid.insertAdjacentHTML("beforeend", cardHtml);
-    });
+    const img = document.createElement("img");
+    img.src = "/rgztec/assets/img/" + storeConfig.banner; 
+    img.alt = storeConfig.title + " banner";
+
+    const glass = document.createElement("div");
+    glass.className = "store-hero-banner-glass";
+
+    art.appendChild(img);
+    art.appendChild(glass);
+    right.appendChild(art);
+
+    hero.appendChild(left);
+    hero.appendChild(right);
+
+    return hero;
   }
 
-  /* ==========================================================
-     LISTING SAYFASI (örnek: /rgztec/store/listing.html?store=game-makers&shop=unity-2d)
-     — products-*.json'dan ürün kartlarını doldurmak için iskelet
-     ========================================================== */
-  async function initListingPage() {
-    const storeSlug = getStoreSlug();
-    if (!storeSlug) return;
+  // -------------------------------
+  // 4) PRODUCTS GRID (Şimdilik placeholder)
+  // -------------------------------
+  function buildProducts(storeConfig, activeSection) {
+    const wrap = document.createElement("section");
+    wrap.className = "store-products";
 
-    const shopSlug = getSubstoreSlug(); // unity-2d, unity-3d, vb.
-    const productsContainer = document.querySelector(".products-grid");
-    if (!productsContainer) return;
+    const header = document.createElement("div");
+    header.className = "store-products-header";
 
-    // hangi JSON?
-    const fileName = shopSlug
-      ? `products-${storeSlug}-${shopSlug}.json`
-      : `products-${storeSlug}.json`;
+    const h2 = document.createElement("h2");
+    h2.textContent =
+      activeSection === "overview"
+        ? "Featured Products"
+        : (storeConfig.sections.find((s) => s.slug === activeSection)?.name ||
+           "Products");
 
-    const products = await fetchJSON(fileName, true);
-    if (!products || !Array.isArray(products) || !products.length) {
-      productsContainer.innerHTML =
-        '<p class="products-empty">Products will be added soon.</p>';
-      return;
+    const sub = document.createElement("p");
+    sub.textContent = "Product grid will be connected soon.";
+
+    header.appendChild(h2);
+    header.appendChild(sub);
+
+    const grid = document.createElement("div");
+    grid.className = "products-grid";
+
+    // Placeholder 8 ürün kartı
+    for (let i = 0; i < 8; i++) {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.textContent = "Product card placeholder";
+      grid.appendChild(card);
     }
 
-    productsContainer.innerHTML = "";
+    wrap.appendChild(header);
+    wrap.appendChild(grid);
 
-    products.forEach((p) => {
-      const img = p.image
-        ? `${IMG_BASE}/${p.image}`
-        : `${IMG_BASE}/product-placeholder.webp`;
-
-      const cardHtml = `
-        <article class="product-card">
-          <div class="product-thumb">
-            <img src="${img}" alt="${p.title}">
-          </div>
-          <div class="product-body">
-            <h3 class="product-title">${p.title}</h3>
-            <p class="product-desc">${p.description || ""}</p>
-            <div class="product-meta">
-              ${
-                p.price
-                  ? `<span class="product-price">${p.price}</span>`
-                  : ""
-              }
-              ${
-                p.tagline
-                  ? `<span class="product-tagline">${p.tagline}</span>`
-                  : ""
-              }
-            </div>
-          </div>
-        </article>
-      `;
-
-      productsContainer.insertAdjacentHTML("beforeend", cardHtml);
-    });
+    return wrap;
   }
 
-  /* ==========================================================
-     SEARCH – store index'teki arama çubuğu listing.html'e yönlendirsin
-     (input üzerinde disabled kaldırınca çalışır)
-     ========================================================== */
-  function initStoreSearch() {
-    const input = document.querySelector(".store-search-input");
-    const button = document.querySelector(".store-search-button");
-    const storeSlug = getStoreSlug();
-    if (!input || !button || !storeSlug) return;
+  // -------------------------------
+  // 5) DOM’A BAS
+  // -------------------------------
+  headerMount.appendChild(buildHeader(storeConfig, activeSection));
+  root.appendChild(buildHero(storeConfig, activeSection));
+  root.appendChild(buildProducts(storeConfig, activeSection));
 
-    if (input.disabled) return; // şimdilik "coming soon" ise dokunma
-
-    const goSearch = () => {
-      const q = input.value.trim();
-      if (!q) return;
-      const url =
-        `/rgztec/store/listing.html?store=${encodeURIComponent(
-          storeSlug
-        )}&q=${encodeURIComponent(q)}`;
-      window.location.href = url;
-    };
-
-    button.addEventListener("click", goSearch);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        goSearch();
-      }
-    });
-  }
-
-  /* ==========================================================
-     ENTRYPOINT
-     ========================================================== */
-  document.addEventListener("DOMContentLoaded", () => {
-    const isListing = body.dataset.page === "store-listing";
-
-    if (isListing) {
-      initListingPage().catch(console.error);
-    } else {
-      initStoreIndex().catch(console.error);
-      initStoreSearch();
-    }
-  });
 })();
+
 
 
 
