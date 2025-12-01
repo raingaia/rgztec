@@ -1,9 +1,11 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 11.0.0 (Etsy-style Main Nav)
- * Bu versiyon, 'renderHeader'ın altına tüm ana mağazaları
- * listeleyen ikinci bir navigasyon menüsü ekler.
+ * @version 12.0.0 (3-Tier Header & Styling)
+ * Bu versiyon, 3-katmanlı "Etsy" navigasyonunu tamamlar:
+ * 1. Ana Header (Arama çubuğu)
+ * 2. Ana Mağaza Navigasyonu (Hardware, Software vb.)
+ * 3. Aktif Mağazanın Dükkan Navigasyonu (AI Accelerators, Dev Boards vb.)
  */
 (function() {
   "use strict";
@@ -40,16 +42,16 @@
    */
   async function initStore(storeSlug, sectionSlug, targetElement) {
     let storeData; 
-    let allStoresData; // Tüm mağaza verisini tutmak için
+    let allStoresData; 
 
     try {
-      allStoresData = await fetchJSON(DATA_URL); // DEĞİŞİKLİK: Veriyi burada al
+      allStoresData = await fetchJSON(DATA_URL); 
 
       if (!allStoresData) {
         throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
       }
 
-      storeData = allStoresData[storeSlug]; // Sadece bu mağazanın verisini seç
+      storeData = allStoresData[storeSlug]; 
 
       // "Ortak Kart" (Generic Store) Koruması
       if (!storeData) {
@@ -62,16 +64,17 @@
         };
       }
 
-      // --- HTML SIRALAMASI GÜNCELLENDİ (v11) ---
+      // --- HTML SIRALAMASI GÜNCELLENDİ (v12) ---
       
       let storeHtml = "";
       
       storeHtml += renderHeader(storeData); // 1. Etsy Header
+      storeHtml += renderStoreNav(allStoresData, storeSlug); // 2. Ana Mağaza Nav.
       
-      // YENİ: Ana Mağaza Navigasyon Menüsü
-      storeHtml += renderStoreNav(allStoresData, storeSlug); 
+      // 3. Dükkan Nav. (Sadece 'sections' varsa göster)
+      storeHtml += renderSectionNav(storeData.sections || [], sectionSlug); 
       
-      storeHtml += renderHero(storeData);   // 3. Ana Hero
+      storeHtml += renderHero(storeData);   // 4. Ana Hero
 
       if (sectionSlug) {
         // --- DÜKKAN SAYFASINDAYIZ (örn: /medical-kits/) ---
@@ -120,18 +123,14 @@
     `;
   }
   
-  // 2. YENİ FONKSİYON (v11) - Ana Mağaza Navigasyonu
+  // 2. Ana Mağaza Navigasyonu (v11 - Değişiklik yok)
   function renderStoreNav(allStoresData, currentStoreSlug) {
-    // JSON'daki tüm anahtarları ('hardware', 'software' vb.) al
     const storeLinks = Object.keys(allStoresData).map(slug => {
       const store = allStoresData[slug];
-      if (!store || !store.title) return ''; // Hatalı veya eksik veriyi atla
+      if (!store || !store.title) return ''; 
       
       const name = escapeHtml(store.title);
-      // Linki oluştur (örn: /rgztec/store/hardware/)
       const href = `/rgztec/store/${slug}/`;
-      
-      // Aktif mağaza linkini işaretle
       const isActive = (slug === currentStoreSlug);
       const linkClass = isActive ? "store-main-nav__link active" : "store-main-nav__link";
 
@@ -151,7 +150,49 @@
     `;
   }
 
-  // 3. Hero (Değişiklik yok)
+  // 3. YENİ (v12) - Dükkan Navigasyonu (Alt kategori menüsü)
+  function renderSectionNav(sections, currentSectionSlug) {
+    // Eğer 'sections' (dükkan) yoksa veya boşsa, bu menüyü hiç gösterme
+    if (!Array.isArray(sections) || sections.length === 0) {
+      return ''; 
+    }
+
+    const navItems = sections
+      .map(section => {
+        const slug = escapeHtml(section.slug || '#');
+        const name = escapeHtml(section.name || 'Unnamed Section');
+        
+        // Linkin aktif olup olmadığını kontrol et
+        const isActive = (slug === currentSectionSlug);
+        const linkClass = isActive 
+          ? "store-section-nav__link active" // Aktifse 'active' class'ı ekle
+          : "store-section-nav__link";
+
+        // Link yolu: Ana sayfadan (`/hardware/`) -> dükkana (`medical-kits/`)
+        // Dükkandan (`/medical-kits/`) -> başka dükkana (`../dev-boards/`)
+        // BU KOD ŞİMDİLİK BASİT TUTULMUŞTUR: Tümü ana sayfadan gidiyormuş gibi varsayar.
+        // Doğru göreceli yol mantığı (v8'deki gibi) daha sonra eklenebilir.
+        // Şimdilik sadece ana sayfa / dükkan sayfası arasındaki geçişi yapıyoruz:
+        const linkHref = isActive ? "#" : (currentSectionSlug ? `../${slug}/` : `${slug}/`);
+
+        return `
+          <li class="store-section-nav__item">
+            <a href="${linkHref}" class="${linkClass}">${name}</a>
+          </li>
+        `;
+      })
+      .join("");
+
+    return `
+      <nav class="store-section-nav">
+        <ul class="store-section-nav__list">
+          ${navItems}
+        </ul>
+      </nav>
+    `;
+  }
+
+  // 4. Hero (Değişiklik yok)
   function renderHero(data) {
     const title = escapeHtml(data.title || "Welcome");
     const tagline = escapeHtml(data.tagline || "");
@@ -176,7 +217,7 @@
     `;
   }
 
-  // 4A. DÜKKAN BÖLÜMÜ (Ana Mağaza Sayfası için)
+  // 5A. DÜKKAN BÖLÜMÜ (Ana Mağaza Sayfası için)
   function renderShopSection(sections) {
     return `
       <main class="store-shops">
@@ -188,7 +229,7 @@
     `;
   }
 
-  // 4B. DÜKKAN KARTLARI (Etsy Tarzı)
+  // 5B. DÜKKAN KARTLARI (Etsy Tarzı)
   function renderShopGrid(sections) {
     if (!Array.isArray(sections) || sections.length === 0) {
       return `
@@ -202,7 +243,7 @@
     return `<div class="shop-grid">${shopCards}</div>`;
   }
 
-  // 4C. TEK BİR DÜKKAN KARTI
+  // 5C. TEK BİR DÜKKAN KARTI
   function renderShopCard(section) {
     if (!section) return ""; 
     const name = escapeHtml(section.name || "Untitled Shop");
@@ -223,7 +264,7 @@
     `;
   }
 
-  // 5A. ÜRÜN BÖLÜMÜ (Dükkan Sayfası için)
+  // 6A. ÜRÜN BÖLÜMÜ (Dükkan Sayfası için)
   function renderProductSection(products, sectionInfo) {
     const title = sectionInfo ? escapeHtml(sectionInfo.name) : "Products";
     return `
@@ -234,7 +275,7 @@
     `;
   }
 
-  // 5B. ÜRÜN KARTLARI
+  // 6B. ÜRÜN KARTLARI
   function renderProductGrid(products, sectionSlug) {
     if (!Array.isArray(products) || products.length === 0) {
       const emptyTitle = sectionSlug ? "No Products in This Shop Yet" : "Products Coming Soon";
@@ -252,7 +293,7 @@
     return `<div class="products-grid">${productCards}</div>`;
   }
 
-  // 5C. TEK BİR ÜRÜN KARTI
+  // 6C. TEK BİR ÜRÜN KARTI
   function renderProductCard(product) {
     if (!product) return ""; 
     const title = escapeHtml(product.title || "Untitled Product");
@@ -327,6 +368,4 @@
   }
 
 })();
-
-
 
