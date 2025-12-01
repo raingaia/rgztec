@@ -120,7 +120,7 @@
 
   // ---- HTML Render Fonksiyonları ----
 
-  // 1) Ana Header (Etsy tarzı – Dashboard / Editor, Sign In, Support, Gift, Cart, Open Store)
+  // 1) Ana Header (Dashboard / Editor, Sign In, Support, Gift, Cart, Open Store)
   function renderHeader() {
     const categoriesIcon = "☰";
     const searchIcon = "🔍";
@@ -473,5 +473,25 @@
     const str = String(unsafe || "");
     return str
       .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;`)
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function formatPrice(price) {
+    const num = parseFloat(price);
+    if (isNaN(num)) {
+      return escapeHtml(price);
+    }
+    try {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+      }).format(num);
+    } catch (e) {
+      return "$" + num.toFixed(2);
+    }
+  }
+})();
 
