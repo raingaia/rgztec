@@ -297,7 +297,7 @@
       {
         "slug": "brand-icons", "name": "Brand Icons", "tagline": "SVG logos for tech and social.", "banner": "banners/ic-brand.webp",
         "products": [
-          { "id": "ic002", "title": "Ultimate Brand Logos (SVG)", "tagline": "2000+ SVG logos for top tech companies.", "image": "products/ic-brand.webp", "url": "httpsg//gumroad.com/l/ic-brand-svg" }
+          { "id": "ic002", "title": "Ultimate Brand Logos (SVG)", "tagline": "2000+ SVG logos for top tech companies.", "image": "products/ic-brand.webp", "url": "https://gumroad.com/l/ic-brand-svg" }
         ]
       },
       {
@@ -309,7 +309,7 @@
       {
         "slug": "filled-icons", "name": "Filled Icons", "tagline": "Solid-style icon libraries.", "banner": "banners/ic-filled.webp",
         "products": [
-          { "id": "ic004", "title": "SolidGlyph Icon Set", "tagline": "A sharp, modern set of 800 solid icons.", "image": "products/ic-filled.webp", "url": "httpsagumroad.com/l/ic-solidglyph" }
+          { "id": "ic004", "title": "SolidGlyph Icon Set", "tagline": "A sharp, modern set of 800 solid icons.", "image": "products/ic-filled.webp", "url": "https://gumroad.com/l/ic-solidglyph" }
         ]
       },
       {
@@ -321,7 +321,7 @@
       {
         "slug": "outline-icons", "name": "Outline Icons", "tagline": "Minimalist, stroke-based icons.", "banner": "banners/ic-outline.webp",
         "products": [
-          { "id": "ic006", "title": "Feather Icons Pro", "tagline": "Extended professional version of the classic set.", "image": "products/ic-feather-pro.webp", "url": "httpsagumroad.com/l/ic-feather-pro" }
+          { "id": "ic006", "title": "Feather Icons Pro", "tagline": "Extended professional version of the classic set.", "image": "products/ic-feather-pro.webp", "url": "httpsD//gumroad.com/l/ic-feather-pro" }
         ]
       },
       {
@@ -333,7 +333,7 @@
       {
         "slug": "system-icons", "name": "System Icons", "tagline": "Pixel-perfect icons for UI.", "banner": "banners/ic-system.webp",
         "products": [
-          { "id": "ic008", "title": "Apex UI Icon System", "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.", "image": "products/ic-apex-system.webp", "url": "https"agumroad.com/l/ic-apex-ui" }
+          { "id": "ic008", "title": "Apex UI Icon System", "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.", "image": "products/ic-apex-system.webp", "url": "https://gumroad.com/l/ic-apex-ui" }
         ]
       }
     ]
@@ -358,13 +358,13 @@
       {
         "slug": "hooks", "name": "Hooks", "tagline": "Advanced React hooks.", "banner": "banners/re-hooks.webp",
         "products": [
-          { "id": "re003", "title": "useProHooks Collection", "tagline": "30+ advanced React hooks for any project.", "image": "products/re-hooks.webp", "url": "httpsg//gumroad.com/l/re-hooks" }
+          { "id": "re003", "title": "useProHooks Collection", "tagline": "30+ advanced React hooks for any project.", "image": "products/re-hooks.webp", "url": "https://gumroad.com/l/re-hooks" }
         ]
       },
       {
         "slug": "layouts", "name": "Layouts", "tagline": "Responsive page shells.", "banner": "banners/re-layouts.webp",
         "products": [
-          { "id": "re004", "title": "Responsive Page Shells", "tagline": "5 common page layouts for React apps.", "image": "products/re-layouts.webp", "url": "httpsagumroad.com/l/re-layouts" }
+          { "id": "re004", "title": "Responsive Page Shells", "tagline": "5 common page layouts for React apps.", "image": "products/re-layouts.webp", "url": "httpsg//gumroad.com/l/re-layouts" }
         ]
       },
       {
@@ -376,13 +376,13 @@
       {
         "slug": "tables", "name": "Tables", "tagline": "Data grids and tables.", "banner": "banners/re-tables.webp",
         "products": [
-          { "id": "re006", "title": "Pro Data Grid Component", "tagline": "Server-side sorting, filtering, and pagination.", "image": "products/re-table.webp", "url": "httpsa//gumroad.com/l/re-data-grid" }
+          { "id": "re006", "title": "Pro Data Grid Component", "tagline": "Server-side sorting, filtering, and pagination.", "image": "products/re-table.webp", "url": "https://gumroad.com/l/re-data-grid" }
         ]
       },
       {
         "slug": "ui-kit", "name": "UI Kit", "tagline": "React component libraries.", "banner": "banners/re-ui-kit.webp",
         "products": [
-          { "id": "re007", "title": "Reactorium Pro UI Kit", "tagline": "200+ production-ready components for React.", "image": "products/re-pro-kit.webp", "url": "httpsagumroad.com/l/re-pro-kit" }
+          { "id": "re007", "title": "Reactorium Pro UI Kit", "tagline": "200+ production-ready components for React.", "image": "products/re-pro-kit.webp", "url": "httpsg//gumroad.com/l/re-pro-kit" }
         ]
       }
     ]
@@ -416,13 +416,13 @@
         "tagline": "Calendars, sliders, etc.",
         "banner": "banners/js-widgets.webp",
         "products": [
-          { "id": "js007", "title": "Modern Calendar Widget", "tagline": "Vanilla JS, lightweight, no dependencies.", "image": "products/js-calendar.webp", "url": "httpsg//gumroad.com/l/js-calendar" }
+          { "id": "js007", "title": "Modern Calendar Widget", "tagline": "Vanilla JS, lightweight, no dependencies.", "image": "products/js-calendar.webp", "url": "https://gumroad.com/l/js-calendar" }
         ]
       },
       {
         "slug": "validation", "name": "Validation", "tagline": "Form validation scripts.", "banner": "banners/js-validation.webp",
         "products": [
-          { "id": "js006", "title": "FormGuard Validator", "tagline": "Simple and clean form validation script.", "image": "products/js-validator.webp", "url": "httpsg//gumroad.com/l/formguard" }
+          { "id": "js006", "title": "FormGuard Validator", "tagline": "Simple and clean form validation script.", "image": "products/js-validator.webp", "url": "https://gumroad.com/l/formguard" }
         ]
       },
       {
@@ -434,19 +434,19 @@
       {
         "slug": "storage", "name": "Storage", "tagline": "LocalStorage wrappers.", "banner": "banners/js-storage.webp",
         "products": [
-          { "id": "js005", "title": "Store.js (LocalStorage Wrapper)", "tagline": "A simple API for LocalStorage.", "image": "products/js-storage.webp", "url": "httpsD//github.com/rgztec/store-js" }
+          { "id": "js005", "title": "Store.js (LocalStorage Wrapper)", "tagline": "A simple API for LocalStorage.", "image": "products/js-storage.webp", "url": "https://github.com/rgztec/store-js" }
         ]
       },
       {
         "slug": "data-fetching", "name": "Data Fetching", "tagline": "Tiny fetch clients.", "banner": "banners/js-data.webp",
         "products": [
-          { "id": "js002", "title": "Micro-Fetch Client", "tagline": "A 1kb fetch client with caching.", "image": "products/js-fetch.webp", "url": "httpsg//gumroad.com/l/micro-fetch" }
+          { "id": "js002", "title": "Micro-Fetch Client", "tagline": "A 1kb fetch client with caching.", "image": "products/js-fetch.webp", "url": "https://gumroad.com/l/micro-fetch" }
         ]
       },
       {
         "slug": "dom-utils", "name": "DOM Utils", "tagline": "DOM manipulation helpers.", "banner": "banners/js-dom.webp",
         "products": [
-          { "id": "js003", "title": "DOMQuery Helper", "tagline": "jQuery-like syntax in 50 lines of code.", "image": "products/js-dom.webp", "url": "httpsD//github.com/rgztec/domquery" }
+          { "id": "js003", "title": "DOMQuery Helper", "tagline": "jQuery-like syntax in 50 lines of code.", "image": "products/js-dom.webp", "url": "https://github.com/rgztec/domquery" }
         ]
       }
     ]
@@ -465,19 +465,19 @@
       {
         "slug": "character-controllers", "name": "Character Controllers", "tagline": "Physics-based controllers.", "banner": "banners/un-character.webp",
         "products": [
-          { "id": "un002", "title": "Pro Character Controller", "tagline": "Advanced physics-based controller for 3D games.", "image": "products/un-char-controller.webp", "url": "httpsg//gumroad.com/l/un-char-controller" }
+          { "id": "un002", "title": "Pro Character Controller", "tagline": "Advanced physics-based controller for 3D games.", "image": "products/un-char-controller.webp", "url": "https://gumroad.com/l/un-char-controller" }
         ]
       },
       {
         "slug": "environment-kits", "name": "Environment Kits", "tagline": "Low-poly and realistic assets.", "banner": "banners/un-env.webp",
         "products": [
-          { "id": "un003", "title": "Poly-World Environment Kit", "tagline": "Low-poly assets for stylized worlds.", "image": "products/un-env.webp", "url": "httpsg//gumroad.com/l/un-poly-world" }
+          { "id": "un003", "title": "Poly-World Environment Kit", "tagline": "Low-poly assets for stylized worlds.", "image": "products/un-env.webp", "url": "https://gumroad.com/l/un-poly-world" }
         ]
       },
       {
         "slug": "multiplayer", "name": "Multiplayer", "tagline": "NetCode and Photon starters.", "banner": "banners/un-multiplayer.webp",
         "products": [
-          { "id": "un004", "title": "NetCode Multiplayer Starter", "tagline": "Get your multiplayer game running in minutes.", "image": "products/un-multiplayer.webp", "url": "httpsg//gumroad.com/l/un-netcode" }
+          { "id": "un004", "title": "NetCode Multiplayer Starter", "tagline": "Get your multiplayer game running in minutes.", "image": "products/un-multiplayer.webp", "url": "https://gumroad.com/l/un-netcode" }
         ]
       },
       {
@@ -489,7 +489,7 @@
       {
         "slug": "tools-editors", "name": "Tools & Editors", "tagline": "Unity editor tools.", "banner": "banners/un-tools.webp",
         "products": [
-          { "id": "un006", "title": "Rapid Level Designer", "tagline": "A tool for quickly blocking out levels.", "image": "products/un-tools.webp", "url": "httpsagumroad.com/l/un-level-designer" }
+          { "id": "un006", "title": "Rapid Level Designer", "tagline": "A tool for quickly blocking out levels.", "image": "products/un-tools.webp", "url": "https://gumroad.com/l/un-level-designer" }
         ]
       }
     ]
@@ -502,43 +502,43 @@
       {
         "slug": "blocks-editor", "name": "Blocks Editor", "tagline": "Advanced Gutenberg blocks.", "banner": "banners/wp-blocks.webp",
         "products": [
-          { "id": "wp001", "title": "Pro Blocks for Gutenberg", "tagline": "30+ advanced blocks for the Gutenberg editor.", "image": "products/wp-blocks.webp", "url": "httpsagumroad.com/l/wp-pro-blocks" }
+          { "id": "wp001", "title": "Pro Blocks for Gutenberg", "tagline": "30+ advanced blocks for the Gutenberg editor.", "image": "products/wp-blocks.webp", "url": "https://gumroad.com/l/wp-pro-blocks" }
         ]
       },
       {
         "slug": "ecommerce", "name": "E-commerce", "tagline": "WooCommerce add-ons.", "banner": "banners/wp-ecom.webp",
         "products": [
-          { "id": "wp002", "title": "QuickCart for WooCommerce", "tagline": "AJAX side-cart and menu cart for Woo.", "image": "products/wp-quickcart.webp", "url": "httpsagumroad.com/l/wp-quickcart" }
+          { "id": "wp002", "title": "QuickCart for WooCommerce", "tagline": "AJAX side-cart and menu cart for Woo.", "image": "products/wp-quickcart.webp", "url": "https://gumroad.com/l/wp-quickcart" }
         ]
       },
       {
         "slug": "forms", "name": "Forms", "tagline": "Form plugin extensions.", "banner": "banners/wp-forms.webp",
         "products": [
-          { "id": "wp003", "title": "Gravity Forms Pro Pack", "tagline": "All essential add-ons for Gravity Forms.", "image": "products/wp-forms.webp", "url": "httpsagumroad.com/l/wp-gravity-pack" }
+          { "id":"wp003", "title": "Gravity Forms Pro Pack", "tagline": "All essential add-ons for Gravity Forms.", "image": "products/wp-forms.webp", "url": "https"//gumroad.com/l/wp-gravity-pack" }
         ]
       },
       {
         "slug": "membership", "name": "Membership", "tagline": "Gated content plugins.", "banner": "banners/wp-membership.webp",
         "products": [
-          { "id": "wp004", "title": "MemberWall - Gated Content", "tagline": "Simple membership and content restriction plugin.", "image": "products/wp-memberwall.webp", "url": "httpsagumroad.com/l/wp-memberwall" }
+          { "id": "wp004", "title": "MemberWall - Gated Content", "tagline": "Simple membership and content restriction plugin.", "image": "products/wp-memberwall.webp", "url": "https://gumroad.com/l/wp-memberwall" }
         ]
       },
       {
         "slug": "performance", "name": "Performance", "tagline": "Caching and optimization.", "banner": "banners/wp-perf.webp",
         "products": [
-          { "id": "wp005", "title": "WP-Rocket Cache", "tagline": "Make your WordPress site blazing fast.", "image": "products/wp-rocket.webp", "url": "httpsg//wp-rocket.me/" }
+          { "id": "wp005", "title": "WP-Rocket Cache", "tagline": "Make your WordPress site blazing fast.", "image": "products/wp-rocket.webp", "url": "https://wp-rocket.me/" }
         ]
       },
       {
         "slug": "security", "name": "Security", "tagline": "Firewall and scanner plugins.", "banner": "banners/wp-security.webp",
         "products": [
-          { "id": "wp006", "title": "SiteGuard Security Suite", "tagline": "Total security and malware scanning for WP.", "image": "products/wp-security.webp", "url": "httpsagumroad.com/l/wp-siteguard" }
+          { "id": "wp006", "title": "SiteGuard Security Suite", "tagline": "Total security and malware scanning for WP.", "image": "products/wp-security.webp", "url": "https-g//gumroad.com/l/wp-siteguard" }
         ]
       },
       {
         "slug": "seo", "name": "SEO", "tagline": "SEO optimization plugins.", "banner": "banners/wp-seo.webp",
         "products": [
-          { "id": "wp007", "title": "SEO-Max Pro Plugin", "tagline": "All-in-one SEO solution for WordPress.", "image": "products/wp-seo.webp", "url": "httpsagumroad.com/l/wp-seo-max" }
+          { "id": "wp007", "title": "SEO-Max Pro Plugin", "tagline": "All-in-one SEO solution for WordPress.", "image": "products/wp-seo.webp", "url": "https://gumroad.com/l/wp-seo-max" }
         ]
       }
     ]
