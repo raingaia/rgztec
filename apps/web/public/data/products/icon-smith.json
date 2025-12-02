@@ -1,0 +1,66 @@
+[
+  {
+    "id": "ic001",
+    "section": "3d-icons",
+    "title": "Clay 3D Icon Pack",
+    "tagline": "100+ playful 3D icons for marketing.",
+    "price": "45.00",
+    "image": "products/ic-clay-3d.webp"
+  },
+  {
+    "id": "ic002",
+    "section": "brand-icons",
+    "title": "Ultimate Brand Logos (SVG)",
+    "tagline": "2000+ SVG logos for top tech companies.",
+    "price": "10.00",
+    "image": "products/ic-brand.webp"
+  },
+  {
+    "id": "ic003",
+    "section": "duotone-icons",
+    "title": "Duotone Business Icons",
+    "tagline": "500 two-color icons for professional use.",
+    "price": "30.00",
+    "image": "products/ic-duotone.webp"
+  },
+  {
+    "id": "ic004",
+    "section": "filled-icons",
+    "title": "SolidGlyph Icon Set",
+    "tagline": "A sharp, modern set of 800 solid icons.",
+    "price": "25.00",
+    "image": "products/ic-filled.webp"
+  },
+  {
+    "id": "ic005",
+    "section": "flags-icons",
+    "title": "World Flags Icon Pack",
+    "tagline": "All 254 country flags in SVG and PNG.",
+    "price": "15.00",
+    "image": "products/ic-flags.webp"
+  },
+  {
+    "id": "ic006",
+    "section": "outline-icons",
+    "title": "Feather Icons Pro",
+    "tagline": "Extended professional version of the classic set.",
+    "price": "20.00",
+    "image": "products/ic-feather-pro.webp"
+  },
+  {
+    "id": "ic007",
+    "section": "solid-icons",
+    "title": "Heroicons Solid (Extended)",
+    "tagline": "An extended set based on Tailwind's icons.",
+    "price": "10.00",
+    "image": "products/ic-solid.webp"
+  },
+  {
+    "id": "ic008",
+    "section": "system-icons",
+    "title": "Apex UI Icon System",
+    "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.",
+    "price": "79.00",
+    "image": "products/ic-apex-system.webp"
+  }
+]
