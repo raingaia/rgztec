@@ -2,7 +2,8 @@
 
 /*
  * RGZTEC Store Stylesheet
- * Version: 12.3.0 (Premium Header & Nav + Hero Card)
+ * Version: 14.0.0 (Premium CSS + SVG Icon Fix)
+ * (Kullanıcının v12.3.0 kodunu temel alır ve SVG ikon stillerini ekler)
  */
 
 /* TOKENS */
@@ -96,11 +97,49 @@ a:hover {
 }
 
 img, video { max-width: 100%; height: auto; display: block; }
-button { font-family: inherit; font-size: 100%; cursor: pointer; }
+button { 
+  font-family: inherit; 
+  font-size: 100%; 
+  cursor: pointer; 
+  /* DÜZELTME: Butonların varsayılan stilini sıfırla */
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
 
 /* =========================================================
-   HEADER – PREMIUM (ana sayfa ile aynı kalite)
-   ======================================================= */
+ * SVG ICON STYLING (v14 - JS v13.1 ile uyum)
+ * (Bu blok "boş kalan üç çizgi" sorununu çözer)
+ * ========================================================= */
+.store-header-icon {
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+  display: block;
+  color: inherit; /* Üst elementin rengini al */
+  stroke-width: 1.5;
+}
+/* Kategori butonu içindeki ikon */
+.store-header-categories-btn .store-header-icon {
+  width: 0.9rem; /* 14.4px */
+  height: 0.9rem; /* 14.4px */
+  stroke-width: 2.5; /* Daha kalın */
+}
+/* Arama butonu içindeki ikon */
+.store-header-search button .store-header-icon {
+  width: 1.2rem; /* 19.2px */
+  height: 1.2rem; /* 19.2px */
+  stroke-width: 2.5;
+}
+/* Pill (yuvarlak) butonlar içindeki ikon */
+.store-header-icon-pill .store-header-icon {
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
+}
+
+/* =========================================================
+  HEADER – PREMIUM (ana sayfa ile aynı kalite)
+  ======================================================= */
 .store-header {
   position: fixed;
   top: 0;
@@ -137,7 +176,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  color: var(--color-text-main);
+  color: var(--color-brand-strong); /* DÜZELTME: Turuncu Logo */
 }
 .store-header-logo:hover {
   text-decoration: none;
@@ -221,7 +260,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   justify-content: center;
   background: var(--color-brand);
   color: #ffffff;
-  font-size: 1.2rem;
+  /* font-size kaldırıldı, SVG boyutu yönetecek */
   border-radius: 999px;
   margin: 4px;
   box-shadow:
@@ -280,7 +319,7 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  /* font-size kaldırıldı, SVG boyutu yönetecek */
   color: var(--color-text-main);
   box-shadow: 0 4px 10px rgba(15,23,42,0.08);
   transition: var(--transition-fast);
@@ -333,8 +372,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 
 /* =========================================================
-   ANA STORE NAV (Game Makers, AI Tools Hub, ...)
-   ======================================================= */
+  ANA STORE NAV (Game Makers, AI Tools Hub, ...)
+  ======================================================= */
 .store-main-nav {
   background-color: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid #e5e7eb;
@@ -374,11 +413,11 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 
 /* =========================================================
-   DÜKKAN NAV (Hardware içi kategoriler – AI Accelerators vs.)
-   ======================================================= */
+  DÜKKAN NAV (Hardware içi kategoriler – AI Accelerators vs.)
+  ======================================================= */
 .store-section-nav {
   background-color: rgba(255, 255, 255, 0.98);
-  border-top: 1px solid #e5e7eb;
+  /* DÜZELTME: Üst border kaldırıldı, ana nav'a yapışık */
   border-bottom: 1px solid #e5e7eb;
   box-shadow: 0 1px 0 rgba(148, 163, 184, 0.18);
 }
@@ -399,8 +438,9 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 .store-section-nav__list > li {
   margin: 0;
 }
+/* DÜZELTME: Dükkan menüsü stilini ana menü gibi yap */
 .store-section-nav__list > li + li {
-  border-left: 1px solid var(--color-border-subtle);
+  border-left: none; /* Ayırgaç kaldırıldı */
 }
 
 .store-section-nav__list a,
@@ -408,16 +448,16 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   display: block;
   white-space: nowrap;
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-sub);
+  font-weight: var(--font-weight-medium); /* Ana menüden bir tık ince */
+  color: var(--color-text-main); /* DÜZELTME: Soluk değil, koyu */
   text-decoration: none;
   padding: 0.75rem 1rem;
   transition: var(--transition-fast);
 }
 .store-section-nav__list a:hover,
 .store-section-nav__link:hover {
-  color: var(--color-text-main);
-  background-color: rgba(15, 23, 42, 0.02);
+  color: var(--color-brand);
+  background-color: transparent;
 }
 
 .store-section-nav__list a.active,
@@ -428,8 +468,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 
 /* =========================================================
-   HERO – kart gibi sayfanın üstünde
-   ======================================================= */
+  HERO – kart gibi sayfanın üstünde
+  ======================================================= */
 .store-hero {
   padding: 3.5rem 0 2.5rem;
   background: transparent;
@@ -495,8 +535,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 
 /* =========================================================
-   SHOP SECTION
-   ======================================================= */
+  SHOP SECTION
+  ======================================================= */
 .store-shops {
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -559,8 +599,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 
 /* =========================================================
-   PRODUCTS SECTION
-   ======================================================= */
+  PRODUCTS SECTION
+  ======================================================= */
 .store-products {
   max-width: var(--container-max-width);
   margin: 0 auto;
@@ -685,8 +725,8 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
 }
 
 /* =========================================================
-   RESPONSIVE
-   ======================================================= */
+  RESPONSIVE
+  ======================================================= */
 @media (min-width: 480px) {
   :root { --container-padding: 2rem; }
   .store-hero-left h1 { font-size: var(--font-size-5xl); }
@@ -729,4 +769,3 @@ button { font-family: inherit; font-size: 100%; cursor: pointer; }
   .store-hero { padding: 6rem 0; }
   .store-hero-inner { gap: 5rem; }
 }
-
