@@ -1,20 +1,3 @@
-Ortak, anlaşıldı. Bu (v13.1) kodunda çok uğraştık ve bu kodun %99'u zaten mükemmel:
-
-  * **Doğru Veri Yolu:** `DATA_URL = "/rgztec/data/store.data.json"` (Nihai yol)
-  * **Kurumsal Header:** "Dashboard / Editor", "Open Store" vb. (Doğru HTML)
-  * **SVG İkonlar:** `ICON_CATEGORIES`, `ICON_SEARCH` vb. (Doğru ikonlar)
-
-Bu kodun tek bir "gerekli değişikliğe" ihtiyacı var: Senin de en son fark ettiğin gibi, **"dükkan datalarını" (ürünleri) ayrı bir dosyadan çekme mantığı.**
-
-Aşağıdaki **NİHAİ (v14.1)** kodu, senin yolladığın (v13.1) kodunun *birebir aynısıdır*. Tek farkı, `initStore` fonksiyonunu, ürünleri (`/data/products/hardware.json` gibi) ayrı olarak çekecek şekilde güncellememdir.
-
-Lütfen `store-shell.js` dosyanın içeriğini **tamamen** bu kodla değiştir:
-
------
-
-### `store-shell.js` (NİHAİ - v14.1 - Ayrı Ürün Dataları)
-
-```javascript
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
@@ -557,4 +540,3 @@ Lütfen `store-shell.js` dosyanın içeriğini **tamamen** bu kodla değiştir:
     }
   }
 })();
-```
