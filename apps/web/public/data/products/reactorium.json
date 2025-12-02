@@ -1,0 +1,58 @@
+[
+  {
+    "id": "re001",
+    "section": "charts",
+    "title": "DataViz Chart Library",
+    "tagline": "Simple, lightweight charting library for React.",
+    "price": "59.00",
+    "image": "products/re-charts.webp"
+  },
+  {
+    "id": "re002",
+    "section": "forms",
+    "title": "React Hook Form Pro",
+    "tagline": "Advanced patterns for React Hook Form.",
+    "price": "20.00",
+    "image": "products/re-forms.webp"
+  },
+  {
+    "id": "re003",
+    "section": "hooks",
+    "title": "useProHooks Collection",
+    "tagline": "30+ advanced React hooks for any project.",
+    "price": "29.00",
+    "image": "products/re-hooks.webp"
+  },
+  {
+    "id": "re004",
+    "section": "layouts",
+    "title": "Responsive Page Shells",
+    "tagline": "5 common page layouts for React apps.",
+    "price": "19.00",
+    "image": "products/re-layouts.webp"
+  },
+  {
+    "id": "re005",
+    "section": "navigation",
+    "title": "Command Menu (K-Bar)",
+    "tagline": "A cmd+k style command menu for React.",
+    "price": "24.00",
+    "image": "products/re-kbar.webp"
+  },
+  {
+    "id": "re006",
+    "section": "tables",
+    "title": "Pro Data Grid Component",
+    "tagline": "Server-side sorting, filtering, and pagination.",
+    "price": "49.00",
+    "image": "products/re-table.webp"
+  },
+  {
+    "id": "re007",
+    "section": "ui-kit",
+    "title": "Reactorium Pro UI Kit",
+    "tagline": "200+ production-ready components for React.",
+    "price": "149.00",
+    "image": "products/re-pro-kit.webp"
+  }
+]
