@@ -1,8 +1,9 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
+ * @version 13.1.0 (FINAL - Correct DATA_URL + SVG Icons)
  * 3 katmanlı RGZTEC mağaza yapısı:
- * 1) Ana Header (logo + arama + hesap)
+ * 1) Ana Header (logo + arama + hesap) - SVG İkonlar
  * 2) Ana Mağaza Navigasyonu (Game Makers, Hardware Lab, ...)
  * 3) Aktif Mağazanın Dükkan Navigasyonu (AI Accelerators, Dev Boards, ...)
  */
@@ -11,7 +12,7 @@
 
   // ---- Sabitler ----
 
-  // 🔴 DÜZELTİLDİ: Yol /rgztec/store/stores.json olarak güncellendi
+  // 🔴 DÜZELTİLDİ: Yol senin dosya yapına göre (image_d0801d.jpg) güncellendi.
   const DATA_URL = "/rgztec/data/store.data.json";
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
@@ -51,12 +52,12 @@
     try {
       allStoresData = await fetchJSON(DATA_URL);
       if (!allStoresData) {
-        throw new Error("Mağaza veri dosyası (stores.json) boş veya eksik.");
+        throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
       }
 
       storeData = allStoresData[storeSlug];
 
-      // Ortak fallback mağaza (slug JSON’da yoksa)
+      // Ortak fallback mağaza
       if (!storeData) {
         console.warn(
           `Store Shell Engine: "${escapeHtml(
@@ -68,31 +69,19 @@
           tagline: "This store will be available soon.",
           description:
             "Products and categories are being prepared. Please check back later.",
-          badge: "Coming Soon",
-          banner: null,
-          products: [],
-          sections: []
+          badge: "Coming Soon", banner: null, products: [], sections: []
         };
       }
 
       // ---- HTML Sıralaması ----
       let storeHtml = "";
-
-      // 1) Ana header
       storeHtml += renderHeader();
-
-      // 2) Mağaza navigasyonu (tüm RGZTEC mağazaları)
       storeHtml += renderStoreNav(allStoresData, storeSlug);
-
-      // 3) Dükkan navigasyonu (aktif mağaza içi alt kategoriler)
       storeHtml += renderSectionNav(storeData.sections || [], sectionSlug);
-
-      // 4) Hero (mağaza başlığı + banner)
       storeHtml += renderHero(storeData);
 
-      // 5) İçerik: Ana mağaza mı / alt dükkan mı?
       if (sectionSlug) {
-        // Alt dükkan sayfası: /rgztec/store/hardware/ai-accelerators/
+        // Alt dükkan sayfası
         const sectionInfo = (storeData.sections || []).find(
           (s) => s.slug === sectionSlug
         );
@@ -101,14 +90,11 @@
         );
         storeHtml += renderProductSection(filteredProducts, sectionInfo);
       } else {
-        // Ana mağaza sayfası: /rgztec/store/hardware/
+        // Ana mağaza sayfası
         storeHtml += renderShopSection(storeData.sections || []);
       }
 
-      // DOM'a bas
       targetElement.innerHTML = storeHtml;
-
-      // Header içindeki form vb. etkileşimleri bağla
       wireInteractions(targetElement);
     } catch (error) {
       console.error(
@@ -121,12 +107,30 @@
 
   // ---- HTML Render Fonksiyonları ----
 
-  // 1) Ana Header (Dashboard / Editor, Sign In, Support, Gift, Cart, Open Store)
+  // 1) Ana Header (SVG İkonlar)
   function renderHeader() {
-    const categoriesIcon = "☰";
-    const searchIcon = "🔍";
-    const giftIcon = "🎁";
-    const cartIcon = "🛒";
+    
+    // --- Profesyonel SVG İkonları ---
+    const ICON_CATEGORIES = `
+      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>`;
+    
+    const ICON_SEARCH = `
+      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+      </svg>`;
+
+    const ICON_GIFT = `
+      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0 0 12 1.5h-1.5a3.375 3.375 0 0 0-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0 1 13.5 1.5H12v3.375Z" />
+      </svg>`;
+    
+    const ICON_CART = `
+      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+      </svg>`;
+    // --- Bitti ---
 
     return `
       <header class="store-header">
@@ -135,7 +139,7 @@
           <div class="store-header-left">
             <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
             <button class="store-header-categories-btn" type="button">
-              ${categoriesIcon}
+              ${ICON_CATEGORIES}
               <span>Categories</span>
             </button>
           </div>
@@ -148,7 +152,7 @@
                 aria-label="Search RGZTEC marketplace"
               />
               <button type="submit" aria-label="Search">
-                ${searchIcon}
+                ${ICON_SEARCH}
               </button>
             </form>
           </div>
@@ -162,10 +166,10 @@
 
             <div class="store-header-actions">
               <button class="store-header-icon-pill" type="button" aria-label="Gift cards">
-                ${giftIcon}
+                ${ICON_GIFT}
               </button>
               <button class="store-header-icon-pill" type="button" aria-label="Cart">
-                ${cartIcon}
+                ${ICON_CART}
               </button>
               <a href="#" class="store-header-cta">
                 <span>Open Store</span>
@@ -492,4 +496,3 @@
     }
   }
 })();
-
