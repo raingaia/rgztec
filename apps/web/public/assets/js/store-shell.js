@@ -12,7 +12,7 @@
   // ---- Sabitler ----
 
   // 🔴 DÜZELTİLDİ: Yol /rgztec/store/stores.json olarak güncellendi
-  const DATA_URL = "/rgztec/store/stores.json";
+  const DATA_URL = "/rgztec/data/store.data.json";
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   // ---- Başlatma ----
