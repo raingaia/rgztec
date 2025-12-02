@@ -4,153 +4,544 @@
     "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
     "banner": "game-makers.webp",
     "sections": [
-      { "slug": "prototypes", "name": "Prototypes" },
-      { "slug": "ui-hud", "name": "UI & HUD" },
-      { "slug": "unity-2d", "name": "Unity 2D" },
-      { "slug": "unity-3d", "name": "Unity 3D" },
-      { "slug": "unreal", "name": "Unreal" },
-      { "slug": "vfx-sfx", "name": "VFX & SFX" }
+      {
+        "slug": "prototypes", "name": "Prototypes", "tagline": "Game-ready concepts and kits.", "banner": "banners/gm-prototypes.webp",
+        "products": [
+          { "id": "gm001", "title": "Ultimate 3D Prototyping Kit", "tagline": "Build and test 3D game concepts fast.", "image": "products/gm-proto-kit.webp", "url": "https://gumroad.com/l/gm-proto-kit" }
+        ]
+      },
+      {
+        "slug": "ui-hud", "name": "UI & HUD", "tagline": "Sci-fi, fantasy, and modern UI.", "banner": "banners/gm-ui-hud.webp",
+        "products": [
+          { "id": "gm002", "title": "Sci-Fi UI & HUD Pack", "tagline": "Cyberpunk-style UI elements.", "image": "products/gm-scifi-ui.webp", "url": "https://gumroad.com/l/gm-scifi-ui" },
+          { "id": "gm003", "title": "Fantasy RPG UI Kit", "tagline": "Hand-painted UI for fantasy RPGs.", "image": "products/gm-fantasy-ui.webp", "url": "https://gumroad.com/l/gm-fantasy-ui" }
+        ]
+      },
+      {
+        "slug": "unity-2d", "name": "Unity 2D", "tagline": "2D controllers, assets, and tools.", "banner": "banners/gm-unity-2d.webp",
+        "products": [
+          { "id": "gm004", "title": "2D Platformer Controller", "tagline": "Physics-based controller for Unity 2D.", "image": "products/gm-unity-2d.webp", "url": "https://gumroad.com/l/gm-unity-2d" }
+        ]
+      },
+      {
+        "slug": "unity-3d", "name": "Unity 3D", "tagline": "3D models, shaders, and systems.", "banner": "banners/gm-unity-3d.webp",
+        "products": [
+          { "id": "gm005", "title": "Modular 3D Village Pack", "tagline": "Low-poly assets for building 3D villages.", "image": "products/gm-unity-3d.webp", "url": "https://gumroad.com/l/gm-unity-3d" }
+        ]
+      },
+      {
+        "slug": "unreal", "name": "Unreal", "tagline": "Blueprints, Metahumans, and VFX.", "banner": "banners/gm-unreal.webp",
+        "products": [
+          { "id": "gm006", "title": "Advanced Unreal 5 Metahuman", "tagline": "Photorealistic, game-ready character model.", "image": "products/gm-metahuman.webp", "url": "https://gumroad.com/l/gm-metahuman" }
+        ]
+      },
+      {
+        "slug": "vfx-sfx", "name": "VFX & SFX", "tagline": "Visual effects and sound packs.", "banner": "banners/gm-vfx.webp",
+        "products": [
+          { "id": "gm007", "title": "Magic Spells VFX Pack", "tagline": "Over 100 magical effects (fire, ice, arcane).", "image": "products/gm-vfx.webp", "url": "https://gumroad.com/l/gm-vfx" }
+        ]
+      }
     ]
   },
   "ai-tools-hub": {
     "title": "AI Tools Hub",
-    "tagline": "Agents, automations and AI workflows ready to plug into your stack.",
+    "tagline": "Agents, automations and AI workflows.",
     "banner": "ai-tools-hub.webp",
     "sections": [
-      { "slug": "agents", "name": "Agents" },
-      { "slug": "analytics", "name": "Analytics" },
-      { "slug": "automations", "name": "Automations" },
-      { "slug": "generators", "name": "Generators" },
-      { "slug": "integrations", "name": "Integrations" },
-      { "slug": "prompts", "name": "Prompts" },
-      { "slug": "utilities", "name": "Utilities" },
-      { "slug": "workflows", "name": "Workflows" }
+      {
+        "slug": "agents", "name": "Agents", "tagline": "Autonomous AI agents.", "banner": "banners/ai-agents.webp",
+        "products": [
+          { "id": "ai001", "title": "Autonomous Sales Agent", "tagline": "AI agent to manage and qualify incoming leads.", "image": "products/ai-sales-agent.webp", "url": "https://gumroad.com/l/ai-sales-agent" }
+        ]
+      },
+      {
+        "slug": "analytics", "name": "Analytics", "tagline": "AI-powered data analysis.", "banner": "banners/ai-analytics.webp",
+        "products": [
+          { "id": "ai002", "title": "Sentiment Analysis API", "tagline": "Real-time sentiment scoring for user feedback.", "image": "products/ai-analytics.webp", "url": "https://gumroad.com/l/ai-sentiment-api" }
+        ]
+      },
+      {
+        "slug": "automations", "name": "Automations", "tagline": "Connect your AI workflows.", "banner": "banners/ai-automations.webp",
+        "products": [
+          { "id": "ai003", "title": "Workflow: Notion to Twitter", "tagline": "Automatically create and schedule Twitter threads.", "image": "products/ai-notion-twitter.webp", "url": "https://gumroad.com/l/ai-notion-flow" }
+        ]
+      },
+      {
+        "slug": "generators", "name": "Generators", "tagline": "Content and code generators.", "banner": "banners/ai-generators.webp",
+        "products": [
+          { "id": "ai004", "title": "AI Blog Post Generator", "tagline": "Generate full articles from a single headline.", "image": "products/ai-generator.webp", "url": "https://gumroad.com/l/ai-blog-gen" }
+        ]
+      },
+      {
+        "slug": "integrations", "name": "Integrations", "tagline": "Plug-and-play AI APIs.", "banner": "banners/ai-integrations.webp",
+        "products": [
+          { "id": "ai005", "title": "GPT-4 Vision API Connector", "tagline": "Integrate vision capabilities into your app.", "image": "products/ai-vision-api.webp", "url": "https://gumroad.com/l/ai-vision-api" }
+        ]
+      },
+      {
+        "slug": "prompts", "name": "Prompts", "tagline": "Expert-level prompt libraries.", "banner": "banners/ai-prompts.webp",
+        "products": [
+          { "id": "ai006", "title": "The CEO Prompt Pack", "tagline": "1000+ high-level prompts for business strategy.", "image": "products/ai-ceo-prompts.webp", "url": "https://gumroad.com/l/ai-ceo-prompts" }
+        ]
+      },
+      {
+        "slug": "utilities", "name": "Utilities", "tagline": "AI helper tools.", "banner": "banners/ai-utilities.webp",
+        "products": [
+          { "id": "ai007", "title": "Prompt Optimizer Tool", "tagline": "Refine your prompts for better AI responses.", "image": "products/ai-prompt-util.webp", "url": "https://gumroad.com/l/ai-prompt-optimizer" }
+        ]
+      },
+      {
+        "slug": "workflows", "name": "Workflows", "tagline": "Pre-built AI processes.", "banner": "banners/ai-workflows.webp",
+        "products": [
+          { "id": "ai008", "title": "Customer Support AI Workflow", "tagline": "Automate 80% of your customer support tickets.", "image": "products/ai-workflow.webp", "url": "https://gumroad.com/l/ai-support-flow" }
+        ]
+      }
     ]
   },
   "dev-studio-one": {
     "title": "Dev Studio One",
-    "tagline": "Production-ready starters, dashboards and design systems for modern apps.",
+    "tagline": "Starters, dashboards and design systems.",
     "banner": "dev-studio-one.webp",
     "sections": [
-      { "slug": "api-boilerplates", "name": "API Boilerplates" },
-      { "slug": "auth-stacks", "name": "Auth Stacks" },
-      { "slug": "dashboard-kits", "name": "Dashboard Kits" },
-      { "slug": "design-systems", "name": "Design Systems" },
-      { "slug": "html-starters", "name": "HTML Starters" }
+      {
+        "slug": "api-boilerplates", "name": "API Boilerplates", "tagline": "Ready-to-deploy API starters.", "banner": "banners/ds-api.webp",
+        "products": [
+          { "id": "ds001", "title": "FastAPI Production Boilerplate", "tagline": "Includes JWT, alembic migrations, and testing.", "image": "products/ds-fastapi.webp", "url": "https://gumroad.com/l/ds-fastapi" }
+        ]
+      },
+      {
+        "slug": "auth-stacks", "name": "Auth Stacks", "tagline": "Secure authentication solutions.", "banner": "banners/ds-auth.webp",
+        "products": [
+          { "id": "ds002", "title": "Next.js + Supabase Auth", "tagline": "Pre-built authentication stack with RLS security.", "image": "products/ds-next-supabase.webp", "url": "https://gumroad.com/l/ds-next-auth" }
+        ]
+      },
+      {
+        "slug": "dashboard-kits", "name": "Dashboard Kits", "tagline": "Admin dashboards (React, Vue).", "banner": "banners/ds-dashboards.webp",
+        "products": [
+          { "id": "ds003", "title": "Apex Dashboard UI Kit (React)", "tagline": "Complete admin dashboard with 50+ components.", "image": "products/ds-apex-dashboard.webp", "url": "https://gumroad.com/l/ds-apex-dash" }
+        ]
+      },
+      {
+        "slug": "design-systems", "name": "Design Systems", "tagline": "Figma and code component libraries.", "banner": "banners/ds-design.webp",
+        "products": [
+          { "id": "ds004", "title": "Corporate Figma Design System", "tagline": "1000+ components for professional branding.", "image": "products/ds-figma-system.webp", "url": "https://gumroad.com/l/ds-figma-system" }
+        ]
+      },
+      {
+        "slug": "html-starters", "name": "HTML Starters", "tagline": "Astro, 11ty, and HTML5 starters.", "banner": "banners/ds-starters.webp",
+        "products": [
+          { "id": "ds005", "title": "Astro.js Blog Starter", "tagline": "A lightweight, fast starter for content sites.", "image": "products/ds-astro-starter.webp", "url": "https://gumroad.com/l/ds-astro-blog" }
+        ]
+      }
     ]
   },
   "email-forge": {
     "title": "Email Forge",
-    "tagline": "High-converting email templates for campaigns, flows and notifications.",
+    "tagline": "High-converting email templates.",
     "banner": "email-forge.webp",
     "sections": [
-      { "slug": "drip-flows", "name": "Drip Flows" },
-      { "slug": "marketing-campaigns", "name": "Marketing Campaigns" },
-      { "slug": "newsletters", "name": "Newsletters" },
-      { "slug": "notifications", "name": "Notifications" },
-      { "slug": "onboarding", "name": "Onboarding" },
-      { "slug": "receipts-invoices", "name": "Receipts & Invoices" },
-      { "slug": "transactional", "name": "Transactional" }
+      {
+        "slug": "drip-flows", "name": "Drip Flows", "tagline": "Automated email sequences.", "banner": "banners/ef-drip.webp",
+        "products": [
+          { "id": "ef001", "title": "Abandoned Cart Flow (Klaviyo)", "tagline": "3-email sequence to recover lost sales.", "image": "products/ef-drip.webp", "url": "https://gumroad.com/l/ef-drip" }
+        ]
+      },
+      {
+        "slug": "marketing-campaigns", "name": "Marketing Campaigns", "tagline": "Templates for sales & promos.", "banner": "banners/ef-campaigns.webp",
+        "products": [
+          { "id": "ef002", "title": "Black Friday Campaign Kit", "tagline": "10 high-impact templates for Black Friday.", "image": "products/ef-campaign.webp", "url": "https://gumroad.com/l/ef-black-friday" }
+        ]
+      },
+      {
+        "slug": "newsletters", "name": "Newsletters", "tagline": "Beautiful newsletter designs.", "banner": "banners/ef-newsletters.webp",
+        "products": [
+          { "id": "ef003", "title": "The 'Curator' Newsletter Template", "tagline": "Minimalist template for curated content.", "image": "products/ef-newsletter.webp", "url": "https://gumroad.com/l/ef-curator" }
+        ]
+      },
+      {
+        "slug": "notifications", "name": "Notifications", "tagline": "SaaS and app notification templates.", "banner": "banners/ef-notifications.webp",
+        "products": [
+          { "id": "ef004", "title": "SaaS Notification Pack (MJML)", "tagline": "15 essential notification templates for any SaaS.", "image": "products/ef-saas-pack.webp", "url": "https://gumroad.com/l/ef-saas-pack" }
+        ]
+      },
+      {
+        "slug": "onboarding", "name": "Onboarding", "tagline": "Welcome and activation flows.", "banner": "banners/ef-onboarding.webp",
+        "products": [
+          { "id": "ef005", "title": "5-Day Welcome Sequence", "tagline": "High-converting email onboarding flow.", "image": "products/ef-welcome-seq.webp", "url": "https://gumroad.com/l/ef-welcome" }
+        ]
+      },
+      {
+        "slug": "receipts-invoices", "name": "Receipts & Invoices", "tagline": "Transactional receipt templates.", "banner": "banners/ef-receipts.webp",
+        "products": [
+          { "id": "ef006", "title": "CleanStore Receipt Template", "tagline": "Beautiful, simple receipt for e-commerce.", "image": "products/ef-receipt.webp", "url": "https://gumroad.com/l/ef-receipt" }
+        ]
+      },
+      {
+        "slug": "transactional", "name": "Transactional", "tagline": "Password resets, confirmations.", "banner": "banners/ef-transactional.webp",
+        "products": [
+          { "id": "ef007", "title": "Password Reset Template", "tagline": "Secure and clear password reset email.", "image": "products/ef-transactional.webp", "url": "https://gumroad.com/l/ef-password-reset" }
+        ]
+      }
     ]
   },
   "hardware": {
     "title": "Hardware Lab",
-    "tagline": "AI accelerators, dev boards, sensors and edge devices for serious builds.",
+    "tagline": "AI accelerators, dev boards, and edge devices.",
     "banner": "hardware.webp",
     "sections": [
-      { "slug": "ai-accelerators", "name": "AI Accelerators" },
-      { "slug": "dev-boards", "name": "Dev Boards" },
-      { "slug": "edge-devices", "name": "Edge Devices" },
-      { "slug": "iot-devices", "name": "IoT Devices" },
-      { "slug": "medical-bio-sensing", "name": "Medical & Bio-Sensing" },
-      { "slug": "sensors", "name": "Sensors" },
-      { "slug": "smart-controllers", "name": "Smart Controllers" }
+      {
+        "slug": "ai-accelerators", "name": "AI Accelerators", "tagline": "Edge TPU, Neural Sticks, and more.", "banner": "banners/hw-ai.webp",
+        "products": [
+          { "id": "hw001", "title": "RGZ-Edge AI Accelerator", "tagline": "Powerful TensorFlow Lite processing.", "image": "products/hw-accelerator.webp", "url": "https://store.rgztec.com/hw001" },
+          { "id": "hw002", "title": "Neural Compute Stick v3", "tagline": "USB-based AI inference engine.", "image": "products/hw-neural-stick.webp", "url": "https://store.rgztec.com/hw002" }
+        ]
+      },
+      {
+        "slug": "dev-boards", "name": "Dev Boards", "tagline": "ESP32, Raspberry Pi, Arduino.", "banner": "banners/hw-dev.webp",
+        "products": [
+          { "id": "hw003", "title": "RGZ-DevBoard Pro (ESP32-S3)", "tagline": "All-in-one board with WiFi, BLE, and camera.", "image": "products/hw-devboard.webp", "url": "https://store.rgztec.com/hw003" }
+        ]
+      },
+      {
+        "slug": "edge-devices", "name": "Edge Devices", "tagline": "Jetson Nano and compute modules.", "banner": "banners/hw-edge.webp",
+        "products": [
+          { "id": "hw004", "title": "Jetson Nano Pro (8GB)", "tagline": "High-performance edge AI computer.", "image": "products/hw-jetson.webp", "url": "https://store.rgztec.com/hw004" }
+        ]
+      },
+      {
+        "slug": "iot-devices", "name": "IoT Devices", "tagline": "Connected devices and gateways.", "banner": "banners/hw-iot.webp",
+        "products": [
+          { "id": "hw005", "title": "LoRaWAN Gateway (8-Channel)", "tagline": "Long-range IoT gateway for smart devices.", "image": "products/hw-lorawan.webp", "url": "https://store.rgztec.com/hw005" }
+        ]
+      },
+      {
+        "slug": "medical-bio-sensing", "name": "Medical & Bio-Sensing", "tagline": "ECG, EDA, and bio-sensors.", "banner": "banners/hw-bio.webp",
+        "products": [
+          { "id": "hw006", "title": "ECG & Heart Rate Monitor", "tagline": "High-precision sensor for medical prototypes.", "image": "products/hw-ecg.webp", "url": "https://store.rgztec.com/hw006" }
+        ]
+      },
+      {
+        "slug": "sensors", "name": "Sensors", "tagline": "Lidar, environmental, and proximity.", "banner": "banners/hw-sensors.webp",
+        "products": [
+          { "id": "hw007", "title": "Pro-Grade Lidar Sensor", "tagline": "360-degree, 25m range Lidar for robotics.", "image": "products/hw-lidar.webp", "url": "https://store.rgztec.com/hw007" }
+        ]
+      },
+      {
+        "slug": "smart-controllers", "name": "Smart Controllers", "tagline": "Zigbee, Z-Wave, and Home hubs.", "banner": "banners/hw-controllers.webp",
+        "products": [
+          { "id": "hw008", "title": "Smart Home Hub (Zigbee)", "tagline": "Control all your smart devices from one hub.", "image": "products/hw-zigbee.webp", "url": "https://store.rgztec.com/hw008" }
+        ]
+      }
     ]
   },
   "html-templates": {
     "title": "HTML Templates",
-    "tagline": "Landing pages, dashboards and section packs built with clean HTML.",
+    "tagline": "Landing pages, dashboards and section packs.",
     "banner": "html-templates.webp",
     "sections": [
-      { "slug": "components", "name": "Components" },
-      { "slug": "dashboards", "name": "Dashboards" },
-      { "slug": "email-layouts", "name": "Email Layouts" },
-      { "slug": "landing-pages", "name": "Landing Pages" },
-      { "slug": "marketing-pages", "name": "Marketing Pages" },
-      { "slug": "portfolio", "name": "Portfolio" },
-      { "slug": "sections", "name": "Sections" }
+      {
+        "slug": "components", "name": "Components", "tagline": "Copy-paste HTML/CSS components.", "banner": "banners/ht-components.webp",
+        "products": [
+          { "id": "ht001", "title": "Copy/Paste Component Library", "tagline": "50+ Tailwind components ready to use.", "image": "products/ht-components.webp", "url": "https://gumroad.com/l/ht-components" }
+        ]
+      },
+      {
+        "slug": "dashboards", "name": "Dashboards", "tagline": "Admin dashboard templates.", "banner": "banners/ht-dashboards.webp",
+        "products": [
+          { "id": "ht002", "title": "AdminOne Dashboard HTML", "tagline": "Bootstrap 5 admin dashboard template.", "image": "products/ht-admin-dash.webp", "url": "https://gumroad.com/l/ht-admin-one" }
+        ]
+      },
+      {
+        "slug": "email-layouts", "name": "Email Layouts", "tagline": "Responsive HTML email layouts.", "banner": "banners/ht-email.webp",
+        "products": [
+          { "id": "ht003", "title": "MJML Responsive Email Layouts", "tagline": "10 rock-solid layouts for any email.", "image": "products/ht-email.webp", "url": "https://gumroad.com/l/ht-mjml" }
+        ]
+      },
+      {
+        "slug": "landing-pages", "name": "Landing Pages", "tagline": "Templates for marketing & startups.", "banner": "banners/ht-landing.webp",
+        "products": [
+          { "id": "ht004", "title": "SaaSApp Landing Page", "tagline": "Modern TailwindCSS landing page for startups.", "image": "products/ht-saas-landing.webp", "url": "https://gumroad.com/l/ht-saas-app" }
+        ]
+      },
+      {
+        "slug": "marketing-pages", "name": "Marketing Pages", "tagline": "About, Contact, Pricing pages.", "banner": "banners/ht-marketing.webp",
+        "products": [
+          { "id": "ht005", "title": "Agency 'About Us' Page", "tagline": "Clean and professional agency template.", "image": "products/ht-agency.webp", "url": "https://gumroad.com/l/ht-agency" }
+        ]
+      },
+      {
+        "slug": "portfolio", "name": "Portfolio", "tagline": "Portfolio templates for creatives.", "banner": "banners/ht-portfolio.webp",
+        "products": [
+          { "id": "ht006", "title": "Minimalist Designer Portfolio", "tagline": "Focus on your work with this clean layout.", "image": "products/ht-portfolio.webp", "url": "https://gumroad.com/l/ht-minimal-folio" }
+        ]
+      },
+      {
+        "slug": "sections", "name": "Sections", "tagline": "Hero, FAQ, Feature sections.", "banner": "banners/ht-sections.webp",
+        "products": [
+          { "id": "ht007", "title": "Hero Sections Pack", "tagline": "20 different hero sections for any website.", "image": "products/ht-sections.webp", "url": "https://gumroad.com/l/ht-hero-pack" }
+        ]
+      }
     ]
   },
   "icon-smith": {
     "title": "Icon Smith",
-    "tagline": "Icon systems crafted for apps, dashboards and brand libraries.",
+    "tagline": "Icon systems for apps, dashboards and brand libraries.",
     "banner": "icon-smith.webp",
     "sections": [
-      { "slug": "3d-icons", "name": "3D Icons" },
-      { "slug": "brand-icons", "name": "Brand Icons" },
-      { "slug": "duotone-icons", "name": "Duotone Icons" },
-      { "slug": "filled-icons", "name": "Filled Icons" },
-      { "slug": "flags-icons", "name": "Flags Icons" },
-      { "slug": "outline-icons", "name": "Outline Icons" },
-      { "slug": "solid-icons", "name": "Solid Icons" },
-      { "slug": "system-icons", "name": "System Icons" }
+      {
+        "slug": "3d-icons", "name": "3D Icons", "tagline": "Playful 3D icons for marketing.", "banner": "banners/ic-3d.webp",
+        "products": [
+          { "id": "ic001", "title": "Clay 3D Icon Pack", "tagline": "100+ playful 3D icons for marketing.", "image": "products/ic-clay-3d.webp", "url": "https://gumroad.com/l/ic-clay-3d" }
+        ]
+      },
+      {
+        "slug": "brand-icons", "name": "Brand Icons", "tagline": "SVG logos for tech and social.", "banner": "banners/ic-brand.webp",
+        "products": [
+          { "id": "ic002", "title": "Ultimate Brand Logos (SVG)", "tagline": "2000+ SVG logos for top tech companies.", "image": "products/ic-brand.webp", "url": "httpsg//gumroad.com/l/ic-brand-svg" }
+        ]
+      },
+      {
+        "slug": "duotone-icons", "name": "Duotone Icons", "tagline": "Two-color icon sets.", "banner": "banners/ic-duotone.webp",
+        "products": [
+          { "id": "ic003", "title": "Duotone Business Icons", "tagline": "500 two-color icons for professional use.", "image": "products/ic-duotone.webp", "url": "https://gumroad.com/l/ic-duotone" }
+        ]
+      },
+      {
+        "slug": "filled-icons", "name": "Filled Icons", "tagline": "Solid-style icon libraries.", "banner": "banners/ic-filled.webp",
+        "products": [
+          { "id": "ic004", "title": "SolidGlyph Icon Set", "tagline": "A sharp, modern set of 800 solid icons.", "image": "products/ic-filled.webp", "url": "httpsagumroad.com/l/ic-solidglyph" }
+        ]
+      },
+      {
+        "slug": "flags-icons", "name": "Flags Icons", "tagline": "All world flags (SVG, PNG).", "banner": "banners/ic-flags.webp",
+        "products": [
+          { "id": "ic005", "title": "World Flags Icon Pack", "tagline": "All 254 country flags in SVG and PNG.", "image": "products/ic-flags.webp", "url": "https://gumroad.com/l/ic-flags" }
+        ]
+      },
+      {
+        "slug": "outline-icons", "name": "Outline Icons", "tagline": "Minimalist, stroke-based icons.", "banner": "banners/ic-outline.webp",
+        "products": [
+          { "id": "ic006", "title": "Feather Icons Pro", "tagline": "Extended professional version of the classic set.", "image": "products/ic-feather-pro.webp", "url": "httpsagumroad.com/l/ic-feather-pro" }
+        ]
+      },
+      {
+        "slug": "solid-icons", "name": "Solid Icons", "tagline": "Filled, solid icon libraries.", "banner": "banners/ic-solid.webp",
+        "products": [
+          { "id": "ic007", "title": "Heroicons Solid (Extended)", "tagline": "An extended set based on Tailwind's icons.", "image": "products/ic-solid.webp", "url": "https://gumroad.com/l/ic-hero-solid" }
+        ]
+      },
+      {
+        "slug": "system-icons", "name": "System Icons", "tagline": "Pixel-perfect icons for UI.", "banner": "banners/ic-system.webp",
+        "products": [
+          { "id": "ic008", "title": "Apex UI Icon System", "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.", "image": "products/ic-apex-system.webp", "url": "https"agumroad.com/l/ic-apex-ui" }
+        ]
+      }
     ]
   },
   "reactorium": {
     "title": "Reactorium",
-    "tagline": "React UI kits, charts and navigation patterns for production apps.",
+    "tagline": "React UI kits, charts and navigation patterns.",
     "banner": "reactorium.webp",
     "sections": [
-      { "slug": "charts", "name": "Charts" },
-      { "slug": "forms", "name": "Forms" },
-      { "slug": "hooks", "name": "Hooks" },
-      { "slug": "layouts", "name": "Layouts" },
-      { "slug": "navigation", "name": "Navigation" },
-      { "slug": "tables", "name": "Tables" },
-      { "slug": "ui-kit", "name": "UI Kit" }
+      {
+        "slug": "charts", "name": "Charts", "tagline": "React charting libraries.", "banner": "banners/re-charts.webp",
+        "products": [
+          { "id": "re001", "title": "DataViz Chart Library", "tagline": "Simple, lightweight charting library for React.", "image": "products/re-charts.webp", "url": "https://gumroad.com/l/re-charts" }
+        ]
+      },
+      {
+        "slug": "forms", "name": "Forms", "tagline": "React form components.", "banner": "banners/re-forms.webp",
+        "products": [
+          { "id": "re002", "title": "React Hook Form Pro", "tagline": "Advanced patterns for React Hook Form.", "image": "products/re-forms.webp", "url": "https://gumroad.com/l/re-forms" }
+        ]
+      },
+      {
+        "slug": "hooks", "name": "Hooks", "tagline": "Advanced React hooks.", "banner": "banners/re-hooks.webp",
+        "products": [
+          { "id": "re003", "title": "useProHooks Collection", "tagline": "30+ advanced React hooks for any project.", "image": "products/re-hooks.webp", "url": "httpsg//gumroad.com/l/re-hooks" }
+        ]
+      },
+      {
+        "slug": "layouts", "name": "Layouts", "tagline": "Responsive page shells.", "banner": "banners/re-layouts.webp",
+        "products": [
+          { "id": "re004", "title": "Responsive Page Shells", "tagline": "5 common page layouts for React apps.", "image": "products/re-layouts.webp", "url": "httpsagumroad.com/l/re-layouts" }
+        ]
+      },
+      {
+        "slug": "navigation", "name": "Navigation", "tagline": "Menus, sidebars, and nav.", "banner": "banners/re-nav.webp",
+        "products": [
+          { "id": "re005", "title": "Command Menu (K-Bar)", "tagline": "A cmd+k style command menu for React.", "image": "products/re-kbar.webp", "url": "https://gumroad.com/l/re-kbar" }
+        ]
+      },
+      {
+        "slug": "tables", "name": "Tables", "tagline": "Data grids and tables.", "banner": "banners/re-tables.webp",
+        "products": [
+          { "id": "re006", "title": "Pro Data Grid Component", "tagline": "Server-side sorting, filtering, and pagination.", "image": "products/re-table.webp", "url": "httpsa//gumroad.com/l/re-data-grid" }
+        ]
+      },
+      {
+        "slug": "ui-kit", "name": "UI Kit", "tagline": "React component libraries.", "banner": "banners/re-ui-kit.webp",
+        "products": [
+          { "id": "re007", "title": "Reactorium Pro UI Kit", "tagline": "200+ production-ready components for React.", "image": "products/re-pro-kit.webp", "url": "httpsagumroad.com/l/re-pro-kit" }
+        ]
+      }
     ]
   },
   "tiny-js-lab": {
     "title": "Tiny JS Lab",
-    "tagline": "Vanilla JS utilities, widgets and micro-patterns for the web.",
+    "tagline": "Vanilla JS utilities, widgets and micro-patterns.",
     "banner": "tiny-js-lab.webp",
     "sections": [
-      { "slug": "animations", "name": "Animations" },
-      { "slug": "data-fetching", "name": "Data Fetching" },
-      { "slug": "dom-utils", "name": "DOM Utils" },
-      { "slug": "state-management", "name": "State Management" },
-      { "slug": "storage", "name": "Storage" },
-      { "slug": "validation", "name": "Validation" },
-      { "slug": "widgets", "name": "Widgets" }
+      {
+        "slug": "animations",
+        "name": "Animations",
+        "tagline": "Lightweight animation libraries.",
+        "banner": "banners/js-animations.webp",
+        "sections": [
+          {
+            "slug": "scroll-effects",
+            "name": "Scroll Effects",
+            "tagline": "On-scroll and reveal animations.",
+            "banner": "banners/js-scroll-fx.webp",
+            "products": [
+              { "id": "js001", "title": "Scroll-Animate Library", "tagline": "Tiny library for scroll-based animations.", "image": "products/js-scroll.webp", "url": "https://gumroad.com/l/scroll-animate" }
+            ]
+          },
+          { "slug": "loaders", "name": "Loaders & Spinners", "tagline": "Loading state animations.", "banner": "banners/js-loaders.webp" }
+        ]
+      },
+      {
+        "slug": "widgets",
+        "name": "Widgets",
+        "tagline": "Calendars, sliders, etc.",
+        "banner": "banners/js-widgets.webp",
+        "products": [
+          { "id": "js007", "title": "Modern Calendar Widget", "tagline": "Vanilla JS, lightweight, no dependencies.", "image": "products/js-calendar.webp", "url": "httpsg//gumroad.com/l/js-calendar" }
+        ]
+      },
+      {
+        "slug": "validation", "name": "Validation", "tagline": "Form validation scripts.", "banner": "banners/js-validation.webp",
+        "products": [
+          { "id": "js006", "title": "FormGuard Validator", "tagline": "Simple and clean form validation script.", "image": "products/js-validator.webp", "url": "httpsg//gumroad.com/l/formguard" }
+        ]
+      },
+      {
+        "slug": "state-management", "name": "State Management", "tagline": "Micro state managers.", "banner": "banners/js-state.webp",
+        "products": [
+          { "id": "js004", "title": "NanoState Manager", "tagline": "Simple global state manager (1kb).", "image": "products/js-state.webp", "url": "https://gumroad.com/l/nanostate" }
+        ]
+      },
+      {
+        "slug": "storage", "name": "Storage", "tagline": "LocalStorage wrappers.", "banner": "banners/js-storage.webp",
+        "products": [
+          { "id": "js005", "title": "Store.js (LocalStorage Wrapper)", "tagline": "A simple API for LocalStorage.", "image": "products/js-storage.webp", "url": "httpsD//github.com/rgztec/store-js" }
+        ]
+      },
+      {
+        "slug": "data-fetching", "name": "Data Fetching", "tagline": "Tiny fetch clients.", "banner": "banners/js-data.webp",
+        "products": [
+          { "id": "js002", "title": "Micro-Fetch Client", "tagline": "A 1kb fetch client with caching.", "image": "products/js-fetch.webp", "url": "httpsg//gumroad.com/l/micro-fetch" }
+        ]
+      },
+      {
+        "slug": "dom-utils", "name": "DOM Utils", "tagline": "DOM manipulation helpers.", "banner": "banners/js-dom.webp",
+        "products": [
+          { "id": "js003", "title": "DOMQuery Helper", "tagline": "jQuery-like syntax in 50 lines of code.", "image": "products/js-dom.webp", "url": "httpsD//github.com/rgztec/domquery" }
+        ]
+      }
     ]
   },
   "unity-hub": {
     "title": "Unity Hub",
-    "tagline": "Unity camera, character, environment and multiplayer templates.",
+    "tagline": "Unity camera, character, and multiplayer templates.",
     "banner": "unity-hub.webp",
     "sections": [
-      { "slug": "camera-systems", "name": "Camera Systems" },
-      { "slug": "character-controllers", "name": "Character Controllers" },
-      { "slug": "environment-kits", "name": "Environment Kits" },
-      { "slug": "multiplayer", "name": "Multiplayer" },
-      { "slug": "shaders-materials", "name": "Shaders & Materials" },
-      { "slug": "tools-editors", "name": "Tools & Editors" }
+      {
+        "slug": "camera-systems", "name": "Camera Systems", "tagline": "Cinematic and gameplay cameras.", "banner": "banners/un-camera.webp",
+        "products": [
+          { "id": "un001", "title": "Cinematic Camera Rig", "tagline": "Easy-to-use camera system for cutscenes.", "image": "products/un-camera.webp", "url": "https://gumroad.com/l/un-camera" }
+        ]
+      },
+      {
+        "slug": "character-controllers", "name": "Character Controllers", "tagline": "Physics-based controllers.", "banner": "banners/un-character.webp",
+        "products": [
+          { "id": "un002", "title": "Pro Character Controller", "tagline": "Advanced physics-based controller for 3D games.", "image": "products/un-char-controller.webp", "url": "httpsg//gumroad.com/l/un-char-controller" }
+        ]
+      },
+      {
+        "slug": "environment-kits", "name": "Environment Kits", "tagline": "Low-poly and realistic assets.", "banner": "banners/un-env.webp",
+        "products": [
+          { "id": "un003", "title": "Poly-World Environment Kit", "tagline": "Low-poly assets for stylized worlds.", "image": "products/un-env.webp", "url": "httpsg//gumroad.com/l/un-poly-world" }
+        ]
+      },
+      {
+        "slug": "multiplayer", "name": "Multiplayer", "tagline": "NetCode and Photon starters.", "banner": "banners/un-multiplayer.webp",
+        "products": [
+          { "id": "un004", "title": "NetCode Multiplayer Starter", "tagline": "Get your multiplayer game running in minutes.", "image": "products/un-multiplayer.webp", "url": "httpsg//gumroad.com/l/un-netcode" }
+        ]
+      },
+      {
+        "slug": "shaders-materials", "name": "Shaders & Materials", "tagline": "URP and HDRP shaders.", "banner": "banners/un-shaders.webp",
+        "products": [
+          { "id": "un005", "title": "Toon Shader Pack", "tagline": "High-performance toon shaders for URP.", "image": "products/un-shader.webp", "url": "httpsg//gumroad.com/l/un-toon-shader" }
+        ]
+      },
+      {
+        "slug": "tools-editors", "name": "Tools & Editors", "tagline": "Unity editor tools.", "banner": "banners/un-tools.webp",
+        "products": [
+          { "id": "un006", "title": "Rapid Level Designer", "tagline": "A tool for quickly blocking out levels.", "image": "products/un-tools.webp", "url": "httpsagumroad.com/l/un-level-designer" }
+        ]
+      }
     ]
   },
   "wp-plugins": {
     "title": "WP Plugins",
-    "tagline": "High-quality WordPress plugins for commerce, SEO and membership.",
+    "tagline": "High-quality WordPress plugins.",
     "banner": "wp-plugins.webp",
     "sections": [
-      { "slug": "blocks-editor", "name": "Blocks Editor" },
-      { "slug": "ecommerce", "name": "E-commerce" },
-      { "slug": "forms", "name": "Forms" },
-      { "slug": "membership", "name": "Membership" },
-      { "slug": "performance", "name": "Performance" },
-      { "slug": "security", "name": "Security" },
-      { "slug": "seo", "name": "SEO" }
+      {
+        "slug": "blocks-editor", "name": "Blocks Editor", "tagline": "Advanced Gutenberg blocks.", "banner": "banners/wp-blocks.webp",
+        "products": [
+          { "id": "wp001", "title": "Pro Blocks for Gutenberg", "tagline": "30+ advanced blocks for the Gutenberg editor.", "image": "products/wp-blocks.webp", "url": "httpsagumroad.com/l/wp-pro-blocks" }
+        ]
+      },
+      {
+        "slug": "ecommerce", "name": "E-commerce", "tagline": "WooCommerce add-ons.", "banner": "banners/wp-ecom.webp",
+        "products": [
+          { "id": "wp002", "title": "QuickCart for WooCommerce", "tagline": "AJAX side-cart and menu cart for Woo.", "image": "products/wp-quickcart.webp", "url": "httpsagumroad.com/l/wp-quickcart" }
+        ]
+      },
+      {
+        "slug": "forms", "name": "Forms", "tagline": "Form plugin extensions.", "banner": "banners/wp-forms.webp",
+        "products": [
+          { "id": "wp003", "title": "Gravity Forms Pro Pack", "tagline": "All essential add-ons for Gravity Forms.", "image": "products/wp-forms.webp", "url": "httpsagumroad.com/l/wp-gravity-pack" }
+        ]
+      },
+      {
+        "slug": "membership", "name": "Membership", "tagline": "Gated content plugins.", "banner": "banners/wp-membership.webp",
+        "products": [
+          { "id": "wp004", "title": "MemberWall - Gated Content", "tagline": "Simple membership and content restriction plugin.", "image": "products/wp-memberwall.webp", "url": "httpsagumroad.com/l/wp-memberwall" }
+        ]
+      },
+      {
+        "slug": "performance", "name": "Performance", "tagline": "Caching and optimization.", "banner": "banners/wp-perf.webp",
+        "products": [
+          { "id": "wp005", "title": "WP-Rocket Cache", "tagline": "Make your WordPress site blazing fast.", "image": "products/wp-rocket.webp", "url": "httpsg//wp-rocket.me/" }
+        ]
+      },
+      {
+        "slug": "security", "name": "Security", "tagline": "Firewall and scanner plugins.", "banner": "banners/wp-security.webp",
+        "products": [
+          { "id": "wp006", "title": "SiteGuard Security Suite", "tagline": "Total security and malware scanning for WP.", "image": "products/wp-security.webp", "url": "httpsagumroad.com/l/wp-siteguard" }
+        ]
+      },
+      {
+        "slug": "seo", "name": "SEO", "tagline": "SEO optimization plugins.", "banner": "banners/wp-seo.webp",
+        "products": [
+          { "id": "wp007", "title": "SEO-Max Pro Plugin", "tagline": "All-in-one SEO solution for WordPress.", "image": "products/wp-seo.webp", "url": "httpsagumroad.com/l/wp-seo-max" }
+        ]
+      }
     ]
   }
 }
-
    
