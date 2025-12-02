@@ -11,8 +11,8 @@
 
   // ---- Sabitler ----
 
-  // 🔴 ÖNEMLİ: JSON yolu assets/data altında
-  const DATA_URL = "/rgztec/data/store.data.json";
+  // 🔴 DÜZELTİLDİ: Yol /rgztec/store/stores.json olarak güncellendi
+  const DATA_URL = "/rgztec/store/stores.json";
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   // ---- Başlatma ----
@@ -28,7 +28,7 @@
       return;
     }
 
-    const storeSlug = storeBody.dataset.store;          // örn: "hardware"
+    const storeSlug = storeBody.dataset.store;         // örn: "hardware"
     const sectionSlug = storeBody.dataset.section || null; // örn: "ai-accelerators"
 
     if (!storeSlug) {
@@ -51,7 +51,7 @@
     try {
       allStoresData = await fetchJSON(DATA_URL);
       if (!allStoresData) {
-        throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
+        throw new Error("Mağaza veri dosyası (stores.json) boş veya eksik.");
       }
 
       storeData = allStoresData[storeSlug];
@@ -132,7 +132,6 @@
       <header class="store-header">
         <div class="store-header-inner">
 
-          <!-- Sol: Logo + Categories -->
           <div class="store-header-left">
             <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
             <button class="store-header-categories-btn" type="button">
@@ -141,7 +140,6 @@
             </button>
           </div>
 
-          <!-- Orta: Arama çubuğu -->
           <div class="store-header-center">
             <form class="store-header-search" role="search">
               <input
@@ -155,7 +153,6 @@
             </form>
           </div>
 
-          <!-- Sağ: Üst linkler + ikonlar + Open Store -->
           <div class="store-header-right">
             <div class="store-header-secondary">
               <a href="#" class="store-header-secondary-link">Dashboard / Editor</a>
@@ -495,5 +492,4 @@
     }
   }
 })();
-
 
