@@ -1,0 +1,58 @@
+[
+  {
+    "id": "ef001",
+    "section": "drip-flows",
+    "title": "Abandoned Cart Flow (Klaviyo)",
+    "tagline": "3-email sequence to recover lost sales.",
+    "price": "30.00",
+    "image": "products/ef-drip.webp"
+  },
+  {
+    "id": "ef002",
+    "section": "marketing-campaigns",
+    "title": "Black Friday Campaign Kit",
+    "tagline": "10 high-impact templates for Black Friday.",
+    "price": "49.00",
+    "image": "products/ef-campaign.webp"
+  },
+  {
+    "id": "ef003",
+    "section": "newsletters",
+    "title": "The 'Curator' Newsletter Template",
+    "tagline": "Minimalist template for curated content.",
+    "price": "19.00",
+    "image": "products/ef-newsletter.webp"
+  },
+  {
+    "id": "ef004",
+    "section": "notifications",
+    "title": "SaaS Notification Pack (MJML)",
+    "tagline": "15 essential notification templates for any SaaS.",
+    "price": "25.00",
+    "image": "products/ef-saas-pack.webp"
+  },
+  {
+    "id": "ef005",
+    "section": "onboarding",
+    "title": "5-Day Welcome Sequence",
+    "tagline": "High-converting email onboarding flow.",
+    "price": "19.00",
+    "image": "products/ef-welcome-seq.webp"
+  },
+  {
+    "id": "ef006",
+    "section": "receipts-invoices",
+    "title": "CleanStore Receipt Template",
+    "tagline": "Beautiful, simple receipt for e-commerce.",
+    "price": "15.00",
+    "image": "products/ef-receipt.webp"
+  },
+  {
+    "id": "ef007",
+    "section": "transactional",
+    "title": "Password Reset Template",
+    "tagline": "Secure and clear password reset email.",
+    "price": "10.00",
+    "image": "products/ef-transactional.webp"
+  }
+]
