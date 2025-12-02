@@ -1,0 +1,58 @@
+[
+  {
+    "id": "wp001",
+    "section": "blocks-editor",
+    "title": "Pro Blocks for Gutenberg",
+    "tagline": "30+ advanced blocks for the Gutenberg editor.",
+    "price": "39.00",
+    "image": "products/wp-blocks.webp"
+  },
+  {
+    "id": "wp002",
+    "section": "ecommerce",
+    "title": "QuickCart for WooCommerce",
+    "tagline": "AJAX side-cart and menu cart for Woo.",
+    "price": "29.00",
+    "image": "products/wp-quickcart.webp"
+  },
+  {
+    "id": "wp003",
+    "section": "forms",
+    "title": "Gravity Forms Pro Pack",
+    "tagline": "All essential add-ons for Gravity Forms.",
+    "price": "59.00",
+    "image": "products/wp-forms.webp"
+  },
+  {
+    "id": "wp004",
+    "section": "membership",
+    "title": "MemberWall - Gated Content",
+    "tagline": "Simple membership and content restriction plugin.",
+    "price": "39.00",
+    "image": "products/wp-memberwall.webp"
+  },
+  {
+    "id": "wp005",
+    "section": "performance",
+    "title": "WP-Rocket Cache",
+    "tagline": "Make your WordPress site blazing fast.",
+    "price": "49.00",
+    "image": "products/wp-rocket.webp"
+  },
+  {
+    "id": "wp006",
+    "section": "security",
+    "title": "SiteGuard Security Suite",
+    "tagline": "Total security and malware scanning for WP.",
+    "price": "55.00",
+    "image": "products/wp-security.webp"
+  },
+  {
+    "id": "wp007",
+    "section": "seo",
+    "title": "SEO-Max Pro Plugin",
+    "tagline": "All-in-one SEO solution for WordPress.",
+    "price": "49.00",
+    "image": "products/wp-seo.webp"
+  }
+]
