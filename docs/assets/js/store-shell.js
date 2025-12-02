@@ -1,24 +1,23 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 15.0.0 (NİHAİ - Hero Logic + Product Links)
- * 3 katmanlı RGZTEC mağaza yapısı:
- * 1) Ana Header (logo + arama + hesap) - SVG İkonlar
- * 2) Ana Mağaza Navigasyonu (Game Makers, Hardware Lab, ...)
- * 3) Aktif Mağaza Dükkan Navigasyonu (AI Accelerators, Dev Boards, ...)
+ * @version 18.1.0 (NİHAİ - İç İçe/Recursive Mimari)
  *
- * DÜZELTME (v14.2): Hero bölümü artık sadece ana mağaza
- * sayfasında gösteriliyor (dükkan sayfalarında değil).
- *
- * DÜZELTME (v15.0): Ürün kartları artık JSON'daki "url"
- * alanına bağlanıyor ve ayrı sayfa açıyor.
+ * NİHAİ VİZYON (v18.1) - Profesyonel Alt Yapı:
+ * 1. Tek "Beyin": Tüm veri (11 mağaza, 75 dükkan, tüm ürünler) TEK BİR
+ * /data/store.data.json (v18.1) dosyasından yönetilir.
+ * 2. "Anahtar" (Key): Hangi sayfanın yükleneceği, <body>'deki
+ * 'data-path' (örn: "tiny-js-lab/animations") ile belirlenir.
+ * 3. "İç İçe" (Recursive) Mantık: Her katman (Mağaza, Alt-Mağaza, Dükkan)
+ * kendi banner'ına ve "Etsy tarzı" kartlarına sahip olabilir.
+ * 4. "Fiyatsız" Tasarım: Sistemde "fiyatlı" küçük kartlar yoktur.
+ * Tüm kartlar 'Etsy tarzı' premium kartlardır. Fiyat bilgisi OKUNMAZ.
  */
 (function () {
   "use strict";
 
-  // ---- Sabitler ----
-  const DATA_URL = "/rgztec/data/store.data.json"; 
-  const PRODUCT_DATA_PATH = "/rgztec/data/products/"; 
+  // ---- Sabitler (v18.1) ----
+  const DATA_URL = "/rgztec/data/store.data.json"; // TEK BEYİN
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   // ---- Başlatma ----
@@ -33,103 +32,141 @@
       return;
     }
 
-    const storeSlug = storeBody.dataset.store;
-    const sectionSlug = storeBody.dataset.section || null;
-
-    if (!storeSlug) {
+    // YENİ ANAHTAR (v18.1): data-store/section yerine data-path
+    const path = storeBody.dataset.path || null;
+    if (!path) {
       renderError(
-        new Error("No 'data-store' attribute found on the body tag."),
+        new Error("No 'data-path' attribute found on the body tag."),
         storeRoot
       );
       return;
     }
-    initStore(storeSlug, sectionSlug, storeRoot);
+
+    initStore(path, storeRoot);
   });
 
-  // ---- Ana Asenkron Fonksiyon ----
-  async function initStore(storeSlug, sectionSlug, targetElement) {
-    let storeData;
-    let allStoresData;
-    let productData = [];
-
+  // ---- Ana Asenkron Fonksiyon (v18.1) ----
+  async function initStore(path, targetElement) {
     try {
-      // 1. ADIM: Ana mağaza yapısını çek
-      allStoresData = await fetchJSON(DATA_URL);
+      // 1. ADIM: Sadece "BEYİN" dosyasını (store.data.json v18.1) çek
+      const allStoresData = await fetchJSON(DATA_URL);
       if (!allStoresData) {
         throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
       }
-      storeData = allStoresData[storeSlug];
 
-      // Fallback mağaza
-      if (!storeData) {
-        console.warn(
-          `Store Shell Engine: "${escapeHtml(
-            storeSlug
-          )}" için veri bulunamadı. Fallback kullanılıyor.`
-        );
-        storeData = {
-          title: `${storeSlug} Store`,
-          tagline: "This store will be available soon.",
-          badge: "Coming Soon", banner: null, products: [], sections: []
-        };
+      // 2. ADIM: "BEYİN" içinde 'data-path'i kullanarak doğru veriyi bul
+      const {
+        currentData,
+        parentData,
+        rootData,
+        rootSlug,
+        currentSlug,
+      } = findDataByPath(allStoresData, path);
+
+      if (!currentData) {
+        throw new Error(`Path not found in store.data.json: "${path}"`);
       }
       
-      // 2. ADIM: Sadece bu mağazaya ait ürünleri (dükkan datalarını) çek
-      storeData.products = [];
-      try {
-        const productDataUrl = `${PRODUCT_DATA_PATH}${storeSlug}.json`; 
-        productData = await fetchJSON(productDataUrl);
-        if (productData && Array.isArray(productData)) {
-            storeData.products = productData;
-        } else {
-            console.warn(`Ürün verisi bulunamadı veya formatı yanlış: ${productDataUrl}`);
-        }
-      } catch (productError) {
-        if (productError.message.includes("File not found")) {
-            console.warn(`Bu mağaza için ürün dosyası bulunamadı: ${productError.message}`);
-        } else {
-            console.error("Ürün dosyası çekilirken hata oluştu:", productError);
-        }
-        storeData.products = [];
-      }
-
-      // ---- HTML Sıralaması (DÜZELTME v14.2 - Hero Mantığı) ----
+      // ---- HTML Sıralaması (NİHAİ v18.1) ----
       let storeHtml = "";
+      
+      // 1. Header
       storeHtml += renderHeader();
-      storeHtml += renderStoreNav(allStoresData, storeSlug);
-      storeHtml += renderSectionNav(storeData.sections || [], sectionSlug);
-
-      // 5) İçerik: Ana mağaza mı / alt dükkan mı?
-      if (sectionSlug) {
-        // Alt dükkan sayfası (Hero GÖSTERMEZ)
-        const sectionInfo = (storeData.sections || []).find(
-          (s) => s.slug === sectionSlug
-        );
-        const filteredProducts = (storeData.products || []).filter(
-          (p) => p.section === sectionSlug
-        );
-        storeHtml += renderProductSection(filteredProducts, sectionInfo);
-      } else {
-        // Ana mağaza sayfası (Hero GÖSTERİR)
-        storeHtml += renderHero(storeData); // <-- Hero buraya taşındı
-        storeHtml += renderShopSection(storeData.sections || []);
+      
+      // 2. Ana Mağaza Nav'ı (Root'ları listeler: Game Makers, AI Tools...)
+      storeHtml += renderStoreNav(allStoresData, rootSlug);
+      
+      // 3. Dükkan Nav'ı (Kardeşleri listeler: Animations, Widgets...)
+      const sectionsForNav = parentData ? parentData.sections : null;
+      storeHtml += renderSectionNav(sectionsForNav, currentSlug);
+      
+      // 4. BANNER (Her katmanın kendi banner'ı)
+      storeHtml += renderHero(currentData);
+      
+      // 5. KARTLAR (İç İçe Mantık)
+      // Önce Alt Dükkanları ('sections') listele
+      if (currentData.sections && currentData.sections.length > 0) {
+        storeHtml += renderShopSection(currentData.sections);
       }
-      // ---- Düzeltme Bitti ----
+      // Sonra Ürünleri ('products') listele
+      if (currentData.products && currentData.products.length > 0) {
+        storeHtml += renderProductSection(currentData.products);
+      }
+      
+      // Hiç alt dükkan veya ürün yoksa (örn: /game-makers/unreal)
+      if ((!currentData.sections || currentData.sections.length === 0) &&
+          (!currentData.products || currentData.products.length === 0)) {
+        storeHtml += renderEmptyShop();
+      }
+
+      // ---- Bitti ----
 
       targetElement.innerHTML = storeHtml;
       wireInteractions(targetElement);
+
     } catch (error) {
       console.error(
-        `Store Shell Engine: Mağaza yüklenemedi "${escapeHtml(storeSlug)}".`,
+        `Store Shell Engine: Mağaza yüklenemedi "${escapeHtml(path)}".`,
         error
       );
       renderError(error, targetElement);
     }
   }
 
-  // ---- HTML Render Fonksiyonları ----
+  // ---- YENİ Veri Bulma Fonksiyonu (v18.1) ----
+  /**
+   * 'data-path' (örn: "tiny-js-lab/animations") kullanarak
+   * "beyin" (allStoresData) içinde gezer ve ilgili verileri bulur.
+   */
+  function findDataByPath(allStoresData, path) {
+    const segments = path.split("/");
+    
+    let currentData = allStoresData;
+    let parentData = null;
+    let rootData = null;
+    let rootSlug = segments[0] || null;
+    let currentSlug = segments[segments.length - 1] || null;
 
-  // 1) Ana Header (SVG İkonlar)
+    if (!rootSlug || !allStoresData[rootSlug]) {
+      return { currentData: null }; // Root (örn: "hardware") bulunamadı
+    }
+
+    rootData = allStoresData[rootSlug];
+    currentData = rootData; // Başlangıçta root'u ayarla
+
+    // segments[0] (root) zaten bulundu, 1'den başla
+    for (let i = 1; i < segments.length; i++) {
+      const segment = segments[i];
+      parentData = currentData; // Bir sonraki döngü için ebeveyni ayarla
+      
+      const sections = currentData.sections || [];
+      const nextData = sections.find(s => s.slug === segment);
+      
+      if (nextData) {
+        currentData = nextData;
+      } else {
+        // Yol bulunamadı (örn: .../tiny-js-lab/olmayan-bisey)
+        return { currentData: null };
+      }
+    }
+    
+    // Eğer yol sadece "tiny-js-lab" ise, parent'ı olmaz.
+    if (segments.length === 1) {
+        parentData = null; 
+    }
+
+    return {
+      currentData, // Bulunan en son veri (örn: "animations" objesi)
+      parentData,  // Bir üst veri (örn: "tiny-js-lab" objesi)
+      rootData,    // En üst veri (örn: "tiny-js-lab" objesi)
+      rootSlug,    // "tiny-js-lab"
+      currentSlug  // "animations"
+    };
+  }
+
+  // ---- HTML Render Fonksiyonları (v18.1) ----
+
+  // 1) Ana Header (SVG İkonlar) - Tam Kod
   function renderHeader() {
     const ICON_CATEGORIES = `
       <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -193,15 +230,15 @@
     `;
   }
 
-  // 2) Ana Mağaza Navigasyonu
-  function renderStoreNav(allStoresData, currentStoreSlug) {
+  // 2) Ana Mağaza Nav'ı
+  function renderStoreNav(allStoresData, currentRootSlug) {
     const storeLinks = Object.keys(allStoresData)
       .map((slug) => {
         const store = allStoresData[slug];
         if (!store || !store.title) return "";
         const name = escapeHtml(store.title);
         const href = `/rgztec/store/${slug}/`;
-        const isActive = slug === currentStoreSlug;
+        const isActive = slug === currentRootSlug;
         const linkClass = isActive
           ? "store-main-nav__link active"
           : "store-main-nav__link";
@@ -212,7 +249,6 @@
         `;
       })
       .join("");
-
     return `
       <nav class="store-main-nav" aria-label="RGZTEC stores">
         <ul class="store-main-nav__list">
@@ -222,23 +258,23 @@
     `;
   }
 
-  // 3) Dükkan Navigasyonu
-  function renderSectionNav(sections, currentSectionSlug) {
+  // 3) Dükkan Nav'ı
+  function renderSectionNav(sections, currentSlug) {
     if (!Array.isArray(sections) || sections.length === 0) return "";
+    
     const navItems = sections
       .map((section) => {
         if (!section) return "";
         const slug = escapeHtml(section.slug || "");
         const name = escapeHtml(section.name || "Unnamed Section");
-        const isActive = slug === currentSectionSlug;
+        const isActive = slug === currentSlug;
         const linkClass = isActive
           ? "store-section-nav__link active"
           : "store-section-nav__link";
-        const href = isActive
-          ? "#"
-          : currentSectionSlug
-          ? `../${slug}/`
-          : `${slug}/`;
+        
+        // Link her zaman bir üst klasöre göredir (../[kardeş-slug]/)
+        const href = isActive ? "#" : `../${slug}/`;
+
         return `
           <li class="store-section-nav__item">
             <a href="${href}" class="${linkClass}">${name}</a>
@@ -255,11 +291,12 @@
     `;
   }
 
-  // 4) Hero
+  // 4) BANNER
   function renderHero(data) {
-    const title = escapeHtml(data.title || "Welcome");
+    // "title" (ana mağaza için) veya "name" (alt dükkan için) kullan
+    const title = escapeHtml(data.title || data.name || "Welcome");
     const tagline = escapeHtml(data.tagline || "");
-    const badge = escapeHtml(data.badge || "Official Store");
+    const badge = escapeHtml(data.badge || "Official");
     const description = escapeHtml(data.description || "");
     const bannerUrl = data.banner
       ? `${IMAGE_BASE_PATH}${escapeHtml(data.banner)}`
@@ -281,43 +318,37 @@
     `;
   }
 
-  // 5A) Ana Mağaza – dükkan listesi
+  // 5A) 'Etsy Tarzı' ALT-DÜKKAN Listesi
   function renderShopSection(sections) {
+    const shopCards = sections.map((section) => renderShopCard(section)).join("");
     return `
       <main class="store-shops">
         <div class="store-shops-header">
-          <h2>Explore Our Shops</h2>
+          <h2>Explore Shops</h2>
         </div>
-        ${renderShopGrid(sections)}
+        <div class="shop-grid">${shopCards}</div>
       </main>
     `;
   }
 
-  // 5B) Dükkan kart grid’i
-  function renderShopGrid(sections) {
-    if (!Array.isArray(sections) || sections.length === 0) {
-      return `
-        <div class="products-grid-empty">
-          <h3>Shops Coming Soon</h3>
-          <p>Categories for this store are being set up.</p>
-        </div>
-      `;
-    }
-    const shopCards = sections.map((section) => renderShopCard(section)).join("");
-    return `<div class="shop-grid">${shopCards}</div>`;
-  }
-
-  // 5C) Tek bir dükkan kartı
+  // 5B) Tek ALT-DÜKKAN Kartı ('Etsy Tarzı')
   function renderShopCard(section) {
     if (!section) return "";
     const name = escapeHtml(section.name || "Untitled Shop");
     const tagline = escapeHtml(section.tagline || "");
     const slug = escapeHtml(section.slug || "");
-    const imageUrl = section.image ? `${IMAGE_BASE_PATH}${escapeHtml(section.image)}` : "";
-    const href = `${slug}/`;
+    // Dükkan kartları için "image" alanı (eğer varsa) kullanılır
+    const imageUrl = section.image 
+      ? `${IMAGE_BASE_PATH}${escapeHtml(section.image)}`
+      : ""; 
+    
+    // Link bir alt katmana gider (örn: "animations/")
+    const href = `${slug}/`; 
+    
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${name}" loading="lazy">`
       : `<div class="product-media-placeholder"></div>`;
+    
     return `
       <a href="${href}" class="shop-card">
         <div class="shop-card-media">${imageElement}</div>
@@ -329,70 +360,60 @@
     `;
   }
 
-  // 6A) Dükkan sayfası – ürünler
-  function renderProductSection(products, sectionInfo) {
-    const title = sectionInfo ? escapeHtml(sectionInfo.name) : "Products";
+  // 6A) 'Etsy Tarzı' ÜRÜN Listesi
+  function renderProductSection(products) {
+    const productCards = products.map((p) => renderProductCard(p)).join("");
     return `
       <main class="store-products">
         <div class="store-products-header">
-          <h2>${title}</h2>
+          <h2>Explore Products</h2>
         </div>
-        ${renderProductGrid(products, sectionInfo ? sectionInfo.slug : null)}
+        <div class="shop-grid">${productCards}</div>
       </main>
     `;
   }
 
-  // 6B) Ürün grid’i
-  function renderProductGrid(products, sectionSlug) {
-    if (!Array.isArray(products) || products.length === 0) {
-      const emptyTitle = sectionSlug ? "No Products in This Shop Yet" : "Products Coming Soon";
-      const emptyMessage = sectionSlug
-        ? "Sellers will add products to this shop soon. Please check back later!"
-        : "This store is currently setting up. Please check back later!";
-      return `
-        <div class="products-grid-empty">
-          <h3>${emptyTitle}</h3>
-          <p>${emptyMessage}</p>
-        </div>
-      `;
-    }
-    const productCards = products.map((p) => renderProductCard(p)).join("");
-    return `<div class="products-grid">${productCards}</div>`;
-  }
-
-  // 6C) Tek ürün kartı (DÜZELTME v15.0 - Ayrı Sayfa Linki)
+  // 6B) Tek ÜRÜN Kartı ('Etsy Tarzı', FİYATSIZ)
   function renderProductCard(product) {
     if (!product) return "";
-
     const title = escapeHtml(product.title || "Untitled Product");
     const tagline = escapeHtml(product.tagline || "");
-    const imageUrl = product.image ? `${IMAGE_BASE_PATH}${escapeHtml(product.image)}` : "";
+    const imageUrl = product.image
+      ? `${IMAGE_BASE_PATH}${escapeHtml(product.image)}`
+      : "";
     
-    // YENİ: Fiyat formatlaması
-    const hasPrice = product.price !== null && product.price !== undefined && String(product.price).trim() !== "";
-    const priceText = hasPrice ? formatPrice(product.price) : "Contact for Price";
-    
-    // YENİ: URL ve Target (target="_blank")
-    const url = product.url ? escapeHtml(product.url) : "#"; // Varsayılan '#'
-    const isExternal = url.startsWith("http://") || url.startsWith("https://");
-    const target = isExternal ? 'target="_blank" rel="noopener noreferrer"' : "";
+    // Link ayrı sayfaya (Gumroad vb.) gider
+    const url = product.url ? escapeHtml(product.url) : "#";
+    const target = 'target="_blank" rel="noopener noreferrer"'; // Ürünler her zaman yeni sekme
 
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
       : `<div class="product-media-placeholder"></div>`;
 
+    // Bu HTML, 'shop-card' HTML'i ile AYNI.
+    // "Fiyat olayı" bu fonksiyonla çözüldü.
     return `
-      <a href="${url}" class="product-card" ${target}>
-        <div class="product-media">${imageElement}</div>
-        <div class="product-body">
-          <h3 class="product-title">${title}</h3>
-          <p class="product-tagline">${tagline}</p>
-          <div class="product-price">${priceText}</div>
+      <a href="${url}" class="shop-card" ${target}>
+        <div class="shop-card-media">${imageElement}</div>
+        <div class="shop-card-body">
+          <h3 class="shop-card-title">${title}</h3>
+          <p class="shop-card-tagline">${tagline}</p>
         </div>
       </a>
     `;
   }
-  // ---- Düzeltme Bitti ----
+  
+  // 7) Boş Dükkan
+  function renderEmptyShop() {
+    return `
+      <main class="store-products">
+        <div class="products-grid-empty">
+          <h3>Coming Soon</h3>
+          <p>New sections and products are being added to this shop.</p>
+        </div>
+      </main>
+    `;
+  }
 
   // ---- Etkileşimleri bağla ----
   function wireInteractions(root) {
@@ -424,13 +445,11 @@
     `;
   }
 
-  // ---- Yardımcılar ----
+  // ---- Yardımcılar (v18.1) ----
   async function fetchJSON(url) {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) {
-       if (response.status === 404) {
-        throw new Error(`File not found: ${url}`);
-      }
+       if (response.status === 404) throw new Error(`File not found: ${url}`);
       throw new Error(
         `HTTP error fetching ${url}: ${response.status} ${response.statusText}`
       );
@@ -453,18 +472,5 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
-  }
-
-  function formatPrice(price) {
-    const num = parseFloat(price);
-    if (isNaN(num)) return escapeHtml(price);
-    try {
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD"
-      }).format(num);
-    } catch (e) {
-      return "$" + num.toFixed(2);
-    }
   }
 })();
