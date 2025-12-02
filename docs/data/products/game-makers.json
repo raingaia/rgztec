@@ -1,0 +1,58 @@
+[
+  {
+    "id": "gm001",
+    "section": "prototypes",
+    "title": "Ultimate 3D Prototyping Kit",
+    "tagline": "Build and test 3D game concepts fast.",
+    "price": "75.00",
+    "image": "products/gm-proto-kit.webp"
+  },
+  {
+    "id": "gm002",
+    "section": "ui-hud",
+    "title": "Sci-Fi UI & HUD Pack",
+    "tagline": "Cyberpunk-style UI elements for futuristic games.",
+    "price": "29.99",
+    "image": "products/gm-scifi-ui.webp"
+  },
+  {
+    "id": "gm003",
+    "section": "ui-hud",
+    "title": "Fantasy RPG UI Kit",
+    "tagline": "Hand-painted UI for fantasy RPGs and MMOs.",
+    "price": "35.00",
+    "image": "products/gm-fantasy-ui.webp"
+  },
+  {
+    "id": "gm004",
+    "section": "unity-2d",
+    "title": "2D Platformer Controller",
+    "tagline": "Physics-based controller for Unity 2D.",
+    "price": "19.00",
+    "image": "products/gm-unity-2d.webp"
+  },
+  {
+    "id": "gm005",
+    "section": "unity-3d",
+    "title": "Modular 3D Village Pack",
+    "tagline": "Low-poly assets for building 3D villages.",
+    "price": "45.00",
+    "image": "products/gm-unity-3d.webp"
+  },
+  {
+    "id": "gm006",
+    "section": "unreal",
+    "title": "Advanced Unreal 5 Metahuman",
+    "tagline": "Photorealistic, game-ready character model.",
+    "price": "99.00",
+    "image": "products/gm-metahuman.webp"
+  },
+  {
+    "id": "gm007",
+    "section": "vfx-sfx",
+    "title": "Magic Spells VFX Pack",
+    "tagline": "Over 100 magical effects (fire, ice, arcane).",
+    "price": "40.00",
+    "image": "products/gm-vfx.webp"
+  }
+]
