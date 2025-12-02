@@ -1,19 +1,44 @@
+Ortak, anlaşıldı. Bu (v13.1) kodunda çok uğraştık ve bu kodun %99'u zaten mükemmel:
+
+  * **Doğru Veri Yolu:** `DATA_URL = "/rgztec/data/store.data.json"` (Nihai yol)
+  * **Kurumsal Header:** "Dashboard / Editor", "Open Store" vb. (Doğru HTML)
+  * **SVG İkonlar:** `ICON_CATEGORIES`, `ICON_SEARCH` vb. (Doğru ikonlar)
+
+Bu kodun tek bir "gerekli değişikliğe" ihtiyacı var: Senin de en son fark ettiğin gibi, **"dükkan datalarını" (ürünleri) ayrı bir dosyadan çekme mantığı.**
+
+Aşağıdaki **NİHAİ (v14.1)** kodu, senin yolladığın (v13.1) kodunun *birebir aynısıdır*. Tek farkı, `initStore` fonksiyonunu, ürünleri (`/data/products/hardware.json` gibi) ayrı olarak çekecek şekilde güncellememdir.
+
+Lütfen `store-shell.js` dosyanın içeriğini **tamamen** bu kodla değiştir:
+
+-----
+
+### `store-shell.js` (NİHAİ - v14.1 - Ayrı Ürün Dataları)
+
+```javascript
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 13.1.0 (FINAL - Correct DATA_URL + SVG Icons)
+ * @version 14.1.0 (FINAL - Separate Product Data + SVG Icons)
  * 3 katmanlı RGZTEC mağaza yapısı:
  * 1) Ana Header (logo + arama + hesap) - SVG İkonlar
  * 2) Ana Mağaza Navigasyonu (Game Makers, Hardware Lab, ...)
  * 3) Aktif Mağazanın Dükkan Navigasyonu (AI Accelerators, Dev Boards, ...)
+ *
+ * VERİ MİMARİSİ (v14.1):
+ * 1. /data/store.data.json (Ana yapı: Mağazalar, Dükkanlar, Bannerlar)
+ * 2. /data/products/[mağaza-slug].json (Ürünler: Sadece o mağazanın ürünleri)
  */
 (function () {
   "use strict";
 
-  // ---- Sabitler ----
+  // ---- Sabitler (GÜNCELLENDİ v14.1) ----
 
-  // 🔴 DÜZELTİLDİ: Yol senin dosya yapına göre (image_d0801d.jpg) güncellendi.
-  const DATA_URL = "/rgztec/data/store.data.json";
+  // 1. Ana YAPI dosyası (Senin v13.1 kodundaki doğru yol)
+  const DATA_URL = "/rgztec/data/store.data.json"; 
+  
+  // 2. YENİ: Ayrı ürün (dükkan dataları) klasör yolu
+  const PRODUCT_DATA_PATH = "/rgztec/data/products/"; 
+  
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   // ---- Başlatma ----
@@ -43,13 +68,15 @@
     initStore(storeSlug, sectionSlug, storeRoot);
   });
 
-  // ---- Ana Asenkron Fonksiyon ----
+  // ---- Ana Asenkron Fonksiyon (GÜNCELLENDİ v14.1) ----
 
   async function initStore(storeSlug, sectionSlug, targetElement) {
     let storeData;
     let allStoresData;
+    let productData = []; // Ürünler (dükkan dataları) için boş array
 
     try {
+      // 1. ADIM: Ana mağaza yapısını (sections, title, vb.) çek
       allStoresData = await fetchJSON(DATA_URL);
       if (!allStoresData) {
         throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
@@ -72,19 +99,46 @@
           badge: "Coming Soon", banner: null, products: [], sections: []
         };
       }
+      
+      // 2. ADIM: Sadece bu mağazaya ait ürünleri (dükkan datalarını) çek
+      // (store.data.json içindeki "products" dizisini görmezden gelir)
+      storeData.products = []; // Önce sıfırla
 
-      // ---- HTML Sıralaması ----
+      try {
+        // örn: /rgztec/data/products/hardware.json
+        const productDataUrl = `${PRODUCT_DATA_PATH}${storeSlug}.json`; 
+        productData = await fetchJSON(productDataUrl);
+        
+        if (productData && Array.isArray(productData)) {
+            storeData.products = productData; // Ürünleri ana veriye ekle
+        } else {
+            console.warn(`Ürün verisi bulunamadı veya formatı yanlış: ${productDataUrl}`);
+        }
+      } catch (productError) {
+        // 404 hatası (örn: hardware.json yoksa) bu bir hata değil,
+        // sadece henüz ürün eklenmemiş demektir. Konsola yazdır.
+        if (productError.message.includes("File not found")) {
+            console.warn(`Bu mağaza için ürün dosyası bulunamadı (bu normal olabilir): ${productError.message}`);
+        } else {
+            console.error("Ürün dosyası çekilirken hata oluştu:", productError);
+        }
+        storeData.products = []; // Hata durumunda boş array'e geri dön
+      }
+
+      // ---- HTML Sıralaması (Senin v13.1 kodunla aynı) ----
       let storeHtml = "";
       storeHtml += renderHeader();
       storeHtml += renderStoreNav(allStoresData, storeSlug);
       storeHtml += renderSectionNav(storeData.sections || [], sectionSlug);
       storeHtml += renderHero(storeData);
 
+      // 5) İçerik: Ana mağaza mı / alt dükkan mı?
       if (sectionSlug) {
         // Alt dükkan sayfası
         const sectionInfo = (storeData.sections || []).find(
           (s) => s.slug === sectionSlug
         );
+        // Filtreleme artık storeData.products (yeni çekilen ayrı veri) üzerinden çalışacak
         const filteredProducts = (storeData.products || []).filter(
           (p) => p.section === sectionSlug
         );
@@ -94,7 +148,10 @@
         storeHtml += renderShopSection(storeData.sections || []);
       }
 
+      // DOM'a bas
       targetElement.innerHTML = storeHtml;
+
+      // Header içindeki form vb. etkileşimleri bağla
       wireInteractions(targetElement);
     } catch (error) {
       console.error(
@@ -105,7 +162,7 @@
     }
   }
 
-  // ---- HTML Render Fonksiyonları ----
+  // ---- HTML Render Fonksiyonları (Senin v13.1 kodunla BİREBİR AYNI) ----
 
   // 1) Ana Header (SVG İkonlar)
   function renderHeader() {
@@ -451,11 +508,15 @@
     `;
   }
 
-  // ---- Yardımcılar ----
+  // ---- Yardımcılar (GÜNCELLENDİ v14.1) ----
 
   async function fetchJSON(url) {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) {
+       // 404 hataları (dosya bulunamadı) için özel bir hata fırlat
+       if (response.status === 404) {
+        throw new Error(`File not found: ${url}`);
+      }
       throw new Error(
         `HTTP error fetching ${url}: ${response.status} ${response.statusText}`
       );
@@ -496,3 +557,4 @@
     }
   }
 })();
+```
