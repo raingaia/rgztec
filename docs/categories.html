@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Categories</title>
 <meta name="description" content="Browse RGZTEC categories and stores."/>
+<base href="/rgztec/">
 
 <style>
 :root{
@@ -13,43 +14,247 @@
   --line:#e5e7eb; --line-strong:#d7dbe3;
   --brand:#f97316; --brand-dark:#ea580c;
 }
-*{box-sizing:border-box} html,body{margin:0} body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:#fff;
+}
 
 /* header (same style family) */
-.header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
-  backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
-.page{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
-.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0}
-.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
-.btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;text-decoration:none;color:var(--ink)}
+.header-outer{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:saturate(120%) blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.page{
+  width:100%;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding-inline:16px;
+}
+.header-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:8px 0;
+}
+.brand{
+  font-weight:900;
+  font-size:22px;
+  color:var(--brand);
+  text-decoration:none;
+  margin-right:8px;
+}
+.btn-cats{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  height:40px;
+  padding:0 14px;
+  border:1px solid var(--line-strong);
+  border-radius:12px;
+  background:#fff;
+  text-decoration:none;
+  color:var(--ink);
+  font-weight:600;
+  font-size:14px;
+}
 .btn-cats svg{width:18px;height:18px}
-.search{flex:1 1 auto;display:flex;align-items:center;height:44px;border:2px solid #111827;border-radius:999px;padding:0 8px 0 16px;max-width:760px}
-.search input{flex:1;border:0;outline:0;font-size:16px;padding:10px;background:transparent}
-.go{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
-.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;align-items:center;gap:12px}
-.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
-.pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
+.btn-cats:hover{
+  border-color:#cbd5f5;
+  background:#f9fafb;
+}
+.search{
+  flex:1 1 auto;
+  display:flex;
+  align-items:center;
+  height:44px;
+  border:1px solid #111827;
+  border-radius:999px;
+  padding:0 8px 0 16px;
+  max-width:760px;
+}
+.search input{
+  flex:1;
+  border:0;
+  outline:0;
+  font-size:15px;
+  padding:10px;
+  background:transparent;
+}
+.go{
+  display:grid;
+  place-items:center;
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  background:var(--brand);
+  border:0;
+  cursor:pointer;
+  margin-right:4px;
+}
+.go svg{
+  width:18px;
+  height:18px;
+  stroke:#fff;
+  fill:none;
+  stroke-width:2;
+}
+.go:hover{background:var(--brand-dark)}
+
+.hdr-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.icon-btn{
+  display:grid;
+  place-items:center;
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;
+}
+.pill-open{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:40px;
+  padding:0 18px;
+  border-radius:20px;
+  background:var(--brand);
+  color:#fff;
+  font-weight:700;
+  text-decoration:none;
+  font-size:14px;
+  box-shadow:0 10px 26px rgba(249,115,22,.4);
+}
 .pill-open:hover{background:var(--brand-dark)}
 [hidden]{display:none!important}
 
 /* content */
-.section{padding:22px 0}
-.h1{font-weight:900;font-size:28px;margin:0 0 10px}
-.sub{color:var(--sub);margin:0 0 16px}
+.section{
+  padding:22px 0;
+}
+.h1{
+  font-weight:900;
+  font-size:26px;
+  margin:0 0 8px;
+  letter-spacing:-0.02em;
+}
+.sub{
+  color:var(--sub);
+  margin:0 0 16px;
+  font-size:14px;
+}
 
 /* grids */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.card{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
-.card a{display:flex;align-items:center;gap:12px;padding:12px 14px;text-decoration:none;color:var(--ink)}
-.badge{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:900;color:#fff}
-.ghost{background:#f3f4f6;border:1px dashed var(--line-strong);color:#6b7280}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:16px;
+}
+
+/* category & store cards */
+.card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:0 14px 40px rgba(15,23,42,0.06);
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#cbd5e1;
+  box-shadow:0 22px 55px rgba(15,23,42,0.14);
+}
+.card-inner{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:12px 14px 14px;
+  text-decoration:none;
+  color:var(--ink);
+}
+.badge{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  color:#fff;
+  font-size:16px;
+}
+.badge-store{
+  background:#0f172a;
+}
+.badge-cat{
+  background:#f97316;
+}
+.card-title{
+  font-weight:800;
+  font-size:15px;
+  margin:0 0 2px;
+  letter-spacing:-0.01em;
+}
+.card-meta{
+  font-size:12px;
+  color:var(--sub);
+}
+
+/* subtile link list inside category cards */
+.cat-substores{
+  margin-top:6px;
+  padding-left:0;
+  list-style:none;
+}
+.cat-substores li a{
+  display:block;
+  padding:3px 0;
+  font-size:13px;
+  color:#4b5563;
+  text-decoration:none;
+}
+.cat-substores li a:hover{
+  color:var(--brand);
+}
 
 /* footer (short) */
-.footer-outer{margin-top:32px;background:#232347;color:#fff;padding:18px 0;font-size:14px;border-top:1px solid #3c3c62}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}
-.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-outer{
+  margin-top:32px;
+  background:#232347;
+  color:#fff;
+  padding:18px 0;
+  font-size:14px;
+  border-top:1px solid #3c3c62;
+}
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+.footer-bottom a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+}
 .footer-bottom a:hover{text-decoration:underline}
+
+/* responsive */
+@media(max-width:768px){
+  .hdr-right{display:none}
+  .search{max-width:none}
+}
 </style>
 </head>
 <body>
@@ -58,36 +263,49 @@
   <div class="page header-row">
     <a class="brand" href="./">RGZTEC</a>
 
-    <!-- make the button a link here -->
+    <!-- Categories butonu: hem yazılı, hem ikonlu, ama bu sayfa olduğu için disabled gibi -->
     <a class="btn-cats" href="categories.html" aria-label="All categories">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
       <span>Categories</span>
     </a>
 
     <form class="search" role="search" action="listings.html">
       <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
       <button class="go" type="submit" aria-label="Search">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+          <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+        </svg>
       </button>
     </form>
 
-    <div class="hdr-right">
-      <a href="#" class="icon-btn" title="Gift cards" aria-label="Gift cards">🎁</a>
-      <a href="open-store.html" class="pill-open">Open Store</a>
-    </div>
+   <div class="hdr-right">
+  <a href="gift-card.html" class="icon-btn" aria-label="Gift cards">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" />
+    </svg>
+  </a>
+  <a href="open-store.html" class="pill-open">Open Store</a>
+</div>
   </div>
 </header>
 
 <main class="page">
+  <!-- SUBSTORES (DÜKKANLAR) -->
   <section class="section">
     <h1 class="h1">Browse by category</h1>
-    <p class="sub">Click a category to see matching products.</p>
+    <p class="sub">Explore all sub-categories (stores & collections) across RGZTEC.</p>
     <div id="catGrid" class="grid"></div>
   </section>
 
+  <!-- STORES (ANA MAĞAZALAR) -->
   <section class="section">
-    <h2 class="h1">Featured stores</h2>
-    <p class="sub">Jump into a store to filter by its collections.</p>
+    <h2 class="h1">Browse by store</h2>
+    <p class="sub">Jump into a store and view its full collection.</p>
     <div id="storeGrid" class="grid"></div>
   </section>
 </main>
@@ -104,74 +322,126 @@
 </footer>
 
 <script>
+// footer yılı
 document.getElementById('y').textContent = new Date().getFullYear();
 
-const CAT_COLORS = ['#3b82f6','#06b6d4','#8b5cf6','#10b981','#f59e0b','#ef4444','#84cc16','#0ea5e9'];
-const pick = (i)=> CAT_COLORS[i % CAT_COLORS.length];
+// store.data.json'dan okuyacağız
+const STORE_DATA_URL = "assets/data/store.data.json";
 
-function catCard(slug, name, i){
-  const href = `listings.html?tag=${encodeURIComponent(slug)}`;
-  const letter = (name||slug||'?').charAt(0).toUpperCase();
+// kart renderer'ları
+function renderCategoryCard(storeSlug, storeTitle, section, colorIndex){
+  const href = `store/${storeSlug}/${section.slug}/`;
+  const letter = (section.name || section.slug || "?").charAt(0).toUpperCase();
+  const colors = ['#3b82f6','#06b6d4','#8b5cf6','#10b981','#f59e0b','#ef4444','#84cc16','#0ea5e9'];
+  const bg = colors[colorIndex % colors.length];
+
   return `
-    <div class="card">
-      <a href="${href}">
-        <span class="badge" style="background:${pick(i)}">${letter}</span>
+    <article class="card">
+      <a class="card-inner" href="${href}">
+        <span class="badge badge-cat" style="background:${bg}">${letter}</span>
         <div>
-          <div style="font-weight:800">${name}</div>
-          <div class="sub">${slug}</div>
+          <div class="card-title">${section.name || section.slug.replace(/-/g," ")}</div>
+          <div class="card-meta">${storeTitle}</div>
         </div>
       </a>
-    </div>`;
+    </article>
+  `;
 }
-function storeCard(slug, name, color){
-  const href = `store.html?slug=${encodeURIComponent(slug)}`;
-  const letter = (name||slug||'?').charAt(0).toUpperCase();
+
+function renderStoreCard(slug, store, index){
+  const href = `store/${slug}/`;
+  const letter = (store.title || slug || "?").charAt(0).toUpperCase();
+
   return `
-    <div class="card">
-      <a href="${href}">
-        <span class="badge" style="background:${color || '#94a3b8'}">${letter}</span>
+    <article class="card">
+      <a class="card-inner" href="${href}">
+        <span class="badge badge-store">${letter}</span>
         <div>
-          <div style="font-weight:800">${name || slug}</div>
-          <div class="sub">${slug}</div>
+          <div class="card-title">${store.title || slug.replace(/-/g," ")}</div>
+          <div class="card-meta">${store.tagline || "Official RGZTEC store"}</div>
         </div>
       </a>
-    </div>`;
+    </article>
+  `;
 }
 
 (async function init(){
   try{
-    // categories from products.json
-    const pres = await fetch('assets/data/products.json',{cache:'no-store'});
-    let cats = [];
-    if(pres.ok){
-      const raw = await pres.json();
-      if (Array.isArray(raw?.categories)) cats = raw.categories;
-      // fallback: when file is the "gallery-only" (array), show a few common tags
-      if (!cats.length && Array.isArray(raw)) {
-        cats = [
-          {"slug":"html-templates","name":"HTML Templates"},
-          {"slug":"react","name":"React"},
-          {"slug":"svg-icons","name":"SVG / Icons"},
-          {"slug":"hardware","name":"Hardware"}
-        ];
+    const res = await fetch(STORE_DATA_URL, { cache:"no-store" });
+    if (!res.ok) throw new Error("store.data.json yüklenemedi: " + res.status);
+
+    const data = await res.json(); // { "game-makers": {...}, "ai-tools-hub": {...}, ... }
+
+    const catGrid = document.getElementById("catGrid");
+    const storeGrid = document.getElementById("storeGrid");
+
+    // 1) TÜM SUBSTORES (DÜKKANLAR) → Category grid
+    const allSections = [];
+    Object.entries(data).forEach(([slug, store])=>{
+      const sections = Array.isArray(store.sections) ? store.sections : [];
+      sections.forEach(sec=>{
+        allSections.push({ storeSlug: slug, storeTitle: store.title || slug, section: sec });
+      });
+    });
+
+    if (catGrid){
+      if (allSections.length){
+        catGrid.innerHTML = allSections
+          .map((item, i)=>renderCategoryCard(item.storeSlug, item.storeTitle, item.section, i))
+          .join("");
+      } else {
+        catGrid.innerHTML = `
+          <article class="card">
+            <div class="card-inner">
+              <span class="badge badge-cat" style="background:#e5e7eb;color:#6b7280;">?</span>
+              <div>
+                <div class="card-title">No categories yet</div>
+                <div class="card-meta">Add sections to stores in <code>store.data.json</code>.</div>
+              </div>
+            </div>
+          </article>
+        `;
       }
     }
-    const catGrid = document.getElementById('catGrid');
-    catGrid.innerHTML = cats.map((c,i)=>catCard(c.slug,c.name,i)).join('') || '<div class="card ghost"><a href="#"><span class="badge ghost"></span><div>No categories</div></a></div>';
 
-    // stores from stores.json
-    const sres = await fetch('data/stores.json',{cache:'no-store'});
-    const storeGrid = document.getElementById('storeGrid');
-    if(sres.ok){
-      const {stores=[]} = await sres.json();
-      storeGrid.innerHTML = stores.map(s=>storeCard(s.slug, s.name, s.color)).join('');
-    } else {
-      storeGrid.innerHTML = '<div class="card ghost"><a href="#"><span class="badge ghost"></span><div>No stores</div></a></div>';
+    // 2) ANA STORES → Store grid
+    if (storeGrid){
+      const entries = Object.entries(data);
+      if (entries.length){
+        storeGrid.innerHTML = entries
+          .map(([slug, store], i)=>renderStoreCard(slug, store, i))
+          .join("");
+      } else {
+        storeGrid.innerHTML = `
+          <article class="card">
+            <div class="card-inner">
+              <span class="badge badge-store" style="background:#e5e7eb;color:#6b7280;">?</span>
+              <div>
+                <div class="card-title">No stores configured</div>
+                <div class="card-meta">Check <code>assets/data/store.data.json</code>.</div>
+              </div>
+            </div>
+          </article>
+        `;
+      }
     }
   }catch(e){
     console.warn(e);
+    const catGrid = document.getElementById("catGrid");
+    const storeGrid = document.getElementById("storeGrid");
+    if (catGrid){
+      catGrid.innerHTML = `<p style="font-size:13px;color:#6b7280;">
+        Categories could not be loaded. Check <code>assets/data/store.data.json</code>.
+      </p>`;
+    }
+    if (storeGrid){
+      storeGrid.innerHTML = `<p style="font-size:13px;color:#6b7280;">
+        Stores could not be loaded. Check <code>assets/data/store.data.json</code>.
+      </p>`;
+    }
   }
 })();
 </script>
 </body>
 </html>
+
