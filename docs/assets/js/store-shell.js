@@ -335,7 +335,7 @@
         <div class="store-shops-header">
           <h2>Explore Shops</h2>
         </div>
-        <div class="shop-grid">${shopCards}</div>
+        <div class="shop-grid products-grid">${shopCards}</div>
       </main>
     `;
   }
