@@ -3,445 +3,384 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>RGZTEC • Categories</title>
-<meta name="description" content="Browse RGZTEC categories and stores."/>
+<title>RGZTEC • Premium Digital Marketplace</title>
+<meta name="description" content="Discover unique products and open your store on RGZTEC."/>
 <base href="/rgztec/">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets/css/store-core.css">
+
 <style>
-:root{
-  --wrap:1100px;
-  --ink:#0b1220; --sub:#64748b;
-  --line:#e5e7eb; --line-strong:#d7dbe3;
-  --brand:#f97316; --brand-dark:#ea580c;
-}
-*{box-sizing:border-box}
-html,body{margin:0}
-body{
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-  color:var(--ink);
-  background:#fff;
+:root {
+  --brand: #f97316;
+  --brand-h: #ea580c;
+  --ink: #0f172a;
+  --sub: #64748b;
+  --border: #e2e8f0;
+  --bg-alt: #f8fafc;
+  --header-height: 72px;
 }
 
-/* header (same style family) */
-.header-outer{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:rgba(255,255,255,.9);
-  backdrop-filter:saturate(120%) blur(10px);
-  border-bottom:1px solid var(--line);
-}
-.page{
-  width:100%;
-  max-width:var(--wrap);
-  margin-inline:auto;
-  padding-inline:16px;
-}
-.header-row{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  padding:8px 0;
-}
-.brand{
-  font-weight:900;
-  font-size:22px;
-  color:var(--brand);
-  text-decoration:none;
-  margin-right:8px;
-}
-.btn-cats{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  height:40px;
-  padding:0 14px;
-  border:1px solid var(--line-strong);
-  border-radius:12px;
-  background:#fff;
-  text-decoration:none;
-  color:var(--ink);
-  font-weight:600;
-  font-size:14px;
-}
-.btn-cats svg{width:18px;height:18px}
-.btn-cats:hover{
-  border-color:#cbd5f5;
-  background:#f9fafb;
-}
-.search{
-  flex:1 1 auto;
-  display:flex;
-  align-items:center;
-  height:44px;
-  border:1px solid #111827;
-  border-radius:999px;
-  padding:0 8px 0 16px;
-  max-width:760px;
-}
-.search input{
-  flex:1;
-  border:0;
-  outline:0;
-  font-size:15px;
-  padding:10px;
-  background:transparent;
-}
-.go{
-  display:grid;
-  place-items:center;
-  width:36px;
-  height:36px;
-  border-radius:999px;
-  background:var(--brand);
-  border:0;
-  cursor:pointer;
-  margin-right:4px;
-}
-.go svg{
-  width:18px;
-  height:18px;
-  stroke:#fff;
-  fill:none;
-  stroke-width:2;
-}
-.go:hover{background:var(--brand-dark)}
+body { font-family: 'Inter', sans-serif; background-color: var(--bg-alt); color: var(--ink); margin: 0; padding: 0; }
+a { text-decoration: none; transition: all 0.2s ease; }
+.container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
 
-.hdr-right{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.icon-btn{
-  display:grid;
-  place-items:center;
-  width:32px;
-  height:32px;
-  border-radius:999px;
-  border:1px solid var(--line-strong);
-  background:#fff;
-}
-.pill-open{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  height:40px;
-  padding:0 18px;
-  border-radius:20px;
-  background:var(--brand);
-  color:#fff;
-  font-weight:700;
-  text-decoration:none;
-  font-size:14px;
-  box-shadow:0 10px 26px rgba(249,115,22,.4);
-}
-.pill-open:hover{background:var(--brand-dark)}
-[hidden]{display:none!important}
+/* HEADER */
+.app-header { background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; height: var(--header-height); display: flex; align-items: center; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 24px; }
+.logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; color: var(--brand); letter-spacing: -0.03em; flex-shrink: 0; }
 
-/* content */
-.section{
-  padding:22px 0;
-}
-.h1{
-  font-weight:900;
-  font-size:26px;
-  margin:0 0 8px;
-  letter-spacing:-0.02em;
-}
-.sub{
-  color:var(--sub);
-  margin:0 0 16px;
-  font-size:14px;
-}
+/* Kategori Butonu */
+.btn-cat { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: #334155; background: transparent; border: 1px solid transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+.btn-cat:hover, .btn-cat.active { background: #f1f5f9; color: var(--brand); }
 
-/* grids */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:16px;
-}
+.search-bar { flex: 1; max-width: 500px; position: relative; }
+.search-input { width: 100%; height: 44px; background: #f1f5f9; border: 1px solid transparent; border-radius: 99px; padding: 0 48px 0 20px; font-size: 14px; color: var(--ink); }
+.search-input:focus { background: #fff; border-color: var(--brand); box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); outline: none; }
+.search-btn { position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border-radius: 50%; background: var(--brand); border: none; color: #fff; display: grid; place-items: center; cursor: pointer; }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-link { font-size: 14px; font-weight: 600; color: var(--sub); }
+.nav-link:hover { color: var(--brand); }
+.icon-action { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #334155; border: 1px solid var(--border); background: #fff; }
+.icon-action:hover { border-color: var(--brand); color: var(--brand); background: #fff7ed; }
+.btn-open-store { background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 99px; font-size: 14px; font-weight: 700; }
+.btn-open-store:hover { background: var(--brand); }
 
-/* category & store cards */
-.card{
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:#fff;
-  overflow:hidden;
-  box-shadow:0 14px 40px rgba(15,23,42,0.06);
-  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-}
-.card:hover{
-  transform:translateY(-4px);
-  border-color:#cbd5e1;
-  box-shadow:0 22px 55px rgba(15,23,42,0.14);
-}
-.card-inner{
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  padding:12px 14px 14px;
-  text-decoration:none;
-  color:var(--ink);
-}
-.badge{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  color:#fff;
-  font-size:16px;
-}
-.badge-store{
-  background:#0f172a;
-}
-.badge-cat{
-  background:#f97316;
-}
-.card-title{
-  font-weight:800;
-  font-size:15px;
-  margin:0 0 2px;
-  letter-spacing:-0.01em;
-}
-.card-meta{
-  font-size:12px;
-  color:var(--sub);
-}
+/* MEGA MENU (ETSY TARZI) */
+.mega-menu-overlay { position: fixed; top: var(--header-height); left: 0; width: 100%; height: calc(100vh - var(--header-height)); background: rgba(15,23,42,0.4); z-index: 900; opacity: 0; visibility: hidden; transition: all 0.2s; }
+.mega-menu-overlay.open { opacity: 1; visibility: visible; }
+.mega-menu-container { position: absolute; top: 0; left: 0; width: 900px; height: 100%; background: #fff; display: flex; border-right: 1px solid var(--border); transform: translateX(-20px); transition: transform 0.3s ease; }
+.mega-menu-overlay.open .mega-menu-container { transform: translateX(0); }
 
-/* subtile link list inside category cards */
-.cat-substores{
-  margin-top:6px;
-  padding-left:0;
-  list-style:none;
-}
-.cat-substores li a{
-  display:block;
-  padding:3px 0;
-  font-size:13px;
-  color:#4b5563;
-  text-decoration:none;
-}
-.cat-substores li a:hover{
-  color:var(--brand);
-}
+.menu-sidebar { width: 300px; background: #f8fafc; border-right: 1px solid var(--border); overflow-y: auto; padding: 20px 0; }
+.menu-store-item { padding: 12px 24px; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.menu-store-item:hover, .menu-store-item.active { background: #fff; color: var(--brand); border-left: 4px solid var(--brand); padding-left: 20px; }
 
-/* footer (short) */
-.footer-outer{
-  margin-top:32px;
-  background:#232347;
-  color:#fff;
-  padding:18px 0;
-  font-size:14px;
-  border-top:1px solid #3c3c62;
-}
-.footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:16px;
-}
-.footer-bottom a{
-  color:#fff;
-  text-decoration:none;
-  font-weight:600;
-}
-.footer-bottom a:hover{text-decoration:underline}
+.menu-content { flex: 1; padding: 40px; overflow-y: auto; }
+.menu-header h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; margin: 0 0 8px; }
+.menu-header p { color: var(--sub); margin-bottom: 30px; font-size: 15px; }
+.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.menu-sub-item { display: block; padding: 16px; border: 1px solid var(--border); border-radius: 12px; transition: all 0.2s; }
+.menu-sub-item:hover { border-color: var(--brand); background: #fff7ed; transform: translateY(-2px); }
+.sub-title { display: block; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.sub-desc { display: block; font-size: 12px; color: var(--sub); }
 
-/* responsive */
-@media(max-width:768px){
-  .hdr-right{display:none}
-  .search{max-width:none}
+/* SUB NAV */
+.sub-nav { background: #fff; border-bottom: 1px solid var(--border); height: 54px; display: flex; align-items: center; overflow-x: auto; white-space: nowrap; }
+.sub-nav-list { display: flex; gap: 32px; padding: 0 24px; margin: 0 auto; max-width: 1440px; }
+.sub-nav-item a { font-size: 13px; font-weight: 600; color: var(--sub); display: flex; align-items: center; height: 54px; border-bottom: 2px solid transparent; }
+.sub-nav-item a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+
+/* HERO & BANNER */
+.hero { padding: 60px 0 40px; text-align: center; }
+.hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(32px, 4vw, 56px); font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; line-height: 1.1; }
+.hero-btns { display: flex; justify-content: center; gap: 16px; margin-top: 32px; }
+.btn-primary { background: var(--brand); color: #fff; padding: 14px 32px; border-radius: 99px; font-weight: 700; }
+.btn-outline { border: 1px solid var(--border); color: var(--ink); padding: 14px 32px; border-radius: 99px; font-weight: 700; }
+
+.showcase-section { padding: 40px 0 80px; }
+.showcase-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
+.showcase-banner img { width: 100%; border-radius: 12px; }
+
+/* GALERİ */
+.gallery-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 32px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; margin-bottom: 80px; }
+
+/* Full Width Card (Hardware) */
+.card.full-width { grid-column: 1 / -1; display: grid; grid-template-columns: 1.2fr 0.8fr; height: 340px; background: #0f172a; color: #fff; border: none; }
+.card.full-width .card-media { height: 100%; }
+.card.full-width .card-content { background: #0f172a; justify-content: center; padding: 50px; }
+.card.full-width .card-title { color: #fff; font-size: 32px; }
+.card.full-width .card-desc { color: #94a3b8; font-size: 16px; }
+.card.full-width .card-link { color: var(--brand); }
+
+/* Normal Card */
+.card { background: #fff; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column; position: relative; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+.card-media { height: 200px; background: #f1f5f9; overflow: hidden; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.card:hover .card-media img { transform: scale(1.05); }
+.card-content { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.card-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--brand); letter-spacing: 1px; margin-bottom: 8px; display: block;}
+.card-title { font-size: 18px; font-weight: 700; margin: 0 0 8px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); }
+.card-desc { font-size: 14px; color: var(--sub); line-height: 1.5; margin-bottom: 20px; }
+.card-link { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+
+/* FOOTER */
+.footer { background: #0f172a; color: #94a3b8; padding: 80px 0 40px; font-size: 14px; }
+.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+.footer h4 { color: #fff; font-size: 16px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif; }
+.footer a { display: block; color: #94a3b8; margin-bottom: 12px; }
+.footer a:hover { color: #fff; }
+.footer-bot { border-top: 1px solid #1e293b; padding-top: 30px; display: flex; justify-content: space-between; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .nav-right, .search-bar { display: none; }
+  .showcase-inner { grid-template-columns: 1fr; }
+  .showcase-banner { order: -1; }
+  .card.full-width { grid-template-columns: 1fr; height: auto; }
+  .card.full-width .card-media { height: 200px; }
+  .footer-cols { grid-template-columns: 1fr 1fr; }
+  .mega-menu-container { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<header class="header-outer">
-  <div class="page header-row">
-    <a class="brand" href="./">RGZTEC</a>
-
-    <!-- Categories butonu: hem yazılı, hem ikonlu, ama bu sayfa olduğu için disabled gibi -->
-    <a class="btn-cats" href="categories.html" aria-label="All categories">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-      <span>Categories</span>
-    </a>
-
-    <form class="search" role="search" action="listings.html">
-      <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
-      <button class="go" type="submit" aria-label="Search">
-        <svg viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="6" stroke="currentColor"/>
-          <path d="M16.5 16.5 21 21" stroke="currentColor"/>
-        </svg>
+<header class="app-header">
+  <div class="container header-inner">
+    <div style="display:flex; align-items:center; gap:24px;">
+      <a href="./" class="logo">RGZTEC</a>
+      <button class="btn-cat" id="btnCategories">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+        Categories
       </button>
-    </form>
-
-   <div class="hdr-right">
-  <a href="gift-card.html" class="icon-btn" aria-label="Gift cards">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-         viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" />
-    </svg>
-  </a>
-  <a href="open-store.html" class="pill-open">Open Store</a>
-</div>
+    </div>
+    <div class="search-bar">
+      <input type="text" class="search-input" placeholder="Search marketplace...">
+      <button class="search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg></button>
+    </div>
+    <div class="nav-right">
+      <a href="editor/" class="nav-link">Dashboard</a>
+      <a href="login/" class="nav-link">Sign In</a>
+      <a href="gift-card.html" class="icon-action" aria-label="Gift"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" /></svg></a>
+      <a href="cart.html" class="icon-action" aria-label="Cart"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg></a>
+      <a href="open-store.html" class="btn-open-store">Open Store</a>
+    </div>
   </div>
 </header>
 
-<main class="page">
-  <!-- SUBSTORES (DÜKKANLAR) -->
-  <section class="section">
-    <h1 class="h1">Browse by category</h1>
-    <p class="sub">Explore all sub-categories (stores & collections) across RGZTEC.</p>
-    <div id="catGrid" class="grid"></div>
-  </section>
+<div class="mega-menu-overlay" id="megaMenu">
+  <div class="mega-menu-container">
+    <div class="menu-sidebar" id="menuSidebar"></div>
+    <div class="menu-content" id="menuContent">
+      <div class="menu-header">
+        <h3 id="menuTitle">Select a Store</h3>
+        <p id="menuDesc">Explore professional categories.</p>
+      </div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </div>
+</div>
 
-  <!-- STORES (ANA MAĞAZALAR) -->
-  <section class="section">
-    <h2 class="h1">Browse by store</h2>
-    <p class="sub">Jump into a store and view its full collection.</p>
-    <div id="storeGrid" class="grid"></div>
-  </section>
+<nav class="sub-nav">
+  <div class="sub-nav-list" id="subNavList">
+    </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1>Build, buy, and sell<br>high-quality digital products.</h1>
+    <p>Professional marketplace for templates, code, tools — now with curated hardware accessories for developers and makers.</p>
+    <div class="hero-btns">
+      <a href="#gallery" class="btn-primary">Browse Marketplace</a>
+      <a href="become-seller.html" class="btn-outline">Start Selling</a>
+    </div>
+  </div>
+</section>
+
+<section class="showcase-section">
+  <div class="container showcase-inner">
+    <div class="showcase-content">
+      <div style="font-size:12px; font-weight:700; color:#94a3b8; letter-spacing:1px; margin-bottom:10px;">#1 GLOBAL MARKETPLACE</div>
+      <h2>Premium <span>digital & hardware</span> marketplace for creators.</h2>
+      <p>RGZTEC brings together high-quality HTML templates, React components, AI tools, and now curated hardware. Everything you need to build faster.</p>
+      <div class="showcase-features">
+        <div class="feature-item"><h3>For buyers</h3><p>Instant access to production-ready assets and tools.</p></div>
+        <div class="feature-item"><h3>For sellers</h3><p>Reach a global audience and earn recurring revenue.</p></div>
+      </div>
+      <a href="become-seller.html" style="font-weight:700; color:var(--brand); display:inline-flex; align-items:center; gap:6px;">Start selling on RGZTEC →</a>
+    </div>
+    <div class="showcase-banner">
+      <img src="assets/images/banners/global-marketplace-banner.webp" alt="Global Marketplace Banner">
+    </div>
+  </div>
+</section>
+
+<main class="container gallery-section">
+  <h2 class="gallery-title">Explore Stores</h2>
+  <div id="gallery" class="grid"></div>
 </main>
 
-<footer class="footer-outer">
-  <div class="page footer-bottom">
-    <span>© <span id="y"></span> RGZTEC, Inc.</span>
-    <div>
-      <a href="#">Terms of Use</a>
-      <a href="#" style="margin-left:16px">Privacy</a>
-      <a href="#" style="margin-left:16px">Interest-based ads</a>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-cols">
+      <div><h4>Shop</h4><a href="gift-card.html">Gift Cards</a><a href="#">Sitemap</a><a href="#">Featured Products</a></div>
+      <div><h4>Sell</h4><a href="become-seller.html">Start Selling</a><a href="#">Teams</a><a href="#">Affiliates</a></div>
+      <div><h4>Company</h4><a href="#">About RGZTEC</a><a href="#">Careers</a><a href="#">Legal</a></div>
+      <div><h4>Support</h4><a href="mailto:support@rgztec.com">Help Center</a><a href="#">Contact Us</a></div>
+    </div>
+    <div class="footer-bot">
+      <span>© 2025 RGZTEC, Inc.</span>
+      <div><a href="#" style="margin-left:20px;">Privacy</a><a href="#" style="margin-left:20px;">Terms</a></div>
     </div>
   </div>
 </footer>
 
 <script>
-// footer yılı
-document.getElementById('y').textContent = new Date().getFullYear();
+// --- KONFIGÜRASYON ---
+const DATA_URL = "data/store.data.json"; // BEYİN Dosyası
+const STORE_IMAGE_BASE = "assets/images/store/";
 
-// store.data.json'dan okuyacağız
-const STORE_DATA_URL = "data/store.data.json";
+// --- ELEMENTLER ---
+const gallery = document.getElementById('gallery');
+const btnCategories = document.getElementById('btnCategories');
+const megaMenu = document.getElementById('megaMenu');
+const menuSidebar = document.getElementById('menuSidebar');
+const menuTitle = document.getElementById('menuTitle');
+const menuDesc = document.getElementById('menuDesc');
+const menuGrid = document.getElementById('menuGrid');
+const subNavList = document.getElementById('subNavList');
 
-// kart renderer'ları
-function renderCategoryCard(storeSlug, storeTitle, section, colorIndex){
-  const href = `store/${storeSlug}/${section.slug}/`;
-  const letter = (section.name || section.slug || "?").charAt(0).toUpperCase();
-  const colors = ['#3b82f6','#06b6d4','#8b5cf6','#10b981','#f59e0b','#ef4444','#84cc16','#0ea5e9'];
-  const bg = colors[colorIndex % colors.length];
+// Global Veri
+let storesData = {};
 
-  return `
-    <article class="card">
-      <a class="card-inner" href="${href}">
-        <span class="badge badge-cat" style="background:${bg}">${letter}</span>
-        <div>
-          <div class="card-title">${section.name || section.slug.replace(/-/g," ")}</div>
-          <div class="card-meta">${storeTitle}</div>
-        </div>
-      </a>
-    </article>
-  `;
-}
-
-function renderStoreCard(slug, store, index){
-  const href = `store/${slug}/`;
-  const letter = (store.title || slug || "?").charAt(0).toUpperCase();
-
-  return `
-    <article class="card">
-      <a class="card-inner" href="${href}">
-        <span class="badge badge-store">${letter}</span>
-        <div>
-          <div class="card-title">${store.title || slug.replace(/-/g," ")}</div>
-          <div class="card-meta">${store.tagline || "Official RGZTEC store"}</div>
-        </div>
-      </a>
-    </article>
-  `;
-}
-
-(async function init(){
-  try{
-    const res = await fetch(STORE_DATA_URL, { cache:"no-store" });
-    if (!res.ok) throw new Error("store.data.json yüklenemedi: " + res.status);
-
-    const data = await res.json(); // { "game-makers": {...}, "ai-tools-hub": {...}, ... }
-
-    const catGrid = document.getElementById("catGrid");
-    const storeGrid = document.getElementById("storeGrid");
-
-    // 1) TÜM SUBSTORES (DÜKKANLAR) → Category grid
-    const allSections = [];
-    Object.entries(data).forEach(([slug, store])=>{
-      const sections = Array.isArray(store.sections) ? store.sections : [];
-      sections.forEach(sec=>{
-        allSections.push({ storeSlug: slug, storeTitle: store.title || slug, section: sec });
-      });
-    });
-
-    if (catGrid){
-      if (allSections.length){
-        catGrid.innerHTML = allSections
-          .map((item, i)=>renderCategoryCard(item.storeSlug, item.storeTitle, item.section, i))
-          .join("");
-      } else {
-        catGrid.innerHTML = `
-          <article class="card">
-            <div class="card-inner">
-              <span class="badge badge-cat" style="background:#e5e7eb;color:#6b7280;">?</span>
-              <div>
-                <div class="card-title">No categories yet</div>
-                <div class="card-meta">Add sections to stores in <code>store.data.json</code>.</div>
-              </div>
-            </div>
-          </article>
-        `;
-      }
-    }
-
-    // 2) ANA STORES → Store grid
-    if (storeGrid){
-      const entries = Object.entries(data);
-      if (entries.length){
-        storeGrid.innerHTML = entries
-          .map(([slug, store], i)=>renderStoreCard(slug, store, i))
-          .join("");
-      } else {
-        storeGrid.innerHTML = `
-          <article class="card">
-            <div class="card-inner">
-              <span class="badge badge-store" style="background:#e5e7eb;color:#6b7280;">?</span>
-              <div>
-                <div class="card-title">No stores configured</div>
-                <div class="card-meta">Check <code>assets/data/store.data.json</code>.</div>
-              </div>
-            </div>
-          </article>
-        `;
-      }
-    }
-  }catch(e){
-    console.warn(e);
-    const catGrid = document.getElementById("catGrid");
-    const storeGrid = document.getElementById("storeGrid");
-    if (catGrid){
-      catGrid.innerHTML = `<p style="font-size:13px;color:#6b7280;">
-        Categories could not be loaded. Check <code>assets/data/store.data.json</code>.
-      </p>`;
-    }
-    if (storeGrid){
-      storeGrid.innerHTML = `<p style="font-size:13px;color:#6b7280;">
-        Stores could not be loaded. Check <code>assets/data/store.data.json</code>.
-      </p>`;
-    }
+// --- 1. VERİYİ ÇEK VE BAŞLAT ---
+(async function initApp() {
+  try {
+    const res = await fetch(DATA_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("Veri yüklenemedi");
+    storesData = await res.json();
+    
+    // İşlemleri Başlat
+    renderGallery();
+    renderMegaMenuSidebar();
+    renderSubNav();
+    
+  } catch (err) {
+    console.error("Hata:", err);
+    if(gallery) gallery.innerHTML = "<p style='text-align:center;color:red'>Store data could not be loaded.</p>";
   }
 })();
+
+// --- YARDIMCI: Hardware'i En Başa Al ---
+function getSortedSlugs() {
+  const keys = Object.keys(storesData);
+  const hwIndex = keys.indexOf('hardware');
+  if (hwIndex > -1) {
+    keys.splice(hwIndex, 1);
+    keys.unshift('hardware'); // En başa ekle
+  }
+  return keys;
+}
+
+// --- 2. GALERİ RENDER (Hardware Full Width) ---
+function renderGallery() {
+  const slugs = getSortedSlugs();
+  let html = '';
+
+  slugs.forEach(slug => {
+    const data = storesData[slug];
+    const isFull = slug === 'hardware';
+    const cardClass = isFull ? 'card full-width' : 'card';
+    const href = `store/${slug}/`;
+    const imgSrc = `${STORE_IMAGE_BASE}${slug}.webp`;
+
+    html += `
+      <article class="${cardClass}">
+        <a href="${href}" class="card-media">
+          <img src="${imgSrc}" alt="${data.title}" loading="lazy">
+        </a>
+        <div class="card-content">
+          <span class="card-badge">Official Store</span>
+          <h3 class="card-title">${data.title}</h3>
+          <p class="card-desc">${data.tagline || ""}</p>
+          <a href="${href}" class="card-link">
+            Visit Store 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg>
+          </a>
+        </div>
+      </article>
+    `;
+  });
+  gallery.innerHTML = html;
+}
+
+// --- 3. SUB NAV RENDER (Yatay Menü) ---
+function renderSubNav() {
+  const slugs = getSortedSlugs();
+  let html = '';
+  slugs.forEach(slug => {
+    const title = storesData[slug].title;
+    const style = slug === 'hardware' ? 'style="color:var(--brand);"' : '';
+    html += `<div class="sub-nav-item"><a href="store/${slug}/" ${style}>${title}</a></div>`;
+  });
+  subNavList.innerHTML = html;
+}
+
+// --- 4. MEGA MENU MANTIĞI ---
+function renderMegaMenuSidebar() {
+  const slugs = getSortedSlugs();
+  let html = '';
+  slugs.forEach(slug => {
+    const title = storesData[slug].title;
+    html += `<div class="menu-store-item" onclick="selectStore('${slug}')" data-slug="${slug}">
+      <span>${title}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </div>`;
+  });
+  menuSidebar.innerHTML = html;
+}
+
+window.selectStore = function(slug) {
+  // Sidebar Aktifliği
+  document.querySelectorAll('.menu-store-item').forEach(el => el.classList.remove('active'));
+  const activeItem = document.querySelector(`.menu-store-item[data-slug="${slug}"]`);
+  if(activeItem) activeItem.classList.add('active');
+
+  // İçeriği Doldur
+  const data = storesData[slug];
+  menuTitle.textContent = data.title;
+  menuDesc.textContent = data.tagline;
+
+  let gridHTML = '';
+  if (data.sections && Array.isArray(data.sections)) {
+    data.sections.forEach(section => {
+      const secName = section.name || section.slug;
+      const href = `store/${slug}/${section.slug}/`;
+      gridHTML += `
+        <a href="${href}" class="menu-sub-item">
+          <span class="sub-title">${secName}</span>
+          <span class="sub-desc">Browse collection</span>
+        </a>
+      `;
+    });
+  } else {
+    gridHTML = '<p style="color:#94a3b8">No sub-categories.</p>';
+  }
+  
+  // Tümünü Gör Butonu
+  gridHTML += `
+    <a href="store/${slug}/" class="menu-sub-item" style="background:#f8fafc; border-color:transparent; display:flex; align-items:center; justify-content:center;">
+      <span class="sub-title" style="color:var(--brand); margin:0;">View All →</span>
+    </a>
+  `;
+  
+  menuGrid.innerHTML = gridHTML;
+};
+
+// Aç/Kapa Olayları
+btnCategories.addEventListener('click', (e) => {
+  e.stopPropagation();
+  megaMenu.classList.toggle('open');
+  btnCategories.classList.toggle('active');
+  // İlk açılışta Hardware'i seç
+  if(megaMenu.classList.contains('open')) selectStore('hardware');
+});
+
+document.addEventListener('click', (e) => {
+  if (!megaMenu.contains(e.target) && !btnCategories.contains(e.target)) {
+    megaMenu.classList.remove('open');
+    btnCategories.classList.remove('active');
+  }
+});
 </script>
+
 </body>
 </html>
 
