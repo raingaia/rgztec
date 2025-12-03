@@ -1,60 +1,50 @@
-/* ============================================================
-   RGZTEC • GLOBAL SEARCH ENGINE
-   Tek beyin - Tüm sayfalarda ortak çalışan arama sistemi
-   ------------------------------------------------------------
-   Çalışma Mantığı:
-   - Kullanıcı .search-input içine yazınca 250ms debounce
-   - store.data.json hafızaya bir kez yüklenir (cache)
-   - Listeleme için: /rgztec/listings.html?q=SEARCH_TEXT
-   ============================================================ */
+// =======================================================
+// RGZTEC GLOBAL SEARCH ENGINE (Autocomplete + Live Results)
+// =======================================================
 
 window.RGZTEC_SEARCH = {
-    cache: null,
-    loading: false,
-    timer: null,
-    DATA_URL: "/rgztec/data/store.data.json",
+    data: null,
 
-    /* JSON'u 1 kez yükler, bellekten kullanır */
-    async loadData() {
-        if (this.cache) return this.cache;
+    async load() {
+        if (this.data) return this.data;
 
-        try {
-            this.loading = true;
-            const res = await fetch(this.DATA_URL + "?v=" + Date.now());
-            if (!res.ok) throw new Error("Cannot load store.data.json");
+        const res = await fetch("store.data.json");
+        const json = await res.json();
 
-            this.cache = await res.json();
-            this.loading = false;
-            return this.cache;
-
-        } catch (err) {
-            console.error("RGZTEC SEARCH ERROR:", err);
-            this.loading = false;
-            return {};
-        }
+        this.data = json.stores;
+        return this.data;
     },
 
-    /* Arama kutusuna yazılan değeri yakalar */
-    query(text) {
-        clearTimeout(this.timer);
-        const q = text.trim();
+    async search(query) {
+        query = query.toLowerCase().trim();
+        if (!query) return [];
 
-        if (!q) return;
+        const stores = await this.load();
+        let results = [];
 
-        this.timer = setTimeout(() => {
-            const encoded = encodeURIComponent(q);
-            window.location.href = `/rgztec/listings.html?q=${encoded}`;
-        }, 250);
+        stores.forEach(store => {
+            store.sections.forEach(section => {
+                if (!section.products) return;
+
+                section.products.forEach(product => {
+                    const haystack = `
+                        ${product.title}
+                        ${product.tagline}
+                        ${section.name}
+                        ${store.title}
+                    `.toLowerCase();
+
+                    if (haystack.includes(query)) {
+                        results.push({
+                            store: store.title,
+                            section: section.name,
+                            ...product
+                        });
+                    }
+                });
+            });
+        });
+
+        return results;
     }
 };
-
-
-/* ============================================================
-   OTOMATİK INPUT DİNLEYİCİ
-   - Tüm sayfalardaki .search-input öğelerini otomatik yakalar
-   ============================================================ */
-document.addEventListener("input", (e) => {
-    if (e.target.matches(".search-input")) {
-        RGZTEC_SEARCH.query(e.target.value);
-    }
-});
