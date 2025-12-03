@@ -250,95 +250,156 @@ textarea { min-height: 120px; resize: vertical; }
 </footer>
 
 <script>
-/* --- DİKKAT: BURAYA YENİ KODU EKLEDİM --- */
-/* Sayfa açılınca kategorileri JSON'dan çeker */
-document.addEventListener('DOMContentLoaded', async () => {
-    const catSelect = document.getElementById('cat');
-    
-    try {
-        const response = await fetch('data/store.data.json');
-        if(!response.ok) throw new Error("JSON dosyası bulunamadı");
-        
-        const data = await response.json();
-        
-        // Önce 'Loading...' yazısını temizle, 'Select' ekle
-        catSelect.innerHTML = '<option value="" disabled selected>Select a category...</option>';
-        
-        // Kategorileri ekle
-        if (data.categories) {
-            data.categories.forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c.id;
-                opt.textContent = c.name;
-                catSelect.appendChild(opt);
-            });
-        }
-    } catch (err) {
-        console.error('Kategoriler yüklenirken hata:', err);
-        // Hata olursa kullanıcı anlasın
-        catSelect.innerHTML = '<option value="" disabled>Error loading categories</option>';
+/* === 1) TEK KAYNAK: /rgztec/data/store.data.json === */
+/*  - Kategori select
+ *  - Header mega menü
+ *  hepsi aynı JSON'dan besleniyor.
+ */
+
+const DATA_URL = "data/store.data.json"; // <base href="/rgztec/"> yüzünden bu: /rgztec/data/store.data.json
+
+let STORE_MAP = {};   // { "hardware": {...}, "game-makers": {...}, ... }
+
+/* DOM hazır olunca JSON'u çek */
+document.addEventListener("DOMContentLoaded", async () => {
+  const catSelect   = document.getElementById("cat");
+  const menuSidebar = document.getElementById("menuSidebar");
+
+  try {
+    const res = await fetch(DATA_URL + "?v=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error("HTTP " + res.status + " " + res.statusText);
     }
+
+    const data = await res.json();
+
+    // store shell'deki gibi object bekliyoruz
+    // Örn: { "hardware": { title, sections:[...] }, "game-makers": {...} }
+    STORE_MAP = data || {};
+
+    const slugs = Object.keys(STORE_MAP);
+    if (!slugs.length) {
+      throw new Error("store.data.json boş görünüyor (root seviyede store yok).");
+    }
+
+    /* --- A) FORM DROPDOWN: sadece mağaza başlıklarını gösterelim --- */
+    catSelect.innerHTML = '<option value="" disabled selected>Select a category...</option>';
+
+    slugs.forEach((slug) => {
+      const store = STORE_MAP[slug] || {};
+      const opt   = document.createElement("option");
+      opt.value   = slug;
+      opt.textContent = store.title || slug; // title yoksa slug göster
+      catSelect.appendChild(opt);
+    });
+
+    /* --- B) HEADER MEGA MENU: sidebar'ı doldur --- */
+    let sidebarHTML = "";
+    slugs.forEach((slug) => {
+      const store = STORE_MAP[slug] || {};
+      const title = store.title || slug;
+      sidebarHTML += `
+        <div class="menu-store-item" onclick="selectStore('${slug}')" data-slug="${slug}">
+          <span>${escapeHtml(title)}</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+      `;
+    });
+    if (menuSidebar) menuSidebar.innerHTML = sidebarHTML;
+
+    // Varsayılan olarak ilk mağazayı göster
+    selectStore(slugs[0]);
+
+  } catch (err) {
+    console.error("store.data.json yüklenemedi:", err);
+    if (catSelect) {
+      catSelect.innerHTML =
+        '<option value="" disabled>Error loading categories</option>';
+    }
+    if (menuSidebar) {
+      menuSidebar.innerHTML =
+        '<p style="padding:10px; color:red;">Menu load failed. Check console.</p>';
+    }
+  }
 });
-/* ------------------------------------------ */
 
+/* === 2) MEGA MENÜ DAVRANIŞI (JSON'dan beslenen) === */
 
-/* MEGA MENÜ */
-const STORES_DB = {
-  "hardware": { title: "Hardware Lab", tagline: "AI & IoT", sections: ["AI Accelerators", "Dev Boards"] },
-  "game-makers": { title: "Game Makers", tagline: "Unity Assets", sections: ["3D Models", "2D Sprites"] },
-  // ...
+const menuGrid   = document.getElementById("menuGrid");
+const menuTitle  = document.getElementById("menuTitle");
+const menuDesc   = document.getElementById("menuDesc");
+const btnCategories = document.getElementById("btnCategories");
+const megaMenu   = document.getElementById("megaMenu");
+
+/* Mağaza seçildiğinde sağ tarafı doldur */
+window.selectStore = function (slug) {
+  const store = STORE_MAP[slug];
+  if (!store) return;
+
+  // sidebar'da aktif class
+  document.querySelectorAll(".menu-store-item")
+    .forEach((el) => el.classList.remove("active"));
+  const activeEl = document.querySelector(`.menu-store-item[data-slug="${slug}"]`);
+  if (activeEl) activeEl.classList.add("active");
+
+  // başlık & açıklama
+  if (menuTitle) menuTitle.textContent = store.title || slug;
+  if (menuDesc)  menuDesc.textContent  = store.tagline || "Browse sections and products.";
+
+  // grid içeriği: store.sections dizisini kullan
+  const sections = Array.isArray(store.sections) ? store.sections : [];
+  let html = "";
+
+  sections.forEach((sec) => {
+    const name = escapeHtml(sec.name || sec.title || "Section");
+    const tagline = escapeHtml(sec.tagline || "");
+    // ileride linki gerçek store path'ine çevirebiliriz (örn: /rgztec/store/hardware/ai-accelerators/)
+    html += `
+      <a href="#" class="menu-sub-item">
+        <span class="sub-title">${name}</span>
+        <span class="sub-desc">${tagline || "Browse"}</span>
+      </a>
+    `;
+  });
+
+  if (!sections.length) {
+    html = `
+      <div class="menu-sub-item">
+        <span class="sub-title">Coming soon</span>
+        <span class="sub-desc">Sections are being prepared for this store.</span>
+      </div>
+    `;
+  }
+
+  if (menuGrid) menuGrid.innerHTML = html;
 };
-const menuSidebar = document.getElementById('menuSidebar');
-const menuGrid = document.getElementById('menuGrid');
-const menuTitle = document.getElementById('menuTitle');
-const menuDesc = document.getElementById('menuDesc');
-const btnCategories = document.getElementById('btnCategories');
-const megaMenu = document.getElementById('megaMenu');
 
-let sidebarHTML = '';
-Object.keys(STORES_DB).forEach(slug => {
-  sidebarHTML += `<div class="menu-store-item" onclick="selectStore('${slug}')" data-slug="${slug}">
-    <span>${STORES_DB[slug].title}</span>
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-  </div>`;
-});
-if(menuSidebar) menuSidebar.innerHTML = sidebarHTML;
-
-window.selectStore = function(slug) {
-  document.querySelectorAll('.menu-store-item').forEach(el => el.classList.remove('active'));
-  const el = document.querySelector(`.menu-store-item[data-slug="${slug}"]`);
-  if(el) el.classList.add('active');
-  const data = STORES_DB[slug];
-  if(menuTitle) menuTitle.textContent = data.title;
-  if(menuDesc) menuDesc.textContent = data.tagline;
-  let html = '';
-  data.sections.forEach(sec => {
-    html += `<a href="#" class="menu-sub-item"><span class="sub-title">${sec}</span><span class="sub-desc">Browse</span></a>`;
-  });
-  if(menuGrid) menuGrid.innerHTML = html;
-}
-
-if(btnCategories) {
-  btnCategories.addEventListener('click', (e) => {
+/* Kategoriler butonu menüyü aç/kapa */
+if (btnCategories) {
+  btnCategories.addEventListener("click", (e) => {
     e.stopPropagation();
-    const isOpen = megaMenu.classList.contains('open');
-    if(isOpen) {
-      megaMenu.classList.remove('open');
-      btnCategories.classList.remove('active');
+    const isOpen = megaMenu.classList.contains("open");
+    if (isOpen) {
+      megaMenu.classList.remove("open");
+      btnCategories.classList.remove("active");
     } else {
-      megaMenu.classList.add('open');
-      btnCategories.classList.add('active');
+      megaMenu.classList.add("open");
+      btnCategories.classList.add("active");
     }
   });
-  document.addEventListener('click', (e) => {
-    if(!megaMenu.contains(e.target) && !btnCategories.contains(e.target)) {
-      megaMenu.classList.remove('open');
-      btnCategories.classList.remove('active');
+
+  document.addEventListener("click", (e) => {
+    if (!megaMenu.contains(e.target) && !btnCategories.contains(e.target)) {
+      megaMenu.classList.remove("open");
+      btnCategories.classList.remove("active");
     }
   });
 }
 
-/* --- PRODUCT UPLOAD LOGIC --- */
+/* === 3) ÜRÜN YÜKLEME (senin mevcut demo lojik aynen) === */
+
 const ENDPOINT = ""; // Demo
 const MAX_FILE = 5 * 1024 * 1024;
 let images = [];
@@ -413,7 +474,7 @@ f.addEventListener('submit', async (e)=>{
   if(!title) return showErr('Please enter a product title.');
   if(!desc)  return showErr('Please add a description.');
   if(!Number.isFinite(price) || price<0) return showErr('Price must be a positive number.');
-  if(!cat) return showErr('Please select a category.'); // Burayı da ekledim garanti olsun
+  if(!cat) return showErr('Please select a category.');
   if(!images.length) return showErr('Please add at least one image.');
 
   const draft = { id: 'd_'+Date.now(), title, desc, price, cat, images, createdAt: new Date().toISOString() };
@@ -431,6 +492,16 @@ publishBtn.addEventListener('click', ()=>{
   if(!list.length) return showErr('No draft found. Save a draft first.');
   showOK('Published (demo).');
 });
+
+/* Küçük helper */
+function escapeHtml(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 </script>
 </body>
 </html>
