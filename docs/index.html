@@ -16,21 +16,20 @@
 
 <style>
 /* ================================================================
-   🔥 RGZTEC PREMIUM MASTER CSS (Olağanüstü Kalite İçin)
-   ================================================================
-*/
+   🔥 RGZTEC PREMIUM MASTER CSS
+   ================================================================ */
 
 :root {
-  --brand: #f97316;       /* RGZTEC Turuncusu */
-  --brand-h: #ea580c;     /* Hover Turuncusu */
-  --ink: #0f172a;         /* Premium Siyah (Slate 900) */
-  --ink-light: #334155;   /* Yumuşak Siyah */
-  --sub: #64748b;         /* Modern Gri */
-  --border: #e2e8f0;      /* Zarif Çizgiler */
-  --bg: #ffffff;          /* Net Beyaz */
-  --bg-alt: #f8fafc;      /* Çok Hafif Gri Zemin */
-  --radius: 12px;         /* Modern Yuvarlaklık */
-  --shadow: 0 10px 40px -10px rgba(0,0,0,0.05); /* Yumuşak Premium Gölge */
+  --brand: #f97316;
+  --brand-h: #ea580c;
+  --ink: #0f172a;
+  --ink-light: #334155;
+  --sub: #64748b;
+  --border: #e2e8f0;
+  --bg: #ffffff;
+  --bg-alt: #f8fafc;
+  --radius: 12px;
+  --shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
 }
 
 /* Temel Ayarlar */
@@ -46,7 +45,6 @@ body {
 a { text-decoration: none; transition: all 0.2s ease; }
 ul { list-style: none; padding: 0; margin: 0; }
 
-/* Layout Düzeni */
 .container {
   max-width: 1440px;
   margin: 0 auto;
@@ -54,7 +52,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 
 /* =========================================
-   1. PREMIUM HEADER (Sade & Şık)
+   1. PREMIUM HEADER
    ========================================= */
 .app-header {
   background: rgba(255, 255, 255, 0.9);
@@ -78,7 +76,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 /* Logo */
 .logo {
-  font-family: 'Plus Jakarta Sans', sans-serif; /* Daha kurumsal font */
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 24px;
   color: var(--brand);
@@ -86,7 +84,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   flex-shrink: 0;
 }
 
-/* Kategori Butonu (Zarif) */
+/* Kategori Butonu */
 .btn-cat {
   display: flex; align-items: center; gap: 8px;
   font-weight: 600; font-size: 14px; color: var(--ink-light);
@@ -96,10 +94,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-cat:hover { background: #f1f5f9; color: var(--ink); }
 .btn-cat svg { width: 20px; height: 20px; stroke-width: 1.8; }
 
-/* Arama (Odaklı) */
-.search-bar {
-  flex: 1; max-width: 500px; position: relative;
-}
+/* Arama */
+.search-bar { flex: 1; max-width: 500px; position: relative; }
 .search-input {
   width: 100%; height: 44px;
   background: #f1f5f9; border: 1px solid transparent;
@@ -120,7 +116,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .search-btn:hover { background: var(--brand-h); }
 .search-btn svg { width: 16px; height: 16px; }
 
-/* Sağ Taraf (Dashboard, Cart vs.) */
+/* Sağ Taraf */
 .nav-right { display: flex; align-items: center; gap: 20px; }
 .nav-link {
   font-size: 14px; font-weight: 600; color: var(--sub);
@@ -146,7 +142,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-open-store:hover { background: var(--brand); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
 
 /* =========================================
-   2. STORE NAVIGATION (Dolu Dolu Menü)
+   2. STORE NAVIGATION
    ========================================= */
 .sub-nav {
   background: #fff;
@@ -167,7 +163,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .sub-nav-item a:hover { color: var(--brand); border-bottom-color: var(--brand); }
 
 /* =========================================
-   3. HERO SECTION (Sade ve Etkileyici)
+   3. HERO SECTION
    ========================================= */
 .hero {
   padding: 80px 0 60px;
@@ -210,7 +206,61 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-outline:hover { border-color: var(--sub); }
 
 /* =========================================
-   4. MARKETPLACE GRID (Kart Tasarımı)
+   3.5 MARKETPLACE BANNER (eski home gibi)
+   ========================================= */
+.marketplace-banner-section {
+  padding: 10px 0 40px;
+}
+.banner-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.1fr);
+  gap: 28px;
+  align-items: center;
+}
+.banner-copy-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.banner-copy h2 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.banner-copy h2 span { color: var(--brand); }
+.banner-copy p {
+  margin: 0 0 14px;
+  font-size: 15px;
+  color: #4b5563;
+  max-width: 520px;
+}
+.banner-meta {
+  font-size: 13px;
+  color: #6b7280;
+}
+.banner-meta strong { color: #111827; }
+
+.banner-image {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 28px 70px rgba(0,0,0,0.32);
+}
+.banner-image img {
+  width: 100%;
+  display: block;
+}
+
+/* =========================================
+   4. MARKETPLACE GRID (Kartlar)
    ========================================= */
 .gallery-title {
   text-align: left; font-family: 'Plus Jakarta Sans', sans-serif;
@@ -225,6 +275,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   padding-bottom: 80px;
 }
 
+/* Normal Kart */
 .card {
   background: #fff;
   border: 1px solid var(--border);
@@ -239,7 +290,6 @@ ul { list-style: none; padding: 0; margin: 0; }
   box-shadow: var(--shadow);
   border-color: #cbd5e1;
 }
-
 .card-media {
   height: 200px;
   background: #f1f5f9;
@@ -251,7 +301,6 @@ ul { list-style: none; padding: 0; margin: 0; }
   transition: transform 0.5s ease;
 }
 .card:hover .card-media img { transform: scale(1.05); }
-
 .card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
 .card-badge {
   font-size: 11px; font-weight: 700; text-transform: uppercase;
@@ -266,13 +315,35 @@ ul { list-style: none; padding: 0; margin: 0; }
   margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink);
   display: flex; align-items: center; gap: 6px;
 }
-.card-link:hover { color: var(--brand); gap: 10px; } /* Ok kayma efekti */
+.card-link:hover { color: var(--brand); gap: 10px; }
+
+/* 🔥 FEATURED HARDWARE CARD – tam genişlik, büyük */
+.card--featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+}
+.card--featured .card-media {
+  height: 260px;
+}
+.card--featured .card-content {
+  padding: 24px;
+}
+.card--featured .card-badge {
+  color: #f97316;
+}
+.card--featured .card-title {
+  font-size: 22px;
+}
+.card--featured .card-desc {
+  font-size: 15px;
+}
 
 /* =========================================
-   5. FOOTER (Kurumsal Kapanış)
+   5. FOOTER
    ========================================= */
 .footer {
-  background: #0f172a; /* Çok koyu lacivert/siyah */
+  background: #0f172a;
   color: #94a3b8;
   padding: 60px 0 30px;
   font-size: 14px;
@@ -296,6 +367,18 @@ ul { list-style: none; padding: 0; margin: 0; }
   .search-bar { display: none; }
   .grid { grid-template-columns: 1fr; }
   .footer-cols { grid-template-columns: 1fr 1fr; }
+  .banner-inner {
+    grid-template-columns: 1fr;
+  }
+  .banner-image {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .card--featured {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -303,7 +386,6 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 <header class="app-header">
   <div class="container header-inner">
-    
     <div style="display:flex; align-items:center; gap:24px;">
       <a href="./" class="logo">RGZTEC</a>
       <button class="btn-cat">
@@ -326,7 +408,6 @@ ul { list-style: none; padding: 0; margin: 0; }
     <div class="nav-right">
       <a href="editor/" class="nav-link">Dashboard</a>
       <a href="login/" class="nav-link">Sign In</a>
-      
       <a href="gift-card.html" class="icon-action" aria-label="Gift">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" />
@@ -372,10 +453,30 @@ ul { list-style: none; padding: 0; margin: 0; }
   </div>
 </section>
 
+<!-- Eski home’daki gibi banner alanı -->
+<section class="marketplace-banner-section">
+  <div class="banner-inner">
+    <div class="banner-copy">
+      <div class="banner-copy-eyebrow">#1 BEST SELLING GLOBAL MARKETPLACE</div>
+      <h2>Premium <span>digital marketplace</span> for developers, designers & creators.</h2>
+      <p>
+        RGZTEC brings together high-quality HTML templates, React components, AI tools,
+        WordPress plugins, games and curated hardware for modern builders.
+      </p>
+      <p class="banner-meta">
+        <strong>11+ curated stores</strong> across code, AI, design & hardware with instant digital delivery.
+      </p>
+    </div>
+    <div class="banner-image">
+      <img src="assets/images/banners/global-marketplace-banner.webp"
+           alt="Global marketplace banner">
+    </div>
+  </div>
+</section>
+
 <main class="container">
   <h2 class="gallery-title">Explore Stores</h2>
-  <div id="gallery" class="grid">
-    </div>
+  <div id="gallery" class="grid"></div>
 </main>
 
 <footer class="footer">
@@ -416,13 +517,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 </footer>
 
 <script>
-// Mağaza Listesi
+// Mağaza Listesi – Hardware en başta, featured olacak
 const stores = [
+  { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators, dev boards & IoT for serious builders.' },
   { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets' },
   { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents & Automation' },
   { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Starters & Dashboards' },
   { slug: 'email-forge', name: 'Email Forge', tagline: 'High-converting emails' },
-  { slug: 'hardware', name: 'Hardware Lab', tagline: 'Accelerators & IoT' },
   { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages & UI' },
   { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Professional icon sets' },
   { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits & charts' },
@@ -436,14 +537,17 @@ const STORE_IMAGE_BASE = 'assets/images/store/';
 function renderStoreCard(store) {
   const href = `store/${store.slug}/`;
   const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
+  const isHardware = store.slug === 'hardware';
+  const extraClass = isHardware ? ' card--featured' : '';
+  const badgeText = isHardware ? 'Hardware • NEW' : 'Official Store';
 
   return `
-    <article class="card">
+    <article class="card${extraClass}">
       <a href="${href}" class="card-media">
         <img src="${imgSrc}" alt="${store.name}" loading="lazy">
       </a>
       <div class="card-content">
-        <span class="card-badge">Official Store</span>
+        <span class="card-badge">${badgeText}</span>
         <h3 class="card-title">${store.name}</h3>
         <p class="card-desc">${store.tagline}</p>
         <a href="${href}" class="card-link">
@@ -465,6 +569,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
