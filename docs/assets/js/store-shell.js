@@ -327,15 +327,18 @@
     `;
   }
 
-  // 5A) 'Etsy Tarzı' ALT-DÜKKAN Listesi
-  function renderShopSection(sections) {
-    const shopCards = sections.map((section) => renderShopCard(section)).join("");
+// 6A) 'Etsy Tarzı' ÜRÜN Listesi (DÜZELTİLDİ)
+  function renderProductSection(products) {
+    const productCards = products.map((p) => renderProductCard(p)).join("");
+    
+    // DÜZELTME: 'store-products' yerine 'store-shops' sınıfını kullandık.
+    // Böylece CSS'deki padding, margin ve grid ayarları buraya da aynen uygulandı.
     return `
-      <main class="store-shops">
+      <main class="store-shops"> 
         <div class="store-shops-header">
-          <h2>Explore Shops</h2>
+          <h2>Explore Products</h2>
         </div>
-        <div class="shop-grid">${shopCards}</div>
+        <div class="shop-grid">${productCards}</div>
       </main>
     `;
   }
