@@ -14,8 +14,7 @@
             "id": "gm001",
             "title": "Ultimate 3D Prototyping Kit",
             "tagline": "Build and test 3D game concepts fast.",
-            "image": "products/gm-proto-kit.webp",
-            "url": "url": ""
+            "image": "products/gm-proto-kit.webp"
           }
         ]
       },
@@ -29,15 +28,13 @@
             "id": "gm002",
             "title": "Sci-Fi UI & HUD Pack",
             "tagline": "Cyberpunk-style UI elements.",
-            "image": "products/gm-scifi-ui.webp",
-            "url": "url": ""
+            "image": "products/gm-scifi-ui.webp"
           },
           {
             "id": "gm003",
             "title": "Fantasy RPG UI Kit",
             "tagline": "Hand-painted UI for fantasy RPGs.",
-            "image": "products/gm-fantasy-ui.webp",
-            "url": "url": ""
+            "image": "products/gm-fantasy-ui.webp"
           }
         ]
       },
@@ -51,8 +48,7 @@
             "id": "gm004",
             "title": "2D Platformer Controller",
             "tagline": "Physics-based controller for Unity 2D.",
-            "image": "products/gm-unity-2d.webp",
-            "url": "url": ""
+            "image": "products/gm-unity-2d.webp"
           }
         ]
       },
@@ -66,8 +62,7 @@
             "id": "gm005",
             "title": "Modular 3D Village Pack",
             "tagline": "Low-poly assets for building 3D villages.",
-            "image": "products/gm-unity-3d.webp",
-            "url": "url": ""
+            "image": "products/gm-unity-3d.webp"
           }
         ]
       },
@@ -81,8 +76,7 @@
             "id": "gm006",
             "title": "Advanced Unreal 5 Metahuman",
             "tagline": "Photorealistic, game-ready character model.",
-            "image": "products/gm-metahuman.webp",
-            "url": "url": ""
+            "image": "products/gm-metahuman.webp"
           }
         ]
       },
@@ -96,8 +90,7 @@
             "id": "gm007",
             "title": "Magic Spells VFX Pack",
             "tagline": "Over 100 magical effects (fire, ice, arcane).",
-            "image": "products/gm-vfx.webp",
-            "url": "url": ""
+            "image": "products/gm-vfx.webp"
           }
         ]
       }
@@ -118,8 +111,7 @@
             "id": "ai001",
             "title": "Autonomous Sales Agent",
             "tagline": "AI agent to manage and qualify incoming leads.",
-            "image": "products/ai-sales-agent.webp",
-            "url": "url": ""
+            "image": "products/ai-sales-agent.webp"
           }
         ]
       },
@@ -133,8 +125,7 @@
             "id": "ai002",
             "title": "Sentiment Analysis API",
             "tagline": "Real-time sentiment scoring for user feedback.",
-            "image": "products/ai-analytics.webp",
-            "url": "url": ""
+            "image": "products/ai-analytics.webp"
           }
         ]
       },
@@ -148,8 +139,7 @@
             "id": "ai003",
             "title": "Workflow: Notion to Twitter",
             "tagline": "Automatically create and schedule Twitter threads.",
-            "image": "products/ai-notion-twitter.webp",
-            "url": "url": ""
+            "image": "products/ai-notion-twitter.webp"
           }
         ]
       },
@@ -163,8 +153,7 @@
             "id": "ai004",
             "title": "AI Blog Post Generator",
             "tagline": "Generate full articles from a single headline.",
-            "image": "products/ai-generator.webp",
-            "url": "url": ""
+            "image": "products/ai-generator.webp"
           }
         ]
       },
@@ -178,8 +167,7 @@
             "id": "ai005",
             "title": "GPT-4 Vision API Connector",
             "tagline": "Integrate vision capabilities into your app.",
-            "image": "products/ai-vision-api.webp",
-            "url": "url": ""
+            "image": "products/ai-vision-api.webp"
           }
         ]
       },
@@ -193,8 +181,7 @@
             "id": "ai006",
             "title": "The CEO Prompt Pack",
             "tagline": "1000+ high-level prompts for business strategy.",
-            "image": "products/ai-ceo-prompts.webp",
-            "url": "url": ""
+            "image": "products/ai-ceo-prompts.webp"
           }
         ]
       },
@@ -208,8 +195,7 @@
             "id": "ai007",
             "title": "Prompt Optimizer Tool",
             "tagline": "Refine your prompts for better AI responses.",
-            "image": "products/ai-prompt-util.webp",
-            "url": "url": ""
+            "image": "products/ai-prompt-util.webp"
           }
         ]
       },
@@ -223,8 +209,7 @@
             "id": "ai008",
             "title": "Customer Support AI Workflow",
             "tagline": "Automate 80% of your customer support tickets.",
-            "image": "products/ai-workflow.webp",
-            "url": "url": ""
+            "image": "products/ai-workflow.webp"
           }
         ]
       }
@@ -245,8 +230,7 @@
             "id": "ds001",
             "title": "FastAPI Production Boilerplate",
             "tagline": "Includes JWT, alembic migrations, and testing.",
-            "image": "products/ds-fastapi.webp",
-            "url": "url": ""
+            "image": "products/ds-fastapi.webp"
           }
         ]
       },
@@ -260,8 +244,7 @@
             "id": "ds002",
             "title": "Next.js + Supabase Auth",
             "tagline": "Pre-built authentication stack with RLS security.",
-            "image": "products/ds-next-supabase.webp",
-            "url": "url": ""
+            "image": "products/ds-next-supabase.webp"
           }
         ]
       },
@@ -275,8 +258,7 @@
             "id": "ds003",
             "title": "Apex Dashboard UI Kit (React)",
             "tagline": "Complete admin dashboard with 50+ components.",
-            "image": "products/ds-apex-dashboard.webp",
-            "url": "url": ""
+            "image": "products/ds-apex-dashboard.webp"
           }
         ]
       },
@@ -290,8 +272,7 @@
             "id": "ds004",
             "title": "Corporate Figma Design System",
             "tagline": "1000+ components for professional branding.",
-            "image": "products/ds-figma-system.webp",
-            "url": "url": ""
+            "image": "products/ds-figma-system.webp"
           }
         ]
       },
@@ -305,8 +286,7 @@
             "id": "ds005",
             "title": "Astro.js Blog Starter",
             "tagline": "A lightweight, fast starter for content sites.",
-            "image": "products/ds-astro-starter.webp",
-            "url": "url": ""
+            "image": "products/ds-astro-starter.webp"
           }
         ]
       }
@@ -327,8 +307,7 @@
             "id": "ef001",
             "title": "Abandoned Cart Flow (Klaviyo)",
             "tagline": "3-email sequence to recover lost sales.",
-            "image": "products/ef-drip.webp",
-            "url": "url": ""
+            "image": "products/ef-drip.webp"
           }
         ]
       },
@@ -342,8 +321,7 @@
             "id": "ef002",
             "title": "Black Friday Campaign Kit",
             "tagline": "10 high-impact templates for Black Friday.",
-            "image": "products/ef-campaign.webp",
-            "url": "url": ""
+            "image": "products/ef-campaign.webp"
           }
         ]
       },
@@ -357,8 +335,7 @@
             "id": "ef003",
             "title": "The 'Curator' Newsletter Template",
             "tagline": "Minimalist template for curated content.",
-            "image": "products/ef-newsletter.webp",
-            "url": "url": ""
+            "image": "products/ef-newsletter.webp"
           }
         ]
       },
@@ -372,8 +349,7 @@
             "id": "ef004",
             "title": "SaaS Notification Pack (MJML)",
             "tagline": "15 essential notification templates for any SaaS.",
-            "image": "products/ef-saas-pack.webp",
-            "url": "url": ""
+            "image": "products/ef-saas-pack.webp"
           }
         ]
       },
@@ -387,8 +363,7 @@
             "id": "ef005",
             "title": "5-Day Welcome Sequence",
             "tagline": "High-converting email onboarding flow.",
-            "image": "products/ef-welcome-seq.webp",
-            "url": "url": ""
+            "image": "products/ef-welcome-seq.webp"
           }
         ]
       },
@@ -402,8 +377,7 @@
             "id": "ef006",
             "title": "CleanStore Receipt Template",
             "tagline": "Beautiful, simple receipt for e-commerce.",
-            "image": "products/ef-receipt.webp",
-            "url": "url": ""
+            "image": "products/ef-receipt.webp"
           }
         ]
       },
@@ -417,8 +391,7 @@
             "id": "ef007",
             "title": "Password Reset Template",
             "tagline": "Secure and clear password reset email.",
-            "image": "products/ef-transactional.webp",
-            "url": "url": ""
+            "image": "products/ef-transactional.webp"
           }
         ]
       }
@@ -439,15 +412,13 @@
             "id": "hw001",
             "title": "RGZ-Edge AI Accelerator",
             "tagline": "Powerful TensorFlow Lite processing.",
-            "image": "products/hw-accelerator.webp",
-            "url": "url": ""
+            "image": "products/hw-accelerator.webp"
           },
           {
             "id": "hw002",
             "title": "Neural Compute Stick v3",
             "tagline": "USB-based AI inference engine.",
-            "image": "products/hw-neural-stick.webp",
-            "url": "url": ""
+            "image": "products/hw-neural-stick.webp"
           }
         ]
       },
@@ -461,8 +432,7 @@
             "id": "hw003",
             "title": "RGZ-DevBoard Pro (ESP32-S3)",
             "tagline": "All-in-one board with WiFi, BLE, and camera.",
-            "image": "products/hw-devboard.webp",
-            "url": "url": ""
+            "image": "products/hw-devboard.webp"
           }
         ]
       },
@@ -476,8 +446,7 @@
             "id": "hw004",
             "title": "Jetson Nano Pro (8GB)",
             "tagline": "High-performance edge AI computer.",
-            "image": "products/hw-jetson.webp",
-            "url": "url": ""
+            "image": "products/hw-jetson.webp"
           }
         ]
       },
@@ -491,8 +460,7 @@
             "id": "hw005",
             "title": "LoRaWAN Gateway (8-Channel)",
             "tagline": "Long-range IoT gateway for smart devices.",
-            "image": "products/hw-lorawan.webp",
-            "url": "url": ""
+            "image": "products/hw-lorawan.webp"
           }
         ]
       },
@@ -506,8 +474,7 @@
             "id": "hw006",
             "title": "ECG & Heart Rate Monitor",
             "tagline": "High-precision sensor for medical prototypes.",
-            "image": "products/hw-ecg.webp",
-            "url": "url": ""
+            "image": "products/hw-ecg.webp"
           }
         ]
       },
@@ -521,8 +488,7 @@
             "id": "hw007",
             "title": "Pro-Grade Lidar Sensor",
             "tagline": "360-degree, 25m range Lidar for robotics.",
-            "image": "products/hw-lidar.webp",
-            "url": "url": ""
+            "image": "products/hw-lidar.webp"
           }
         ]
       },
@@ -536,8 +502,7 @@
             "id": "hw008",
             "title": "Smart Home Hub (Zigbee)",
             "tagline": "Control all your smart devices from one hub.",
-            "image": "products/hw-zigbee.webp",
-            "url": "url": ""
+            "image": "products/hw-zigbee.webp"
           }
         ]
       }
@@ -558,8 +523,7 @@
             "id": "ht001",
             "title": "Copy/Paste Component Library",
             "tagline": "50+ Tailwind components ready to use.",
-            "image": "products/ht-components.webp",
-            "url": "url": ""
+            "image": "products/ht-components.webp"
           }
         ]
       },
@@ -573,8 +537,7 @@
             "id": "ht002",
             "title": "AdminOne Dashboard HTML",
             "tagline": "Bootstrap 5 admin dashboard template.",
-            "image": "products/ht-admin-dash.webp",
-            "url": "url": ""
+            "image": "products/ht-admin-dash.webp"
           }
         ]
       },
@@ -588,8 +551,7 @@
             "id": "ht003",
             "title": "MJML Responsive Email Layouts",
             "tagline": "10 rock-solid layouts for any email.",
-            "image": "products/ht-email.webp",
-            "url": "url": ""
+            "image": "products/ht-email.webp"
           }
         ]
       },
@@ -603,8 +565,7 @@
             "id": "ht004",
             "title": "SaaSApp Landing Page",
             "tagline": "Modern TailwindCSS landing page for startups.",
-            "image": "products/ht-saas-landing.webp",
-            "url": "url": ""
+            "image": "products/ht-saas-landing.webp"
           }
         ]
       },
@@ -618,8 +579,7 @@
             "id": "ht005",
             "title": "Agency 'About Us' Page",
             "tagline": "Clean and professional agency template.",
-            "image": "products/ht-agency.webp",
-            "url": "url": ""
+            "image": "products/ht-agency.webp"
           }
         ]
       },
@@ -633,8 +593,7 @@
             "id": "ht006",
             "title": "Minimalist Designer Portfolio",
             "tagline": "Focus on your work with this clean layout.",
-            "image": "products/ht-portfolio.webp",
-            "url": "url": ""
+            "image": "products/ht-portfolio.webp"
           }
         ]
       },
@@ -648,8 +607,7 @@
             "id": "ht007",
             "title": "Hero Sections Pack",
             "tagline": "20 different hero sections for any website.",
-            "image": "products/ht-sections.webp",
-            "url": "url": ""
+            "image": "products/ht-sections.webp"
           }
         ]
       }
@@ -670,8 +628,7 @@
             "id": "ic001",
             "title": "Clay 3D Icon Pack",
             "tagline": "100+ playful 3D icons for marketing.",
-            "image": "products/ic-clay-3d.webp",
-            "url": "url": ""
+            "image": "products/ic-clay-3d.webp"
           }
         ]
       },
@@ -685,8 +642,7 @@
             "id": "ic002",
             "title": "Ultimate Brand Logos (SVG)",
             "tagline": "2000+ SVG logos for top tech companies.",
-            "image": "products/ic-brand.webp",
-            "url": "url": ""
+            "image": "products/ic-brand.webp"
           }
         ]
       },
@@ -700,8 +656,7 @@
             "id": "ic003",
             "title": "Duotone Business Icons",
             "tagline": "500 two-color icons for professional use.",
-            "image": "products/ic-duotone.webp",
-            "url": "url": ""
+            "image": "products/ic-duotone.webp"
           }
         ]
       },
@@ -715,8 +670,7 @@
             "id": "ic004",
             "title": "SolidGlyph Icon Set",
             "tagline": "A sharp, modern set of 800 solid icons.",
-            "image": "products/ic-filled.webp",
-            "url": "url": ""
+            "image": "products/ic-filled.webp"
           }
         ]
       },
@@ -730,8 +684,7 @@
             "id": "ic005",
             "title": "World Flags Icon Pack",
             "tagline": "All 254 country flags in SVG and PNG.",
-            "image": "products/ic-flags.webp",
-            "url": "url": ""
+            "image": "products/ic-flags.webp"
           }
         ]
       },
@@ -745,8 +698,7 @@
             "id": "ic006",
             "title": "Feather Icons Pro",
             "tagline": "Extended professional version of the classic set.",
-            "image": "products/ic-feather-pro.webp",
-            "url": "url": ""
+            "image": "products/ic-feather-pro.webp"
           }
         ]
       },
@@ -760,8 +712,7 @@
             "id": "ic007",
             "title": "Heroicons Solid (Extended)",
             "tagline": "An extended set based on Tailwind's icons.",
-            "image": "products/ic-solid.webp",
-            "url": "url": ""
+            "image": "products/ic-solid.webp"
           }
         ]
       },
@@ -775,8 +726,7 @@
             "id": "ic008",
             "title": "Apex UI Icon System",
             "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.",
-            "image": "products/ic-apex-system.webp",
-            "url": "url": ""
+            "image": "products/ic-apex-system.webp"
           }
         ]
       }
@@ -797,8 +747,7 @@
             "id": "re001",
             "title": "DataViz Chart Library",
             "tagline": "Simple, lightweight charting library for React.",
-            "image": "products/re-charts.webp",
-            "url": "url": ""
+            "image": "products/re-charts.webp"
           }
         ]
       },
@@ -812,8 +761,7 @@
             "id": "re002",
             "title": "React Hook Form Pro",
             "tagline": "Advanced patterns for React Hook Form.",
-            "image": "products/re-forms.webp",
-            "url": "url": ""
+            "image": "products/re-forms.webp"
           }
         ]
       },
@@ -827,8 +775,7 @@
             "id": "re003",
             "title": "useProHooks Collection",
             "tagline": "30+ advanced React hooks for any project.",
-            "image": "products/re-hooks.webp",
-            "url": "url": ""
+            "image": "products/re-hooks.webp"
           }
         ]
       },
@@ -842,8 +789,7 @@
             "id": "re004",
             "title": "Responsive Page Shells",
             "tagline": "5 common page layouts for React apps.",
-            "image": "products/re-layouts.webp",
-            "url": "url": ""
+            "image": "products/re-layouts.webp"
           }
         ]
       },
@@ -857,8 +803,7 @@
             "id": "re005",
             "title": "Command Menu (K-Bar)",
             "tagline": "A cmd+k style command menu for React.",
-            "image": "products/re-kbar.webp",
-            "url": "url": ""
+            "image": "products/re-kbar.webp"
           }
         ]
       },
@@ -872,8 +817,7 @@
             "id": "re006",
             "title": "Pro Data Grid Component",
             "tagline": "Server-side sorting, filtering, and pagination.",
-            "image": "products/re-table.webp",
-            "url": "url": ""
+            "image": "products/re-table.webp"
           }
         ]
       },
@@ -887,8 +831,7 @@
             "id": "re007",
             "title": "Reactorium Pro UI Kit",
             "tagline": "200+ production-ready components for React.",
-            "image": "products/re-pro-kit.webp",
-            "url": "url": ""
+            "image": "products/re-pro-kit.webp"
           }
         ]
       }
@@ -915,8 +858,7 @@
                 "id": "js001",
                 "title": "Scroll-Animate Library",
                 "tagline": "Tiny library for scroll-based animations.",
-                "image": "products/js-scroll.webp",
-                "url": "url": ""
+                "image": "products/js-scroll.webp"
               }
             ]
           },
@@ -938,8 +880,7 @@
             "id": "js007",
             "title": "Modern Calendar Widget",
             "tagline": "Vanilla JS, lightweight, no dependencies.",
-            "image": "products/js-calendar.webp",
-            "url": "url": ""
+            "image": "products/js-calendar.webp"
           }
         ]
       },
@@ -953,8 +894,7 @@
             "id": "js006",
             "title": "FormGuard Validator",
             "tagline": "Simple and clean form validation script.",
-            "image": "products/js-validator.webp",
-            "url": "url": ""
+            "image": "products/js-validator.webp"
           }
         ]
       },
@@ -968,8 +908,7 @@
             "id": "js004",
             "title": "NanoState Manager",
             "tagline": "Simple global state manager (1kb).",
-            "image": "products/js-state.webp",
-            "url": "url": ""
+            "image": "products/js-state.webp"
           }
         ]
       },
@@ -983,8 +922,7 @@
             "id": "js005",
             "title": "Store.js (LocalStorage Wrapper)",
             "tagline": "A simple API for LocalStorage.",
-            "image": "products/js-storage.webp",
-            "url": "url": ""
+            "image": "products/js-storage.webp"
           }
         ]
       },
@@ -998,8 +936,7 @@
             "id": "js002",
             "title": "Micro-Fetch Client",
             "tagline": "A 1kb fetch client with caching.",
-            "image": "products/js-fetch.webp",
-            "url": "url": ""
+            "image": "products/js-fetch.webp"
           }
         ]
       },
@@ -1013,8 +950,7 @@
             "id": "js003",
             "title": "DOMQuery Helper",
             "tagline": "jQuery-like syntax in 50 lines of code.",
-            "image": "products/js-dom.webp",
-            "url": "url": ""
+            "image": "products/js-dom.webp"
           }
         ]
       }
@@ -1035,8 +971,7 @@
             "id": "un001",
             "title": "Cinematic Camera Rig",
             "tagline": "Easy-to-use camera system for cutscenes.",
-            "image": "products/un-camera.webp",
-            "url": "url": ""
+            "image": "products/un-camera.webp"
           }
         ]
       },
@@ -1050,8 +985,7 @@
             "id": "un002",
             "title": "Pro Character Controller",
             "tagline": "Advanced physics-based controller for 3D games.",
-            "image": "products/un-char-controller.webp",
-            "url": "url": ""
+            "image": "products/un-char-controller.webp"
           }
         ]
       },
@@ -1065,8 +999,7 @@
             "id": "un003",
             "title": "Poly-World Environment Kit",
             "tagline": "Low-poly assets for stylized worlds.",
-            "image": "products/un-env.webp",
-            "url": "url": ""
+            "image": "products/un-env.webp"
           }
         ]
       },
@@ -1080,8 +1013,7 @@
             "id": "un004",
             "title": "NetCode Multiplayer Starter",
             "tagline": "Get your multiplayer game running in minutes.",
-            "image": "products/un-multiplayer.webp",
-            "url": "url": ""
+            "image": "products/un-multiplayer.webp"
           }
         ]
       },
@@ -1095,8 +1027,7 @@
             "id": "un005",
             "title": "Toon Shader Pack",
             "tagline": "High-performance toon shaders for URP.",
-            "image": "products/un-shader.webp",
-            "url": "url": ""
+            "image": "products/un-shader.webp"
           }
         ]
       },
@@ -1110,8 +1041,7 @@
             "id": "un006",
             "title": "Rapid Level Designer",
             "tagline": "A tool for quickly blocking out levels.",
-            "image": "products/un-tools.webp",
-            "url": "url": ""
+            "image": "products/un-tools.webp"
           }
         ]
       }
@@ -1132,8 +1062,7 @@
             "id": "wp001",
             "title": "Pro Blocks for Gutenberg",
             "tagline": "30+ advanced blocks for the Gutenberg editor.",
-            "image": "products/wp-blocks.webp",
-            "url": "url": ""
+            "image": "products/wp-blocks.webp"
           }
         ]
       },
@@ -1147,8 +1076,7 @@
             "id": "wp002",
             "title": "QuickCart for WooCommerce",
             "tagline": "AJAX side-cart and menu cart for Woo.",
-            "image": "products/wp-quickcart.webp",
-            "url": "url": ""
+            "image": "products/wp-quickcart.webp"
           }
         ]
       },
@@ -1162,8 +1090,7 @@
             "id": "wp003",
             "title": "Gravity Forms Pro Pack",
             "tagline": "All essential add-ons for Gravity Forms.",
-            "image": "products/wp-forms.webp",
-            "url": "url": ""
+            "image": "products/wp-forms.webp"
           }
         ]
       },
@@ -1177,8 +1104,7 @@
             "id": "wp004",
             "title": "MemberWall - Gated Content",
             "tagline": "Simple membership and content restriction plugin.",
-            "image": "products/wp-memberwall.webp",
-            "url": "url": ""
+            "image": "products/wp-memberwall.webp"
           }
         ]
       },
@@ -1192,8 +1118,7 @@
             "id": "wp005",
             "title": "WP-Rocket Cache",
             "tagline": "Make your WordPress site blazing fast.",
-            "image": "products/wp-rocket.webp",
-            "url": "https://wp-rocket.me/"
+            "image": "products/wp-rocket.webp"
           }
         ]
       },
@@ -1207,8 +1132,7 @@
             "id": "wp006",
             "title": "SiteGuard Security Suite",
             "tagline": "Total security and malware scanning for WP.",
-            "image": "products/wp-security.webp",
-            "url": "url": ""
+            "image": "products/wp-security.webp"
           }
         ]
       },
@@ -1222,13 +1146,13 @@
             "id": "wp007",
             "title": "SEO-Max Pro Plugin",
             "tagline": "All-in-one SEO solution for WordPress.",
-            "image": "products/wp-seo.webp",
-            "url": "url": ""
+            "image": "products/wp-seo.webp"
           }
         ]
       }
     ]
   }
 }
+
 
    
