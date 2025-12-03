@@ -15,7 +15,7 @@
             "title": "Ultimate 3D Prototyping Kit",
             "tagline": "Build and test 3D game concepts fast.",
             "image": "products/gm-proto-kit.webp",
-            "url": "https://gumroad.com/l/gm-proto-kit"
+            "url": "url": ""
           }
         ]
       },
@@ -30,14 +30,14 @@
             "title": "Sci-Fi UI & HUD Pack",
             "tagline": "Cyberpunk-style UI elements.",
             "image": "products/gm-scifi-ui.webp",
-            "url": "https://gumroad.com/l/gm-scifi-ui"
+            "url": "url": ""
           },
           {
             "id": "gm003",
             "title": "Fantasy RPG UI Kit",
             "tagline": "Hand-painted UI for fantasy RPGs.",
             "image": "products/gm-fantasy-ui.webp",
-            "url": "https://gumroad.com/l/gm-fantasy-ui"
+            "url": "url": ""
           }
         ]
       },
@@ -52,7 +52,7 @@
             "title": "2D Platformer Controller",
             "tagline": "Physics-based controller for Unity 2D.",
             "image": "products/gm-unity-2d.webp",
-            "url": "https://gumroad.com/l/gm-unity-2d"
+            "url": "url": ""
           }
         ]
       },
@@ -67,7 +67,7 @@
             "title": "Modular 3D Village Pack",
             "tagline": "Low-poly assets for building 3D villages.",
             "image": "products/gm-unity-3d.webp",
-            "url": "https://gumroad.com/l/gm-unity-3d"
+            "url": "url": ""
           }
         ]
       },
@@ -82,7 +82,7 @@
             "title": "Advanced Unreal 5 Metahuman",
             "tagline": "Photorealistic, game-ready character model.",
             "image": "products/gm-metahuman.webp",
-            "url": "https://gumroad.com/l/gm-metahuman"
+            "url": "url": ""
           }
         ]
       },
@@ -97,7 +97,7 @@
             "title": "Magic Spells VFX Pack",
             "tagline": "Over 100 magical effects (fire, ice, arcane).",
             "image": "products/gm-vfx.webp",
-            "url": "https://gumroad.com/l/gm-vfx"
+            "url": "url": ""
           }
         ]
       }
@@ -119,7 +119,7 @@
             "title": "Autonomous Sales Agent",
             "tagline": "AI agent to manage and qualify incoming leads.",
             "image": "products/ai-sales-agent.webp",
-            "url": "https://gumroad.com/l/ai-sales-agent"
+            "url": "url": ""
           }
         ]
       },
@@ -134,7 +134,7 @@
             "title": "Sentiment Analysis API",
             "tagline": "Real-time sentiment scoring for user feedback.",
             "image": "products/ai-analytics.webp",
-            "url": "https://gumroad.com/l/ai-sentiment-api"
+            "url": "url": ""
           }
         ]
       },
@@ -149,7 +149,7 @@
             "title": "Workflow: Notion to Twitter",
             "tagline": "Automatically create and schedule Twitter threads.",
             "image": "products/ai-notion-twitter.webp",
-            "url": "https://gumroad.com/l/ai-notion-flow"
+            "url": "url": ""
           }
         ]
       },
@@ -164,7 +164,7 @@
             "title": "AI Blog Post Generator",
             "tagline": "Generate full articles from a single headline.",
             "image": "products/ai-generator.webp",
-            "url": "https://gumroad.com/l/ai-blog-gen"
+            "url": "url": ""
           }
         ]
       },
@@ -179,7 +179,7 @@
             "title": "GPT-4 Vision API Connector",
             "tagline": "Integrate vision capabilities into your app.",
             "image": "products/ai-vision-api.webp",
-            "url": "https://gumroad.com/l/ai-vision-api"
+            "url": "url": ""
           }
         ]
       },
@@ -194,7 +194,7 @@
             "title": "The CEO Prompt Pack",
             "tagline": "1000+ high-level prompts for business strategy.",
             "image": "products/ai-ceo-prompts.webp",
-            "url": "https://gumroad.com/l/ai-ceo-prompts"
+            "url": "url": ""
           }
         ]
       },
@@ -209,7 +209,7 @@
             "title": "Prompt Optimizer Tool",
             "tagline": "Refine your prompts for better AI responses.",
             "image": "products/ai-prompt-util.webp",
-            "url": "https://gumroad.com/l/ai-prompt-optimizer"
+            "url": "url": ""
           }
         ]
       },
@@ -224,7 +224,7 @@
             "title": "Customer Support AI Workflow",
             "tagline": "Automate 80% of your customer support tickets.",
             "image": "products/ai-workflow.webp",
-            "url": "https://gumroad.com/l/ai-support-flow"
+            "url": "url": ""
           }
         ]
       }
@@ -246,7 +246,7 @@
             "title": "FastAPI Production Boilerplate",
             "tagline": "Includes JWT, alembic migrations, and testing.",
             "image": "products/ds-fastapi.webp",
-            "url": "https://gumroad.com/l/ds-fastapi"
+            "url": "url": ""
           }
         ]
       },
@@ -261,7 +261,7 @@
             "title": "Next.js + Supabase Auth",
             "tagline": "Pre-built authentication stack with RLS security.",
             "image": "products/ds-next-supabase.webp",
-            "url": "https://gumroad.com/l/ds-next-auth"
+            "url": "url": ""
           }
         ]
       },
@@ -276,7 +276,7 @@
             "title": "Apex Dashboard UI Kit (React)",
             "tagline": "Complete admin dashboard with 50+ components.",
             "image": "products/ds-apex-dashboard.webp",
-            "url": "https://gumroad.com/l/ds-apex-dash"
+            "url": "url": ""
           }
         ]
       },
@@ -291,7 +291,7 @@
             "title": "Corporate Figma Design System",
             "tagline": "1000+ components for professional branding.",
             "image": "products/ds-figma-system.webp",
-            "url": "https://gumroad.com/l/ds-figma-system"
+            "url": "url": ""
           }
         ]
       },
@@ -306,7 +306,7 @@
             "title": "Astro.js Blog Starter",
             "tagline": "A lightweight, fast starter for content sites.",
             "image": "products/ds-astro-starter.webp",
-            "url": "https://gumroad.com/l/ds-astro-blog"
+            "url": "url": ""
           }
         ]
       }
@@ -328,7 +328,7 @@
             "title": "Abandoned Cart Flow (Klaviyo)",
             "tagline": "3-email sequence to recover lost sales.",
             "image": "products/ef-drip.webp",
-            "url": "https://gumroad.com/l/ef-drip"
+            "url": "url": ""
           }
         ]
       },
@@ -343,7 +343,7 @@
             "title": "Black Friday Campaign Kit",
             "tagline": "10 high-impact templates for Black Friday.",
             "image": "products/ef-campaign.webp",
-            "url": "https://gumroad.com/l/ef-black-friday"
+            "url": "url": ""
           }
         ]
       },
@@ -358,7 +358,7 @@
             "title": "The 'Curator' Newsletter Template",
             "tagline": "Minimalist template for curated content.",
             "image": "products/ef-newsletter.webp",
-            "url": "https://gumroad.com/l/ef-curator"
+            "url": "url": ""
           }
         ]
       },
@@ -373,7 +373,7 @@
             "title": "SaaS Notification Pack (MJML)",
             "tagline": "15 essential notification templates for any SaaS.",
             "image": "products/ef-saas-pack.webp",
-            "url": "https://gumroad.com/l/ef-saas-pack"
+            "url": "url": ""
           }
         ]
       },
@@ -388,7 +388,7 @@
             "title": "5-Day Welcome Sequence",
             "tagline": "High-converting email onboarding flow.",
             "image": "products/ef-welcome-seq.webp",
-            "url": "https://gumroad.com/l/ef-welcome"
+            "url": "url": ""
           }
         ]
       },
@@ -403,7 +403,7 @@
             "title": "CleanStore Receipt Template",
             "tagline": "Beautiful, simple receipt for e-commerce.",
             "image": "products/ef-receipt.webp",
-            "url": "https://gumroad.com/l/ef-receipt"
+            "url": "url": ""
           }
         ]
       },
@@ -418,7 +418,7 @@
             "title": "Password Reset Template",
             "tagline": "Secure and clear password reset email.",
             "image": "products/ef-transactional.webp",
-            "url": "https://gumroad.com/l/ef-password-reset"
+            "url": "url": ""
           }
         ]
       }
@@ -440,14 +440,14 @@
             "title": "RGZ-Edge AI Accelerator",
             "tagline": "Powerful TensorFlow Lite processing.",
             "image": "products/hw-accelerator.webp",
-            "url": "https://store.rgztec.com/hw001"
+            "url": "url": ""
           },
           {
             "id": "hw002",
             "title": "Neural Compute Stick v3",
             "tagline": "USB-based AI inference engine.",
             "image": "products/hw-neural-stick.webp",
-            "url": "https://store.rgztec.com/hw002"
+            "url": "url": ""
           }
         ]
       },
@@ -462,7 +462,7 @@
             "title": "RGZ-DevBoard Pro (ESP32-S3)",
             "tagline": "All-in-one board with WiFi, BLE, and camera.",
             "image": "products/hw-devboard.webp",
-            "url": "https://store.rgztec.com/hw003"
+            "url": "url": ""
           }
         ]
       },
@@ -477,7 +477,7 @@
             "title": "Jetson Nano Pro (8GB)",
             "tagline": "High-performance edge AI computer.",
             "image": "products/hw-jetson.webp",
-            "url": "https://store.rgztec.com/hw004"
+            "url": "url": ""
           }
         ]
       },
@@ -492,7 +492,7 @@
             "title": "LoRaWAN Gateway (8-Channel)",
             "tagline": "Long-range IoT gateway for smart devices.",
             "image": "products/hw-lorawan.webp",
-            "url": "https://store.rgztec.com/hw005"
+            "url": "url": ""
           }
         ]
       },
@@ -507,7 +507,7 @@
             "title": "ECG & Heart Rate Monitor",
             "tagline": "High-precision sensor for medical prototypes.",
             "image": "products/hw-ecg.webp",
-            "url": "https://store.rgztec.com/hw006"
+            "url": "url": ""
           }
         ]
       },
@@ -522,7 +522,7 @@
             "title": "Pro-Grade Lidar Sensor",
             "tagline": "360-degree, 25m range Lidar for robotics.",
             "image": "products/hw-lidar.webp",
-            "url": "https://store.rgztec.com/hw007"
+            "url": "url": ""
           }
         ]
       },
@@ -537,7 +537,7 @@
             "title": "Smart Home Hub (Zigbee)",
             "tagline": "Control all your smart devices from one hub.",
             "image": "products/hw-zigbee.webp",
-            "url": "https://store.rgztec.com/hw008"
+            "url": "url": ""
           }
         ]
       }
@@ -559,7 +559,7 @@
             "title": "Copy/Paste Component Library",
             "tagline": "50+ Tailwind components ready to use.",
             "image": "products/ht-components.webp",
-            "url": "https://gumroad.com/l/ht-components"
+            "url": "url": ""
           }
         ]
       },
@@ -574,7 +574,7 @@
             "title": "AdminOne Dashboard HTML",
             "tagline": "Bootstrap 5 admin dashboard template.",
             "image": "products/ht-admin-dash.webp",
-            "url": "https://gumroad.com/l/ht-admin-one"
+            "url": "url": ""
           }
         ]
       },
@@ -589,7 +589,7 @@
             "title": "MJML Responsive Email Layouts",
             "tagline": "10 rock-solid layouts for any email.",
             "image": "products/ht-email.webp",
-            "url": "https://gumroad.com/l/ht-mjml"
+            "url": "url": ""
           }
         ]
       },
@@ -604,7 +604,7 @@
             "title": "SaaSApp Landing Page",
             "tagline": "Modern TailwindCSS landing page for startups.",
             "image": "products/ht-saas-landing.webp",
-            "url": "https://gumroad.com/l/ht-saas-app"
+            "url": "url": ""
           }
         ]
       },
@@ -619,7 +619,7 @@
             "title": "Agency 'About Us' Page",
             "tagline": "Clean and professional agency template.",
             "image": "products/ht-agency.webp",
-            "url": "https://gumroad.com/l/ht-agency"
+            "url": "url": ""
           }
         ]
       },
@@ -634,7 +634,7 @@
             "title": "Minimalist Designer Portfolio",
             "tagline": "Focus on your work with this clean layout.",
             "image": "products/ht-portfolio.webp",
-            "url": "https://gumroad.com/l/ht-minimal-folio"
+            "url": "url": ""
           }
         ]
       },
@@ -649,7 +649,7 @@
             "title": "Hero Sections Pack",
             "tagline": "20 different hero sections for any website.",
             "image": "products/ht-sections.webp",
-            "url": "https://gumroad.com/l/ht-hero-pack"
+            "url": "url": ""
           }
         ]
       }
@@ -671,7 +671,7 @@
             "title": "Clay 3D Icon Pack",
             "tagline": "100+ playful 3D icons for marketing.",
             "image": "products/ic-clay-3d.webp",
-            "url": "https://gumroad.com/l/ic-clay-3d"
+            "url": "url": ""
           }
         ]
       },
@@ -686,7 +686,7 @@
             "title": "Ultimate Brand Logos (SVG)",
             "tagline": "2000+ SVG logos for top tech companies.",
             "image": "products/ic-brand.webp",
-            "url": "https://gumroad.com/l/ic-brand-svg"
+            "url": "url": ""
           }
         ]
       },
@@ -701,7 +701,7 @@
             "title": "Duotone Business Icons",
             "tagline": "500 two-color icons for professional use.",
             "image": "products/ic-duotone.webp",
-            "url": "https://gumroad.com/l/ic-duotone"
+            "url": "url": ""
           }
         ]
       },
@@ -716,7 +716,7 @@
             "title": "SolidGlyph Icon Set",
             "tagline": "A sharp, modern set of 800 solid icons.",
             "image": "products/ic-filled.webp",
-            "url": "https://gumroad.com/l/ic-solidglyph"
+            "url": "url": ""
           }
         ]
       },
@@ -731,7 +731,7 @@
             "title": "World Flags Icon Pack",
             "tagline": "All 254 country flags in SVG and PNG.",
             "image": "products/ic-flags.webp",
-            "url": "https://gumroad.com/l/ic-flags"
+            "url": "url": ""
           }
         ]
       },
@@ -746,7 +746,7 @@
             "title": "Feather Icons Pro",
             "tagline": "Extended professional version of the classic set.",
             "image": "products/ic-feather-pro.webp",
-            "url": "https://gumroad.com/l/ic-feather-pro"
+            "url": "url": ""
           }
         ]
       },
@@ -761,7 +761,7 @@
             "title": "Heroicons Solid (Extended)",
             "tagline": "An extended set based on Tailwind's icons.",
             "image": "products/ic-solid.webp",
-            "url": "https://gumroad.com/l/ic-hero-solid"
+            "url": "url": ""
           }
         ]
       },
@@ -776,7 +776,7 @@
             "title": "Apex UI Icon System",
             "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.",
             "image": "products/ic-apex-system.webp",
-            "url": "https://gumroad.com/l/ic-apex-ui"
+            "url": "url": ""
           }
         ]
       }
@@ -798,7 +798,7 @@
             "title": "DataViz Chart Library",
             "tagline": "Simple, lightweight charting library for React.",
             "image": "products/re-charts.webp",
-            "url": "https://gumroad.com/l/re-charts"
+            "url": "url": ""
           }
         ]
       },
@@ -813,7 +813,7 @@
             "title": "React Hook Form Pro",
             "tagline": "Advanced patterns for React Hook Form.",
             "image": "products/re-forms.webp",
-            "url": "https://gumroad.com/l/re-forms"
+            "url": "url": ""
           }
         ]
       },
@@ -828,7 +828,7 @@
             "title": "useProHooks Collection",
             "tagline": "30+ advanced React hooks for any project.",
             "image": "products/re-hooks.webp",
-            "url": "https://gumroad.com/l/re-hooks"
+            "url": "url": ""
           }
         ]
       },
@@ -843,7 +843,7 @@
             "title": "Responsive Page Shells",
             "tagline": "5 common page layouts for React apps.",
             "image": "products/re-layouts.webp",
-            "url": "https://gumroad.com/l/re-layouts"
+            "url": "url": ""
           }
         ]
       },
@@ -858,7 +858,7 @@
             "title": "Command Menu (K-Bar)",
             "tagline": "A cmd+k style command menu for React.",
             "image": "products/re-kbar.webp",
-            "url": "https://gumroad.com/l/re-kbar"
+            "url": "url": ""
           }
         ]
       },
@@ -873,7 +873,7 @@
             "title": "Pro Data Grid Component",
             "tagline": "Server-side sorting, filtering, and pagination.",
             "image": "products/re-table.webp",
-            "url": "https://gumroad.com/l/re-data-grid"
+            "url": "url": ""
           }
         ]
       },
@@ -888,7 +888,7 @@
             "title": "Reactorium Pro UI Kit",
             "tagline": "200+ production-ready components for React.",
             "image": "products/re-pro-kit.webp",
-            "url": "https://gumroad.com/l/re-pro-kit"
+            "url": "url": ""
           }
         ]
       }
@@ -916,7 +916,7 @@
                 "title": "Scroll-Animate Library",
                 "tagline": "Tiny library for scroll-based animations.",
                 "image": "products/js-scroll.webp",
-                "url": "https://gumroad.com/l/scroll-animate"
+                "url": "url": ""
               }
             ]
           },
@@ -939,7 +939,7 @@
             "title": "Modern Calendar Widget",
             "tagline": "Vanilla JS, lightweight, no dependencies.",
             "image": "products/js-calendar.webp",
-            "url": "https://gumroad.com/l/js-calendar"
+            "url": "url": ""
           }
         ]
       },
@@ -954,7 +954,7 @@
             "title": "FormGuard Validator",
             "tagline": "Simple and clean form validation script.",
             "image": "products/js-validator.webp",
-            "url": "https://gumroad.com/l/formguard"
+            "url": "url": ""
           }
         ]
       },
@@ -969,7 +969,7 @@
             "title": "NanoState Manager",
             "tagline": "Simple global state manager (1kb).",
             "image": "products/js-state.webp",
-            "url": "https://gumroad.com/l/nanostate"
+            "url": "url": ""
           }
         ]
       },
@@ -984,7 +984,7 @@
             "title": "Store.js (LocalStorage Wrapper)",
             "tagline": "A simple API for LocalStorage.",
             "image": "products/js-storage.webp",
-            "url": "https://github.com/rgztec/store-js"
+            "url": "url": ""
           }
         ]
       },
@@ -999,7 +999,7 @@
             "title": "Micro-Fetch Client",
             "tagline": "A 1kb fetch client with caching.",
             "image": "products/js-fetch.webp",
-            "url": "https://gumroad.com/l/micro-fetch"
+            "url": "url": ""
           }
         ]
       },
@@ -1014,7 +1014,7 @@
             "title": "DOMQuery Helper",
             "tagline": "jQuery-like syntax in 50 lines of code.",
             "image": "products/js-dom.webp",
-            "url": "https://github.com/rgztec/domquery"
+            "url": "url": ""
           }
         ]
       }
@@ -1036,7 +1036,7 @@
             "title": "Cinematic Camera Rig",
             "tagline": "Easy-to-use camera system for cutscenes.",
             "image": "products/un-camera.webp",
-            "url": "https://gumroad.com/l/un-camera"
+            "url": "url": ""
           }
         ]
       },
@@ -1051,7 +1051,7 @@
             "title": "Pro Character Controller",
             "tagline": "Advanced physics-based controller for 3D games.",
             "image": "products/un-char-controller.webp",
-            "url": "https://gumroad.com/l/un-char-controller"
+            "url": "url": ""
           }
         ]
       },
@@ -1066,7 +1066,7 @@
             "title": "Poly-World Environment Kit",
             "tagline": "Low-poly assets for stylized worlds.",
             "image": "products/un-env.webp",
-            "url": "https://gumroad.com/l/un-poly-world"
+            "url": "url": ""
           }
         ]
       },
@@ -1081,7 +1081,7 @@
             "title": "NetCode Multiplayer Starter",
             "tagline": "Get your multiplayer game running in minutes.",
             "image": "products/un-multiplayer.webp",
-            "url": "https://gumroad.com/l/un-netcode"
+            "url": "url": ""
           }
         ]
       },
@@ -1096,7 +1096,7 @@
             "title": "Toon Shader Pack",
             "tagline": "High-performance toon shaders for URP.",
             "image": "products/un-shader.webp",
-            "url": "https://gumroad.com/l/un-toon-shader"
+            "url": "url": ""
           }
         ]
       },
@@ -1111,7 +1111,7 @@
             "title": "Rapid Level Designer",
             "tagline": "A tool for quickly blocking out levels.",
             "image": "products/un-tools.webp",
-            "url": "https://gumroad.com/l/un-level-designer"
+            "url": "url": ""
           }
         ]
       }
@@ -1133,7 +1133,7 @@
             "title": "Pro Blocks for Gutenberg",
             "tagline": "30+ advanced blocks for the Gutenberg editor.",
             "image": "products/wp-blocks.webp",
-            "url": "https://gumroad.com/l/wp-pro-blocks"
+            "url": "url": ""
           }
         ]
       },
@@ -1148,7 +1148,7 @@
             "title": "QuickCart for WooCommerce",
             "tagline": "AJAX side-cart and menu cart for Woo.",
             "image": "products/wp-quickcart.webp",
-            "url": "https://gumroad.com/l/wp-quickcart"
+            "url": "url": ""
           }
         ]
       },
@@ -1163,7 +1163,7 @@
             "title": "Gravity Forms Pro Pack",
             "tagline": "All essential add-ons for Gravity Forms.",
             "image": "products/wp-forms.webp",
-            "url": "https://gumroad.com/l/wp-gravity-pack"
+            "url": "url": ""
           }
         ]
       },
@@ -1178,7 +1178,7 @@
             "title": "MemberWall - Gated Content",
             "tagline": "Simple membership and content restriction plugin.",
             "image": "products/wp-memberwall.webp",
-            "url": "https://gumroad.com/l/wp-memberwall"
+            "url": "url": ""
           }
         ]
       },
@@ -1208,7 +1208,7 @@
             "title": "SiteGuard Security Suite",
             "tagline": "Total security and malware scanning for WP.",
             "image": "products/wp-security.webp",
-            "url": "https://gumroad.com/l/wp-siteguard"
+            "url": "url": ""
           }
         ]
       },
@@ -1223,7 +1223,7 @@
             "title": "SEO-Max Pro Plugin",
             "tagline": "All-in-one SEO solution for WordPress.",
             "image": "products/wp-seo.webp",
-            "url": "https://gumroad.com/l/wp-seo-max"
+            "url": "url": ""
           }
         ]
       }
