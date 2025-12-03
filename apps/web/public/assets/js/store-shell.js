@@ -1,7 +1,7 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 18.2.0 (NİHAİ - İç İçe Mimari + Düzeltilmiş Nav Mantığı)
+ * @version 18.3.0 (DÜZELTİLMİŞ - Kart Kırılma Hatası Giderildi)
  *
  * NİHAİ VİZYON (v18.2):
  * 1. Tek "Beyin": Tüm veri (11 mağaza, 75 dükkan, tüm ürünler) TEK BİR
@@ -12,9 +12,8 @@
  * "Etsy tarzı" kartlarına sahip olabilir.
  * 4. "Fiyatsız" Tasarım: Sistemde "fiyatlı" küçük kartlar yoktur.
  *
- * DÜZELTME (v18.2): Section Nav (dükkan menüsü) artık Katman 1'de (Mağaza)
- * "çocukları" (alta link), Katman 2+'de (Dükkan) "kardeşleri" (yana link)
- * gösterecek şekilde düzeltildi.
+ * DÜZELTME (v18.3): 'renderShopSection is not defined' hatası giderildi ve
+ * ürün kartlarının kırılmasını önlemek için CSS sınıfı 'store-shops' olarak güncellendi.
  */
 (function () {
   "use strict";
@@ -29,9 +28,7 @@
     const storeBody = document.querySelector("body.store-body");
 
     if (!storeBody || !storeRoot) {
-      console.error(
-        "Store Shell Engine: '.store-body' veya '#store-root' bulunamadı."
-      );
+      // Eğer bu sayfa bir Store Shell değilse (örn: index.html), sessizce çık.
       return;
     }
 
@@ -327,21 +324,19 @@
     `;
   }
 
-// 6A) 'Etsy Tarzı' ÜRÜN Listesi (DÜZELTİLDİ)
-  function renderProductSection(products) {
-    const productCards = products.map((p) => renderProductCard(p)).join("");
-    
-    // DÜZELTME: 'store-products' yerine 'store-shops' sınıfını kullandık.
-    // Böylece CSS'deki padding, margin ve grid ayarları buraya da aynen uygulandı.
+  // 5A) 'Etsy Tarzı' ALT-DÜKKAN Listesi
+  function renderShopSection(sections) {
+    const shopCards = sections.map((section) => renderShopCard(section)).join("");
     return `
-      <main class="store-shops"> 
+      <main class="store-shops">
         <div class="store-shops-header">
-          <h2>Explore Products</h2>
+          <h2>Explore Shops</h2>
         </div>
-        <div class="shop-grid">${productCards}</div>
+        <div class="shop-grid">${shopCards}</div>
       </main>
     `;
   }
+
   // 5B) Tek ALT-DÜKKAN Kartı ('Etsy Tarzı')
   function renderShopCard(section) {
     if (!section) return "";
@@ -370,12 +365,15 @@
     `;
   }
 
-  // 6A) 'Etsy Tarzı' ÜRÜN Listesi
+  // 6A) 'Etsy Tarzı' ÜRÜN Listesi (DÜZELTİLDİ: Sınıf ismi güncellendi)
   function renderProductSection(products) {
     const productCards = products.map((p) => renderProductCard(p)).join("");
+    
+    // DÜZELTME: 'store-products' yerine 'store-shops' sınıfını kullanıyoruz.
+    // Bu sayede CSS'deki padding, margin ve grid ayarları buraya da aynen uygulanır.
     return `
-      <main class="store-products">
-        <div class="store-products-header">
+      <main class="store-shops"> 
+        <div class="store-shops-header">
           <h2>Explore Products</h2>
         </div>
         <div class="shop-grid">${productCards}</div>
@@ -415,7 +413,7 @@
   // 7) Boş Dükkan
   function renderEmptyShop() {
     return `
-      <main class="store-products">
+      <main class="store-shops">
         <div class="products-grid-empty">
           <h3>Coming Soon</h3>
           <p>New sections and products are being added to this shop.</p>
