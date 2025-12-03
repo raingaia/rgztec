@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const catSelect = document.getElementById('cat');
     
     try {
-        const response = await fetch('store.data.json'); // Dosya adını kontrol et
+        const response = await fetch('data/store.data.json');
         if(!response.ok) throw new Error("JSON dosyası bulunamadı");
         
         const data = await response.json();
