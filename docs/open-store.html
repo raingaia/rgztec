@@ -100,7 +100,7 @@ a { text-decoration: none; transition: all 0.2s ease; }
 .pad { padding: 24px; }
 
 label { display: block; font-weight: 700; font-size: 14px; margin: 16px 0 8px; color: var(--ink); }
-input, textarea, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; outline: none; transition: border 0.2s; font-family: inherit; }
+input, textarea, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; outline: none; transition: border 0.2s; font-family: inherit; background: #fff; }
 input:focus, textarea:focus, select:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(249,115,22,0.1); }
 textarea { min-height: 120px; resize: vertical; }
 
@@ -196,10 +196,7 @@ textarea { min-height: 120px; resize: vertical; }
             <div>
               <label for="cat">Category</label>
               <select id="cat" name="cat">
-                <option value="html-templates">HTML Templates</option>
-                <option value="react">React</option>
-                <option value="ai">AI</option>
-                <option value="hardware">Hardware</option>
+                <option value="" disabled selected>Loading categories...</option>
               </select>
             </div>
           </div>
@@ -253,6 +250,38 @@ textarea { min-height: 120px; resize: vertical; }
 </footer>
 
 <script>
+/* --- DİKKAT: BURAYA YENİ KODU EKLEDİM --- */
+/* Sayfa açılınca kategorileri JSON'dan çeker */
+document.addEventListener('DOMContentLoaded', async () => {
+    const catSelect = document.getElementById('cat');
+    
+    try {
+        const response = await fetch('store.data.json'); // Dosya adını kontrol et
+        if(!response.ok) throw new Error("JSON dosyası bulunamadı");
+        
+        const data = await response.json();
+        
+        // Önce 'Loading...' yazısını temizle, 'Select' ekle
+        catSelect.innerHTML = '<option value="" disabled selected>Select a category...</option>';
+        
+        // Kategorileri ekle
+        if (data.categories) {
+            data.categories.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.textContent = c.name;
+                catSelect.appendChild(opt);
+            });
+        }
+    } catch (err) {
+        console.error('Kategoriler yüklenirken hata:', err);
+        // Hata olursa kullanıcı anlasın
+        catSelect.innerHTML = '<option value="" disabled>Error loading categories</option>';
+    }
+});
+/* ------------------------------------------ */
+
+
 /* MEGA MENÜ */
 const STORES_DB = {
   "hardware": { title: "Hardware Lab", tagline: "AI & IoT", sections: ["AI Accelerators", "Dev Boards"] },
@@ -384,6 +413,7 @@ f.addEventListener('submit', async (e)=>{
   if(!title) return showErr('Please enter a product title.');
   if(!desc)  return showErr('Please add a description.');
   if(!Number.isFinite(price) || price<0) return showErr('Price must be a positive number.');
+  if(!cat) return showErr('Please select a category.'); // Burayı da ekledim garanti olsun
   if(!images.length) return showErr('Please add at least one image.');
 
   const draft = { id: 'd_'+Date.now(), title, desc, price, cat, images, createdAt: new Date().toISOString() };
