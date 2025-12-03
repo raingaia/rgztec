@@ -4,520 +4,395 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Gift Cards</title>
-<meta name="description" content="Send RGZTEC gift cards instantly. Choose an amount, personalize a message, and deliver via email. Redeemable across all participating stores.">
-<meta name="rgztec-api" content="https://YOUR-VERCEL-PROJECT.vercel.app">
-<!-- Tüm göreli yolları apps/web/public köküne sabitle -->
-<base href="/rgztec/apps/web/public/">
+<meta name="description" content="Send RGZTEC gift cards instantly.">
+<base href="/rgztec/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets/css/store-core.css">
 
 <style>
-:root{
-  --wrap:1100px;
-  --gutter-min:12px; --gutter-max:28px;
-  --ink:#0b1220; --sub:#64748b;
-  --line:#e5e7eb; --line-strong:#d7dbe3;
-  --brand:#f97316; --brand-dark:#ea580c;
-  --bg:#ffffff;
+/* === 1. PREMIUM HEADER STİLLERİ (Ana Sayfadan Alındı) === */
+:root {
+  --brand: #f97316; --brand-h: #ea580c;
+  --ink: #0f172a; --sub: #64748b;
+  --border: #e2e8f0; --bg-body: #f8fafc;
+  --header-h: 74px;
 }
-*{box-sizing:border-box}
-html,body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
 
-/* containers */
-.page-section{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
-.page-section--fluid{max-width:none;padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max))}
-.section{padding:22px 0}
-.section-h{font-weight:800;font-size:22px;margin:0 0 16px 0}
+body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--ink); margin: 0; padding: 0; }
+a { text-decoration: none; transition: all 0.2s ease; }
+.container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
 
-/* header (aynı yapı) */
-.header-outer{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:saturate(120%) blur(8px);border-bottom:1px solid var(--line)}
-.header-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0}
-.header-left,.hdr-right{flex-shrink:0}
-.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
-.brand{font-weight:900;font-size:22px;color:var(--brand);text-decoration:none;margin-right:8px}
-.btn-cats{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;cursor:pointer}
-.btn-cats svg{width:18px;height:18px}
-.search{display:flex;align-items:center;height:52px;border:2px solid #111827;border-radius:999px;padding:0 8px 0 16px;width:100%}
-.search input{flex:1;min-width:0;border:0;outline:0;font-size:16px;padding:12px 10px;background:transparent}
-.go{display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:var(--brand);border:0;cursor:pointer;margin-right:4px}
-.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.hdr-right{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:nowrap}
-.signin-link{color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
-.signin-link:hover{color:var(--brand)}
-.icon-btn{display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:1px solid var(--line-strong);background:#fff}
-.pill-open{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--brand);color:#fff;font-weight:700;text-decoration:none}
-.pill-open:hover{background:var(--brand-dark)}
-
-/* chips nav (üst kısım) */
-.chips-outer{border-bottom:1.5px solid var(--line-strong)}
-.chips{display:flex;gap:22px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:8px 0 10px}
-.chip{color:var(--sub);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
-.chip:hover{color:var(--ink)}
-
-/* layout */
-.hero{padding:24px 0}
-.hero h1{margin:0 0 8px;font-size:clamp(24px,3vw,36px)}
-.hero p{margin:0;color:var(--sub)}
-.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-
-/* card */
-.card{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.06)}
-.card .card-h{padding:14px 16px;border-bottom:1px solid var(--line);font-weight:800}
-.card .card-b{padding:16px}
-
-/* form */
-.row{display:grid;gap:12px}
-.row-2{grid-template-columns:1fr 1fr}
-@media(max-width:720px){.row-2{grid-template-columns:1fr}}
-label{font-weight:700;font-size:14px}
-input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit}
-textarea{min-height:100px;resize:vertical}
-.help{color:var(--sub);font-size:12px;margin-top:4px}
-.btn{display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:800}
-.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
-.btn.primary:hover{background:var(--brand-dark)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-
-/* amount chips */
-.amounts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.chip-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:800}
-.chip-btn[aria-pressed="true"]{background:#111827;color:#fff;border-color:#111827}
-
-/* preview gift card */
-.gift-preview{display:grid;grid-template-rows:auto 1fr auto;gap:10px;border:1px solid var(--line);border-radius:16px;padding:18px;background:linear-gradient(160deg,#fff 0%,#fff 30%, #fff6ee 100%)}
-.gift-top{display:flex;justify-content:space-between;align-items:center}
-.brandmark{font-weight:900;color:var(--brand)}
-.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;letter-spacing:2px}
-.amount-lg{font-size:36px;font-weight:900}
-.note{color:#475569;font-size:13px}
-
-/* drawer (kategori çekmecesi) */
-.drawer{position:fixed;inset:0;display:none;z-index:40}
-.drawer.open{display:block}
-.back{position:absolute;inset:0;background:transparent}
-.panel{
-  position:absolute;width:280px;background:#fff;border-radius:12px;
-  box-shadow:0 8px 24px rgba(0,0,0,.15);border:1px solid var(--line);padding:8px;
-  overflow:auto;max-height:calc(100vh - 80px)
+/* Header */
+.app-header {
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
+  height: var(--header-h); display: flex; align-items: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
 }
-.panel nav a{display:block;padding:10px 12px;border-radius:8px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
-.panel nav a:hover{background:#f3f4f6}
+.header-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 24px; }
+.logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; color: var(--brand); letter-spacing: -0.02em; flex-shrink: 0; }
 
-/* footer */
-.footer-outer{margin-top:40px;background:#232347;color:#fff;padding-top:48px;font-size:14px}
-.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-.footer-grid h4{margin:0 0 12px;font-size:16px;font-weight:700}
-.footer-grid a{display:block;color:#d1d1d1;text-decoration:none;margin-bottom:10px}
-.footer-grid a:hover{color:#fff;text-decoration:underline}
-.footer-socials{display:flex;gap:16px;margin-top:20px}
-.footer-socials svg{width:24px;height:24px;fill:#d1d1d1}
-.footer-socials a:hover svg{fill:#fff}
-.footer-bottom{border-top:1px solid #3c3c62;margin-top:48px;padding:24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:13px;color:#d1d1d1}
-.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
-.footer-bottom a:hover{font-weight:600;text-decoration:underline}
-@media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+/* Kategori Butonu */
+.btn-cat {
+  display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px;
+  color: var(--ink); background: transparent; border: 1px solid transparent;
+  padding: 8px 14px; border-radius: 99px; cursor: pointer; transition: all 0.2s; outline: none;
+}
+.btn-cat:hover, .btn-cat.active { background: #f1f5f9; color: var(--brand); }
+.btn-cat svg { width: 20px; height: 20px; stroke-width: 2; transition: transform 0.3s; }
+.btn-cat.active svg { transform: rotate(180deg); }
+
+/* Arama */
+.search-bar { flex: 1; max-width: 500px; position: relative; }
+.search-input { width: 100%; height: 46px; background: #f1f5f9; border: 1px solid transparent; border-radius: 99px; padding: 0 48px 0 20px; font-size: 14px; color: var(--ink); outline: none; }
+.search-input:focus { background: #fff; border-color: var(--brand); box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); }
+.search-btn { position: absolute; right: 6px; top: 6px; width: 34px; height: 34px; border-radius: 50%; background: var(--brand); border: none; color: #fff; display: grid; place-items: center; cursor: pointer; }
+
+/* Sağ Menü */
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-link { font-size: 14px; font-weight: 600; color: var(--sub); }
+.nav-link:hover { color: var(--brand); }
+.icon-action { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); border: 1px solid var(--border); background: #fff; }
+.icon-action:hover { border-color: var(--brand); color: var(--brand); background: #fff7ed; }
+.btn-open-store { background: var(--ink); color: #fff; padding: 10px 22px; border-radius: 99px; font-size: 14px; font-weight: 700; }
+.btn-open-store:hover { background: var(--brand); }
+
+/* Mega Menü (Damla Efektli) */
+.mega-menu-overlay {
+  position: fixed; top: var(--header-h); left: 0; width: 100%; height: calc(100vh - var(--header-h));
+  background: rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index: 900; 
+  opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+}
+.mega-menu-overlay.open { opacity: 1; visibility: visible; }
+.mega-menu-container {
+  position: absolute; top: 12px; left: 24px; width: 900px; height: 500px; background: #fff; display: flex; 
+  border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden;
+  opacity: 0; transform: translateY(-15px) scale(0.98);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mega-menu-overlay.open .mega-menu-container { opacity: 1; transform: translateY(0) scale(1); }
+.menu-sidebar { width: 280px; background: #f8fafc; border-right: 1px solid var(--border); padding: 16px; overflow-y: auto; }
+.menu-store-item { padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; margin-bottom: 4px; transition: all 0.2s; }
+.menu-store-item:hover, .menu-store-item.active { background: #fff; color: var(--brand); box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+.menu-content { flex: 1; padding: 32px; overflow-y: auto; }
+.menu-header h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 800; margin: 0 0 8px; }
+.menu-header p { color: var(--sub); margin-bottom: 24px; font-size: 14px; }
+.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.menu-sub-item { display: block; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; transition: all 0.2s; text-decoration: none; color: var(--ink); }
+.menu-sub-item:hover { border-color: var(--brand); background: #fff7ed; transform: translateX(4px); }
+.sub-title { display: block; font-weight: 700; color: var(--ink); margin-bottom: 2px; font-size: 14px; }
+.sub-desc { display: block; font-size: 12px; color: var(--sub); }
+
+/* === 2. HEDİYE KARTI SAYFASI ÖZEL STİLLERİ === */
+.gift-page-container { padding: 40px 0; max-width: 1100px; margin: 0 auto; padding-inline: 24px; }
+.hero-gift { text-align: center; margin-bottom: 40px; }
+.hero-gift h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+.hero-gift p { color: var(--sub); font-size: 16px; }
+
+.gift-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 32px; }
+.card { border: 1px solid var(--border); border-radius: 16px; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.03); overflow: hidden; }
+.card-h { padding: 16px 20px; border-bottom: 1px solid var(--border); font-weight: 700; background: #f8fafc; }
+.card-b { padding: 24px; }
+
+/* Form Elements */
+.row { display: grid; gap: 16px; margin-bottom: 16px; }
+.row-2 { grid-template-columns: 1fr 1fr; }
+label { font-size: 13px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 6px; }
+input, select, textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-size: 14px; outline: none; transition: border 0.2s; font-family: inherit; }
+input:focus, select:focus, textarea:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(249,115,22,0.1); }
+textarea { min-height: 100px; resize: vertical; }
+.help { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+/* Amount Buttons */
+.amounts { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.chip-btn { border: 1px solid var(--border); background: #fff; border-radius: 99px; padding: 10px 20px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--sub); }
+.chip-btn:hover { border-color: var(--brand); color: var(--brand); }
+.chip-btn[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.actions { display: flex; gap: 12px; margin-top: 24px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 24px; border-radius: 99px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); background: #fff; transition: all 0.2s; flex: 1; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+.btn.primary:hover { background: var(--brand-h); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(249,115,22,0.25); }
+.btn:not(.primary):hover { border-color: var(--sub); }
+
+/* Preview Card */
+.gift-preview { 
+  display: grid; grid-template-rows: auto 1fr auto; gap: 20px; 
+  border: 1px solid var(--border); border-radius: 16px; padding: 30px; 
+  background: linear-gradient(135deg, #fff 0%, #fff 60%, #fff7ed 100%);
+  height: 100%; min-height: 300px; position: relative;
+}
+.brandmark { font-weight: 900; color: var(--brand); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; }
+.code { font-family: monospace; font-weight: 700; letter-spacing: 2px; color: var(--ink); background: #f1f5f9; padding: 4px 8px; border-radius: 6px; }
+.amount-lg { font-size: 48px; font-weight: 800; color: var(--ink); letter-spacing: -1px; }
+.note { color: var(--sub); font-size: 14px; line-height: 1.5; }
+
+/* Footer (Mevcut) */
+.footer { background: #0f172a; color: #94a3b8; padding: 60px 0 30px; font-size: 14px; margin-top: 60px; }
+.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; max-width: 1440px; margin: 0 auto 40px; padding: 0 24px; }
+.footer h4 { color: #fff; font-size: 16px; margin-bottom: 20px; }
+.footer a { display: block; color: #94a3b8; margin-bottom: 12px; }
+.footer a:hover { color: #fff; }
+.footer-bot { border-top: 1px solid #1e293b; padding-top: 30px; display: flex; justify-content: space-between; max-width: 1440px; margin: 0 auto; padding: 30px 24px 0; }
+
+@media(max-width: 900px) { 
+  .gift-grid { grid-template-columns: 1fr; } 
+  .mega-menu-container { width: 95%; left: 2.5%; }
+  .footer-cols { grid-template-columns: 1fr 1fr; }
+  .nav-right, .search-bar { display: none; }
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header-outer">
-  <div class="page-section page-section--fluid header-row">
-    <div class="header-left">
-      <a class="brand" href="index.html">RGZTEC</a>
-      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <span>Categories</span>
+<header class="app-header">
+  <div class="container header-inner">
+    <div style="display:flex; align-items:center; gap:24px;">
+      <a href="./" class="logo">RGZTEC</a>
+      <button class="btn-cat" id="btnCategories" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+        Categories
       </button>
     </div>
-
-    <div class="search-wrap">
-      <form class="search" role="search" action="listings.html">
-        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
-        <button class="go" type="submit" aria-label="Search">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor"/><path d="M16.5 16.5 21 21" stroke="currentColor"/></svg>
-        </button>
-      </form>
+    <div class="search-bar">
+      <input type="text" class="search-input" placeholder="Search marketplace...">
+      <button class="search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg></button>
     </div>
-
-    <div class="hdr-right">
-      <a href="dashboard/editor.html" class="signin-link">Dashboard / Editor</a>
-      <a href="login.html" class="signin-link">Sign in</a>
-      <a class="icon-btn" title="Gift" href="gift-card.html" aria-current="page">🎁</a>
-      <a class="icon-btn" title="Cart" href="cart.html">🛒</a>
-      <a class="pill-open" href="open-store.html" aria-label="Open your store">Open Store</a>
-    </div>
-  </div>
-
-  <div class="chips-outer">
-    <div class="page-section page-section--fluid">
-      <nav class="chips" aria-label="Quick filters">
-        <a class="chip" href="listings.html?tag=new">New</a>
-        <a class="chip" href="listings.html?tag=trending">Trending</a>
-        <a class="chip" href="listings.html?tag=top-sellers">Top sellers</a>
-        <a class="chip" href="listings.html?tag=deals">Deals</a>
-        <a class="chip" href="listings.html?tag=html-templates">HTML Templates</a>
-        <a class="chip" href="listings.html?tag=react">React</a>
-        <a class="chip" href="listings.html?tag=ai">AI</a>
-      </nav>
+    <div class="nav-right">
+      <a href="editor/" class="nav-link">Dashboard</a>
+      <a href="login/" class="nav-link">Sign In</a>
+      <a href="gift-card.html" class="icon-action" style="border-color:var(--brand); color:var(--brand); background:#fff7ed;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" /></svg></a>
+      <a href="cart.html" class="icon-action"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg></a>
+      <a href="open-store.html" class="btn-open-store">Open Store</a>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="page-section page-section--fluid hero">
-  <div>
-    <h1>Gift Cards</h1>
-    <p>Send a digital RGZTEC gift card instantly. Redeemable across participating stores.</p>
+<div class="mega-menu-overlay" id="megaMenu">
+  <div class="mega-menu-container">
+    <div class="menu-sidebar" id="menuSidebar"></div>
+    <div class="menu-content" id="menuContent">
+      <div class="menu-header"><h3 id="menuTitle">Select a Store</h3><p id="menuDesc">Explore professional categories.</p></div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- MAIN -->
-<main class="page-section page-section--fluid section">
-  <div class="grid" id="giftGrid">
-    <!-- LEFT: form -->
-    <section class="card" aria-labelledby="formTitle">
-      <div class="card-h" id="formTitle">Create your gift card</div>
+<div class="gift-page-container">
+  
+  <div class="hero-gift">
+    <h1>Gift Cards</h1>
+    <p>Send a digital RGZTEC gift card instantly. Redeemable across all participating stores.</p>
+  </div>
+
+  <div class="gift-grid">
+    <section class="card">
+      <div class="card-h">Create your gift card</div>
       <div class="card-b">
         <div class="row">
-          <div>
-            <label for="currency">Currency</label>
-            <select id="currency" aria-label="Currency">
-              <option value="USD" selected>USD $</option>
-              <option value="EUR">EUR €</option>
-              <option value="GBP">GBP £</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Amount</label>
-            <div class="amounts" role="group" aria-label="Gift amount">
-              <button type="button" class="chip-btn" data-amt="25">$25</button>
-              <button type="button" class="chip-btn" data-amt="50" aria-pressed="true">$50</button>
-              <button type="button" class="chip-btn" data-amt="75">$75</button>
-              <button type="button" class="chip-btn" data-amt="100">$100</button>
-              <label class="chip-btn" style="display:inline-flex;gap:6px;align-items:center">
-                Custom
-                <input id="customAmt" type="number" min="1" step="1" style="width:88px;border:0;border-left:1px solid var(--line);border-radius:0;padding-left:8px" placeholder="e.g. 120">
-              </label>
-            </div>
-            <div class="help">Choose a preset or enter a custom amount.</div>
-          </div>
+          <label>Currency</label>
+          <select id="currency">
+            <option value="USD">USD $</option>
+            <option value="EUR">EUR €</option>
+            <option value="GBP">GBP £</option>
+          </select>
         </div>
 
-        <div class="row row-2" style="margin-top:10px">
-          <div>
-            <label for="toName">Recipient name</label>
-            <input id="toName" placeholder="Jane Doe">
-          </div>
-          <div>
-            <label for="toEmail">Recipient email</label>
-            <input id="toEmail" type="email" placeholder="jane@example.com">
+        <div class="row">
+          <label>Amount</label>
+          <div class="amounts">
+            <button type="button" class="chip-btn" data-amt="25">$25</button>
+            <button type="button" class="chip-btn" data-amt="50" aria-pressed="true">$50</button>
+            <button type="button" class="chip-btn" data-amt="75">$75</button>
+            <button type="button" class="chip-btn" data-amt="100">$100</button>
+            <input id="customAmt" type="number" placeholder="Custom" style="width:100px; padding:10px; border-radius:99px;">
           </div>
         </div>
 
         <div class="row row-2">
-          <div>
-            <label for="fromName">Your name</label>
-            <input id="fromName" placeholder="Your name">
-          </div>
-          <div>
-            <label for="sendDate">Delivery date (optional)</label>
-            <input id="sendDate" type="date">
-            <div class="help">If left empty, we’ll send it right away.</div>
-          </div>
+          <div><label>Recipient Name</label><input id="toName" placeholder="Jane Doe"></div>
+          <div><label>Recipient Email</label><input id="toEmail" type="email" placeholder="jane@example.com"></div>
+        </div>
+
+        <div class="row row-2">
+          <div><label>Your Name</label><input id="fromName" placeholder="You"></div>
+          <div><label>Delivery Date</label><input id="sendDate" type="date"></div>
         </div>
 
         <div class="row">
-          <div>
-            <label for="message">Personal message</label>
-            <textarea id="message" maxlength="280" placeholder="Write a short note (max 280 chars)"></textarea>
-          </div>
+          <label>Message (Optional)</label>
+          <textarea id="message" placeholder="Write a short note..."></textarea>
         </div>
 
         <div class="actions">
           <button id="addToCart" class="btn primary">Add to Cart</button>
           <button id="previewBtn" class="btn">Refresh Preview</button>
-          <button id="shareBtn" class="btn">Get Shareable Link</button>
         </div>
-
-        <p id="formError" class="help" style="color:#b91c1c;display:none;margin-top:10px"></p>
       </div>
     </section>
 
-    <!-- RIGHT: preview -->
-    <aside class="card" aria-labelledby="previewTitle">
-      <div class="card-h" id="previewTitle">Preview</div>
-      <div class="card-b">
-        <div class="gift-preview" id="previewCard" aria-live="polite">
-          <div class="gift-top">
-            <div class="brandmark">RGZTEC • Gift Card</div>
-            <div class="code" id="pvCode">RGZ-XXXX-XXXX</div>
+    <aside class="card">
+      <div class="card-h">Preview</div>
+      <div class="card-b" style="height:100%;">
+        <div class="gift-preview">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="brandmark">RGZTEC • Gift</div>
+            <div class="code" id="pvCode">RGZ-XXXX</div>
           </div>
-          <div>
-            <div class="amount-lg" id="pvAmount">$50</div>
-            <p class="note" id="pvLine">To Jane Doe — from You</p>
-            <p class="note" id="pvMsg">“Enjoy building something awesome!”</p>
+          <div style="align-self:center;">
+            <div class="amount-lg" id="pvAmount">$50.00</div>
+            <p class="note" id="pvLine" style="font-weight:600; margin-top:10px;">To Jane Doe — from You</p>
+            <p class="note" id="pvMsg" style="font-style:italic;">“Enjoy building something awesome!”</p>
           </div>
-          <div class="note">Redeemable on RGZTEC participating stores. No fees, no expiration.</div>
+          <div class="note" style="font-size:12px; opacity:0.7;">Redeemable on all RGZTEC stores. No expiration.</div>
         </div>
       </div>
     </aside>
   </div>
-</main>
-
-<!-- DRAWER -->
-<div id="drawer" class="drawer" aria-hidden="true">
-  <div class="back" id="backdrop"></div>
-  <aside class="panel" role="dialog" aria-label="Categories">
-    <nav>
-      <a href="listings.html?tag=html-templates">HTML Templates</a>
-      <a href="listings.html?tag=react-components">React Components</a>
-      <a href="listings.html?tag=wordpress-plugins">WordPress Plugins</a>
-      <a href="listings.html?tag=ai-tools">AI Tools & Prompts</a>
-      <a href="listings.html?tag=mobile-games">Mobile Games</a>
-      <a href="listings.html?tag=icons-graphics">Icons & Graphics</a>
-      <a href="listings.html?tag=3d-models">3D & AR/VR Models</a>
-      <a href="listings.html?tag=scripts-code">Scripts & Code</a>
-      <a href="listings.html?tag=audio">Audio & Sound Effects</a>
-      <a href="listings.html?tag=video-templates">Video Templates</a>
-      <a href="listings.html" style="font-weight:700;color:var(--brand);border-top:1px solid var(--line);margin-top:4px;padding-top:12px;">All Categories →</a>
-    </nav>
-  </aside>
 </div>
 
-<!-- FOOTER -->
-<footer class="footer-outer">
-  <div class="page-section page-section--fluid">
-    <div class="footer-grid">
-      <div>
-        <h4>Shop</h4>
-        <a href="gift-card.html" aria-current="page">Gift cards</a>
-        <a href="sitemap.xml">Sitemap</a>
-        <a href="#">RGZTEC blog</a>
-        <a href="#">RGZTEC UK</a>
-        <a href="#">RGZTEC Germany</a>
-      </div>
-      <div>
-        <h4>Sell</h4>
-        <a href="seller.html">Sell on RGZTEC</a>
-        <a href="#">Teams</a>
-        <a href="#">Forums</a>
-        <a href="#">Affiliates & Creators</a>
-      </div>
-      <div>
-        <h4>About</h4>
-        <a href="#">RGZTEC, Inc.</a>
-        <a href="terms.html">Policies</a>
-        <a href="#">Investors</a>
-        <a href="#">Careers</a>
-        <a href="#">Press</a>
-        <a href="#">Impact</a>
-      </div>
-      <div>
-        <h4>Help</h4>
-        <a href="mailto:support@rgztec.com">support@rgztec.com</a>
-        <a href="#">Help Center</a>
-        <a href="#">Privacy settings</a>
-        <div class="footer-socials">
-          <a href="#" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          </a>
-          <a href="#" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-          </a>
-          <a href="#" aria-label="Pinterest">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.7 7.8 6.4 9.1.1-.4.2-1.6.3-2.2.1-.5-.2-1-.2-1.5 0-.7.4-1.2 1-1.2.7 0 1 .5 1 1.2 0 .7-.4 1.8-.7 2.8-.2.8.4 1.5 1.2 1.5 1.5 0 2.6-1.9 2.6-4.2 0-2.3-1.6-3.9-3.7-3.9-2.6 0-4.3 1.9-4.3 4 0 .7.3 1.5.6 2 .2.2.2.3.1.5-.1.2-.2.8-.3 1-.1.2-.3.3-.6.2-1.4-.7-2.3-2.5-2.3-4.3 0-3.3 2.4-6.2 6.8-6.2 3.6 0 6.3 2.5 6.3 5.8 0 3.4-2.2 6.1-5.2 6.1-1 0-2-.5-2.3-1.1 0 0-.5 2-.6 2.4-.3.8-1 1.6-1.5 2.2.7.2 1.5.3 2.3.3 5.5 0 10-4.5 10-10C22 6.5 17.5 2 12 2z"></path></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© <span id="y"></span> RGZTEC, Inc.</span>
-      <div>
-        <a href="terms.html">Terms of Use</a>
-        <a href="terms.html#privacy" style="margin-left:16px">Privacy</a>
-        <a href="terms.html#ads" style="margin-left:16px">Interest-based ads</a>
-      </div>
-    </div>
+<footer class="footer">
+  <div class="footer-cols">
+    <div><h4>Shop</h4><a href="gift-card.html">Gift Cards</a><a href="#">Sitemap</a></div>
+    <div><h4>Sell</h4><a href="become-seller.html">Start Selling</a><a href="#">Teams</a></div>
+    <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a></div>
+    <div><h4>Support</h4><a href="mailto:support@rgztec.com">Help Center</a></div>
+  </div>
+  <div class="footer-bot">
+    <span>© 2025 RGZTEC, Inc.</span>
+    <div><a href="#" style="margin-left:20px;">Privacy</a><a href="#" style="margin-left:20px;">Terms</a></div>
   </div>
 </footer>
 
 <script>
-/* footer yıl */
-document.getElementById('y').textContent = new Date().getFullYear();
+/* ========================
+   1. MEGA MENÜ (Ana Sayfadan)
+   ======================== */
+const STORES_DB = {
+  "hardware": { title: "Hardware Lab", tagline: "AI & IoT", sections: ["AI Accelerators", "Dev Boards"] },
+  "game-makers": { title: "Game Makers", tagline: "Unity Assets", sections: ["3D Models", "2D Sprites"] },
+  "ai-tools-hub": { title: "AI Tools Hub", tagline: "Agents & Automation", sections: ["Agents", "Prompts"] },
+  "dev-studio-one": { title: "Dev Studio One", tagline: "Starters", sections: ["Dashboards", "SaaS Kits"] },
+  "html-templates": { title: "HTML Templates", tagline: "Landing Pages", sections: ["Corporate", "Creative"] },
+  "wp-plugins": { title: "WP Plugins", tagline: "WordPress", sections: ["SEO", "Security"] }
+};
 
-/* çekmece aç/kapat */
-const drawer=document.getElementById('drawer'),
-      back=document.getElementById('backdrop'),
-      panel=drawer.querySelector('.panel'),
-      openBtn=document.getElementById('btnCats');
+const menuSidebar = document.getElementById('menuSidebar');
+const menuGrid = document.getElementById('menuGrid');
+const menuTitle = document.getElementById('menuTitle');
+const menuDesc = document.getElementById('menuDesc');
+const btnCategories = document.getElementById('btnCategories');
+const megaMenu = document.getElementById('megaMenu');
 
-function openDrawer(){
-  const r = openBtn.getBoundingClientRect();
-  panel.style.top = (r.bottom + 8) + 'px';
-  panel.style.left = r.left + 'px';
-  drawer.classList.add('open');
-  drawer.setAttribute('aria-hidden','false');
-}
-function closeDrawer(){
-  drawer.classList.remove('open');
-  drawer.setAttribute('aria-hidden','true');
-}
-openBtn?.addEventListener('click',(e)=>{
-  e.stopPropagation();
-  drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+// Sidebar Render
+let sidebarHTML = '';
+Object.keys(STORES_DB).forEach(slug => {
+  sidebarHTML += `<div class="menu-store-item" onclick="selectStore('${slug}')" data-slug="${slug}">
+    <span>${STORES_DB[slug].title}</span>
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+  </div>`;
 });
-back?.addEventListener('click',closeDrawer);
-window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+if(menuSidebar) menuSidebar.innerHTML = sidebarHTML;
 
-/* ---- Gift Card logic ---- */
+window.selectStore = function(slug) {
+  document.querySelectorAll('.menu-store-item').forEach(el => el.classList.remove('active'));
+  const el = document.querySelector(`.menu-store-item[data-slug="${slug}"]`);
+  if(el) el.classList.add('active');
+  const data = STORES_DB[slug];
+  if(menuTitle) menuTitle.textContent = data.title;
+  if(menuDesc) menuDesc.textContent = data.tagline;
+  
+  let html = '';
+  data.sections.forEach(sec => {
+    html += `<a href="#" class="menu-sub-item"><span class="sub-title">${sec}</span><span class="sub-desc">Browse</span></a>`;
+  });
+  if(menuGrid) menuGrid.innerHTML = html;
+}
+
+if(btnCategories) {
+  btnCategories.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = megaMenu.classList.contains('open');
+    if(isOpen) {
+      megaMenu.classList.remove('open');
+      btnCategories.classList.remove('active');
+    } else {
+      megaMenu.classList.add('open');
+      btnCategories.classList.add('active');
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if(!megaMenu.contains(e.target) && !btnCategories.contains(e.target)) {
+      megaMenu.classList.remove('open');
+      btnCategories.classList.remove('active');
+    }
+  });
+}
+
+/* ========================
+   2. HEDİYE KARTI MANTIĞI
+   ======================== */
 const currencyEl = document.getElementById('currency');
 const amountButtons = Array.from(document.querySelectorAll('.chip-btn[data-amt]'));
 const customAmtEl = document.getElementById('customAmt');
 const toNameEl = document.getElementById('toName');
-const toEmailEl = document.getElementById('toEmail');
 const fromNameEl = document.getElementById('fromName');
-const sendDateEl = document.getElementById('sendDate');
 const msgEl = document.getElementById('message');
-
 const pvAmount = document.getElementById('pvAmount');
 const pvLine = document.getElementById('pvLine');
 const pvMsg = document.getElementById('pvMsg');
-const pvCode = document.getElementById('pvCode');
-const errEl = document.getElementById('formError');
 
 function fmt(amount){
   const cur = currencyEl.value;
-  const f = new Intl.NumberFormat(undefined, { style:'currency', currency:cur });
-  return f.format(amount);
+  return new Intl.NumberFormat('en-US', { style:'currency', currency:cur }).format(amount);
 }
 
 function getAmount(){
-  // custom varsa onu al
   const custom = parseFloat(customAmtEl.value || '0');
-  if (custom > 0) return Math.round(custom);
-
-  // değilse aktif chip
+  if (custom > 0) return custom;
   const active = amountButtons.find(b => b.getAttribute('aria-pressed') === 'true');
-  const val = active ? parseFloat(active.dataset.amt) : 50;
-  return Math.round(val);
-}
-
-function setPressed(btn){
-  amountButtons.forEach(b=>b.removeAttribute('aria-pressed'));
-  btn.setAttribute('aria-pressed','true');
-  customAmtEl.value = '';
-  updatePreview();
-}
-
-amountButtons.forEach(b=>{
-  b.addEventListener('click',()=>setPressed(b));
-});
-
-customAmtEl.addEventListener('input',()=>{
-  amountButtons.forEach(b=>b.removeAttribute('aria-pressed'));
-  updatePreview();
-});
-
-[currencyEl,toNameEl,toEmailEl,fromNameEl,sendDateEl,msgEl].forEach(el=>{
-  el.addEventListener('input', updatePreview);
-});
-
-function randomCode(){
-  const s='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  const pick=n=>Array.from({length:n},()=>s[Math.floor(Math.random()*s.length)]).join('');
-  return `RGZ-${pick(4)}-${pick(4)}`;
+  return active ? parseFloat(active.dataset.amt) : 50;
 }
 
 function updatePreview(){
-  const amt = Math.max(1, getAmount());
+  const amt = getAmount();
   pvAmount.textContent = fmt(amt);
-  const to = (toNameEl.value || 'Friend').trim();
+  const to = (toNameEl.value || 'Jane Doe').trim();
   const from = (fromNameEl.value || 'You').trim();
   pvLine.textContent = `To ${to} — from ${from}`;
-  pvMsg.textContent = msgEl.value ? `“${msgEl.value.slice(0,280)}”` : '“Enjoy building something awesome!”';
-  // Sadece ilk kez boşsa code üret
-  if(pvCode.textContent === 'RGZ-XXXX-XXXX'){ pvCode.textContent = randomCode(); }
+  pvMsg.textContent = msgEl.value ? `“${msgEl.value}”` : '“Enjoy building something awesome!”';
 }
 
-document.getElementById('previewBtn')?.addEventListener('click', updatePreview);
-
-function validate(){
-  errEl.style.display='none';
-  const email = (toEmailEl.value||'').trim();
-  const amt = getAmount();
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    errEl.textContent = 'Please enter a valid recipient email.'; errEl.style.display='block'; return false;
-  }
-  if(amt < 1){ errEl.textContent = 'Amount must be at least 1.'; errEl.style.display='block'; return false; }
-  return true;
-}
-
-document.getElementById('addToCart')?.addEventListener('click',()=>{
-  if(!validate()) return;
-  updatePreview();
-  const payload = {
-    type:'gift-card',
-    currency: currencyEl.value,
-    amount: getAmount(),
-    to: { name: toNameEl.value || '', email: toEmailEl.value || '' },
-    from: fromNameEl.value || '',
-    message: msgEl.value || '',
-    deliver_on: sendDateEl.value || 'now',
-    code_hint: pvCode.textContent
-  };
-  // Burayı gerçek sepete POST ile bağlayacaksın:
-  // fetch('/api/cart', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
-  //   .then(r=>r.json()).then(()=>location.href='cart.html').catch(()=>alert('Cart error'));
-  alert('Added to cart (demo). \n\n' + JSON.stringify(payload, null, 2));
-});
-
-document.getElementById('shareBtn')?.addEventListener('click',()=>{
-  const params = new URLSearchParams({
-    cur: currencyEl.value,
-    amt: String(getAmount()),
-    to: toNameEl.value || '',
-    toEmail: toEmailEl.value || '',
-    from: fromNameEl.value || '',
-    when: sendDateEl.value || '',
-    msg: msgEl.value || ''
+amountButtons.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    amountButtons.forEach(btn=>btn.removeAttribute('aria-pressed'));
+    b.setAttribute('aria-pressed','true');
+    customAmtEl.value = '';
+    updatePreview();
   });
-  const url = location.origin + location.pathname + '?' + params.toString();
-  navigator.clipboard?.writeText(url);
-  alert('Shareable link copied to clipboard:\n\n' + url);
 });
 
-// URL paramlarıyla doldurma (paylaşılabilir linkten)
-(function hydrateFromURL(){
-  const p = new URLSearchParams(location.search);
-  if(p.has('cur')) currencyEl.value = p.get('cur');
-  if(p.has('amt')){
-    const a = parseFloat(p.get('amt'));
-    const btn = amountButtons.find(b=>+b.dataset.amt===a);
-    if(btn){ setPressed(btn); } else { customAmtEl.value = String(a); }
-  }
-  if(p.has('to')) toNameEl.value = p.get('to');
-  if(p.has('toEmail')) toEmailEl.value = p.get('toEmail');
-  if(p.has('from')) fromNameEl.value = p.get('from');
-  if(p.has('when')) sendDateEl.value = p.get('when');
-  if(p.has('msg')) msgEl.value = p.get('msg');
+customAmtEl.addEventListener('input', ()=>{
+  amountButtons.forEach(b=>b.removeAttribute('aria-pressed'));
   updatePreview();
-})();
-</script>
-<script defer src="assets/js/gift-card.js?v=1"></script>  
-  <script>
-  (function(){
-    var s=document.createElement('script');
-    s.defer=true;
-    s.src='https://raingaia.github.io/rgztec/apps/web/public/assets/js/gift-card.js?v=2';
-    s.onerror=function(){
-      var f=document.createElement('script');
-      f.defer=true;
-      f.src='https://raingaia.github.io/rgztec/apps/web/public/assets%20/js/gift-card.js?v=2';
-      document.body.appendChild(f);
-    };
-    document.body.appendChild(s);
-  })();
+});
+
+[currencyEl, toNameEl, fromNameEl, msgEl].forEach(el => {
+  el.addEventListener('input', updatePreview);
+});
+
+document.getElementById('addToCart')?.addEventListener('click', ()=>{
+  alert(`Added ${fmt(getAmount())} Gift Card to cart!`);
+});
+
+// İlk yükleme
+updatePreview();
 </script>
 
 </body>
