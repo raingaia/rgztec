@@ -1,7 +1,7 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 18.3.0 (DÜZELTİLMİŞ - Kart Kırılma Hatası Giderildi)
+ * @version 18.2.0 (NİHAİ - İç İçe Mimari + Düzeltilmiş Nav Mantığı)
  *
  * NİHAİ VİZYON (v18.2):
  * 1. Tek "Beyin": Tüm veri (11 mağaza, 75 dükkan, tüm ürünler) TEK BİR
@@ -12,8 +12,9 @@
  * "Etsy tarzı" kartlarına sahip olabilir.
  * 4. "Fiyatsız" Tasarım: Sistemde "fiyatlı" küçük kartlar yoktur.
  *
- * DÜZELTME (v18.3): 'renderShopSection is not defined' hatası giderildi ve
- * ürün kartlarının kırılmasını önlemek için CSS sınıfı 'store-shops' olarak güncellendi.
+ * DÜZELTME (v18.2): Section Nav (dükkan menüsü) artık Katman 1'de (Mağaza)
+ * "çocukları" (alta link), Katman 2+'de (Dükkan) "kardeşleri" (yana link)
+ * gösterecek şekilde düzeltildi.
  */
 (function () {
   "use strict";
@@ -28,7 +29,9 @@
     const storeBody = document.querySelector("body.store-body");
 
     if (!storeBody || !storeRoot) {
-      // Eğer bu sayfa bir Store Shell değilse (örn: index.html), sessizce çık.
+      console.error(
+        "Store Shell Engine: '.store-body' veya '#store-root' bulunamadı."
+      );
       return;
     }
 
@@ -365,15 +368,12 @@
     `;
   }
 
-  // 6A) 'Etsy Tarzı' ÜRÜN Listesi (DÜZELTİLDİ: Sınıf ismi güncellendi)
+  // 6A) 'Etsy Tarzı' ÜRÜN Listesi
   function renderProductSection(products) {
     const productCards = products.map((p) => renderProductCard(p)).join("");
-    
-    // DÜZELTME: 'store-products' yerine 'store-shops' sınıfını kullanıyoruz.
-    // Bu sayede CSS'deki padding, margin ve grid ayarları buraya da aynen uygulanır.
     return `
-      <main class="store-shops"> 
-        <div class="store-shops-header">
+      <main class="store-products">
+        <div class="store-products-header">
           <h2>Explore Products</h2>
         </div>
         <div class="shop-grid">${productCards}</div>
@@ -413,7 +413,7 @@
   // 7) Boş Dükkan
   function renderEmptyShop() {
     return `
-      <main class="store-shops">
+      <main class="store-products">
         <div class="products-grid-empty">
           <h3>Coming Soon</h3>
           <p>New sections and products are being added to this shop.</p>
