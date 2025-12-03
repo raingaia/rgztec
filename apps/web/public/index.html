@@ -5,281 +5,925 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC • Home</title>
 <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <base href="/rgztec/">
 
+<!-- Kurumsal fontlar -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- rebuild: 2025-11-19 -->
 
 <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
+
+<meta name="theme-color" content="#f97316">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
+<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
+
 <link rel="stylesheet" href="assets/css/theme.css">
 <link rel="stylesheet" href="assets/css/hero-ambient.css">
 <link rel="stylesheet" href="assets/css/interactions.css">
+
 <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
-<link rel="stylesheet" href="assets/css/store-core.css">
 
 <style>
-/* === ZORUNLU HEADER VE MENÜ STİLLERİ (GARANTİ İÇİN BURADA) === */
-
-:root {
-  --nav-height: 48px;
-  --header-bg: #ffffff;
-  --line-color: #e5e7eb;
+:root{
+  --wrap:1500px;
+  --gutter-min:12px; --gutter-max:28px;
+  --ink:#0b1220; --sub:#64748b;
+  --line:#e5e7eb; --line-strong:#d7dbe3;
+  --brand:#f97316; --brand-dark:#ea580c;
+  --bg-soft:#f3f4f6;
+  --search-h:52px;
 }
 
+/* RESET */
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
 body {
-  padding-top: 0 !important; /* Eski paddingleri sıfırla */
+  font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color:var(--ink);
+  background:var(--bg-soft);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+ul{list-style:none;margin:0;padding:0}
+
+/* LAYOUT HELPERS */
+.page-section{
+  width:100%;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding-inline:16px;
+}
+.page-section--fluid{
+  max-width:none;
+  padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
 }
 
-/* 1. Header Ayarı */
-.store-header {
-  background: var(--header-bg);
-  border-bottom: 1px solid var(--line-color);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* HEADER – sticky, kurumsal */
+.header-outer{
+  position:sticky;
+  top:0;
+  z-index:60;
+  background:linear-gradient(180deg,#f9fafb,#ffffff);
+  backdrop-filter:saturate(120%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.header-row{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:8px 0;
+}
+.header-left,.hdr-right{flex-shrink:0}
+.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
+.brand{
+  font-weight:900;font-size:22px;letter-spacing:.08em;
+  color:var(--brand);text-decoration:none;margin-right:8px;
+}
+.btn-cats{
+  display:inline-flex;align-items:center;gap:8px;
+  height:40px;padding:0 14px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;cursor:pointer;
+  font-weight:500;font-size:14px;
+}
+.btn-cats svg{width:18px;height:18px}
+.btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
+
+.search{
+  display:flex;align-items:center;
+  height:var(--search-h);
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#f9fafb;
+  padding:0 8px 0 16px;
+  width:100%;
+  transition:border-color .18s,box-shadow .18s,background-color .18s;
+}
+.search input{
+  flex:1;min-width:0;border:0;outline:0;
+  font-size:15px;padding:12px 10px;background:transparent;
+}
+.search:hover{
+  border-color:#cbd5f5;background:#ffffff;
+  box-shadow:0 0 0 1px rgba(148,163,184,.35);
+}
+.search:focus-within{
+  border-color:var(--brand);background:#ffffff;
+  box-shadow:0 0 0 1px rgba(249,115,22,.45);
+}
+.go{
+  display:grid;place-items:center;
+  width:38px;height:38px;
+  border-radius:999px;
+  background:var(--brand);
+  border:0;cursor:pointer;margin-right:4px;
+  transition:background-color .18s,transform .12s;
+}
+.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
+.go:hover{background:var(--brand-dark);transform:translateY(-1px)}
+
+.hdr-right{
+  display:flex;justify-content:flex-end;align-items:center;
+  gap:12px;flex-wrap:nowrap;
+}
+.signin-link{
+  color:var(--ink);text-decoration:none;
+  font-weight:600;font-size:14px;white-space:nowrap;
+}
+.signin-link:hover{color:var(--brand)}
+.icon-btn{
+  display:grid;place-items:center;
+  width:32px;height:32px;
+  border-radius:999px;
+  border:1px solid var(--line-strong);
+  background:#fff;
+  font-size:16px;text-decoration:none;
+}
+.icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
+.pill-open{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:40px;padding:0 20px;
+  border-radius:999px;
+  background:var(--brand);color:#fff;
+  font-weight:700;text-decoration:none;font-size:14px;
+  box-shadow:0 14px 30px rgba(249,115,22,.35);
+}
+.pill-open:hover{background:var(--brand-dark)}
+
+/* QUICK FILTERS */
+.chips-outer{
+  border-top:1px solid #f3f4f6;
+  border-bottom:1px solid #eceef3;
+  background:#ffffff;
+  padding:6px 0;
+  box-shadow:0 3px 8px rgba(0,0,0,.03);
+  position:relative;
+  z-index:55;
+}
+.chips{
+  max-width:var(--wrap);
+  margin:0 auto;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  align-items:center;
+  column-gap:32px;
+  row-gap:12px;
+  padding:10px 24px 14px;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 18px;
+  background:#f8fafc;
+  border-radius:999px;
+  border:1px solid #e2e8f0;
+  color:#475569;
+  font-weight:600;
+  font-size:14px;
+  text-decoration:none;
+  transition:all .18s ease;
+}
+.chip:hover{
+  background:#ffffff;
+  border-color:#cbd5e1;
+  color:#0f172a;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+@media (max-width:768px){
+  .chips{
+    justify-content:center;
+    column-gap:18px;
+  }
 }
 
-/* 2. KRİTİK KISIM: MENÜ ÇUBUĞU */
-.custom-store-nav {
-  width: 100%;
-  background: #ffffff;
-  border-bottom: 1px solid var(--line-color);
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  overflow-x: auto; /* Mobilde taşarsa kaydır */
-  white-space: nowrap;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+/* HERO */
+.section-container{padding-top:24px}
+.section-h{
+  font-weight:800;font-size:22px;margin:0 0 16px;
+  letter-spacing:-0.02em;
+}
+.hero-outer{
+  padding:24px 0 32px;
+}
+.hero{
+  display:grid;
+  grid-template-columns:1.25fr .9fr;
+  gap:24px;align-items:center;
+  background:linear-gradient(135deg,#fef3e7,#eff6ff);
+  border-radius:24px;
+  box-shadow:0 22px 60px rgba(15,23,42,.10);
+  padding:28px 30px;
+}
+.hero h1{
+  font-weight:800;
+  letter-spacing:-0.03em;
+  line-height:1.08;
+  font-size:clamp(28px,3.6vw,40px);
+  margin:0 0 12px;
+}
+.hero p{
+  margin:0;
+  color:var(--sub);
+  max-width:520px;
+  font-size:15px;
+}
+.hero-cta-row{
+  display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;
+}
+.hero-cta-primary,.hero-cta-secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:44px;padding:0 20px;border-radius:999px;
+  font-weight:700;text-decoration:none;font-size:14px;
+}
+.hero-cta-primary{
+  background:#111827;color:#fff;
+  box-shadow:0 16px 32px rgba(15,23,42,.25);
+}
+.hero-cta-primary:hover{background:#020617}
+.hero-cta-secondary{
+  background:#fff;color:#111827;border:1px solid #e5e7eb;
+}
+.hero-cta-secondary:hover{border-color:#d1d5db}
+
+.badges{
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);background:#fff;
+  padding:8px 12px;border-radius:999px;
+  font-weight:700;font-size:12px;
 }
 
-/* Menü İçeriği */
-.custom-store-nav-list {
-  display: flex;
-  gap: 24px; /* Linkler arası boşluk */
-  align-items: center;
-  padding: 0 24px;
-  margin: 0 auto;
-  list-style: none;
-  max-width: 1500px; /* Geniş ekran sınırı */
-  width: 100%;
-  height: 100%;
+/* PROMO BOXES */
+.promos{display:grid;grid-template-columns:1fr;gap:14px}
+.promo-box{
+  position:relative;display:block;
+  border:1px solid var(--line);
+  background:linear-gradient(135deg,#fef2e9,#eff6ff);
+  border-radius:18px;
+  padding:12px;min-height:140px;
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  transition:transform .15s,box-shadow .15s,border-color .15s;
+}
+.promo-box:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(15,23,42,.18);
+  border-color:var(--line-strong);
+}
+.promo-badge{
+  position:absolute;top:12px;left:12px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:800;font-size:13px;color:#fff;
+  background:var(--brand);padding:6px 10px;border-radius:999px;
+}
+.promo-media{
+  position:absolute;inset:0;opacity:.4;
+}
+.promo-line{
+  position:absolute;left:16px;right:16px;
+  height:14px;background:rgba(255,255,255,.7);
+  bottom:20px;border-radius:7px;
+}
+.promo-line.short{
+  width:60%;right:auto;bottom:48px;
 }
 
-/* Linklerin Kendisi */
-.custom-store-nav-link {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: #4b5563; /* Gri ton */
-  text-decoration: none;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  border-bottom: 2px solid transparent; /* Hover çizgisi için hazırlık */
-  transition: all 0.2s ease;
+/* === MARKETPLACE SHOWCASE (banner + SEO metin) === */
+
+.marketplace-showcase{
+  padding:10px 0 34px;
 }
 
-.custom-store-nav-link:hover {
-  color: #f97316; /* Turuncu (Marka Rengi) */
-  border-bottom-color: #f97316;
+.marketplace-showcase-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1.1fr);
+  gap:28px;
+  align-items:center;
 }
 
-/* Scrollbar gizleme (estetik için) */
-.custom-store-nav::-webkit-scrollbar {
-  height: 0px;
-  background: transparent;
+.marketplace-copy{
+  padding:8px 4px;
 }
 
-/* Mobilde sağa yaslanmasın */
-@media (max-width: 768px) {
-  .custom-store-nav-list {
-    padding: 0 16px;
-    gap: 16px;
-  }
+.marketplace-eyebrow{
+  font-size:12px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:#9ca3af;
+  font-weight:700;
+  margin-bottom:6px;
 }
 
-/* Eski Header Override */
-.header-outer { display: none !important; } 
-.chips-outer { display: none !important; }
+.marketplace-copy h2{
+  margin:0 0 10px;
+  font-size:26px;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+}
 
-/* LAYOUT DÜZELTMELERİ */
-.hero-outer {
-  margin-top: 0 !important;
-  padding-top: 40px !important;
+.marketplace-copy h2 span{
+  color:var(--brand);
+}
+
+.marketplace-copy p.lead{
+  margin:0 0 14px;
+  font-size:15px;
+  color:#4b5563;
+  max-width:520px;
+}
+
+.marketplace-bullets{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin:14px 0 18px;
+}
+
+.marketplace-bullet{
+  background:#ffffff;
+  border-radius:16px;
+  padding:10px 12px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 10px 24px rgba(15,23,42,0.06);
+}
+
+.marketplace-bullet h3{
+  margin:0 0 4px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.marketplace-bullet p{
+  margin:0;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.marketplace-meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+  align-items:center;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.marketplace-meta-row strong{
+  color:#111827;
+}
+
+.marketplace-meta-dot::before{
+  content:"• ";
+  color:#9ca3af;
+}
+
+.marketplace-cta-secondary{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  color:#111827;
+}
+
+.marketplace-cta-secondary span{
+  font-size:16px;
+}
+
+.marketplace-cta-secondary:hover{
+  color:var(--brand-dark);
+}
+
+.marketplace-banner{
+  position:relative;
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 28px 70px rgba(0,0,0,0.32);
+}
+
+.marketplace-banner img{
+  width:100%;
+  display:block;
+}
+
+/* SECTION BAND */
+.section-band{
+  margin-top:12px;
+  padding:28px 0 40px;
+  background:linear-gradient(180deg,#f4f5fb 0%, #f7f8fc 40%, #f2f4fa 100%);
+  border-top:1px solid rgba(209,213,219,0.8);
+  box-shadow:0 -4px 20px rgba(15,23,42,0.04) inset;
+}
+.section-band .section-h{
+  font-size:20px;
+}
+
+/* ========= STORE CARDS – Marketplace gallery ========= */
+
+.store-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;
+  margin-top:12px;
+}
+
+/* desktop: 2 mağaza yan yana, hardware tam genişlik */
+@media(min-width:1024px){
+  .store-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .store-card--full{
+    grid-column:1 / -1;
+  }
+}
+
+.store-card{
+  background:#f9fafb;
+  border-radius:24px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 20px 45px rgba(15,23,42,0.08);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+
+.store-card--full .store-media{
+  height:230px;
+}
+
+.store-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 26px 60px rgba(15,23,42,0.16);
+}
+
+.store-media-link{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+}
+
+.store-media-link:focus-visible{
+  outline:2px solid var(--brand);
+  outline-offset:3px;
+}
+
+.store-media{
+  position:relative;
+  height:190px;
+  background:linear-gradient(135deg,#e5e7eb,#f9fafb);
+  overflow:hidden;
+}
+
+.store-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transform:translateZ(0);
+  transition:transform .22s ease;
+}
+
+.store-card:hover .store-media img{
+  transform:scale(1.04);
+}
+
+.store-status{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600;
+  background:#fef3c7;
+  color:#92400e;
+}
+
+/* curated / featured etiketi kartın alt kısmında */
+.store-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  background:rgba(15,23,42,0.9);
+  color:#f9fafb;
+  margin-bottom:6px;
+}
+
+.store-body{
+  padding:16px 18px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  background:#f3f4f6;           /* kurumsal gri alan */
+  border-top:1px solid #e5e7eb; /* görsel ile ayrım */
+}
+
+.store-name{
+  margin:0;
+  font-size:17px;
+  font-weight:800;
+}
+.store-desc{
+  margin:0;
+  font-size:14px;
+  color:#6b7280;
+}
+.store-meta{
+  margin:2px 0 0;
+  font-size:12px;
+  color:#9ca3af;
+}
+.store-links{
+  margin-top:10px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.store-link{
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  color:#2563eb;
+}
+.store-link:hover{text-decoration:underline}
+
+/* FOOTER */
+.footer-outer{
+  margin-top:40px;background:#232347;
+  color:#fff;padding-top:48px;font-size:14px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+}
+.footer-grid h4{
+  margin:0 0 12px;font-size:16px;font-weight:700;
+}
+.footer-grid a{
+  display:block;color:#d1d1d1;text-decoration:none;
+  margin-bottom:10px;transition:color .2s;
+}
+.footer-grid a:hover{color:#fff;text-decoration:underline}
+.footer-socials{display:flex;gap:16px;margin-top:20px}
+.footer-socials svg{width:24px;height:24px;fill:#d1d1d1;transition:fill .2s}
+.footer-socials a:hover svg{fill:#fff}
+.footer-bottom{
+  border-top:1px solid #3c3c62;margin-top:48px;
+  padding:24px 0;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:16px;
+  font-size:13px;color:#d1d1d1;
+}
+.footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
+.footer-bottom a:hover{text-decoration:underline}
+
+/* === TYPOGRAPHY OVERRIDES – tam kurumsal görünüm === */
+
+h1, h2, h3, h4, h5{
+  font-family:'Inter','IBM Plex Sans',sans-serif;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  color:#0f172a;
+}
+
+.store-name{
+  font-family:'Inter',sans-serif;
+  font-weight:800;
+  letter-spacing:-0.015em;
+  font-size:18px;
+}
+
+.store-desc,
+.store-meta,
+.marketplace-copy p,
+.marketplace-bullet p{
+  font-family:'Inter',sans-serif;
+}
+
+.signin-link,
+.chip,
+.pill-open,
+.btn-cats,
+.badge,
+.store-badge,
+.marketplace-eyebrow,
+.marketplace-bullet h3{
+  font-family:'Inter',sans-serif;
+}
+
+/* CATEGORY DRAWER basit stil (eksik kalmasın diye) */
+.drawer{
+  position:fixed;
+  inset:0;
+  z-index:70;
+  display:flex;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.drawer.open{
+  pointer-events:auto;
+  opacity:1;
+}
+.drawer .back{
+  flex:1;
+  background:rgba(15,23,42,.45);
+}
+.drawer .panel{
+  width:280px;
+  max-width:80%;
+  background:#fff;
+  border-left:1px solid #e5e7eb;
+  padding:20px;
+  box-shadow:-12px 0 30px rgba(15,23,42,.25);
+}
+.drawer .panel nav a{
+  display:block;
+  padding:8px 0;
+  color:#0f172a;
+  text-decoration:none;
+  font-size:14px;
+}
+.drawer .panel nav a:hover{
+  color:var(--brand);
+}
+
+/* RESPONSIVE ekstra */
+@media(max-width:1100px){
+  .marketplace-showcase-inner{
+    grid-template-columns:1fr;
+  }
+  .marketplace-banner{
+    order:-1;
+  }
+}
+
+@media(max-width:900px){
+  .hero{
+    grid-template-columns:1fr;
+    padding:22px 18px;
+  }
+}
+
+@media(max-width:768px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hdr-right{display:none}
+  .marketplace-bullets{
+    grid-template-columns:1fr;
+  }
+  .store-grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 <body>
 
-<header class="store-header">
-  <div class="store-header-inner">
-    <div class="store-header-left">
-      <a href="./" class="store-header-logo">RGZTEC</a>
-      <button class="store-header-categories-btn" type="button" id="btnCats">
-        <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-        <span>Categories</span>
-      </button>
-    </div>
+<header class="header-outer">
+  <div class="page-section page-section--fluid header-row">
+    <div class="header-left">
+      <a class="brand" href="./">RGZTEC</a>
 
-    <div class="store-header-center">
-      <form class="store-header-search" role="search" action="listings.html">
-        <input type="search" name="q" placeholder="Search marketplace..." aria-label="Search" />
-        <button type="submit" aria-label="Search">
-          <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
-        </button>
-      </form>
-    </div>
+      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span>Categories</span>
+      </button>
+    </div>
 
-    <div class="store-header-right">
-      <div class="store-header-secondary">
-        <a href="editor/" class="store-header-secondary-link">Dashboard</a>
-        <a href="login/" class="store-header-secondary-link">Sign In</a>
-      </div>
-      <div class="store-header-actions">
-        <a href="cart.html" class="store-header-icon-pill" aria-label="Cart">
-          <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
-        </a>
-        <a href="open-store.html" class="store-header-cta"><span>Open Store</span></a>
-      </div>
-    </div>
-  </div>
+    <div class="search-wrap">
+      <form class="search" role="search" action="listings.html">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="6" stroke="currentColor"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="hdr-right">
+      <a href="editor/" class="signin-link">Dashboard / Editor</a>
+      <a href="login/" class="signin-link">Sign in</a>
+      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
+      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
+      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
+      <a class="pill-open" href="open-store.html">Open Store</a>
+    </div>
+  </div>
+
+  <div class="chips-outer">
+    <div class="page-section page-section--fluid">
+      <nav class="chips" aria-label="Quick filters">
+        <a class="chip" href="listings.html?tag=new">New</a>
+        <a class="chip" href="listings.html?tag=trending">Trending</a>
+        <a class="chip" href="listings.html?tag=top-sellers">Top sellers</a>
+        <a class="chip" href="listings.html?tag=deals">Deals</a>
+        <a class="chip" href="listings.html?tag=html-templates">HTML Templates</a>
+        <a class="chip" href="listings.html?tag=react">React</a>
+        <a class="chip" href="listings.html?tag=ai">AI</a>
+        <a class="chip" href="listings.html?tag=hardware">Hardware</a>
+      </nav>
+    </div>
+  </div>
 </header>
 
-<nav class="custom-store-nav">
-  <ul class="custom-store-nav-list">
-    <li><a href="store/game-makers/" class="custom-store-nav-link">Game Makers</a></li>
-    <li><a href="store/ai-tools-hub/" class="custom-store-nav-link">AI Tools Hub</a></li>
-    <li><a href="store/dev-studio-one/" class="custom-store-nav-link">Dev Studio One</a></li>
-    <li><a href="store/email-forge/" class="custom-store-nav-link">Email Forge</a></li>
-    <li><a href="store/hardware/" class="custom-store-nav-link">Hardware Lab</a></li>
-    <li><a href="store/html-templates/" class="custom-store-nav-link">HTML Templates</a></li>
-    <li><a href="store/icon-smith/" class="custom-store-nav-link">Icon Smith</a></li>
-    <li><a href="store/reactorium/" class="custom-store-nav-link">Reactorium</a></li>
-    <li><a href="store/tiny-js-lab/" class="custom-store-nav-link">Tiny JS Lab</a></li>
-    <li><a href="store/unity-hub/" class="custom-store-nav-link">Unity Hub</a></li>
-    <li><a href="store/wp-plugins/" class="custom-store-nav-link">WP Plugins</a></li>
-  </ul>
-</nav>
-
+<!-- HERO -->
 <section class="hero-outer">
-  <div class="page-section page-section--fluid hero">
-    <div>
-      <h1>Build, buy, and sell high-quality digital products</h1>
-      <p>Professional marketplace for templates, code, tools — now with curated hardware accessories for developers and makers.</p>
+  <div class="page-section page-section--fluid hero">
+    <div>
+      <h1>Build, buy, and sell high-quality digital products</h1>
+      <p>Professional marketplace for templates, code, tools — now with curated hardware accessories for developers and makers.</p>
 
-      <div class="hero-cta-row">
-        <a href="listings.html" class="hero-cta-primary">Browse marketplace →</a>
-        <a href="become-seller.html" class="hero-cta-secondary">Start selling</a>
-      </div>
+      <div class="hero-cta-row">
+        <a href="listings.html" class="hero-cta-primary">Browse marketplace →</a>
+        <a href="become-seller.html" class="hero-cta-secondary">Start selling</a>
+      </div>
 
-      <div class="badges" role="list" aria-label="Highlights">
-        <div class="badge">✅ Buyer Protection</div>
-        <div class="badge">🔒 Secure Payments</div>
-        <div class="badge">⚡ Instant delivery</div>
-        <div class="badge">🌍 Global</div>
-      </div>
-    </div>
+      <div class="badges" role="list" aria-label="Highlights">
+        <div class="badge">✅ Buyer Protection</div>
+        <div class="badge">🔒 Secure Payments</div>
+        <div class="badge">⚡ Instant delivery</div>
+        <div class="badge">🌍 Global</div>
+      </div>
+    </div>
 
-    <div id="heroPromos" class="promos" aria-label="Promotions">
-      <a class="promo-box" href="listings.html?tag=deals" aria-label="Hot deals">
-        <span class="promo-badge">🔥 Hot deals</span>
-        <div class="promo-media"></div>
-        <div class="promo-line"></div>
-        <div class="promo-line short"></div>
-      </a>
-      <a class="promo-box" href="listings.html?tag=hardware" aria-label="Hardware picks">
-        <span class="promo-badge">🧰 Hardware picks</span>
-        <div class="promo-media"></div>
-        <div class="promo-line"></div>
-        <div class="promo-line short"></div>
-      </a>
-    </div>
-  </div>
+    <div id="heroPromos" class="promos" aria-label="Promotions">
+      <a class="promo-box" href="listings.html?tag=deals" aria-label="Hot deals">
+        <span class="promo-badge">🔥 Hot deals</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+      <a class="promo-box" href="listings.html?tag=hardware" aria-label="Hardware picks">
+        <span class="promo-badge">🧰 Hardware picks</span>
+        <div class="promo-media"></div>
+        <div class="promo-line"></div>
+        <div class="promo-line short"></div>
+      </a>
+    </div>
+  </div>
 </section>
 
+<!-- MARKETPLACE SHOWCASE: banner + SEO metin -->
 <section class="marketplace-showcase">
-  <div class="page-section page-section--fluid marketplace-showcase-inner">
-    <div class="marketplace-copy">
-      <div class="marketplace-eyebrow">#1 BEST SELLING GLOBAL MARKETPLACE</div>
-      <h2>Premium <span>digital marketplace</span> for developers, designers & creators.</h2>
-      <p class="lead">RGZTEC brings together high-quality HTML templates, React components, AI tools, WordPress plugins, icons, games and curated hardware for modern builders.</p>
-      
-      <div class="marketplace-bullets">
-        <div class="marketplace-bullet">
-          <h3>For buyers</h3>
-          <p>Launch faster with production-ready UI kits, code starters, email flows and micro-tools.</p>
-        </div>
-        <div class="marketplace-bullet">
-          <h3>For creators</h3>
-          <p>Open your store, reach a global audience and earn recurring revenue from your products.</p>
-        </div>
-        <div class="marketplace-bullet">
-          <h3>For teams</h3>
-          <p>Standardize design systems, automate workflows and equip devs with curated hardware.</p>
-        </div>
-      </div>
+  <div class="page-section page-section--fluid marketplace-showcase-inner">
+    <div class="marketplace-copy">
+      <div class="marketplace-eyebrow">#1 BEST SELLING GLOBAL MARKETPLACE</div>
+      <h2>Premium <span>digital marketplace</span> for developers, designers & creators.</h2>
+      <p class="lead">
+        RGZTEC brings together high-quality HTML templates, React components, AI tools,
+        WordPress plugins, icons, games and curated hardware for modern builders.
+      </p>
 
-      <div class="marketplace-meta-row">
-        <span><strong>11+ curated stores</strong> across code, AI, design & hardware.</span>
-        <span class="marketplace-meta-dot">Instant digital delivery & secure payments.</span>
-      </div>
+      <div class="marketplace-bullets">
+        <div class="marketplace-bullet">
+          <h3>For buyers</h3>
+          <p>Launch faster with production-ready UI kits, code starters, email flows and micro-tools.</p>
+        </div>
+        <div class="marketplace-bullet">
+          <h3>For creators</h3>
+          <p>Open your store, reach a global audience and earn recurring revenue from your products.</p>
+        </div>
+        <div class="marketplace-bullet">
+          <h3>For teams</h3>
+          <p>Standardize design systems, automate workflows and equip devs with curated hardware.</p>
+        </div>
+      </div>
 
-      <a href="become-seller.html" class="marketplace-cta-secondary">
-        <span>➜</span> Start selling on RGZTEC
-      </a>
-    </div>
+      <div class="marketplace-meta-row">
+        <span><strong>11+ curated stores</strong> across code, AI, design & hardware.</span>
+        <span class="marketplace-meta-dot">Instant digital delivery & secure payments.</span>
+      </div>
 
-    <div class="marketplace-banner">
-      <img src="assets/images/banners/global-marketplace-banner.webp" alt="Global Marketplace banner">
-    </div>
-  </div>
+      <a href="become-seller.html" class="marketplace-cta-secondary">
+        <span>➜</span> Start selling on RGZTEC
+      </a>
+    </div>
+
+    <div class="marketplace-banner">
+      <!-- ÖNEMLİ: base ile çakışmaması için sadece assets/... -->
+      <img src="assets/images/banners/global-marketplace-banner.webp"
+           alt="#1 Best Selling Global Marketplace banner">
+    </div>
+  </div>
 </section>
 
+<!-- MARKETPLACE GALLERY -->
 <div class="section-band">
-  <main class="page-section page-section--fluid section-container">
-    <h2 class="section-h">Marketplace gallery</h2>
-    <div class="store-grid" id="gallery"></div>
-  </main>
+  <main class="page-section page-section--fluid section-container">
+    <h2 class="section-h">Marketplace gallery</h2>
+    <div class="store-grid" id="gallery"></div>
+  </main>
+</div>
+
+<!-- CATEGORY DRAWER -->
+<div id="drawer" class="drawer" aria-hidden="true">
+  <div class="back" id="backdrop"></div>
+  <aside class="panel" role="dialog" aria-label="Categories">
+    <nav>
+      <a href="listings.html?tag=html-templates">HTML Templates</a>
+      <a href="listings.html?tag=react-components">React Components</a>
+      <a href="listings.html?tag=wordpress-plugins">WordPress Plugins</a>
+      <a href="listings.html?tag=ai-tools">AI Tools &amp; Prompts</a>
+      <a href="listings.html?tag=mobile-games">Mobile Games</a>
+      <a href="listings.html?tag=icons-graphics">Icons &amp; Graphics</a>
+      <a href="listings.html?tag=3d-models">3D &amp; AR/VR Models</a>
+      <a href="listings.html?tag=scripts-code">Scripts &amp; Code</a>
+      <a href="listings.html?tag=audio">Audio &amp; Sound Effects</a>
+      <a href="listings.html?tag=video-templates">Video Templates</a>
+      <a href="listings.html?tag=hardware">Hardware</a>
+      <a href="listings.html" style="font-weight:700;color:var(--brand);border-top:1px solid var(--line);margin-top:4px;padding-top:12px;">All Categories →</a>
+    </nav>
+  </aside>
 </div>
 
 <footer class="footer-outer">
-  <div class="page-section page-section--fluid">
-    <div class="footer-grid">
-      <div>
-        <h4>Shop</h4>
-        <a href="gift-card.html">Gift cards</a>
-        <a href="sitemap.xml">Sitemap</a>
-        <a href="#">RGZTEC blog</a>
-        <a href="product.html">Featured product</a>
-        <a href="demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
-      </div>
-      <div>
-        <h4>Sell</h4>
-        <a href="become-seller.html">Sell on RGZTEC</a>
-        <a href="#">Teams</a>
-        <a href="#">Forums</a>
-        <a href="#">Affiliates & Creators</a>
-      </div>
-      <div>
-        <h4>About</h4>
-        <a href="#">RGZTEC, Inc.</a>
-        <a href="privacy.html">Policies & privacy</a>
-        <a href="#">Investors</a>
-        <a href="#">Careers</a>
-      </div>
-      <div>
-        <h4>Help</h4>
-        <a href="#">Help Center</a>
-        <a href="mailto:support@rgztec.com">Contact support</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© <span id="y"></span> RGZTEC, Inc.</span>
-      <div><a href="#">Terms</a> <a href="#" style="margin-left:16px">Privacy</a></div>
-    </div>
-  </div>
+  <div class="page-section page-section--fluid">
+    <div class="footer-grid">
+      <div>
+        <h4>Shop</h4>
+        <a href="gift-card.html">Gift cards</a>
+        <a href="sitemap.xml">Sitemap</a>
+        <a href="#">RGZTEC blog</a>
+        <a href="product.html">Featured product</a>
+        <a href="demos/0001.html" target="_blank" rel="noopener noreferrer">Live Demo</a>
+      </div>
+      <div>
+        <h4>Sell</h4>
+        <a href="become-seller.html">Sell on RGZTEC</a>
+        <a href="#">Teams</a>
+        <a href="#">Forums</a>
+        <a href="#">Affiliates &amp; Creators</a>
+      </div>
+      <div>
+        <h4>About</h4>
+        <a href="#">RGZTEC, Inc.</a>
+        <a href="privacy.html">Policies &amp; privacy</a>
+        <a href="#">Investors</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Privacy settings</a>
+        <a href="mailto:support@rgztec.com">Contact support (support@rgztec.com)</a>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2C6.5 2 2 6.5 2 12c0 4.2 2.7 7.8 6.4 9.1.1-.4.2-1.6.3-2.2.1-.5-.2-1-.2-1.5 0-.7.4-1.2 1-1.2.7 0 1 .5 1 1.2 0 .7-.4 1.8-.7 2.8-.2.8.4 1.5 1.2 1.5 1.5 0 2.6-1.9 2.6-4.2 0-2.3-1.6-3.9-3.7-3.9-2.6 0-4.3 1.9-4.3 4 0 .7.3 1.5.6 2 .2.2.2.3.1.5-.1.2-.2.8-.3 1-.1.2-.3.3-.6.2-1.4-.7-2.3-2.5-2.3-4.3 0-3.3 2.4-6.2 6.8-6.2 3.6 0 6.3 2.5 6.3 5.8 0 3.4-2.2 6.1-5.2 6.1-1 0-2-.5-2.3-1.1 0 0-.5 2-.6 2.4-.3.8-1 1.6-1.5 2.2.7.2 1.5.3 2.3.3 5.5 0 10-4.5 10-10C22 6.5 17.5 2 12 2z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="y"></span> RGZTEC, Inc.</span>
+      <div>
+        <a href="#">Terms of Use</a>
+        <a href="#" style="margin-left:16px">Privacy</a>
+        <a href="#" style="margin-left:16px">Interest-based ads</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -287,59 +931,123 @@ const STORE_IMAGE_BASE = 'assets/images/store/';
 const STORE_IMAGE_EXT = '.webp';
 
 function getStoreBadge(slug){
-  if (slug === 'html-templates') return 'Flagship store';
-  if (slug === 'email-forge' || slug === 'icon-smith') return 'Featured';
-  return 'Curated';
+  if (slug === 'html-templates') return 'Flagship store';
+  if (slug === 'email-forge' || slug === 'icon-smith') return 'Featured';
+  return 'Curated';
 }
 
 function renderStoreCard(store){
-  const imgSrc = STORE_IMAGE_BASE + store.slug + STORE_IMAGE_EXT;
-  const fullClass = store.slug === 'hardware' ? ' store-card--full' : '';
-  const badge = getStoreBadge(store.slug);
-  const desc = store.tagline || store.desc || '';
-  const storeLabel = store.slug.replace(/-/g," ");
-  const storeHref = `store/${store.slug}/`;
+  const imgSrc = STORE_IMAGE_BASE + store.slug + STORE_IMAGE_EXT;
+  const fullClass = store.slug === 'hardware' ? ' store-card--full' : '';
+  const badge = getStoreBadge(store.slug);
+  const desc = store.tagline || store.desc || '';
+  const storeLabel = store.slug.replace(/-/g," ");
 
-  return `
-    <article class="store-card${fullClass}">
-      <a class="store-media-link" href="${storeHref}" aria-label="${store.name} store">
-        <div class="store-media">
-          <img src="${imgSrc}" alt="${store.name} preview">
-          <span class="store-status">New arrivals</span>
-        </div>
-      </a>
-      <div class="store-body">
-        <span class="store-badge">${badge}</span>
-        <h3 class="store-name">${store.name}</h3>
-        <p class="store-desc">${desc}</p>
-        <div class="store-links">
-          <a class="store-link" href="${storeHref}">Visit store →</a>
-        </div>
-      </div>
-    </article>
-  `;
+  // 🚀 **YENİ:** Tüm mağazalar artık /store/{slug}/ formatında açılacak
+  const storeHref = `store/${store.slug}/`;
+
+  return `
+    <article class="store-card${fullClass}">
+      <a class="store-media-link" href="${storeHref}" aria-label="${store.name} store">
+        <div class="store-media">
+          <img src="${imgSrc}" alt="${store.name} preview">
+          <span class="store-status">New arrivals</span>
+        </div>
+      </a>
+
+      <div class="store-body">
+        <span class="store-badge">${badge}</span>
+        <h3 class="store-name">${store.name}</h3>
+        <p class="store-desc">${desc}</p>
+        <p class="store-meta">Store • ${storeLabel}</p>
+
+        <div class="store-links">
+          <a class="store-link" href="${storeHref}">Visit store →</a>
+          <a class="store-link" href="listings.html?store=${store.slug}">View products</a>
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 (async function initPage(){
-  const y = document.getElementById("y");
-  if (y) y.textContent = new Date().getFullYear();
+  // footer yılı
+  const y = document.getElementById("y");
+  if (y) y.textContent = new Date().getFullYear();
 
-  try{
-    const res = await fetch('data/stores.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error('Failed to load stores.json');
-    const stores = await res.json();
-    const gallery = document.getElementById("gallery");
-    if (gallery && Array.isArray(stores)){
-      gallery.innerHTML = stores.map(renderStoreCard).join("");
-    }
-  }catch(err){
-    console.error(err);
-  }
+  // Drawer
+  const drawer = document.getElementById("drawer");
+  const btnCats = document.getElementById("btnCats");
+  const backdrop = document.getElementById("backdrop");
+
+  function openDrawer(){
+    drawer.classList.add("open");
+    drawer.setAttribute("aria-hidden","false");
+  }
+  function closeDrawer(){
+    drawer.classList.remove("open");
+    drawer.setAttribute("aria-hidden","true");
+  }
+
+  if (btnCats && drawer && backdrop){
+    btnCats.addEventListener("click", openDrawer);
+    backdrop.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeDrawer();
+    });
+  }
+
+  // Stores gallery – load /data/stores.json
+  try{
+    const res = await fetch('data/stores.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to load stores.json: ' + res.status);
+
+    const stores = await res.json();
+    const gallery = document.getElementById("gallery");
+
+    if (gallery && Array.isArray(stores)){
+      gallery.innerHTML = stores.map(renderStoreCard).join("");
+    }
+  }catch(err){
+    console.error('Store data error:', err);
+    const gallery = document.getElementById("gallery");
+    if (gallery){
+      gallery.innerHTML =
+        '<p style="font-size:13px;color:#6b7280;">Stores could not be loaded. Check <code>data/stores.json</code>.</p>';
+    }
+  }
 })();
 </script>
 </body>
 </html>
- 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
 
 
 
