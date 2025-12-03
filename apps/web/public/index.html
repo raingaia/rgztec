@@ -142,6 +142,99 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-open-store:hover { background: var(--brand); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
 
 /* =========================================
+   1.5 CATEGORIES DROPDOWN (Etsy-style)
+   ========================================= */
+.cat-overlay {
+  position: fixed;
+  inset: 72px 0 0 0;   /* headerın altından başlasın */
+  background: transparent;
+  z-index: 900;
+}
+
+.cat-panel {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  z-index: 901;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.cat-panel-inner {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 32px 80px rgba(15, 23, 42, 0.22);
+  border: 1px solid rgba(148,163,184,0.35);
+  padding: 18px 20px 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+  gap: 20px;
+}
+
+.cat-col-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 2px 0 4px;
+}
+
+.cat-col-sub {
+  font-size: 13px;
+  color: var(--sub);
+  margin-bottom: 12px;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.cat-item,
+.store-item {
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 10px 11px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cat-item:hover,
+.store-item:hover {
+  background: #fefce8;
+  border-color: #facc15;
+}
+
+.cat-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.cat-text-main {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+.cat-text-sub {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* =========================================
    2. STORE NAVIGATION
    ========================================= */
 .sub-nav {
@@ -206,7 +299,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .btn-outline:hover { border-color: var(--sub); }
 
 /* =========================================
-   3.5 MARKETPLACE BANNER (eski home gibi)
+   3.5 MARKETPLACE BANNER
    ========================================= */
 .marketplace-banner-section {
   padding: 10px 0 40px;
@@ -373,10 +466,17 @@ ul { list-style: none; padding: 0; margin: 0; }
   .banner-image {
     order: -1;
   }
+  .cat-panel-inner {
+    max-width: 100%;
+    border-radius: 0;
+  }
 }
 
 @media (max-width: 768px) {
   .card--featured {
+    grid-template-columns: 1fr;
+  }
+  .cat-panel-inner {
     grid-template-columns: 1fr;
   }
 }
@@ -389,15 +489,15 @@ ul { list-style: none; padding: 0; margin: 0; }
     <div style="display:flex; align-items:center; gap:24px;">
       <a href="./" class="logo">RGZTEC</a>
 
-      <!-- 🔗 Categories artık gerçek link -->
-      <a href="categories.html" class="btn-cat">
+      <!-- Categories – Etsy tarzı dropdown tetikleyici -->
+      <button type="button" class="btn-cat" id="btnCategories">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
              viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                d="M3.75 6h16.5M3.75 12h16.5M3.75 18h16.5" />
         </svg>
         Categories
-      </a>
+      </button>
     </div>
 
     <div class="search-bar">
@@ -436,6 +536,23 @@ ul { list-style: none; padding: 0; margin: 0; }
   </div>
 </header>
 
+<!-- Categories dropdown overlay & panel -->
+<div class="cat-overlay" id="catOverlay" hidden></div>
+<div class="cat-panel" id="catPanel" hidden>
+  <div class="cat-panel-inner">
+    <div>
+      <div class="cat-col-title">Browse by category</div>
+      <div class="cat-col-sub">Explore all sub-categories (stores & collections) across RGZTEC.</div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+    <div>
+      <div class="cat-col-title">Browse by store</div>
+      <div class="cat-col-sub">Jump into a store and view its full collection.</div>
+      <div class="cat-grid" id="storeGrid"></div>
+    </div>
+  </div>
+</div>
+
 <nav class="sub-nav">
   <div class="sub-nav-list">
     <div class="sub-nav-item"><a href="store/game-makers/">Game Makers</a></div>
@@ -464,7 +581,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   </div>
 </section>
 
-<!-- Eski home’daki gibi banner alanı -->
+<!-- Banner -->
 <section class="marketplace-banner-section">
   <div class="banner-inner">
     <div class="banner-copy">
@@ -528,7 +645,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 </footer>
 
 <script>
-// Mağaza Listesi – Hardware en başta, featured olacak
+// ----------------- Ana sayfa store kartları (değişmedi) -----------------
 const stores = [
   { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators, dev boards & IoT for serious builders.' },
   { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets' },
@@ -580,10 +697,118 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.innerHTML = stores.map(renderStoreCard).join('');
   }
 });
+
+// ----------------- Categories dropdown (store.data.json’dan) -----------
+
+const btnCategories = document.getElementById('btnCategories');
+const catOverlay   = document.getElementById('catOverlay');
+const catPanel     = document.getElementById('catPanel');
+const catGrid      = document.getElementById('catGrid');
+const storeGrid    = document.getElementById('storeGrid');
+
+let catLoaded = false;
+
+function openCategories() {
+  catOverlay.hidden = false;
+  catPanel.hidden = false;
+  btnCategories.setAttribute('aria-expanded', 'true');
+  if (!catLoaded) {
+    loadCategories();
+  }
+}
+
+function closeCategories() {
+  catOverlay.hidden = true;
+  catPanel.hidden = true;
+  btnCategories.setAttribute('aria-expanded', 'false');
+}
+
+btnCategories.addEventListener('click', () => {
+  const isOpen = !catPanel.hidden;
+  if (isOpen) closeCategories();
+  else openCategories();
+});
+
+catOverlay.addEventListener('click', closeCategories);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCategories();
+});
+
+function createCatItem(section) {
+  const href = `store/${section.storeSlug}/${section.sectionSlug}/`;
+  const letter = (section.name || '?').charAt(0).toUpperCase();
+  return `
+    <a class="cat-item" href="${href}">
+      <div class="cat-badge">${letter}</div>
+      <div>
+        <div class="cat-text-main">${section.name}</div>
+        <div class="cat-text-sub">${section.storeTitle}</div>
+      </div>
+    </a>
+  `;
+}
+
+function createStoreItem(store) {
+  const href = `store/${store.slug}/`;
+  const letter = (store.title || store.slug || '?').charAt(0).toUpperCase();
+  return `
+    <a class="store-item" href="${href}">
+      <div class="cat-badge">${letter}</div>
+      <div>
+        <div class="cat-text-main">${store.title}</div>
+        <div class="cat-text-sub">${store.tagline || 'Official store'}</div>
+      </div>
+    </a>
+  `;
+}
+
+async function loadCategories() {
+  try {
+    const res = await fetch('data/store.data.json?v=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('store.data.json not found');
+    const data = await res.json();
+
+    const sections = [];
+    const storeList = [];
+
+    for (const [slug, cfg] of Object.entries(data || {})) {
+      const title = cfg.title || slug;
+      const tagline = cfg.tagline || '';
+      storeList.push({ slug, title, tagline });
+
+      if (Array.isArray(cfg.sections)) {
+        cfg.sections.forEach(sec => {
+          sections.push({
+            storeSlug: slug,
+            sectionSlug: sec.slug,
+            name: sec.name || sec.slug,
+            storeTitle: title
+          });
+        });
+      }
+    }
+
+    // Kategoriler – ilk 20 tanesini göster (fazla olursa)
+    const limitedSections = sections.slice(0, 20);
+    catGrid.innerHTML = limitedSections.map(createCatItem).join('') ||
+      '<div class="cat-text-sub">No categories configured.</div>';
+
+    // Mağazalar
+    storeGrid.innerHTML = storeList.map(createStoreItem).join('') ||
+      '<div class="cat-text-sub">No stores configured.</div>';
+
+    catLoaded = true;
+  } catch (err) {
+    console.warn(err);
+    catGrid.innerHTML = '<div class="cat-text-sub">Categories could not be loaded. Check <code>data/store.data.json</code>.</div>';
+    storeGrid.innerHTML = '<div class="cat-text-sub">Stores could not be loaded. Check <code>data/store.data.json</code>.</div>';
+  }
+}
 </script>
 
 </body>
 </html>
+
 
 
 
