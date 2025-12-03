@@ -11,26 +11,18 @@
 
 <base href="/rgztec/">
 
-<!-- Kurumsal fontlar -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- rebuild: 2025-11-19 -->
 
 <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
-
-<meta name="theme-color" content="#f97316">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link rel="stylesheet" href="assets/css/theme-global.css?v=1">
-<link rel="stylesheet" href="assets%20/css/theme-global.css?v=1">
-
 <link rel="stylesheet" href="assets/css/theme.css">
 <link rel="stylesheet" href="assets/css/hero-ambient.css">
 <link rel="stylesheet" href="assets/css/interactions.css">
-
 <link rel="stylesheet" href="assets/css/theme-corporate.css?v=1">
+
+<link rel="stylesheet" href="assets/css/store-core.css">
 
 <style>
 :root{
@@ -40,15 +32,13 @@
   --line:#e5e7eb; --line-strong:#d7dbe3;
   --brand:#f97316; --brand-dark:#ea580c;
   --bg-soft:#f3f4f6;
-  --search-h:52px;
 }
 
-/* RESET */
+/* RESET & BODY */
 *{box-sizing:border-box}
 html,body{margin:0;overflow-x:hidden}
 body {
-  font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont,
-               'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-weight: 400;
   letter-spacing: -0.01em;
   color:var(--ink);
@@ -72,145 +62,7 @@ ul{list-style:none;margin:0;padding:0}
   padding-inline:clamp(var(--gutter-min),4vw,var(--gutter-max));
 }
 
-/* HEADER – sticky, kurumsal */
-.header-outer{
-  position:sticky;
-  top:0;
-  z-index:60;
-  background:linear-gradient(180deg,#f9fafb,#ffffff);
-  backdrop-filter:saturate(120%) blur(12px);
-  border-bottom:1px solid var(--line);
-}
-.header-row{
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  padding:8px 0;
-}
-.header-left,.hdr-right{flex-shrink:0}
-.search-wrap{flex:1 1 auto;min-width:260px;max-width:980px}
-.brand{
-  font-weight:900;font-size:22px;letter-spacing:.08em;
-  color:var(--brand);text-decoration:none;margin-right:8px;
-}
-.btn-cats{
-  display:inline-flex;align-items:center;gap:8px;
-  height:40px;padding:0 14px;
-  border-radius:999px;
-  border:1px solid var(--line-strong);
-  background:#fff;cursor:pointer;
-  font-weight:500;font-size:14px;
-}
-.btn-cats svg{width:18px;height:18px}
-.btn-cats:hover{border-color:#cbd5f5;background:#f9fafb}
-
-.search{
-  display:flex;align-items:center;
-  height:var(--search-h);
-  border-radius:999px;
-  border:1px solid var(--line-strong);
-  background:#f9fafb;
-  padding:0 8px 0 16px;
-  width:100%;
-  transition:border-color .18s,box-shadow .18s,background-color .18s;
-}
-.search input{
-  flex:1;min-width:0;border:0;outline:0;
-  font-size:15px;padding:12px 10px;background:transparent;
-}
-.search:hover{
-  border-color:#cbd5f5;background:#ffffff;
-  box-shadow:0 0 0 1px rgba(148,163,184,.35);
-}
-.search:focus-within{
-  border-color:var(--brand);background:#ffffff;
-  box-shadow:0 0 0 1px rgba(249,115,22,.45);
-}
-.go{
-  display:grid;place-items:center;
-  width:38px;height:38px;
-  border-radius:999px;
-  background:var(--brand);
-  border:0;cursor:pointer;margin-right:4px;
-  transition:background-color .18s,transform .12s;
-}
-.go svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2}
-.go:hover{background:var(--brand-dark);transform:translateY(-1px)}
-
-.hdr-right{
-  display:flex;justify-content:flex-end;align-items:center;
-  gap:12px;flex-wrap:nowrap;
-}
-.signin-link{
-  color:var(--ink);text-decoration:none;
-  font-weight:600;font-size:14px;white-space:nowrap;
-}
-.signin-link:hover{color:var(--brand)}
-.icon-btn{
-  display:grid;place-items:center;
-  width:32px;height:32px;
-  border-radius:999px;
-  border:1px solid var(--line-strong);
-  background:#fff;
-  font-size:16px;text-decoration:none;
-}
-.icon-btn:hover{border-color:#cbd5f5;background:#f9fafb}
-.pill-open{
-  display:inline-flex;align-items:center;justify-content:center;
-  height:40px;padding:0 20px;
-  border-radius:999px;
-  background:var(--brand);color:#fff;
-  font-weight:700;text-decoration:none;font-size:14px;
-  box-shadow:0 14px 30px rgba(249,115,22,.35);
-}
-.pill-open:hover{background:var(--brand-dark)}
-
-/* QUICK FILTERS */
-.chips-outer{
-  border-top:1px solid #f3f4f6;
-  border-bottom:1px solid #eceef3;
-  background:#ffffff;
-  padding:6px 0;
-  box-shadow:0 3px 8px rgba(0,0,0,.03);
-  position:relative;
-  z-index:55;
-}
-.chips{
-  max-width:var(--wrap);
-  margin:0 auto;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:flex-start;
-  align-items:center;
-  column-gap:32px;
-  row-gap:12px;
-  padding:10px 24px 14px;
-}
-.chip{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 18px;
-  background:#f8fafc;
-  border-radius:999px;
-  border:1px solid #e2e8f0;
-  color:#475569;
-  font-weight:600;
-  font-size:14px;
-  text-decoration:none;
-  transition:all .18s ease;
-}
-.chip:hover{
-  background:#ffffff;
-  border-color:#cbd5e1;
-  color:#0f172a;
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
-}
-@media (max-width:768px){
-  .chips{
-    justify-content:center;
-    column-gap:18px;
-  }
-}
+/* Not: Eski header stillerini kaldırdım, store-core.css hallediyor. */
 
 /* HERO */
 .section-container{padding-top:24px}
@@ -306,125 +158,55 @@ ul{list-style:none;margin:0;padding:0}
   width:60%;right:auto;bottom:48px;
 }
 
-/* === MARKETPLACE SHOWCASE (banner + SEO metin) === */
-
+/* MARKETPLACE SHOWCASE */
 .marketplace-showcase{
   padding:10px 0 34px;
 }
-
 .marketplace-showcase-inner{
   display:grid;
   grid-template-columns:minmax(0,1.05fr) minmax(0,1.1fr);
   gap:28px;
   align-items:center;
 }
-
-.marketplace-copy{
-  padding:8px 4px;
-}
-
+.marketplace-copy{padding:8px 4px;}
 .marketplace-eyebrow{
-  font-size:12px;
-  letter-spacing:0.16em;
-  text-transform:uppercase;
-  color:#9ca3af;
-  font-weight:700;
-  margin-bottom:6px;
+  font-size:12px;letter-spacing:0.16em;text-transform:uppercase;
+  color:#9ca3af;font-weight:700;margin-bottom:6px;
 }
-
 .marketplace-copy h2{
-  margin:0 0 10px;
-  font-size:26px;
-  line-height:1.2;
-  letter-spacing:-0.02em;
+  margin:0 0 10px;font-size:26px;line-height:1.2;letter-spacing:-0.02em;
 }
-
-.marketplace-copy h2 span{
-  color:var(--brand);
-}
-
+.marketplace-copy h2 span{color:var(--brand);}
 .marketplace-copy p.lead{
-  margin:0 0 14px;
-  font-size:15px;
-  color:#4b5563;
-  max-width:520px;
+  margin:0 0 14px;font-size:15px;color:#4b5563;max-width:520px;
 }
-
 .marketplace-bullets{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-  margin:14px 0 18px;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;margin:14px 0 18px;
 }
-
 .marketplace-bullet{
-  background:#ffffff;
-  border-radius:16px;
-  padding:10px 12px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 10px 24px rgba(15,23,42,0.06);
+  background:#ffffff;border-radius:16px;padding:10px 12px;
+  border:1px solid #e5e7eb;box-shadow:0 10px 24px rgba(15,23,42,0.06);
 }
-
-.marketplace-bullet h3{
-  margin:0 0 4px;
-  font-size:14px;
-  font-weight:700;
-}
-
-.marketplace-bullet p{
-  margin:0;
-  font-size:13px;
-  color:#6b7280;
-}
-
+.marketplace-bullet h3{margin:0 0 4px;font-size:14px;font-weight:700;}
+.marketplace-bullet p{margin:0;font-size:13px;color:#6b7280;}
 .marketplace-meta-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:18px;
-  align-items:center;
-  font-size:13px;
-  color:#6b7280;
+  display:flex;flex-wrap:wrap;gap:18px;align-items:center;
+  font-size:13px;color:#6b7280;
 }
-
-.marketplace-meta-row strong{
-  color:#111827;
-}
-
-.marketplace-meta-dot::before{
-  content:"• ";
-  color:#9ca3af;
-}
-
+.marketplace-meta-row strong{color:#111827;}
+.marketplace-meta-dot::before{content:"• ";color:#9ca3af;}
 .marketplace-cta-secondary{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-top:8px;
-  font-size:13px;
-  font-weight:600;
-  text-decoration:none;
-  color:#111827;
+  display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+  font-size:13px;font-weight:600;text-decoration:none;color:#111827;
 }
-
-.marketplace-cta-secondary span{
-  font-size:16px;
-}
-
-.marketplace-cta-secondary:hover{
-  color:var(--brand-dark);
-}
-
+.marketplace-cta-secondary span{font-size:16px;}
+.marketplace-cta-secondary:hover{color:var(--brand-dark);}
 .marketplace-banner{
-  position:relative;
-  border-radius:26px;
-  overflow:hidden;
+  position:relative;border-radius:26px;overflow:hidden;
   box-shadow:0 28px 70px rgba(0,0,0,0.32);
 }
-
-.marketplace-banner img{
-  width:100%;
-  display:block;
-}
+.marketplace-banner img{width:100%;display:block;}
 
 /* SECTION BAND */
 .section-band{
@@ -434,155 +216,64 @@ ul{list-style:none;margin:0;padding:0}
   border-top:1px solid rgba(209,213,219,0.8);
   box-shadow:0 -4px 20px rgba(15,23,42,0.04) inset;
 }
-.section-band .section-h{
-  font-size:20px;
-}
+.section-band .section-h{font-size:20px;}
 
-/* ========= STORE CARDS – Marketplace gallery ========= */
-
+/* STORE CARDS */
 .store-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:24px;
-  margin-top:12px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;margin-top:12px;
 }
-
-/* desktop: 2 mağaza yan yana, hardware tam genişlik */
 @media(min-width:1024px){
-  .store-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-  .store-card--full{
-    grid-column:1 / -1;
-  }
+  .store-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .store-card--full{grid-column:1 / -1;}
 }
-
 .store-card{
-  background:#f9fafb;
-  border-radius:24px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 20px 45px rgba(15,23,42,0.08);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
+  background:#f9fafb;border-radius:24px;border:1px solid #e5e7eb;
+  box-shadow:0 20px 45px rgba(15,23,42,0.08);overflow:hidden;
+  display:flex;flex-direction:column;
   transition:transform .18s ease, box-shadow .18s ease;
 }
-
-.store-card--full .store-media{
-  height:230px;
-}
-
-.store-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 26px 60px rgba(15,23,42,0.16);
-}
-
-.store-media-link{
-  display:block;
-  text-decoration:none;
-  color:inherit;
-}
-
-.store-media-link:focus-visible{
-  outline:2px solid var(--brand);
-  outline-offset:3px;
-}
-
+.store-card--full .store-media{height:230px;}
+.store-card:hover{transform:translateY(-4px);box-shadow:0 26px 60px rgba(15,23,42,0.16);}
+.store-media-link{display:block;text-decoration:none;color:inherit;}
+.store-media-link:focus-visible{outline:2px solid var(--brand);outline-offset:3px;}
 .store-media{
-  position:relative;
-  height:190px;
+  position:relative;height:190px;
   background:linear-gradient(135deg,#e5e7eb,#f9fafb);
   overflow:hidden;
 }
-
 .store-media img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transform:translateZ(0);
-  transition:transform .22s ease;
+  width:100%;height:100%;object-fit:cover;display:block;
+  transform:translateZ(0);transition:transform .22s ease;
 }
-
-.store-card:hover .store-media img{
-  transform:scale(1.04);
-}
-
+.store-card:hover .store-media img{transform:scale(1.04);}
 .store-status{
-  position:absolute;
-  right:14px;
-  bottom:14px;
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:600;
-  background:#fef3c7;
-  color:#92400e;
+  position:absolute;right:14px;bottom:14px;padding:6px 12px;
+  border-radius:999px;font-size:11px;font-weight:600;
+  background:#fef3c7;color:#92400e;
 }
-
-/* curated / featured etiketi kartın alt kısmında */
 .store-badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:flex-start;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:700;
-  background:rgba(15,23,42,0.9);
-  color:#f9fafb;
-  margin-bottom:6px;
+  display:inline-flex;align-items:center;justify-content:flex-start;
+  padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;
+  background:rgba(15,23,42,0.9);color:#f9fafb;margin-bottom:6px;
 }
-
 .store-body{
-  padding:16px 18px 18px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  background:#f3f4f6;           /* kurumsal gri alan */
-  border-top:1px solid #e5e7eb; /* görsel ile ayrım */
+  padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;
+  background:#f3f4f6;border-top:1px solid #e5e7eb;
 }
-
-.store-name{
-  margin:0;
-  font-size:17px;
-  font-weight:800;
-}
-.store-desc{
-  margin:0;
-  font-size:14px;
-  color:#6b7280;
-}
-.store-meta{
-  margin:2px 0 0;
-  font-size:12px;
-  color:#9ca3af;
-}
-.store-links{
-  margin-top:10px;
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.store-link{
-  font-size:13px;
-  font-weight:600;
-  text-decoration:none;
-  color:#2563eb;
-}
+.store-name{margin:0;font-size:17px;font-weight:800;}
+.store-desc{margin:0;font-size:14px;color:#6b7280;}
+.store-meta{margin:2px 0 0;font-size:12px;color:#9ca3af;}
+.store-links{margin-top:10px;display:flex;gap:12px;flex-wrap:wrap;}
+.store-link{font-size:13px;font-weight:600;text-decoration:none;color:#2563eb;}
 .store-link:hover{text-decoration:underline}
 
 /* FOOTER */
 .footer-outer{
-  margin-top:40px;background:#232347;
-  color:#fff;padding-top:48px;font-size:14px;
+  margin-top:40px;background:#232347;color:#fff;padding-top:48px;font-size:14px;
 }
-.footer-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
-}
-.footer-grid h4{
-  margin:0 0 12px;font-size:16px;font-weight:700;
-}
+.footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.footer-grid h4{margin:0 0 12px;font-size:16px;font-weight:700;}
 .footer-grid a{
   display:block;color:#d1d1d1;text-decoration:none;
   margin-bottom:10px;transition:color .2s;
@@ -592,168 +283,116 @@ ul{list-style:none;margin:0;padding:0}
 .footer-socials svg{width:24px;height:24px;fill:#d1d1d1;transition:fill .2s}
 .footer-socials a:hover svg{fill:#fff}
 .footer-bottom{
-  border-top:1px solid #3c3c62;margin-top:48px;
-  padding:24px 0;display:flex;justify-content:space-between;
-  align-items:center;flex-wrap:wrap;gap:16px;
-  font-size:13px;color:#d1d1d1;
+  border-top:1px solid #3c3c62;margin-top:48px;padding:24px 0;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:16px;font-size:13px;color:#d1d1d1;
 }
 .footer-bottom a{color:#fff;text-decoration:none;font-weight:600}
 .footer-bottom a:hover{text-decoration:underline}
 
-/* === TYPOGRAPHY OVERRIDES – tam kurumsal görünüm === */
-
+/* TYPOGRAPHY */
 h1, h2, h3, h4, h5{
   font-family:'Inter','IBM Plex Sans',sans-serif;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  color:#0f172a;
+  font-weight:800;letter-spacing:-0.02em;color:#0f172a;
 }
-
 .store-name{
-  font-family:'Inter',sans-serif;
-  font-weight:800;
-  letter-spacing:-0.015em;
-  font-size:18px;
+  font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-0.015em;font-size:18px;
 }
-
-.store-desc,
-.store-meta,
-.marketplace-copy p,
-.marketplace-bullet p{
+.store-desc, .store-meta, .marketplace-copy p, .marketplace-bullet p{
   font-family:'Inter',sans-serif;
 }
 
-.signin-link,
-.chip,
-.pill-open,
-.btn-cats,
-.badge,
-.store-badge,
-.marketplace-eyebrow,
-.marketplace-bullet h3{
-  font-family:'Inter',sans-serif;
-}
-
-/* CATEGORY DRAWER basit stil (eksik kalmasın diye) */
+/* DRAWER */
 .drawer{
-  position:fixed;
-  inset:0;
-  z-index:70;
-  display:flex;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .18s ease;
+  position:fixed;inset:0;z-index:70;display:flex;
+  pointer-events:none;opacity:0;transition:opacity .18s ease;
 }
-.drawer.open{
-  pointer-events:auto;
-  opacity:1;
-}
-.drawer .back{
-  flex:1;
-  background:rgba(15,23,42,.45);
-}
+.drawer.open{pointer-events:auto;opacity:1;}
+.drawer .back{flex:1;background:rgba(15,23,42,.45);}
 .drawer .panel{
-  width:280px;
-  max-width:80%;
-  background:#fff;
-  border-left:1px solid #e5e7eb;
-  padding:20px;
-  box-shadow:-12px 0 30px rgba(15,23,42,.25);
+  width:280px;max-width:80%;background:#fff;border-left:1px solid #e5e7eb;
+  padding:20px;box-shadow:-12px 0 30px rgba(15,23,42,.25);
 }
 .drawer .panel nav a{
-  display:block;
-  padding:8px 0;
-  color:#0f172a;
-  text-decoration:none;
-  font-size:14px;
+  display:block;padding:8px 0;color:#0f172a;text-decoration:none;font-size:14px;
 }
-.drawer .panel nav a:hover{
-  color:var(--brand);
-}
+.drawer .panel nav a:hover{color:var(--brand);}
 
-/* RESPONSIVE ekstra */
+/* RESPONSIVE */
 @media(max-width:1100px){
-  .marketplace-showcase-inner{
-    grid-template-columns:1fr;
-  }
-  .marketplace-banner{
-    order:-1;
-  }
+  .marketplace-showcase-inner{grid-template-columns:1fr;}
+  .marketplace-banner{order:-1;}
 }
-
 @media(max-width:900px){
-  .hero{
-    grid-template-columns:1fr;
-    padding:22px 18px;
-  }
+  .hero{grid-template-columns:1fr;padding:22px 18px;}
 }
-
 @media(max-width:768px){
   .footer-grid{grid-template-columns:1fr 1fr}
-  .hdr-right{display:none}
-  .marketplace-bullets{
-    grid-template-columns:1fr;
-  }
-  .store-grid{
-    grid-template-columns:1fr;
-  }
+  .marketplace-bullets{grid-template-columns:1fr;}
+  .store-grid{grid-template-columns:1fr;}
+  /* Header mobil düzenlemeleri store-core.css içinde otomatik */
 }
 </style>
 </head>
 <body>
 
-<header class="header-outer">
-  <div class="page-section page-section--fluid header-row">
-    <div class="header-left">
-      <a class="brand" href="./">RGZTEC</a>
-
-      <button id="btnCats" class="btn-cats" aria-haspopup="dialog">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
+<header class="store-header">
+  <div class="store-header-inner">
+    
+    <div class="store-header-left">
+      <a href="./" class="store-header-logo">RGZTEC</a>
+      <button class="store-header-categories-btn" type="button" id="btnCats">
+        <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
         <span>Categories</span>
       </button>
     </div>
 
-    <div class="search-wrap">
-      <form class="search" role="search" action="listings.html">
-        <input type="search" name="q" placeholder="Search for anything" aria-label="Search"/>
-        <button class="go" type="submit" aria-label="Search">
-          <svg viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="6" stroke="currentColor"/>
-            <path d="M16.5 16.5 21 21" stroke="currentColor"/>
-          </svg>
+    <div class="store-header-center">
+      <form class="store-header-search" role="search" action="listings.html">
+        <input type="search" name="q" placeholder="Search for anything" aria-label="Search RGZTEC marketplace" />
+        <button type="submit" aria-label="Search">
+          <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
         </button>
       </form>
     </div>
 
-    <div class="hdr-right">
-      <a href="editor/" class="signin-link">Dashboard / Editor</a>
-      <a href="login/" class="signin-link">Sign in</a>
-      <a href="mailto:support@rgztec.com" class="signin-link">Support</a>
-      <a class="icon-btn" href="gift-card.html" title="Gift">🎁</a>
-      <a class="icon-btn" href="cart.html" title="Cart">🛒</a>
-      <a class="pill-open" href="open-store.html">Open Store</a>
-    </div>
-  </div>
-
-  <div class="chips-outer">
-    <div class="page-section page-section--fluid">
-      <nav class="chips" aria-label="Quick filters">
-        <a class="chip" href="listings.html?tag=new">New</a>
-        <a class="chip" href="listings.html?tag=trending">Trending</a>
-        <a class="chip" href="listings.html?tag=top-sellers">Top sellers</a>
-        <a class="chip" href="listings.html?tag=deals">Deals</a>
-        <a class="chip" href="listings.html?tag=html-templates">HTML Templates</a>
-        <a class="chip" href="listings.html?tag=react">React</a>
-        <a class="chip" href="listings.html?tag=ai">AI</a>
-        <a class="chip" href="listings.html?tag=hardware">Hardware</a>
-      </nav>
+    <div class="store-header-right">
+      <div class="store-header-secondary">
+        <a href="editor/" class="store-header-secondary-link">Dashboard / Editor</a>
+        <a href="login/" class="store-header-secondary-link">Sign In</a>
+        <a href="mailto:support@rgztec.com" class="store-header-secondary-link">Support</a>
+      </div>
+      <div class="store-header-actions">
+        <a href="gift-card.html" class="store-header-icon-pill" aria-label="Gift cards">
+          <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0 0 12 1.5h-1.5a3.375 3.375 0 0 0-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0 1 13.5 1.5H12v3.375Z" /></svg>
+        </a>
+        <a href="cart.html" class="store-header-icon-pill" aria-label="Cart">
+          <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+        </a>
+        <a href="open-store.html" class="store-header-cta">
+          <span>Open Store</span>
+        </a>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
+<nav class="store-main-nav" aria-label="RGZTEC stores">
+  <ul class="store-main-nav__list">
+    <li class="store-main-nav__item"><a href="store/game-makers/" class="store-main-nav__link">Game Makers</a></li>
+    <li class="store-main-nav__item"><a href="store/ai-tools-hub/" class="store-main-nav__link">AI Tools Hub</a></li>
+    <li class="store-main-nav__item"><a href="store/dev-studio-one/" class="store-main-nav__link">Dev Studio One</a></li>
+    <li class="store-main-nav__item"><a href="store/email-forge/" class="store-main-nav__link">Email Forge</a></li>
+    <li class="store-main-nav__item"><a href="store/hardware/" class="store-main-nav__link">Hardware Lab</a></li>
+    <li class="store-main-nav__item"><a href="store/html-templates/" class="store-main-nav__link">HTML Templates</a></li>
+    <li class="store-main-nav__item"><a href="store/icon-smith/" class="store-main-nav__link">Icon Smith</a></li>
+    <li class="store-main-nav__item"><a href="store/reactorium/" class="store-main-nav__link">Reactorium</a></li>
+    <li class="store-main-nav__item"><a href="store/tiny-js-lab/" class="store-main-nav__link">Tiny JS Lab</a></li>
+    <li class="store-main-nav__item"><a href="store/unity-hub/" class="store-main-nav__link">Unity Hub</a></li>
+    <li class="store-main-nav__item"><a href="store/wp-plugins/" class="store-main-nav__link">WP Plugins</a></li>
+  </ul>
+</nav>
+
 <section class="hero-outer">
   <div class="page-section page-section--fluid hero">
     <div>
@@ -790,7 +429,6 @@ h1, h2, h3, h4, h5{
   </div>
 </section>
 
-<!-- MARKETPLACE SHOWCASE: banner + SEO metin -->
 <section class="marketplace-showcase">
   <div class="page-section page-section--fluid marketplace-showcase-inner">
     <div class="marketplace-copy">
@@ -827,14 +465,12 @@ h1, h2, h3, h4, h5{
     </div>
 
     <div class="marketplace-banner">
-      <!-- ÖNEMLİ: base ile çakışmaması için sadece assets/... -->
       <img src="assets/images/banners/global-marketplace-banner.webp"
            alt="#1 Best Selling Global Marketplace banner">
     </div>
   </div>
 </section>
 
-<!-- MARKETPLACE GALLERY -->
 <div class="section-band">
   <main class="page-section page-section--fluid section-container">
     <h2 class="section-h">Marketplace gallery</h2>
@@ -842,7 +478,6 @@ h1, h2, h3, h4, h5{
   </main>
 </div>
 
-<!-- CATEGORY DRAWER -->
 <div id="drawer" class="drawer" aria-hidden="true">
   <div class="back" id="backdrop"></div>
   <aside class="panel" role="dialog" aria-label="Categories">
@@ -925,6 +560,7 @@ h1, h2, h3, h4, h5{
     </div>
   </div>
 </footer>
+
 <script>
 const STORE_IMAGE_BASE = 'assets/images/store/';
 const STORE_IMAGE_EXT = '.webp';
