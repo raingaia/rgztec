@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="assets/css/store-core.css">
 
 <style>
-/* === MEVCUT PREMIUM STİLLERİN (Değişmedi) === */
+/* === MEVCUT STİLLERİN (Değişmedi) === */
 :root { --brand: #f97316; --brand-h: #ea580c; --ink: #0f172a; --sub: #64748b; --border: #e2e8f0; --bg-body: #f8fafc; --header-h: 74px; }
 body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--ink); margin: 0; }
 .container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
@@ -133,23 +133,14 @@ label { font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block; c
           Files are saved to your browser's LocalStorage for demo purposes.
           Requires a running server/API for production.
         </p>
-        <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
-        <div style="font-size:13px; color:var(--ink);">
-            <strong>Tips:</strong>
-            <ul style="padding-left:20px; color:var(--sub);">
-                <li>Use high-res images (800x600+)</li>
-                <li>Write a clear description</li>
-                <li>Pick the correct sub-category</li>
-            </ul>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* --- 1. PREMIUM VERİ YÖNETİMİ (JSON PARSE) --- */
-let RAW_DATA = {}; // Tüm JSON verisi burada tutulacak
+/* --- DÜZELTİLMİŞ KOD BURADA --- */
+let RAW_DATA = {}; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     const catSelect = document.getElementById('cat');
@@ -157,61 +148,62 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // 1. JSON Verisini Çek
-        const response = await fetch('store.data.json');
-        if (!response.ok) throw new Error("JSON dosyasını bulamadım.");
+        // EĞER JSON DOSYASI ALT KLASÖRDEYSE YOLUNU GÜNCELLE (Örn: assets/store.data.json)
+        const response = await fetch('store.data.json'); 
         
-        RAW_DATA = await response.json(); // Data artık senin o uzun yapın
+        if (!response.ok) throw new Error("JSON dosyası bulunamadı.");
         
-        // 2. Formdaki "Kategori" Dropdown'ını Doldur (OptGroup Kullanarak)
+        RAW_DATA = await response.json();
+        
+        // 2. Form Dropdown'ı Temizle
         catSelect.innerHTML = '<option value="" disabled selected>Select a category...</option>';
         
-        // JSON bir Obje olduğu için anahtarları (key) üzerinde dönüyoruz
+        // 3. YENİ PARSING MANTIĞI (Önemli Kısım)
+        // Senin yeni verin bir Obje (Array değil). Örn: { "game-makers": {...}, "ai": {...} }
         Object.keys(RAW_DATA).forEach(storeKey => {
             const store = RAW_DATA[storeKey];
             
-            // Ana başlık grubu oluştur (Örn: Game Makers)
+            // Ana başlık grubu oluştur (Örn: GAME MAKERS)
             const group = document.createElement('optgroup');
             group.label = store.title;
             
             // Alt bölümleri (sections) seçenek olarak ekle
-            if (store.sections) {
+            if (store.sections && Array.isArray(store.sections)) {
                 store.sections.forEach(sec => {
                     const opt = document.createElement('option');
-                    // Value hem ana kategoriyi hem alt kategoriyi tutsun (örn: game-makers|prototypes)
+                    // Value'ya hem ana key'i hem slug'ı koyuyoruz ki backend'de ayrıştırabilesin
                     opt.value = `${storeKey}|${sec.slug}`; 
-                    opt.textContent = sec.name; // Örn: Prototypes
+                    opt.textContent = sec.name; // Örn: Prototypes, UI & HUD
                     group.appendChild(opt);
                 });
             }
             catSelect.appendChild(group);
         });
 
-        // 3. Mega Menü Sidebar'ını Doldur
+        // 4. Mega Menü Sidebar'ını Doldur
         let sidebarHTML = '';
         Object.keys(RAW_DATA).forEach(storeKey => {
             const store = RAW_DATA[storeKey];
             sidebarHTML += `
             <div class="menu-store-item" onclick="selectMenuCategory('${storeKey}')" data-key="${storeKey}">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span>${store.title}</span>
-                </div>
+                <span>${store.title}</span>
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>`;
         });
         menuSidebar.innerHTML = sidebarHTML;
 
-        // İlk menüyü varsayılan olarak aç
+        // İlk menüyü seçili yap
         const firstKey = Object.keys(RAW_DATA)[0];
         if(firstKey) selectMenuCategory(firstKey);
 
     } catch (err) {
-        console.error("Hata:", err);
-        catSelect.innerHTML = '<option disabled>Error loading data (Check Live Server)</option>';
-        alert("Veri yüklenemedi. Lütfen 'Live Server' ile çalıştırdığından ve store.data.json dosyasının yan yana olduğundan emin ol.");
+        console.error("Hata Detayı:", err);
+        catSelect.innerHTML = '<option disabled>Error loading data</option>';
+        menuSidebar.innerHTML = '<p style="color:red; padding:15px;">Data could not be loaded.</p>';
     }
 });
 
-/* --- 2. MEGA MENÜ MANTIĞI --- */
+/* --- MEGA MENÜ MANTIĞI --- */
 const megaMenu = document.getElementById('megaMenu');
 const btnCategories = document.getElementById('btnCategories');
 const menuTitle = document.getElementById('menuTitle');
@@ -219,16 +211,14 @@ const menuDesc = document.getElementById('menuDesc');
 const menuGrid = document.getElementById('menuGrid');
 
 window.selectMenuCategory = function(key) {
-    // Aktif sınıfını güncelle
     document.querySelectorAll('.menu-store-item').forEach(el => el.classList.remove('active'));
     const activeItem = document.querySelector(`.menu-store-item[data-key="${key}"]`);
     if(activeItem) activeItem.classList.add('active');
 
-    // İçeriği güncelle
     const store = RAW_DATA[key];
     if(store) {
         menuTitle.textContent = store.title;
-        menuDesc.textContent = store.tagline;
+        menuDesc.textContent = store.tagline || "";
         
         let gridHTML = '';
         if (store.sections) {
@@ -236,7 +226,7 @@ window.selectMenuCategory = function(key) {
                 gridHTML += `
                 <a href="#" style="display:block; padding:12px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:inherit; transition:0.2s;" onmouseover="this.style.borderColor='var(--brand)'; this.style.background='#fff7ed'" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent'">
                     <div style="font-weight:700; font-size:14px; color:var(--ink);">${sec.name}</div>
-                    <div style="font-size:12px; color:var(--sub); margin-top:4px;">${sec.tagline}</div>
+                    <div style="font-size:12px; color:var(--sub); margin-top:4px;">${sec.tagline || ""}</div>
                 </a>`;
             });
         }
@@ -244,7 +234,7 @@ window.selectMenuCategory = function(key) {
     }
 }
 
-// Menüyü Aç/Kapa
+// Menü Aç/Kapa
 btnCategories.addEventListener('click', (e) => {
     e.stopPropagation();
     megaMenu.classList.toggle('open');
@@ -253,54 +243,6 @@ document.addEventListener('click', (e) => {
     if(!megaMenu.contains(e.target) && !btnCategories.contains(e.target)) {
         megaMenu.classList.remove('open');
     }
-});
-
-/* --- 3. FORM GÖNDERME & RESİM YÜKLEME --- */
-const f = document.getElementById('f');
-const drop = document.getElementById('drop');
-const fileInp = document.getElementById('file');
-const gallery = document.getElementById('gallery');
-const statusMsg = document.getElementById('statusMsg');
-
-// Sürükle Bırak Olayları
-drop.addEventListener('click', () => fileInp.click());
-drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.style.borderColor='var(--brand)'; drop.style.background='#fff7ed'; });
-drop.addEventListener('dragleave', () => { drop.style.borderColor='var(--border)'; drop.style.background='#f8fafc'; });
-drop.addEventListener('drop', (e) => {
-    e.preventDefault();
-    drop.style.borderColor='var(--border)'; drop.style.background='#f8fafc';
-    handleFiles(e.dataTransfer.files);
-});
-fileInp.addEventListener('change', (e) => handleFiles(e.target.files));
-
-let uploadedImages = [];
-function handleFiles(files) {
-    Array.from(files).forEach(file => {
-        if(file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                uploadedImages.push(e.target.result);
-                const div = document.createElement('div');
-                div.innerHTML = `<img src="${e.target.result}" style="width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #ddd; box-shadow:0 2px 5px rgba(0,0,0,0.1);">`;
-                gallery.appendChild(div);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-}
-
-f.addEventListener('submit', (e) => {
-    e.preventDefault();
-    // Demo kayıt işlemi
-    statusMsg.style.display = 'block';
-    statusMsg.style.background = '#ecfdf5';
-    statusMsg.style.color = '#065f46';
-    statusMsg.textContent = '✅ Product saved successfully (Demo LocalStorage)! Redirecting...';
-    
-    // Gerçek bir senaryoda burada fetch(POST) yapılır.
-    setTimeout(() => {
-        window.location.href = 'editor/'; // Dashboard'a yönlendir
-    }, 1500);
 });
 </script>
 </body>
