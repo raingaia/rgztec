@@ -16,7 +16,7 @@
 
 <style>
 /* ================================================================
-   🔥 RGZTEC PREMIUM MASTER CSS (ORİJİNAL KORUNDU)
+   🔥 RGZTEC PREMIUM MASTER CSS
    ================================================================ */
 
 :root {
@@ -580,7 +580,8 @@ ul { list-style: none; padding: 0; margin: 0; }
     <div style="display:flex; align-items:center; gap:24px;">
       <a href="./" class="logo">RGZTEC</a>
 
-            <button type="button" class="btn-cat" id="btn-categories">
+      <!-- Categories: SAYFA DEĞİŞTİRMEYEN BUTON -->
+      <button type="button" class="btn-cat" id="btn-categories">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
              viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -625,7 +626,8 @@ ul { list-style: none; padding: 0; margin: 0; }
     </div>
   </div>
 
-    <div class="categories-panel-wrap" id="categories-panel">
+  <!-- 🔽 Categories dropdown panel (Etsy tarzı, JS ile dolduruluyor) -->
+  <div class="categories-panel-wrap" id="categories-panel">
     <div class="categories-panel">
       <div class="categories-layout">
         <div>
@@ -633,17 +635,27 @@ ul { list-style: none; padding: 0; margin: 0; }
           <div class="categories-list" id="categories-list"></div>
         </div>
         <div class="categories-detail" id="categories-detail">
-                  </div>
+          <!-- JS ile dolduruluyor -->
+        </div>
       </div>
-            <div id="home-search-results" class="container mt-12" style="display:none;">
-          </div>
     </div>
   </div>
 </header>
 
 <nav class="sub-nav">
   <div class="sub-nav-list">
-      </div>
+    <div class="sub-nav-item"><a href="store/game-makers/">Game Makers</a></div>
+    <div class="sub-nav-item"><a href="store/ai-tools-hub/">AI Tools Hub</a></div>
+    <div class="sub-nav-item"><a href="store/dev-studio-one/">Dev Studio One</a></div>
+    <div class="sub-nav-item"><a href="store/email-forge/">Email Forge</a></div>
+    <div class="sub-nav-item"><a href="store/hardware/">Hardware Lab</a></div>
+    <div class="sub-nav-item"><a href="store/html-templates/">HTML Templates</a></div>
+    <div class="sub-nav-item"><a href="store/icon-smith/">Icon Smith</a></div>
+    <div class="sub-nav-item"><a href="store/reactorium/">Reactorium</a></div>
+    <div class="sub-nav-item"><a href="store/tiny-js-lab/">Tiny JS Lab</a></div>
+    <div class="sub-nav-item"><a href="store/unity-hub/">Unity Hub</a></div>
+    <div class="sub-nav-item"><a href="store/wp-plugins/">WP Plugins</a></div>
+  </div>
 </nav>
 
 <section class="hero">
@@ -674,7 +686,7 @@ ul { list-style: none; padding: 0; margin: 0; }
     <div class="banner-image">
       <img src="assets/images/banners/global-marketplace-banner.webp"
            alt="Global marketplace banner">
-                </div>
+    </div>
   </div>
 </section>
 
@@ -721,163 +733,151 @@ ul { list-style: none; padding: 0; margin: 0; }
 </footer>
 
 <script>
-/* --- 1. GLOBAL VERİ VE ARAMA MANTIĞI --- */
-
-let RAW_DATA = {}; 
+// --- ESKİ HARDCODED VERİ LİSTELERİ SİLİNDİ VEYA YORUM SATIRI YAPILDI ---
+// Artık tüm veriyi tek bir RAW_DATA objesi olarak çekeceğiz.
+let RAW_DATA = {}; 
 const STORE_IMAGE_BASE = 'assets/images/store/';
-const PRODUCT_IMAGE_BASE = 'assets/images/products/';
-
-// Snippet 2: RGZTEC_SEARCH tanımlaması (VERİ YAPISI DÜZELTİLDİ!)
-window.RGZTEC_SEARCH = {
-    data: null,
-
-    async load() {
-        if (this.data && this.data.length > 0) return this.data;
-
-        try {
-            const res = await fetch('store.data.json');
-            const json = await res.json();
-            
-            // JSON nesnesinden mağaza objelerini alıp flat ürün dizisi oluşturuyoruz
-            const storeObjects = Object.values(json);
-
-            let products = [];
-            storeObjects.forEach(store => {
-                const storeTitle = store.title;
-                // storeKey'i bulmak yerine sadece storeTitle ve sectionName yeterli.
-                // const storeKey = Object.keys(json).find(key => json[key] === store); 
-
-                if (store.sections) {
-                    store.sections.forEach(section => {
-                        const sectionName = section.name;
-                        if (section.products) {
-                            section.products.forEach(product => {
-                                products.push({
-                                    // Arama ve Gösterim için gerekli meta veriler
-                                    store: storeTitle,
-                                    section: sectionName,
-                                    
-                                    // Yollar
-                                    image: product.image ? `${PRODUCT_IMAGE_BASE}${product.image}` : `assets/images/placeholder.webp`,
-                                    href: `product/${product.id}`,
-                                    
-                                    // Ürün detayları
-                                    ...product 
-                                });
-                            });
-                        }
-                    });
-                }
-            });
-            this.data = products;
-            return this.data;
-        } catch(e) {
-            console.error("Arama verisi yüklenemedi:", e);
-            return [];
-        }
-    },
-
-    async search(query) {
-        query = query.toLowerCase().trim();
-        if (!query) return [];
-
-        const products = await this.load(); 
-        if (products.length === 0) return []; 
-
-        let results = [];
-        
-        products.forEach(product => {
-            const haystack = `
-                ${product.title}
-                ${product.tagline || ''}
-                ${product.section}
-                ${product.store}
-            `.toLowerCase();
-
-            if (haystack.includes(query)) {
-                results.push(product);
-            }
-        });
-
-        return results;
-    }
-};
-
-// Snippet 3: Arama sonuçlarını ana sayfada gösterme fonksiyonu (ENTER'a basılınca)
-window.renderSearchResultsOnHome = function(results, q) {
-    // #home-search-results konteynerinin konumu değiştirildi (header dışına alındı)
-    const container = document.getElementById("home-search-results"); 
-    const galleryContainer = document.getElementById("gallery");
-    
-    // Eğer arama sonuçları gösterilecekse ana galeri gizlenir
-    galleryContainer.style.display = 'none';
-
-    let html = `
-        <h2 class="gallery-title">Results for "${q}" (${results.length} found)</h2>
-        <div class="grid">
-    `;
-
-    if (results.length === 0) {
-        html += `<p style="padding: 20px 0; font-size: 1.1rem; color: var(--sub);">No results found for your search term. Try simplifying your query.</p>`;
-    } else {
-        results.forEach(p => {
-            // NOTE: Buradaki kart yapısını main gallery kart yapısı ile uyumlu hale getirdim.
-            html += `
-                <article class="card">
-                    <a href="${p.href}" class="card-media">
-                        <img src="${p.image}" alt="${p.title}" loading="lazy">
-                    </a>
-                    <div class="card-content">
-                        <span class="card-badge">${p.store} → ${p.section}</span>
-                        <h3 class="card-title">${p.title}</h3>
-                        <p class="card-desc">${p.tagline || 'No description provided.'}</p>
-                        <a href="${p.href}" class="card-link">View Product  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg></a>
-                    </div>
-                </article>
-            `;
-        });
-    }
-
-    html += "</div>";
-
-    container.innerHTML = html;
-    container.style.display = "block";
-};
 
 
-/* --- 4. MEGA MENÜ VE KART YÜKLEME MANTIĞI --- */
-const listEl = document.getElementById('categories-list');
-const subNavListEl = document.querySelector('.sub-nav-list');
-const gallery = document.getElementById('gallery');
-const btnCat = document.getElementById('btn-categories');
-const catPanelWrap = document.getElementById('categories-panel');
+document.addEventListener('DOMContentLoaded', async () => {
+    const listEl = document.getElementById('categories-list');
+    const subNavListEl = document.querySelector('.sub-nav-list');
+    const header = document.querySelector('.app-header');
+    const btnCat = document.getElementById('btn-categories');
+    const catPanelWrap = document.getElementById('categories-panel');
+    const gallery = document.getElementById('gallery');
+    
+    // Veriyi çek (open-store.html için kullandığımız yapı)
+    try {
+        const response = await fetch('store.data.json'); 
+        if (!response.ok) throw new Error("JSON dosyası bulunamadı.");
+        RAW_DATA = await response.json();
+    } catch (err) {
+        console.error("Kategori verisi yüklenemedi:", err);
+        return; 
+    }
+
+    // JSON Obje anahtarlarını al
+    const storeKeys = Object.keys(RAW_DATA);
+    
+    // ===============================================
+    // 1. MEGA MENÜ LİSTESİ VE SUB-NAV'I DOLDUR
+    // ===============================================
+    let listHTML = '';
+    let subNavHTML = '';
+    
+    storeKeys.forEach((key, index) => {
+        const store = RAW_DATA[key];
+        const isActive = index === 0 ? ' cat-item--active' : '';
+
+        // Mega Menü Listesi (Sol Taraf)
+        listHTML += `
+          <button class="cat-item${isActive}" data-cat-id="${key}" data-store-name="${store.title}" data-store-tagline="${store.tagline || ''}" onmouseover="renderDetail(this)">
+            <div class="cat-item-main">
+              <span>${store.title}</span>
+              <small>${store.tagline || 'Explore products'}</small>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0L13 8.586a1 1 0 010 1.414l-4.293 4.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        `;
+
+        // Sub-Nav (Alt menü)
+        const storeHref = `store/${key}/`;
+        subNavHTML += `
+            <div class="sub-nav-item"><a href="${storeHref}">${store.title}</a></div>
+        `;
+        
+        // Product Gallery (Kartlar) için de veri hazırlığı yapabiliriz (aşağıda)
+        
+    });
+    
+    if (listEl) listEl.innerHTML = listHTML;
+    if (subNavListEl) subNavListEl.innerHTML = subNavHTML;
+
+    // İlk kategori detayını göster
+    renderDetail(listEl ? listEl.querySelector('.cat-item') : null);
+
+    // ===============================================
+    // 2. KART GALERİSİNİ DOLDUR (Mağazaları Gösterme)
+    // ===============================================
+    if (gallery) {
+        const storeCards = storeKeys.map(key => {
+            const store = RAW_DATA[key];
+            const isHardware = key === 'hardware';
+            const extraClass = isHardware ? ' card--featured' : '';
+            const badgeText = isHardware ? 'Hardware • NEW' : 'Official Store';
+            const href = `store/${key}/`;
+            const imgSrc = `${STORE_IMAGE_BASE}${key}.webp`; // Varsayılan resim yolunu kullan
+
+            return `
+              <article class="card${extraClass}">
+                <a href="${href}" class="card-media"><img src="${imgSrc}" alt="${store.title}" loading="lazy"></a>
+                <div class="card-content">
+                  <span class="card-badge">${badgeText}</span>
+                  <h3 class="card-title">${store.title}</h3>
+                  <p class="card-desc">${store.tagline}</p>
+                  <a href="${href}" class="card-link">Visit Store  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg></a>
+                </div>
+              </article>
+            `;
+        }).join('');
+        gallery.innerHTML = storeCards;
+    }
+
+
+    // ===============================================
+    // 3. EVENT LISTENERS
+    // ===============================================
+    
+    // Tıklayınca ilgili store sayfasına git (Mega Menü Sol Taraf)
+    if (listEl) {
+        listEl.addEventListener('click', (e) => {
+          const btn = e.target.closest('.cat-item');
+          if (!btn) return;
+          const key = btn.getAttribute('data-cat-id');
+          if (key) {
+            window.location.href = `store/${key}/`;
+          }
+        });
+    }
+
+    // pointer konumlama ve menü aç/kapa
+    if (header && btnCat && catPanelWrap) {
+        function updatePointerPosition() {
+          if (!catPanel) return;
+          const btnRect = btnCat.getBoundingClientRect();
+          const headerRect = header.getBoundingClientRect();
+          const offset = btnRect.left - headerRect.left + btnRect.width / 2;
+          catPanel.style.setProperty('--cat-pointer-left', `${offset}px`);
+        }
+        
+        btnCat.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isOpen = header.classList.contains('has-cat-open');
+          header.classList.toggle('has-cat-open', !isOpen);
+          if (!isOpen) updatePointerPosition();
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!header.contains(e.target)) {
+            header.classList.remove('has-cat-open');
+          }
+        });
+
+        window.addEventListener('resize', updatePointerPosition);
+    }
+});
+
+// GLOBAL FONKSİYON: Hover ile detay değişsin (Mega Menü Sağ Taraf)
 const detailEl = document.getElementById('categories-detail');
 const catPanel = document.getElementById('categories-panel') ? document.getElementById('categories-panel').querySelector('.categories-panel') : null;
-
-
-window.renderStoreCard = function(store) {
-    const href = `store/${store.key}/`;
-    const imgSrc = `${STORE_IMAGE_BASE}${store.key}.webp`;
-    const isHardware = store.key === 'hardware';
-    const extraClass = isHardware ? ' card--featured' : '';
-    const badgeText = isHardware ? 'Hardware • NEW' : 'Official Store';
-
-    return `
-      <article class="card${extraClass}">
-        <a href="${href}" class="card-media"><img src="${imgSrc}" alt="${store.title}" loading="lazy"></a>
-        <div class="card-content">
-          <span class="card-badge">${badgeText}</span>
-          <h3 class="card-title">${store.title}</h3>
-          <p class="card-desc">${store.tagline || 'A curated collection of digital assets.'}</p>
-          <a href="${href}" class="card-link">Visit Store  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg></a>
-        </div>
-      </article>
-    `;
-}
 
 window.renderDetail = function(btnElement) {
     if (!detailEl || !btnElement) return;
 
+    // Aktif sınıfı güncelleme
     const listEl = document.getElementById('categories-list');
     listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
     btnElement.classList.add('cat-item--active');
@@ -889,6 +889,7 @@ window.renderDetail = function(btnElement) {
     if (!store) return;
 
     const linksHtml = (store.sections || []).map(s => {
+        // Alt menüdeki linkler için daha zengin yapı (JSON'dan gelen name ve slug kullanılıyor)
         const sectionHref = s.slug ? `${storeHref}${s.slug}/` : storeHref;
         return `<a href="${sectionHref}">${s.name}</a>`;
     }).join('');
@@ -902,176 +903,119 @@ window.renderDetail = function(btnElement) {
       </div>
     `;
 };
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Veri Yükleme ve Arama Motoru Hazırlığı
-    fetch('store.data.json')
-        .then(res => res.json())
-        .then(json => {
-            RAW_DATA = json;
-            const storeKeys = Object.keys(RAW_DATA);
-            
-            // RGZTEC_SEARCH'ü başlat (bu, load fonksiyonunu çağırır ve ürünleri hazırlar)
-            // Asenkron olduğu için sadece çağırıyoruz. İlk arama geldiğinde veri hazır olacaktır.
-            // NOT: Bu çağrı, MEGA MENÜ DOLDURMA MANTIĞI ile aynı JSON dosyasını kullanır
-            RGZTEC_SEARCH.load(); 
-
-            let subNavHTML = '';
-            let listHTML = '';
-            let cardHTML = '';
-            
-            storeKeys.forEach((key, index) => {
-                const store = RAW_DATA[key];
-                const storeHref = `store/${key}/`;
-                
-                // Sub-Nav
-                subNavHTML += `<div class="sub-nav-item"><a href="${storeHref}">${store.title}</a></div>`;
-
-                // Mega Menu Sidebar
-                const isActive = index === 0 ? ' cat-item--active' : '';
-                listHTML += `<button class="cat-item${isActive}" data-cat-id="${key}" onmouseover="renderDetail(this)">
-                    <div class="cat-item-main"><span>${store.title}</span><small>${store.tagline || 'Explore products'}</small></div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0L13 8.586a1 1 0 010 1.414l-4.293 4.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
-                </button>`;
-
-                // Kart Galerisi
-                cardHTML += renderStoreCard({ key: key, ...store });
-            });
-            
-            if (subNavListEl) subNavListEl.innerHTML = subNavHTML;
-            if (listEl) listEl.innerHTML = listHTML;
-            if (gallery) gallery.innerHTML = cardHTML;
-            
-            // İlk kategori detayını göster
-            if (listEl && storeKeys.length > 0) {
-                renderDetail(listEl.querySelector('.cat-item'));
-            }
-        })
-        .catch(err => {
-            console.error("Veri yüklenirken kritik hata:", err);
-            if (listEl) listEl.innerHTML = '<p class="text-red-500 p-4">Error loading categories.</p>';
-        });
-
-
-    // 2. Arama ve Mega Menü Eventleri
-    
-    // Mega Menü Aç/Kapa
-    if (btnCat && header && catPanelWrap) {
-        function updatePointerPosition() {
-          if (!catPanel) return;
-          const btnRect = btnCat.getBoundingClientRect();
-          const headerRect = header.getBoundingClientRect();
-          const offset = btnRect.left - headerRect.left + btnRect.width / 2;
-          catPanel.style.setProperty('--cat-pointer-left', `${offset}px`);
-        }
-
-        btnCat.addEventListener('click', (e) => {
-          e.preventDefault();
-          const isOpen = header.classList.contains('has-cat-open');
-          header.classList.toggle('has-cat-open', !isOpen);
-          if (!isOpen) updatePointerPosition();
-        });
-        
-        document.addEventListener('click', (e) => {
-          if (!header.contains(e.target)) {
-            header.classList.remove('has-cat-open');
-          }
-        });
-        window.addEventListener('resize', updatePointerPosition);
-    }
-});
-
-/* --- 3. ARAMA VE OTOMATİK TAMAMLAMA UI MANTIĞI (Snippet 1) --- */
-const searchInput = document.querySelector(".search-input");
-const resultsBox = document.createElement("div");
-
-resultsBox.classList.add("autocomplete-box");
-document.body.appendChild(resultsBox);
-
-function positionAutocompleteBox() {
-    const rect = searchInput.getBoundingClientRect();
-    resultsBox.style.position = "absolute"; 
-    resultsBox.style.top = (rect.bottom + 5) + "px";
-    resultsBox.style.left = rect.left + "px";
-    resultsBox.style.width = rect.width + "px";
-    resultsBox.style.zIndex = "1002";
-}
-window.addEventListener("resize", positionAutocompleteBox);
-
-// Otomatik Tamamlama (Input Event)
-searchInput.addEventListener("input", async () => {
-    const q = searchInput.value;
-    
-    // Mega Menüyü kapat
-    document.querySelector('.app-header').classList.remove('has-cat-open'); 
-
-    if (q.length < 3) {
-        resultsBox.style.display = "none";
-        // Eğer arama kutusu boşaldıysa ve sonuçlar gösteriliyorsa, ana sayfayı geri getir
-        if (q.length === 0 && document.getElementById("home-search-results").style.display !== 'none') {
-             document.getElementById("home-search-results").style.display = 'none';
-             document.getElementById("gallery").style.display = 'grid';
-        }
-        return;
-    }
-    
-    positionAutocompleteBox();
-    
-    const results = await RGZTEC_SEARCH.search(q);
-
-    if (results.length === 0) {
-        resultsBox.style.display = "none";
-        return;
-    }
-
-    let html = "";
-    results.slice(0, 5).forEach(r => {
-        html += `
-        <div class="ac-item" data-href="${r.href}">
-            <img src="${r.image}" alt="${r.title}" />
-            <div>
-                <strong>${r.title}</strong>
-                <span>${r.store} → ${r.section}</span>
-            </div>
-        </div>`;
-    });
-
-    resultsBox.innerHTML = html;
-    resultsBox.style.display = "block";
-});
-
-// Enter → Tam arama sonuçlarını getir
-searchInput.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        const q = searchInput.value;
-        const results = await RGZTEC_SEARCH.search(q);
-        window.renderSearchResultsOnHome(results, q);
-        resultsBox.style.display = "none";
-        searchInput.blur();
-    }
-});
-
-// Suggestion click → ürüne git
-resultsBox.addEventListener("click", e => {
-    const item = e.target.closest(".ac-item");
-    if (!item) return;
-    const href = item.getAttribute("data-href");
-    if (href) {
-        window.location.href = href;
-    }
-});
-
-// Arama kutusu dışına tıklayınca kapat
-document.addEventListener('click', (e) => {
-    if (!searchInput.contains(e.target) && !resultsBox.contains(e.target)) {
-        resultsBox.style.display = 'none';
-    }
-});
 </script>
 </body>
 </html>
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
 
 
 
