@@ -733,179 +733,690 @@ ul { list-style: none; padding: 0; margin: 0; }
 </footer>
 
 <script>
-// --- ESKİ HARDCODED VERİ LİSTELERİ SİLİNDİ VEYA YORUM SATIRI YAPILDI ---
-// Artık tüm veriyi tek bir RAW_DATA objesi olarak çekeceğiz.
-let RAW_DATA = {}; 
+// Mağaza Listesi – Hardware en başta, featured olacak
+const stores = [
+  { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators, dev boards & IoT for serious builders.' },
+  { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets' },
+  { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents & Automation' },
+  { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Starters & Dashboards' },
+  { slug: 'email-forge', name: 'Email Forge', tagline: 'High-converting emails' },
+  { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages & UI' },
+  { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Professional icon sets' },
+  { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits & charts' },
+  { slug: 'tiny-js-lab', name: 'Tiny JS Lab', tagline: 'Vanilla JS widgets' },
+  { slug: 'unity-hub', name: 'Unity Hub', tagline: 'Controllers & Systems' },
+  { slug: 'wp-plugins', name: 'WP Plugins', tagline: 'WordPress essentials' }
+];
+
 const STORE_IMAGE_BASE = 'assets/images/store/';
 
+/* 🔽 KATEGORİ DATA – ana mağaza + alt mağazalar
+   İleride bunu store.data.json'dan da besleyebiliriz.
+*/
+const CATEGORY_DATA = [
+  {
+    id: 'hardware',
+    label: 'Hardware & AI',
+    subtitle: 'Accelerators, dev boards, IoT kits',
+    storeName: 'Hardware Lab',
+    href: 'store/hardware/',
+    sections: [
+      { label: 'AI Accelerators', href: 'store/hardware/ai-accelerators/' },
+      { label: 'Dev Boards', href: 'store/hardware/dev-kits/' },
+      { label: 'IoT & Sensors', href: 'store/hardware/iot-sensors/' }
+    ]
+  },
+  {
+    id: 'game-makers',
+    label: 'Game Makers',
+    subtitle: 'Unity & Unreal templates, assets',
+    storeName: 'Game Makers',
+    href: 'store/game-makers/',
+    sections: [
+      { label: 'Prototypes', href: 'store/game-makers/prototypes/' },
+      { label: 'UI & HUD', href: 'store/game-makers/ui-hud/' },
+      { label: 'Effects & FX', href: 'store/game-makers/fx/' }
+    ]
+  },
+  {
+    id: 'ai-tools-hub',
+    label: 'AI Tools & Agents',
+    subtitle: 'Automation, copilots, workflows',
+    storeName: 'AI Tools Hub',
+    href: 'store/ai-tools-hub/',
+    sections: [
+      { label: 'Agents', href: 'store/ai-tools-hub/agents/' },
+      { label: 'Workflows', href: 'store/ai-tools-hub/workflows/' },
+      { label: 'Integrations', href: 'store/ai-tools-hub/integrations/' }
+    ]
+  },
+  {
+    id: 'html-templates',
+    label: 'HTML & Landing Pages',
+    subtitle: 'Marketing, SaaS & startup pages',
+    storeName: 'HTML Templates',
+    href: 'store/html-templates/',
+    sections: [
+      { label: 'SaaS Landings', href: 'store/html-templates/saas/' },
+      { label: 'Marketing Pages', href: 'store/html-templates/marketing/' },
+      { label: 'Portfolio', href: 'store/html-templates/portfolio/' }
+    ]
+  },
+  {
+    id: 'reactorium',
+    label: 'React Components',
+    subtitle: 'Dashboards, charts & UI kits',
+    storeName: 'Reactorium',
+    href: 'store/reactorium/',
+    sections: [
+      { label: 'Dashboards', href: 'store/reactorium/dashboards/' },
+      { label: 'Charts', href: 'store/reactorium/charts/' },
+      { label: 'UI Kits', href: 'store/reactorium/ui-kits/' }
+    ]
+  },
+  {
+    id: 'wp-plugins',
+    label: 'WordPress Plugins',
+    subtitle: 'Commerce & utilities',
+    storeName: 'WP Plugins',
+    href: 'store/wp-plugins/',
+    sections: [
+      { label: 'Commerce', href: 'store/wp-plugins/commerce/' },
+      { label: 'SEO & Speed', href: 'store/wp-plugins/seo-speed/' },
+      { label: 'Utilities', href: 'store/wp-plugins/utilities/' }
+    ]
+  },
+  {
+    id: 'email-forge',
+    label: 'Email & Funnels',
+    subtitle: 'Newsletters, flows, automations',
+    storeName: 'Email Forge',
+    href: 'store/email-forge/',
+    sections: [
+      { label: 'Newsletters', href: 'store/email-forge/newsletters/' },
+      { label: 'Flows', href: 'store/email-forge/flows/' },
+      { label: 'Templates', href: 'store/email-forge/templates/' }
+    ]
+  },
+  {
+    id: 'icon-smith',
+    label: 'Icons & Design',
+    subtitle: 'Icon sets, UI assets, packs',
+    storeName: 'Icon Smith',
+    href: 'store/icon-smith/',
+    sections: [
+      { label: 'Icon Packs', href: 'store/icon-smith/icon-packs/' },
+      { label: 'UI Assets', href: 'store/icon-smith/ui-assets/' },
+      { label: 'Logos & Marks', href: 'store/icon-smith/logos/' }
+    ]
+  }
+];
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const listEl = document.getElementById('categories-list');
-    const subNavListEl = document.querySelector('.sub-nav-list');
-    const header = document.querySelector('.app-header');
-    const btnCat = document.getElementById('btn-categories');
-    const catPanelWrap = document.getElementById('categories-panel');
-    const gallery = document.getElementById('gallery');
-    
-    // Veriyi çek (open-store.html için kullandığımız yapı)
-    try {
-        const response = await fetch('./store.data.json''); 
-        if (!response.ok) throw new Error("JSON dosyası bulunamadı.");
-        RAW_DATA = await response.json();
-    } catch (err) {
-        console.error("Kategori verisi yüklenemedi:", err);
-        return; 
-    }
+function renderStoreCard(store) {
+  const href = `store/${store.slug}/`;
+  const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
+  const isHardware = store.slug === 'hardware';
+  const extraClass = isHardware ? ' card--featured' : '';
+  const badgeText = isHardware ? 'Hardware • NEW' : 'Official Store';
 
-    // JSON Obje anahtarlarını al
-    const storeKeys = Object.keys(RAW_DATA);
-    
-    // ===============================================
-    // 1. MEGA MENÜ LİSTESİ VE SUB-NAV'I DOLDUR
-    // ===============================================
-    let listHTML = '';
-    let subNavHTML = '';
-    
-    storeKeys.forEach((key, index) => {
-        const store = RAW_DATA[key];
-        const isActive = index === 0 ? ' cat-item--active' : '';
+  return `
+    <article class="card${extraClass}">
+      <a href="${href}" class="card-media">
+        <img src="${imgSrc}" alt="${store.name}" loading="lazy">
+      </a>
+      <div class="card-content">
+        <span class="card-badge">${badgeText}</span>
+        <h3 class="card-title">${store.name}</h3>
+        <p class="card-desc">${store.tagline}</p>
+        <a href="${href}" class="card-link">
+          Visit Store 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+          </svg>
+        </a>
+      </div>
+    </article>
+  `;
+}
 
-        // Mega Menü Listesi (Sol Taraf)
-        listHTML += `
-          <button class="cat-item${isActive}" data-cat-id="${key}" data-store-name="${store.title}" data-store-tagline="${store.tagline || ''}" onmouseover="renderDetail(this)">
-            <div class="cat-item-main">
-              <span>${store.title}</span>
-              <small>${store.tagline || 'Explore products'}</small>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0L13 8.586a1 1 0 010 1.414l-4.293 4.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-        `;
+document.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.getElementById('gallery');
+  if (gallery) {
+    gallery.innerHTML = stores.map(renderStoreCard).join('');
+  }
 
-        // Sub-Nav (Alt menü)
-        const storeHref = `store/${key}/`;
-        subNavHTML += `
-            <div class="sub-nav-item"><a href="${storeHref}">${store.title}</a></div>
-        `;
-        
-        // Product Gallery (Kartlar) için de veri hazırlığı yapabiliriz (aşağıda)
-        
+  const header = document.querySelector('.app-header');
+  const btnCat = document.getElementById('btn-categories');
+  const catPanelWrap = document.getElementById('categories-panel');
+  const catPanel = catPanelWrap ? catPanelWrap.querySelector('.categories-panel') : null;
+
+  // 🔽 Categories dropdown toggle
+  if (header && btnCat && catPanelWrap) {
+    btnCat.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = header.classList.contains('has-cat-open');
+      header.classList.toggle('has-cat-open', !isOpen);
     });
-    
-    if (listEl) listEl.innerHTML = listHTML;
-    if (subNavListEl) subNavListEl.innerHTML = subNavHTML;
 
-    // İlk kategori detayını göster
-    renderDetail(listEl ? listEl.querySelector('.cat-item') : null);
+    // dışarı tıklayınca kapat
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target)) {
+        header.classList.remove('has-cat-open');
+      }
+    });
 
-    // ===============================================
-    // 2. KART GALERİSİNİ DOLDUR (Mağazaları Gösterme)
-    // ===============================================
-    if (gallery) {
-        const storeCards = storeKeys.map(key => {
-            const store = RAW_DATA[key];
-            const isHardware = key === 'hardware';
-            const extraClass = isHardware ? ' card--featured' : '';
-            const badgeText = isHardware ? 'Hardware • NEW' : 'Official Store';
-            const href = `store/${key}/`;
-            const imgSrc = `${STORE_IMAGE_BASE}${key}.webp`; // Varsayılan resim yolunu kullan
-
-            return `
-              <article class="card${extraClass}">
-                <a href="${href}" class="card-media"><img src="${imgSrc}" alt="${store.title}" loading="lazy"></a>
-                <div class="card-content">
-                  <span class="card-badge">${badgeText}</span>
-                  <h3 class="card-title">${store.title}</h3>
-                  <p class="card-desc">${store.tagline}</p>
-                  <a href="${href}" class="card-link">Visit Store  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg></a>
-                </div>
-              </article>
-            `;
-        }).join('');
-        gallery.innerHTML = storeCards;
+    // pointer konumlama – damla tam butonun altına gelsin
+    function updatePointerPosition() {
+      if (!catPanel) return;
+      const btnRect = btnCat.getBoundingClientRect();
+      const headerRect = header.getBoundingClientRect();
+      const offset = btnRect.left - headerRect.left + btnRect.width / 2;
+      catPanel.style.setProperty('--cat-pointer-left', `${offset}px`);
     }
+    updatePointerPosition();
+    window.addEventListener('resize', updatePointerPosition);
+  }
 
+  // 🔥 PREMIUM CATEGORIES – ana mağaza + alt mağaza detayları
+  const listEl = document.getElementById('categories-list');
+  const detailEl = document.getElementById('categories-detail');
 
-    // ===============================================
-    // 3. EVENT LISTENERS
-    // ===============================================
-    
-    // Tıklayınca ilgili store sayfasına git (Mega Menü Sol Taraf)
-    if (listEl) {
-        listEl.addEventListener('click', (e) => {
-          const btn = e.target.closest('.cat-item');
-          if (!btn) return;
-          const key = btn.getAttribute('data-cat-id');
-          if (key) {
-            window.location.href = `store/${key}/`;
-          }
-        });
-    }
-
-    // pointer konumlama ve menü aç/kapa
-    if (header && btnCat && catPanelWrap) {
-        function updatePointerPosition() {
-          if (!catPanel) return;
-          const btnRect = btnCat.getBoundingClientRect();
-          const headerRect = header.getBoundingClientRect();
-          const offset = btnRect.left - headerRect.left + btnRect.width / 2;
-          catPanel.style.setProperty('--cat-pointer-left', `${offset}px`);
-        }
-        
-        btnCat.addEventListener('click', (e) => {
-          e.preventDefault();
-          const isOpen = header.classList.contains('has-cat-open');
-          header.classList.toggle('has-cat-open', !isOpen);
-          if (!isOpen) updatePointerPosition();
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!header.contains(e.target)) {
-            header.classList.remove('has-cat-open');
-          }
-        });
-
-        window.addEventListener('resize', updatePointerPosition);
-    }
-});
-
-// GLOBAL FONKSİYON: Hover ile detay değişsin (Mega Menü Sağ Taraf)
-const detailEl = document.getElementById('categories-detail');
-const catPanel = document.getElementById('categories-panel') ? document.getElementById('categories-panel').querySelector('.categories-panel') : null;
-
-window.renderDetail = function(btnElement) {
-    if (!detailEl || !btnElement) return;
-
-    // Aktif sınıfı güncelleme
-    const listEl = document.getElementById('categories-list');
-    listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
-    btnElement.classList.add('cat-item--active');
-
-    const key = btnElement.getAttribute('data-cat-id');
-    const store = RAW_DATA[key];
-    const storeHref = `store/${key}/`;
-
-    if (!store) return;
-
-    const linksHtml = (store.sections || []).map(s => {
-        // Alt menüdeki linkler için daha zengin yapı (JSON'dan gelen name ve slug kullanılıyor)
-        const sectionHref = s.slug ? `${storeHref}${s.slug}/` : storeHref;
-        return `<a href="${sectionHref}">${s.name}</a>`;
-    }).join('');
+  function renderDetail(cat) {
+    if (!detailEl || !cat) return;
+    const linksHtml = (cat.sections || []).map(s => `
+      <a href="${s.href}">${s.label}</a>
+    `).join('');
 
     detailEl.innerHTML = `
       <div class="cat-detail-eyebrow">Store</div>
-      <div class="cat-detail-title">${store.title}</div>
-      <div class="cat-detail-subtitle">${store.tagline || 'Explore products in this store.'}</div>
+      <div class="cat-detail-title">${cat.storeName}</div>
+      <div class="cat-detail-subtitle">${cat.subtitle}</div>
       <div class="cat-detail-links">
-        ${linksHtml || `<a href="${storeHref}">Browse all products</a>`}
+        ${linksHtml || `<a href="${cat.href}">Browse all products</a>`}
       </div>
     `;
-};
+  }
+
+  if (listEl && detailEl) {
+    listEl.innerHTML = CATEGORY_DATA.map((cat, index) => `
+      <button class="cat-item${index === 0 ? ' cat-item--active' : ''}" data-cat-id="${cat.id}">
+        <div class="cat-item-main">
+          <span>${cat.label}</span>
+          <small>${cat.subtitle}</small>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0L13 8.586a1 1 0 010 1.414l-4.293 4.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    `).join('');
+
+    // İlk kategori detayını göster
+    renderDetail(CATEGORY_DATA[0]);
+
+    // Hover ile detay değişsin
+    listEl.addEventListener('mouseover', (e) => {
+      const btn = e.target.closest('.cat-item');
+      if (!btn) return;
+      const id = btn.getAttribute('data-cat-id');
+      const cat = CATEGORY_DATA.find(c => c.id === id);
+      if (!cat) return;
+
+      listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
+      btn.classList.add('cat-item--active');
+      renderDetail(cat);
+    });
+
+    // Tıklayınca ilgili store sayfasına git
+    listEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.cat-item');
+      if (!btn) return;
+      const id = btn.getAttribute('data-cat-id');
+      const cat = CATEGORY_DATA.find(c => c.id === id);
+      if (cat && cat.href) {
+        window.location.href = cat.href;
+      }
+    });
+  }
+});
 </script>
+
 </body>
 </html>
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
 
 
 
