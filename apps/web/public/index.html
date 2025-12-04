@@ -6,11 +6,12 @@
   <title>RGZTEC • Premium Digital Marketplace</title>
   <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
   
+  <!-- GitHub Pages base -->
   <base href="/rgztec/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"> 
 
   <style>
     /* 1. TEMA AYARLARI */
@@ -36,15 +37,8 @@
     a { color: inherit; text-decoration: none; transition: all 0.2s ease; }
     ul { list-style: none; margin: 0; padding: 0; }
     img, svg { display: block; vertical-align: middle; }
-    button, input { font-family: inherit; font-size: 100%; margin: 0; padding: 0; }
+    button, input { font-family: inherit; font-size: 100%; margin: 0; padding: 0; border: none; background: none; }
     h1, h2, h3, h4, h5 { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); font-weight: 700; margin: 0; }
-
-    /* Input Oklarını Gizleme (Kesin Çözüm) */
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
-      -webkit-appearance: none; margin: 0; 
-    }
-    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 
     .container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
 
@@ -62,20 +56,25 @@
 
     /* Kategori Butonu */
     .btn-cat {
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; gap: 10px;
       font-weight: 600; font-size: 14px; color: var(--ink-light);
       background: var(--bg); border: 1px solid var(--border);
       padding: 8px 16px; border-radius: 99px; cursor: pointer; transition: all 0.2s;
     }
     .btn-cat:hover { border-color: var(--brand); color: var(--brand); background: #fff7ed; }
-    
-    .hamburger-icon { display: flex; flex-direction: column; justify-content: space-between; width: 14px; height: 10px; }
-    .hamburger-icon span { display: block; width: 100%; height: 2px; background-color: currentColor; border-radius: 2px; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .btn-cat:hover .hamburger-icon span:nth-child(1) { transform: translateY(-1px); }
-    .btn-cat:hover .hamburger-icon span:nth-child(3) { transform: translateY(1px); }
-    .app-header.has-cat-open .hamburger-icon span:nth-child(1) { transform: rotate(45deg) translate(2.5px, 2.5px); }
-    .app-header.has-cat-open .hamburger-icon span:nth-child(2) { opacity: 0; }
-    .app-header.has-cat-open .hamburger-icon span:nth-child(3) { transform: rotate(-45deg) translate(2.5px, -2.5px); }
+
+    .btn-cat .cat-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .btn-cat .cat-icon rect {
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-cat:hover .cat-icon rect:nth-child(1) { transform: translateY(-0.5px); }
+    .btn-cat:hover .cat-icon rect:nth-child(4) { transform: translateY(0.5px); }
 
     /* Modern Arama Çubuğu */
     .search-bar { flex: 1; max-width: 500px; position: relative; }
@@ -107,7 +106,16 @@
     .categories-panel { position: relative; margin-left: 24px; background: #fff; border-radius: 20px; box-shadow: 0 20px 60px -10px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05); max-height: 520px; overflow: hidden; pointer-events: auto; }
     .categories-panel::before { content: ""; position: absolute; top: -8px; left: var(--cat-pointer-left, 110px); width: 16px; height: 16px; background: #fff; transform: rotate(45deg); border-left: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05); }
     .categories-layout { display: grid; grid-template-columns: 1.2fr 1.6fr; min-height: 320px; }
-    .categories-list { padding: 12px 0; overflow-y: auto; background: #fff; }
+    .categories-list { padding: 12px 0; background: #fff; }
+
+    /* Mağazalar listesi – hafif yüksek, scroll bar oku gizlendi */
+    .categories-list {
+      max-height: 420px;
+      overflow-y: auto;
+    }
+    .categories-list::-webkit-scrollbar { width: 0; height: 0; }
+    .categories-list { scrollbar-width: none; }
+
     .cat-item { width: 100%; text-align: left; padding: 10px 24px; font-size: 14px; color: var(--ink); display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: transparent; border: 0; }
     .cat-item:hover { background: #f8fafc; color: var(--brand); }
     .cat-item--active { background: #f1f5f9; color: var(--ink); font-weight: 700; }
@@ -143,49 +151,53 @@
     .banner-copy h2 { font-size: 32px; margin-bottom: 16px; }
     .banner-copy h2 span { color: var(--brand); }
     .banner-copy p { font-size: 16px; color: var(--sub); margin-bottom: 20px; line-height: 1.6; }
-    .banner-image { border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: #eee; min-height: 300px; }
+    .banner-image { border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: #eef2ff; min-height: 300px; }
     .banner-image img { width: 100%; display: block; height: auto; }
 
-    /* 6. CARDS (KARTLAR) - Optimize Edilmiş */
+    /* 6. CARDS (KARTLAR) */
+    main.container {
+      padding-top: 24px;
+    }
+
     .gallery-title { text-align: left; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; margin: 0 0 32px; color: var(--ink); letter-spacing: -0.02em; }
     
     .grid { 
       display: grid; 
-      /* Feature Kart için özel grid düzeni */
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); 
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
       gap: 32px; padding-bottom: 80px; 
     }
 
-    /* Genel Kart Stili */
-    .card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 1); border-radius: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02); }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border-color: #cbd5e1; }
+    /* Explore Stores alanı boş görünmesin diye min-height */
+    #gallery {
+      min-height: 560px;
+    }
 
-    /* FEATURED CARD (HARDWARE - DENGELİ BOYUT) */
+    .card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 1); border-radius: 20px; overflow: hidden; transition: all 0.25s ease; display: flex; flex-direction: column; position: relative; box-shadow: 0 8px 24px -10px rgba(15, 23, 42, 0.25); }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px -18px rgba(15, 23, 42, 0.32); border-color: #cbd5e1; }
+
     .card--featured {
-      grid-column: 1 / -1; /* Tam genişlik */
-      flex-direction: row; /* Yatay */
-      height: 260px; /* Sabit ve şık yükseklik */
+      grid-column: 1 / -1;
+      flex-direction: row;
+      height: 260px;
       background: linear-gradient(135deg, #fff 0%, #fff7ed 100%);
     }
     .card--featured .card-media {
-      flex: 0 0 400px; /* Görsel alanı genişletildi, dengeli */
+      flex: 0 0 380px;
       height: 100%; background: none; border-bottom: none; border-right: 1px solid #f1f5f9;
     }
-    /* Görselin tam oturması için */
     .card--featured .card-media img {
-      width: 100%; height: 100%; object-fit: cover; /* Görseli kesmeden doldur */
+      width: 100%; height: 100%; object-fit: cover;
     }
     .card--featured .card-content {
-      padding: 32px 48px; justify-content: center;
+      padding: 32px 40px; justify-content: center;
     }
-    .card--featured .card-title { font-size: 26px; margin-bottom: 12px; } /* Başlık biraz daha büyük */
-    .card--featured .card-desc { font-size: 16px; margin-bottom: 20px; max-width: 500px; }
-    .card--featured .seo-text { font-size: 13px; color: var(--sub); margin-top: auto; padding-top: 16px; border-top: 1px solid #eee; }
+    .card--featured .card-title { font-size: 26px; margin-bottom: 12px; }
+    .card--featured .card-desc { font-size: 16px; margin-bottom: 20px; max-width: 480px; }
+    .card--featured .seo-text { font-size: 13px; color: var(--sub); margin-top: auto; padding-top: 16px; border-top: 1px solid #e2e8f0; }
 
-    /* Normal Kart Görseli */
-    .card-media { height: 200px; background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%); position: relative; overflow: hidden; display: block; border-bottom: 1px solid #f1f5f9; }
-    .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; display: block; }
-    .card:hover .card-media img { transform: scale(1.06); }
+    .card-media { height: 200px; background: radial-gradient(circle at center, #ffffff 0%, #e5f0ff 40%, #0f172a 100%); position: relative; overflow: hidden; display: block; border-bottom: 1px solid #f1f5f9; }
+    .card-media img { width: 100%; height: 100%; object-fit: contain; padding: 10px; transition: transform 0.7s ease; display: block; }
+    .card:hover .card-media img { transform: translateY(-4px); }
 
     .card-content { padding: 24px; flex: 1; display: flex; flex-direction: column; background: #fff; z-index: 2; }
     .card-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); margin-bottom: 10px; background: rgba(249, 115, 22, 0.08); padding: 4px 10px; border-radius: 99px; align-self: flex-start; }
@@ -194,13 +206,28 @@
     .card-link { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
     .card-link:hover { color: var(--brand); gap: 10px; }
 
-    /* FOOTER */
-    .footer { background: #fff; border-top: 1px solid var(--border); padding: 80px 0 40px; color: var(--sub); }
+    /* FOOTER – hafif kurumsal arka plan */
+    .footer { 
+      background: linear-gradient(to bottom, #f9fafb, #ffffff);
+      border-top: 1px solid var(--border); 
+      padding: 80px 0 40px; 
+      color: var(--sub); 
+    }
     .footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
     .footer h4 { color: var(--ink); margin-bottom: 20px; font-size: 16px; font-weight: 700; }
     .footer a { display: block; margin-bottom: 12px; font-size: 14px; }
     .footer a:hover { color: var(--brand); }
     .footer-bot { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; font-size: 13px; }
+
+    /* Gift Cards + icon */
+    .footer-link-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-link-icon svg {
+      flex-shrink: 0;
+    }
 
     @media (max-width: 1024px) {
       .nav-right, .search-bar { display: none; }
@@ -218,8 +245,13 @@
       <div style="display:flex; align-items:center; gap:24px;">
         <a href="./" class="logo">RGZTEC</a>
         <button id="btn-categories" class="btn-cat">
-          <div class="hamburger-icon"><span></span><span></span><span></span></div>
-          Categories
+          <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3"  y="3"  width="7" height="7" rx="2"></rect>
+            <rect x="14" y="3"  width="7" height="7" rx="2"></rect>
+            <rect x="3"  y="14" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
+          </svg>
+          <span>Categories</span>
         </button>
       </div>
 
@@ -291,7 +323,7 @@
       <div class="banner-image">
         <img src="assets/images/banners/global-marketplace-banner.webp" 
              alt="RGZTEC Preview" 
-             onerror="this.style.display='none'; this.parentElement.style.background='#e2e8f0'; this.parentElement.innerHTML='<div style=\'padding:60px;text-align:center;color:#64748b\'>Banner Image Placeholder</div>'">
+             onerror="this.style.display='none'; this.parentElement.style.background='#e2e8f0'; this.parentElement.innerHTML='<div style=&quot;padding:60px;text-align:center;color:#64748b&quot;>Banner Image Placeholder</div>'">
       </div>
     </div>
   </section>
@@ -306,7 +338,15 @@
       <div class="footer-cols">
         <div>
           <h4>Shop</h4>
-          <a href="#">Gift Cards</a>
+          <a href="#" class="footer-link-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="M3 11h18"></path>
+              <path d="M8.5 5.5a2 2 0 113 1.7"></path>
+              <path d="M15.5 5.5a2 2 0 10-3 1.7"></path>
+            </svg>
+            <span>Gift Cards</span>
+          </a>
           <a href="#">Sitemap</a>
           <a href="#">Featured Products</a>
         </div>
@@ -334,168 +374,65 @@
       </div>
     </div>
   </footer>
+
 <script>
+  // Merkez data: /rgztec/data/store.data.json
+  const STORE_DATA_URL   = 'data/store.data.json';
   const STORE_IMAGE_BASE = 'assets/images/store/';
 
-  // Mağazalar (kartlar)
-  const STORES = [
-    {
-      slug: 'hardware',
-      title: 'Hardware Lab',
-      tagline: 'High-performance AI accelerators, dev boards & IoT kits for professionals.',
-      featured: true
-    },
-    {
-      slug: 'game-makers',
-      title: 'Game Makers',
-      tagline: 'Unity & Unreal assets.'
-    },
-    {
-      slug: 'ai-tools-hub',
-      title: 'AI Tools Hub',
-      tagline: 'Agents & automation.'
-    },
-    {
-      slug: 'dev-studio-one',
-      title: 'Dev Studio One',
-      tagline: 'Dashboards & starters.'
-    },
-    {
-      slug: 'email-forge',
-      title: 'Email Forge',
-      tagline: 'Email templates & flows.'
-    },
-    {
-      slug: 'html-templates',
-      title: 'HTML Templates',
-      tagline: 'Landing pages & UI.'
-    },
-    {
-      slug: 'icon-smith',
-      title: 'Icon Smith',
-      tagline: 'Premium icon packs.'
-    },
-    {
-      slug: 'reactorium',
-      title: 'Reactorium',
-      tagline: 'React UI kits & charts.'
-    },
-    {
-      slug: 'tiny-js-lab',
-      title: 'Tiny JS Lab',
-      tagline: 'Vanilla JS widgets.'
-    },
-    {
-      slug: 'unity-hub',
-      title: 'Unity Hub',
-      tagline: 'Unity tools & assets.'
-    },
-    {
-      slug: 'wp-plugins',
-      title: 'WP Plugins',
-      tagline: 'WordPress plugins.'
-    }
-  ];
+  let STORE_DATA = null;
 
-  // Kategori mega menü için basit veri
-  const CATEGORY_DATA = [
-    {
-      id: 'hardware',
-      label: 'Hardware',
-      subtitle: 'Dev kits & IoT hardware',
-      storeName: 'Hardware Lab',
-      href: 'store/hardware/',
-      sections: [
-        { label: 'AI Boards', href: 'store/hardware/' },
-        { label: 'Sensors', href: 'store/hardware/' },
-        { label: 'Dev Kits', href: 'store/hardware/' }
-      ]
-    },
-    {
-      id: 'game-makers',
-      label: 'Game Assets',
-      subtitle: 'Unity & Unreal assets',
-      storeName: 'Game Makers',
-      href: 'store/game-makers/',
-      sections: [
-        { label: 'UI & HUD', href: 'store/game-makers/' },
-        { label: 'Prototypes', href: 'store/game-makers/' }
-      ]
-    },
-    {
-      id: 'ai-tools-hub',
-      label: 'AI Tools',
-      subtitle: 'Agents & workflows',
-      storeName: 'AI Tools Hub',
-      href: 'store/ai-tools-hub/',
-      sections: [
-        { label: 'Agents', href: 'store/ai-tools-hub/' },
-        { label: 'Prompts', href: 'store/ai-tools-hub/' }
-      ]
-    },
-    {
-      id: 'html-templates',
-      label: 'Templates',
-      subtitle: 'HTML & landing pages',
-      storeName: 'HTML Templates',
-      href: 'store/html-templates/',
-      sections: [
-        { label: 'SaaS', href: 'store/html-templates/' },
-        { label: 'Marketing', href: 'store/html-templates/' }
-      ]
-    }
-  ];
+  async function loadStoreData() {
+    try {
+      const res = await fetch(STORE_DATA_URL + '?v=' + Date.now());
+      if (!res.ok) throw new Error('Store data fetch failed: ' + res.status);
+      const json = await res.json();
+      STORE_DATA = json;
 
-  // --- Explore Stores kartlarını çiz ---
-  function renderCards() {
+      renderCardsFromData(json);
+      initMenuFromData(json);
+    } catch (err) {
+      console.error('Store data error:', err);
+      const gallery = document.getElementById('gallery');
+      if (gallery) {
+        gallery.innerHTML = '<p style="padding:24px;color:#64748b">Stores will appear here soon.</p>';
+      }
+    }
+  }
+
+  function renderCardsFromData(data) {
     const gallery = document.getElementById('gallery');
     if (!gallery) return;
 
-    const storesSorted = [...STORES].sort((a, b) => {
-      if (a.slug === 'hardware') return -1;
-      if (b.slug === 'hardware') return 1;
-      return a.slug.localeCompare(b.slug);
+    const entries = Object.entries(data || {});
+
+    if (!entries.length) {
+      gallery.innerHTML = '<p style="padding:24px;color:#64748b">No stores defined yet.</p>';
+      return;
+    }
+
+    // Hardware en üstte
+    entries.sort(([slugA], [slugB]) => {
+      if (slugA === 'hardware') return -1;
+      if (slugB === 'hardware') return 1;
+      return slugA.localeCompare(slugB);
     });
 
-    gallery.innerHTML = storesSorted.map(store => {
-      const href = `store/${store.slug}/`;
-      const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
-      const title = store.title;
+    gallery.innerHTML = entries.map(([slug, store]) => {
+      const href = `store/${slug}/`;
+      const imgSrc = `${STORE_IMAGE_BASE}${slug}.webp`;
+      const title = store.title || slug;
       const tagline = store.tagline || '';
+      const isFeatured = slug === 'hardware' || store.featured === true;
 
-      if (store.featured) {
-        // Featured kart (Hardware)
+      if (isFeatured) {
         return `
-          <article class="card card--featured">
-            <a href="${href}" class="card-media">
-              <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
-            </a>
-            <div class="card-content">
-              <span class="card-badge">Featured • Hardware</span>
-              <h3 class="card-title">${title}</h3>
-              <p class="card-desc">${tagline}</p>
-              <a href="${href}" class="card-link">
-                Visit Store
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
-              </a>
-              <div class="seo-text">
-                Power up your projects with curated microcontrollers, sensors and AI-ready development boards.
-              </div>
-            </div>
-          </article>
-        `;
-      }
-
-      // Normal kartlar
-      return `
-        <article class="card">
+        <article class="card card--featured">
           <a href="${href}" class="card-media">
             <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
           </a>
           <div class="card-content">
-            <span class="card-badge">Official Store</span>
+            <span class="card-badge">Featured • Hardware</span>
             <h3 class="card-title">${title}</h3>
             <p class="card-desc">${tagline}</p>
             <a href="${href}" class="card-link">
@@ -504,14 +441,36 @@
                 <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
             </a>
+            <div class="seo-text">
+              Power up your projects with curated microcontrollers, sensors and AI-ready development boards.
+            </div>
           </div>
         </article>
+        `;
+      }
+
+      return `
+      <article class="card">
+        <a href="${href}" class="card-media">
+          <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
+        </a>
+        <div class="card-content">
+          <span class="card-badge">Official Store</span>
+          <h3 class="card-title">${title}</h3>
+          <p class="card-desc">${tagline}</p>
+          <a href="${href}" class="card-link">
+            Visit Store
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </article>
       `;
     }).join('');
   }
 
-  // --- Kategori mega menü ---
-  function initMenu() {
+  function initMenuFromData(data) {
     const btn = document.getElementById('btn-categories');
     const header = document.querySelector('.app-header');
     const panel = document.getElementById('categories-panel');
@@ -520,44 +479,66 @@
 
     if (!btn || !panel || !listEl || !detailEl) return;
 
-    listEl.innerHTML = CATEGORY_DATA.map((cat, i) => `
-      <button class="cat-item ${i === 0 ? 'cat-item--active' : ''}" data-id="${cat.id}">
-        <span>${cat.label}</span>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M9 5l7 7-7 7"/>
-        </svg>
-      </button>
-    `).join('');
+    const entries = Object.entries(data || {});
+    if (!entries.length) return;
 
-    function showDetail(cat) {
-      if (!cat) return;
-      const chips = (cat.sections || []).map(s => `
-        <a href="${s.href}">${s.label}</a>
-      `).join('');
+    entries.sort(([slugA], [slugB]) => {
+      if (slugA === 'hardware') return -1;
+      if (slugB === 'hardware') return 1;
+      return slugA.localeCompare(slugB);
+    });
+
+    listEl.innerHTML = entries.map(([slug, store], i) => {
+      const label = store.title || slug;
+      return `
+        <button class="cat-item ${i === 0 ? 'cat-item--active' : ''}" data-slug="${slug}">
+          <span>${label}</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      `;
+    }).join('');
+
+    function showDetailForSlug(slug) {
+      const store = data[slug];
+      if (!store) return;
+
+      const title = store.title || slug;
+      const subtitle = store.tagline || '';
+      const sections = Array.isArray(store.sections) ? store.sections : [];
+
+      const chips = sections.slice(0, 5).map(section => {
+        const secSlug = section.slug || '';
+        const label = section.name || secSlug;
+        const href = secSlug ? `store/${slug}/${secSlug}/` : `store/${slug}/`;
+        return `<a href="${href}">${label}</a>`;
+      }).join('');
+
+      const allHref = `store/${slug}/`;
+
       detailEl.innerHTML = `
         <div class="cat-detail-eyebrow">STORE</div>
-        <div class="cat-detail-title">${cat.storeName}</div>
-        <div class="cat-detail-subtitle">${cat.subtitle}</div>
+        <div class="cat-detail-title">${title}</div>
+        <div class="cat-detail-subtitle">${subtitle}</div>
         <div class="cat-detail-links">
           ${chips}
-          <a href="${cat.href}">View All Products</a>
+          <a href="${allHref}">View All Products</a>
         </div>
       `;
     }
 
-    const first = CATEGORY_DATA[0];
-    if (first) showDetail(first);
+    const firstSlug = entries[0][0];
+    showDetailForSlug(firstSlug);
 
     listEl.querySelectorAll('.cat-item').forEach(item => {
       item.addEventListener('mouseenter', () => {
         listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
         item.classList.add('cat-item--active');
-        const cat = CATEGORY_DATA.find(c => c.id === item.dataset.id);
-        showDetail(cat);
+        showDetailForSlug(item.dataset.slug);
       });
     });
 
-    // Aç/kapat
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = header.classList.contains('has-cat-open');
@@ -579,10 +560,11 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    renderCards();
-    initMenu();
+    loadStoreData();
   });
 </script>
 
 </body>
 </html>
+
+
