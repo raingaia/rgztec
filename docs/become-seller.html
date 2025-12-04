@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Become a Seller — RGZTEC</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Become a Seller — RGZTEC</title>
 
-  <!-- 🔗 TÜM göreli yolları apps/web/public/ köküne sabitle -->
-  <base href="/rgztec/apps/web/public/">
+<base href="/rgztec/apps/web/public/">
 
-  <meta name="description" content="Join RGZTEC and start selling in minutes. Clear fees, global payments, and a 0% platform fee launch promo for your first 3 months (limits apply)." />
-  <meta name="theme-color" content="#f97316" />
-  <meta property="og:title" content="Become a Seller — RGZTEC" />
-  <meta property="og:description" content="Open your store, connect payouts, and publish products in minutes. 0% platform fee promo for your first 3 months (limits apply)." />
-  <meta property="og:type" content="website" />
-  <!-- og görseli ve kanonik url artık base'e göre -->
-  <meta property="og:image" content="assets/og-seller.png" />
-  <meta property="og:url" content="seller.html" />
-  <link rel="canonical" href="seller.html" />
+<meta name="description" content="Join RGZTEC and start selling in minutes. Clear fees, global payments, and a 0% platform fee launch promo for your first 3 months (limits apply)." />
+<meta name="theme-color" content="#f97316" />
+<meta property="og:title" content="Become a Seller — RGZTEC" />
+<meta property="og:description" content="Open your store, connect payouts, and publish products in minutes. 0% platform fee promo for your first 3 months (limits apply)." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="assets/og-seller.png" />
+<meta property="og:url" content="seller.html" />
+<link rel="canonical" href="seller.html" />
 
-  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-<link rel="stylesheet" href="assets%20/css/theme-tokens.css?v=1"><!-- boşluk fallback -->
-
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
+<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
     tailwind.config = {
       theme: {
         extend: {
@@ -32,25 +27,21 @@
         }
       }
     }
-  </script>
-  <style>
+</script>
+<style>
     :root { --wrap: 1200px }
     .wrap { max-width: var(--wrap); margin-inline: auto }
-  </style>
+</style>
 </head>
 <body class="bg-white text-ink selection:bg-orange-100 selection:text-ink">
 
-  <!-- Header -->
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-line">
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-line">
     <div class="wrap px-4 py-3 flex items-center gap-4">
       <a id="linkHome" href="index.html" class="font-extrabold tracking-tight text-lg text-orange-600 hover:text-orange-700" aria-label="RGZTEC Home">RGZTEC</a>
       <span class="hidden md:inline-flex items-center text-xs text-sub border-l border-line pl-3">Seller Onboarding • Become a Seller</span>
       <nav class="ml-auto flex items-center gap-3 text-sm" aria-label="Primary">
-        <!-- genel liste / keşif sayfası -->
         <a id="linkStores" href="listings.html" class="text-sub hover:text-ink">Stores</a>
-        <!-- belirli bir mağaza örneği -->
         <a id="linkHtmlTemplates" href="store.html?slug=html-templates" class="text-sub hover:text-ink">HTML Templates</a>
-        <!-- Open Store -->
         <a id="linkOpen" href="seller.html" class="text-sub hover:text-ink inline-flex items-center gap-1">
           <span>Open Store</span>
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
@@ -58,7 +49,6 @@
       </nav>
     </div>
 
-    <!-- simple subnav -->
     <div class="wrap px-4 pb-3">
       <div class="flex items-center gap-4 text-sm overflow-x-auto" aria-label="Secondary">
         <a href="#actions" class="hover:text-ink">Steps</a>
@@ -68,10 +58,9 @@
         <a href="#faq" class="hover:text-ink">FAQ</a>
       </div>
     </div>
-  </header>
+</header>
 
-  <!-- Hero -->
-  <section class="relative overflow-hidden">
+<section class="relative overflow-hidden">
     <div class="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-50 to-white"></div>
     <div class="wrap px-4 py-12 md:py-18 grid md:grid-cols-2 gap-10 items-center">
       <div>
@@ -113,7 +102,6 @@
         </ul>
       </div>
 
-      <!-- Preview card -->
       <div class="relative">
         <div class="p-4 bg-white border border-line rounded-3xl shadow-soft">
           <div class="p-4 border border-line rounded-2xl">
@@ -138,10 +126,9 @@
         </div>
       </div>
     </div>
-  </section>
+</section>
 
-  <!-- Steps -->
-  <section id="actions" class="wrap px-4 py-10">
+<section id="actions" class="wrap px-4 py-10">
     <div class="grid md:grid-cols-3 gap-5">
       <div class="p-6 border border-line rounded-2xl hover:shadow-soft transition">
         <div class="text-orange-700 font-semibold mb-1">1. Sign up</div>
@@ -159,10 +146,9 @@
         <p class="mt-2 text-sm text-sub">Manual add or CSV import. Batch publish when you’re ready.</p>
       </div>
     </div>
-  </section>
+</section>
 
-  <!-- Fees + Estimator -->
-  <section id="fees" class="wrap px-4 pb-12">
+<section id="fees" class="wrap px-4 pb-12">
     <div class="p-6 md:p-8 border border-line rounded-3xl grid md:grid-cols-2 gap-8 items-center bg-white shadow-soft">
       <div>
         <h2 class="text-2xl font-bold tracking-tight">Clear fees, no surprises</h2>
@@ -181,11 +167,11 @@
         <div class="grid grid-cols-2 gap-3">
           <label class="text-sm">Price (USD)
             <input id="price" type="number" step="0.01" value="49"
-                   class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" aria-label="Price in USD">
+                       class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" aria-label="Price in USD">
           </label>
           <label class="text-sm">Platform %
             <input id="plat" type="number" step="0.1" value="10"
-                   class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" aria-label="Platform fee percentage">
+                       class="mt-1 w-full h-11 px-3 border border-line rounded-xl outline-none focus:ring-2 focus:ring-indigo-300" aria-label="Platform fee percentage">
           </label>
         </div>
         <div class="mt-3 flex items-center gap-2">
@@ -195,6 +181,7 @@
         <div id="promoHelp" class="sr-only">Promo applies 0% platform fee for first 3 months up to $5k GMV or 25 orders.</div>
         <div class="mt-3 p-4 border border-line rounded-xl text-sm" aria-live="polite">
           <div class="flex justify-between"><span>Stripe (~2.9% + 30¢)</span><span id="feeStripe">$1.72</span></div>
+          <div class="flex justify-between"><span>Infra fee ($0.25)</span><span id="feeInfra">$0.25</span></div>
           <div class="flex justify-between"><span>RGZTEC fee (10%)</span><span id="feePlatform">$4.90</span></div>
           <div id="promoRow" class="flex justify-between text-green-700 hidden"><span>Intro promo (0%)</span><span id="feePlatformPromo">$0.00</span></div>
           <div class="border-t my-2"></div>
@@ -203,10 +190,9 @@
         <p class="mt-2 text-xs text-sub">*Promo cap: up to $5k GMV or first 25 orders. Infra fee of $0.25/order applies. Stripe fees are separate.</p>
       </div>
     </div>
-  </section>
+</section>
 
-  <!-- Stats -->
-  <section class="wrap px-4 pb-12 grid md:grid-cols-3 gap-5">
+<section class="wrap px-4 pb-12 grid md:grid-cols-3 gap-5">
     <div class="p-6 border border-line rounded-2xl">
       <div class="text-3xl font-extrabold">7m+</div>
       <div class="text-sub">Monthly requests handled by our infra</div>
@@ -219,10 +205,9 @@
       <div class="text-3xl font-extrabold">99.9%</div>
       <div class="text-sub">Uptime across regions</div>
     </div>
-  </section>
+</section>
 
-  <!-- FAQ -->
-  <section id="faq" class="wrap px-4 pb-16">
+<section id="faq" class="wrap px-4 pb-16">
     <h2 class="text-xl font-bold mb-4">FAQ</h2>
 
     <details class="group border-t border-line py-4" open>
@@ -254,60 +239,94 @@
         Get Started — Open Store
       </a>
     </div>
-  </section>
+</section>
 
-  <footer class="border-t border-line py-8 text-center text-sm text-sub">
-    © 2025 RGZTEC Marketplace. All rights reserved.
-  </footer>
+<footer class="border-t border-line bg-ink text-sub mt-12 py-10">
+    <div class="wrap px-4">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <h4 class="text-white font-semibold mb-3">Shop</h4>
+                <a href="gift-card.html" class="block text-sm hover:text-white">Gift Cards</a>
+                <a href="#" class="block text-sm hover:text-white">Sitemap</a>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-3">Sell</h4>
+                <a href="become-seller.html" class="block text-sm hover:text-white">Start Selling</a>
+                <a href="#" class="block text-sm hover:text-white">Teams</a>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-3">Company</h4>
+                <a href="#" class="block text-sm hover:text-white">About</a>
+                <a href="#" class="block text-sm hover:text-white">Careers</a>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-3">Support</h4>
+                <a href="mailto:support@rgztec.com" class="block text-sm hover:text-white">Help Center</a>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 pt-6 flex justify-between text-xs">
+            <span>© 2025 RGZTEC, Inc.</span>
+            <div>
+                <a href="#" class="hover:text-white ml-4">Privacy</a>
+                <a href="#" class="hover:text-white ml-4">Terms</a>
+            </div>
+        </div>
+    </div>
+</footer>
 
-  <!-- Fees estimator -->
-  <script>
+<script>
     const $ = (s)=>document.querySelector(s);
     function calc() {
       const price = parseFloat($('#price').value||0);
       const plat  = parseFloat($('#plat').value||10)/100;
       const promo = $('#promo')?.checked;
+      
       const stripe  = price*0.029 + 0.30;
       const platStd = price*plat;
       const platNow = promo ? 0 : platStd;
-      const take    = Math.max(price - stripe - platNow, 0);
-      $('#feeStripe').textContent   = `$${stripe.toFixed(2)}`;
+      // YENİ: Infra fee eklendi
+      const infraFee = 0.25; 
+      
+      // Toplam kesinti hesaplanırken Infra Fee dahil edilir
+      const take    = Math.max(price - stripe - platNow - infraFee, 0); 
+
+      $('#feeStripe').textContent  = `$${stripe.toFixed(2)}`;
+      $('#feeInfra').textContent   = `$${infraFee.toFixed(2)}`; // Infra Fee gösterimi
       $('#feePlatform').textContent = `$${platStd.toFixed(2)}`;
       $('#promoRow')?.classList.toggle('hidden', !promo);
-      $('#takeHome').textContent    = `$${take.toFixed(2)}`;
+      $('#takeHome').textContent   = `$${take.toFixed(2)}`;
     }
     document.addEventListener('DOMContentLoaded', ()=>{
       ['price','plat'].forEach(id=>document.getElementById(id).addEventListener('input', calc));
       document.getElementById('promo')?.addEventListener('change', calc);
       calc();
     });
-  </script>
+</script>
 
-  <!-- SEO: FAQ structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "How do payouts work?",
-      "acceptedAnswer": { "@type": "Answer",
-        "text": "Connect your Stripe account (Express/Standard). Funds settle to your bank per Stripe’s schedule."
-      }
-    },{
-      "@type": "Question",
-      "name": "Can I import products?",
-      "acceptedAnswer": { "@type": "Answer",
-        "text": "Yes. CSV with headers: name,price,sku. You can also add items manually."
-      }
-    },{
-      "@type": "Question",
-      "name": "What’s the platform fee?",
-      "acceptedAnswer": { "@type": "Answer",
-        "text": "10% per transaction. Stripe fees are separate and paid to Stripe."
-      }
-    }]
-  }
-  </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "How do payouts work?",
+    "acceptedAnswer": { "@type": "Answer",
+      "text": "Connect your Stripe account (Express/Standard). Funds settle to your bank per Stripe’s schedule."
+    }
+  },{
+    "@type": "Question",
+    "name": "Can I import products?",
+    "acceptedAnswer": { "@type": "Answer",
+      "text": "Yes. CSV with headers: name,price,sku. You can also add items manually."
+    }
+  },{
+    "@type": "Question",
+    "name": "What’s the platform fee?",
+    "acceptedAnswer": { "@type": "Answer",
+      "text": "10% per transaction. Stripe fees are separate and paid to Stripe."
+    }
+  }]
+}
+</script>
 </body>
 </html>
