@@ -307,6 +307,70 @@ body.home-body {
   box-shadow: var(--shadow-soft);
 }
 
+/* =========================================================
+   HOME PRODUCT GRID
+   ========================================================= */
+
+.home-product-grid {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.6rem;
+}
+
+.home-product-card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 16px 50px rgba(15,23,42,0.10);
+  overflow: hidden;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.home-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 60px rgba(15,23,42,0.15);
+}
+
+.home-product-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.home-product-info {
+  padding: 1rem 1.2rem 1.3rem;
+}
+
+.home-product-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.home-product-store {
+  font-size: 0.82rem;
+  color: var(--color-text-sub);
+  margin: 0.25rem 0 0.7rem;
+}
+
+.home-product-btn {
+  display: inline-flex;
+  padding: 0.55rem 1rem;
+  background: rgba(15,23,42,0.05);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--color-text-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 150ms ease;
+}
+
+.home-product-btn:hover {
+  background: rgba(15,23,42,0.12);
+}
+
 /* ===============================
    RESPONSIVE
    =============================== */
