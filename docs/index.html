@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
   <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
+  
   <base href="/rgztec/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,141 +13,118 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* RESET & CORE */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; tab-size: 4; font-family: 'Inter', sans-serif; line-height: 1.5; }
-    body { margin: 0; line-height: inherit; }
-    hr { height: 0; color: inherit; border-top-width: 1px; }
-    h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; margin: 0; }
-    a { color: inherit; text-decoration: none; transition: all 0.2s ease; }
-    ul { list-style: none; margin: 0; padding: 0; }
-    img, svg { display: block; vertical-align: middle; }
-    button, input, select { font-family: inherit; font-size: 100%; margin: 0; padding: 0; }
-    
-    /* THEME VARIABLES (AÇIK/KURUMSAL TEMA) */
+    /* -----------------------------------------------------------
+       1. KURUMSAL TEMA AYARLARI (AÇIK/LIGHT TEMA)
+       ----------------------------------------------------------- */
     :root {
-      --brand: #f97316;       /* Turuncu */
-      --brand-h: #ea580c;     /* Koyu Turuncu */
-      --ink: #0f172a;         /* Ana Metin (Koyu Lacivert) */
-      --ink-light: #334155;   /* Alt Metin */
-      --sub: #64748b;         /* Gri Metin */
-      --border: #e2e8f0;      /* Çizgiler */
-      --bg: #ffffff;          /* Arka Plan */
-      --bg-alt: #f8fafc;      /* Alternatif Arka Plan */
+      --brand: #f97316;       /* Turuncu (Vurgu Rengi) */
+      --brand-h: #ea580c;     /* Koyu Turuncu (Hover) */
+      
+      --ink: #0f172a;         /* Ana Metin (Koyu Lacivert - Neredeyse Siyah) */
+      --ink-light: #334155;   /* İkincil Metin */
+      --sub: #64748b;         /* Gri Metin (Açıklamalar) */
+      
+      --border: #e2e8f0;      /* Kenarlıklar (Çok Açık Gri) */
+      --bg: #ffffff;          /* Ana Arka Plan (Beyaz) */
+      --bg-alt: #f8fafc;      /* Alternatif Arka Plan (Kirli Beyaz) */
+      
       --radius: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
     }
 
-    body {
-      background-color: var(--bg-alt);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
+    /* -----------------------------------------------------------
+       2. TEMEL CSS (RESET & TYPOGRAPHY)
+       ----------------------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; tab-size: 4; font-family: 'Inter', sans-serif; line-height: 1.5; scroll-behavior: smooth; }
+    body { margin: 0; padding: 0; background-color: var(--bg-alt); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; transition: all 0.2s ease; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    img, svg { display: block; vertical-align: middle; }
+    button, input { font-family: inherit; font-size: 100%; margin: 0; padding: 0; }
+    h1, h2, h3, h4, h5 { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); font-weight: 700; margin: 0; }
 
-    .container {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
 
-    /* HEADER */
+    /* -----------------------------------------------------------
+       3. HEADER (KURUMSAL)
+       ----------------------------------------------------------- */
     .app-header {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      height: 72px;
-      display: flex;
-      align-items: center;
+      position: sticky; top: 0; z-index: 1000; height: 72px;
+      display: flex; align-items: center;
     }
 
     .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      gap: 24px;
+      display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 24px;
     }
 
     .logo {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: 24px;
-      color: var(--brand);
-      letter-spacing: -0.03em;
-      flex-shrink: 0;
+      font-size: 24px; font-weight: 800; color: var(--brand); letter-spacing: -0.03em; flex-shrink: 0;
     }
 
-    /* Categories Button */
+    /* Kategori Butonu */
     .btn-cat {
       display: flex; align-items: center; gap: 8px;
       font-weight: 600; font-size: 14px; color: var(--ink-light);
       background: var(--bg); border: 1px solid var(--border);
-      padding: 8px 14px; border-radius: 999px; cursor: pointer;
+      padding: 8px 16px; border-radius: 99px; cursor: pointer;
+      transition: all 0.2s;
     }
-    .btn-cat:hover { border-color: var(--brand); color: var(--brand-h); background: #fff7ed; }
-    .btn-cat svg { width: 18px; height: 18px; }
+    .btn-cat:hover { border-color: var(--brand); color: var(--brand); background: #fff7ed; }
+    .btn-cat svg { width: 18px; height: 18px; stroke: currentColor; }
 
-    /* Search Bar */
+    /* Arama Çubuğu (Görsel Sadece) */
     .search-bar { flex: 1; max-width: 480px; position: relative; }
     .search-input {
-      width: 100%; height: 42px;
-      background: #f1f5f9; border: 1px solid transparent;
-      border-radius: 999px; padding: 0 44px 0 18px;
-      font-size: 14px; color: var(--ink);
+      width: 100%; height: 42px; background: #f1f5f9; border: 1px solid transparent;
+      border-radius: 99px; padding: 0 44px 0 18px; font-size: 14px; color: var(--ink);
+      transition: all 0.2s;
     }
     .search-input:focus {
       background: #fff; border-color: var(--brand); outline: none;
       box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
     }
     .search-btn {
-      position: absolute; right: 5px; top: 5px;
-      width: 32px; height: 32px; border-radius: 999px;
-      border: none; background: var(--brand); color: white;
+      position: absolute; right: 6px; top: 6px; width: 30px; height: 30px;
+      border-radius: 50%; border: none; background: var(--brand); color: white;
       display: grid; place-items: center; cursor: pointer;
     }
     .search-btn:hover { background: var(--brand-h); }
 
-    /* Nav Right */
-    .nav-right { display: flex; align-items: center; gap: 18px; }
+    /* Navigasyon (Sağ) */
+    .nav-right { display: flex; align-items: center; gap: 20px; }
     .nav-link { font-size: 14px; font-weight: 600; color: var(--sub); }
     .nav-link:hover { color: var(--brand); }
 
     .icon-action {
-      width: 40px; height: 40px; border-radius: 999px;
+      width: 40px; height: 40px; border-radius: 50%;
       display: grid; place-items: center;
-      border: 1px solid var(--border); color: var(--ink-light);
-      background: var(--bg);
+      border: 1px solid var(--border); color: var(--sub); background: #fff;
     }
     .icon-action:hover { border-color: var(--brand); color: var(--brand); }
 
     .btn-open-store {
-      background: var(--ink); color: #fff;
-      padding: 9px 20px; border-radius: 999px;
-      font-size: 14px; font-weight: 700;
+      background: var(--ink); color: #fff; padding: 10px 24px; border-radius: 99px; font-size: 14px; font-weight: 700;
     }
-    .btn-open-store:hover { background: var(--brand); box-shadow: var(--shadow-lg); }
+    .btn-open-store:hover { background: var(--brand); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
 
-    /* MEGA MENU (Etsy Style) */
-    .categories-panel-wrap {
-      position: absolute; top: 100%; left: 0; width: 420px;
-      padding-top: 10px; pointer-events: none; display: none;
-    }
+    /* -----------------------------------------------------------
+       4. MEGA MENU (ETSY STYLE)
+       ----------------------------------------------------------- */
+    .categories-panel-wrap { position: absolute; top: 100%; left: 0; width: 420px; padding-top: 10px; pointer-events: none; display: none; }
     .app-header.has-cat-open .categories-panel-wrap { display: block; }
     
     .categories-panel {
       position: relative; margin-left: 24px;
-      background: #fff; border-radius: 22px;
-      box-shadow: 0 20px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05);
+      background: #fff; border-radius: 20px;
+      box-shadow: 0 20px 60px -10px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
       max-height: 520px; overflow: hidden; pointer-events: auto;
-      transform: translateY(6px); opacity: 0;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .app-header.has-cat-open .categories-panel { opacity: 1; transform: translateY(0); }
-    
     .categories-panel::before {
       content: ""; position: absolute; top: -8px; left: var(--cat-pointer-left, 110px);
       width: 16px; height: 16px; background: #fff;
@@ -157,85 +135,115 @@
     
     .categories-list { padding: 12px 0; overflow-y: auto; background: #fff; }
     .cat-item {
-      width: 100%; text-align: left; padding: 10px 20px;
-      font-size: 14px; background: transparent; border: 0;
-      color: var(--ink); display: flex; align-items: center;
-      justify-content: space-between; cursor: pointer;
+      width: 100%; text-align: left; padding: 10px 24px;
+      font-size: 14px; color: var(--ink); display: flex; align-items: center;
+      justify-content: space-between; cursor: pointer; background: transparent; border: 0;
     }
     .cat-item:hover { background: #f8fafc; color: var(--brand); }
-    .cat-item--active { background: #f1f5f9; color: var(--ink); font-weight: 600; }
+    .cat-item--active { background: #f1f5f9; color: var(--ink); font-weight: 700; }
     .cat-item svg { width: 16px; height: 16px; color: var(--sub); }
 
     .categories-detail {
       background: #f8fafc; border-left: 1px solid var(--border);
-      padding: 24px; display: flex; flex-direction: column; gap: 16px;
+      padding: 24px; display: flex; flex-direction: column; gap: 12px;
     }
-    .cat-detail-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--sub); letter-spacing: 0.05em; }
-    .cat-detail-title { font-size: 20px; font-weight: 700; color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; }
-    .cat-detail-subtitle { font-size: 14px; color: var(--sub); line-height: 1.5; }
-    .cat-detail-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .cat-detail-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--sub); letter-spacing: 0.05em; }
+    .cat-detail-title { font-size: 20px; color: var(--ink); }
+    .cat-detail-subtitle { font-size: 13px; color: var(--sub); max-width: 240px; margin-bottom: 8px; }
+    .cat-detail-links { display: flex; flex-wrap: wrap; gap: 8px; }
     .cat-detail-links a {
-      font-size: 13px; font-weight: 500; padding: 6px 12px;
-      background: #fff; border: 1px solid var(--border); border-radius: 99px;
-      color: var(--ink);
+      font-size: 13px; font-weight: 500; padding: 6px 14px;
+      background: #fff; border: 1px solid var(--border); border-radius: 99px; color: var(--ink);
     }
     .cat-detail-links a:hover { border-color: var(--brand); color: var(--brand); }
 
-    /* SUB NAV */
-    .sub-nav { background: #fff; border-bottom: 1px solid var(--border); height: 48px; display: flex; align-items: center; overflow-x: auto; }
-    .sub-nav-list { display: flex; gap: 24px; padding: 0 24px; margin: 0 auto; max-width: 1440px; }
-    .sub-nav-item a { font-size: 13px; font-weight: 500; color: var(--sub); white-space: nowrap; height: 48px; display: flex; align-items: center; border-bottom: 2px solid transparent; }
+    /* -----------------------------------------------------------
+       5. ALT NAVIGASYON (11 STORE)
+       ----------------------------------------------------------- */
+    .sub-nav { background: #fff; border-bottom: 1px solid var(--border); height: 52px; display: flex; align-items: center; overflow-x: auto; }
+    .sub-nav-list { display: flex; gap: 32px; padding: 0 24px; margin: 0 auto; max-width: 1440px; }
+    .sub-nav-item a {
+      font-size: 13px; font-weight: 600; color: var(--sub); display: flex; align-items: center;
+      height: 52px; border-bottom: 2px solid transparent; white-space: nowrap;
+    }
     .sub-nav-item a:hover { color: var(--brand); border-bottom-color: var(--brand); }
 
-    /* HERO */
-    .hero { padding: 80px 24px 60px; text-align: center; background: radial-gradient(circle at 50% 0%, #fff7ed 0%, transparent 70%); }
-    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border); padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 24px; box-shadow: var(--shadow); }
+    /* -----------------------------------------------------------
+       6. HERO & BANNER
+       ----------------------------------------------------------- */
+    .hero {
+      padding: 80px 24px 60px; text-align: center;
+      background: radial-gradient(circle at 50% 0%, #fff7ed 0%, transparent 60%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
     .hero-badge span { color: var(--brand); font-weight: 800; }
-    .hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(36px, 5vw, 56px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); margin-bottom: 20px; }
-    .hero p { font-size: 18px; color: var(--sub); max-width: 600px; margin: 0 auto 32px; }
-    .hero-btns { display: flex; justify-content: center; gap: 12px; }
-    .btn-primary { background: var(--brand); color: #fff; padding: 12px 32px; border-radius: 99px; font-weight: 600; box-shadow: 0 10px 20px -5px rgba(249,115,22,0.4); }
-    .btn-primary:hover { background: var(--brand-h); transform: translateY(-2px); }
-    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--ink); padding: 12px 32px; border-radius: 99px; font-weight: 600; }
-    .btn-outline:hover { background: #f8fafc; border-color: var(--sub); }
-
-    /* BANNER */
-    .marketplace-banner-section { padding: 20px 0 60px; }
-    .banner-inner { max-width: 1440px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-    .banner-copy h2 { font-size: 28px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); margin-bottom: 16px; }
-    .banner-copy h2 span { color: var(--brand); }
-    .banner-copy p { font-size: 16px; color: var(--sub); margin-bottom: 12px; }
-    .banner-image { border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
-    .banner-image img { width: 100%; display: block; }
-
-    /* GRID */
-    .gallery-title { text-align: left; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 24px; color: var(--ink); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; padding-bottom: 80px; }
+    .hero h1 { font-size: clamp(36px, 5vw, 60px); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
+    .hero p { font-size: 18px; color: var(--sub); max-width: 600px; margin: 0 auto 32px; line-height: 1.6; }
     
-    .card { background: #fff; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: all 0.3s ease; display: flex; flex-direction: column; }
-    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: #cbd5e1; }
-    .card-media { height: 200px; background: #f1f5f9; position: relative; overflow: hidden; }
+    .hero-btns { display: flex; justify-content: center; gap: 16px; }
+    .btn-primary { background: var(--brand); color: #fff; padding: 14px 32px; border-radius: 99px; font-weight: 700; font-size: 15px; box-shadow: 0 10px 25px -5px rgba(249,115,22,0.4); }
+    .btn-primary:hover { background: var(--brand-h); transform: translateY(-2px); }
+    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--ink); padding: 14px 32px; border-radius: 99px; font-weight: 700; font-size: 15px; }
+    .btn-outline:hover { border-color: var(--sub); background: #f8fafc; }
+
+    .marketplace-banner-section { padding: 20px 0 60px; }
+    .banner-inner {
+      max-width: 1440px; margin: 0 auto; padding: 0 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    .banner-copy h2 { font-size: 32px; margin-bottom: 16px; }
+    .banner-copy h2 span { color: var(--brand); }
+    .banner-copy p { font-size: 16px; color: var(--sub); margin-bottom: 20px; line-height: 1.6; }
+    .banner-image {
+      border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+      background: #eee; min-height: 300px;
+    }
+    .banner-image img { width: 100%; display: block; height: auto; }
+
+    /* -----------------------------------------------------------
+       7. CARDS (KARTLAR)
+       ----------------------------------------------------------- */
+    .gallery-title { text-align: left; margin: 0 0 24px; font-size: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; padding-bottom: 80px; }
+    
+    .card {
+      background: #fff; border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; transition: all 0.3s ease; display: flex; flex-direction: column;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: #cbd5e1; }
+    
+    .card-media { height: 190px; background: #f1f5f9; position: relative; overflow: hidden; display: block; }
     .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .card:hover .card-media img { transform: scale(1.05); }
     
-    .card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .card-content { padding: 24px; flex: 1; display: flex; flex-direction: column; }
     .card-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); margin-bottom: 8px; }
-    .card-title { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
-    .card-desc { font-size: 14px; color: var(--sub); line-height: 1.5; margin-bottom: 16px; }
-    .card-link { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+    .card-title { font-size: 18px; margin-bottom: 8px; }
+    .card-desc { font-size: 14px; color: var(--sub); line-height: 1.5; margin-bottom: 20px; }
+    
+    .card-link {
+      margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
     .card-link:hover { color: var(--brand); gap: 8px; }
 
-    /* FOOTER */
-    .footer { background: #fff; border-top: 1px solid var(--border); padding: 60px 0 30px; color: var(--sub); }
-    .footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
-    .footer h4 { color: var(--ink); font-weight: 700; margin-bottom: 16px; font-family: 'Plus Jakarta Sans', sans-serif; }
+    /* -----------------------------------------------------------
+       8. FOOTER
+       ----------------------------------------------------------- */
+    .footer { background: #fff; border-top: 1px solid var(--border); padding: 80px 0 40px; color: var(--sub); }
+    .footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+    .footer h4 { color: var(--ink); margin-bottom: 20px; font-size: 16px; }
     .footer a { display: block; margin-bottom: 12px; font-size: 14px; }
     .footer a:hover { color: var(--brand); }
     .footer-bot { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; font-size: 13px; }
 
     /* RESPONSIVE */
     @media (max-width: 1024px) {
-      .search-bar, .nav-right { display: none; }
+      .nav-right, .search-bar { display: none; }
       .banner-inner { grid-template-columns: 1fr; }
       .banner-image { order: -1; }
     }
@@ -255,13 +263,17 @@
 
       <div class="search-bar">
         <input type="text" class="search-input" placeholder="Search marketplace...">
-        <button class="search-btn"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+        <button class="search-btn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
       </div>
 
       <div class="nav-right">
         <a href="editor/" class="nav-link">Dashboard</a>
         <a href="login/" class="nav-link">Sign In</a>
-        <a href="cart.html" class="icon-action"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg></a>
+        <a href="cart.html" class="icon-action">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </a>
         <a href="open-store.html" class="btn-open-store">Open Store</a>
       </div>
     </div>
@@ -269,7 +281,9 @@
     <div id="categories-panel" class="categories-panel-wrap">
       <div class="categories-panel">
         <div class="categories-layout">
-          <div class="categories-list" id="categories-list"></div> <div class="categories-detail" id="categories-detail"></div> </div>
+          <div class="categories-list" id="categories-list"></div>
+          <div class="categories-detail" id="categories-detail"></div>
+        </div>
       </div>
     </div>
   </header>
@@ -280,8 +294,12 @@
       <div class="sub-nav-item"><a href="store/game-makers/">Game Makers</a></div>
       <div class="sub-nav-item"><a href="store/ai-tools-hub/">AI Tools Hub</a></div>
       <div class="sub-nav-item"><a href="store/dev-studio-one/">Dev Studio One</a></div>
+      <div class="sub-nav-item"><a href="store/email-forge/">Email Forge</a></div>
       <div class="sub-nav-item"><a href="store/html-templates/">HTML Templates</a></div>
+      <div class="sub-nav-item"><a href="store/icon-smith/">Icon Smith</a></div>
       <div class="sub-nav-item"><a href="store/reactorium/">Reactorium</a></div>
+      <div class="sub-nav-item"><a href="store/tiny-js-lab/">Tiny JS Lab</a></div>
+      <div class="sub-nav-item"><a href="store/unity-hub/">Unity Hub</a></div>
       <div class="sub-nav-item"><a href="store/wp-plugins/">WP Plugins</a></div>
     </div>
   </nav>
@@ -290,7 +308,7 @@
     <div class="container">
       <div class="hero-badge"><span>NEW</span> Hardware Lab is now live!</div>
       <h1>Build, buy, and sell<br>digital products.</h1>
-      <p>Marketplace for templates, code, AI tools and curated hardware built for serious developers.</p>
+      <p>The premium marketplace for developers, designers, and creators.</p>
       <div class="hero-btns">
         <a href="#gallery" class="btn-primary">Browse Marketplace</a>
         <a href="become-seller.html" class="btn-outline">Start Selling</a>
@@ -307,14 +325,17 @@
         <p class="banner-meta"><strong>11+ curated stores</strong> across code, design & AI.</p>
       </div>
       <div class="banner-image">
-        <img src="assets/images/banners/global-marketplace-banner.webp" alt="Marketplace Preview" style="background:#eee; min-height:300px;">
+        <img src="assets/images/banners/global-marketplace-banner.webp" 
+             alt="RGZTEC Preview"
+             onerror="this.style.display='none'; this.parentElement.style.background='#e2e8f0'; this.parentElement.innerHTML='<div style=\'padding:60px;text-align:center;color:#64748b\'>Banner Image Placeholder</div>'">
       </div>
     </div>
   </section>
 
   <main class="container">
     <h2 class="gallery-title">Explore Stores</h2>
-    <div id="gallery" class="grid"></div> </main>
+    <div id="gallery" class="grid"></div>
+  </main>
 
   <footer class="footer">
     <div class="container">
@@ -348,125 +369,141 @@
   </footer>
 
 <script>
-// 1. SABİT VERİLER (FETCH HATASINI ÖNLEMEK İÇİN)
-const STORES = [
-  { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators & dev boards.' },
-  { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets.' },
-  { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents & Automation.' },
-  { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Dashboards & Starters.' },
-  { slug: 'email-forge', name: 'Email Forge', tagline: 'Email templates & flows.' },
-  { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages & UI.' },
-  { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Premium icon packs.' },
-  { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits & charts.' },
-  { slug: 'tiny-js-lab', name: 'Tiny JS Lab', tagline: 'Vanilla JS widgets.' },
-  { slug: 'unity-hub', name: 'Unity Hub', tagline: 'Game controllers & tools.' },
-  { slug: 'wp-plugins', name: 'WP Plugins', tagline: 'WordPress plugins.' }
-];
+  // 1. DATA (Veriler Koda Gömülü - Fetch Riski Yok)
+  // Senin verdiğin path yapısı: assets/images/store/
+  const STORE_IMAGE_BASE = 'assets/images/store/';
 
-const CATEGORY_DATA = [
-  {
-    id: 'hardware', label: 'Hardware', subtitle: 'Dev kits & IoT', storeName: 'Hardware Lab', href: 'store/hardware/',
-    sections: [{label:'AI Boards', href:'#'}, {label:'Sensors', href:'#'}]
-  },
-  {
-    id: 'game-makers', label: 'Game Assets', subtitle: 'Unity/Unreal', storeName: 'Game Makers', href: 'store/game-makers/',
-    sections: [{label:'3D Models', href:'#'}, {label:'Audio', href:'#'}]
-  },
-  {
-    id: 'html-templates', label: 'Templates', subtitle: 'HTML & CSS', storeName: 'HTML Templates', href: 'store/html-templates/',
-    sections: [{label:'Landing Page', href:'#'}, {label:'Portfolio', href:'#'}]
+  const STORES = [
+    { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators & dev boards.' },
+    { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets.' },
+    { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents & Automation.' },
+    { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Dashboards & Starters.' },
+    { slug: 'email-forge', name: 'Email Forge', tagline: 'Email templates & flows.' },
+    { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages & UI.' },
+    { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Premium icon packs.' },
+    { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits & charts.' },
+    { slug: 'tiny-js-lab', name: 'Tiny JS Lab', tagline: 'Vanilla JS widgets.' },
+    { slug: 'unity-hub', name: 'Unity Hub', tagline: 'Game controllers & tools.' },
+    { slug: 'wp-plugins', name: 'WP Plugins', tagline: 'WordPress plugins.' }
+  ];
+
+  const CATEGORY_DATA = [
+    {
+      id: 'hardware', label: 'Hardware', subtitle: 'Dev kits & IoT', storeName: 'Hardware Lab', href: 'store/hardware/',
+      sections: [{label:'AI Boards', href:'#'}, {label:'Sensors', href:'#'}]
+    },
+    {
+      id: 'game-makers', label: 'Game Assets', subtitle: 'Unity/Unreal', storeName: 'Game Makers', href: 'store/game-makers/',
+      sections: [{label:'3D Models', href:'#'}, {label:'Audio', href:'#'}]
+    },
+    {
+      id: 'html-templates', label: 'Templates', subtitle: 'HTML & CSS', storeName: 'HTML Templates', href: 'store/html-templates/',
+      sections: [{label:'Landing Page', href:'#'}, {label:'Portfolio', href:'#'}]
+    }
+  ];
+
+  // 2. KARTLARI DOLDURMA
+  function renderCards() {
+    const gallery = document.getElementById('gallery');
+    if(!gallery) return;
+
+    gallery.innerHTML = STORES.map(store => {
+      // Hardware için özel badge
+      const badge = (store.slug === 'hardware') ? 'Hardware • NEW' : 'Official Store';
+      
+      return `
+      <article class="card">
+        <a href="store/${store.slug}/" class="card-media">
+          <img src="${STORE_IMAGE_BASE}${store.slug}.webp" 
+               alt="${store.name}" 
+               onerror="this.style.display='none'; this.parentElement.style.background='#e2e8f0';">
+        </a>
+        <div class="card-content">
+          <span class="card-badge">${badge}</span>
+          <h3 class="card-title">${store.name}</h3>
+          <p class="card-desc">${store.tagline}</p>
+          <a href="store/${store.slug}/" class="card-link">
+            Visit Store 
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </article>
+      `;
+    }).join('');
   }
-];
 
-const IMAGE_PATH = 'assets/images/store/';
+  // 3. MEGA MENÜ İŞLEVLERİ
+  function initMenu() {
+    const btn = document.getElementById('btn-categories');
+    const header = document.querySelector('.app-header');
+    const panel = document.getElementById('categories-panel');
+    const listEl = document.getElementById('categories-list');
+    const detailEl = document.getElementById('categories-detail');
 
-// 2. KARTLARI DOLDUR
-function renderCards() {
-  const gallery = document.getElementById('gallery');
-  if(!gallery) return;
+    if(!btn || !panel) return;
 
-  gallery.innerHTML = STORES.map(store => `
-    <article class="card">
-      <a href="store/${store.slug}/" class="card-media">
-        <img src="${IMAGE_PATH}${store.slug}.webp" onerror="this.style.background='#ddd'" alt="${store.name}">
-      </a>
-      <div class="card-content">
-        <span class="card-badge">Official Store</span>
-        <h3 class="card-title">${store.name}</h3>
-        <p class="card-desc">${store.tagline}</p>
-        <a href="store/${store.slug}/" class="card-link">Visit Store &rarr;</a>
-      </div>
-    </article>
-  `).join('');
-}
+    // Listeyi oluştur
+    listEl.innerHTML = CATEGORY_DATA.map((cat, i) => `
+      <button class="cat-item ${i===0?'cat-item--active':''}" data-id="${cat.id}">
+        <span>${cat.label}</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    `).join('');
 
-// 3. MEGA MENÜ MANTIĞI
-function initMenu() {
-  const btn = document.getElementById('btn-categories');
-  const header = document.querySelector('.app-header');
-  const panel = document.getElementById('categories-panel');
-  const listEl = document.getElementById('categories-list');
-  const detailEl = document.getElementById('categories-detail');
+    // İlk kategoriyi göster
+    showDetail(CATEGORY_DATA[0]);
 
-  if(!btn || !panel) return;
-
-  // Listeyi Doldur
-  listEl.innerHTML = CATEGORY_DATA.map((cat, i) => `
-    <button class="cat-item ${i===0?'cat-item--active':''}" data-id="${cat.id}">
-      <span>${cat.label}</span>
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-    </button>
-  `).join('');
-
-  // İlk detayı göster
-  showDetail(CATEGORY_DATA[0]);
-
-  // Hover Events
-  listEl.querySelectorAll('.cat-item').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
-      item.classList.add('cat-item--active');
-      const cat = CATEGORY_DATA.find(c => c.id === item.dataset.id);
-      showDetail(cat);
+    // Hover olayları
+    listEl.querySelectorAll('.cat-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
+        item.classList.add('cat-item--active');
+        const cat = CATEGORY_DATA.find(c => c.id === item.dataset.id);
+        showDetail(cat);
+      });
     });
-  });
 
-  // Toggle
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = header.classList.contains('has-cat-open');
-    header.classList.toggle('has-cat-open', !isOpen);
-    
-    // Pointer Konumu
-    const btnRect = btn.getBoundingClientRect();
-    const headerRect = header.getBoundingClientRect();
-    const offset = btnRect.left - headerRect.left + (btnRect.width/2);
-    panel.querySelector('.categories-panel').style.setProperty('--cat-pointer-left', offset+'px');
-  });
+    // Aç/Kapa
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = header.classList.contains('has-cat-open');
+      header.classList.toggle('has-cat-open', !isOpen);
+      
+      // Pointer hizalama
+      if (!isOpen) { // Açılıyorsa hesapla
+        const btnRect = btn.getBoundingClientRect();
+        const headerRect = header.getBoundingClientRect();
+        const offset = btnRect.left - headerRect.left + (btnRect.width/2);
+        panel.querySelector('.categories-panel').style.setProperty('--cat-pointer-left', offset+'px');
+      }
+    });
 
-  document.addEventListener('click', (e) => {
-    if(!header.contains(e.target)) header.classList.remove('has-cat-open');
-  });
+    // Dışarı tıklayınca kapat
+    document.addEventListener('click', (e) => {
+      if(!header.contains(e.target)) {
+        header.classList.remove('has-cat-open');
+      }
+    });
 
-  function showDetail(cat) {
-    if(!cat) return;
-    detailEl.innerHTML = `
-      <div class="cat-detail-eyebrow">STORE</div>
-      <div class="cat-detail-title">${cat.storeName}</div>
-      <div class="cat-detail-subtitle">${cat.subtitle}</div>
-      <div class="cat-detail-links">
-        ${cat.sections.map(s => `<a href="${s.href}">${s.label}</a>`).join('')}
-        <a href="${cat.href}">View All</a>
-      </div>
-    `;
+    function showDetail(cat) {
+      if(!cat) return;
+      detailEl.innerHTML = `
+        <div class="cat-detail-eyebrow">STORE</div>
+        <div class="cat-detail-title">${cat.storeName}</div>
+        <div class="cat-detail-subtitle">${cat.subtitle}</div>
+        <div class="cat-detail-links">
+          ${cat.sections.map(s => `<a href="${s.href}">${s.label}</a>`).join('')}
+          <a href="${cat.href}">View All Products</a>
+        </div>
+      `;
+    }
   }
-}
 
-// BAŞLAT
-document.addEventListener('DOMContentLoaded', () => {
-  renderCards();
-  initMenu();
-});
+  // SAYFA YÜKLENDİĞİNDE BAŞLAT
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCards();
+    initMenu();
+  });
 </script>
 
 </body>
