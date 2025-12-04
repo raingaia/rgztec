@@ -1,989 +1,1091 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>RGZTEC • Premium Digital Marketplace</title>
-<meta name="description" content="Discover unique products and open your store on RGZTEC."/>
-<base href="/rgztec/">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Premium Digital Marketplace</title>
+  <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
+  <base href="/rgztec/">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-<link rel="stylesheet" href="assets/css/store-core.css">
+  <!-- Existing core CSS (bunlar sende zaten var) -->
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="assets/css/store-core.css">
 
-<style>
-/* ================================================================
-   🔥 RGZTEC PREMIUM MASTER CSS
-   ================================================================ */
+  <style>
+    :root {
+      --brand: #f97316;
+      --brand-h: #ea580c;
+      --ink: #0f172a;
+      --ink-light: #334155;
+      --sub: #64748b;
+      --border: #e2e8f0;
+      --bg: #ffffff;
+      --bg-alt: #0b1120;
+      --radius: 12px;
+      --shadow: 0 10px 40px -10px rgba(0,0,0,0.35);
+    }
 
-:root {
-  --brand: #f97316;
-  --brand-h: #ea580c;
-  --ink: #0f172a;
-  --ink-light: #334155;
-  --sub: #64748b;
-  --border: #e2e8f0;
-  --bg: #ffffff;
-  --bg-alt: #f8fafc;
-  --radius: 12px;
-  --shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
-}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 35%, #020617 100%);
+      color: var(--ink);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* Temel Ayarlar */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-alt);
-  color: var(--ink);
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-}
+    a { text-decoration: none; transition: all 0.2s ease; }
+    ul { list-style: none; padding: 0; margin: 0; }
 
-a { text-decoration: none; transition: all 0.2s ease; }
-ul { list-style: none; padding: 0; margin: 0; }
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-.container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
+    /* HEADER -------------------------------------------------- */
+    .app-header {
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 72px;
+      display: flex;
+      align-items: center;
+    }
 
-/* =========================================
-   1. PREMIUM HEADER
-   ========================================= */
-.app-header {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  position: sticky;          /* dropdown için referans */
-  top: 0;
-  z-index: 1000;
-  height: 72px;
-  display: flex;
-  align-items: center;
-}
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 24px;
+    }
 
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 24px;
-}
+    .logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--brand);
+      letter-spacing: -0.03em;
+      flex-shrink: 0;
+    }
 
-/* Logo */
-.logo {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: 24px;
-  color: var(--brand);
-  letter-spacing: -0.03em;
-  flex-shrink: 0;
-}
+    .btn-cat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
 
-/* Kategori Butonu */
-.btn-cat {
-  display: flex; align-items: center; gap: 8px;
-  font-weight: 600; font-size: 14px; color: var(--ink-light);
-  background: transparent; border: 1px solid transparent;
-  padding: 8px 12px; border-radius: 999px; cursor: pointer;
-}
-.btn-cat:hover { background: #f1f5f9; color: var(--ink); }
-.btn-cat svg { width: 20px; height: 20px; stroke-width: 1.8; }
+    .btn-cat:hover {
+      border-color: var(--brand);
+      color: #fefce8;
+      background: rgba(15,23,42,0.9);
+    }
 
-/* 🔽 Categories dropdown – Etsy tarzı panel */
-.categories-panel-wrap {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 420px;
-  padding-top: 10px;
-  pointer-events: none;
-  display: none;
-}
+    .btn-cat svg { width: 18px; height: 18px; }
 
-.app-header.has-cat-open .categories-panel-wrap {
-  display: block;
-}
+    .search-bar {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
 
-.categories-panel {
-  position: relative;
-  margin-left: 24px;  /* container ile hizala */
-  background: #ffffff;
-  border-radius: 22px;
-  box-shadow:
-    0 22px 70px rgba(15,23,42,0.35),
-    0 0 0 1px rgba(148,163,184,0.25);
-  max-height: 520px;
-  overflow: hidden;
-  pointer-events: auto;
-  transform: translateY(6px);
-  opacity: 0;
-  transition: opacity 150ms ease-out, transform 150ms ease-out;
-}
+    .search-input {
+      width: 100%;
+      height: 42px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
+      border-radius: 999px;
+      padding: 0 44px 0 18px;
+      font-size: 14px;
+      color: #e5e7eb;
+    }
 
-/* Damla pointer */
-.categories-panel::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: var(--cat-pointer-left, 110px);
-  border-width: 0 10px 10px 10px;
-  border-style: solid;
-  border-color: transparent transparent #ffffff transparent;
-  filter: drop-shadow(0 4px 6px rgba(15,23,42,0.18));
-}
+    .search-input::placeholder {
+      color: #6b7280;
+    }
 
-.app-header.has-cat-open .categories-panel {
-  opacity: 1;
-  transform: translateY(0);
-}
+    .search-input:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.35);
+      background: #020617;
+    }
 
-/* İç layout (sol ana mağaza listesi, sağ detay) */
-.categories-layout {
-  display: grid;
-  grid-template-columns: 1.25fr 1.5fr;
-  min-height: 320px;
-}
+    .search-btn {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: none;
+      background: var(--brand);
+      color: white;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
 
-/* Sol taraf – ana mağazalar */
-.categories-panel-header {
-  padding: 10px 20px 4px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #9ca3af;
-}
+    .search-btn:hover { background: var(--brand-h); }
 
-.categories-list {
-  padding: 4px 0 10px;
-  overflow-y: auto;
-  max-height: 480px;
-}
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
 
-.cat-item {
-  width: 100%;
-  text-align: left;
-  padding: 10px 20px;
-  font-size: 14px;
-  border: 0;
-  background: transparent;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  gap: 10px;
-}
+    .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: #9ca3af;
+    }
 
-.cat-item-main {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+    .nav-link:hover { color: #e5e7eb; }
 
-.cat-item span {
-  font-weight: 600;
-}
+    .icon-action {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(148,163,184,0.5);
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.85);
+    }
 
-.cat-item small {
-  font-size: 12px;
-  color: #9ca3af;
-}
+    .icon-action:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: #020617;
+    }
 
-.cat-item svg {
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  color: #cbd5f5;
-}
+    .btn-open-store {
+      background: #f97316;
+      color: #0b1120;
+      padding: 9px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+    }
 
-.cat-item:hover {
-  background: #f9fafb;
-}
+    .btn-open-store:hover {
+      background: #ea580c;
+      box-shadow: 0 0 0 1px rgba(248,250,252,0.1);
+    }
 
-.cat-item--active {
-  background: #eef2ff;
-}
+    /* CATEGORIES DROPDOWN ------------------------------------ */
+    .categories-panel-wrap {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 420px;
+      padding-top: 10px;
+      pointer-events: none;
+      display: none;
+    }
 
-.cat-item--active span {
-  color: #111827;
-}
+    .app-header.has-cat-open .categories-panel-wrap {
+      display: block;
+    }
 
-.cat-item--active small {
-  color: #6b7280;
-}
+    .categories-panel {
+      position: relative;
+      margin-left: 24px;
+      background: #020617;
+      border-radius: 22px;
+      box-shadow:
+        0 30px 80px rgba(15,23,42,0.85),
+        0 0 0 1px rgba(148,163,184,0.3);
+      max-height: 520px;
+      overflow: hidden;
+      pointer-events: auto;
+      transform: translateY(6px);
+      opacity: 0;
+      transition: opacity 160ms ease-out, transform 160ms ease-out;
+    }
 
-/* Sağ taraf – alt mağazalar & açıklama */
-.categories-detail {
-  padding: 16px 18px 18px;
-  border-left: 1px solid #e5e7eb;
-  background:
-    radial-gradient(circle at top left, #fff7ed 0, #f9fafb 55%, #eef2ff 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    .categories-panel::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: var(--cat-pointer-left, 110px);
+      border-width: 0 10px 10px 10px;
+      border-style: solid;
+      border-color: transparent transparent #020617 transparent;
+      filter: drop-shadow(0 4px 6px rgba(15,23,42,0.6));
+    }
 
-.cat-detail-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #9ca3af;
-  font-weight: 700;
-}
+    .app-header.has-cat-open .categories-panel {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-.cat-detail-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f172a;
-}
+    .categories-layout {
+      display: grid;
+      grid-template-columns: 1.25fr 1.5fr;
+      min-height: 320px;
+    }
 
-.cat-detail-subtitle {
-  font-size: 13px;
-  color: #6b7280;
-  max-width: 260px;
-}
+    .categories-panel-header {
+      padding: 12px 20px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
 
-.cat-detail-links {
-  margin-top: 6px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+    .categories-list {
+      padding: 4px 0 12px;
+      overflow-y: auto;
+      max-height: 480px;
+    }
 
-.cat-detail-links a {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 9px;
-  border-radius: 999px;
-  border: 1px solid rgba(148,163,184,0.4);
-  background: rgba(255,255,255,0.9);
-  color: #111827;
-}
-.cat-detail-links a:hover {
-  border-color: var(--brand);
-  color: var(--brand-h);
-}
+    .cat-item {
+      width: 100%;
+      text-align: left;
+      padding: 10px 20px;
+      font-size: 14px;
+      border: 0;
+      background: transparent;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      gap: 10px;
+    }
 
-/* Arama */
-.search-bar { flex: 1; max-width: 500px; position: relative; }
-.search-input {
-  width: 100%; height: 44px;
-  background: #f1f5f9; border: 1px solid transparent;
-  border-radius: 99px; padding: 0 48px 0 20px;
-  font-size: 14px; font-weight: 500; color: var(--ink);
-  transition: all 0.2s;
-}
-.search-input:focus {
-  background: #fff; border-color: var(--brand);
-  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); outline: none;
-}
-.search-btn {
-  position: absolute; right: 6px; top: 6px;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--brand); border: none; color: #fff;
-  display: grid; place-items: center; cursor: pointer;
-}
-.search-btn:hover { background: var(--brand-h); }
-.search-btn svg { width: 16px; height: 16px; }
+    .cat-item-main {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-/* Sağ Taraf */
-.nav-right { display: flex; align-items: center; gap: 20px; }
-.nav-link {
-  font-size: 14px; font-weight: 600; color: var(--sub);
-}
-.nav-link:hover { color: var(--brand); }
+    .cat-item small {
+      font-size: 12px;
+      color: #6b7280;
+    }
 
-.icon-action {
-  width: 40px; height: 40px; border-radius: 50%;
-  display: grid; place-items: center;
-  color: var(--ink-light); border: 1px solid var(--border);
-  background: #fff;
-}
-.icon-action:hover {
-  border-color: var(--brand); color: var(--brand); background: #fff7ed;
-}
-.icon-action svg { width: 20px; height: 20px; stroke-width: 1.5; }
+    .cat-item svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      color: #4b5563;
+    }
 
-.btn-open-store {
-  background: var(--ink); color: #fff;
-  padding: 10px 20px; border-radius: 99px;
-  font-size: 14px; font-weight: 700;
-}
-.btn-open-store:hover { background: var(--brand); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+    .cat-item:hover { background: rgba(15,23,42,0.9); }
 
-/* =========================================
-   2. STORE NAVIGATION
-   ========================================= */
-.sub-nav {
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-  height: 54px;
-  display: flex; align-items: center;
-  overflow-x: auto;
-}
-.sub-nav-list {
-  display: flex; gap: 32px; padding: 0 24px;
-  margin: 0 auto; max-width: 1440px;
-}
-.sub-nav-item a {
-  font-size: 13px; font-weight: 600; color: var(--sub);
-  display: flex; align-items: center; height: 54px;
-  border-bottom: 2px solid transparent; white-space: nowrap;
-}
-.sub-nav-item a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+    .cat-item--active {
+      background: #0b1120;
+    }
 
-/* =========================================
-   3. HERO SECTION
-   ========================================= */
-.hero {
-  padding: 80px 0 60px;
-  text-align: center;
-  background: radial-gradient(circle at 50% 0%, rgba(249,115,22,0.08) 0%, transparent 70%);
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #fff; border: 1px solid var(--border);
-  padding: 6px 12px; border-radius: 99px;
-  font-size: 12px; font-weight: 600; color: var(--sub);
-  margin-bottom: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-}
-.hero-badge span { color: var(--brand); font-weight: 800; }
+    .cat-item--active span {
+      color: #f9fafb;
+    }
 
-.hero h1 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--ink);
-  margin: 0 0 24px;
-}
-.hero p {
-  font-size: 18px; color: var(--sub); max-width: 640px; margin: 0 auto 40px;
-  line-height: 1.6;
-}
-.hero-btns { display: flex; justify-content: center; gap: 16px; }
-.btn-primary {
-  background: var(--brand); color: #fff; padding: 14px 32px;
-  border-radius: 99px; font-weight: 700; font-size: 15px;
-  box-shadow: 0 8px 20px rgba(249,115,22,0.25);
-}
-.btn-primary:hover { background: var(--brand-h); transform: translateY(-2px); }
-.btn-outline {
-  background: #fff; border: 1px solid var(--border); color: var(--ink);
-  padding: 14px 32px; border-radius: 99px; font-weight: 700; font-size: 15px;
-}
-.btn-outline:hover { border-color: var(--sub); }
+    .categories-detail {
+      padding: 18px 18px 20px;
+      border-left: 1px solid rgba(31,41,55,0.9);
+      background:
+        radial-gradient(circle at top left, rgba(249,115,22,0.18) 0, #020617 55%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-/* =========================================
-   3.5 MARKETPLACE BANNER (eski home gibi)
-   ========================================= */
-.marketplace-banner-section {
-  padding: 10px 0 40px;
-}
-.banner-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.1fr);
-  gap: 28px;
-  align-items: center;
-}
-.banner-copy-eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #9ca3af;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.banner-copy h2 {
-  margin: 0 0 10px;
-  font-size: 26px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-.banner-copy h2 span { color: var(--brand); }
-.banner-copy p {
-  margin: 0 0 14px;
-  font-size: 15px;
-  color: #4b5563;
-  max-width: 520px;
-}
-.banner-meta {
-  font-size: 13px;
-  color: #6b7280;
-}
-.banner-meta strong { color: #111827; }
+    .cat-detail-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      font-weight: 700;
+    }
 
-.banner-image {
-  position: relative;
-  border-radius: 26px;
-  overflow: hidden;
-  box-shadow: 0 28px 70px rgba(0,0,0,0.32);
-}
-.banner-image img {
-  width: 100%;
-  display: block;
-}
+    .cat-detail-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f9fafb;
+    }
 
-/* =========================================
-   4. MARKETPLACE GRID (Kartlar)
-   ========================================= */
-.gallery-title {
-  text-align: left; font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px; font-weight: 700; margin: 40px 0 24px; padding: 0 24px;
-  max-width: 1440px; margin-inline: auto;
-}
+    .cat-detail-subtitle {
+      font-size: 13px;
+      color: #cbd5f5;
+      max-width: 260px;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 32px;
-  padding-bottom: 80px;
-}
+    .cat-detail-links {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
 
-/* Normal Kart */
-.card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
-  display: flex; flex-direction: column;
-}
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow);
-  border-color: #cbd5e1;
-}
-.card-media {
-  height: 200px;
-  background: #f1f5f9;
-  position: relative;
-  overflow: hidden;
-}
-.card-media img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.card:hover .card-media img { transform: scale(1.05); }
-.card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-.card-badge {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  color: var(--brand); letter-spacing: 0.05em; margin-bottom: 8px;
-}
-.card-title {
-  font-size: 18px; font-weight: 700; color: var(--ink); margin: 0 0 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-.card-desc { font-size: 14px; color: var(--sub); line-height: 1.5; margin-bottom: 16px; }
-.card-link {
-  margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink);
-  display: flex; align-items: center; gap: 6px;
-}
-.card-link:hover { color: var(--brand); gap: 10px; }
+    .cat-detail-links a {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+    }
 
-/* 🔥 FEATURED HARDWARE CARD – tam genişlik, büyük */
-.card--featured {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-}
-.card--featured .card-media {
-  height: 260px;
-}
-.card--featured .card-content {
-  padding: 24px;
-}
-.card--featured .card-badge {
-  color: #f97316;
-}
-.card--featured .card-title {
-  font-size: 22px;
-}
-.card--featured .card-desc {
-  font-size: 15px;
-}
+    .cat-detail-links a:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
 
-/* =========================================
-   5. FOOTER
-   ========================================= */
-.footer {
-  background: #0f172a;
-  color: #94a3b8;
-  padding: 60px 0 30px;
-  font-size: 14px;
-}
-.footer-cols {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
-  margin-bottom: 60px;
-}
-.footer h4 { color: #fff; font-size: 16px; margin-bottom: 20px; font-family: 'Plus Jakarta Sans', sans-serif;}
-.footer a { display: block; color: #94a3b8; margin-bottom: 12px; }
-.footer a:hover { color: #fff; }
-.footer-bot {
-  border-top: 1px solid #1e293b; padding-top: 30px;
-  display: flex; justify-content: space-between;
-}
+    /* SUB NAV ------------------------------------------------ */
+    .sub-nav {
+      background: #020617;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+      height: 50px;
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+    }
 
-/* Mobil Uyum */
-@media (max-width: 1024px) {
-  .nav-right { display: none; }
-  .header-inner { padding: 0 16px; }
-  .search-bar { display: none; }
-  .grid { grid-template-columns: 1fr; }
-  .footer-cols { grid-template-columns: 1fr 1fr; }
-  .banner-inner {
-    grid-template-columns: 1fr;
-  }
-  .banner-image {
-    order: -1;
-  }
-  .categories-panel-wrap {
-    width: 100%;
-  }
-  .categories-panel {
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-}
+    .sub-nav-list {
+      display: flex;
+      gap: 26px;
+      padding: 0 24px;
+      margin: 0 auto;
+      max-width: 1440px;
+    }
 
-@media (max-width: 768px) {
-  .card--featured {
-    grid-template-columns: 1fr;
-  }
-  .categories-layout {
-    grid-template-columns: 1fr;
-  }
-  .categories-detail {
-    border-left: 0;
-    border-top: 1px solid #e5e7eb;
-  }
-}
-</style>
+    .sub-nav-item a {
+      font-size: 13px;
+      font-weight: 600;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      height: 50px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .sub-nav-item a:hover {
+      color: #e5e7eb;
+      border-bottom-color: var(--brand);
+    }
+
+    /* HERO --------------------------------------------------- */
+    .hero {
+      padding: 72px 0 40px;
+      text-align: center;
+      color: #f9fafb;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 22px;
+    }
+
+    .hero-badge span { color: var(--brand); font-weight: 800; }
+
+    .hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(34px, 5vw, 54px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #9ca3af;
+      max-width: 640px;
+      margin: 0 auto 34px;
+      line-height: 1.6;
+    }
+
+    .hero-btns {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #f97316;
+      color: #0b1120;
+      padding: 13px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      box-shadow: 0 18px 40px rgba(249,115,22,0.45);
+    }
+
+    .btn-primary:hover { background: #ea580c; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(148,163,184,0.7);
+      color: #e5e7eb;
+      padding: 13px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--brand);
+      color: #fefce8;
+    }
+
+    /* BANNER ------------------------------------------------- */
+    .marketplace-banner-section {
+      padding: 6px 0 50px;
+    }
+
+    .banner-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.05fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    .banner-copy-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #6b7280;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .banner-copy h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #f9fafb;
+    }
+
+    .banner-copy h2 span { color: var(--brand); }
+
+    .banner-copy p {
+      margin: 0 0 14px;
+      font-size: 15px;
+      color: #9ca3af;
+      max-width: 520px;
+    }
+
+    .banner-meta {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    .banner-meta strong { color: #e5e7eb; }
+
+    .banner-image {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 26px 80px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    .banner-image img {
+      width: 100%;
+      display: block;
+    }
+
+    /* STORE GRID -------------------------------------------- */
+    .gallery-title {
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      color: #e5e7eb;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 26px;
+      padding-bottom: 80px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, #0b1120 0, #020617 60%);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      min-height: 220px;
+      border: 1px solid rgba(30,64,175,0.6);
+    }
+
+    .card--small {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 200px;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: rgba(59,130,246,0.9);
+    }
+
+    .card-media {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1d4ed8 0, #020617 70%);
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.01);
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-media img {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 20px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #bfdbfe;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f9fafb;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: #9ca3af;
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    .card-link {
+      margin-top: auto;
+      font-size: 14px;
+      font-weight: 600;
+      color: #bfdbfe;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-link svg { width: 16px; height: 16px; }
+
+    .card-link:hover {
+      color: #f97316;
+      gap: 9px;
+    }
+
+    /* FOOTER ----------------------------------------------- */
+    .footer {
+      background: #020617;
+      color: #94a3b8;
+      padding: 50px 0 30px;
+      font-size: 14px;
+      border-top: 1px solid #1e293b;
+    }
+
+    .footer-cols {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .footer h4 {
+      color: #e5e7eb;
+      font-size: 15px;
+      margin-bottom: 18px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .footer a {
+      display: block;
+      color: #94a3b8;
+      margin-bottom: 10px;
+    }
+
+    .footer a:hover { color: #e5e7eb; }
+
+    .footer-bot {
+      border-top: 1px solid #1f2937;
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .nav-right { display: none; }
+      .search-bar { display: none; }
+      .banner-inner { grid-template-columns: 1fr; }
+      .banner-image { order: -1; }
+      .grid { grid-template-columns: 1fr; }
+      .card { grid-template-columns: 1fr; }
+      .footer-cols { grid-template-columns: 1fr 1fr; }
+      .categories-panel-wrap { width: 100%; }
+      .categories-panel { margin-left: 8px; margin-right: 8px; }
+    }
+
+    @media (max-width: 640px) {
+      .footer-cols { grid-template-columns: 1fr; }
+      .footer-bot { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
 <header class="app-header">
-  <div class="container header-inner">
-    <div style="display:flex; align-items:center; gap:24px;">
-      <a href="./" class="logo">RGZTEC</a>
+  <div class="container header-inner">
+    <div style="display:flex; align-items:center; gap:18px;">
+      <a href="./" class="logo">RGZTEC</a>
 
-      <!-- Categories: SAYFA DEĞİŞTİRMEYEN BUTON -->
-      <button type="button" class="btn-cat" id="btn-categories">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-        </svg>
-        Categories
-      </button>
-    </div>
+      <button type="button" class="btn-cat" id="btn-categories">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+        </svg>
+        Categories
+      </button>
+    </div>
 
-    <div class="search-bar">
-      <input type="text" class="search-input" placeholder="Search marketplace...">
-      <button class="search-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-        </svg>
-      </button>
-    </div>
+    <div class="search-bar">
+      <input type="text" class="search-input" placeholder="Search marketplace...">
+      <button class="search-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+        </svg>
+      </button>
+    </div>
 
-    <div class="nav-right">
-      <a href="editor/" class="nav-link">Dashboard / Editor</a>
-      <a href="login/" class="nav-link">Sign In</a>
+    <div class="nav-right">
+      <a href="editor/" class="nav-link">Dashboard / Editor</a>
+      <a href="login/" class="nav-link">Sign In</a>
 
-      <a href="gift-card.html" class="icon-action" aria-label="Gift">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" />
-        </svg>
-      </a>
+      <a href="gift-card.html" class="icon-action" aria-label="Gift cards">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" />
+        </svg>
+      </a>
 
-      <a href="cart.html" class="icon-action" aria-label="Cart">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-        </svg>
-      </a>
+      <a href="cart.html" class="icon-action" aria-label="Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+        </svg>
+      </a>
 
-      <a href="open-store.html" class="btn-open-store">Open Store</a>
-    </div>
-  </div>
+      <a href="open-store.html" class="btn-open-store">Open Store</a>
+    </div>
+  </div>
 
-  <!-- 🔽 Categories dropdown panel (Etsy tarzı, JS ile dolduruluyor) -->
-  <div class="categories-panel-wrap" id="categories-panel">
-    <div class="categories-panel">
-      <div class="categories-layout">
-        <div>
-          <div class="categories-panel-header">Browse by category</div>
-          <div class="categories-list" id="categories-list"></div>
-        </div>
-        <div class="categories-detail" id="categories-detail">
-          <!-- JS ile dolduruluyor -->
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="categories-panel-wrap" id="categories-panel">
+    <div class="categories-panel">
+      <div class="categories-layout">
+        <div>
+          <div class="categories-panel-header">Browse by category</div>
+          <div class="categories-list" id="categories-list"></div>
+        </div>
+        <div class="categories-detail" id="categories-detail"></div>
+      </div>
+    </div>
+  </div>
 </header>
 
 <nav class="sub-nav">
-  <div class="sub-nav-list">
-    <div class="sub-nav-item"><a href="store/game-makers/">Game Makers</a></div>
-    <div class="sub-nav-item"><a href="store/ai-tools-hub/">AI Tools Hub</a></div>
-    <div class="sub-nav-item"><a href="store/dev-studio-one/">Dev Studio One</a></div>
-    <div class="sub-nav-item"><a href="store/email-forge/">Email Forge</a></div>
-    <div class="sub-nav-item"><a href="store/hardware/">Hardware Lab</a></div>
-    <div class="sub-nav-item"><a href="store/html-templates/">HTML Templates</a></div>
-    <div class="sub-nav-item"><a href="store/icon-smith/">Icon Smith</a></div>
-    <div class="sub-nav-item"><a href="store/reactorium/">Reactorium</a></div>
-    <div class="sub-nav-item"><a href="store/tiny-js-lab/">Tiny JS Lab</a></div>
-    <div class="sub-nav-item"><a href="store/unity-hub/">Unity Hub</a></div>
-    <div class="sub-nav-item"><a href="store/wp-plugins/">WP Plugins</a></div>
-  </div>
+  <div class="sub-nav-list">
+    <div class="sub-nav-item"><a href="store/hardware/">Hardware Lab</a></div>
+    <div class="sub-nav-item"><a href="store/game-makers/">Game Makers</a></div>
+    <div class="sub-nav-item"><a href="store/ai-tools-hub/">AI Tools Hub</a></div>
+    <div class="sub-nav-item"><a href="store/dev-studio-one/">Dev Studio One</a></div>
+    <div class="sub-nav-item"><a href="store/email-forge/">Email Forge</a></div>
+    <div class="sub-nav-item"><a href="store/html-templates/">HTML Templates</a></div>
+    <div class="sub-nav-item"><a href="store/icon-smith/">Icon Smith</a></div>
+    <div class="sub-nav-item"><a href="store/reactorium/">Reactorium</a></div>
+    <div class="sub-nav-item"><a href="store/tiny-js-lab/">Tiny JS Lab</a></div>
+    <div class="sub-nav-item"><a href="store/unity-hub/">Unity Hub</a></div>
+    <div class="sub-nav-item"><a href="store/wp-plugins/">WP Plugins</a></div>
+  </div>
 </nav>
 
 <section class="hero">
-  <div class="container">
-    <div class="hero-badge"><span>NEW</span> Hardware Lab is now live!</div>
-    <h1>Build, buy, and sell<br>high-quality digital products.</h1>
-    <p>Professional marketplace for templates, code, tools — now with curated hardware accessories for developers and makers.</p>
-    <div class="hero-btns">
-      <a href="#gallery" class="btn-primary">Browse Marketplace</a>
-      <a href="become-seller.html" class="btn-outline">Start Selling</a>
-    </div>
-  </div>
+  <div class="container">
+    <div class="hero-badge"><span>NEW</span> Hardware Lab is now live!</div>
+    <h1>Build, buy and sell<br>high-quality digital products.</h1>
+    <p>Marketplace for templates, code, AI tools and curated hardware built for serious developers and designers.</p>
+    <div class="hero-btns">
+      <a href="#gallery" class="btn-primary">Browse Marketplace</a>
+      <a href="become-seller.html" class="btn-outline">Start Selling</a>
+    </div>
+  </div>
 </section>
 
 <section class="marketplace-banner-section">
-  <div class="banner-inner">
-    <div class="banner-copy">
-      <div class="banner-copy-eyebrow">#1 BEST SELLING GLOBAL MARKETPLACE</div>
-      <h2>Premium <span>digital marketplace</span> for developers, designers & creators.</h2>
-      <p>
-        RGZTEC brings together high-quality HTML templates, React components, AI tools,
-        WordPress plugins, games and curated hardware for modern builders.
-      </p>
-      <p class="banner-meta">
-        <strong>11+ curated stores</strong> across code, AI, design & hardware with instant digital delivery.
-      </p>
-    </div>
-    <div class="banner-image">
-      <img src="assets/images/banners/global-marketplace-banner.webp"
-           alt="Global marketplace banner">
-    </div>
-  </div>
+  <div class="banner-inner">
+    <div class="banner-copy">
+      <div class="banner-copy-eyebrow">#1 GLOBAL DEV MARKETPLACE</div>
+      <h2>Premium <span>digital marketplace</span> for modern builders.</h2>
+      <p>
+        RGZTEC brings together HTML templates, React components, AI tools,
+        game assets, WordPress plugins and hardware accessories in curated stores.
+      </p>
+      <p class="banner-meta">
+        <strong>11+ dedicated stores</strong> across code, design, AI and hardware.
+      </p>
+    </div>
+    <div class="banner-image">
+      <img src="assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC marketplace preview">
+    </div>
+  </div>
 </section>
 
 <main class="container">
-  <h2 class="gallery-title">Explore Stores</h2>
-  <div id="gallery" class="grid"></div>
+  <h2 class="gallery-title" id="gallery-title">Explore Stores</h2>
+  <div id="gallery" class="grid"></div>
 </main>
 
 <footer class="footer">
-  <div class="container">
-    <div class="footer-cols">
-      <div>
-        <h4>Shop</h4>
-        <a href="gift-card.html">Gift Cards</a>
-        <a href="#">Sitemap</a>
-        <a href="#">Featured Products</a>
-      </div>
-      <div>
-        <h4>Sell</h4>
-        <a href="become-seller.html">Start Selling</a>
-        <a href="#">Teams</a>
-        <a href="#">Affiliates</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="#">About RGZTEC</a>
-        <a href="#">Careers</a>
-        <a href="#">Legal</a>
-      </div>
-      <div>
-        <h4>Support</h4>
-        <a href="mailto:support@rgztec.com">Help Center</a>
-        <a href="#">Contact Us</a>
-      </div>
-    </div>
-    <div class="footer-bot">
-      <span>© 2025 RGZTEC, Inc.</span>
-      <div>
-        <a href="#" style="display:inline; margin-left:20px;">Privacy</a>
-        <a href="#" style="display:inline; margin-left:20px;">Terms</a>
-      </div>
-    </div>
-  </div>
+  <div class="container">
+    <div class="footer-cols">
+      <div>
+        <h4>Shop</h4>
+        <a href="gift-card.html">Gift Cards</a>
+        <a href="#">Sitemap</a>
+        <a href="#">Featured Products</a>
+      </div>
+      <div>
+        <h4>Sell</h4>
+        <a href="become-seller.html">Start Selling</a>
+        <a href="#">Teams</a>
+        <a href="#">Affiliates</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#">About RGZTEC</a>
+        <a href="#">Careers</a>
+        <a href="#">Legal</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="mailto:support@rgztec.com">Help Center</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© 2025 RGZTEC, Inc.</span>
+      <div>
+        <a href="#">Privacy</a>
+        <a href="#" style="margin-left:18px;">Terms</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <script>
-// Mağaza Listesi – Hardware en başta, featured olacak
-const stores = [
-  { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators, dev boards & IoT for serious builders.' },
-  { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets' },
-  { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents & Automation' },
-  { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Starters & Dashboards' },
-  { slug: 'email-forge', name: 'Email Forge', tagline: 'High-converting emails' },
-  { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages & UI' },
-  { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Professional icon sets' },
-  { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits & charts' },
-  { slug: 'tiny-js-lab', name: 'Tiny JS Lab', tagline: 'Vanilla JS widgets' },
-  { slug: 'unity-hub', name: 'Unity Hub', tagline: 'Controllers & Systems' },
-  { slug: 'wp-plugins', name: 'WP Plugins', tagline: 'WordPress essentials' }
-];
+  // ---- STORE DATA (kartlar) ----
+  const STORES = [
+    { slug: 'hardware', name: 'Hardware Lab', tagline: 'AI accelerators, dev boards & IoT for serious builders.' },
+    { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal templates, UI kits and game-ready assets.' },
+    { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents, automations and workflow tools.' },
+    { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Dashboards, admin templates and starter kits.' },
+    { slug: 'email-forge', name: 'Email Forge', tagline: 'High-converting email templates and flows.' },
+    { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages, marketing sites and UI layouts.' },
+    { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Premium icon packs and UI assets.' },
+    { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits, dashboards and chart systems.' },
+    { slug: 'tiny-js-lab', name: 'Tiny JS Lab', tagline: 'Vanilla JS widgets, effects and utilities.' },
+    { slug: 'unity-hub', name: 'Unity Hub', tagline: 'Game systems, controllers and tools.' },
+    { slug: 'wp-plugins', name: 'WP Plugins', tagline: 'Commerce and utility plugins for WordPress.' }
+  ];
 
-const STORE_IMAGE_BASE = 'assets/images/store/';
+  const STORE_IMAGE_BASE = 'assets/images/store/';
 
-/* 🔽 KATEGORİ DATA – ana mağaza + alt mağazalar
-   İleride bunu store.data.json'dan da besleyebiliriz.
-*/
-const CATEGORY_DATA = [
-  {
-    id: 'hardware',
-    label: 'Hardware & AI',
-    subtitle: 'Accelerators, dev boards, IoT kits',
-    storeName: 'Hardware Lab',
-    href: 'store/hardware/',
-    sections: [
-      { label: 'AI Accelerators', href: 'store/hardware/ai-accelerators/' },
-      { label: 'Dev Boards', href: 'store/hardware/dev-kits/' },
-      { label: 'IoT & Sensors', href: 'store/hardware/iot-sensors/' }
-    ]
-  },
-  {
-    id: 'game-makers',
-    label: 'Game Makers',
-    subtitle: 'Unity & Unreal templates, assets',
-    storeName: 'Game Makers',
-    href: 'store/game-makers/',
-    sections: [
-      { label: 'Prototypes', href: 'store/game-makers/prototypes/' },
-      { label: 'UI & HUD', href: 'store/game-makers/ui-hud/' },
-      { label: 'Effects & FX', href: 'store/game-makers/fx/' }
-    ]
-  },
-  {
-    id: 'ai-tools-hub',
-    label: 'AI Tools & Agents',
-    subtitle: 'Automation, copilots, workflows',
-    storeName: 'AI Tools Hub',
-    href: 'store/ai-tools-hub/',
-    sections: [
-      { label: 'Agents', href: 'store/ai-tools-hub/agents/' },
-      { label: 'Workflows', href: 'store/ai-tools-hub/workflows/' },
-      { label: 'Integrations', href: 'store/ai-tools-hub/integrations/' }
-    ]
-  },
-  {
-    id: 'html-templates',
-    label: 'HTML & Landing Pages',
-    subtitle: 'Marketing, SaaS & startup pages',
-    storeName: 'HTML Templates',
-    href: 'store/html-templates/',
-    sections: [
-      { label: 'SaaS Landings', href: 'store/html-templates/saas/' },
-      { label: 'Marketing Pages', href: 'store/html-templates/marketing/' },
-      { label: 'Portfolio', href: 'store/html-templates/portfolio/' }
-    ]
-  },
-  {
-    id: 'reactorium',
-    label: 'React Components',
-    subtitle: 'Dashboards, charts & UI kits',
-    storeName: 'Reactorium',
-    href: 'store/reactorium/',
-    sections: [
-      { label: 'Dashboards', href: 'store/reactorium/dashboards/' },
-      { label: 'Charts', href: 'store/reactorium/charts/' },
-      { label: 'UI Kits', href: 'store/reactorium/ui-kits/' }
-    ]
-  },
-  {
-    id: 'wp-plugins',
-    label: 'WordPress Plugins',
-    subtitle: 'Commerce & utilities',
-    storeName: 'WP Plugins',
-    href: 'store/wp-plugins/',
-    sections: [
-      { label: 'Commerce', href: 'store/wp-plugins/commerce/' },
-      { label: 'SEO & Speed', href: 'store/wp-plugins/seo-speed/' },
-      { label: 'Utilities', href: 'store/wp-plugins/utilities/' }
-    ]
-  },
-  {
-    id: 'email-forge',
-    label: 'Email & Funnels',
-    subtitle: 'Newsletters, flows, automations',
-    storeName: 'Email Forge',
-    href: 'store/email-forge/',
-    sections: [
-      { label: 'Newsletters', href: 'store/email-forge/newsletters/' },
-      { label: 'Flows', href: 'store/email-forge/flows/' },
-      { label: 'Templates', href: 'store/email-forge/templates/' }
-    ]
-  },
-  {
-    id: 'icon-smith',
-    label: 'Icons & Design',
-    subtitle: 'Icon sets, UI assets, packs',
-    storeName: 'Icon Smith',
-    href: 'store/icon-smith/',
-    sections: [
-      { label: 'Icon Packs', href: 'store/icon-smith/icon-packs/' },
-      { label: 'UI Assets', href: 'store/icon-smith/ui-assets/' },
-      { label: 'Logos & Marks', href: 'store/icon-smith/logos/' }
-    ]
-  }
-];
+  // ---- CATEGORY DATA (dropdown) ----
+  const CATEGORY_DATA = [
+    {
+      id: 'hardware',
+      label: 'Hardware & AI',
+      subtitle: 'Accelerators, dev boards, IoT kits',
+      storeName: 'Hardware Lab',
+      href: 'store/hardware/',
+      sections: [
+        { label: 'AI Accelerators', href: 'store/hardware/ai-accelerators/' },
+        { label: 'Dev Boards', href: 'store/hardware/dev-kits/' },
+        { label: 'IoT & Sensors', href: 'store/hardware/iot-sensors/' }
+      ]
+    },
+    {
+      id: 'game-makers',
+      label: 'Game Makers',
+      subtitle: 'Unity & Unreal templates, assets',
+      storeName: 'Game Makers',
+      href: 'store/game-makers/',
+      sections: [
+        { label: 'Prototypes', href: 'store/game-makers/prototypes/' },
+        { label: 'UI & HUD', href: 'store/game-makers/ui-hud/' },
+        { label: 'Effects & FX', href: 'store/game-makers/fx/' }
+      ]
+    },
+    {
+      id: 'ai-tools-hub',
+      label: 'AI Tools & Agents',
+      subtitle: 'Automation, copilots, workflows',
+      storeName: 'AI Tools Hub',
+      href: 'store/ai-tools-hub/',
+      sections: [
+        { label: 'Agents', href: 'store/ai-tools-hub/agents/' },
+        { label: 'Workflows', href: 'store/ai-tools-hub/workflows/' },
+        { label: 'Integrations', href: 'store/ai-tools-hub/integrations/' }
+      ]
+    },
+    {
+      id: 'html-templates',
+      label: 'HTML & Landing Pages',
+      subtitle: 'Marketing, SaaS & startup pages',
+      storeName: 'HTML Templates',
+      href: 'store/html-templates/',
+      sections: [
+        { label: 'SaaS Landings', href: 'store/html-templates/saas/' },
+        { label: 'Marketing Pages', href: 'store/html-templates/marketing/' },
+        { label: 'Portfolios', href: 'store/html-templates/portfolio/' }
+      ]
+    },
+    {
+      id: 'reactorium',
+      label: 'React Components',
+      subtitle: 'Dashboards, charts & UI kits',
+      storeName: 'Reactorium',
+      href: 'store/reactorium/',
+      sections: [
+        { label: 'Dashboards', href: 'store/reactorium/dashboards/' },
+        { label: 'Charts', href: 'store/reactorium/charts/' },
+        { label: 'UI Kits', href: 'store/reactorium/ui-kits/' }
+      ]
+    },
+    {
+      id: 'wp-plugins',
+      label: 'WordPress Plugins',
+      subtitle: 'Commerce & utilities',
+      storeName: 'WP Plugins',
+      href: 'store/wp-plugins/',
+      sections: [
+        { label: 'Commerce', href: 'store/wp-plugins/commerce/' },
+        { label: 'SEO & Speed', href: 'store/wp-plugins/seo-speed/' },
+        { label: 'Utilities', href: 'store/wp-plugins/utilities/' }
+      ]
+    },
+    {
+      id: 'email-forge',
+      label: 'Email & Funnels',
+      subtitle: 'Newsletters, flows, automations',
+      storeName: 'Email Forge',
+      href: 'store/email-forge/',
+      sections: [
+        { label: 'Newsletters', href: 'store/email-forge/newsletters/' },
+        { label: 'Flows', href: 'store/email-forge/flows/' },
+        { label: 'Templates', href: 'store/email-forge/templates/' }
+      ]
+    },
+    {
+      id: 'icon-smith',
+      label: 'Icons & Design',
+      subtitle: 'Icon sets, UI assets, packs',
+      storeName: 'Icon Smith',
+      href: 'store/icon-smith/',
+      sections: [
+        { label: 'Icon Packs', href: 'store/icon-smith/icon-packs/' },
+        { label: 'UI Assets', href: 'store/icon-smith/ui-assets/' },
+        { label: 'Logos & Marks', href: 'store/icon-smith/logos/' }
+      ]
+    }
+  ];
 
-function renderStoreCard(store) {
-  const href = `store/${store.slug}/`;
-  const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
-  const isHardware = store.slug === 'hardware';
-  const extraClass = isHardware ? ' card--featured' : '';
-  const badgeText = isHardware ? 'Hardware • NEW' : 'Official Store';
+  function renderStoreCard(store, index) {
+    const href = `store/${store.slug}/`;
+    const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
+    const isHardware = store.slug === 'hardware';
+    const smallClass = index === 0 ? '' : ' card--small';
+    const badge = isHardware ? 'Hardware • NEW' : 'Official Store';
 
-  return `
-    <article class="card${extraClass}">
-      <a href="${href}" class="card-media">
-        <img src="${imgSrc}" alt="${store.name}" loading="lazy">
-      </a>
-      <div class="card-content">
-        <span class="card-badge">${badgeText}</span>
-        <h3 class="card-title">${store.name}</h3>
-        <p class="card-desc">${store.tagline}</p>
-        <a href="${href}" class="card-link">
-          Visit Store 
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-               fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-          </svg>
-        </a>
-      </div>
-    </article>
-  `;
-}
+    return `
+      <article class="card${smallClass}">
+        <a href="${href}" class="card-media">
+          <img src="${imgSrc}" alt="${store.name}" loading="lazy">
+        </a>
+        <div class="card-content">
+          <span class="card-badge">${badge}</span>
+          <h3 class="card-title">${store.name}</h3>
+          <p class="card-desc">${store.tagline}</p>
+          <a href="${href}" class="card-link">
+            Visit Store
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+            </svg>
+          </a>
+        </div>
+      </article>
+    `;
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const gallery = document.getElementById('gallery');
-  if (gallery) {
-    gallery.innerHTML = stores.map(renderStoreCard).join('');
-  }
+  document.addEventListener('DOMContentLoaded', () => {
+    // Store kartlarını doldur
+    const gallery = document.getElementById('gallery');
+    if (gallery) {
+      gallery.innerHTML = STORES.map((s, i) => renderStoreCard(s, i)).join('');
+    }
 
-  const header = document.querySelector('.app-header');
-  const btnCat = document.getElementById('btn-categories');
-  const catPanelWrap = document.getElementById('categories-panel');
-  const catPanel = catPanelWrap ? catPanelWrap.querySelector('.categories-panel') : null;
+    // Categories dropdown
+    const header = document.querySelector('.app-header');
+    const btnCat = document.getElementById('btn-categories');
+    const panelWrap = document.getElementById('categories-panel');
+    const panel = panelWrap ? panelWrap.querySelector('.categories-panel') : null;
 
-  // 🔽 Categories dropdown toggle
-  if (header && btnCat && catPanelWrap) {
-    btnCat.addEventListener('click', (e) => {
-      e.preventDefault();
-      const isOpen = header.classList.contains('has-cat-open');
-      header.classList.toggle('has-cat-open', !isOpen);
-    });
+    function updatePointerPosition() {
+      if (!panel || !btnCat || !header) return;
+      const btnRect = btnCat.getBoundingClientRect();
+      const headerRect = header.getBoundingClientRect();
+      const offset = btnRect.left - headerRect.left + btnRect.width / 2;
+      panel.style.setProperty('--cat-pointer-left', `${offset}px`);
+    }
 
-    // dışarı tıklayınca kapat
-    document.addEventListener('click', (e) => {
-      if (!header.contains(e.target)) {
-        header.classList.remove('has-cat-open');
-      }
-    });
+    if (header && btnCat && panelWrap) {
+      btnCat.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = header.classList.contains('has-cat-open');
+        header.classList.toggle('has-cat-open', !isOpen);
+        if (!isOpen) updatePointerPosition();
+      });
 
-    // pointer konumlama – damla tam butonun altına gelsin
-    function updatePointerPosition() {
-      if (!catPanel) return;
-      const btnRect = btnCat.getBoundingClientRect();
-      const headerRect = header.getBoundingClientRect();
-      const offset = btnRect.left - headerRect.left + btnRect.width / 2;
-      catPanel.style.setProperty('--cat-pointer-left', `${offset}px`);
-    }
-    updatePointerPosition();
-    window.addEventListener('resize', updatePointerPosition);
-  }
+      document.addEventListener('click', (e) => {
+        if (!header.contains(e.target)) {
+          header.classList.remove('has-cat-open');
+        }
+      });
 
-  // 🔥 PREMIUM CATEGORIES – ana mağaza + alt mağaza detayları
-  const listEl = document.getElementById('categories-list');
-  const detailEl = document.getElementById('categories-detail');
+      window.addEventListener('resize', updatePointerPosition);
+    }
 
-  function renderDetail(cat) {
-    if (!detailEl || !cat) return;
-    const linksHtml = (cat.sections || []).map(s => `
-      <a href="${s.href}">${s.label}</a>
-    `).join('');
+    // Category list + detail
+    const listEl = document.getElementById('categories-list');
+    const detailEl = document.getElementById('categories-detail');
 
-    detailEl.innerHTML = `
-      <div class="cat-detail-eyebrow">Store</div>
-      <div class="cat-detail-title">${cat.storeName}</div>
-      <div class="cat-detail-subtitle">${cat.subtitle}</div>
-      <div class="cat-detail-links">
-        ${linksHtml || `<a href="${cat.href}">Browse all products</a>`}
-      </div>
-    `;
-  }
+    function renderDetail(cat) {
+      if (!detailEl || !cat) return;
+      const linksHtml = (cat.sections || [])
+        .map(s => `<a href="${s.href}">${s.label}</a>`)
+        .join('');
+      detailEl.innerHTML = `
+        <div class="cat-detail-eyebrow">Store</div>
+        <div class="cat-detail-title">${cat.storeName}</div>
+        <div class="cat-detail-subtitle">${cat.subtitle}</div>
+        <div class="cat-detail-links">
+          ${linksHtml || `<a href="${cat.href}">Browse all products</a>`}
+        </div>
+      `;
+    }
 
-  if (listEl && detailEl) {
-    listEl.innerHTML = CATEGORY_DATA.map((cat, index) => `
-      <button class="cat-item${index === 0 ? ' cat-item--active' : ''}" data-cat-id="${cat.id}">
-        <div class="cat-item-main">
-          <span>${cat.label}</span>
-          <small>${cat.subtitle}</small>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0L13 8.586a1 1 0 010 1.414l-4.293 4.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
-    `).join('');
+    if (listEl && detailEl) {
+      listEl.innerHTML = CATEGORY_DATA.map((cat, index) => `
+        <button class="cat-item${index === 0 ? ' cat-item--active' : ''}" data-cat-id="${cat.id}">
+          <div class="cat-item-main">
+            <span>${cat.label}</span>
+            <small>${cat.subtitle}</small>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 4.293a1 1 0 011.414 0L13 8.586a1 1 0 010 1.414l-4.293 4.293a1 1 0 01-1.414-1.414L10.586 10 7.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      `).join('');
 
-    // İlk kategori detayını göster
-    renderDetail(CATEGORY_DATA[0]);
+      renderDetail(CATEGORY_DATA[0]);
 
-    // Hover ile detay değişsin
-    listEl.addEventListener('mouseover', (e) => {
-      const btn = e.target.closest('.cat-item');
-      if (!btn) return;
-      const id = btn.getAttribute('data-cat-id');
-      const cat = CATEGORY_DATA.find(c => c.id === id);
-      if (!cat) return;
+      listEl.addEventListener('mouseover', (e) => {
+        const btn = e.target.closest('.cat-item');
+        if (!btn) return;
+        const id = btn.getAttribute('data-cat-id');
+        const cat = CATEGORY_DATA.find(c => c.id === id);
+        if (!cat) return;
+        listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
+        btn.classList.add('cat-item--active');
+        renderDetail(cat);
+      });
 
-      listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
-      btn.classList.add('cat-item--active');
-      renderDetail(cat);
-    });
-
-    // Tıklayınca ilgili store sayfasına git
-    listEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('.cat-item');
-      if (!btn) return;
-      const id = btn.getAttribute('data-cat-id');
-      const cat = CATEGORY_DATA.find(c => c.id === id);
-      if (cat && cat.href) {
-        window.location.href = cat.href;
-      }
-    });
-  }
-});
+      listEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.cat-item');
+        if (!btn) return;
+        const id = btn.getAttribute('data-cat-id');
+        const cat = CATEGORY_DATA.find(c => c.id === id);
+        if (cat && cat.href) window.location.href = cat.href;
+      });
+    }
+  });
 </script>
 
 </body>
 </html>
+
 
 
 
