@@ -1,377 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>RGZTEC • Premium Digital Marketplace</title>
-<base href="/rgztec/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <title>RGZTEC • Premium Digital Marketplace</title>
+  <meta name="description" content="Discover premium templates, code kits, AI tools, hardware modules and open your store on RGZTEC.">
 
-<link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-<link rel="stylesheet" href="assets/css/store-core.css">
+  <!-- BASE -->
+  <base href="/rgztec/">
 
-<style>
-/* === ANA SAYFAYA ÖZEL İNCE AYARLAR === */
-:root { --brand: #f97316; --brand-h: #ea580c; --ink: #0f172a; --sub: #64748b; --border: #e2e8f0; --bg-body: #f8fafc; --header-h: 74px; }
-body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--ink); margin: 0; padding: 0; }
-a { text-decoration: none; transition: all 0.2s ease; }
-.container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
+  <!-- GLOBAL + HOME CSS -->
+  <link rel="stylesheet" href="assets/css/store-core.css">
+  <link rel="stylesheet" href="assets/css/home.css">
 
-/* HEADER */
-.app-header { background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; height: var(--header-h); display: flex; align-items: center; }
-.header-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 24px; }
-.logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; color: var(--brand); letter-spacing: -0.02em; flex-shrink: 0; }
-
-/* Kategori Butonu */
-.btn-cat { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: var(--ink); background: transparent; border: 1px solid transparent; padding: 8px 14px; border-radius: 99px; cursor: pointer; transition: all 0.2s; outline: none; }
-.btn-cat:hover, .btn-cat.active { background: #f1f5f9; color: var(--brand); }
-.btn-cat svg { width: 20px; height: 20px; stroke-width: 2; transition: transform 0.3s; }
-.btn-cat.active svg { transform: rotate(180deg); }
-
-/* Arama */
-.search-bar { flex: 1; max-width: 500px; position: relative; }
-.search-input { width: 100%; height: 46px; background: #f1f5f9; border: 1px solid transparent; border-radius: 99px; padding: 0 48px 0 20px; font-size: 14px; color: var(--ink); outline: none; }
-.search-input:focus { background: #fff; border-color: var(--brand); box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); }
-.search-btn { position: absolute; right: 6px; top: 6px; width: 34px; height: 34px; border-radius: 50%; background: var(--brand); border: none; color: #fff; display: grid; place-items: center; cursor: pointer; }
-
-.nav-right { display: flex; align-items: center; gap: 20px; }
-.icon-action { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); border: 1px solid var(--border); background: #fff; }
-.icon-action:hover { border-color: var(--brand); color: var(--brand); background: #fff7ed; }
-.btn-open-store { background: var(--ink); color: #fff; padding: 10px 22px; border-radius: 99px; font-size: 14px; font-weight: 700; }
-.btn-open-store:hover { background: var(--brand); }
-
-/* MEGA MENU */
-.mega-menu-overlay { position: fixed; top: var(--header-h); left: 0; width: 100%; height: calc(100vh - var(--header-h)); background: rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index: 900; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; }
-.mega-menu-overlay.open { opacity: 1; visibility: visible; }
-.mega-menu-container { position: absolute; top: 12px; left: 24px; width: 900px; height: 500px; background: #fff; display: flex; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; opacity: 0; transform: translateY(-15px) scale(0.98); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-.mega-menu-overlay.open .mega-menu-container { opacity: 1; transform: translateY(0) scale(1); }
-
-.menu-sidebar { width: 280px; background: #f8fafc; border-right: 1px solid var(--border); padding: 16px; overflow-y: auto; }
-.menu-store-item { padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-radius: 8px; margin-bottom: 4px; transition: all 0.2s; }
-.menu-store-item:hover, .menu-store-item.active { background: #fff; color: var(--brand); box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-
-.menu-content { flex: 1; padding: 32px; overflow-y: auto; }
-.menu-header h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; font-weight: 800; margin: 0 0 8px; }
-.menu-header p { color: var(--sub); margin-bottom: 24px; font-size: 14px; }
-.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.menu-sub-item { display: block; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; transition: all 0.2s; text-decoration: none; color: var(--ink); }
-.menu-sub-item:hover { border-color: var(--brand); background: #fff7ed; transform: translateX(4px); }
-.sub-title { display: block; font-weight: 700; color: var(--ink); margin-bottom: 2px; font-size: 14px; }
-.sub-desc { display: block; font-size: 12px; color: var(--sub); }
-
-/* SUB NAV */
-.sub-nav { background: #fff; border-bottom: 1px solid var(--border); height: 52px; display: flex; align-items: center; overflow-x: auto; white-space: nowrap; }
-.sub-nav-list { display: flex; gap: 32px; padding: 0 24px; margin: 0 auto; max-width: 1440px; }
-.sub-nav-item a { font-size: 13px; font-weight: 600; color: var(--sub); display: flex; align-items: center; height: 52px; border-bottom: 2px solid transparent; text-decoration: none; }
-.sub-nav-item a:hover { color: var(--brand); border-bottom-color: var(--brand); }
-
-/* HERO */
-.hero { padding: 60px 0 40px; text-align: center; }
-.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 24px; }
-.hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(32px, 4vw, 56px); font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; line-height: 1.1; }
-.hero p { font-size: 18px; color: var(--sub); max-width: 640px; margin: 0 auto 40px; line-height: 1.6; }
-.hero-btns { display: flex; justify-content: center; gap: 16px; }
-.btn-primary { background: var(--brand); color: #fff; padding: 14px 32px; border-radius: 99px; font-weight: 700; text-decoration: none; box-shadow: 0 8px 20px rgba(249,115,22,0.25); }
-.btn-outline { background: #fff; border: 1px solid var(--border); color: var(--ink); padding: 14px 32px; border-radius: 99px; font-weight: 700; text-decoration: none; }
-
-/* SHOWCASE */
-.showcase-section { padding: 40px 0 80px; }
-.showcase-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; background: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
-.showcase-content h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
-.showcase-content h2 span { color: var(--brand); }
-.showcase-banner img { width: 100%; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-
-/* GALLERY */
-.gallery-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 32px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; margin-bottom: 80px; }
-.card { background: #fff; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column; position: relative; }
-.card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-color: #cbd5e1; }
-.card-media { height: 210px; background: #f1f5f9; overflow: hidden; }
-.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
-.card:hover .card-media img { transform: scale(1.06); }
-.card-content { padding: 24px; flex: 1; display: flex; flex-direction: column; }
-.card-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--brand); letter-spacing: 1px; margin-bottom: 8px; }
-.card-title { font-size: 18px; font-weight: 700; margin: 0 0 8px; color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; }
-.card-desc { font-size: 14px; color: var(--sub); line-height: 1.5; margin-bottom: 20px; }
-.card-link { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 6px; text-decoration: none; }
-.card-link:hover { color: var(--brand); gap: 10px; }
-
-/* Hardware Full Card */
-.card.full-width { grid-column: 1 / -1; display: grid; grid-template-columns: 1.2fr 0.8fr; height: 360px; background: #0f172a; border-radius: 24px; overflow: hidden; border: none; box-shadow: 0 20px 60px rgba(15,23,42,0.25); }
-.card.full-width .card-media { height: 100%; }
-.card.full-width .card-content { background: #0f172a; justify-content: center; padding: 60px; }
-.card.full-width .card-title { color: #fff; font-size: 36px; margin: 16px 0; }
-.card.full-width .card-desc { color: #94a3b8; font-size: 18px; margin-bottom: 32px; }
-.card.full-width .card-link { color: var(--brand); font-size: 16px; }
-
-/* FOOTER */
-.footer { background: #0f172a; color: #94a3b8; padding: 80px 0 40px; font-size: 14px; }
-.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
-.footer h4 { color: #fff; font-size: 16px; margin-bottom: 20px; }
-.footer a { display: block; color: #94a3b8; margin-bottom: 12px; text-decoration: none; }
-.footer-bot { border-top: 1px solid #1e293b; padding-top: 30px; display: flex; justify-content: space-between; }
-
-@media (max-width: 1024px) {
-  .nav-right, .search-bar { display: none; }
-  .showcase-inner { grid-template-columns: 1fr; }
-  .showcase-banner { order: -1; }
-  .card.full-width { grid-template-columns: 1fr; height: auto; }
-  .mega-menu-container { width: 95%; left: 2.5%; }
-}
-</style>
+  <!-- HOME JS -->
+  <script src="assets/js/home.js" defer></script>
+  <script src="assets/js/home-products.js" defer></script>
 </head>
-<body>
+<body class="home-body">
 
-<header class="app-header">
-  <div class="container header-inner">
-    <div style="display:flex; align-items:center; gap:24px;">
-      <a href="./" class="logo">RGZTEC</a>
-      <button class="btn-cat" id="btnCategories" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-        Categories
-      </button>
+  <!-- =======================================================
+       HEADER
+  ======================================================= -->
+  <header class="home-header">
+    <div class="home-header-inner">
+
+      <!-- LOGO -->
+      <a href="/rgztec/" class="home-logo">
+        <span class="home-logo-dot"></span>
+        <span class="home-logo-text">RGZTEC</span>
+      </a>
+
+      <!-- SEARCH -->
+      <form id="home-search-form" class="home-search">
+        <span class="home-search-icon">🔍</span>
+        <input
+          id="home-search-input"
+          class="home-search-input"
+          type="search"
+          placeholder="Search templates, code, AI tools, hardware…">
+      </form>
+
+      <!-- NAV -->
+      <nav class="home-nav">
+        <a class="home-nav-link" href="#">Gift Cards</a>
+        <a class="home-nav-link" href="#">Sign In</a>
+        <button class="home-nav-btn">Cart</button>
+        <button class="home-nav-btn-primary">Open Store</button>
+      </nav>
     </div>
-    
-    <div class="search-bar">
-      <input type="text" class="search-input" placeholder="Search marketplace...">
-      <button class="search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg></button>
+
+    <!-- STORE STRIP -->
+    <div class="home-store-strip">
+      <a class="home-store-pill" href="store/hardware/" data-store-name="Hardware Lab">Hardware Lab</a>
+      <a class="home-store-pill" href="store/game-makers/" data-store-name="Game Makers">Game Makers</a>
+      <a class="home-store-pill" href="store/ai-tools-hub/" data-store-name="AI Tools Hub">AI Tools Hub</a>
+      <a class="home-store-pill" href="store/dev-studio-one/" data-store-name="Dev Studio One">Dev Studio One</a>
+      <a class="home-store-pill" href="store/html-templates/" data-store-name="HTML Templates">HTML Templates</a>
+      <a class="home-store-pill" href="store/icon-smith/" data-store-name="Icon Smith">Icon Smith</a>
     </div>
-    
-    <div class="nav-right">
-      <a href="editor/" class="nav-link">Dashboard</a>
-      <a href="login/" class="nav-link">Sign In</a>
-      <a href="gift-card.html" class="icon-action"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z" /></svg></a>
-      <a href="cart.html" class="icon-action"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg></a>
-      <a href="open-store.html" class="btn-open-store">Open Store</a>
-    </div>
-  </div>
-</header>
+  </header>
 
-<div class="mega-menu-overlay" id="megaMenu">
-  <div class="mega-menu-container">
-    <div class="menu-sidebar" id="menuSidebar"></div>
-    <div class="menu-content" id="menuContent">
-      <div class="menu-header">
-        <h3 id="menuTitle">Select a Store</h3>
-        <p id="menuDesc">Explore professional categories.</p>
-      </div>
-      <div class="menu-grid" id="menuGrid"></div>
-    </div>
-  </div>
-</div>
 
-<nav class="sub-nav">
-  <div class="sub-nav-list" id="subNavList"></div>
-</nav>
+  <!-- =======================================================
+       HERO
+  ======================================================= -->
+  <main class="home-shell">
 
-<section class="hero">
-  <div class="container">
-    <div class="hero-badge"><span>NEW</span> Hardware Lab is now live!</div>
-    <h1>Build, buy, and sell<br>high-quality digital products.</h1>
-    <p>Professional marketplace for templates, code, tools — now with curated hardware accessories.</p>
-    <div class="hero-btns">
-      <a href="#gallery" class="btn-primary">Browse Marketplace</a>
-      <a href="become-seller.html" class="btn-outline">Start Selling</a>
-    </div>
-  </div>
-</section>
+    <section class="home-hero">
+      <div>
+        <h1 class="home-hero-heading">
+          Build, Sell, and Scale  
+          <span>Premium Digital Products</span>
+        </h1>
 
-<section class="showcase-section">
-  <div class="container showcase-inner">
-    <div class="showcase-content">
-      <div style="font-size:12px; font-weight:700; color:#94a3b8; letter-spacing:1px; margin-bottom:10px;">#1 GLOBAL MARKETPLACE</div>
-      <h2>Premium <span>digital & hardware</span> marketplace.</h2>
-      <p>RGZTEC brings together high-quality HTML templates, React components, AI tools, and now curated hardware.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px;">
-        <div><h3 style="font-size:16px;font-weight:700;margin-bottom:6px;">For buyers</h3><p style="font-size:14px;color:var(--sub);">Instant access to assets.</p></div>
-        <div><h3 style="font-size:16px;font-weight:700;margin-bottom:6px;">For sellers</h3><p style="font-size:14px;color:var(--sub);">Reach a global audience.</p></div>
-      </div>
-      <a href="become-seller.html" style="font-weight:700;color:var(--brand);display:inline-flex;align-items:center;gap:6px;text-decoration:none;">Start selling on RGZTEC →</a>
-    </div>
-    <div class="showcase-banner">
-      <img src="assets/images/banners/global-marketplace-banner.webp" alt="Global Marketplace Banner">
-    </div>
-  </div>
-</section>
+        <p class="home-hero-sub">
+          Discover world-class templates, UI kits, AI tools, hardware modules, and open your own store.  
+          RGZTEC is the next-gen marketplace for developers, creators and innovators.
+        </p>
 
-<main class="container gallery-section">
-  <h2 class="gallery-title">Explore Stores</h2>
-  <div id="gallery" class="grid"></div>
-</main>
-
-<footer class="footer">
-  <div class="container">
-    <div class="footer-cols">
-      <div><h4>Shop</h4><a href="gift-card.html">Gift Cards</a><a href="#">Sitemap</a></div>
-      <div><h4>Sell</h4><a href="become-seller.html">Start Selling</a><a href="#">Teams</a></div>
-      <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a></div>
-      <div><h4>Support</h4><a href="mailto:support@rgztec.com">Help Center</a></div>
-    </div>
-    <div class="footer-bot">
-      <span>© 2025 RGZTEC, Inc.</span>
-      <div><a href="#" style="margin-left:20px;">Privacy</a><a href="#" style="margin-left:20px;">Terms</a></div>
-    </div>
-  </div>
-</footer>
-
-<script>
-// AYARLAR
-const DATA_URL = "data/store.data.json";
-const IMAGE_BASE = "assets/images/store/";
-
-// ELEMENTLER
-const gallery = document.getElementById('gallery');
-const subNavList = document.getElementById('subNavList');
-const menuSidebar = document.getElementById('menuSidebar');
-const menuGrid = document.getElementById('menuGrid');
-const menuTitle = document.getElementById('menuTitle');
-const menuDesc = document.getElementById('menuDesc');
-const btnCategories = document.getElementById('btnCategories');
-const megaMenu = document.getElementById('megaMenu');
-
-let storesData = {};
-
-// 1. BAŞLAT
-(async function initHome() {
-  try {
-    const res = await fetch(DATA_URL, { cache: "no-store" });
-    if(!res.ok) throw new Error("Veri yüklenemedi");
-    
-    storesData = await res.json();
-    renderHome();
-    
-  } catch(e) {
-    console.error(e);
-    if(gallery) gallery.innerHTML = "<p style='text-align:center'>Loading failed.</p>";
-  }
-})();
-
-// Sıralama (Hardware En Başa)
-function getSortedSlugs() {
-  const keys = Object.keys(storesData);
-  const hwIndex = keys.indexOf('hardware');
-  if(hwIndex > -1) {
-    keys.splice(hwIndex, 1);
-    keys.unshift('hardware');
-  }
-  return keys;
-}
-
-// Ana Render Fonksiyonu
-function renderHome() {
-  const slugs = getSortedSlugs();
-  
-  let galleryHTML = '';
-  let navHTML = '';
-  let sidebarHTML = '';
-
-  slugs.forEach(slug => {
-    const store = storesData[slug];
-    const isFull = slug === 'hardware';
-    const cardClass = isFull ? 'card full-width' : 'card';
-    const badge = isFull ? 'HARDWARE • NEW' : 'OFFICIAL STORE';
-    
-    // Link Oluşturma
-    const href = `store/${slug}/`;
-    const img = `${IMAGE_BASE}${slug}.webp`;
-
-    // 1. Galeri Kartı
-    galleryHTML += `
-      <article class="${cardClass}">
-        <a href="${href}" class="card-media">
-          <img src="${img}" alt="${store.title}" loading="lazy">
-        </a>
-        <div class="card-content">
-          <span class="card-badge">${badge}</span>
-          <h3 class="card-title">${store.title}</h3>
-          <p class="card-desc">${store.tagline || ''}</p>
-          <a href="${href}" class="card-link">
-            Visit Store 
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg>
-          </a>
+        <div class="home-hero-actions">
+          <button class="home-btn home-btn-primary">Explore Marketplace</button>
+          <button class="home-btn home-btn-ghost">Open a Store</button>
         </div>
-      </article>
-    `;
-
-    // 2. Yatay Menü Linki
-    const style = isFull ? 'style="color:var(--brand);"' : '';
-    navHTML += `<div class="sub-nav-item"><a href="${href}" ${style}>${store.title}</a></div>`;
-
-    // 3. Mega Menü Sidebar Maddesi
-    sidebarHTML += `
-      <div class="menu-store-item" onclick="selectStore('${slug}')" data-slug="${slug}">
-        <span>${store.title}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
       </div>
-    `;
-  });
 
-  if(gallery) gallery.innerHTML = galleryHTML;
-  if(subNavList) subNavList.innerHTML = navHTML;
-  if(menuSidebar) menuSidebar.innerHTML = sidebarHTML;
-}
+      <div class="home-hero-media">
+        <h3 style="margin:0 0 0.8rem;">Marketplace Snapshot</h3>
+        <p style="margin:0;opacity:0.85;">
+          70+ sub-stores • Hundreds of digital products •  
+          Built for creators & developers worldwide.
+        </p>
+      </div>
+    </section>
 
-// Menü Seçimi
-window.selectStore = function(slug) {
-  document.querySelectorAll('.menu-store-item').forEach(el => el.classList.remove('active'));
-  const el = document.querySelector(`.menu-store-item[data-slug="${slug}"]`);
-  if(el) el.classList.add('active');
 
-  const store = storesData[slug];
-  if(menuTitle) menuTitle.textContent = store.title;
-  if(menuDesc) menuDesc.textContent = store.tagline;
+    <!-- =======================================================
+         NEWEST PRODUCTS — AUTO FROM JSON
+    ======================================================= -->
+    <section style="margin-top:4rem;">
+      <h2 style="font-size:1.6rem; font-weight:700; margin-bottom:1.4rem;">
+        Newest Products
+      </h2>
 
-  let gridHTML = '';
-  if(store.sections) {
-    store.sections.forEach(sec => {
-      const href = `store/${slug}/${sec.slug}/`;
-      gridHTML += `
-        <a href="${href}" class="menu-sub-item">
-          <span class="sub-title">${sec.name}</span>
-          <span class="sub-desc">Browse collection</span>
-        </a>
-      `;
-    });
-  }
-  // View All Button
-  gridHTML += `
-    <a href="store/${slug}/" class="menu-sub-item" style="background:#f8fafc; border-color:transparent; display:flex; align-items:center; justify-content:center;">
-      <span class="sub-title" style="color:var(--brand); margin:0;">View All →</span>
-    </a>
-  `;
-  if(menuGrid) menuGrid.innerHTML = gridHTML;
-};
+      <div id="home-products" class="home-product-grid">
+        <!-- home-products.js burayı otomatik dolduruyor -->
+      </div>
+    </section>
 
-// Menü Açma/Kapama
-if(btnCategories && megaMenu) {
-  btnCategories.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = megaMenu.classList.contains('open');
-    
-    if(isOpen) {
-      megaMenu.classList.remove('open');
-      btnCategories.classList.remove('active');
-    } else {
-      megaMenu.classList.add('open');
-      btnCategories.classList.add('active');
-      // İlk açılışta bir mağaza seçmek istersen:
-      // if(storesData['hardware']) selectStore('hardware');
-    }
-  });
+  </main>
 
-  document.addEventListener('click', (e) => {
-    if(!megaMenu.contains(e.target) && !btnCategories.contains(e.target)) {
-      megaMenu.classList.remove('open');
-      btnCategories.classList.remove('active');
-    }
-  });
-}
-</script>
 
 </body>
 </html>
+
 
 
