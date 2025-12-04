@@ -1,570 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>RGZTEC • Premium Digital Marketplace</title>
-  <meta name="description" content="Discover unique products and open your store on RGZTEC."/>
-  
-  <!-- GitHub Pages base -->
+  <meta name="description" content="Discover premium templates, code kits, AI tools, hardware modules and open your store on RGZTEC.">
+
+  <!-- BASE -->
   <base href="/rgztec/">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"> 
+  <!-- GLOBAL + HOME CSS -->
+  <link rel="stylesheet" href="assets/css/store-core.css">
+  <link rel="stylesheet" href="assets/css/home.css">
 
-  <style>
-    /* 1. TEMA AYARLARI */
-    :root {
-      --brand: #f97316;
-      --brand-h: #ea580c;
-      --ink: #0f172a;
-      --ink-light: #334155;
-      --sub: #64748b;
-      --border: #e2e8f0;
-      --bg: #ffffff;
-      --bg-alt: #f8fafc;
-      --radius: 12px;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-    }
-
-    /* 2. TEMEL CSS & RESET */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; tab-size: 4; font-family: 'Inter', sans-serif; line-height: 1.5; scroll-behavior: smooth; }
-    body { margin: 0; padding: 0; background-color: var(--bg-alt); color: var(--ink); -webkit-font-smoothing: antialiased; }
-    a { color: inherit; text-decoration: none; transition: all 0.2s ease; }
-    ul { list-style: none; margin: 0; padding: 0; }
-    img, svg { display: block; vertical-align: middle; }
-    button, input { font-family: inherit; font-size: 100%; margin: 0; padding: 0; border: none; background: none; }
-    h1, h2, h3, h4, h5 { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--ink); font-weight: 700; margin: 0; }
-
-    .container { max-width: 1440px; margin: 0 auto; padding: 0 24px; }
-
-    /* 3. HEADER (Store Tarzı Arama) */
-    .app-header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 1000; height: 72px;
-      display: flex; align-items: center;
-    }
-
-    .header-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 24px; }
-    .logo { font-size: 24px; font-weight: 800; color: var(--brand); letter-spacing: -0.03em; flex-shrink: 0; }
-
-    /* Kategori Butonu */
-    .btn-cat {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 600; font-size: 14px; color: var(--ink-light);
-      background: var(--bg); border: 1px solid var(--border);
-      padding: 8px 16px; border-radius: 99px; cursor: pointer; transition: all 0.2s;
-    }
-    .btn-cat:hover { border-color: var(--brand); color: var(--brand); background: #fff7ed; }
-
-    .btn-cat .cat-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    .btn-cat .cat-icon rect {
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    .btn-cat:hover .cat-icon rect:nth-child(1) { transform: translateY(-0.5px); }
-    .btn-cat:hover .cat-icon rect:nth-child(4) { transform: translateY(0.5px); }
-
-    /* Modern Arama Çubuğu */
-    .search-bar { flex: 1; max-width: 500px; position: relative; }
-    .search-input { 
-      width: 100%; height: 44px; background: #f1f5f9; border: 1px solid transparent; 
-      border-radius: 99px; padding: 0 48px 0 20px; font-size: 14px; font-weight: 500; color: var(--ink);
-      transition: all 0.2s;
-    }
-    .search-input:focus { background: #fff; border-color: var(--brand); box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); outline: none; }
-    .search-btn { 
-      position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; border-radius: 50%;
-      background: var(--brand); border: none; color: #fff; display: grid; place-items: center; cursor: pointer;
-    }
-    .search-btn:hover { background: var(--brand-h); }
-    .search-btn svg { width: 16px; height: 16px; }
-
-    /* Nav Right */
-    .nav-right { display: flex; align-items: center; gap: 20px; }
-    .nav-link { font-size: 14px; font-weight: 600; color: var(--sub); }
-    .nav-link:hover { color: var(--brand); }
-    .icon-action { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--border); color: var(--sub); background: #fff; }
-    .icon-action:hover { border-color: var(--brand); color: var(--brand); }
-    .btn-open-store { background: var(--ink); color: #fff; padding: 10px 24px; border-radius: 999px; font-size: 14px; font-weight: 700; }
-    .btn-open-store:hover { background: var(--brand); box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
-
-    /* MEGA MENU */
-    .categories-panel-wrap { position: absolute; top: 100%; left: 0; width: 420px; padding-top: 10px; pointer-events: none; display: none; }
-    .app-header.has-cat-open .categories-panel-wrap { display: block; }
-    .categories-panel { position: relative; margin-left: 24px; background: #fff; border-radius: 20px; box-shadow: 0 20px 60px -10px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05); max-height: 520px; overflow: hidden; pointer-events: auto; }
-    .categories-panel::before { content: ""; position: absolute; top: -8px; left: var(--cat-pointer-left, 110px); width: 16px; height: 16px; background: #fff; transform: rotate(45deg); border-left: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05); }
-    .categories-layout { display: grid; grid-template-columns: 1.2fr 1.6fr; min-height: 320px; }
-    .categories-list { padding: 12px 0; background: #fff; }
-
-    /* Mağazalar listesi – hafif yüksek, scroll bar oku gizlendi */
-    .categories-list {
-      max-height: 420px;
-      overflow-y: auto;
-    }
-    .categories-list::-webkit-scrollbar { width: 0; height: 0; }
-    .categories-list { scrollbar-width: none; }
-
-    .cat-item { width: 100%; text-align: left; padding: 10px 24px; font-size: 14px; color: var(--ink); display: flex; align-items: center; justify-content: space-between; cursor: pointer; background: transparent; border: 0; }
-    .cat-item:hover { background: #f8fafc; color: var(--brand); }
-    .cat-item--active { background: #f1f5f9; color: var(--ink); font-weight: 700; }
-    .cat-item svg { width: 16px; height: 16px; color: var(--sub); }
-    .categories-detail { background: #f8fafc; border-left: 1px solid var(--border); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
-    .cat-detail-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--sub); letter-spacing: 0.05em; }
-    .cat-detail-title { font-size: 20px; font-weight: 700; color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; }
-    .cat-detail-subtitle { font-size: 13px; color: var(--sub); max-width: 240px; margin-bottom: 8px; }
-    .cat-detail-links { display: flex; flex-wrap: wrap; gap: 8px; }
-    .cat-detail-links a { font-size: 13px; font-weight: 500; padding: 6px 14px; background: #fff; border: 1px solid var(--border); border-radius: 999px; color: var(--ink); }
-    .cat-detail-links a:hover { border-color: var(--brand); color: var(--brand); }
-
-    /* 4. SUB NAV */
-    .sub-nav { background: #fff; border-bottom: 1px solid var(--border); height: 52px; display: flex; align-items: center; overflow-x: auto; }
-    .sub-nav-list { display: flex; gap: 32px; padding: 0 24px; margin: 0 auto; max-width: 1440px; }
-    .sub-nav-item a { font-size: 13px; font-weight: 600; color: var(--ink-light); display: flex; align-items: center; height: 52px; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.2s; }
-    .sub-nav-item a:hover { color: var(--brand); border-bottom-color: var(--brand); }
-
-    /* 5. HERO & BANNER */
-    .hero { padding: 80px 24px 60px; text-align: center; background: radial-gradient(circle at 50% 0%, #fff7ed 0%, transparent 60%); }
-    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--border); padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--sub); margin-bottom: 24px; box-shadow: var(--shadow-sm); }
-    .hero-badge span { color: var(--brand); font-weight: 800; }
-    .hero h1 { font-size: clamp(36px, 5vw, 60px); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
-    .hero p { font-size: 18px; color: var(--sub); max-width: 600px; margin: 0 auto 32px; line-height: 1.6; }
-    .hero-btns { display: flex; justify-content: center; gap: 16px; }
-    .btn-primary { background: var(--brand); color: #fff; padding: 14px 32px; border-radius: 999px; font-weight: 700; font-size: 15px; box-shadow: 0 10px 25px -5px rgba(249,115,22,0.4); }
-    .btn-primary:hover { background: var(--brand-h); transform: translateY(-2px); }
-    .btn-outline { background: #fff; border: 1px solid var(--border); color: var(--ink); padding: 14px 32px; border-radius: 999px; font-weight: 700; font-size: 15px; }
-    .btn-outline:hover { border-color: var(--sub); background: #f8fafc; }
-
-    .marketplace-banner-section { padding: 20px 0 60px; }
-    .banner-inner { max-width: 1440px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-    .banner-copy h2 { font-size: 32px; margin-bottom: 16px; }
-    .banner-copy h2 span { color: var(--brand); }
-    .banner-copy p { font-size: 16px; color: var(--sub); margin-bottom: 20px; line-height: 1.6; }
-    .banner-image { border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: #eef2ff; min-height: 300px; }
-    .banner-image img { width: 100%; display: block; height: auto; }
-
-    /* 6. CARDS (KARTLAR) */
-    main.container {
-      padding-top: 24px;
-    }
-
-    .gallery-title { text-align: left; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; margin: 0 0 32px; color: var(--ink); letter-spacing: -0.02em; }
-    
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-      gap: 32px; padding-bottom: 80px; 
-    }
-
-    /* Explore Stores alanı boş görünmesin diye min-height */
-    #gallery {
-      min-height: 560px;
-    }
-
-    .card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 1); border-radius: 20px; overflow: hidden; transition: all 0.25s ease; display: flex; flex-direction: column; position: relative; box-shadow: 0 8px 24px -10px rgba(15, 23, 42, 0.25); }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 24px 60px -18px rgba(15, 23, 42, 0.32); border-color: #cbd5e1; }
-
-    .card--featured {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      height: 260px;
-      background: linear-gradient(135deg, #fff 0%, #fff7ed 100%);
-    }
-    .card--featured .card-media {
-      flex: 0 0 380px;
-      height: 100%; background: none; border-bottom: none; border-right: 1px solid #f1f5f9;
-    }
-    .card--featured .card-media img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .card--featured .card-content {
-      padding: 32px 40px; justify-content: center;
-    }
-    .card--featured .card-title { font-size: 26px; margin-bottom: 12px; }
-    .card--featured .card-desc { font-size: 16px; margin-bottom: 20px; max-width: 480px; }
-    .card--featured .seo-text { font-size: 13px; color: var(--sub); margin-top: auto; padding-top: 16px; border-top: 1px solid #e2e8f0; }
-
-    .card-media { height: 200px; background: radial-gradient(circle at center, #ffffff 0%, #e5f0ff 40%, #0f172a 100%); position: relative; overflow: hidden; display: block; border-bottom: 1px solid #f1f5f9; }
-    .card-media img { width: 100%; height: 100%; object-fit: contain; padding: 10px; transition: transform 0.7s ease; display: block; }
-    .card:hover .card-media img { transform: translateY(-4px); }
-
-    .card-content { padding: 24px; flex: 1; display: flex; flex-direction: column; background: #fff; z-index: 2; }
-    .card-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); margin-bottom: 10px; background: rgba(249, 115, 22, 0.08); padding: 4px 10px; border-radius: 99px; align-self: flex-start; }
-    .card-title { font-size: 19px; font-weight: 700; color: var(--ink); margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.01em; }
-    .card-desc { font-size: 14px; color: var(--sub); line-height: 1.6; margin-bottom: 20px; }
-    .card-link { margin-top: auto; font-size: 14px; font-weight: 600; color: var(--ink); display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
-    .card-link:hover { color: var(--brand); gap: 10px; }
-
-    /* FOOTER – hafif kurumsal arka plan */
-    .footer { 
-      background: linear-gradient(to bottom, #f9fafb, #ffffff);
-      border-top: 1px solid var(--border); 
-      padding: 80px 0 40px; 
-      color: var(--sub); 
-    }
-    .footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
-    .footer h4 { color: var(--ink); margin-bottom: 20px; font-size: 16px; font-weight: 700; }
-    .footer a { display: block; margin-bottom: 12px; font-size: 14px; }
-    .footer a:hover { color: var(--brand); }
-    .footer-bot { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; font-size: 13px; }
-
-    /* Gift Cards + icon */
-    .footer-link-icon {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .footer-link-icon svg {
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 1024px) {
-      .nav-right, .search-bar { display: none; }
-      .banner-inner { grid-template-columns: 1fr; }
-      .card--featured { flex-direction: column; height: auto; }
-      .card--featured .card-media { flex: none; height: 220px; width: 100%; border-right: none; border-bottom: 1px solid #f1f5f9; }
-      .card--featured .card-content { padding: 24px; }
-    }
-  </style>
+  <!-- HOME JS -->
+  <script src="assets/js/home.js" defer></script>
+  <script src="assets/js/home-products.js" defer></script>
 </head>
-<body>
+<body class="home-body">
 
-  <header class="app-header">
-    <div class="container header-inner">
-      <div style="display:flex; align-items:center; gap:24px;">
-        <a href="./" class="logo">RGZTEC</a>
-        <button id="btn-categories" class="btn-cat">
-          <svg class="cat-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3"  y="3"  width="7" height="7" rx="2"></rect>
-            <rect x="14" y="3"  width="7" height="7" rx="2"></rect>
-            <rect x="3"  y="14" width="7" height="7" rx="2"></rect>
-            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
-          </svg>
-          <span>Categories</span>
-        </button>
-      </div>
+  <!-- =======================================================
+       HEADER
+  ======================================================= -->
+  <header class="home-header">
+    <div class="home-header-inner">
 
-      <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Search marketplace...">
-        <button class="search-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-          </svg>
-        </button>
-      </div>
+      <!-- LOGO -->
+      <a href="/rgztec/" class="home-logo">
+        <span class="home-logo-dot"></span>
+        <span class="home-logo-text">RGZTEC</span>
+      </a>
 
-      <div class="nav-right">
-        <a href="editor/" class="nav-link">Dashboard / Editor</a>
-        <a href="login/" class="nav-link">Sign In</a>
-        <a href="cart.html" class="icon-action">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-        </a>
-        <a href="open-store.html" class="btn-open-store">Open Store</a>
-      </div>
+      <!-- SEARCH -->
+      <form id="home-search-form" class="home-search">
+        <span class="home-search-icon">🔍</span>
+        <input
+          id="home-search-input"
+          class="home-search-input"
+          type="search"
+          placeholder="Search templates, code, AI tools, hardware…">
+      </form>
+
+      <!-- NAV -->
+      <nav class="home-nav">
+        <a class="home-nav-link" href="#">Gift Cards</a>
+        <a class="home-nav-link" href="#">Sign In</a>
+        <button class="home-nav-btn">Cart</button>
+        <button class="home-nav-btn-primary">Open Store</button>
+      </nav>
     </div>
 
-    <div id="categories-panel" class="categories-panel-wrap">
-      <div class="categories-panel">
-        <div class="categories-layout">
-          <div class="categories-list" id="categories-list"></div>
-          <div class="categories-detail" id="categories-detail"></div>
-        </div>
-      </div>
+    <!-- STORE STRIP -->
+    <div class="home-store-strip">
+      <a class="home-store-pill" href="store/hardware/" data-store-name="Hardware Lab">Hardware Lab</a>
+      <a class="home-store-pill" href="store/game-makers/" data-store-name="Game Makers">Game Makers</a>
+      <a class="home-store-pill" href="store/ai-tools-hub/" data-store-name="AI Tools Hub">AI Tools Hub</a>
+      <a class="home-store-pill" href="store/dev-studio-one/" data-store-name="Dev Studio One">Dev Studio One</a>
+      <a class="home-store-pill" href="store/html-templates/" data-store-name="HTML Templates">HTML Templates</a>
+      <a class="home-store-pill" href="store/icon-smith/" data-store-name="Icon Smith">Icon Smith</a>
     </div>
   </header>
 
-  <nav class="sub-nav">
-    <div class="sub-nav-list">
-      <div class="sub-nav-item"><a href="store/hardware/">Hardware Lab</a></div>
-      <div class="sub-nav-item"><a href="store/game-makers/">Game Makers</a></div>
-      <div class="sub-nav-item"><a href="store/ai-tools-hub/">AI Tools Hub</a></div>
-      <div class="sub-nav-item"><a href="store/dev-studio-one/">Dev Studio One</a></div>
-      <div class="sub-nav-item"><a href="store/email-forge/">Email Forge</a></div>
-      <div class="sub-nav-item"><a href="store/html-templates/">HTML Templates</a></div>
-      <div class="sub-nav-item"><a href="store/icon-smith/">Icon Smith</a></div>
-      <div class="sub-nav-item"><a href="store/reactorium/">Reactorium</a></div>
-      <div class="sub-nav-item"><a href="store/tiny-js-lab/">Tiny JS Lab</a></div>
-      <div class="sub-nav-item"><a href="store/unity-hub/">Unity Hub</a></div>
-      <div class="sub-nav-item"><a href="store/wp-plugins/">WP Plugins</a></div>
-    </div>
-  </nav>
 
-  <section class="hero">
-    <div class="container">
-      <div class="hero-badge"><span>NEW</span> Hardware Lab is now live!</div>
-      <h1>Build, buy, and sell<br>digital products.</h1>
-      <p>The premium marketplace for developers, designers, and creators.</p>
-      <div class="hero-btns">
-        <a href="#gallery" class="btn-primary">Browse Marketplace</a>
-        <a href="become-seller.html" class="btn-outline">Start Selling</a>
-      </div>
-    </div>
-  </section>
+  <!-- =======================================================
+       HERO
+  ======================================================= -->
+  <main class="home-shell">
 
-  <section class="marketplace-banner-section">
-    <div class="banner-inner">
-      <div class="banner-copy">
-        <div class="banner-copy-eyebrow">#1 GLOBAL MARKETPLACE</div>
-        <h2>Premium <span>digital assets</span> for modern builders.</h2>
-        <p>RGZTEC brings together high-quality HTML templates, React components, AI tools, and hardware accessories.</p>
-        <p class="banner-meta"><strong>11+ curated stores</strong> across code, design & AI.</p>
-      </div>
-      <div class="banner-image">
-        <img src="assets/images/banners/global-marketplace-banner.webp" 
-             alt="RGZTEC Preview" 
-             onerror="this.style.display='none'; this.parentElement.style.background='#e2e8f0'; this.parentElement.innerHTML='<div style=&quot;padding:60px;text-align:center;color:#64748b&quot;>Banner Image Placeholder</div>'">
-      </div>
-    </div>
-  </section>
+    <section class="home-hero">
+      <div>
+        <h1 class="home-hero-heading">
+          Build, Sell, and Scale  
+          <span>Premium Digital Products</span>
+        </h1>
 
-  <main class="container">
-    <h2 class="gallery-title">Explore Stores</h2>
-    <div id="gallery" class="grid"></div>
+        <p class="home-hero-sub">
+          Discover world-class templates, UI kits, AI tools, hardware modules, and open your own store.  
+          RGZTEC is the next-gen marketplace for developers, creators and innovators.
+        </p>
+
+        <div class="home-hero-actions">
+          <button class="home-btn home-btn-primary">Explore Marketplace</button>
+          <button class="home-btn home-btn-ghost">Open a Store</button>
+        </div>
+      </div>
+
+      <div class="home-hero-media">
+        <h3 style="margin:0 0 0.8rem;">Marketplace Snapshot</h3>
+        <p style="margin:0;opacity:0.85;">
+          70+ sub-stores • Hundreds of digital products •  
+          Built for creators & developers worldwide.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- =======================================================
+         NEWEST PRODUCTS — AUTO FROM JSON
+    ======================================================= -->
+    <section style="margin-top:4rem;">
+      <h2 style="font-size:1.6rem; font-weight:700; margin-bottom:1.4rem;">
+        Newest Products
+      </h2>
+
+      <div id="home-products" class="home-product-grid">
+        <!-- home-products.js burayı otomatik dolduruyor -->
+      </div>
+    </section>
+
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-cols">
-        <div>
-          <h4>Shop</h4>
-          <a href="#" class="footer-link-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" aria-hidden="true">
-              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-              <path d="M3 11h18"></path>
-              <path d="M8.5 5.5a2 2 0 113 1.7"></path>
-              <path d="M15.5 5.5a2 2 0 10-3 1.7"></path>
-            </svg>
-            <span>Gift Cards</span>
-          </a>
-          <a href="#">Sitemap</a>
-          <a href="#">Featured Products</a>
-        </div>
-        <div>
-          <h4>Sell</h4>
-          <a href="become-seller.html">Start Selling</a>
-          <a href="#">Teams</a>
-          <a href="#">Affiliates</a>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <a href="#">About</a>
-          <a href="#">Careers</a>
-          <a href="#">Legal</a>
-        </div>
-        <div>
-          <h4>Support</h4>
-          <a href="mailto:support@rgztec.com">Help Center</a>
-          <a href="#">Contact</a>
-        </div>
-      </div>
-      <div class="footer-bot">
-        <span>© 2025 RGZTEC, Inc.</span>
-        <div><a href="#">Privacy</a> &nbsp; <a href="#">Terms</a></div>
-      </div>
-    </div>
-  </footer>
-
-<script>
-  // Merkez data: /rgztec/data/store.data.json
-  const STORE_DATA_URL   = 'data/store.data.json';
-  const STORE_IMAGE_BASE = 'assets/images/store/';
-
-  let STORE_DATA = null;
-
-  async function loadStoreData() {
-    try {
-      const res = await fetch(STORE_DATA_URL + '?v=' + Date.now());
-      if (!res.ok) throw new Error('Store data fetch failed: ' + res.status);
-      const json = await res.json();
-      STORE_DATA = json;
-
-      renderCardsFromData(json);
-      initMenuFromData(json);
-    } catch (err) {
-      console.error('Store data error:', err);
-      const gallery = document.getElementById('gallery');
-      if (gallery) {
-        gallery.innerHTML = '<p style="padding:24px;color:#64748b">Stores will appear here soon.</p>';
-      }
-    }
-  }
-
-  function renderCardsFromData(data) {
-    const gallery = document.getElementById('gallery');
-    if (!gallery) return;
-
-    const entries = Object.entries(data || {});
-
-    if (!entries.length) {
-      gallery.innerHTML = '<p style="padding:24px;color:#64748b">No stores defined yet.</p>';
-      return;
-    }
-
-    // Hardware en üstte
-    entries.sort(([slugA], [slugB]) => {
-      if (slugA === 'hardware') return -1;
-      if (slugB === 'hardware') return 1;
-      return slugA.localeCompare(slugB);
-    });
-
-    gallery.innerHTML = entries.map(([slug, store]) => {
-      const href = `store/${slug}/`;
-      const imgSrc = `${STORE_IMAGE_BASE}${slug}.webp`;
-      const title = store.title || slug;
-      const tagline = store.tagline || '';
-      const isFeatured = slug === 'hardware' || store.featured === true;
-
-      if (isFeatured) {
-        return `
-        <article class="card card--featured">
-          <a href="${href}" class="card-media">
-            <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
-          </a>
-          <div class="card-content">
-            <span class="card-badge">Featured • Hardware</span>
-            <h3 class="card-title">${title}</h3>
-            <p class="card-desc">${tagline}</p>
-            <a href="${href}" class="card-link">
-              Visit Store
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
-            </a>
-            <div class="seo-text">
-              Power up your projects with curated microcontrollers, sensors and AI-ready development boards.
-            </div>
-          </div>
-        </article>
-        `;
-      }
-
-      return `
-      <article class="card">
-        <a href="${href}" class="card-media">
-          <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
-        </a>
-        <div class="card-content">
-          <span class="card-badge">Official Store</span>
-          <h3 class="card-title">${title}</h3>
-          <p class="card-desc">${tagline}</p>
-          <a href="${href}" class="card-link">
-            Visit Store
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-        </div>
-      </article>
-      `;
-    }).join('');
-  }
-
-  function initMenuFromData(data) {
-    const btn = document.getElementById('btn-categories');
-    const header = document.querySelector('.app-header');
-    const panel = document.getElementById('categories-panel');
-    const listEl = document.getElementById('categories-list');
-    const detailEl = document.getElementById('categories-detail');
-
-    if (!btn || !panel || !listEl || !detailEl) return;
-
-    const entries = Object.entries(data || {});
-    if (!entries.length) return;
-
-    entries.sort(([slugA], [slugB]) => {
-      if (slugA === 'hardware') return -1;
-      if (slugB === 'hardware') return 1;
-      return slugA.localeCompare(slugB);
-    });
-
-    listEl.innerHTML = entries.map(([slug, store], i) => {
-      const label = store.title || slug;
-      return `
-        <button class="cat-item ${i === 0 ? 'cat-item--active' : ''}" data-slug="${slug}">
-          <span>${label}</span>
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M9 5l7 7-7 7"/>
-          </svg>
-        </button>
-      `;
-    }).join('');
-
-    function showDetailForSlug(slug) {
-      const store = data[slug];
-      if (!store) return;
-
-      const title = store.title || slug;
-      const subtitle = store.tagline || '';
-      const sections = Array.isArray(store.sections) ? store.sections : [];
-
-      const chips = sections.slice(0, 5).map(section => {
-        const secSlug = section.slug || '';
-        const label = section.name || secSlug;
-        const href = secSlug ? `store/${slug}/${secSlug}/` : `store/${slug}/`;
-        return `<a href="${href}">${label}</a>`;
-      }).join('');
-
-      const allHref = `store/${slug}/`;
-
-      detailEl.innerHTML = `
-        <div class="cat-detail-eyebrow">STORE</div>
-        <div class="cat-detail-title">${title}</div>
-        <div class="cat-detail-subtitle">${subtitle}</div>
-        <div class="cat-detail-links">
-          ${chips}
-          <a href="${allHref}">View All Products</a>
-        </div>
-      `;
-    }
-
-    const firstSlug = entries[0][0];
-    showDetailForSlug(firstSlug);
-
-    listEl.querySelectorAll('.cat-item').forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
-        item.classList.add('cat-item--active');
-        showDetailForSlug(item.dataset.slug);
-      });
-    });
-
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = header.classList.contains('has-cat-open');
-      header.classList.toggle('has-cat-open', !isOpen);
-
-      if (!isOpen) {
-        const btnRect = btn.getBoundingClientRect();
-        const headerRect = header.getBoundingClientRect();
-        const offset = btnRect.left - headerRect.left + (btnRect.width / 2);
-        panel.querySelector('.categories-panel').style.setProperty('--cat-pointer-left', offset + 'px');
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!header.contains(e.target)) {
-        header.classList.remove('has-cat-open');
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    loadStoreData();
-  });
-</script>
 
 </body>
 </html>
+
 
 
