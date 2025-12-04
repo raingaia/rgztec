@@ -334,158 +334,193 @@
       </div>
     </div>
   </footer>
-
 <script>
+  const STORE_DATA_URL = 'assets/data/store.data.json';
   const STORE_IMAGE_BASE = 'assets/images/store/';
 
-  // 1. MAĞAZALAR
-  const STORES = [
-    // Featured Hardware
-    { slug: 'hardware', name: 'Hardware Lab', tagline: 'High-performance AI accelerators, dev boards & IoT kits for professionals.', isFeatured: true },
-    { slug: 'game-makers', name: 'Game Makers', tagline: 'Unity & Unreal assets.' },
-    { slug: 'ai-tools-hub', name: 'AI Tools Hub', tagline: 'Agents & Automation.' },
-    { slug: 'dev-studio-one', name: 'Dev Studio One', tagline: 'Dashboards & Starters.' },
-    { slug: 'email-forge', name: 'Email Forge', tagline: 'Email templates & flows.' },
-    { slug: 'html-templates', name: 'HTML Templates', tagline: 'Landing pages & UI.' },
-    { slug: 'icon-smith', name: 'Icon Smith', tagline: 'Premium icon packs.' },
-    { slug: 'reactorium', name: 'Reactorium', tagline: 'React UI kits & charts.' },
-    { slug: 'tiny-js-lab', name: 'Tiny JS Lab', tagline: 'Vanilla JS widgets.' },
-    { slug: 'unity-hub', name: 'Unity Hub', tagline: 'Game controllers & tools.' },
-    { slug: 'wp-plugins', name: 'WP Plugins', tagline: 'WordPress plugins.' }
-  ];
+  let STORE_DATA = null;
 
-  const CATEGORY_DATA = [
-    {
-      id: 'hardware', label: 'Hardware', subtitle: 'Dev kits & IoT', storeName: 'Hardware Lab', href: 'store/hardware/',
-      sections: [{label:'AI Boards', href:'#'}, {label:'Sensors', href:'#'}]
-    },
-    {
-      id: 'game-makers', label: 'Game Assets', subtitle: 'Unity/Unreal', storeName: 'Game Makers', href: 'store/game-makers/',
-      sections: [{label:'3D Models', href:'#'}, {label:'Audio', href:'#'}]
-    },
-    {
-      id: 'ai-tools-hub', label: 'AI Tools', subtitle: 'Agents & Workflows', storeName: 'AI Tools Hub', href: 'store/ai-tools-hub/',
-      sections: [{label:'Agents', href:'#'}, {label:'Integrations', href:'#'}]
-    },
-    {
-      id: 'html-templates', label: 'Templates', subtitle: 'HTML & Landing Pages', storeName: 'HTML Templates', href: 'store/html-templates/',
-      sections: [{label:'SaaS', href:'#'}, {label:'Marketing', href:'#'}]
+  // JSON'u yükle ve hem kartları, hem kategori menüsünü ondan üret
+  async function loadStoreData() {
+    try {
+      const res = await fetch(STORE_DATA_URL + '?v=' + Date.now());
+      if (!res.ok) throw new Error('Store data fetch failed');
+      const json = await res.json();
+      STORE_DATA = json;
+
+      renderCardsFromData(json);
+      initMenuFromData(json);
+    } catch (err) {
+      console.error('Store data error:', err);
     }
-  ];
+  }
 
-  // 2. KARTLARI ÇİZME
-  function renderCards() {
+  // 1) Kartlar – JSON'dan üret
+  function renderCardsFromData(data) {
     const gallery = document.getElementById('gallery');
-    if(!gallery) return;
+    if (!gallery) return;
 
-    gallery.innerHTML = STORES.map(store => {
-      const href = `store/${store.slug}/`;
-      const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
-      
-      // FEATURED (HARDWARE) KARTI - Optimize edilmiş boyut ve denge
-      if(store.isFeatured) {
+    const entries = Object.entries(data);
+
+    // Hardware'i en üste al
+    entries.sort(([slugA], [slugB]) => {
+      if (slugA === 'hardware') return -1;
+      if (slugB === 'hardware') return 1;
+      return slugA.localeCompare(slugB);
+    });
+
+    gallery.innerHTML = entries.map(([slug, store]) => {
+      const href = `store/${slug}/`;
+      const imgSrc = `${STORE_IMAGE_BASE}${slug}.webp`;
+      const title = store.title || slug;
+      const tagline = store.tagline || '';
+
+      const isFeatured = slug === 'hardware' || store.featured === true;
+
+      if (isFeatured) {
+        // Featured kart (Hardware)
         return `
         <article class="card card--featured">
           <a href="${href}" class="card-media">
-            <img src="${imgSrc}" alt="${store.name}" loading="lazy" onerror="this.style.display='none'">
+            <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
           </a>
           <div class="card-content">
             <span class="card-badge">Featured • Hardware</span>
-            <h3 class="card-title">${store.name}</h3>
-            <p class="card-desc">${store.tagline}</p>
-            <a href="${href}" class="card-link">Visit Store <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
-            <div class="seo-text">Power up your projects with our curated selection of microcontrollers, sensors, and AI-ready development boards.</div>
-          </div>
-        </article>
-        `;
-      } 
-      
-      // STANDART KARTLAR
-      else {
-        return `
-        <article class="card">
-          <a href="${href}" class="card-media">
-            <img src="${imgSrc}" alt="${store.name}" loading="lazy" onerror="this.style.display='none'">
-          </a>
-          <div class="card-content">
-            <span class="card-badge">Official Store</span>
-            <h3 class="card-title">${store.name}</h3>
-            <p class="card-desc">${store.tagline}</p>
+            <h3 class="card-title">${title}</h3>
+            <p class="card-desc">${tagline}</p>
             <a href="${href}" class="card-link">
-              Visit Store 
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              Visit Store
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
             </a>
+            <div class="seo-text">
+              Power up your projects with curated microcontrollers, sensors and AI-ready development boards.
+            </div>
           </div>
         </article>
         `;
       }
+
+      // Normal kartlar
+      return `
+      <article class="card">
+        <a href="${href}" class="card-media">
+          <img src="${imgSrc}" alt="${title}" loading="lazy" onerror="this.style.display='none'">
+        </a>
+        <div class="card-content">
+          <span class="card-badge">Official Store</span>
+          <h3 class="card-title">${title}</h3>
+          <p class="card-desc">${tagline}</p>
+          <a href="${href}" class="card-link">
+            Visit Store 
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </article>
+      `;
     }).join('');
   }
 
-  // 3. MEGA MENÜ
-  function initMenu() {
+  // 2) Kategori mega menü – JSON'dan üret
+  function initMenuFromData(data) {
     const btn = document.getElementById('btn-categories');
     const header = document.querySelector('.app-header');
     const panel = document.getElementById('categories-panel');
     const listEl = document.getElementById('categories-list');
     const detailEl = document.getElementById('categories-detail');
 
-    if(!btn || !panel) return;
+    if (!btn || !panel || !listEl || !detailEl) return;
 
-    listEl.innerHTML = CATEGORY_DATA.map((cat, i) => `
-      <button class="cat-item ${i===0?'cat-item--active':''}" data-id="${cat.id}">
-        <span>${cat.label}</span>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-      </button>
-    `).join('');
+    const entries = Object.entries(data);
 
-    showDetail(CATEGORY_DATA[0]);
+    // Hardware'i yine başa al
+    entries.sort(([slugA], [slugB]) => {
+      if (slugA === 'hardware') return -1;
+      if (slugB === 'hardware') return 1;
+      return slugA.localeCompare(slugB);
+    });
+
+    listEl.innerHTML = entries.map(([slug, store], i) => {
+      const label = store.title || slug;
+      const subtitle = store.tagline || '';
+      return `
+        <button class="cat-item ${i === 0 ? 'cat-item--active' : ''}" data-slug="${slug}">
+          <span>${label}</span>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      `;
+    }).join('');
+
+    function showDetailForSlug(slug) {
+      const store = data[slug];
+      if (!store) return;
+
+      const title = store.title || slug;
+      const subtitle = store.tagline || '';
+      const sections = Array.isArray(store.sections) ? store.sections : [];
+
+      const chips = sections.slice(0, 5).map(section => {
+        const secSlug = section.slug || '';
+        const label = section.name || secSlug;
+        const href = `store/${slug}/${secSlug}/`;
+        return `<a href="${href}">${label}</a>`;
+      }).join('');
+
+      const allHref = `store/${slug}/`;
+
+      detailEl.innerHTML = `
+        <div class="cat-detail-eyebrow">STORE</div>
+        <div class="cat-detail-title">${title}</div>
+        <div class="cat-detail-subtitle">${subtitle}</div>
+        <div class="cat-detail-links">
+          ${chips}
+          <a href="${allHref}">View All Products</a>
+        </div>
+      `;
+    }
+
+    // İlk kategoriyi göster
+    if (entries.length > 0) {
+      showDetailForSlug(entries[0][0]);
+    }
 
     listEl.querySelectorAll('.cat-item').forEach(item => {
       item.addEventListener('mouseenter', () => {
         listEl.querySelectorAll('.cat-item').forEach(b => b.classList.remove('cat-item--active'));
         item.classList.add('cat-item--active');
-        const cat = CATEGORY_DATA.find(c => c.id === item.dataset.id);
-        showDetail(cat);
+        showDetailForSlug(item.dataset.slug);
       });
     });
 
+    // Buton aç/kapat animasyonu (senin hamburger ile uyumlu)
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = header.classList.contains('has-cat-open');
       header.classList.toggle('has-cat-open', !isOpen);
-      
-      if (!isOpen) { 
+
+      if (!isOpen) {
         const btnRect = btn.getBoundingClientRect();
         const headerRect = header.getBoundingClientRect();
-        const offset = btnRect.left - headerRect.left + (btnRect.width/2);
-        panel.querySelector('.categories-panel').style.setProperty('--cat-pointer-left', offset+'px');
+        const offset = btnRect.left - headerRect.left + (btnRect.width / 2);
+        panel.querySelector('.categories-panel').style.setProperty('--cat-pointer-left', offset + 'px');
       }
     });
 
     document.addEventListener('click', (e) => {
-      if(!header.contains(e.target)) header.classList.remove('has-cat-open');
+      if (!header.contains(e.target)) {
+        header.classList.remove('has-cat-open');
+      }
     });
-
-    function showDetail(cat) {
-      if(!cat) return;
-      detailEl.innerHTML = `
-        <div class="cat-detail-eyebrow">STORE</div>
-        <div class="cat-detail-title">${cat.storeName}</div>
-        <div class="cat-detail-subtitle">${cat.subtitle}</div>
-        <div class="cat-detail-links">
-          ${cat.sections.map(s => `<a href="${s.href}">${s.label}</a>`).join('')}
-          <a href="${cat.href}">View All Products</a>
-        </div>
-      `;
-    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    renderCards();
-    initMenu();
+    loadStoreData();   // Her şeyi JSON’dan başlatıyoruz
   });
 </script>
-
 </body>
 </html>
