@@ -749,7 +749,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Veriyi çek (open-store.html için kullandığımız yapı)
     try {
-        const response = await fetch('store.data.json'); 
+        const response = await fetch('./store.data.json''); 
         if (!response.ok) throw new Error("JSON dosyası bulunamadı.");
         RAW_DATA = await response.json();
     } catch (err) {
