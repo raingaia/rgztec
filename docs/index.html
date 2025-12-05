@@ -16,94 +16,80 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* --- 1. RESİM ÇERÇEVE SORUNU İÇİN KESİN ÇÖZÜM --- */
+    /* --- 1. RESİM VE GENEL DÜZELTMELER --- */
     img, a img { border: none !important; outline: none !important; }
     
-    /* --- 2. HEADER AYARLARI --- */
-    /* Menünün butonun altında durması için kapsayıcıya relative veriyoruz */
-    .header-left {
-        position: relative; 
-        z-index: 1001; /* Diğer elementlerin üstünde kalsın */
-    }
+    .header-inner { position: relative; } /* Menünün hizalanması için gerekli */
+    .header-left { position: relative; z-index: 1001; }
 
-    /* --- 3. PREMIUM DROPDOWN MENÜ (YAPRAK EFEKTLİ & KOMPAKT) --- */
+    /* --- 2. PREMIUM DROPDOWN MENÜ (GÖRSELDEKİ GİBİ) --- */
     .categories-panel-wrap {
-        /* Gizleme ayarları */
         opacity: 0;
         visibility: hidden;
-        pointer-events: none;
+        pointer-events: none; /* Kapalıyken tıklamayı engelle */
 
-        /* Konumlandırma: Butonun tam altına ve soluna */
         position: absolute;
-        top: 100%; /* Butonun bittiği yer */
+        top: 100%; /* Butonun hemen altı */
         left: 0;
-        margin-top: 12px; /* Butonla arasında az boşluk */
+        margin-top: 10px;
         
-        /* GENİŞLİK AYARI: Artık tam ekran değil! */
-        width: 280px; 
+        /* GÖRSELDEKİ GİBİ KOMPAKT GENİŞLİK */
+        width: 260px; 
         
-        /* 3D YAPRAK ANİMASYONU */
-        transform-origin: top left; /* Sol üst köşeden, yaprak gibi açılır */
-        transform: rotateX(-15deg) translateY(-10px) scale(0.95);
-        
-        /* Premium yumuşak geçiş */
-        transition: 
-            opacity 0.3s ease,
-            transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), /* Yaylanma efekti */
-            visibility 0.3s;
-            
-        z-index: 2000;
+        transform-origin: top left;
+        transform: translateY(-10px);
+        transition: all 0.2s ease-in-out;
+        z-index: 9999; /* Banner'ın üstünde kalması için çok yüksek verdim */
     }
 
-    /* Menü Açıldığında */
+    /* Menü Aktif Olduğunda */
     .categories-panel-wrap.active {
         opacity: 1;
         visibility: visible;
-        pointer-events: auto;
-        transform: rotateX(0deg) translateY(0) scale(1);
+        pointer-events: auto; /* Artık tıklanabilir */
+        transform: translateY(0);
     }
 
-    /* Menü Kutusu Tasarımı */
+    /* Beyaz Kutu Tasarımı */
     .categories-panel {
         background: #ffffff;
-        border: 1px solid rgba(0,0,0,0.08);
-        border-radius: 12px; /* Modern yuvarlak köşeler */
-        box-shadow: 
-            0 10px 30px -5px rgba(0,0,0,0.1), 
-            0 4px 10px -2px rgba(0,0,0,0.05);
-        padding: 8px 0; /* İç boşluk */
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+        padding: 8px 0;
         overflow: hidden;
     }
 
-    /* Liste Öğeleri */
-    .categories-list {
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }
-
-    /* Link Tasarımları */
-    .categories-list a, 
-    .menu-item-link {
+    /* --- 3. LİNKLERİN TASARIMI (TIKLANABİLİR OLMASI İÇİN) --- */
+    .cat-link {
         display: flex;
         align-items: center;
-        padding: 10px 20px;
+        justify-content: space-between; /* Ok işareti sağa gitsin diye */
+        padding: 12px 20px;
+        text-decoration: none;
+        color: #4b5563;
         font-size: 14px;
         font-weight: 500;
-        color: #4b5563;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border-left: 3px solid transparent; /* Hover efekti için çizgi */
+        font-family: 'Inter', sans-serif;
+        transition: all 0.2s;
+        border-left: 3px solid transparent;
+        cursor: pointer; /* Tıklama eli çıksın */
     }
 
-    /* Hover Durumu */
-    .categories-list a:hover,
-    .menu-item-link:hover {
-        background: #f9fafb;
-        color: #000;
-        border-left-color: var(--primary, #ff6b00); /* Varsa tema rengi, yoksa turuncu */
-        padding-left: 24px; /* Sağa kayma hissi */
+    /* Hover Efekti (Turuncu) */
+    .cat-link:hover {
+        background-color: #fff9f5; /* Çok açık turuncu arka plan */
+        color: #ff6b00; /* Turuncu yazı */
+        border-left-color: #ff6b00;
+    }
+
+    /* Sağdaki küçük ok işareti */
+    .cat-arrow {
+        font-size: 16px;
+        color: #ccc;
+    }
+    .cat-link:hover .cat-arrow {
+        color: #ff6b00;
     }
 
     /* --- 4. GIFT CARD & ICON AYARLARI --- */
@@ -114,12 +100,11 @@
         color: var(--text-main, #333);
         transition: color 0.2s;
         text-decoration: none;
-        padding: 0 8px; /* İkonlar arası mesafe */
+        padding: 0 8px;
     }
     .icon-action:hover {
         color: var(--primary, #ff6b00);
     }
-
   </style>
 </head>
 <body>
@@ -140,12 +125,40 @@
 
         <div id="categories-panel" class="categories-panel-wrap">
             <div class="categories-panel">
-              <div class="categories-list" id="categories-list">
-                  <a href="#" class="menu-item-link">Hardware Lab</a>
-                  <a href="#" class="menu-item-link">Game Makers</a>
-                  <a href="#" class="menu-item-link">AI Tools Hub</a>
-                  <a href="#" class="menu-item-link">Dev Studio One</a>
-                  <a href="#" class="menu-item-link">HTML Templates</a>
+              <div class="categories-list">
+                  <a href="hardware-lab.html" class="cat-link">
+                    Hardware Lab <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="game-makers.html" class="cat-link">
+                    Game Makers <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="ai-tools.html" class="cat-link">
+                    AI Tools Hub <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="dev-studio.html" class="cat-link">
+                    Dev Studio One <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="email-forge.html" class="cat-link">
+                    Email Forge <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="html-templates.html" class="cat-link">
+                    HTML Templates <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="icon-smith.html" class="cat-link">
+                    Icon Smith <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="reactorium.html" class="cat-link">
+                    Reactorium <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="tiny-js.html" class="cat-link">
+                    Tiny JS Lab <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="unity-hub.html" class="cat-link">
+                    Unity Hub <span class="cat-arrow">›</span>
+                  </a>
+                  <a href="wp-plugins.html" class="cat-link">
+                    WP Plugins <span class="cat-arrow">›</span>
+                  </a>
               </div>
             </div>
         </div>
@@ -228,10 +241,11 @@
 
         if (btnCategories && categoriesPanel) {
             btnCategories.addEventListener('click', function(e) {
-                e.stopPropagation(); 
+                e.stopPropagation(); // Tıklamanın dışarı gitmesini engelle
                 categoriesPanel.classList.toggle('active');
             });
 
+            // Boşluğa tıklayınca kapat
             document.addEventListener('click', function(e) {
                 if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
                     categoriesPanel.classList.remove('active');
