@@ -1,262 +1,325 @@
-/* =========================================================
-   RGZTEC HOME • Kurumsal Header + Search + Store Strip
-   Bu dosya SADECE ana sayfa için. Class'lar "home-" prefix'li.
-   ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* — Eğer store-core.css içinde bu tokenlar zaten varsa,
-     bu bloğu silebilirsin. Aynısını kullanıyorum. — */
+/* 
+ * RGZTEC HOME Stylesheet
+ * Store tasarım diliyle %100 uyumlu
+ */
+
+/* TOKENS – store.core.css ile birebir aynı */
 :root {
   --color-brand: #f97316;
   --color-brand-strong: #ea580c;
-
-  --color-bg-page: #f9fafb;
+  --color-bg-neutral: #f9fafb;
   --color-bg-card: #ffffff;
-  --color-border-subtle: rgba(148,163,184,0.25);
-
+  --color-border-subtle: rgba(148, 163, 184, 0.25);
+  --color-border-strong: #d1d5db;
   --color-text-main: #0f172a;
   --color-text-sub: #6b7280;
+  --color-white: #ffffff;
+  --color-black: #000000;
 
-  --radius-lg: 0.75rem;
-  --radius-xl: 1.25rem;
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
 
-  --shadow-soft: 0 24px 80px rgba(15,23,42,0.12);
-  --shadow-header: 0 18px 40px rgba(15,23,42,0.10);
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
-  --transition-fast: 150ms ease;
+  --header-height: 72px;
+  --container-max-width: 1440px;
+  --container-padding: 1.5rem;
+
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-width: 1px;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-base: all 0.25s ease-in-out;
 }
 
-/* Genel body – HOME */
+/* GLOBAL – sadece home için */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 100%; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
 body.home-body {
-  min-height: 100vh;
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
+  color: var(--color-text-main);
   background:
     radial-gradient(circle at top left, #eef2ff 0, #f9fafb 45%, #fff7ed 100%);
-  color: var(--color-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: var(--header-height);
 }
 
-/* Sayfa iç kabuk */
 .home-shell {
-  max-width: 1200px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 1.1rem 1.5rem 3rem;
+  padding: 1.25rem var(--container-padding) 3.5rem;
 }
 
-/* ===============================
-   HEADER
-   =============================== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--color-text-sub);
+}
+
+a {
+  color: var(--color-brand-strong);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+a:hover {
+  color: var(--color-brand);
+  text-decoration: underline;
+}
+
+img, video { max-width: 100%; height: auto; display: block; }
+
+button {
+  font-family: inherit;
+  font-size: 100%;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+/* =========================================================
+  HEADER – store-header ile aynı kalite, ama home sınıfları
+  ======================================================= */
 
 .home-header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 40;
-  backdrop-filter: blur(18px);
-  background: rgba(249,250,251,0.97);
-  border-bottom: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-header);
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 1000;
+  background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
 }
 
 .home-header-inner {
-  max-width: 1200px;
+  height: 100%;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 0.6rem 1.5rem 0.55rem;
+  padding: 0 var(--container-padding);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-/* Logo */
-.home-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  text-decoration: none;
-}
-
-.home-logo-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 20%,
-    var(--color-brand),
-    var(--color-brand-strong) 55%,
-    #7c2d12 100%);
-}
-
-.home-logo-text {
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  font-size: 1.05rem;
-  color: var(--color-text-main);
-}
-
-/* Search */
-.home-search {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  background: #e5e7eb;
-  border: 1px solid transparent;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
-}
-
-.home-search-icon {
-  font-size: 1rem;
-  opacity: 0.65;
-}
-
-.home-search-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.9rem;
-  color: var(--color-text-main);
-}
-
-.home-search-input::placeholder {
-  color: rgba(107,114,128,0.9);
-}
-
-.home-search:focus-within {
-  background: #f9fafb;
-  border-color: rgba(148,163,184,0.9);
-}
-
-/* Nav actions */
-.home-nav {
+.home-brand {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.85rem;
+  flex-shrink: 0;
 }
 
-.home-nav-link {
-  text-decoration: none;
-  color: var(--color-text-sub);
-  font-weight: 500;
-  padding: 0.35rem 0.4rem;
+.home-brand-dot {
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
-  transition: color var(--transition-fast), background var(--transition-fast);
+  background: radial-gradient(circle at 30% 20%, #f97316, #ea580c 50%, #7c2d12 100%);
 }
 
-.home-nav-link:hover {
+.home-brand-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
   color: var(--color-text-main);
-  background: rgba(148,163,184,0.12);
 }
 
-.home-nav-btn,
-.home-nav-btn-primary {
+.home-header-center {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.home-header-search {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  align-items: stretch;
+  background: #f3f4f6;
   border-radius: 999px;
-  border: 1px solid var(--color-border-subtle);
-  padding: 0.45rem 0.95rem;
-  font-size: 0.84rem;
-  font-weight: 600;
+  border: 1.5px solid #111827;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.9),
+    0 10px 30px rgba(15,23,42,0.10);
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+.home-header-search:focus-within {
+  border-color: var(--color-brand-strong);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,1),
+    0 0 0 3px rgba(249,115,22,0.15),
+    0 16px 40px rgba(15,23,42,0.20);
   background: #ffffff;
+}
+
+.home-header-search input {
+  flex: 1 1 auto;
+  border: none;
+  background: transparent;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.95rem;
   color: var(--color-text-main);
-  cursor: pointer;
+  outline: none;
+}
+
+.home-header-search input::placeholder {
+  color: #9ca3af;
+}
+
+.home-header-search-button {
+  flex-shrink: 0;
+  width: 52px;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  transition:
-    background var(--transition-fast),
-    box-shadow var(--transition-fast),
-    transform var(--transition-fast),
-    border-color var(--transition-fast);
+  justify-content: center;
+  margin: 4px;
+  border-radius: 999px;
+  background: var(--color-brand);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 10px 25px rgba(249,115,22,0.55);
+  transition: var(--transition-fast);
 }
 
-.home-nav-btn:hover {
-  background: #f3f4f6;
+.home-header-search-button:hover {
+  background: var(--color-brand-strong);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 2px #ffffff,
+    0 14px 32px rgba(249,115,22,0.65);
 }
 
-.home-nav-btn-primary {
-  border-color: transparent;
+.home-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.home-header-link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-sub);
+  white-space: nowrap;
+}
+.home-header-link:hover {
+  color: var(--color-text-main);
+  text-decoration: none;
+}
+
+.home-header-cta {
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  border: none;
   background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong));
   color: #ffffff;
-  box-shadow: 0 12px 30px rgba(249,115,22,0.42);
-}
-
-.home-nav-btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 40px rgba(249,115,22,0.55);
-}
-
-/* ===============================
-   STORE STRIP (header altı)
-   =============================== */
-
-.home-store-strip {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem 0.65rem;
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: thin;
-}
-
-.home-store-pill {
-  flex: 0 0 auto;
-  padding: 0.38rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148,163,184,0.35);
-  background: rgba(255,255,255,0.95);
-  font-size: 0.8rem;
-  color: var(--color-text-sub);
-  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.9),
+    0 12px 30px rgba(249,115,22,0.65);
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  white-space: nowrap;
-  transition:
-    background var(--transition-fast),
-    color var(--transition-fast),
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+  justify-content: center;
+  gap: 0.35rem;
+  transition: var(--transition-fast);
+}
+.home-header-cta:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,1),
+    0 16px 40px rgba(249,115,22,0.8);
 }
 
-.home-store-pill span {
-  font-size: 0.9em;
+/* Mobile: bazı linkleri gizle */
+@media (max-width: 900px) {
+  .home-header-inner { gap: 1rem; }
+  .home-header-link { display: none; }
 }
 
-.home-store-pill:hover {
-  color: var(--color-text-main);
-  border-color: rgba(148,163,184,0.75);
-  box-shadow: 0 8px 20px rgba(15,23,42,0.10);
-}
-
-/* JS ile aktif/filtrelenen mağaza */
-.home-store-pill--active {
-  border-color: var(--color-brand-strong);
-  background: rgba(249,115,22,0.08);
-  color: var(--color-brand-strong);
-}
-
-/* ===============================
-   HERO + CONTENT (kısaca)
-   =============================== */
+/* =========================================================
+  HERO – Home ana blok
+  ======================================================= */
 
 .home-hero {
-  margin-top: 2.2rem;
+  margin-top: 2.8rem;
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
   gap: 2.6rem;
   align-items: center;
 }
 
-.home-hero-heading {
-  font-size: 2.7rem;
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.85rem;
+.home-hero-copy {
+  max-width: 32rem;
 }
 
-.home-hero-heading span {
-  background: linear-gradient(135deg,#0f172a,#020617);
+.home-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.04);
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.home-hero-pill-badge {
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong));
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.home-hero-title {
+  font-size: 2.7rem;
+  line-height: 1.05;
+  margin-bottom: 0.9rem;
+}
+.home-hero-title span {
+  background: linear-gradient(135deg, #0f172a, #111827);
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -265,7 +328,7 @@ body.home-body {
   font-size: 0.98rem;
   color: var(--color-text-sub);
   max-width: 28rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.35rem;
 }
 
 .home-hero-actions {
@@ -277,126 +340,293 @@ body.home-body {
 
 .home-btn {
   border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  padding: 0.75rem 1.35rem;
+  padding: 0.75rem 1.3rem;
   font-size: 0.9rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  border: none;
+  transition: var(--transition-fast);
 }
 
 .home-btn-primary {
   background: linear-gradient(135deg, var(--color-brand), var(--color-brand-strong));
-  color: #fff;
-  box-shadow: 0 22px 50px rgba(249,115,22,0.45);
+  color: #ffffff;
+  box-shadow: 0 20px 45px rgba(249, 115, 22, 0.45);
+}
+.home-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 28px 60px rgba(249, 115, 22, 0.55);
 }
 
 .home-btn-ghost {
-  background: rgba(15,23,42,0.04);
-  color: var(--color-text-main);
+  background: rgba(15, 23, 42, 0.04);
+  color: #111827;
+}
+.home-btn-ghost:hover {
+  background: rgba(15, 23, 42, 0.07);
 }
 
-/* HERO media kartını kısaca çerçeveleyelim */
+.home-hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+}
+
+/* HERO – sağ taraf (kart) */
+
 .home-hero-media {
+  position: relative;
+}
+
+.home-hero-card {
   border-radius: 1.8rem;
-  background: radial-gradient(circle at top left,#0f172a,#020617 65%);
-  padding: 1.6rem 1.7rem 1.8rem;
-  color: #fff;
-  box-shadow: var(--shadow-soft);
+  padding: 1.6rem 1.6rem 1.8rem;
+  background: radial-gradient(circle at top left, #0f172a 0, #020617 70%);
+  color: #ffffff;
+  box-shadow: var(--shadow-xl);
+}
+
+.home-hero-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  font-size: 0.86rem;
+}
+
+.home-hero-card-badge {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.9);
+  border: 1px solid rgba(148,163,184,0.6);
+  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.home-hero-card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.home-hero-card-sub {
+  font-size: 0.78rem;
+  opacity: 0.75;
+}
+
+/* Mini store grid – ikon boyutları SABİT */
+
+.home-hero-stores-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.home-hero-store-card {
+  border-radius: 1rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 0.7rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.home-hero-store-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 1rem;
+  background: rgba(15, 23, 42, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.home-hero-store-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.home-hero-store-tag {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+/* Bu sabit ölçüler, “dev gibi ikon” dağınıklığını bitiriyor. */
+
+.home-hero-card-footer {
+  margin-top: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  opacity: 0.85;
 }
 
 /* =========================================================
-   HOME PRODUCT GRID
-   ========================================================= */
+  HOME STORES GRID – vitrinde mağazalar
+  ======================================================= */
 
-.home-product-grid {
+.home-section {
   margin-top: 3rem;
+}
+
+.home-section-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.home-section-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-sub);
+  max-width: 32rem;
+}
+
+.home-stores-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.6rem;
 }
 
-.home-product-card {
+.home-store-card {
+  border-radius: 1.25rem;
   background: var(--color-bg-card);
-  border-radius: var(--radius-xl);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: 0 16px 50px rgba(15,23,42,0.10);
+  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.10);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.home-store-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.16);
+  border-color: rgba(148, 163, 184, 0.65);
+}
+
+.home-store-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.home-store-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 1.2rem;
+  background: #e5e7eb;
   overflow: hidden;
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  flex-shrink: 0;
 }
 
-.home-product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 60px rgba(15,23,42,0.15);
-}
-
-.home-product-img {
+.home-store-icon img {
   width: 100%;
-  display: block;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.home-product-info {
-  padding: 1rem 1.2rem 1.3rem;
-}
-
-.home-product-title {
-  margin: 0;
-  font-size: 1rem;
+.home-store-meta-label {
+  font-size: 0.7rem;
   font-weight: 600;
-  color: var(--color-text-main);
-}
-
-.home-product-store {
-  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--color-text-sub);
-  margin: 0.25rem 0 0.7rem;
 }
-
-.home-product-btn {
-  display: inline-flex;
-  padding: 0.55rem 1rem;
-  background: rgba(15,23,42,0.05);
-  border-radius: 999px;
-  text-decoration: none;
-  color: var(--color-text-main);
-  font-size: 0.82rem;
+.home-store-meta-title {
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: background 150ms ease;
+}
+.home-store-meta-tag {
+  font-size: 0.78rem;
+  color: var(--color-text-sub);
 }
 
-.home-product-btn:hover {
-  background: rgba(15,23,42,0.12);
+.home-store-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
 }
 
-/* ===============================
-   RESPONSIVE
-   =============================== */
+.home-store-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-brand-strong);
+}
+
+/* Arama filtresi için gizleme sınıfı */
+.home-store-card.hidden {
+  display: none;
+}
+
+/* =========================================================
+  FOOTER
+  ======================================================= */
+
+.home-footer {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+  display: flex;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.home-footer-column-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  margin-bottom: 0.4rem;
+}
+
+.home-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* =========================================================
+  RESPONSIVE
+  ======================================================= */
 
 @media (max-width: 960px) {
-  .home-header-inner {
-    padding-inline: 1rem;
-  }
-  .home-store-strip {
-    padding-inline: 1rem;
+  .home-shell {
+    padding-inline: 1.25rem;
   }
   .home-hero {
-    grid-template-columns: minmax(0,1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
   .home-hero-media {
-    margin-top: 1.5rem;
+    order: -1;
   }
 }
 
 @media (max-width: 720px) {
-  .home-nav-link:nth-child(1) { display: none; } /* Gift Cards gizle */
-  .home-header-inner {
-    gap: 0.6rem;
+  .home-header-center {
+    display: none;
   }
-  .home-hero-heading {
+  .home-hero-title {
     font-size: 2.2rem;
   }
-} 
+  .home-stores-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 
