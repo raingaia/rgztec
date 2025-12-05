@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* --- 1. GENEL AYARLAR --- */
+    /* --- 1. TEMEL AYARLAR --- */
     img, a img { border: none !important; outline: none !important; }
     .header-inner { position: relative; }
     .header-left { position: relative; z-index: 1001; }
@@ -30,8 +30,9 @@
         transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
     
+    /* Aktif olduğunda dönme efekti */
     .btn-cat.active .bento-icon-svg {
-        transform: rotate(90deg); /* DÖNME EFEKTİ */
+        transform: rotate(90deg);
         color: #ff6b00;
     }
 
@@ -41,16 +42,16 @@
         gap: 4px;
     }
 
-    /* --- 3. KATEGORİ PANELİ (VERİ BURAYA GELECEK) --- */
+    /* --- 3. KATEGORİ PANELİ --- */
     .categories-panel-wrap {
+        display: none; /* Varsayılan gizli */
         opacity: 0;
         visibility: hidden;
-        pointer-events: none;
         position: absolute;
         top: 100%;
         left: 0;
         margin-top: 12px;
-        width: 260px; /* İdeal Genişlik */
+        width: 260px; /* Kompakt Genişlik */
         
         transform-origin: top left;
         transform: translateY(-10px);
@@ -58,10 +59,11 @@
         z-index: 9999;
     }
 
+    /* JS 'active' ekleyince görünür */
     .categories-panel-wrap.active {
+        display: block;
         opacity: 1;
         visibility: visible;
-        pointer-events: auto;
         transform: translateY(0);
     }
 
@@ -71,11 +73,10 @@
         border-radius: 12px;
         box-shadow: 0 12px 30px rgba(0,0,0,0.1);
         padding: 8px 0;
-        min-height: 50px; /* Veri gelene kadar çökmesin */
+        min-height: 50px;
     }
 
-    /* --- 4. DİNAMİK LİNK TASARIMI --- */
-    /* JS bu class'ları otomatik ekleyecek */
+    /* --- 4. LİNK TASARIMI (VERİDEN GELEN) --- */
     .cat-link {
         display: flex;
         align-items: center;
@@ -101,10 +102,14 @@
     .cat-arrow { font-size: 16px; color: #ccc; }
     .cat-link:hover .cat-arrow { color: #ff6b00; }
 
-    /* Yükleniyor yazısı için */
-    .loading-text { padding: 15px 20px; color: #999; font-size: 13px; }
+    /* Yükleniyor ve Hata Mesajları */
+    .menu-status-msg {
+        padding: 15px 20px;
+        font-size: 13px;
+        color: #888;
+    }
 
-    /* --- 5. IKONLAR --- */
+    /* --- 5. İKONLAR --- */
     .icon-action {
         display: flex;
         align-items: center;
@@ -137,7 +142,7 @@
         <div id="categories-panel" class="categories-panel-wrap">
             <div class="categories-panel">
               <div class="categories-list" id="categories-list-container">
-                  <div class="loading-text">Loading stores...</div>
+                  <div class="menu-status-msg">Loading...</div>
               </div>
             </div>
         </div>
@@ -213,18 +218,74 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         
-        // --- 1. MENÜ AÇMA/KAPAMA VE DÖNME EFEKTİ ---
+        // 1. JSON DOSYA YOLU (DÜZELTİLDİ)
+        const JSON_PATH = 'data/store.data.json';
+
         const btnCategories = document.getElementById('btn-categories');
         const categoriesPanel = document.getElementById('categories-panel');
         const listContainer = document.getElementById('categories-list-container');
 
+        // 2. FETCH İLE VERİ ÇEKME
+        function loadCategories() {
+            fetch(JSON_PATH)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP Hata: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    listContainer.innerHTML = ''; // Yükleniyor yazısını sil
+
+                    // JSON yapısı { stores: [...] } veya direkt [...] olabilir, kontrol ediyoruz
+                    const storeList = data.stores ? data.stores : data;
+
+                    if (Array.isArray(storeList) && storeList.length > 0) {
+                        storeList.forEach(store => {
+                            const link = document.createElement('a');
+                            // JSON içindeki link anahtarın "url" mi "slug" mı olduğunu kontrol et
+                            // Eğer url yoksa slug.html yap
+                            const href = store.url || (store.slug ? store.slug + '.html' : '#');
+                            
+                            link.href = href;
+                            link.className = 'cat-link';
+                            link.innerHTML = `
+                                ${store.name || 'Unnamed Store'}
+                                <span class="cat-arrow">›</span>
+                            `;
+                            listContainer.appendChild(link);
+                        });
+                    } else {
+                        listContainer.innerHTML = '<div class="menu-status-msg">No stores found.</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Kategoriler yüklenemedi:', error);
+                    // Hata durumunda kullanıcıya bilgi ver
+                    listContainer.innerHTML = `<div class="menu-status-msg" style="color:red;">Error loading menu.<br><small>Check console.</small></div>`;
+                });
+        }
+
+        // 3. MENÜ YÜKLEMESİNİ BAŞLAT
+        loadCategories();
+
+        // 4. AÇMA / KAPAMA İŞLEMLERİ
         if (btnCategories && categoriesPanel) {
             btnCategories.addEventListener('click', function(e) {
                 e.stopPropagation();
-                categoriesPanel.classList.toggle('active');
-                btnCategories.classList.toggle('active');
+                // Toggle active class
+                const isActive = categoriesPanel.classList.contains('active');
+                
+                if (isActive) {
+                    categoriesPanel.classList.remove('active');
+                    btnCategories.classList.remove('active');
+                } else {
+                    categoriesPanel.classList.add('active');
+                    btnCategories.classList.add('active');
+                }
             });
 
+            // Boşluğa tıklayınca kapat
             document.addEventListener('click', function(e) {
                 if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
                     categoriesPanel.classList.remove('active');
@@ -232,50 +293,6 @@
                 }
             });
         }
-
-        // --- 2. JSON VERİSİNİ ÇEKME (FETCH DATA) ---
-        // Veri dosyanın yolunu buraya yazıyoruz:
-        const DATA_URL = 'data/store-data.json'; 
-
-        fetch(DATA_URL)
-            .then(response => {
-                if (!response.ok) throw new Error("JSON Dosyası Bulunamadı");
-                return response.json();
-            })
-            .then(data => {
-                // Veri geldi, yükleniyor yazısını temizle
-                listContainer.innerHTML = '';
-
-                // JSON yapısı genellikle { stores: [...] } veya direkt [...] olabilir.
-                // Senin yapına göre burayı uyarladım. Genelde "stores" key'i içinde olur.
-                const stores = data.stores || data; 
-
-                if (Array.isArray(stores)) {
-                    stores.forEach(store => {
-                        // Her bir mağaza için link oluştur
-                        const link = document.createElement('a');
-                        // JSON'da link yoksa mağaza adına göre uydur (fallback)
-                        link.href = store.url || (store.slug ? store.slug + '.html' : '#');
-                        
-                        // Stil sınıflarını ekle (Görünüm için çok önemli)
-                        link.className = 'cat-link';
-                        
-                        // İçeriği (İsim + Ok simgesi)
-                        link.innerHTML = `
-                            ${store.name || 'Unnamed Store'}
-                            <span class="cat-arrow">›</span>
-                        `;
-                        
-                        listContainer.appendChild(link);
-                    });
-                } else {
-                    listContainer.innerHTML = '<div style="padding:15px">Veri formatı hatalı.</div>';
-                }
-            })
-            .catch(error => {
-                console.error('Kategori verisi çekilemedi:', error);
-                listContainer.innerHTML = '<div style="padding:15px; color:red;">Menü yüklenemedi.</div>';
-            });
     });
   </script>
 </body>
