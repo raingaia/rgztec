@@ -159,7 +159,7 @@
         <a href="editor/" class="nav-link">Dashboard / Editor</a>
         <a href="login/" class="nav-link">Sign In</a>
 
-        <a href="gift-cards.html" class="icon-action" title="Gift Cards">
+        <a href="gift-cards/"class="icon-action" title="Gift Cards">
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H4.5a1.5 1.5 0 01-1.5-1.5v-8.25M3 11.25h18M3 11.25l7.5-7.5M21 11.25l-7.5-7.5m-6 0l-1.5 1.5m7.5-1.5l1.5 1.5m-6 6v7.5" />
             </svg>
@@ -215,85 +215,89 @@
 
   <script src="assets/js/home-products.js"></script>
   
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        
-        // 1. JSON DOSYA YOLU (DÜZELTİLDİ)
-        const JSON_PATH = 'data/store.data.json';
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const JSON_PATH = 'data/store.data.json';
 
-        const btnCategories = document.getElementById('btn-categories');
-        const categoriesPanel = document.getElementById('categories-panel');
-        const listContainer = document.getElementById('categories-list-container');
+    const btnCategories   = document.getElementById('btn-categories');
+    const categoriesPanel = document.getElementById('categories-panel');
+    const listContainer   = document.getElementById('categories-list-container');
 
-        // 2. FETCH İLE VERİ ÇEKME
-        function loadCategories() {
-            fetch(JSON_PATH)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP Hata: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    listContainer.innerHTML = ''; // Yükleniyor yazısını sil
+    // 1) Bu JSON yapısına birebir uygun: { "game-makers": { ... }, "ai-tools-hub": { ... }, ... }
+    function buildStoreListFromData(data) {
+      // data şu an tamamen slug-key object => Object.entries ile listeye çeviriyoruz
+      return Object.entries(data).map(([slug, store]) => {
+        return {
+          slug,
+          name: store.title || store.name || slug,
+          // Mağazaların path’i: /rgztec/store/{slug}/index.html
+          url: `store/${slug}/`
+        };
+      });
+    }
 
-                    // JSON yapısı { stores: [...] } veya direkt [...] olabilir, kontrol ediyoruz
-                    const storeList = data.stores ? data.stores : data;
+    // 2) Kategorileri yükle
+    function loadCategories() {
+      if (!listContainer) return;
 
-                    if (Array.isArray(storeList) && storeList.length > 0) {
-                        storeList.forEach(store => {
-                            const link = document.createElement('a');
-                            // JSON içindeki link anahtarın "url" mi "slug" mı olduğunu kontrol et
-                            // Eğer url yoksa slug.html yap
-                            const href = store.url || (store.slug ? store.slug + '.html' : '#');
-                            
-                            link.href = href;
-                            link.className = 'cat-link';
-                            link.innerHTML = `
-                                ${store.name || 'Unnamed Store'}
-                                <span class="cat-arrow">›</span>
-                            `;
-                            listContainer.appendChild(link);
-                        });
-                    } else {
-                        listContainer.innerHTML = '<div class="menu-status-msg">No stores found.</div>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Kategoriler yüklenemedi:', error);
-                    // Hata durumunda kullanıcıya bilgi ver
-                    listContainer.innerHTML = `<div class="menu-status-msg" style="color:red;">Error loading menu.<br><small>Check console.</small></div>`;
-                });
+      listContainer.innerHTML = '<div class="menu-status-msg">Loading...</div>';
+
+      fetch(JSON_PATH + '?v=' + Date.now())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          const storeList = buildStoreListFromData(data);
+
+          if (!storeList || storeList.length === 0) {
+            listContainer.innerHTML = '<div class="menu-status-msg">No stores found.</div>';
+            return;
+          }
+
+          listContainer.innerHTML = '';
+
+          storeList.forEach(store => {
+            const link = document.createElement('a');
+            link.href = store.url;          // örn: store/hardware/
+            link.className = 'cat-link';
+            link.innerHTML = `
+              ${store.name}
+              <span class="cat-arrow">›</span>
+            `;
+            listContainer.appendChild(link);
+          });
+        })
+        .catch(error => {
+          console.error('Kategoriler yüklenemedi:', error);
+          listContainer.innerHTML =
+            '<div class="menu-status-msg" style="color:red;">Error loading menu.<br><small>Check console.</small></div>';
+        });
+    }
+
+    // İlk yüklemede çek
+    loadCategories();
+
+    // 3) Açma / kapama
+    if (btnCategories && categoriesPanel) {
+      btnCategories.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isActive = categoriesPanel.classList.contains('active');
+        categoriesPanel.classList.toggle('active', !isActive);
+        btnCategories.classList.toggle('active', !isActive);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
+          categoriesPanel.classList.remove('active');
+          btnCategories.classList.remove('active');
         }
+      });
+    }
+  });
+</script>
 
-        // 3. MENÜ YÜKLEMESİNİ BAŞLAT
-        loadCategories();
-
-        // 4. AÇMA / KAPAMA İŞLEMLERİ
-        if (btnCategories && categoriesPanel) {
-            btnCategories.addEventListener('click', function(e) {
-                e.stopPropagation();
-                // Toggle active class
-                const isActive = categoriesPanel.classList.contains('active');
-                
-                if (isActive) {
-                    categoriesPanel.classList.remove('active');
-                    btnCategories.classList.remove('active');
-                } else {
-                    categoriesPanel.classList.add('active');
-                    btnCategories.classList.add('active');
-                }
-            });
-
-            // Boşluğa tıklayınca kapat
-            document.addEventListener('click', function(e) {
-                if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
-                    categoriesPanel.classList.remove('active');
-                    btnCategories.classList.remove('active');
-                }
-            });
-        }
-    });
-  </script>
 </body>
 </html>
