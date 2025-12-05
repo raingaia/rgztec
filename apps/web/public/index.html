@@ -1,119 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
-  <meta name="description" content="Discover premium templates, code kits, AI tools, hardware modules and open your store on RGZTEC.">
-
-  <!-- BASE -->
   <base href="/rgztec/">
 
-  <!-- GLOBAL + HOME CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/store-core.css">
   <link rel="stylesheet" href="assets/css/home.css">
-
-  <!-- HOME JS -->
-  <script src="assets/js/home.js" defer></script>
-  <script src="assets/js/home-products.js" defer></script>
 </head>
-<body class="home-body">
+<body>
 
-  <!-- =======================================================
-       HEADER
-  ======================================================= -->
-  <header class="home-header">
-    <div class="home-header-inner">
+  <header class="app-header">
+    <div class="container header-inner">
+      <div class="header-left">
+        <a href="./" class="logo">RGZTEC</a>
+        
+        <button id="btn-categories" class="btn-cat">
+          <div class="bento-icon">
+            <span></span><span></span>
+            <span></span><span></span>
+          </div>
+          Categories
+        </button>
+      </div>
 
-      <!-- LOGO -->
-      <a href="/rgztec/" class="home-logo">
-        <span class="home-logo-dot"></span>
-        <span class="home-logo-text">RGZTEC</span>
-      </a>
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search templates, plugins, hardware...">
+        <button class="search-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
+      </div>
 
-      <!-- SEARCH -->
-      <form id="home-search-form" class="home-search">
-        <span class="home-search-icon">🔍</span>
-        <input
-          id="home-search-input"
-          class="home-search-input"
-          type="search"
-          placeholder="Search templates, code, AI tools, hardware…">
-      </form>
+      <div class="nav-right">
+        <a href="editor/" class="nav-link">Dashboard / Editor</a>
+        <a href="login/" class="nav-link">Sign In</a>
+        
+        <a href="gift-card.html" class="icon-action" title="Gift Cards">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z"/></svg>
+        </a>
 
-      <!-- NAV -->
-      <nav class="home-nav">
-        <a class="home-nav-link" href="#">Gift Cards</a>
-        <a class="home-nav-link" href="#">Sign In</a>
-        <button class="home-nav-btn">Cart</button>
-        <button class="home-nav-btn-primary">Open Store</button>
-      </nav>
+        <a href="cart.html" class="icon-action" title="Cart">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+        </a>
+
+        <a href="open-store.html" class="btn-open-store">Open Store</a>
+      </div>
     </div>
 
-    <!-- STORE STRIP -->
-    <div class="home-store-strip">
-      <a class="home-store-pill" href="store/hardware/" data-store-name="Hardware Lab">Hardware Lab</a>
-      <a class="home-store-pill" href="store/game-makers/" data-store-name="Game Makers">Game Makers</a>
-      <a class="home-store-pill" href="store/ai-tools-hub/" data-store-name="AI Tools Hub">AI Tools Hub</a>
-      <a class="home-store-pill" href="store/dev-studio-one/" data-store-name="Dev Studio One">Dev Studio One</a>
-      <a class="home-store-pill" href="store/html-templates/" data-store-name="HTML Templates">HTML Templates</a>
-      <a class="home-store-pill" href="store/icon-smith/" data-store-name="Icon Smith">Icon Smith</a>
+    <div id="categories-panel" class="categories-panel-wrap">
+      <div class="categories-panel">
+        <div class="categories-layout">
+          <div class="categories-list" id="categories-list"></div>
+          <div class="categories-detail" id="categories-detail"></div>
+        </div>
+      </div>
     </div>
   </header>
 
+  <nav class="sub-nav">
+    <div class="sub-nav-list" id="sub-nav-list"></div>
+  </nav>
 
-  <!-- =======================================================
-       HERO
-  ======================================================= -->
-  <main class="home-shell">
-
-    <section class="home-hero">
-      <div>
-        <h1 class="home-hero-heading">
-          Build, Sell, and Scale  
-          <span>Premium Digital Products</span>
-        </h1>
-
-        <p class="home-hero-sub">
-          Discover world-class templates, UI kits, AI tools, hardware modules, and open your own store.  
-          RGZTEC is the next-gen marketplace for developers, creators and innovators.
-        </p>
-
-        <div class="home-hero-actions">
-          <button class="home-btn home-btn-primary">Explore Marketplace</button>
-          <button class="home-btn home-btn-ghost">Open a Store</button>
+  <section class="marketplace-banner-section">
+    <div class="banner-inner">
+      <div class="banner-copy">
+        <div class="banner-copy-eyebrow">#1 GLOBAL MARKETPLACE</div>
+        <h2>Premium <span>digital assets</span> for modern builders.</h2>
+        <p>RGZTEC brings together high-quality HTML templates, React components, AI tools, and hardware accessories.</p>
+        <div class="banner-stats">
+          <span><strong>11+</strong> Stores</span> • 
+          <span><strong>Instant</strong> Delivery</span>
         </div>
       </div>
-
-      <div class="home-hero-media">
-        <h3 style="margin:0 0 0.8rem;">Marketplace Snapshot</h3>
-        <p style="margin:0;opacity:0.85;">
-          70+ sub-stores • Hundreds of digital products •  
-          Built for creators & developers worldwide.
-        </p>
+      <div class="banner-image">
+        <img src="assets/images/banners/global-marketplace-banner.webp" alt="Marketplace Preview" onerror="this.style.display='none'">
       </div>
-    </section>
+    </div>
+  </section>
 
-
-    <!-- =======================================================
-         NEWEST PRODUCTS — AUTO FROM JSON
-    ======================================================= -->
-    <section style="margin-top:4rem;">
-      <h2 style="font-size:1.6rem; font-weight:700; margin-bottom:1.4rem;">
-        Newest Products
-      </h2>
-
-      <div id="home-products" class="home-product-grid">
-        <!-- home-products.js burayı otomatik dolduruyor -->
-      </div>
-    </section>
-
+  <main class="container">
+    <div class="section-header">
+      <h2 class="gallery-title">Explore Stores</h2>
+    </div>
+    <div id="gallery" class="grid"></div>
   </main>
 
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bot">
+        <span>© 2025 RGZTEC, Inc.</span>
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
+  <script src="assets/js/home-products.js"></script>
 </body>
 </html>
-
 
 
