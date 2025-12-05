@@ -1,433 +1,253 @@
-/* RGZTEC HOME MANAGER - COMPLETE EDITION
-   Tüm veriler, alt kategoriler ve ayarlar dahildir.
-   Dışarıdan JSON beklemez, garanti çalışır.
-*/
+/* RGZTEC HOME MANAGER – STABİL VERSİYON
+ * - Veriyi direkt JS içinde tutar (STORES_DATA).
+ * - Hata fırlatmamak için her yerde guard (kontrol) kullanır.
+ * - Galeri, sub-nav ve kategori mega menüsünü doldurur.
+ */
 
-// --- AYARLAR ---
-const BASE_URL = "/rgztec/";
-const IMG_PATH = "assets/images/"; // Resimlerin bulunduğu ana klasör
+const BASE = "/rgztec/";
+const STORE_IMAGE_BASE = "assets/images/store/";
 
-// --- TAM VERİ SETİ (SENİN JSON VERİNİN JS HALİ) ---
+// ---- MAĞAZA VERİLERİ ----
 const STORES_DATA = [
+  {
+    slug: "hardware",
+    title: "Hardware Lab",
+    tagline: "High-performance AI accelerators, dev boards & IoT kits.",
+    isFeatured: true,
+    sections: [{ name: "AI Boards" }, { name: "Sensors" }, { name: "Microcontrollers" }]
+  },
   {
     slug: "game-makers",
     title: "Game Makers",
-    tagline: "Unity & Unreal templates, UI kits and game-ready assets.",
-    banner: "game-makers.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Prototypes", slug: "prototypes" },
-      { name: "UI & HUD", slug: "ui-hud" },
-      { name: "Unity 2D", slug: "unity-2d" },
-      { name: "Unity 3D", slug: "unity-3d" },
-      { name: "Unreal", slug: "unreal" },
-      { name: "VFX & SFX", slug: "vfx-sfx" }
-    ]
+    tagline: "Unity & Unreal assets for pro developers.",
+    sections: [{ name: "3D Models" }, { name: "Audio" }, { name: "Shaders" }]
   },
   {
     slug: "ai-tools-hub",
     title: "AI Tools Hub",
-    tagline: "Agents, automations and AI workflows.",
-    banner: "ai-tools-hub.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Agents", slug: "agents" },
-      { name: "Analytics", slug: "analytics" },
-      { name: "Automations", slug: "automations" },
-      { name: "Generators", slug: "generators" },
-      { name: "Integrations", slug: "integrations" },
-      { name: "Prompts", slug: "prompts" },
-      { name: "Utilities", slug: "utilities" },
-      { name: "Workflows", slug: "workflows" }
-    ]
+    tagline: "Agents, automations and workflow tools.",
+    sections: [{ name: "Agents" }, { name: "Automation" }, { name: "Big Data" }]
   },
   {
     slug: "dev-studio-one",
     title: "Dev Studio One",
-    tagline: "Starters, dashboards and design systems.",
-    banner: "dev-studio-one.webp",
-    isFeatured: false,
-    sections: [
-      { name: "API Boilerplates", slug: "api-boilerplates" },
-      { name: "Auth Stacks", slug: "auth-stacks" },
-      { name: "Dashboard Kits", slug: "dashboard-kits" },
-      { name: "Design Systems", slug: "design-systems" },
-      { name: "HTML Starters", slug: "html-starters" }
-    ]
+    tagline: "Dashboards, admin templates and starters.",
+    sections: [{ name: "Dashboards" }, { name: "Admin Kits" }, { name: "Starters" }]
   },
   {
     slug: "email-forge",
     title: "Email Forge",
     tagline: "High-converting email templates.",
-    banner: "email-forge.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Drip Flows", slug: "drip-flows" },
-      { name: "Marketing Campaigns", slug: "marketing-campaigns" },
-      { name: "Newsletters", slug: "newsletters" },
-      { name: "Notifications", slug: "notifications" },
-      { name: "Onboarding", slug: "onboarding" },
-      { name: "Receipts & Invoices", slug: "receipts-invoices" },
-      { name: "Transactional", slug: "transactional" }
-    ]
-  },
-  {
-    slug: "hardware",
-    title: "Hardware Lab",
-    tagline: "AI accelerators, dev boards, and edge devices.",
-    banner: "hardware.webp",
-    isFeatured: true, // Bunu öne çıkan yapmak için true bıraktım
-    sections: [
-      { name: "AI Accelerators", slug: "ai-accelerators" },
-      { name: "Dev Boards", slug: "dev-boards" },
-      { name: "Edge Devices", slug: "edge-devices" },
-      { name: "IoT Devices", slug: "iot-devices" },
-      { name: "Medical & Bio-Sensing", slug: "medical-bio-sensing" },
-      { name: "Sensors", slug: "sensors" },
-      { name: "Smart Controllers", slug: "smart-controllers" }
-    ]
+    sections: [{ name: "Newsletters" }, { name: "Transactional" }, { name: "Marketing" }]
   },
   {
     slug: "html-templates",
     title: "HTML Templates",
-    tagline: "Landing pages, dashboards and section packs.",
-    banner: "html-templates.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Components", slug: "components" },
-      { name: "Dashboards", slug: "dashboards" },
-      { name: "Email Layouts", slug: "email-layouts" },
-      { name: "Landing Pages", slug: "landing-pages" },
-      { name: "Marketing Pages", slug: "marketing-pages" },
-      { name: "Portfolio", slug: "portfolio" },
-      { name: "Sections", slug: "sections" }
-    ]
+    tagline: "Landing pages, marketing sites and UI layouts.",
+    sections: [{ name: "Landing Pages" }, { name: "Portfolios" }, { name: "Blogs" }]
   },
   {
     slug: "icon-smith",
     title: "Icon Smith",
-    tagline: "Icon systems for apps, dashboards and brand libraries.",
-    banner: "icon-smith.webp",
-    isFeatured: false,
-    sections: [
-      { name: "3D Icons", slug: "3d-icons" },
-      { name: "Brand Icons", slug: "brand-icons" },
-      { name: "Duotone Icons", slug: "duotone-icons" },
-      { name: "Filled Icons", slug: "filled-icons" },
-      { name: "Flags Icons", slug: "flags-icons" },
-      { name: "Outline Icons", slug: "outline-icons" },
-      { name: "Solid Icons", slug: "solid-icons" },
-      { name: "System Icons", slug: "system-icons" }
-    ]
+    tagline: "Premium icon packs and UI assets.",
+    sections: [{ name: "Line Icons" }, { name: "Solid Icons" }, { name: "Illustrations" }]
   },
   {
     slug: "reactorium",
     title: "Reactorium",
-    tagline: "React UI kits, charts and navigation patterns.",
-    banner: "reactorium.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Charts", slug: "charts" },
-      { name: "Forms", slug: "forms" },
-      { name: "Hooks", slug: "hooks" },
-      { name: "Layouts", slug: "layouts" },
-      { name: "Navigation", slug: "navigation" },
-      { name: "Tables", slug: "tables" },
-      { name: "UI Kit", slug: "ui-kit" }
-    ]
+    tagline: "React UI kits, dashboards and chart systems.",
+    sections: [{ name: "UI Kits" }, { name: "Charts" }, { name: "Hooks" }]
   },
   {
     slug: "tiny-js-lab",
     title: "Tiny JS Lab",
-    tagline: "Vanilla JS utilities, widgets and micro-patterns.",
-    banner: "tiny-js-lab.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Animations", slug: "animations" },
-      { name: "Widgets", slug: "widgets" },
-      { name: "Validation", slug: "validation" },
-      { name: "State Management", slug: "state-management" },
-      { name: "Storage", slug: "storage" },
-      { name: "Data Fetching", slug: "data-fetching" },
-      { name: "DOM Utils", slug: "dom-utils" }
-    ]
+    tagline: "Vanilla JS widgets and utilities.",
+    sections: [{ name: "Widgets" }, { name: "Utilities" }, { name: "Plugins" }]
   },
   {
     slug: "unity-hub",
     title: "Unity Hub",
-    tagline: "Unity camera, character, and multiplayer templates.",
-    banner: "unity-hub.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Camera Systems", slug: "camera-systems" },
-      { name: "Character Controllers", slug: "character-controllers" },
-      { name: "Environment Kits", slug: "environment-kits" },
-      { name: "Multiplayer", slug: "multiplayer" },
-      { name: "Shaders & Materials", slug: "shaders-materials" },
-      { name: "Tools & Editors", slug: "tools-editors" }
-    ]
+    tagline: "Game systems, controllers and tools.",
+    sections: [{ name: "Controllers" }, { name: "Physics" }, { name: "Tools" }]
   },
   {
     slug: "wp-plugins",
     title: "WP Plugins",
-    tagline: "High-quality WordPress plugins.",
-    banner: "wp-plugins.webp",
-    isFeatured: false,
-    sections: [
-      { name: "Blocks Editor", slug: "blocks-editor" },
-      { name: "E-commerce", slug: "ecommerce" },
-      { name: "Forms", slug: "forms" },
-      { name: "Membership", slug: "membership" },
-      { name: "Performance", slug: "performance" },
-      { name: "Security", slug: "security" },
-      { name: "SEO", slug: "seo" }
-    ]
+    tagline: "Commerce and utility plugins for WordPress.",
+    sections: [{ name: "SEO" }, { name: "Security" }, { name: "Commerce" }]
   }
 ];
 
-// --- UYGULAMA BAŞLATICI ---
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Kategoriler Menüsünü (Dropdown) Başlat
-  initCategoriesMenu(STORES_DATA);
-  
-  // 2. Ana Sayfa Galerisini Oluştur
-  renderGallery(STORES_DATA);
-  
-  // 3. Üst Menü (Sub-Nav) Oluştur
-  renderSubNav(STORES_DATA);
+// ---- ENTRY POINT ----
+document.addEventListener("DOMContentLoaded", () => {
+  try {
+    renderGallery(STORES_DATA);
+    renderSubNav(STORES_DATA);
+    initMegaMenu(STORES_DATA);
+  } catch (err) {
+    console.error("HOME MANAGER INIT ERROR:", err);
+  }
 });
 
-
-// --- 1. KATEGORİ MENÜSÜ FONKSİYONLARI ---
-function initCategoriesMenu(data) {
-  const btn = document.getElementById('btn-categories');
-  const panel = document.getElementById('categories-panel');
-  const listContainer = document.getElementById('categories-list-container'); // HTML'deki ID'ye dikkat
-  
-  // Eğer panel yoksa, belki farklı bir HTML yapısı vardır, dinamik oluşturalım:
-  if (!panel) return;
-
-  // Panelin iç yapısını sıfırla ve yeniden kur (Split View için)
-  // Sol taraf: Liste, Sağ taraf: Detay (Basit versiyonda sadece liste olabilir, biz gelişmiş yapıyoruz)
-  const panelContent = panel.querySelector('.categories-panel');
-  if(panelContent) {
-     // Modern "Mega Menu" yapısı için CSS class'ı ekleyelim
-     panelContent.classList.add('categories-panel-split');
-     panelContent.innerHTML = `
-        <div class="cat-menu-sidebar" id="cat-menu-list"></div>
-        <div class="cat-menu-preview" id="cat-menu-preview"></div>
-     `;
-  }
-
-  const listEl = document.getElementById('cat-menu-list');
-  const previewEl = document.getElementById('cat-menu-preview');
-
-  if (!listEl || !previewEl) {
-     // Eğer HTML/CSS split yapıya uygun değilse, fallback olarak eski listeyi doldur
-     if(listContainer) {
-        listContainer.innerHTML = data.map(store => `
-            <a href="store/${store.slug}/" class="cat-link">
-                ${store.title} <span class="cat-arrow">›</span>
-            </a>
-        `).join('');
-     }
-     return;
-  }
-
-  // --- SOL LİSTEYİ DOLDUR ---
-  listEl.innerHTML = data.map((store, index) => `
-    <div class="cat-menu-item ${index === 0 ? 'active' : ''}" data-slug="${store.slug}">
-      <span>${store.title}</span>
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-    </div>
-  `).join('');
-
-  // --- İLK MAĞAZAYI GÖSTER ---
-  renderPreview(data[0], previewEl);
-
-  // --- HOVER OLAYLARI ---
-  const menuItems = listEl.querySelectorAll('.cat-menu-item');
-  menuItems.forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      // Aktif sınıfını güncelle
-      menuItems.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      
-      // Veriyi bul ve göster
-      const slug = item.getAttribute('data-slug');
-      const store = data.find(s => s.slug === slug);
-      renderPreview(store, previewEl);
-    });
-  });
-
-  // --- AÇMA / KAPAMA (TOGGLE) ---
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    panel.classList.toggle('active');
-    btn.classList.toggle('active');
-  });
-
-  // Dışarı tıklayınca kapat
-  document.addEventListener('click', (e) => {
-    if (!panel.contains(e.target) && !btn.contains(e.target)) {
-      panel.classList.remove('active');
-      btn.classList.remove('active');
-    }
-  });
-}
-
-function renderPreview(store, container) {
-  if (!store) return;
-  
-  // Alt kategorileri link olarak hazırla
-  const sectionLinks = store.sections.map(section => `
-    <a href="store/${store.slug}/#${section.slug}" class="preview-section-link">
-      ${section.name}
-    </a>
-  `).join('');
-
-  container.innerHTML = `
-    <div class="preview-header">
-      <div class="preview-title">${store.title}</div>
-      <div class="preview-desc">${store.tagline}</div>
-    </div>
-    <div class="preview-grid">
-       ${sectionLinks}
-    </div>
-    <div class="preview-footer">
-       <a href="store/${store.slug}/" class="btn-view-all">Browse All ${store.title} &rarr;</a>
-    </div>
-  `;
-}
-
-
-
-  // --- 2. GALERİ (HOME GRID) FONKSİYONLARI - HATA GİDERİLMİŞ VERSİYON ---
+// ---- GALERİ ----
 function renderGallery(data) {
-  const gallery = document.getElementById('gallery');
-  if (!gallery) return;
+  const gallery = document.getElementById("gallery");
+  if (!gallery || !Array.isArray(data)) return;
 
-  // Hata durumunda kullanılacak güvenli yedek resim (İnternetten çeker)
-  const FALLBACK_IMG = "https://placehold.co/600x400/f5f5f5/999999?text=No+Image";
+  const html = data
+    .map((store) => {
+      const href = `store/${store.slug}/`;
+      const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
 
-  const html = data.map(store => {
-    const storeUrl = `store/${store.slug}/`;
-    
-    // DİKKAT: Senin önceki JSON'larda resimler "banners/" klasörü içindeydi.
-    // Eğer resimlerin 'assets/images/banners/' içindeyse aşağıdaki satırı ona göre düzelt.
-    // Şimdilik varsayılan olarak ana klasöre bakıyor:
-    const imgUrl = `${IMG_PATH}${store.banner}`; 
-
-    // Featured (Öne Çıkan) Kart Tasarımı
-    if (store.isFeatured) {
-      return `
-        <article class="store-card featured">
-          <a href="${storeUrl}" class="card-image-wrap">
-            <img src="${imgUrl}" 
-                 alt="${store.title}" 
-                 loading="lazy" 
-                 onerror="this.onerror=null; this.src='${FALLBACK_IMG}';"> 
-            <span class="badge-featured">Featured Store</span>
-          </a>
-          <div class="card-info">
-            <h3><a href="${storeUrl}">${store.title}</a></h3>
-            <p>${store.tagline}</p>
-            <div class="card-meta">
-               <span>${store.sections.length} Categories</span>
-               <a href="${storeUrl}" class="link-arrow">Visit &rarr;</a>
+      if (store.isFeatured) {
+        // Featured (büyük kart)
+        return `
+          <article class="card card--featured">
+            <a href="${href}" class="card-media">
+              <img src="${imgSrc}" alt="${escapeHtml(store.title)}"
+                   loading="lazy"
+                   onerror="this.src='assets/images/placeholder.png'">
+            </a>
+            <div class="card-content">
+              <span class="card-badge">Featured • Hardware</span>
+              <h3 class="card-title">${escapeHtml(store.title)}</h3>
+              <p class="card-desc">${escapeHtml(store.tagline)}</p>
+              <a href="${href}" class="card-link">Visit Store &rarr;</a>
             </div>
+          </article>
+        `;
+      }
+
+      // Normal kart
+      return `
+        <article class="card">
+          <a href="${href}" class="card-media">
+            <img src="${imgSrc}" alt="${escapeHtml(store.title)}"
+                 loading="lazy"
+                 onerror="this.style.display='none'">
+          </a>
+          <div class="card-content">
+            <span class="card-badge">Official Store</span>
+            <h3 class="card-title">${escapeHtml(store.title)}</h3>
+            <p class="card-desc">${escapeHtml(store.tagline)}</p>
+            <a href="${href}" class="card-link">Visit Store &rarr;</a>
           </div>
         </article>
       `;
-    }
-
-    // Standart Kart Tasarımı
-    return `
-      <article class="store-card">
-        <a href="${storeUrl}" class="card-image-wrap">
-          <img src="${imgUrl}" 
-               alt="${store.title}" 
-               loading="lazy" 
-               onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
-        </a>
-        <div class="card-info">
-          <h3><a href="${storeUrl}">${store.title}</a></h3>
-          <p>${store.tagline}</p>
-          <a href="${storeUrl}" class="link-arrow">Browse Store</a>
-        </div>
-      </article>
-    `;
-  }).join('');
+    })
+    .join("");
 
   gallery.innerHTML = html;
 }
 
-
-// --- 3. SUB-NAV (ÜST YATAY MENÜ) ---
+// ---- SUB NAV ----
 function renderSubNav(data) {
-    const navList = document.getElementById('sub-nav-list');
-    if(!navList) return;
+  const list = document.getElementById("sub-nav-list");
+  if (!list || !Array.isArray(data)) return;
 
-    // Sadece popüler olanları veya hepsini yan yana dizebiliriz
-    navList.innerHTML = data.map(store => `
-        <a href="store/${store.slug}/" class="sub-nav-link">${store.title}</a>
-    `).join('');
+  list.innerHTML = data
+    .map(
+      (s) =>
+        `<div class="sub-nav-item"><a href="store/${s.slug}/">${escapeHtml(
+          s.title
+        )}</a></div>`
+    )
+    .join("");
 }
 
-// --- CSS YARDIMCISI (JS İLE STİL ENJEKTE EDİYORUZ) ---
-// Eğer CSS dosyan yoksa veya eksikse, menünün düzgün görünmesi için bu stilleri ekler.
-(function injectStyles() {
-    const style = document.createElement('style');
-    style.innerHTML = `
-        /* Mega Menu Stilleri */
-        .categories-panel-split { display: flex; min-height: 300px; }
-        .cat-menu-sidebar { width: 240px; border-right: 1px solid #eee; background: #fafafa; padding: 10px 0; }
-        .cat-menu-preview { flex: 1; padding: 24px; }
-        
-        .cat-menu-item { 
-            padding: 10px 20px; display: flex; justify-content: space-between; 
-            align-items: center; cursor: pointer; font-size: 14px; color: #444; font-weight: 500;
-        }
-        .cat-menu-item:hover, .cat-menu-item.active { background: #fff; color: #ff6b00; font-weight: 600; }
-        
-        .preview-title { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 4px; }
-        .preview-desc { font-size: 13px; color: #666; margin-bottom: 20px; }
-        .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .preview-section-link { 
-            font-size: 13px; color: #555; text-decoration: none; padding: 6px 0; 
-            border-bottom: 1px solid #f0f0f0; transition: color 0.2s;
-        }
-        .preview-section-link:hover { color: #ff6b00; padding-left: 4px; }
-        .btn-view-all { 
-            display: inline-block; padding: 8px 16px; background: #111; color: #fff; 
-            text-decoration: none; border-radius: 6px; font-size: 13px; 
-        }
-        .btn-view-all:hover { background: #333; }
+// ---- MEGA MENU ----
+function initMegaMenu(data) {
+  if (!Array.isArray(data) || data.length === 0) return;
 
-        /* Kart Stilleri */
-        .store-card { background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: transform 0.2s; }
-        .store-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .store-card.featured { grid-column: span 2; display: flex; } /* Featured 2 birim genişlik */
-        .card-image-wrap { display: block; height: 160px; overflow: hidden; position: relative; background: #f4f4f5; }
-        .store-card.featured .card-image-wrap { width: 50%; height: auto; }
-        .store-card.featured .card-info { width: 50%; display: flex; flex-direction: column; justify-content: center; }
-        
-        .card-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .card-info { padding: 16px; }
-        .card-info h3 { margin: 0 0 8px 0; font-size: 16px; }
-        .card-info h3 a { text-decoration: none; color: #111; }
-        .card-info p { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
-        .link-arrow { font-size: 13px; font-weight: 600; color: #ff6b00; text-decoration: none; }
-        
-        .badge-featured { position: absolute; top: 10px; left: 10px; background: #000; color: #fff; padding: 4px 8px; font-size: 10px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+  const btn = document.getElementById("btn-categories");
+  const header = document.querySelector(".app-header");
+  const panel = document.getElementById("categories-panel");
+  const listEl = document.getElementById("categories-list");
+  const detailEl = document.getElementById("categories-detail");
 
-        @media (max-width: 768px) {
-            .store-card.featured { grid-column: span 1; display: block; }
-            .store-card.featured .card-image-wrap { width: 100%; height: 180px; }
-            .store-card.featured .card-info { width: 100%; }
-            .categories-panel-split { flex-direction: column; }
-            .cat-menu-sidebar { width: 100%; border-right: none; border-bottom: 1px solid #eee; }
-        }
-    `;
-    document.head.appendChild(style);
-})();
+  // HTML’de bu elemanlar yoksa mega menü kurulmasın, ama hata da vermesin
+  if (!btn || !header || !panel || !listEl || !detailEl) return;
+
+  // Sol listeyi doldur
+  listEl.innerHTML = data
+    .map(
+      (s, i) => `
+      <button class="cat-item ${i === 0 ? "cat-item--active" : ""}" data-slug="${s.slug}">
+        <span>${escapeHtml(s.title)}</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24">
+          <path d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    `
+    )
+    .join("");
+
+  // İlk mağazanın detayını göster
+  renderDetail(data[0], detailEl);
+
+  // Hover ile detay güncelle
+  listEl.querySelectorAll(".cat-item").forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      listEl
+        .querySelectorAll(".cat-item")
+        .forEach((b) => b.classList.remove("cat-item--active"));
+      item.classList.add("cat-item--active");
+
+      const slug = item.getAttribute("data-slug");
+      const store = data.find((s) => s.slug === slug);
+      if (store) renderDetail(store, detailEl);
+    });
+  });
+
+  // Aç/kapa
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = header.classList.contains("has-cat-open");
+    header.classList.toggle("has-cat-open", !isOpen);
+  });
+
+  // Header dışına tıklayınca kapat
+  document.addEventListener("click", (e) => {
+    if (!header.contains(e.target)) {
+      header.classList.remove("has-cat-open");
+    }
+  });
+}
+
+// ---- DETAY PANELİ ----
+function renderDetail(store, container) {
+  if (!store || !container) return;
+
+  const slug = store.slug;
+  const sections = Array.isArray(store.sections) ? store.sections : [];
+
+  const linksHtml =
+    sections
+      .map(
+        (s) =>
+          `<a href="store/${slug}/">${escapeHtml(
+            s.name || ""
+          )}</a>`
+      )
+      .join("") + `<a href="store/${slug}/">View All</a>`;
+
+  container.innerHTML = `
+    <div class="cat-detail-eyebrow">STORE</div>
+    <div class="cat-detail-title">${escapeHtml(store.title)}</div>
+    <div class="cat-detail-subtitle">${escapeHtml(store.tagline)}</div>
+    <div class="cat-detail-links">${linksHtml}</div>
+  `;
+}
+
+// ---- KÜÇÜK YARDIMCI (XSS KORUMASI İÇİN) ----
+function escapeHtml(str) {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
