@@ -1,13 +1,13 @@
-/* RGZTEC HOME MANAGER
-   - Veriyi store.data.json'dan çeker.
-   - Hata olursa "Acil Durum" verisini devreye sokar (Site asla çökmez).
+/* RGZTEC HOME PRODUCTS MANAGER
+   - Veriyi "data/store.data.json" yolundan çeker.
+   - Hata olursa "Yedek Veri" kullanır (Site çökmez).
 */
 
 const BASE = "/rgztec/";
-const STORE_DATA_URL = "data/store.data.json"; // Fetch yolu
-const STORE_IMAGE_BASE = "assets/images/store/";      // Resim yolu
+const STORE_DATA_URL = "data/store.data.json"; // DÜZELTİLEN YOL
+const STORE_IMAGE_BASE = "assets/images/store/";
 
-// ACİL DURUM VERİSİ (JSON bozuksa veya bulunamazsa bu devreye girer)
+// YEDEK VERİ (JSON Yüklenemezse devreye girer)
 const BACKUP_STORES = [
   { slug: 'hardware', title: 'Hardware Lab', tagline: 'High-performance AI accelerators & IoT kits.', isFeatured: true },
   { slug: 'game-makers', title: 'Game Makers', tagline: 'Unity & Unreal assets for pro developers.' },
@@ -22,57 +22,53 @@ const BACKUP_STORES = [
   { slug: 'tiny-js-lab', title: 'Tiny JS Lab', tagline: 'Vanilla JS widgets and utilities.' }
 ];
 
-// Ana Başlatıcı
 document.addEventListener('DOMContentLoaded', async () => {
   let storesData = {};
 
   try {
-    // 1. Veriyi çekmeye çalış
+    // 1. Veriyi doğru yoldan çek
     const response = await fetch(STORE_DATA_URL);
     if (!response.ok) throw new Error("JSON Fetch Failed");
     storesData = await response.json();
-    console.log("RGZTEC: Data loaded from JSON.");
+    console.log("RGZTEC: Data loaded successfully from data/store.data.json");
   } catch (error) {
-    // 2. Hata varsa Backup verisini kullan
-    console.warn("RGZTEC: JSON not found, loading BACKUP data.", error);
-    // Backup dizisini objeye çevir (Mevcut yapıya uydurmak için)
+    // 2. Hata varsa Yedek Veriyi Kullan
+    console.warn("RGZTEC: JSON Error, loading BACKUP.", error);
     BACKUP_STORES.forEach(s => { storesData[s.slug] = s; });
   }
 
-  // 3. Arayüzü Oluştur
   renderGallery(storesData);
   renderSubNav(storesData);
   initMegaMenu(storesData);
 });
 
-// --- RENDER FONKSİYONLARI ---
-
+// GALERİ RENDER (Etsy Tarzı Kartlar)
 function renderGallery(data) {
   const gallery = document.getElementById('gallery');
   if (!gallery) return;
 
-  const cardsHTML = Object.values(data).map(store => {
+  const html = Object.values(data).map(store => {
     const href = `store/${store.slug}/`;
     const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
     
-    // FEATURED (HARDWARE) KARTI
-    if (store.slug === 'hardware') {
+    // Featured Kart (Büyük & Yatay)
+    if (store.slug === 'hardware' || store.isFeatured) {
       return `
         <article class="card card--featured">
           <a href="${href}" class="card-media">
-            <img src="${imgSrc}" alt="${store.title}" loading="lazy" onerror="this.src='assets/images/placeholder.png'">
+            <img src="${imgSrc}" alt="${store.title}" loading="lazy" onerror="this.style.display='none'">
           </a>
           <div class="card-content">
             <span class="card-badge">Featured • Hardware</span>
             <h3 class="card-title">${store.title}</h3>
             <p class="card-desc">${store.tagline || 'Premium hardware for developers.'}</p>
-            <a href="${href}" class="card-link">Visit Store <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+            <a href="${href}" class="card-link">Visit Store &rarr;</a>
           </div>
         </article>
       `;
     }
 
-    // STANDART KART
+    // Standart Kart
     return `
       <article class="card">
         <a href="${href}" class="card-media">
@@ -82,27 +78,23 @@ function renderGallery(data) {
           <span class="card-badge">Official Store</span>
           <h3 class="card-title">${store.title}</h3>
           <p class="card-desc">${store.tagline || 'Premium digital assets.'}</p>
-          <a href="${href}" class="card-link">
-            Visit Store 
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
+          <a href="${href}" class="card-link">Visit Store &rarr;</a>
         </div>
       </article>
     `;
   }).join('');
 
-  gallery.innerHTML = cardsHTML;
+  gallery.innerHTML = html;
 }
 
+// SUB NAV RENDER
 function renderSubNav(data) {
-  const navList = document.getElementById('sub-nav-list');
-  if (!navList) return;
-  
-  navList.innerHTML = Object.values(data).map(store => `
-    <div class="sub-nav-item"><a href="store/${store.slug}/">${store.title}</a></div>
-  `).join('');
+  const list = document.getElementById('sub-nav-list');
+  if (!list) return;
+  list.innerHTML = Object.values(data).map(s => `<div class="sub-nav-item"><a href="store/${s.slug}/">${s.title}</a></div>`).join('');
 }
 
+// MEGA MENU LOGIC
 function initMegaMenu(data) {
   const btn = document.getElementById('btn-categories');
   const header = document.querySelector('.app-header');
@@ -113,11 +105,11 @@ function initMegaMenu(data) {
   if (!btn || !panel) return;
 
   const stores = Object.values(data);
-
+  
   // Listeyi Doldur
-  listEl.innerHTML = stores.map((store, i) => `
-    <button class="cat-item ${i === 0 ? 'cat-item--active' : ''}" data-slug="${store.slug}">
-      <span>${store.title}</span>
+  listEl.innerHTML = stores.map((s, i) => `
+    <button class="cat-item ${i===0?'cat-item--active':''}" data-slug="${s.slug}">
+      <span>${s.title}</span>
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
     </button>
   `).join('');
@@ -135,42 +127,24 @@ function initMegaMenu(data) {
     });
   });
 
-  // Toggle Menu
+  // Toggle
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
     const isOpen = header.classList.contains('has-cat-open');
     header.classList.toggle('has-cat-open', !isOpen);
-    
-    if (!isOpen) { 
-      const btnRect = btn.getBoundingClientRect();
-      const headerRect = header.getBoundingClientRect();
-      const offset = btnRect.left - headerRect.left + (btnRect.width / 2);
-      panel.querySelector('.categories-panel').style.setProperty('--cat-pointer-left', offset + 'px');
-    }
   });
 
-  // Kapatma
   document.addEventListener('click', (e) => {
-    if (!header.contains(e.target)) header.classList.remove('has-cat-open');
+    if(!header.contains(e.target)) header.classList.remove('has-cat-open');
   });
 }
 
 function renderDetail(store, container) {
   if (!store || !container) return;
-  
-  const linksHtml = (store.sections || []).map(s => {
-    // Section link yapısı
-    const href = s.href ? s.href : `store/${store.slug}/`;
-    return `<a href="${href}">${s.name || s.label}</a>`;
-  }).join('');
-
+  const links = (store.sections || []).map(s => `<a href="store/${store.slug}/">${s.name || s.label}</a>`).join('');
   container.innerHTML = `
     <div class="cat-detail-eyebrow">STORE</div>
     <div class="cat-detail-title">${store.title}</div>
-    <div class="cat-detail-subtitle">${store.tagline || 'Explore products.'}</div>
-    <div class="cat-detail-links">
-      ${linksHtml}
-      <a href="store/${store.slug}/">View All Products</a>
-    </div>
+    <div class="cat-detail-links">${links}<a href="store/${store.slug}/">View All</a></div>
   `;
 }
