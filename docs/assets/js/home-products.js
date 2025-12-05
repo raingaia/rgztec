@@ -145,6 +145,7 @@ function renderDetail(store, container) {
   container.innerHTML = `
     <div class="cat-detail-eyebrow">STORE</div>
     <div class="cat-detail-title">${store.title}</div>
+    <div class="cat-detail-subtitle">${store.tagline || 'Explore products.'}</div>
     <div class="cat-detail-links">${links}<a href="store/${store.slug}/">View All</a></div>
   `;
 }
