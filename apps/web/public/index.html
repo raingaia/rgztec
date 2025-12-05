@@ -16,56 +16,117 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* 1. Tüm resimlerdeki olası siyah çerçeveleri kaldır */
-    img, a img {
-        border: none !important;
-        outline: none !important;
+    /* --- 1. RESİM ÇERÇEVE SORUNU İÇİN KESİN ÇÖZÜM --- */
+    img, a img { border: none !important; outline: none !important; }
+    
+    /* --- 2. HEADER AYARLARI --- */
+    /* Menünün butonun altında durması için kapsayıcıya relative veriyoruz */
+    .header-left {
+        position: relative; 
+        z-index: 1001; /* Diğer elementlerin üstünde kalsın */
     }
 
-    /* 2. Kategoriler Menüsü "Yaprak/Çiçek" Animasyonu */
+    /* --- 3. PREMIUM DROPDOWN MENÜ (YAPRAK EFEKTLİ & KOMPAKT) --- */
     .categories-panel-wrap {
-        display: block !important; /* JS ile class ekleyerek gizleyip açacağız */
+        /* Gizleme ayarları */
         opacity: 0;
         visibility: hidden;
-        
-        /* 3D Derinlik Ayarı */
-        perspective: 1000px;
-        transform-origin: top center;
-        
-        /* Başlangıç Pozisyonu: Yukarı katlanmış ve biraz küçük */
-        transform: rotateX(-20deg) translateY(-10px) scale(0.95);
-        
-        /* Yumuşak geçiş (Yaylanma efekti) */
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        
+        pointer-events: none;
+
+        /* Konumlandırma: Butonun tam altına ve soluna */
         position: absolute;
-        top: 100%;
+        top: 100%; /* Butonun bittiği yer */
         left: 0;
-        width: 100%;
-        z-index: 999;
-        background: transparent; /* Arka plan panelin kendisinde olmalı */
+        margin-top: 12px; /* Butonla arasında az boşluk */
+        
+        /* GENİŞLİK AYARI: Artık tam ekran değil! */
+        width: 280px; 
+        
+        /* 3D YAPRAK ANİMASYONU */
+        transform-origin: top left; /* Sol üst köşeden, yaprak gibi açılır */
+        transform: rotateX(-15deg) translateY(-10px) scale(0.95);
+        
+        /* Premium yumuşak geçiş */
+        transition: 
+            opacity 0.3s ease,
+            transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), /* Yaylanma efekti */
+            visibility 0.3s;
+            
+        z-index: 2000;
     }
 
-    /* Menü Aktif Olduğunda (JS 'active' sınıfını ekler) */
+    /* Menü Açıldığında */
     .categories-panel-wrap.active {
         opacity: 1;
         visibility: visible;
+        pointer-events: auto;
         transform: rotateX(0deg) translateY(0) scale(1);
     }
-    
-    /* İçerik Kutusu Düzeni */
+
+    /* Menü Kutusu Tasarımı */
     .categories-panel {
-        background: #fff;
-        border-top: 1px solid #eee;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        padding: 20px 0;
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 12px; /* Modern yuvarlak köşeler */
+        box-shadow: 
+            0 10px 30px -5px rgba(0,0,0,0.1), 
+            0 4px 10px -2px rgba(0,0,0,0.05);
+        padding: 8px 0; /* İç boşluk */
+        overflow: hidden;
     }
+
+    /* Liste Öğeleri */
+    .categories-list {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Link Tasarımları */
+    .categories-list a, 
+    .menu-item-link {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #4b5563;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent; /* Hover efekti için çizgi */
+    }
+
+    /* Hover Durumu */
+    .categories-list a:hover,
+    .menu-item-link:hover {
+        background: #f9fafb;
+        color: #000;
+        border-left-color: var(--primary, #ff6b00); /* Varsa tema rengi, yoksa turuncu */
+        padding-left: 24px; /* Sağa kayma hissi */
+    }
+
+    /* --- 4. GIFT CARD & ICON AYARLARI --- */
+    .icon-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-main, #333);
+        transition: color 0.2s;
+        text-decoration: none;
+        padding: 0 8px; /* İkonlar arası mesafe */
+    }
+    .icon-action:hover {
+        color: var(--primary, #ff6b00);
+    }
+
   </style>
 </head>
 <body>
 
   <header class="app-header">
     <div class="container header-inner">
+      
       <div class="header-left">
         <a href="./" class="logo">RGZTEC</a>
         
@@ -76,6 +137,18 @@
           </div>
           Categories
         </button>
+
+        <div id="categories-panel" class="categories-panel-wrap">
+            <div class="categories-panel">
+              <div class="categories-list" id="categories-list">
+                  <a href="#" class="menu-item-link">Hardware Lab</a>
+                  <a href="#" class="menu-item-link">Game Makers</a>
+                  <a href="#" class="menu-item-link">AI Tools Hub</a>
+                  <a href="#" class="menu-item-link">Dev Studio One</a>
+                  <a href="#" class="menu-item-link">HTML Templates</a>
+              </div>
+            </div>
+        </div>
       </div>
 
       <div class="search-bar">
@@ -86,28 +159,21 @@
       </div>
 
       <div class="nav-right">
-        <a href="gift-cards.html" class="nav-link">Gift Cards</a>
         
         <a href="editor/" class="nav-link">Dashboard / Editor</a>
         <a href="login/" class="nav-link">Sign In</a>
+
+        <a href="gift-cards.html" class="icon-action" title="Gift Cards">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H4.5a1.5 1.5 0 01-1.5-1.5v-8.25M3 11.25h18M3 11.25l7.5-7.5M21 11.25l-7.5-7.5m-6 0l-1.5 1.5m7.5-1.5l1.5 1.5m-6 6v7.5" />
+            </svg>
+        </a>
         
         <a href="cart.html" class="icon-action" title="Cart">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
         </a>
 
         <a href="open-store.html" class="btn-open-store">Open Store</a>
-      </div>
-    </div>
-
-    <div id="categories-panel" class="categories-panel-wrap">
-      <div class="categories-panel">
-        <div class="container"> <div class="categories-layout">
-            <div class="categories-list" id="categories-list">
-                <p style="padding: 20px; color:#666;">Loading categories...</p>
-            </div>
-            <div class="categories-detail" id="categories-detail"></div>
-            </div>
-        </div>
       </div>
     </div>
   </header>
@@ -143,22 +209,11 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-bot">
-        
         <div style="display:flex; align-items:center; gap:24px;">
           <span>© 2025 RGZTEC, Inc.</span>
-          
           <a href="mailto:support@rgztec.com" class="footer-email">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
             support@rgztec.com
           </a>
-        </div>
-
-        <div class="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Sitemap</a>
         </div>
       </div>
     </div>
@@ -173,11 +228,10 @@
 
         if (btnCategories && categoriesPanel) {
             btnCategories.addEventListener('click', function(e) {
-                e.stopPropagation(); // Tıklamanın dışarıya taşmasını engelle
+                e.stopPropagation(); 
                 categoriesPanel.classList.toggle('active');
             });
 
-            // Menü dışına tıklanırsa kapat
             document.addEventListener('click', function(e) {
                 if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
                     categoriesPanel.classList.remove('active');
