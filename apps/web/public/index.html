@@ -4,6 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
+  
   <base href="/rgztec/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,20 +13,17 @@
 
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/store-core.css">
-  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/home.css"> 
+
 </head>
 <body>
 
   <header class="app-header">
     <div class="container header-inner">
-      <div class="header-left">
+      <div style="display:flex; align-items:center; gap:24px;">
         <a href="./" class="logo">RGZTEC</a>
-        
         <button id="btn-categories" class="btn-cat">
-          <div class="bento-icon">
-            <span></span><span></span>
-            <span></span><span></span>
-          </div>
+          <div class="hamburger-icon"><span></span><span></span><span></span></div>
           Categories
         </button>
       </div>
@@ -33,7 +31,7 @@
       <div class="search-bar">
         <input type="text" class="search-input" placeholder="Search templates, plugins, hardware...">
         <button class="search-btn">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </button>
       </div>
 
@@ -41,12 +39,8 @@
         <a href="editor/" class="nav-link">Dashboard / Editor</a>
         <a href="login/" class="nav-link">Sign In</a>
         
-        <a href="gift-card.html" class="icon-action" title="Gift Cards">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A3.375 3.375 0 0012 1.5h-1.5a3.375 3.375 0 00-3.375 3.375H12Zm0 0V11.25m0-6.375H13.5A3.375 3.375 0 0113.5 1.5H12v3.375Z"/></svg>
-        </a>
-
         <a href="cart.html" class="icon-action" title="Cart">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
         </a>
 
         <a href="open-store.html" class="btn-open-store">Open Store</a>
@@ -67,6 +61,18 @@
     <div class="sub-nav-list" id="sub-nav-list"></div>
   </nav>
 
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge"><span>NEW</span> Hardware Lab is now live!</div>
+      <h1>Build, buy, and sell<br>digital products.</h1>
+      <p>The premium marketplace for developers, designers, and creators.</p>
+      <div class="hero-btns">
+        <a href="#gallery" class="btn-primary">Browse Marketplace</a>
+        <a href="become-seller.html" class="btn-outline">Start Selling</a>
+      </div>
+    </div>
+  </section>
+
   <section class="marketplace-banner-section">
     <div class="banner-inner">
       <div class="banner-copy">
@@ -79,26 +85,48 @@
         </div>
       </div>
       <div class="banner-image">
-        <img src="assets/images/banners/global-marketplace-banner.webp" alt="Marketplace Preview" onerror="this.style.display='none'">
+        <img src="assets/images/banners/global-marketplace-banner.webp" 
+             alt="RGZTEC Preview" 
+             onerror="this.style.display='none'; this.parentElement.style.background='#e2e8f0'; this.parentElement.innerHTML='<div style=\'padding:60px;text-align:center;color:#64748b\'>Banner Image Placeholder</div>'">
       </div>
     </div>
   </section>
 
   <main class="container">
-    <div class="section-header">
-      <h2 class="gallery-title">Explore Stores</h2>
-    </div>
+    <h2 class="gallery-title">Explore Stores</h2>
     <div id="gallery" class="grid"></div>
   </main>
 
   <footer class="footer">
     <div class="container">
+      <div class="footer-cols">
+        <div>
+          <h4>Shop</h4>
+          <a href="gift-card.html">Gift Cards</a>
+          <a href="#">Sitemap</a>
+          <a href="#">Featured Products</a>
+        </div>
+        <div>
+          <h4>Sell</h4>
+          <a href="become-seller.html">Start Selling</a>
+          <a href="#">Teams</a>
+          <a href="#">Affiliates</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Careers</a>
+          <a href="#">Legal</a>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <a href="mailto:support@rgztec.com">Help Center</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
       <div class="footer-bot">
         <span>© 2025 RGZTEC, Inc.</span>
-        <div class="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-        </div>
+        <div><a href="#">Privacy</a> &nbsp; <a href="#">Terms</a></div>
       </div>
     </div>
   </footer>
@@ -106,5 +134,4 @@
   <script src="assets/js/home-products.js"></script>
 </body>
 </html>
-
 
