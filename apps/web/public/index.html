@@ -16,35 +16,32 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* --- 1. GENEL DÜZELTMELER --- */
+    /* --- 1. GENEL AYARLAR --- */
     img, a img { border: none !important; outline: none !important; }
     .header-inner { position: relative; }
     .header-left { position: relative; z-index: 1001; }
 
-    /* --- 2. YENİ KATEGORİ SİMGESİ AYARLARI --- */
-    /* Resimdeki simgenin aynısı olması için SVG kullanıyoruz */
+    /* --- 2. BENTO ICON (SVG & ANIMASYON) --- */
     .bento-icon-svg {
         width: 20px;
         height: 20px;
-        margin-right: 8px; /* Yazı ile simge arası boşluk */
-        color: currentColor; /* Butonun rengini alır */
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); /* DÖNME EFEKTİ */
+        margin-right: 8px;
+        color: currentColor;
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
     
-    /* Buton 'active' olduğunda simge sağa döner */
     .btn-cat.active .bento-icon-svg {
-        transform: rotate(90deg);
-        color: #ff6b00; /* Aktifken turuncu olsun istersen (opsiyonel) */
+        transform: rotate(90deg); /* DÖNME EFEKTİ */
+        color: #ff6b00;
     }
 
-    /* Butonun iç düzeni */
     .btn-cat {
         display: flex;
         align-items: center;
-        gap: 4px; /* Simge ve yazı arası */
+        gap: 4px;
     }
 
-    /* --- 3. PREMIUM DROPDOWN MENÜ --- */
+    /* --- 3. KATEGORİ PANELİ (VERİ BURAYA GELECEK) --- */
     .categories-panel-wrap {
         opacity: 0;
         visibility: hidden;
@@ -53,7 +50,7 @@
         top: 100%;
         left: 0;
         margin-top: 12px;
-        width: 260px; 
+        width: 260px; /* İdeal Genişlik */
         
         transform-origin: top left;
         transform: translateY(-10px);
@@ -74,8 +71,11 @@
         border-radius: 12px;
         box-shadow: 0 12px 30px rgba(0,0,0,0.1);
         padding: 8px 0;
+        min-height: 50px; /* Veri gelene kadar çökmesin */
     }
 
+    /* --- 4. DİNAMİK LİNK TASARIMI --- */
+    /* JS bu class'ları otomatik ekleyecek */
     .cat-link {
         display: flex;
         align-items: center;
@@ -88,6 +88,7 @@
         font-family: 'Inter', sans-serif;
         transition: all 0.2s;
         border-left: 3px solid transparent;
+        cursor: pointer;
     }
 
     .cat-link:hover {
@@ -100,7 +101,10 @@
     .cat-arrow { font-size: 16px; color: #ccc; }
     .cat-link:hover .cat-arrow { color: #ff6b00; }
 
-    /* --- 4. GIFT CARD & ICON AYARLARI --- */
+    /* Yükleniyor yazısı için */
+    .loading-text { padding: 15px 20px; color: #999; font-size: 13px; }
+
+    /* --- 5. IKONLAR --- */
     .icon-action {
         display: flex;
         align-items: center;
@@ -117,7 +121,6 @@
 
   <header class="app-header">
     <div class="container header-inner">
-      
       <div class="header-left">
         <a href="./" class="logo">RGZTEC</a>
         
@@ -133,18 +136,8 @@
 
         <div id="categories-panel" class="categories-panel-wrap">
             <div class="categories-panel">
-              <div class="categories-list">
-                  <a href="hardware-lab.html" class="cat-link">Hardware Lab <span class="cat-arrow">›</span></a>
-                  <a href="game-makers.html" class="cat-link">Game Makers <span class="cat-arrow">›</span></a>
-                  <a href="ai-tools.html" class="cat-link">AI Tools Hub <span class="cat-arrow">›</span></a>
-                  <a href="dev-studio.html" class="cat-link">Dev Studio One <span class="cat-arrow">›</span></a>
-                  <a href="email-forge.html" class="cat-link">Email Forge <span class="cat-arrow">›</span></a>
-                  <a href="html-templates.html" class="cat-link">HTML Templates <span class="cat-arrow">›</span></a>
-                  <a href="icon-smith.html" class="cat-link">Icon Smith <span class="cat-arrow">›</span></a>
-                  <a href="reactorium.html" class="cat-link">Reactorium <span class="cat-arrow">›</span></a>
-                  <a href="tiny-js.html" class="cat-link">Tiny JS Lab <span class="cat-arrow">›</span></a>
-                  <a href="unity-hub.html" class="cat-link">Unity Hub <span class="cat-arrow">›</span></a>
-                  <a href="wp-plugins.html" class="cat-link">WP Plugins <span class="cat-arrow">›</span></a>
+              <div class="categories-list" id="categories-list-container">
+                  <div class="loading-text">Loading stores...</div>
               </div>
             </div>
         </div>
@@ -219,13 +212,15 @@
   
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- 1. MENÜ AÇMA/KAPAMA VE DÖNME EFEKTİ ---
         const btnCategories = document.getElementById('btn-categories');
         const categoriesPanel = document.getElementById('categories-panel');
+        const listContainer = document.getElementById('categories-list-container');
 
         if (btnCategories && categoriesPanel) {
             btnCategories.addEventListener('click', function(e) {
-                e.stopPropagation(); 
-                // Hem Panele hem Butona 'active' class ekle
+                e.stopPropagation();
                 categoriesPanel.classList.toggle('active');
                 btnCategories.classList.toggle('active');
             });
@@ -237,6 +232,50 @@
                 }
             });
         }
+
+        // --- 2. JSON VERİSİNİ ÇEKME (FETCH DATA) ---
+        // Veri dosyanın yolunu buraya yazıyoruz:
+        const DATA_URL = 'data/store-data.json'; 
+
+        fetch(DATA_URL)
+            .then(response => {
+                if (!response.ok) throw new Error("JSON Dosyası Bulunamadı");
+                return response.json();
+            })
+            .then(data => {
+                // Veri geldi, yükleniyor yazısını temizle
+                listContainer.innerHTML = '';
+
+                // JSON yapısı genellikle { stores: [...] } veya direkt [...] olabilir.
+                // Senin yapına göre burayı uyarladım. Genelde "stores" key'i içinde olur.
+                const stores = data.stores || data; 
+
+                if (Array.isArray(stores)) {
+                    stores.forEach(store => {
+                        // Her bir mağaza için link oluştur
+                        const link = document.createElement('a');
+                        // JSON'da link yoksa mağaza adına göre uydur (fallback)
+                        link.href = store.url || (store.slug ? store.slug + '.html' : '#');
+                        
+                        // Stil sınıflarını ekle (Görünüm için çok önemli)
+                        link.className = 'cat-link';
+                        
+                        // İçeriği (İsim + Ok simgesi)
+                        link.innerHTML = `
+                            ${store.name || 'Unnamed Store'}
+                            <span class="cat-arrow">›</span>
+                        `;
+                        
+                        listContainer.appendChild(link);
+                    });
+                } else {
+                    listContainer.innerHTML = '<div style="padding:15px">Veri formatı hatalı.</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Kategori verisi çekilemedi:', error);
+                listContainer.innerHTML = '<div style="padding:15px; color:red;">Menü yüklenemedi.</div>';
+            });
     });
   </script>
 </body>
