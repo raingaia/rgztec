@@ -16,56 +16,60 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* --- 1. RESİM VE GENEL DÜZELTMELER --- */
+    /* --- 1. SİYAH ÇERÇEVE & GENEL DÜZELTMELER --- */
     img, a img { border: none !important; outline: none !important; }
-    
-    .header-inner { position: relative; } /* Menünün hizalanması için gerekli */
+    .header-inner { position: relative; }
     .header-left { position: relative; z-index: 1001; }
 
-    /* --- 2. PREMIUM DROPDOWN MENÜ (GÖRSELDEKİ GİBİ) --- */
+    /* --- 2. BENTO İKON ANİMASYONU (VİZYON KISMI) --- */
+    .bento-icon {
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    
+    /* Buton 'active' olduğunda simge sağa döner */
+    .btn-cat.active .bento-icon {
+        transform: rotate(90deg);
+    }
+
+    /* --- 3. PREMIUM DROPDOWN MENÜ --- */
     .categories-panel-wrap {
         opacity: 0;
         visibility: hidden;
-        pointer-events: none; /* Kapalıyken tıklamayı engelle */
-
+        pointer-events: none;
         position: absolute;
-        top: 100%; /* Butonun hemen altı */
+        top: 100%;
         left: 0;
-        margin-top: 10px;
-        
-        /* GÖRSELDEKİ GİBİ KOMPAKT GENİŞLİK */
-        width: 260px; 
+        margin-top: 12px;
+        width: 260px; /* Kompakt Genişlik */
         
         transform-origin: top left;
         transform: translateY(-10px);
-        transition: all 0.2s ease-in-out;
-        z-index: 9999; /* Banner'ın üstünde kalması için çok yüksek verdim */
+        transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 9999;
     }
 
-    /* Menü Aktif Olduğunda */
+    /* Menü Açıldığında */
     .categories-panel-wrap.active {
         opacity: 1;
         visibility: visible;
-        pointer-events: auto; /* Artık tıklanabilir */
+        pointer-events: auto;
         transform: translateY(0);
     }
 
-    /* Beyaz Kutu Tasarımı */
     .categories-panel {
         background: #ffffff;
-        border: 1px solid rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.08);
         border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
         padding: 8px 0;
-        overflow: hidden;
     }
 
-    /* --- 3. LİNKLERİN TASARIMI (TIKLANABİLİR OLMASI İÇİN) --- */
+    /* Link Tasarımı */
     .cat-link {
         display: flex;
         align-items: center;
-        justify-content: space-between; /* Ok işareti sağa gitsin diye */
-        padding: 12px 20px;
+        justify-content: space-between;
+        padding: 11px 20px;
         text-decoration: none;
         color: #4b5563;
         font-size: 14px;
@@ -73,24 +77,17 @@
         font-family: 'Inter', sans-serif;
         transition: all 0.2s;
         border-left: 3px solid transparent;
-        cursor: pointer; /* Tıklama eli çıksın */
     }
 
-    /* Hover Efekti (Turuncu) */
     .cat-link:hover {
-        background-color: #fff9f5; /* Çok açık turuncu arka plan */
-        color: #ff6b00; /* Turuncu yazı */
+        background-color: #f9fafb;
+        color: #ff6b00;
         border-left-color: #ff6b00;
+        padding-left: 24px; /* Hafif kayma efekti */
     }
 
-    /* Sağdaki küçük ok işareti */
-    .cat-arrow {
-        font-size: 16px;
-        color: #ccc;
-    }
-    .cat-link:hover .cat-arrow {
-        color: #ff6b00;
-    }
+    .cat-arrow { font-size: 16px; color: #ccc; }
+    .cat-link:hover .cat-arrow { color: #ff6b00; }
 
     /* --- 4. GIFT CARD & ICON AYARLARI --- */
     .icon-action {
@@ -102,9 +99,7 @@
         text-decoration: none;
         padding: 0 8px;
     }
-    .icon-action:hover {
-        color: var(--primary, #ff6b00);
-    }
+    .icon-action:hover { color: var(--primary, #ff6b00); }
   </style>
 </head>
 <body>
@@ -126,39 +121,17 @@
         <div id="categories-panel" class="categories-panel-wrap">
             <div class="categories-panel">
               <div class="categories-list">
-                  <a href="hardware-lab.html" class="cat-link">
-                    Hardware Lab <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="game-makers.html" class="cat-link">
-                    Game Makers <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="ai-tools.html" class="cat-link">
-                    AI Tools Hub <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="dev-studio.html" class="cat-link">
-                    Dev Studio One <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="email-forge.html" class="cat-link">
-                    Email Forge <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="html-templates.html" class="cat-link">
-                    HTML Templates <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="icon-smith.html" class="cat-link">
-                    Icon Smith <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="reactorium.html" class="cat-link">
-                    Reactorium <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="tiny-js.html" class="cat-link">
-                    Tiny JS Lab <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="unity-hub.html" class="cat-link">
-                    Unity Hub <span class="cat-arrow">›</span>
-                  </a>
-                  <a href="wp-plugins.html" class="cat-link">
-                    WP Plugins <span class="cat-arrow">›</span>
-                  </a>
+                  <a href="hardware-lab.html" class="cat-link">Hardware Lab <span class="cat-arrow">›</span></a>
+                  <a href="game-makers.html" class="cat-link">Game Makers <span class="cat-arrow">›</span></a>
+                  <a href="ai-tools.html" class="cat-link">AI Tools Hub <span class="cat-arrow">›</span></a>
+                  <a href="dev-studio.html" class="cat-link">Dev Studio One <span class="cat-arrow">›</span></a>
+                  <a href="email-forge.html" class="cat-link">Email Forge <span class="cat-arrow">›</span></a>
+                  <a href="html-templates.html" class="cat-link">HTML Templates <span class="cat-arrow">›</span></a>
+                  <a href="icon-smith.html" class="cat-link">Icon Smith <span class="cat-arrow">›</span></a>
+                  <a href="reactorium.html" class="cat-link">Reactorium <span class="cat-arrow">›</span></a>
+                  <a href="tiny-js.html" class="cat-link">Tiny JS Lab <span class="cat-arrow">›</span></a>
+                  <a href="unity-hub.html" class="cat-link">Unity Hub <span class="cat-arrow">›</span></a>
+                  <a href="wp-plugins.html" class="cat-link">WP Plugins <span class="cat-arrow">›</span></a>
               </div>
             </div>
         </div>
@@ -172,7 +145,6 @@
       </div>
 
       <div class="nav-right">
-        
         <a href="editor/" class="nav-link">Dashboard / Editor</a>
         <a href="login/" class="nav-link">Sign In</a>
 
@@ -224,9 +196,7 @@
       <div class="footer-bot">
         <div style="display:flex; align-items:center; gap:24px;">
           <span>© 2025 RGZTEC, Inc.</span>
-          <a href="mailto:support@rgztec.com" class="footer-email">
-            support@rgztec.com
-          </a>
+          <a href="mailto:support@rgztec.com" class="footer-email">support@rgztec.com</a>
         </div>
       </div>
     </div>
@@ -241,14 +211,16 @@
 
         if (btnCategories && categoriesPanel) {
             btnCategories.addEventListener('click', function(e) {
-                e.stopPropagation(); // Tıklamanın dışarı gitmesini engelle
+                e.stopPropagation(); 
+                // Hem Panele hem Butona 'active' class ekle (dönme efekti için)
                 categoriesPanel.classList.toggle('active');
+                btnCategories.classList.toggle('active');
             });
 
-            // Boşluğa tıklayınca kapat
             document.addEventListener('click', function(e) {
                 if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
                     categoriesPanel.classList.remove('active');
+                    btnCategories.classList.remove('active');
                 }
             });
         }
