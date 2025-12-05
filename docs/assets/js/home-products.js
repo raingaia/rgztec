@@ -4,7 +4,7 @@
 */
 
 const BASE = "/rgztec/";
-const STORE_DATA_URL = "assets/data/store.data.json"; // Fetch yolu
+const STORE_DATA_URL = "data/store.data.json"; // Fetch yolu
 const STORE_IMAGE_BASE = "assets/images/store/";      // Resim yolu
 
 // ACİL DURUM VERİSİ (JSON bozuksa veya bulunamazsa bu devreye girer)
