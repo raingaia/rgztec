@@ -1,3 +1,5 @@
+/* RGZTEC HOME PRODUCTS MANAGER - FINAL FIX */
+
 const BASE = "/rgztec/";
 const STORE_DATA_URL = "data/store.data.json"; 
 const STORE_IMAGE_BASE = "assets/images/store/";
@@ -18,7 +20,6 @@ const STORES = [
 ];
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Veriyi önce localden dene, olmazsa yedek veriyi kullan
   let dataToUse = {};
   
   try {
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         throw new Error("Local JSON error");
     }
   } catch(e) {
-    // Yedek veriyi objeye çevir
+    console.warn("JSON fetch failed, using backup data.", e);
     STORES.forEach(s => dataToUse[s.slug] = s);
   }
 
@@ -43,14 +44,18 @@ function renderGallery(data) {
 
   const html = Object.values(data).map(store => {
     const href = `store/${store.slug}/`;
-    const img = `${STORE_IMAGE_BASE}${store.slug}.webp`;
+    // Varsayılan görsel yolu (.webp)
+    const imgUrl = `${STORE_IMAGE_BASE}${store.slug}.webp`;
 
-    if(store.slug === 'hardware') {
+    // Görsel Hata Yönetimi (Fallback)
+    const imgErrorAttr = `onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'card-img-placeholder\\'><svg viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\' ry=\\'2\\'></rect><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'></circle><polyline points=\\'21 15 16 10 5 21\\'></polyline></svg><span>No Image</span></div>'"`;
+
+    if(store.slug === 'hardware' || store.isFeatured) {
       // FEATURED CARD
       return `
         <a href="${href}" class="card card-featured">
           <div class="card-image-wrap">
-             <img src="${img}" class="card-img" alt="${store.title}" onerror="this.style.display='none'">
+             <img src="${imgUrl}" class="card-img" alt="${store.title}" ${imgErrorAttr}>
           </div>
           <div class="card-details">
              <span class="card-badge">Featured Store</span>
@@ -66,7 +71,7 @@ function renderGallery(data) {
     return `
       <a href="${href}" class="card">
         <div class="card-image-wrap">
-           <img src="${img}" class="card-img" alt="${store.title}" onerror="this.style.display='none'">
+           <img src="${imgUrl}" class="card-img" alt="${store.title}" ${imgErrorAttr}>
         </div>
         <div class="card-details">
            <h3 class="card-title">${store.title}</h3>
