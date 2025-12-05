@@ -301,14 +301,21 @@ function renderPreview(store, container) {
 }
 
 
-// --- 2. GALERİ (HOME GRID) FONKSİYONLARI ---
+
+  // --- 2. GALERİ (HOME GRID) FONKSİYONLARI - HATA GİDERİLMİŞ VERSİYON ---
 function renderGallery(data) {
   const gallery = document.getElementById('gallery');
   if (!gallery) return;
 
+  // Hata durumunda kullanılacak güvenli yedek resim (İnternetten çeker)
+  const FALLBACK_IMG = "https://placehold.co/600x400/f5f5f5/999999?text=No+Image";
+
   const html = data.map(store => {
     const storeUrl = `store/${store.slug}/`;
-    // Resim yolu: assets/images/game-makers.webp
+    
+    // DİKKAT: Senin önceki JSON'larda resimler "banners/" klasörü içindeydi.
+    // Eğer resimlerin 'assets/images/banners/' içindeyse aşağıdaki satırı ona göre düzelt.
+    // Şimdilik varsayılan olarak ana klasöre bakıyor:
     const imgUrl = `${IMG_PATH}${store.banner}`; 
 
     // Featured (Öne Çıkan) Kart Tasarımı
@@ -316,7 +323,10 @@ function renderGallery(data) {
       return `
         <article class="store-card featured">
           <a href="${storeUrl}" class="card-image-wrap">
-            <img src="${imgUrl}" alt="${store.title}" loading="lazy" onerror="this.src='assets/images/placeholder.png'">
+            <img src="${imgUrl}" 
+                 alt="${store.title}" 
+                 loading="lazy" 
+                 onerror="this.onerror=null; this.src='${FALLBACK_IMG}';"> 
             <span class="badge-featured">Featured Store</span>
           </a>
           <div class="card-info">
@@ -335,7 +345,10 @@ function renderGallery(data) {
     return `
       <article class="store-card">
         <a href="${storeUrl}" class="card-image-wrap">
-          <img src="${imgUrl}" alt="${store.title}" loading="lazy" onerror="this.style.display='none'">
+          <img src="${imgUrl}" 
+               alt="${store.title}" 
+               loading="lazy" 
+               onerror="this.onerror=null; this.src='${FALLBACK_IMG}';">
         </a>
         <div class="card-info">
           <h3><a href="${storeUrl}">${store.title}</a></h3>
