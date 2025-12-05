@@ -16,19 +16,32 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* --- 1. SİYAH ÇERÇEVE & GENEL DÜZELTMELER --- */
+    /* --- 1. GENEL DÜZELTMELER --- */
     img, a img { border: none !important; outline: none !important; }
     .header-inner { position: relative; }
     .header-left { position: relative; z-index: 1001; }
 
-    /* --- 2. BENTO İKON ANİMASYONU (VİZYON KISMI) --- */
-    .bento-icon {
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    /* --- 2. YENİ KATEGORİ SİMGESİ AYARLARI --- */
+    /* Resimdeki simgenin aynısı olması için SVG kullanıyoruz */
+    .bento-icon-svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px; /* Yazı ile simge arası boşluk */
+        color: currentColor; /* Butonun rengini alır */
+        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); /* DÖNME EFEKTİ */
     }
     
     /* Buton 'active' olduğunda simge sağa döner */
-    .btn-cat.active .bento-icon {
+    .btn-cat.active .bento-icon-svg {
         transform: rotate(90deg);
+        color: #ff6b00; /* Aktifken turuncu olsun istersen (opsiyonel) */
+    }
+
+    /* Butonun iç düzeni */
+    .btn-cat {
+        display: flex;
+        align-items: center;
+        gap: 4px; /* Simge ve yazı arası */
     }
 
     /* --- 3. PREMIUM DROPDOWN MENÜ --- */
@@ -40,7 +53,7 @@
         top: 100%;
         left: 0;
         margin-top: 12px;
-        width: 260px; /* Kompakt Genişlik */
+        width: 260px; 
         
         transform-origin: top left;
         transform: translateY(-10px);
@@ -48,7 +61,6 @@
         z-index: 9999;
     }
 
-    /* Menü Açıldığında */
     .categories-panel-wrap.active {
         opacity: 1;
         visibility: visible;
@@ -64,7 +76,6 @@
         padding: 8px 0;
     }
 
-    /* Link Tasarımı */
     .cat-link {
         display: flex;
         align-items: center;
@@ -83,7 +94,7 @@
         background-color: #f9fafb;
         color: #ff6b00;
         border-left-color: #ff6b00;
-        padding-left: 24px; /* Hafif kayma efekti */
+        padding-left: 24px;
     }
 
     .cat-arrow { font-size: 16px; color: #ccc; }
@@ -111,10 +122,12 @@
         <a href="./" class="logo">RGZTEC</a>
         
         <button id="btn-categories" class="btn-cat">
-          <div class="bento-icon">
-            <span></span><span></span>
-            <span></span><span></span>
-          </div>
+          <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="2"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="2"></rect>
+          </svg>
           Categories
         </button>
 
@@ -212,7 +225,7 @@
         if (btnCategories && categoriesPanel) {
             btnCategories.addEventListener('click', function(e) {
                 e.stopPropagation(); 
-                // Hem Panele hem Butona 'active' class ekle (dönme efekti için)
+                // Hem Panele hem Butona 'active' class ekle
                 categoriesPanel.classList.toggle('active');
                 btnCategories.classList.toggle('active');
             });
