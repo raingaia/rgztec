@@ -52,3 +52,4 @@
     console.error("HOME ürün yükleme hatası:", err);
   }
 })();
+
