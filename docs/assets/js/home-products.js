@@ -3,7 +3,7 @@
   if (!container) return;
 
   const BASE = "/rgztec/";
-  const DATA_URL = BASE + "assets/data/store.data.json";
+  const DATA_URL = BASE + "data/store.data.json";
 
   try {
     const res = await fetch(DATA_URL + "?v=" + Date.now());
