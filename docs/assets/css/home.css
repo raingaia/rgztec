@@ -248,10 +248,6 @@ a {
   align-items: start;
 }
 
-@media (min-width: 1025px){
-  .banner-inner{
-    min-height: 520px;   /* ✅ sağ kartın “tam dolu” hissi */
-  }
 }
 .banner-copy-eyebrow {
   font-size: 12px;
