@@ -75,7 +75,16 @@
         padding: 8px 0;
         min-height: 50px;
     }
-
+    #genesis-stage {
+    all: unset; /* Eski tüm stilleri sıfırla */
+    display: block;
+    width: 100vw;
+    height: 85vh;
+    position: relative;
+    background: #ffffff;
+    overflow: hidden;
+    margin-left: calc(-50vw + 50%); /* Sayfa konteynerini kırıp tam ekran yayılmasını sağlar */
+}
     /* --- 4. LİNK TASARIMI (VERİDEN GELEN) --- */
     .cat-link {
         display: flex;
@@ -178,20 +187,19 @@
     <div class="sub-nav-list" id="sub-nav-list"></div>
   </nav>
 
- <section id="genesis-root" style="width: 100%; height: 800px; position: relative; overflow: hidden; background: #fff;">
-    <canvas id="matrixCanvas" style="position: absolute; inset: 0; z-index: 1; opacity: 0.4;"></canvas>
-    <div id="light-overlay" style="position: absolute; inset: 0; z-index: 2; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(255,255,255,0.8) 60%); pointer-events: none;"></div>
+<section id="genesis-stage">
+    <canvas id="matrixCanvas" style="position: absolute; inset: 0; z-index: 1; opacity: 0.3;"></canvas>
+    
+    <div id="light-field" style="position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(255,255,255,0.8) 60%);"></div>
 
-    <div style="position: relative; z-index: 10; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
-        <div class="hero-text" style="position: absolute; left: 8vw; top: 15vh;">
-            <h1 style="font-size: clamp(60px, 8vw, 120px); font-weight: 800; line-height: 0.85; letter-spacing: -4px; color: #000; filter: none !important;">BUILD THE<br>INFRASTRUCTURE</h1>
-        </div>
+    <div style="position: absolute; left: 10%; top: 25%; z-index: 10;">
+        <h1 style="font-size: clamp(60px, 10vw, 130px); font-weight: 800; line-height: 0.85; letter-spacing: -6px; color: #000; margin: 0;">GENESIS<br>PROTOCOL</h1>
+    </div>
 
-        <div style="position: absolute; bottom: 80px; width: 100%; display: flex; flex-direction: column; align-items: center;">
-            <div id="store-name" style="font-size: 32px; font-weight: 200; letter-spacing: 15px; color: #000; margin-bottom: 20px;">RGZTEC</div>
-            <div style="width: 400px; height: 2px; background: rgba(0,0,0,0.05); position: relative;">
-                <div id="bar-fill" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: #000;"></div>
-            </div>
+    <div style="position: absolute; bottom: 10%; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 20;">
+        <div id="store-display" style="font-size: 28px; font-weight: 200; letter-spacing: 15px; color: #000; transition: 0.5s; opacity: 0;">RGZTEC</div>
+        <div style="width: 350px; height: 2px; background: rgba(0,0,0,0.05); margin-top: 15px; position: relative;">
+            <div id="progress-bar" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: #000;"></div>
         </div>
     </div>
 </section>
