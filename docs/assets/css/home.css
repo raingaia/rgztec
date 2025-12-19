@@ -649,3 +649,8 @@ a {
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 1024px) {
+  .banner-image {
+    height: 420px;
+  }
+}
