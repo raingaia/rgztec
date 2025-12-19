@@ -1,246 +1,115 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RGZTEC | Genesis Ecosystem</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-      :root {
-        --paper: #ffffff;
-        --ink: #000000;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        cursor: none;
-      }
+        :root { --paper: #ffffff; --ink: #000000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body, html { width: 100%; height: 100%; overflow: hidden; background: var(--paper); font-family: "Inter", sans-serif; }
+        
+        #matrixCanvas { position: absolute; inset: 0; z-index: 1; opacity: 0.22; }
+        
+        #cursor { 
+            position: fixed; width: 8px; height: 8px; background: var(--ink); 
+            border-radius: 50%; pointer-events: none; z-index: 999; mix-blend-mode: difference; 
+        }
 
-      body,
-      html {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: var(--paper);
-        font-family: "Inter", sans-serif;
-      }
+        .stage { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; }
+        
+        .hero { position: relative; z-index: 100; text-align: left; left: -5vw; pointer-events: none; }
+        .hero h1 { font-size: clamp(60px, 10vw, 130px); font-weight: 800; line-height: 0.85; letter-spacing: -0.06em; color: var(--ink); text-transform: uppercase; }
 
-      /* Matrix Akışı - Premium Yavaşlık */
-      #matrixCanvas {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        opacity: 0.22;
-      }
+        .store-cycle { position: absolute; bottom: 12%; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .store-name { font-size: 32px; font-weight: 200; letter-spacing: 15px; color: var(--ink); text-transform: uppercase; opacity: 0; transform: translateY(10px); }
+        .loading-bar-container { width: 400px; height: 2px; background: rgba(0, 0, 0, 0.05); position: relative; overflow: hidden; }
+        .loading-bar-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--ink); }
 
-      #cursor {
-        position: fixed;
-        width: 8px;
-        height: 8px;
-        background: var(--ink);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 999;
-        mix-blend-mode: difference;
-      }
-
-      .stage {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        z-index: 10;
-      }
-
-      /* Ana Başlık */
-      .hero {
-        position: relative;
-        z-index: 100;
-        text-align: left;
-        left: -5vw;
-        pointer-events: none;
-      }
-      .hero h1 {
-        font-size: clamp(60px, 10vw, 130px);
-        font-weight: 800;
-        line-height: 0.85;
-        letter-spacing: -0.06em;
-        color: var(--ink);
-        text-transform: uppercase;
-      }
-
-      /* Mağaza Döngü Alanı */
-      .store-cycle {
-        position: absolute;
-        bottom: 12%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .store-name {
-        font-size: 32px;
-        font-weight: 200;
-        letter-spacing: 15px;
-        color: var(--ink);
-        text-transform: uppercase;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .loading-bar-container {
-        width: 400px;
-        height: 2px;
-        background: rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .loading-bar-fill {
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 0%;
-        background: var(--ink);
-      }
-
-      .brand-label {
-        position: absolute;
-        bottom: 40px;
-        left: 60px;
-        font-size: 14px;
-        font-weight: 800;
-        letter-spacing: 2px;
-      }
-
-      .meta-data {
-        position: absolute;
-        bottom: 40px;
-        right: 60px;
-        font-size: 10px;
-        letter-spacing: 0.5em;
-        text-transform: uppercase;
-        color: rgba(0, 0, 0, 0.4);
-        z-index: 100;
-      }
+        .brand-label { position: absolute; bottom: 40px; left: 60px; font-size: 14px; font-weight: 800; letter-spacing: 2px; }
+        .meta-data { position: absolute; bottom: 40px; right: 60px; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(0, 0, 0, 0.4); z-index: 100; }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div id="cursor"></div>
     <canvas id="matrixCanvas"></canvas>
 
     <div class="stage">
-      <div class="hero">
-        <h1 id="title">Genesis<br />Protocol</h1>
-      </div>
-
-      <div class="store-cycle">
-        <div class="store-name" id="storeName">RGZTEC</div>
-        <div class="loading-bar-container">
-          <div class="loading-bar-fill" id="barFill"></div>
+        <div class="hero">
+            <h1 id="title">Genesis<br>Protocol</h1>
         </div>
-      </div>
 
-      <div class="brand-label">RGZTEC.EXE</div>
+        <div class="store-cycle">
+            <div class="store-name" id="storeName">RGZTEC</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar-fill" id="barFill"></div>
+            </div>
+        </div>
 
-      <div class="meta-data">
-        <span>Ecosystem Cycle Active</span>
-      </div>
+        <div class="brand-label">RGZTEC.EXE</div>
+        <div class="meta-data"><span>Ecosystem Cycle Active</span></div>
     </div>
 
     <script>
-      // --- MATRIX ENGINE ---
-      const canvas = document.getElementById("matrixCanvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const symbols = "01010101110101";
-      const fontSize = 15;
-      const columns = canvas.width / fontSize;
-      const drops = Array(Math.floor(columns))
-        .fill(0)
-        .map(() => (Math.random() * canvas.height) / fontSize);
-
-      function drawMatrix() {
-        ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#000";
-        ctx.font = `${fontSize}px monospace`;
-        for (let i = 0; i < drops.length; i++) {
-          const text = symbols.charAt(
-            Math.floor(Math.random() * symbols.length)
-          );
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
-            drops[i] = 0;
-          drops[i] += 0.4;
+        // Matrix Engine
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
-      }
-      setInterval(drawMatrix, 50);
+        window.addEventListener('resize', resize);
+        resize();
 
-      // --- MAĞAZA DÖNGÜSÜ (5 SANİYE) ---
-      const stores = [
-        "RGZTEC",
-        "HARDWARE LAB",
-        "TEMPLATES",
-        "ICON SMITH",
-        "AI TOOLS HUB",
-      ];
+        const symbols = "01010101110101";
+        const fontSize = 15;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(0).map(() => (Math.random() * canvas.height) / fontSize);
 
-      let currentStoreIndex = 0;
-      const barFill = document.getElementById("barFill");
-      const storeNameElement = document.getElementById("storeName");
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#000";
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = symbols.charAt(Math.floor(Math.random() * symbols.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.985) drops[i] = 0;
+                drops[i] += 0.4;
+            }
+        }
+        setInterval(drawMatrix, 50);
 
-      function updateStoreCycle() {
-        // İsmi güncelle ve canlandır
-        storeNameElement.innerText = stores[currentStoreIndex];
-        storeNameElement.style.opacity = "1";
-        storeNameElement.style.transform = "translateY(0)";
+        // Store Cycle
+        const stores = ["RGZTEC", "HARDWARE LAB", "TEMPLATES", "ICON SMITH", "AI TOOLS HUB"];
+        let currentStoreIndex = 0;
+        const barFill = document.getElementById("barFill");
+        const storeNameElement = document.getElementById("storeName");
 
-        // Çizgiyi 5 saniyede doldur
-        gsap.fromTo(
-          barFill,
-          { width: "0%" },
-          {
-            width: "100%",
-            duration: 5,
-            ease: "none",
-            onComplete: () => {
-              // İsmi gizle
-              storeNameElement.style.opacity = "0";
-              storeNameElement.style.transform = "translateY(-10px)";
+        function updateStoreCycle() {
+            storeNameElement.innerText = stores[currentStoreIndex];
+            
+            let tl = gsap.timeline();
+            tl.to(storeNameElement, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" })
+              .fromTo(barFill, { width: "0%" }, { width: "100%", duration: 5, ease: "none" })
+              .to(storeNameElement, { opacity: 0, y: -10, duration: 0.6, onComplete: () => {
+                  currentStoreIndex = (currentStoreIndex + 1) % stores.length;
+                  updateStoreCycle();
+              }});
+        }
+        updateStoreCycle();
 
-              // Bir sonraki mağazaya geç
-              currentStoreIndex = (currentStoreIndex + 1) % stores.length;
+        // Interactions
+        window.addEventListener("mousemove", (e) => {
+            gsap.to("#cursor", { x: e.clientX, y: e.clientY, duration: 0.1 });
+            const xMove = (e.clientX / window.innerWidth - 0.5) * 20;
+            const yMove = (e.clientY / window.innerHeight - 0.5) * 20;
+            gsap.to("#title", { x: xMove, y: yMove, duration: 1 });
+        });
 
-              // Küçük bir bekleme sonrası tekrar başlat
-              setTimeout(updateStoreCycle, 600);
-            },
-          }
-        );
-      }
-
-      // Döngüyü başlat
-      updateStoreCycle();
-
-      // Mouse hareketi
-      window.addEventListener("mousemove", (e) => {
-        gsap.to("#cursor", { x: e.clientX, y: e.clientY, duration: 0.1 });
-        const xMove = (e.clientX / window.innerWidth - 0.5) * 20;
-        const yMove = (e.clientY / window.innerHeight - 0.5) * 20;
-        gsap.to("#title", { x: xMove, y: yMove, duration: 1 });
-      });
-
-      // Giriş animasyonu
-      gsap.from("#title", { opacity: 0, y: 30, duration: 2, ease: "expo.out" });
+        gsap.from("#title", { opacity: 0, y: 30, duration: 2, ease: "expo.out" });
     </script>
-  </body>
+</body>
 </html>
