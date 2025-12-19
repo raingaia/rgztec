@@ -9,126 +9,46 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/store-core.css">
   <link rel="stylesheet" href="assets/css/home.css">
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
   <style>
-    /* --- 1. TEMEL AYARLAR --- */
+    /* TEMEL AYARLAR */
     img, a img { border: none !important; outline: none !important; }
     .header-inner { position: relative; }
-    .header-left { position: relative; z-index: 1001; }
-
-    /* --- 2. BENTO ICON (SVG & ANIMASYON) --- */
-    .bento-icon-svg {
-        width: 20px;
-        height: 20px;
-        margin-right: 8px;
-        color: currentColor;
-        transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-    }
     
-    /* Aktif olduğunda dönme efekti */
-    .btn-cat.active .bento-icon-svg {
-        transform: rotate(90deg);
-        color: #ff6b00;
-    }
-
-    .btn-cat {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    /* --- 3. KATEGORİ PANELİ --- */
-    .categories-panel-wrap {
-        display: none; /* Varsayılan gizli */
-        opacity: 0;
-        visibility: hidden;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        margin-top: 12px;
-        width: 260px; /* Kompakt Genişlik */
-        
-        transform-origin: top left;
-        transform: translateY(-10px);
-        transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        z-index: 9999;
-    }
-
-    /* JS 'active' ekleyince görünür */
-    .categories-panel-wrap.active {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .categories-panel {
-        background: #ffffff;
-        border: 1px solid rgba(0,0,0,0.08);
-        border-radius: 12px;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-        padding: 8px 0;
-        min-height: 50px;
-    }
+    /* GENESIS STAGE - TAM EKRAN VE NETLİK AYARI */
     #genesis-stage {
-    all: unset; /* Eski tüm stilleri sıfırla */
-    display: block;
-    width: 100vw;
-    height: 85vh;
-    position: relative;
-    background: #ffffff;
-    overflow: hidden;
-    margin-left: calc(-50vw + 50%); /* Sayfa konteynerini kırıp tam ekran yayılmasını sağlar */
-}
-    /* --- 4. LİNK TASARIMI (VERİDEN GELEN) --- */
-    .cat-link {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 11px 20px;
-        text-decoration: none;
-        color: #4b5563;
-        font-size: 14px;
-        font-weight: 500;
-        font-family: 'Inter', sans-serif;
-        transition: all 0.2s;
-        border-left: 3px solid transparent;
-        cursor: pointer;
+        all: unset;
+        display: block;
+        width: 100vw;
+        height: 75vh;
+        position: relative;
+        background: #ffffff;
+        overflow: hidden;
+        margin-left: calc(-50vw + 50%);
+        z-index: 5;
     }
 
-    .cat-link:hover {
-        background-color: #f9fafb;
-        color: #ff6b00;
-        border-left-color: #ff6b00;
-        padding-left: 24px;
+    #matrixCanvas {
+        position: absolute; inset: 0; z-index: 1; opacity: 0.25;
     }
 
-    .cat-arrow { font-size: 16px; color: #ccc; }
-    .cat-link:hover .cat-arrow { color: #ff6b00; }
-
-    /* Yükleniyor ve Hata Mesajları */
-    .menu-status-msg {
-        padding: 15px 20px;
-        font-size: 13px;
-        color: #888;
+    /* BENTO & KATEGORİ STİLLERİ */
+    .bento-icon-svg { width: 20px; height: 20px; margin-right: 8px; transition: transform 0.3s; }
+    .btn-cat.active .bento-icon-svg { transform: rotate(90deg); color: #ff6b00; }
+    .categories-panel-wrap {
+        display: none; opacity: 0; position: absolute; top: 100%; left: 0; 
+        width: 260px; z-index: 9999; transition: all 0.25s;
     }
-
-    /* --- 5. İKONLAR --- */
-    .icon-action {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-main, #333);
-        transition: color 0.2s;
-        text-decoration: none;
-        padding: 0 8px;
-    }
-    .icon-action:hover { color: var(--primary, #ff6b00); }
+    .categories-panel-wrap.active { display: block; opacity: 1; transform: translateY(12px); }
+    .cat-link { display: flex; align-items: center; justify-content: space-between; padding: 11px 20px; text-decoration: none; color: #4b5563; font-size: 14px; transition: 0.2s; }
+    .cat-link:hover { background: #f9fafb; color: #ff6b00; padding-left: 24px; }
   </style>
 </head>
 <body>
@@ -137,72 +57,46 @@
     <div class="container header-inner">
       <div class="header-left">
         <a href="./" class="logo">RGZTEC</a>
-        
         <button id="btn-categories" class="btn-cat">
-          <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7" rx="2"></rect>
-            <rect x="14" y="3" width="7" height="7" rx="2"></rect>
-            <rect x="14" y="14" width="7" height="7" rx="2"></rect>
-            <rect x="3" y="14" width="7" height="7" rx="2"></rect>
-          </svg>
+          <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="14" width="7" height="7" rx="2"></rect><rect x="3" y="14" width="7" height="7" rx="2"></rect></svg>
           Categories
         </button>
-
         <div id="categories-panel" class="categories-panel-wrap">
             <div class="categories-panel">
-              <div class="categories-list" id="categories-list-container">
-                  <div class="menu-status-msg">Loading...</div>
-              </div>
+              <div class="categories-list" id="categories-list-container"></div>
             </div>
         </div>
       </div>
 
       <div class="search-bar">
         <input type="text" class="search-input" placeholder="Search marketplace...">
-        <button class="search-btn">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </button>
+        <button class="search-btn">🔍</button>
       </div>
 
       <div class="nav-right">
-        <a href="editor/" class="nav-link">Dashboard / Editor</a>
+        <a href="editor/" class="nav-link">Dashboard</a>
         <a href="login/" class="nav-link">Sign In</a>
-
-        <a href="gift-cards/"class="icon-action" title="Gift Cards">
-            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H4.5a1.5 1.5 0 01-1.5-1.5v-8.25M3 11.25h18M3 11.25l7.5-7.5M21 11.25l-7.5-7.5m-6 0l-1.5 1.5m7.5-1.5l1.5 1.5m-6 6v7.5" />
-            </svg>
-        </a>
-        
-        <a href="cart.html" class="icon-action" title="Cart">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
-        </a>
-
+        <a href="cart.html" class="nav-link">Cart</a>
         <a href="open-store.html" class="btn-open-store">Open Store</a>
       </div>
     </div>
   </header>
 
-  <nav class="sub-nav">
-    <div class="sub-nav-list" id="sub-nav-list"></div>
-  </nav>
+  <section id="genesis-stage">
+      <canvas id="matrixCanvas"></canvas>
+      <div id="light-field" style="position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(255,255,255,0.8) 60%);"></div>
 
-<section id="genesis-stage">
-    <canvas id="matrixCanvas" style="position: absolute; inset: 0; z-index: 1; opacity: 0.3;"></canvas>
-    
-    <div id="light-field" style="position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(255,255,255,0.8) 60%);"></div>
+      <div style="position: absolute; left: 10%; top: 25%; z-index: 10;">
+          <h1 id="genesis-title" style="font-size: clamp(50px, 9vw, 110px); font-weight: 800; line-height: 0.85; letter-spacing: -5px; color: #000; margin: 0;">GENESIS<br>PROTOCOL</h1>
+      </div>
 
-    <div style="position: absolute; left: 10%; top: 25%; z-index: 10;">
-        <h1 style="font-size: clamp(60px, 10vw, 130px); font-weight: 800; line-height: 0.85; letter-spacing: -6px; color: #000; margin: 0;">GENESIS<br>PROTOCOL</h1>
-    </div>
-
-    <div style="position: absolute; bottom: 10%; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 20;">
-        <div id="store-display" style="font-size: 28px; font-weight: 200; letter-spacing: 15px; color: #000; transition: 0.5s; opacity: 0;">RGZTEC</div>
-        <div style="width: 350px; height: 2px; background: rgba(0,0,0,0.05); margin-top: 15px; position: relative;">
-            <div id="progress-bar" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: #000;"></div>
-        </div>
-    </div>
-</section>
+      <div style="position: absolute; bottom: 10%; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 20;">
+          <div id="store-display" style="font-size: 28px; font-weight: 200; letter-spacing: 12px; color: #000; margin-bottom: 10px;">RGZTEC</div>
+          <div style="width: 350px; height: 2px; background: rgba(0,0,0,0.06); position: relative;">
+              <div id="progress-bar" style="position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: #000;"></div>
+          </div>
+      </div>
+  </section>
 
   <main class="container">
     <div class="section-header" style="margin-bottom: 24px; margin-top: 40px;">
@@ -211,130 +105,70 @@
     <div id="gallery" class="grid"></div>
   </main>
 
-<footer class="footer">
-  <div class="container footer-inner">
-
-    <!-- Sol taraf (brand block) -->
-    <div class="footer-brand">
-      <div class="footer-logo">RGZTEC</div>
-      <p>Premium digital marketplace for code, UI kits and hardware accessories.</p>
-    </div>
-
-    <!-- Sağ taraf (3 kolon linkler) -->
-    <div class="footer-columns">
-      <div class="footer-col">
-        <h4>Marketplace</h4>
-        <a href="#gallery">Explore stores</a>
-        <a href="#">Open a store</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>Stay in touch</h4>
-        <a href="mailto:support@rgztec.com" class="footer-email">support@rgztec.com</a>
-      </div>
-    </div>
-
-    <!-- Alt bar -->
-    <div class="footer-bot">
-      <span>© 2025 RGZTEC, Inc. All rights reserved.</span>
-      <div class="footer-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </div>
-    </div>
-
-  </div>
-</footer>
   <script src="assets/js/home-products.js"></script> 
- <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const JSON_PATH = 'data/store.data.json';
+  <script>
+    // --- GENESIS MOTORU ---
+    window.addEventListener('load', () => {
+        // 1. Matrix
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+        const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+        resize(); window.addEventListener('resize', resize);
 
-    const btnCategories   = document.getElementById('btn-categories');
-    const categoriesPanel = document.getElementById('categories-panel');
-    const listContainer   = document.getElementById('categories-list-container');
-
-    // 1) Bu JSON yapısına birebir uygun: { "game-makers": { ... }, "ai-tools-hub": { ... }, ... }
-    function buildStoreListFromData(data) {
-      // data şu an tamamen slug-key object => Object.entries ile listeye çeviriyoruz
-      return Object.entries(data).map(([slug, store]) => {
-        return {
-          slug,
-          name: store.title || store.name || slug,
-          // Mağazaların path’i: /rgztec/store/{slug}/index.html
-          url: `store/${slug}/`
-        };
-      });
-    }
-
-    // 2) Kategorileri yükle
-    function loadCategories() {
-      if (!listContainer) return;
-
-      listContainer.innerHTML = '<div class="menu-status-msg">Loading...</div>';
-
-      fetch(JSON_PATH + '?v=' + Date.now())
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('HTTP ' + response.status);
-          }
-          return response.json();
-        })
-        .then(data => {
-          const storeList = buildStoreListFromData(data);
-
-          if (!storeList || storeList.length === 0) {
-            listContainer.innerHTML = '<div class="menu-status-msg">No stores found.</div>';
-            return;
-          }
-
-          listContainer.innerHTML = '';
-
-          storeList.forEach(store => {
-            const link = document.createElement('a');
-            link.href = store.url;          // örn: store/hardware/
-            link.className = 'cat-link';
-            link.innerHTML = `
-              ${store.name}
-              <span class="cat-arrow">›</span>
-            `;
-            listContainer.appendChild(link);
-          });
-        })
-        .catch(error => {
-          console.error('Kategoriler yüklenemedi:', error);
-          listContainer.innerHTML =
-            '<div class="menu-status-msg" style="color:red;">Error loading menu.<br><small>Check console.</small></div>';
-        });
-    }
-
-    // İlk yüklemede çek
-    loadCategories();
-
-    // 3) Açma / kapama
-    if (btnCategories && categoriesPanel) {
-      btnCategories.addEventListener('click', function(e) {
-        e.stopPropagation();
-        const isActive = categoriesPanel.classList.contains('active');
-        categoriesPanel.classList.toggle('active', !isActive);
-        btnCategories.classList.toggle('active', !isActive);
-      });
-
-      document.addEventListener('click', function(e) {
-        if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
-          categoriesPanel.classList.remove('active');
-          btnCategories.classList.remove('active');
+        const drops = Array(Math.floor(window.innerWidth / 15)).fill(0);
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#000";
+            ctx.font = "15px monospace";
+            drops.forEach((y, i) => {
+                const text = Math.random() > 0.5 ? "0" : "1";
+                ctx.fillText(text, i * 15, y * 15);
+                if (y * 15 > canvas.height && Math.random() > 0.98) drops[i] = 0;
+                drops[i]++;
+            });
         }
-      });
-    }
-  });
-</script>
+        setInterval(drawMatrix, 50);
 
+        // 2. Mağaza Döngüsü
+        const stores = ["RGZTEC", "HARDWARE LAB", "TEMPLATES", "ICON SMITH", "AI TOOLS HUB"];
+        let idx = 0;
+        const bar = document.getElementById("progress-bar");
+        const txt = document.getElementById("store-display");
+
+        function runCycle() {
+            txt.innerText = stores[idx];
+            gsap.fromTo(txt, {opacity: 0, y: 10}, {opacity: 1, y: 0, duration: 0.7});
+            gsap.fromTo(bar, {width: "0%"}, {width: "100%", duration: 5, ease: "none", onComplete: () => {
+                gsap.to(txt, {opacity: 0, y: -10, duration: 0.5, onComplete: () => {
+                    idx = (idx + 1) % stores.length;
+                    runCycle();
+                }});
+            }});
+        }
+        runCycle();
+
+        // 3. Işık Takibi
+        window.addEventListener('mousemove', (e) => {
+            const field = document.getElementById('light-field');
+            field.style.setProperty('--x', e.clientX + 'px');
+            field.style.setProperty('--y', e.clientY + 'px');
+        });
+    });
+
+    // --- KATEGORİ SİSTEMİ (Senin mevcut kodun) ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnCat = document.getElementById('btn-categories');
+        const panel = document.getElementById('categories-panel');
+        if(btnCat) {
+            btnCat.addEventListener('click', (e) => {
+                e.stopPropagation();
+                panel.classList.toggle('active');
+            });
+            document.addEventListener('click', () => panel.classList.remove('active'));
+        }
+        // Kategori loading simülasyonu veya fetch buraya...
+    });
+  </script>
 </body>
 </html>
