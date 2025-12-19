@@ -237,14 +237,33 @@ a {
 .marketplace-banner-section {
   padding: 40px 0 60px;
 }
+/* BANNER ALANI DÜZELTME */
+.marketplace-banner-section {
+  padding: 60px 0; /* Boşlukları artırdık */
+  background: var(--bg-alt);
+}
+
 .banner-inner {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
+  grid-template-columns: 1fr 1.1fr; /* Sol: Yazı, Sağ: Animasyon */
   gap: 60px;
-  .banner-inner{
+  align-items: start; /* Objeleri dikeyde ortaladık */
+}
+
+.banner-image {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #f8f8f8; /* AKQA tarzı kirli beyaz */
+  position: relative;
+  width: 100%;
+  min-height: 520px; /* Sabit yükseklik yerine minimum yükseklik */
+  display: flex;
+  justify-content: center;
   align-items: start;
 }
 
