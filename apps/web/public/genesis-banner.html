@@ -2,277 +2,245 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>RGZTEC | Premium Genesis Banner</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RGZTEC | Genesis Ecosystem</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
       :root {
-        --paper: #f7f7f7;
-        --ink: #111;
-        --muted: rgba(0, 0, 0, 0.4);
+        --paper: #ffffff;
+        --ink: #000000;
       }
-      
-      html, body {
+      * {
         margin: 0;
         padding: 0;
-        background: var(--paper);
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
-        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+        cursor: none;
       }
 
-      .wrapPage {
-        width: 100%;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 60px 0;
-      }
-
-      .banner {
-        /* Yüksekliği artırarak "basık" görüntüyü yok ettik */
-        width: min(1280px, 94vw);
-        height: 660px; 
-        position: relative;
-        border-radius: 32px;
-        overflow: hidden;
-        background: #ffffff;
-        /* Daha premium, derin bir gölge */
-        box-shadow: 0 50px 140px rgba(0, 0, 0, 0.06);
-        isolation: isolate;
-        border: 1px solid rgba(0,0,0,0.03);
-      }
-
-      /* AKQA sweep - Daha yavaş ve geniş ışık süzülmesi */
-      .banner::before {
-        content: "";
-        position: absolute;
-        inset: -50%;
-        background: radial-gradient(
-          circle at 32% 28%,
-          rgba(255, 255, 255, 1) 0%,
-          rgba(240, 242, 245, 0.4) 45%,
-          transparent 75%
-        );
-        animation: sweep 25s ease-in-out infinite alternate;
-        pointer-events: none;
-      }
-
-      @keyframes sweep {
-        from { transform: translate3d(-3%, -2%, 0); }
-        to { transform: translate3d(3%, 2%, 0); }
-      }
-
-      .grid {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-                          linear-gradient(0deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-        background-size: 140px 140px; /* Daha geniş grid, daha ferah durur */
-        opacity: 0.15;
-        pointer-events: none;
-        z-index: 1;
-      }
-
-      /* Başlık Alanı - AKQA Stilinde Tipografi */
-      .copy {
-        position: absolute;
-        left: 80px; /* Kenardan daha içeride, premium duruş */
-        top: 85px;
-        z-index: 10;
-        max-width: 700px;
-      }
-
-      .copy h1 {
-        margin: 0;
-        font-size: 68px; /* Daha büyük ve iddialı */
-        line-height: 0.95;
-        letter-spacing: -3px; /* Agresif modern harf arası */
-        font-weight: 700;
-        color: var(--ink);
-      }
-      
-      .copy::after {
-        content: "[ SYSTEM_LOGIC: PREMIUM_ACTIVE ]";
-        display: block;
-        font-family: ui-monospace, monospace;
-        font-size: 11px;
-        letter-spacing: 3px;
-        color: var(--muted);
-        margin-top: 25px;
-        font-weight: 500;
-      }
-
-      .copy p {
-        margin: 15px 0 0;
-        font-size: 16px;
-        color: var(--muted);
-        letter-spacing: -0.01em;
-        font-weight: 400;
-      }
-
-      canvas#rain {
-        position: absolute;
-        inset: 0;
+      body,
+      html {
         width: 100%;
         height: 100%;
-        z-index: 3;
-        opacity: 0.7;
+        overflow: hidden;
+        background: var(--paper);
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Matrix Akışı - Premium Yavaşlık */
+      #matrixCanvas {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0.22;
+      }
+
+      #cursor {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--ink);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 999;
+        mix-blend-mode: difference;
+      }
+
+      .stage {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Ana Başlık */
+      .hero {
+        position: relative;
+        z-index: 100;
+        text-align: left;
+        left: -5vw;
         pointer-events: none;
       }
+      .hero h1 {
+        font-size: clamp(60px, 10vw, 130px);
+        font-weight: 800;
+        line-height: 0.85;
+        letter-spacing: -0.06em;
+        color: var(--ink);
+        text-transform: uppercase;
+      }
 
-      /* Hardware Kartları - Daha zarif ve uçucu */
-      .hw {
+      /* Mağaza Döngü Alanı */
+      .store-cycle {
         position: absolute;
-        bottom: 120px;
-        width: 190px;
-        height: 130px;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.85);
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(20px);
-        transform-style: preserve-3d;
-        opacity: 0;
-        z-index: 5;
+        bottom: 12%;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        gap: 10px;
-      }
-
-      .hw .icon { font-weight: 800; font-size: 18px; color: var(--ink); }
-      .hw .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
-
-      .hw.a { left: -260px; animation: hwMove 22s linear infinite; animation-delay: 0s; }
-      .hw.b { left: -260px; animation: hwMove 22s linear infinite; animation-delay: -4.4s; }
-      .hw.c { left: -260px; animation: hwMove 22s linear infinite; animation-delay: -8.8s; }
-      .hw.d { left: -260px; animation: hwMove 22s linear infinite; animation-delay: -13.2s; }
-      .hw.e { left: -260px; animation: hwMove 22s linear infinite; animation-delay: -17.6s; }
-
-      @keyframes hwMove {
-        0% { transform: translate3d(0, 0, 0) rotate(-1deg); opacity: 0; }
-        10% { opacity: 1; }
-        50% { transform: translate3d(calc(100vw + 300px), -15px, 0) rotate(1deg); opacity: 1; }
-        90% { opacity: 0; }
-        100% { transform: translate3d(calc(100vw + 500px), 0, 0); opacity: 0; }
-      }
-
-      /* Marka Alanı - Daha ince ve yüksek kaliteli */
-      .brand {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 60px; /* Yukarı taşıyarak ferahlık sağladık */
-        z-index: 8;
-        display: flex;
-        justify-content: center;
         gap: 15px;
       }
 
-      .brand .char {
-        font-size: 56px;
-        font-weight: 100; /* İnce font = Premium hissi */
-        letter-spacing: 10px;
+      .store-name {
+        font-size: 32px;
+        font-weight: 200;
+        letter-spacing: 15px;
         color: var(--ink);
-        opacity: 0;
-        animation: charIn 20s ease-in-out infinite;
-      }
-
-      @keyframes charIn {
-        0%, 60% { opacity: 0; transform: translateY(20px); filter: blur(15px); }
-        68% { opacity: 1; transform: translateY(0); filter: blur(0); }
-        86% { opacity: 1; }
-        95%, 100% { opacity: 0; transform: translateY(-10px); }
-      }
-
-      .footer {
-        position: absolute;
-        left: 40px;
-        right: 40px;
-        bottom: 25px;
-        font-size: 10px;
-        letter-spacing: 0.4em; /* Daha geniş harf arası */
         text-transform: uppercase;
-        color: rgba(0, 0, 0, 0.3);
-        z-index: 9;
-        text-align: center;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .loading-bar-container {
+        width: 400px;
+        height: 2px;
+        background: rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .loading-bar-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0%;
+        background: var(--ink);
+      }
+
+      .brand-label {
+        position: absolute;
+        bottom: 40px;
+        left: 60px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 2px;
+      }
+
+      .meta-data {
+        position: absolute;
+        bottom: 40px;
+        right: 60px;
+        font-size: 10px;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.4);
+        z-index: 100;
       }
     </style>
   </head>
-
   <body>
-    <div class="wrapPage">
-      <div class="banner">
-        <div class="grid"></div>
-        <div class="copy">
-          <h1>Build the Infrastructure of Tomorrow</h1>
-          <p>Code, hardware and platforms converge into one ecosystem.</p>
-        </div>
-        
-        <canvas id="rain"></canvas>
+    <div id="cursor"></div>
+    <canvas id="matrixCanvas"></canvas>
 
-        <div class="hw a"><div class="icon">GPU</div><div class="label">AI Accelerators</div></div>
-        <div class="hw b" style="bottom: 140px"><div class="icon">DEV</div><div class="label">Dev Kits</div></div>
-        <div class="hw c" style="bottom: 110px"><div class="icon">API</div><div class="label">Components</div></div>
-        <div class="hw d" style="bottom: 150px"><div class="icon">I/O</div><div class="label">Hardware Lab</div></div>
-        <div class="hw e" style="bottom: 125px"><div class="icon">UI</div><div class="label">Templates</div></div>
+    <div class="stage">
+      <div class="hero">
+        <h1 id="title">Genesis<br />Protocol</h1>
+      </div>
 
-        <div class="brand">
-          <span class="char c1" style="animation-delay: 12s">R</span>
-          <span class="char c2" style="animation-delay: 12.3s">G</span>
-          <span class="char c3" style="animation-delay: 12.6s">Z</span>
-          <span class="char c4" style="animation-delay: 12.9s">T</span>
-          <span class="char c5" style="animation-delay: 13.2s">E</span>
-          <span class="char c6" style="animation-delay: 13.5s">C</span>
+      <div class="store-cycle">
+        <div class="store-name" id="storeName">RGZTEC</div>
+        <div class="loading-bar-container">
+          <div class="loading-bar-fill" id="barFill"></div>
         </div>
+      </div>
 
-        <div class="footer">
-          RGZTEC ECOSYSTEM // HARDWARE X CODE // 89 INTERNAL UNITS
-        </div>
+      <div class="brand-label">RGZTEC.EXE</div>
+
+      <div class="meta-data">
+        <span>Ecosystem Cycle Active</span>
       </div>
     </div>
 
     <script>
-      const canvas = document.getElementById("rain");
-      const ctx = canvas.getContext("2d", { alpha: true });
+      // --- MATRIX ENGINE ---
+      const canvas = document.getElementById("matrixCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-      function resize() {
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = canvas.clientWidth * dpr;
-        canvas.height = canvas.clientHeight * dpr;
-        ctx.scale(dpr, dpr);
-      }
-      window.addEventListener("resize", resize);
-      resize();
+      const symbols = "01010101110101";
+      const fontSize = 15;
+      const columns = canvas.width / fontSize;
+      const drops = Array(Math.floor(columns))
+        .fill(0)
+        .map(() => (Math.random() * canvas.height) / fontSize);
 
-      const phrases = ["INIT_CORE()", "SECURE_CHECKOUT()", "STATUS: PREMIUM", "BUILD_PIPELINE()", "SYNC_HARDWARE", "VERIFY_HASH()"];
-      let streams = [];
-      const count = 25;
-      
-      for (let i = 0; i < count; i++) {
-        streams.push({
-          x: Math.random() * 1200,
-          y: Math.random() * -600,
-          speed: 15 + Math.random() * 30,
-          alpha: 0.05 + Math.random() * 0.1,
-          text: phrases[Math.floor(Math.random() * phrases.length)]
-        });
-      }
-
-      function frame() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "10px monospace";
-        for (const s of streams) {
-          ctx.fillStyle = `rgba(0,0,0,${s.alpha})`;
-          ctx.fillText(s.text, s.x, s.y);
-          s.y += s.speed / 60;
-          if (s.y > 700) s.y = -100;
+      function drawMatrix() {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#000";
+        ctx.font = `${fontSize}px monospace`;
+        for (let i = 0; i < drops.length; i++) {
+          const text = symbols.charAt(
+            Math.floor(Math.random() * symbols.length)
+          );
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
+            drops[i] = 0;
+          drops[i] += 0.4;
         }
-        requestAnimationFrame(frame);
       }
-      frame();
+      setInterval(drawMatrix, 50);
+
+      // --- MAĞAZA DÖNGÜSÜ (5 SANİYE) ---
+      const stores = [
+        "RGZTEC",
+        "HARDWARE LAB",
+        "TEMPLATES",
+        "ICON SMITH",
+        "AI TOOLS HUB",
+      ];
+
+      let currentStoreIndex = 0;
+      const barFill = document.getElementById("barFill");
+      const storeNameElement = document.getElementById("storeName");
+
+      function updateStoreCycle() {
+        // İsmi güncelle ve canlandır
+        storeNameElement.innerText = stores[currentStoreIndex];
+        storeNameElement.style.opacity = "1";
+        storeNameElement.style.transform = "translateY(0)";
+
+        // Çizgiyi 5 saniyede doldur
+        gsap.fromTo(
+          barFill,
+          { width: "0%" },
+          {
+            width: "100%",
+            duration: 5,
+            ease: "none",
+            onComplete: () => {
+              // İsmi gizle
+              storeNameElement.style.opacity = "0";
+              storeNameElement.style.transform = "translateY(-10px)";
+
+              // Bir sonraki mağazaya geç
+              currentStoreIndex = (currentStoreIndex + 1) % stores.length;
+
+              // Küçük bir bekleme sonrası tekrar başlat
+              setTimeout(updateStoreCycle, 600);
+            },
+          }
+        );
+      }
+
+      // Döngüyü başlat
+      updateStoreCycle();
+
+      // Mouse hareketi
+      window.addEventListener("mousemove", (e) => {
+        gsap.to("#cursor", { x: e.clientX, y: e.clientY, duration: 0.1 });
+        const xMove = (e.clientX / window.innerWidth - 0.5) * 20;
+        const yMove = (e.clientY / window.innerHeight - 0.5) * 20;
+        gsap.to("#title", { x: xMove, y: yMove, duration: 1 });
+      });
+
+      // Giriş animasyonu
+      gsap.from("#title", { opacity: 0, y: 30, duration: 2, ease: "expo.out" });
     </script>
   </body>
 </html>
