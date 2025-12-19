@@ -244,7 +244,7 @@ a {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 60px;
-  align-items: center;
+  align-items:start;
 }
 .banner-copy-eyebrow {
   font-size: 12px;
