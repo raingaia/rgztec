@@ -6,52 +6,151 @@
     <title>RGZTEC | Genesis Ecosystem</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        :root { --paper: #ffffff; --ink: #000000; }
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body, html { width: 100%; height: 100%; overflow: hidden; background: var(--paper); font-family: "Inter", sans-serif; }
-        
-        #matrixCanvas { position: absolute; inset: 0; z-index: 1; opacity: 0.22; }
-        
-        #cursor { 
-            position: fixed; width: 8px; height: 8px; background: var(--ink); 
-            border-radius: 50%; pointer-events: none; z-index: 999; mix-blend-mode: difference; 
-        }
+    #rgz-genesis-root {
+        position: relative;
+        width: 100%;
+        height: 750px; /* Sitenin tasarımına göre burayı ayarlayabilirsin */
+        background: #ffffff;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .stage { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; }
-        
-        .hero { position: relative; z-index: 100; text-align: left; left: -5vw; pointer-events: none; }
-        .hero h1 { font-size: clamp(60px, 10vw, 130px); font-weight: 800; line-height: 0.85; letter-spacing: -0.06em; color: var(--ink); text-transform: uppercase; }
+    #matrixCanvas {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 1;
+        opacity: 0.3; /* Solukluğu önlemek için görünürlüğü artırdık */
+        pointer-events: none;
+    }
 
-        .store-cycle { position: absolute; bottom: 12%; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .store-name { font-size: 32px; font-weight: 200; letter-spacing: 15px; color: var(--ink); text-transform: uppercase; opacity: 0; transform: translateY(10px); }
-        .loading-bar-container { width: 400px; height: 2px; background: rgba(0, 0, 0, 0.05); position: relative; overflow: hidden; }
-        .loading-bar-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--ink); }
+    .genesis-hero {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        pointer-events: none;
+    }
 
-        .brand-label { position: absolute; bottom: 40px; left: 60px; font-size: 14px; font-weight: 800; letter-spacing: 2px; }
-        .meta-data { position: absolute; bottom: 40px; right: 60px; font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(0, 0, 0, 0.4); z-index: 100; }
-    </style>
-</head>
-<body>
-    <div id="cursor"></div>
+    .genesis-hero h1 {
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(50px, 8vw, 110px);
+        font-weight: 800;
+        line-height: 0.85;
+        letter-spacing: -0.05em;
+        color: #000;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .ecosystem-cycle {
+        position: absolute;
+        bottom: 10%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 20;
+    }
+
+    #cycle-text {
+        font-size: 28px;
+        font-weight: 200;
+        letter-spacing: 12px;
+        color: #000;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .cycle-bar-bg {
+        width: 350px;
+        height: 2px;
+        background: rgba(0,0,0,0.06);
+        position: relative;
+    }
+
+    #cycle-bar-fill {
+        position: absolute;
+        left: 0; top: 0;
+        height: 100%;
+        width: 0%;
+        background: #000;
+    }
+</style>
+
+<section id="rgz-genesis-root">
     <canvas id="matrixCanvas"></canvas>
-
-    <div class="stage">
-        <div class="hero">
-            <h1 id="title">Genesis<br>Protocol</h1>
-        </div>
-
-        <div class="store-cycle">
-            <div class="store-name" id="storeName">RGZTEC</div>
-            <div class="loading-bar-container">
-                <div class="loading-bar-fill" id="barFill"></div>
-            </div>
-        </div>
-
-        <div class="brand-label">RGZTEC.EXE</div>
-        <div class="meta-data"><span>Ecosystem Cycle Active</span></div>
+    
+    <div class="genesis-hero">
+        <h1 id="genesis-title">Genesis<br>Protocol</h1>
     </div>
 
-    <script>
+    <div class="ecosystem-cycle">
+        <div id="cycle-text">RGZTEC</div>
+        <div class="cycle-bar-bg">
+            <div id="cycle-bar-fill"></div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+    window.addEventListener('load', () => {
+        // --- Matrix Engine ---
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        function resize() {
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const symbols = "01010101110101";
+        const fontSize = 16;
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#000";
+            ctx.font = `bold ${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = symbols.charAt(Math.floor(Math.random() * symbols.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i] += 0.5;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        // --- Store Cycle Engine ---
+        const stores = ["RGZTEC", "HARDWARE LAB", "TEMPLATES", "ICON SMITH", "AI TOOLS HUB"];
+        let currentIdx = 0;
+        const fill = document.getElementById("cycle-bar-fill");
+        const label = document.getElementById("cycle-text");
+
+        function startCycle() {
+            label.innerText = stores[currentIdx];
+            
+            let tl = gsap.timeline();
+            tl.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 })
+              .fromTo(fill, { width: "0%" }, { width: "100%", duration: 5, ease: "none" })
+              .to(label, { opacity: 0, y: -10, duration: 0.6, onComplete: () => {
+                  currentIdx = (currentIdx + 1) % stores.length;
+                  startCycle();
+              }});
+        }
+        startCycle();
+
+        // --- Initial Entrance ---
+        gsap.from("#genesis-title", { opacity: 0, scale: 0.9, duration: 2, ease: "expo.out", delay: 0.3 });
+    });
+</script>
         // Matrix Engine
         const canvas = document.getElementById("matrixCanvas");
         const ctx = canvas.getContext("2d");
