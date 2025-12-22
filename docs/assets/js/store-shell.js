@@ -1,18 +1,19 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * @version 18.2.1 (HOTFIX - Beyaz Ekran / renderStoreNav Çakışması)
+ * @version 18.2.2 (FIX - Section Nav Absolute Href + Path Normalize + Cache Bust)
  *
  * FIX:
- * - renderStoreNav içine yanlışlıkla giren store-section-nav return'ü kaldırıldı
- * - navItems / isRootLevel undefined hataları kaldırıldı
- * - renderStoreNav ikinci kez tanımlanma hatası kaldırıldı
+ * - Root-level section nav links are now absolute (/rgztec/store/{rootSlug}/{slug}/)
+ * - data-path is normalized (removes hash, trims slashes)
+ * - DATA_URL cache bust
+ * - Root-level active highlight uses currentSlug
  */
 (function () {
   "use strict";
 
   // ---- Sabitler ----
-  const DATA_URL = "/rgztec/data/store.data.json";
+  const DATA_URL = "/rgztec/data/store.data.json?v=1822"; // cache bust
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   // ---- Başlatma ----
@@ -25,11 +26,14 @@
       return;
     }
 
-    const path = storeBody.dataset.path || null;
+    let path = storeBody.dataset.path || null;
     if (!path) {
       renderError(new Error("No 'data-path' attribute found on the body tag."), storeRoot);
       return;
     }
+
+    // Normalize: remove hash, trim trailing/leading slashes
+    path = normalizePath(path);
 
     initStore(path, storeRoot);
   });
@@ -41,7 +45,6 @@
       if (!allStoresData) throw new Error("Mağaza veri dosyası (store.data.json) boş veya eksik.");
 
       const { currentData, parentData, rootSlug, currentSlug } = findDataByPath(allStoresData, path);
-
       if (!currentData) throw new Error(`Path not found in store.data.json: "${path}"`);
 
       let storeHtml = "";
@@ -66,15 +69,19 @@
         isRootLevelNav = true;
       }
 
-      const activeSlugForNav = parentData ? currentSlug : null;
-      storeHtml += renderSectionNav(sectionsForNav, activeSlugForNav, isRootLevelNav);
+      // Active slug:
+      // - Root level: highlight the current section if we are inside one
+      // - Sub level: highlight currentSlug among siblings
+      const activeSlugForNav = parentData ? currentSlug : (path.includes("/") ? currentSlug : null);
+
+      storeHtml += renderSectionNav(sectionsForNav, activeSlugForNav, isRootLevelNav, rootSlug);
 
       // 4) Banner
       storeHtml += renderHero(currentData);
 
       // 5) Kartlar
       if (currentData.sections && currentData.sections.length > 0) {
-        storeHtml += renderShopSection(currentData.sections);
+        storeHtml += renderShopSection(currentData.sections, rootSlug, path);
       }
       if (currentData.products && currentData.products.length > 0) {
         storeHtml += renderProductSection(currentData.products);
@@ -93,9 +100,21 @@
     }
   }
 
+  // ---- Path Normalize ----
+  function normalizePath(p) {
+    let s = String(p || "");
+    // remove hash part if included
+    s = s.replace(/#.*$/, "");
+    // trim whitespace
+    s = s.trim();
+    // remove leading/trailing slashes
+    s = s.replace(/^\/+/, "").replace(/\/+$/, "");
+    return s;
+  }
+
   // ---- Veri Bulma ----
   function findDataByPath(allStoresData, path) {
-    const segments = path.split("/");
+    const segments = normalizePath(path).split("/").filter(Boolean);
 
     let currentData = allStoresData;
     let parentData = null;
@@ -110,7 +129,7 @@
       const segment = segments[i];
       parentData = currentData;
       const sections = currentData.sections || [];
-      const nextData = sections.find((s) => s.slug === segment);
+      const nextData = sections.find((s) => s && s.slug === segment);
       if (nextData) currentData = nextData;
       else return { currentData: null };
     }
@@ -198,7 +217,7 @@
   }
 
   // ---- Render: Section Nav (Kategori) ----
-  function renderSectionNav(sections, currentSlug, isRootLevel = false) {
+  function renderSectionNav(sections, currentSlug, isRootLevel = false, rootSlug = "") {
     if (!Array.isArray(sections) || sections.length === 0) return "";
 
     const navItems = sections
@@ -206,14 +225,16 @@
         if (!section) return "";
         const slug = escapeHtml(section.slug || "");
         const name = escapeHtml(section.name || "Unnamed Section");
-        const isActive = slug === currentSlug;
+        const isActive = slug && currentSlug && slug === currentSlug;
         const linkClass = isActive ? "store-section-nav__link active" : "store-section-nav__link";
 
+        // Root: absolute
+        // Nested: keep relative
         const href = isActive
           ? "#"
           : isRootLevel
-          ? `${slug}/`
-          : `../${slug}/`;
+            ? `/rgztec/store/${escapeHtml(rootSlug)}/${slug}/`
+            : `../${slug}/`;
 
         return `
           <li class="store-section-nav__item">
@@ -272,7 +293,7 @@
     const tagline = escapeHtml(section.tagline || "");
     const slug = escapeHtml(section.slug || "");
     const imageUrl = section.image ? `${IMAGE_BASE_PATH}${escapeHtml(section.image)}` : "";
-    const href = `${slug}/`;
+    const href = `${slug}/`; // within current store path this is OK
 
     const imageElement = imageUrl
       ? `<img src="${imageUrl}" alt="${name}" loading="lazy">`
