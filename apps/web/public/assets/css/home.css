@@ -1068,5 +1068,18 @@ main.container {
     #eef2f7 100%
   );
 }
+/* FIX: Footer öncesi alan – gerçek kaynak */
+.home-products,
+.marketplace,
+.section,
+section:last-of-type {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8fafc 55%,
+    #eef2f7 100%
+  );
+  padding-bottom: 80px;
+}
 
 
