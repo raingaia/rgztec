@@ -1043,4 +1043,15 @@ a {
     grid-template-columns: 1fr;
   }
 }
+/* FOOTER TRANSITION FIX */
+.footer-spacer {
+  height: 120px;
+  background: linear-gradient(
+    180deg,
+    var(--bg-alt) 0%,
+    #ffffff 40%,
+    #f8fafc 70%,
+    #eef2f7 100%
+  );
+}
 
