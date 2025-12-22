@@ -160,8 +160,6 @@
               <a href="#" class="store-header-secondary-link">Support</a>
             </div>
             <div class="store-header-actions">
-              <button class="store-header-icon-pill" type="button" aria-label="Gift cards">${ICON_GIFT}</button>
-              <button class="store-header-icon-pill" type="button" aria-label="Cart">${ICON_CART}</button>
               <a href="#" class="store-header-cta"><span>Open Store</span></a>
             </div>
           </div>
