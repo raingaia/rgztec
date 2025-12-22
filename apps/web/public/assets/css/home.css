@@ -474,7 +474,7 @@ a {
 }
 
 /* Ürün grid’i – Etsy tarzı */
-.grid {
+.grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 26px;
