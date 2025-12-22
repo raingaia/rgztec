@@ -16,96 +16,127 @@
   <link rel="stylesheet" href="assets/css/home.css">
 
   <style>
-    /* --- 1. TEMEL AYARLAR --- */
-    img, a img { border: none !important; outline: none !important; }
-    .header-inner { position: relative; }
-    .header-left { position: relative; z-index: 1001; }
+    img, a img { border:none !important; outline:none !important; }
+    .header-inner{ position:relative; }
+    .header-left{ position:relative; z-index:1001; }
 
-    /* --- 2. BENTO ICON (SVG & ANIMASYON) --- */
+    /* Categories button */
     .bento-icon-svg{
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
-      color: currentColor;
-      transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-    }
-    .btn-cat.active .bento-icon-svg{
-      transform: rotate(90deg);
-      color: #ff6b00;
+      width:20px;height:20px;margin-right:8px;
+      color:currentColor;
+      transition:transform .3s cubic-bezier(.4,0,.2,1);
     }
     .btn-cat{ display:flex; align-items:center; gap:4px; }
+    .app-header.has-cat-open .bento-icon-svg{ transform:rotate(90deg); color:#ff6b00; }
 
-    /* --- 3. KATEGORİ PANELİ --- */
+    /* Panel wrap */
     .categories-panel-wrap{
-      display:none;
-      opacity:0;
-      visibility:hidden;
       position:absolute;
       top:100%;
       left:0;
       margin-top:12px;
-      width:260px;
-      transform-origin: top left;
-      transform: translateY(-10px);
-      transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      width:min(920px, calc(100vw - 32px));
+      display:none;
       z-index:9999;
     }
-    .categories-panel-wrap.active{
-      display:block;
-      opacity:1;
-      visibility:visible;
-      transform: translateY(0);
-    }
+    .app-header.has-cat-open .categories-panel-wrap{ display:block; }
+
+    /* Mega panel layout */
     .categories-panel{
-      background:#ffffff;
+      background:#fff;
       border:1px solid rgba(0,0,0,0.08);
+      border-radius:14px;
+      box-shadow:0 18px 40px rgba(0,0,0,0.12);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 380px;
+    }
+
+    /* Left list */
+    #categories-list{
+      background: linear-gradient(180deg,#ffffff 0%,#fbfbfb 100%);
+      border-right:1px solid rgba(0,0,0,0.06);
+      padding:10px;
+      overflow:auto;
+    }
+    .cat-item{
+      width:100%;
+      border:1px solid transparent;
+      background:transparent;
       border-radius:12px;
-      box-shadow:0 12px 30px rgba(0,0,0,0.1);
-      padding:8px 0;
-      min-height:50px;
-    }
-
-    /* --- 4. LİNK TASARIMI --- */
-    .cat-link{
+      padding:12px 12px;
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      padding:11px 20px;
-      text-decoration:none;
-      color:#4b5563;
-      font-size:14px;
-      font-weight:500;
-      font-family:'Inter', sans-serif;
-      transition: all 0.2s;
-      border-left:3px solid transparent;
-      cursor:pointer;
-    }
-    .cat-link:hover{
-      background-color:#f9fafb;
-      color:#ff6b00;
-      border-left-color:#ff6b00;
-      padding-left:24px;
-    }
-    .cat-arrow{ font-size:16px; color:#ccc; }
-    .cat-link:hover .cat-arrow{ color:#ff6b00; }
-
-    .menu-status-msg{
-      padding:15px 20px;
-      font-size:13px;
-      color:#888;
-    }
-
-    /* --- 5. İKONLAR --- */
-    .icon-action{
-      display:flex;
       align-items:center;
-      justify-content:center;
-      color: var(--text-main, #333);
-      transition: color 0.2s;
-      text-decoration:none;
-      padding: 0 8px;
+      gap:10px;
+      cursor:pointer;
+      color:#374151;
+      font-weight:700;
+      font-size:14px;
+      transition: all .15s ease;
     }
-    .icon-action:hover{ color: var(--primary, #ff6b00); }
+    .cat-item:hover{
+      background:#f9fafb;
+      border-color:rgba(255,107,0,0.20);
+      color:#ff6b00;
+    }
+    .cat-item--active{
+      background:#fff7ed;
+      border-color:rgba(255,107,0,0.28);
+      color:#ff6b00;
+    }
+
+    /* Right detail */
+    #categories-detail{
+      padding:18px 18px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .cat-detail-eyebrow{
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#9ca3af;
+      font-weight:800;
+    }
+    .cat-detail-title{
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:-0.02em;
+      color:#111827;
+    }
+    .cat-detail-subtitle{
+      font-size:14px;
+      color:#6b7280;
+      line-height:1.6;
+      max-width: 560px;
+    }
+    .cat-detail-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+    .cat-detail-links a{
+      display:inline-flex;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.08);
+      background:#fff;
+      text-decoration:none;
+      color:#111827;
+      font-weight:800;
+      font-size:13px;
+      transition: all .15s ease;
+    }
+    .cat-detail-links a:hover{
+      border-color:rgba(255,107,0,0.30);
+      box-shadow:0 10px 26px rgba(255,107,0,0.10);
+      color:#ff6b00;
+    }
   </style>
 </head>
 
@@ -116,7 +147,7 @@
       <div class="header-left">
         <a href="./" class="logo">RGZTEC</a>
 
-        <button id="btn-categories" class="btn-cat">
+        <button id="btn-categories" class="btn-cat" type="button">
           <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7" rx="2"></rect>
             <rect x="14" y="3" width="7" height="7" rx="2"></rect>
@@ -126,18 +157,18 @@
           Categories
         </button>
 
+        <!-- ✅ Mega menu (HOME MANAGER bunu kullanıyor) -->
         <div id="categories-panel" class="categories-panel-wrap">
           <div class="categories-panel">
-            <div class="categories-list" id="categories-list-container">
-              <div class="menu-status-msg">Loading...</div>
-            </div>
+            <div id="categories-list"></div>
+            <div id="categories-detail"></div>
           </div>
         </div>
       </div>
 
       <div class="search-bar">
         <input type="text" class="search-input" placeholder="Search marketplace...">
-        <button class="search-btn">
+        <button class="search-btn" type="button" aria-label="Search">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
@@ -169,18 +200,14 @@
     <div class="sub-nav-list" id="sub-nav-list"></div>
   </nav>
 
-  <!-- HOME HERO (CSS home.css'ten gelecek) -->
   <section class="home-hero">
     <div class="container hero-inner">
       <div class="hero-left">
         <div class="hero-kicker">#1 GLOBAL MARKETPLACE</div>
-        <h1 class="hero-title">
-          Premium <span>digital assets</span> for<br>modern builders.
-        </h1>
+        <h1 class="hero-title">Premium <span>digital assets</span> for<br>modern builders.</h1>
         <p class="hero-desc">
           RGZTEC brings together high-quality HTML templates, React components, AI tools, and hardware accessories.
         </p>
-
         <div class="hero-meta">
           <span class="hero-dot"></span>
           <span><b>11+</b> Stores</span>
@@ -193,7 +220,6 @@
         <div class="hero-card">
           <div class="hero-badge">#1 BEST SELLING</div>
           <div class="hero-big">Global Marketplace</div>
-
           <div class="hero-art">
             <img src="assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC Global Marketplace Banner">
           </div>
@@ -203,17 +229,14 @@
   </section>
 
   <main class="container">
-    <div class="section-header" style="margin-bottom: 24px; margin-top: 28px;">
+    <div class="section-header" style="margin-bottom:24px; margin-top:28px;">
       <h2 class="gallery-title">Explore Stores</h2>
     </div>
     <div id="gallery" class="grid"></div>
   </main>
 
-  <!-- ✅ FOOTER SPACER KALDIRILDI -->
-
   <footer class="footer">
     <div class="container footer-inner">
-
       <div class="footer-brand">
         <div class="footer-logo">RGZTEC</div>
         <p>Premium digital marketplace for code, UI kits and hardware accessories.</p>
@@ -223,15 +246,13 @@
         <div class="footer-col">
           <h4>Marketplace</h4>
           <a href="#gallery">Explore stores</a>
-          <a href="#">Open a store</a>
+          <a href="open-store.html">Open a store</a>
         </div>
-
         <div class="footer-col">
           <h4>Company</h4>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
         </div>
-
         <div class="footer-col">
           <h4>Stay in touch</h4>
           <a href="mailto:support@rgztec.com" class="footer-email">support@rgztec.com</a>
@@ -241,198 +262,16 @@
       <div class="footer-bot">
         <span>© 2025 RGZTEC, Inc. All rights reserved.</span>
         <div class="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
         </div>
       </div>
-
     </div>
   </footer>
 
+  <!-- ✅ TEK JS: stabil home manager -->
   <script src="assets/js/home-products.js"></script>
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const JSON_PATH = 'data/store.data.json';
-
-  const grid = document.getElementById('gallery');
-  const subNav = document.getElementById('sub-nav-list');
-
-  // --- slug normalizer (tek gerçek kaynak) ---
-  const toSlug = (s="") => String(s)
-    .trim().toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  // --- render subnav categories (slug bazlı) ---
-  function renderCategories(stores) {
-    if (!subNav) return;
-
-    const map = new Map(); // slug -> label
-    stores.forEach(st => {
-      const label = st.category || "Other";
-      const slug = st.categorySlug || toSlug(label);
-      if (!map.has(slug)) map.set(slug, label);
-    });
-
-    const cats = [...map.entries()].sort((a,b)=> a[1].localeCompare(b[1]));
-
-    subNav.innerHTML = `
-      <button class="subcat is-active" data-cat="all">All</button>
-      ${cats.map(([slug,label])=>`<button class="subcat" data-cat="${slug}">${label}</button>`).join("")}
-    `;
-
-    subNav.addEventListener('click', (e) => {
-      const btn = e.target.closest('.subcat');
-      if (!btn) return;
-
-      subNav.querySelectorAll('.subcat').forEach(b=>b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-
-      applyCategory(btn.dataset.cat);
-    });
-  }
-
-  // --- filter cards (ASLA index kullanmaz) ---
-  function applyCategory(catSlug) {
-    if (!grid) return;
-    grid.querySelectorAll('.store-card').forEach(card => {
-      const c = card.dataset.category;
-      card.style.display = (catSlug === 'all' || c === catSlug) ? '' : 'none';
-    });
-  }
-
-  // --- OPTIONAL: eğer home-products.js kart basıyorsa bunu kapatmak istemiyorsan,
-  // sadece mevcut kartlara data-category yazdırman yeterli.
-  // Bu fonksiyon yoksa biz burada kartları basarız.
-  function renderCards(stores) {
-    if (!grid) return;
-
-    // Eğer grid zaten doluysa, dokunma:
-    if (grid.children.length > 0) {
-      // Mevcut kartlara category slug yoksa eklemeye çalış:
-      grid.querySelectorAll('[data-store-slug]').forEach(card => {
-        const slug = card.getAttribute('data-store-slug');
-        const st = stores.find(x => x.slug === slug);
-        if (st) {
-          const cat = st.category || "Other";
-          card.dataset.category = st.categorySlug || toSlug(cat);
-          card.classList.add('store-card');
-        }
-      });
-      return;
-    }
-
-    // Grid boşsa -> biz basıyoruz:
-    grid.innerHTML = stores.map(st => {
-      const catLabel = st.category || "Other";
-      const catSlug  = st.categorySlug || toSlug(catLabel);
-
-      return `
-        <article class="store-card" data-store-slug="${st.slug}" data-category="${catSlug}">
-          <div class="card-badge">OFFICIAL STORE</div>
-          <h3 class="card-title">${st.title}</h3>
-          <p class="card-desc">${st.description || ''}</p>
-          <a class="card-link" href="${st.url}">Visit Store →</a>
-        </article>
-      `;
-    }).join('');
-  }
-
-  function buildStores(data) {
-    return Object.entries(data).map(([slug, store]) => ({
-      slug,
-      title: store.title || store.name || slug,
-      description: store.description || store.tagline || "",
-      category: store.category || store.group || store.type || "Other",
-      categorySlug: store.categorySlug || store.groupSlug || "",
-      url: `store/${slug}/`
-    }));
-  }
-
-  fetch(JSON_PATH + '?v=' + Date.now())
-    .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(data => {
-      const stores = buildStores(data);
-
-      renderCategories(stores);
-      renderCards(stores);
-      applyCategory('all');
-    })
-    .catch(err => console.error('Store data load error:', err));
-});
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const JSON_PATH = 'data/store.data.json';
-
-      const btnCategories   = document.getElementById('btn-categories');
-      const categoriesPanel = document.getElementById('categories-panel');
-      const listContainer   = document.getElementById('categories-list-container');
-
-      function buildStoreListFromData(data) {
-        return Object.entries(data).map(([slug, store]) => {
-          return {
-            slug,
-            name: store.title || store.name || slug,
-            url: `store/${slug}/`
-          };
-        });
-      }
-
-      function loadCategories() {
-        if (!listContainer) return;
-
-        listContainer.innerHTML = '<div class="menu-status-msg">Loading...</div>';
-
-        fetch(JSON_PATH + '?v=' + Date.now())
-          .then(response => {
-            if (!response.ok) throw new Error('HTTP ' + response.status);
-            return response.json();
-          })
-          .then(data => {
-            const storeList = buildStoreListFromData(data);
-
-            if (!storeList || storeList.length === 0) {
-              listContainer.innerHTML = '<div class="menu-status-msg">No stores found.</div>';
-              return;
-            }
-
-            listContainer.innerHTML = '';
-            storeList.forEach(store => {
-              const link = document.createElement('a');
-              link.href = store.url;
-              link.className = 'cat-link';
-              link.innerHTML = `${store.name}<span class="cat-arrow">›</span>`;
-              listContainer.appendChild(link);
-            });
-          })
-          .catch(error => {
-            console.error('Kategoriler yüklenemedi:', error);
-            listContainer.innerHTML =
-              '<div class="menu-status-msg" style="color:red;">Error loading menu.<br><small>Check console.</small></div>';
-          });
-      }
-
-      loadCategories();
-
-      if (btnCategories && categoriesPanel) {
-        btnCategories.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const isActive = categoriesPanel.classList.contains('active');
-          categoriesPanel.classList.toggle('active', !isActive);
-          btnCategories.classList.toggle('active', !isActive);
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!categoriesPanel.contains(e.target) && !btnCategories.contains(e.target)) {
-            categoriesPanel.classList.remove('active');
-            btnCategories.classList.remove('active');
-          }
-        });
-      }
-    });
-  </script>
-
 </body>
 </html>
+
 
