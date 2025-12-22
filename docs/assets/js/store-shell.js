@@ -265,44 +265,37 @@
   </nav>
 `;
  
-  // 3) Dükkan Nav'ı (GÜNCELLENDİ v18.2 - Link mantığı düzeltildi)
-  function renderSectionNav(sections, currentSlug, isRootLevel = false) {
-    if (!Array.isArray(sections) || sections.length === 0) return "";
-    
-    const navItems = sections
-      .map((section) => {
-        if (!section) return "";
-        const slug = escapeHtml(section.slug || "");
-        const name = escapeHtml(section.name || "Unnamed Section");
-        const isActive = slug === currentSlug;
-        const linkClass = isActive
-          ? "store-section-nav__link active"
-          : "store-section-nav__link";
-        
-        // YENİ LİNK MANTIĞI (v18.2)
-        // Kök düzeydeysek (Mağaza), linkler alt klasöre gider (örn: "animations/")
-        // Alt düzeydeysek (Dükkan), linkler kardeş klasöre gider (örn: "../widgets/")
-        const href = isActive
-          ? "#"
-          : isRootLevel
-          ? `${slug}/`   // Kök -> Alt klasör (Katman 1)
-          : `../${slug}/`; // Kardeş -> Kardeş (Katman 2+)
+  function renderStoreNav(allStoresData, currentRootSlug) {
+  const storeLinks = Object.keys(allStoresData)
+    .map((slug) => {
+      const store = allStoresData[slug];
+      if (!store || !store.title) return "";
 
-        return `
-          <li class="store-section-nav__item">
-            <a href="${href}" class="${linkClass}">${name}</a>
-          </li>
-        `;
-      })
-      .join("");
-    return `
-      <nav class="store-section-nav" aria-label="Store sections">
-        <ul class="store-section-nav__list">
-          ${navItems}
-        </ul>
-      </nav>
-    `;
-  }
+      const name = escapeHtml(store.title);
+      const href = `/rgztec/store/${slug}/`;
+      const isActive = slug === currentRootSlug;
+
+      const linkClass = isActive
+        ? "store-main-nav__link active"
+        : "store-main-nav__link";
+
+      return `
+        <li class="store-main-nav__item">
+          <a href="${href}" class="${linkClass}">${name}</a>
+        </li>
+      `;
+    })
+    .join("");
+
+  return `
+    <nav class="store-main-nav" aria-label="RGZTEC stores">
+      <ul class="store-main-nav__list">
+        ${storeLinks}
+      </ul>
+    </nav>
+  `;
+}
+
 
   // 4) BANNER
   function renderHero(data) {
