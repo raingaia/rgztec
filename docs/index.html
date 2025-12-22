@@ -250,6 +250,118 @@
   </footer>
 
   <script src="assets/js/home-products.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const JSON_PATH = 'data/store.data.json';
+
+  const grid = document.getElementById('gallery');
+  const subNav = document.getElementById('sub-nav-list');
+
+  // --- slug normalizer (tek gerçek kaynak) ---
+  const toSlug = (s="") => String(s)
+    .trim().toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  // --- render subnav categories (slug bazlı) ---
+  function renderCategories(stores) {
+    if (!subNav) return;
+
+    const map = new Map(); // slug -> label
+    stores.forEach(st => {
+      const label = st.category || "Other";
+      const slug = st.categorySlug || toSlug(label);
+      if (!map.has(slug)) map.set(slug, label);
+    });
+
+    const cats = [...map.entries()].sort((a,b)=> a[1].localeCompare(b[1]));
+
+    subNav.innerHTML = `
+      <button class="subcat is-active" data-cat="all">All</button>
+      ${cats.map(([slug,label])=>`<button class="subcat" data-cat="${slug}">${label}</button>`).join("")}
+    `;
+
+    subNav.addEventListener('click', (e) => {
+      const btn = e.target.closest('.subcat');
+      if (!btn) return;
+
+      subNav.querySelectorAll('.subcat').forEach(b=>b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      applyCategory(btn.dataset.cat);
+    });
+  }
+
+  // --- filter cards (ASLA index kullanmaz) ---
+  function applyCategory(catSlug) {
+    if (!grid) return;
+    grid.querySelectorAll('.store-card').forEach(card => {
+      const c = card.dataset.category;
+      card.style.display = (catSlug === 'all' || c === catSlug) ? '' : 'none';
+    });
+  }
+
+  // --- OPTIONAL: eğer home-products.js kart basıyorsa bunu kapatmak istemiyorsan,
+  // sadece mevcut kartlara data-category yazdırman yeterli.
+  // Bu fonksiyon yoksa biz burada kartları basarız.
+  function renderCards(stores) {
+    if (!grid) return;
+
+    // Eğer grid zaten doluysa, dokunma:
+    if (grid.children.length > 0) {
+      // Mevcut kartlara category slug yoksa eklemeye çalış:
+      grid.querySelectorAll('[data-store-slug]').forEach(card => {
+        const slug = card.getAttribute('data-store-slug');
+        const st = stores.find(x => x.slug === slug);
+        if (st) {
+          const cat = st.category || "Other";
+          card.dataset.category = st.categorySlug || toSlug(cat);
+          card.classList.add('store-card');
+        }
+      });
+      return;
+    }
+
+    // Grid boşsa -> biz basıyoruz:
+    grid.innerHTML = stores.map(st => {
+      const catLabel = st.category || "Other";
+      const catSlug  = st.categorySlug || toSlug(catLabel);
+
+      return `
+        <article class="store-card" data-store-slug="${st.slug}" data-category="${catSlug}">
+          <div class="card-badge">OFFICIAL STORE</div>
+          <h3 class="card-title">${st.title}</h3>
+          <p class="card-desc">${st.description || ''}</p>
+          <a class="card-link" href="${st.url}">Visit Store →</a>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function buildStores(data) {
+    return Object.entries(data).map(([slug, store]) => ({
+      slug,
+      title: store.title || store.name || slug,
+      description: store.description || store.tagline || "",
+      category: store.category || store.group || store.type || "Other",
+      categorySlug: store.categorySlug || store.groupSlug || "",
+      url: `store/${slug}/`
+    }));
+  }
+
+  fetch(JSON_PATH + '?v=' + Date.now())
+    .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(data => {
+      const stores = buildStores(data);
+
+      renderCategories(stores);
+      renderCards(stores);
+      applyCategory('all');
+    })
+    .catch(err => console.error('Store data load error:', err));
+});
+</script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
