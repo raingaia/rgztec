@@ -1053,5 +1053,14 @@ a {
     #eef2f7 100%
   );
 }
+/* FIX: footer öncesi beyaz boşluk */
+main.container {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8fafc 60%,
+    #eef2f7 100%
+  );
+}
 
 
