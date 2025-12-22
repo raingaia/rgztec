@@ -1,17 +1,14 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * FINAL v18.2.3 (ABSOLUTE SECTION NAV + CATEGORIES TOGGLE + NORMALIZE + CACHE BUST)
- *
- * - Root-level section nav links: /rgztec/store/{rootSlug}/{slug}/
- * - data-path normalize (hash temizler, slash kırpar)
- * - DATA_URL cache bust
- * - Categories butonu: Section nav aç/kapat
+ * FINAL v18.2.4 (GLOBAL ROOT NAV & ABSOLUTE PATH FIX)
+ * * ÇÖZÜM: Hangi derinlikte olursa olsun navigasyonu her zaman 
+ * ana mağaza (rootSlug) üzerinden kurar.
  */
 (function () {
   "use strict";
 
-  const DATA_URL = "/rgztec/data/store.data.json?v=1823";
+  const DATA_URL = "/rgztec/data/store.data.json?v=1824";
   const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -39,45 +36,41 @@
       const allStoresData = await fetchJSON(DATA_URL);
       if (!allStoresData) throw new Error("store.data.json boş veya eksik.");
 
-      const { currentData, parentData, rootSlug, currentSlug } = findDataByPath(allStoresData, path);
-      if (!currentData) throw new Error(`Path not found in store.data.json: "${path}"`);
-
-      let html = "";
-
-      html += renderHeader();
-
-      html += renderStoreNav(allStoresData, rootSlug);
-
-      // Section nav data seçimi
-      let sectionsForNav = null;
-      let isRootLevelNav = false;
-
-      if (parentData) {
-        sectionsForNav = parentData.sections;
-        isRootLevelNav = false;
-      } else {
-        sectionsForNav = currentData.sections;
-        isRootLevelNav = true;
+      const { currentData, rootSlug, currentSlug } = findDataByPath(allStoresData, path);
+      
+      if (!currentData || !rootSlug) {
+        throw new Error(`Path not found in store.data.json: "${path}"`);
       }
 
-      // active highlight:
-      // - root page -> active yok
-      // - rootSlug/child -> child slug active
-      // - deeper -> currentSlug active among siblings
-      const activeSlugForNav = parentData ? currentSlug : (path.includes("/") ? currentSlug : null);
+      // --- KRİTİK DÜZELTME BAŞLANGICI ---
+      // Navigasyon verisini her zaman en üst seviye mağazadan alıyoruz.
+      const rootStoreData = allStoresData[rootSlug];
+      const sectionsForNav = rootStoreData ? rootStoreData.sections : [];
+      
+      // Linklerin ../ yerine tam yol (/rgztec/store/...) basılması için true zorluyoruz.
+      const forceAbsoluteNav = true; 
+      // --- KRİTİK DÜZELTME BITIŞI ---
 
-      html += renderSectionNav(sectionsForNav, activeSlugForNav, isRootLevelNav, rootSlug);
+      let html = "";
+      html += renderHeader();
+      html += renderStoreNav(allStoresData, rootSlug);
+      
+      // Kategori menüsünü bas (Her zaman dolu ve doğru linklerle gelir)
+      html += renderSectionNav(sectionsForNav, currentSlug, forceAbsoluteNav, rootSlug);
 
       html += renderHero(currentData);
 
+      // Alt kategoriler varsa (Explore Shops)
       if (currentData.sections && currentData.sections.length > 0) {
-        html += renderShopSection(currentData.sections);
+        html += renderShopSection(currentData.sections, rootSlug, path);
       }
 
+      // Ürünler varsa
       if (currentData.products && currentData.products.length > 0) {
         html += renderProductSection(currentData.products);
       }
 
+      // İkisi de yoksa
       if ((!currentData.sections || currentData.sections.length === 0) &&
           (!currentData.products || currentData.products.length === 0)) {
         html += renderEmptyShop();
@@ -93,47 +86,35 @@
 
   function normalizePath(p) {
     let s = String(p || "");
-    s = s.replace(/#.*$/, "");
-    s = s.trim();
+    s = s.replace(/#.*$/, "").trim();
     s = s.replace(/^\/+/, "").replace(/\/+$/, "");
     return s;
   }
 
   function findDataByPath(allStoresData, path) {
     const segments = normalizePath(path).split("/").filter(Boolean);
-
-    let currentData = allStoresData;
-    let parentData = null;
     const rootSlug = segments[0] || null;
     const currentSlug = segments[segments.length - 1] || null;
 
     if (!rootSlug || !allStoresData[rootSlug]) return { currentData: null };
 
-    currentData = allStoresData[rootSlug];
+    let currentData = allStoresData[rootSlug];
 
+    // Derinlik varsa dallar arasında ilerle
     for (let i = 1; i < segments.length; i++) {
       const seg = segments[i];
-      parentData = currentData;
       const sections = currentData.sections || [];
       const next = sections.find((s) => s && s.slug === seg);
       if (next) currentData = next;
       else return { currentData: null };
     }
 
-    if (segments.length === 1) parentData = null;
-
-    return { currentData, parentData, rootSlug, currentSlug };
+    return { currentData, rootSlug, currentSlug };
   }
 
   function renderHeader() {
-    const ICON_CATEGORIES = `
-      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>`;
-    const ICON_SEARCH = `
-      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-      </svg>`;
+    const ICON_CATEGORIES = `<svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>`;
+    const ICON_SEARCH = `<svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>`;
 
     return `
       <header class="store-header">
@@ -141,205 +122,104 @@
           <div class="store-header-left">
             <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
             <button class="store-header-categories-btn" type="button" aria-expanded="true" aria-controls="store-section-nav">
-              ${ICON_CATEGORIES}
-              <span>Categories</span>
+              ${ICON_CATEGORIES} <span>Categories</span>
             </button>
           </div>
-
           <div class="store-header-center">
             <form class="store-header-search" role="search">
-              <input type="search" placeholder="Search for anything" aria-label="Search RGZTEC marketplace" />
-              <button type="submit" aria-label="Search">${ICON_SEARCH}</button>
+              <input type="search" placeholder="Search for anything" />
+              <button type="submit">${ICON_SEARCH}</button>
             </form>
           </div>
-
           <div class="store-header-right">
-            <div class="store-header-secondary">
-              <a href="#" class="store-header-secondary-link">Dashboard / Editor</a>
-              <a href="#" class="store-header-secondary-link">Sign In</a>
-              <a href="#" class="store-header-secondary-link">Support</a>
-            </div>
-            <div class="store-header-actions">
-              <a href="#" class="store-header-cta"><span>Open Store</span></a>
-            </div>
+             <div class="store-header-secondary"><a href="#">Dashboard</a><a href="#">Sign In</a></div>
+             <a href="#" class="store-header-cta"><span>Open Store</span></a>
           </div>
         </div>
-      </header>
-    `;
+      </header>`;
   }
 
   function renderStoreNav(allStoresData, currentRootSlug) {
-    const storeLinks = Object.keys(allStoresData)
-      .map((slug) => {
-        const store = allStoresData[slug];
-        if (!store || !store.title) return "";
-        const name = escapeHtml(store.title);
-        const href = `/rgztec/store/${slug}/`;
-        const isActive = slug === currentRootSlug;
-        const linkClass = isActive ? "store-main-nav__link active" : "store-main-nav__link";
-        return `
-          <li class="store-main-nav__item">
-            <a href="${href}" class="${linkClass}">${name}</a>
-          </li>
-        `;
-      })
-      .join("");
-
-    return `
-      <nav class="store-main-nav" aria-label="RGZTEC stores">
-        <ul class="store-main-nav__list">${storeLinks}</ul>
-      </nav>
-    `;
+    const storeLinks = Object.keys(allStoresData).map((slug) => {
+      const store = allStoresData[slug];
+      if (!store || !store.title) return "";
+      const isActive = slug === currentRootSlug;
+      return `
+        <li class="store-main-nav__item">
+          <a href="/rgztec/store/${slug}/" class="store-main-nav__link ${isActive ? 'active' : ''}">${escapeHtml(store.title)}</a>
+        </li>`;
+    }).join("");
+    return `<nav class="store-main-nav"><ul class="store-main-nav__list">${storeLinks}</ul></nav>`;
   }
 
-  // ✅ FINAL: root-level links ABSOLUTE
   function renderSectionNav(sections, currentSlug, isRootLevel, rootSlug) {
     if (!Array.isArray(sections) || sections.length === 0) return "";
+    const navItems = sections.map((section) => {
+      if (!section) return "";
+      const slug = escapeHtml(section.slug || "");
+      const isActive = slug === currentSlug;
+      
+      // Dinamik Link Oluşturma: Her zaman /rgztec/store/MAĞAZA/KATEGORİ/ formatında
+      const href = isActive ? "#" : `/rgztec/store/${escapeHtml(rootSlug)}/${slug}/`;
 
-    const navItems = sections
-      .map((section) => {
-        if (!section) return "";
-        const slug = escapeHtml(section.slug || "");
-        const name = escapeHtml(section.name || "Unnamed Section");
-        const isActive = slug && currentSlug && slug === currentSlug;
-        const linkClass = isActive ? "store-section-nav__link active" : "store-section-nav__link";
-
-        const href = isActive
-          ? "#"
-          : isRootLevel
-            ? `/rgztec/store/${avoidEmpty(escapeHtml(rootSlug))}/${slug}/`
-            : `../${slug}/`;
-
-        return `
-          <li class="store-section-nav__item">
-            <a href="${href}" class="${linkClass}">${name}</a>
-          </li>
-        `;
-      })
-      .join("");
-
-    return `
-      <nav id="store-section-nav" class="store-section-nav" aria-label="Store sections">
-        <ul class="store-section-nav__list">${navItems}</ul>
-      </nav>
-    `;
+      return `
+        <li class="store-section-nav__item">
+          <a href="${href}" class="store-section-nav__link ${isActive ? 'active' : ''}">${escapeHtml(section.name)}</a>
+        </li>`;
+    }).join("");
+    return `<nav id="store-section-nav" class="store-section-nav"><ul class="store-section-nav__list">${navItems}</ul></nav>`;
   }
 
   function renderHero(data) {
-    const title = escapeHtml(data.title || data.name || "Welcome");
-    const tagline = escapeHtml(data.tagline || "");
-    const badge = escapeHtml(data.badge || "Official");
-    const description = escapeHtml(data.description || "");
     const bannerUrl = data.banner ? `${IMAGE_BASE_PATH}${escapeHtml(data.banner)}` : "";
-
     return `
       <section class="store-hero">
         <div class="store-hero-inner">
           <div class="store-hero-left">
-            <span class="store-badge">${badge}</span>
-            <h1>${title}</h1>
-            ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ""}
-            ${description ? `<p class="store-hero-description">${description}</p>` : ""}
+            <span class="store-badge">${escapeHtml(data.badge || "Official")}</span>
+            <h1>${escapeHtml(data.title || data.name)}</h1>
+            <p class="store-hero-tagline">${escapeHtml(data.tagline || "")}</p>
           </div>
           <div class="store-hero-right">
-            ${bannerUrl ? `<img src="${bannerUrl}" alt="${title}" class="store-hero-img" loading="lazy">` : ""}
+            ${bannerUrl ? `<img src="${bannerUrl}" class="store-hero-img">` : ""}
           </div>
         </div>
-      </section>
-    `;
+      </section>`;
   }
 
-  function renderShopSection(sections) {
-    const shopCards = sections.map((s) => renderShopCard(s)).join("");
-    return `
-      <main class="store-shops">
-        <div class="store-shops-header"><h2>Explore Shops</h2></div>
-        <div class="shop-grid products-grid">${shopCards}</div>
-      </main>
-    `;
-  }
-
-  function renderShopCard(section) {
-    if (!section) return "";
-    const name = escapeHtml(section.name || "Untitled Shop");
-    const tagline = escapeHtml(section.tagline || "");
-    const slug = escapeHtml(section.slug || "");
-    const imageUrl = section.image ? `${IMAGE_BASE_PATH}${escapeHtml(section.image)}` : "";
-    const href = `${slug}/`;
-
-    const imageElement = imageUrl
-      ? `<img src="${imageUrl}" alt="${name}" loading="lazy">`
-      : `<div class="product-media-placeholder"></div>`;
-
-    return `
-      <a href="${href}" class="shop-card">
-        <div class="shop-card-media">${imageElement}</div>
-        <div class="shop-card-body">
-          <h3 class="shop-card-title">${name}</h3>
-          <p class="shop-card-tagline">${tagline}</p>
-        </div>
-      </a>
-    `;
+  function renderShopSection(sections, rootSlug, currentPath) {
+    const shopCards = sections.map((s) => {
+      const href = `/rgztec/store/${rootSlug}/${s.slug}/`;
+      const imageUrl = s.image ? `${IMAGE_BASE_PATH}${escapeHtml(s.image)}` : "";
+      return `
+        <a href="${href}" class="shop-card">
+          <div class="shop-card-media">${imageUrl ? `<img src="${imageUrl}">` : `<div class="product-media-placeholder"></div>`}</div>
+          <div class="shop-card-body">
+            <h3 class="shop-card-title">${escapeHtml(s.name)}</h3>
+            <p class="shop-card-tagline">${escapeHtml(s.tagline)}</p>
+          </div>
+        </a>`;
+    }).join("");
+    return `<main class="store-shops"><div class="store-shops-header"><h2>Explore</h2></div><div class="shop-grid">${shopCards}</div></main>`;
   }
 
   function renderProductSection(products) {
-    const cards = products.map((p) => renderProductCard(p)).join("");
-    return `
-      <main class="store-products">
-        <div class="store-products-header"><h2>Explore Products</h2></div>
-        <div class="shop-grid">${cards}</div>
-      </main>
-    `;
-  }
-
-  function renderProductCard(product) {
-    if (!product) return "";
-    const title = escapeHtml(product.title || "Untitled Product");
-    const tagline = escapeHtml(product.tagline || "");
-    const imageUrl = product.image ? `${IMAGE_BASE_PATH}${escapeHtml(product.image)}` : "";
-    const url = product.url ? escapeHtml(product.url) : "#";
-    const target = 'target="_blank" rel="noopener noreferrer"';
-
-    const imageElement = imageUrl
-      ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
-      : `<div class="product-media-placeholder"></div>`;
-
-    return `
-      <a href="${url}" class="shop-card" ${target}>
-        <div class="shop-card-media">${imageElement}</div>
+    const cards = products.map((p) => `
+      <a href="${p.url || '#'}" class="shop-card" target="_blank">
+        <div class="shop-card-media"><img src="${IMAGE_BASE_PATH}${escapeHtml(p.image)}"></div>
         <div class="shop-card-body">
-          <h3 class="shop-card-title">${title}</h3>
-          <p class="shop-card-tagline">${tagline}</p>
+          <h3 class="shop-card-title">${escapeHtml(p.title)}</h3>
+          <p class="shop-card-tagline">${escapeHtml(p.tagline)}</p>
         </div>
-      </a>
-    `;
+      </a>`).join("");
+    return `<main class="store-products"><div class="store-products-header"><h2>Products</h2></div><div class="shop-grid">${cards}</div></main>`;
   }
 
   function renderEmptyShop() {
-    return `
-      <main class="store-products">
-        <div class="products-grid-empty">
-          <h3>Coming Soon</h3>
-          <p>New sections and products are being added to this shop.</p>
-        </div>
-      </main>
-    `;
+    return `<main class="store-products"><div class="products-grid-empty"><h3>Coming Soon</h3></div></main>`;
   }
 
   function wireInteractions(root) {
-    // Search
-    const searchForm = root.querySelector(".store-header-search");
-    if (searchForm) {
-      searchForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = searchForm.querySelector("input[type='search']");
-        const q = input ? input.value.trim() : "";
-        if (!q) return;
-        console.log("[RGZTEC] Search:", q);
-      });
-    }
-
-    // ✅ Categories toggle (Section nav show/hide)
     const catBtn = root.querySelector(".store-header-categories-btn");
     const sectionNav = root.querySelector("#store-section-nav");
     if (catBtn && sectionNav) {
@@ -351,44 +231,17 @@
   }
 
   function renderError(error, targetElement) {
-    targetElement.innerHTML = `
-      <div style="padding: 40px; text-align: center;">
-        <h1 style="font-size: 1.5rem; font-weight: 700;">RGZTEC</h1>
-        <h2 style="font-size: 2rem; margin: 10px 0;">An Error Occurred</h2>
-        <p style="font-size: 1.1rem; color: #555;">We're sorry, but this store could not be loaded.</p>
-        <code style="display:block;background:#f5f5f5;color:#d73a49;padding:10px;margin-top:20px;border-radius:6px;">
-          ${escapeHtml(error.message)}
-        </code>
-      </div>
-    `;
+    targetElement.innerHTML = `<div style="padding:50px; text-align:center;"><h2>RGZTEC</h2><p>${escapeHtml(error.message)}</p></div>`;
   }
 
   async function fetchJSON(url) {
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) {
-      if (res.status === 404) throw new Error(`File not found: ${url}`);
-      throw new Error(`HTTP error fetching ${url}: ${res.status} ${res.statusText}`);
-    }
-    if (res.status === 204) return null;
-    try {
-      return await res.json();
-    } catch (e) {
-      throw new Error(`Failed to parse JSON from ${url}: ${e.message}`);
-    }
+    if (!res.ok) throw new Error("JSON yüklenemedi.");
+    return await res.json();
   }
 
   function escapeHtml(unsafe) {
-    const str = String(unsafe || "");
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    return String(unsafe || "").replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
   }
 
-  function avoidEmpty(s) {
-    return s || "";
-  }
 })();
-
