@@ -253,14 +253,17 @@
         `;
       })
       .join("");
-    return `
-      <nav class="store-main-nav" aria-label="RGZTEC stores">
-        <ul class="store-main-nav__list">
-          ${storeLinks}
-        </ul>
-      </nav>
-    `;
-  }
+   return `
+  <nav 
+    class="store-section-nav" 
+    data-level="${isRootLevel ? "root" : "child"}"
+    aria-label="Store sections"
+  >
+    <ul class="store-section-nav__list">
+      ${navItems}
+    </ul>
+  </nav>
+`;
 
   // 3) Dükkan Nav'ı (GÜNCELLENDİ v18.2 - Link mantığı düzeltildi)
   function renderSectionNav(sections, currentSlug, isRootLevel = false) {
