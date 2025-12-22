@@ -956,6 +956,49 @@ section:last-of-type{
     align-items: flex-start;
   }
 }
+/* ===========================================================
+   RGZTEC FOOTER – Stay in touch (NO EMPTY SPACE) OVERRIDE
+   Paste AFTER your footer CSS
+   =========================================================== */
+
+/* Kolonlar arası hizayı iyileştir (boşluk hissini azaltır) */
+.footer .footer-columns{
+  align-items: stretch;
+}
+
+/* Her footer kolonunu dikey düzenle */
+.footer .footer-col{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Stay in touch kolonunu premium kart gibi yap */
+.footer .footer-col:last-child{
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(15,23,42,0.08);
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+}
+
+/* Email pill: fit-content KALDIR -> tam genişlik */
+.footer .footer-email{
+  width: 100% !important;
+  justify-content: center;
+  margin-top: 6px;
+  border-radius: 12px;
+}
+
+/* İstersen email altında küçük premium açıklama (boşluğu “anlamlı” yapar) */
+.footer .footer-col:last-child::after{
+  content: "Support & partnerships — response within 24 hours.";
+  margin-top: 10px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: rgba(100,116,139,0.95);
+  font-weight: 600;
+}
 
 
 
