@@ -114,12 +114,13 @@ a {
   gap: 3px;
 }
 
-/* SEARCH BAR */
-.search-bar {
+.search-bar{
   flex: 1;
-  max-width: 540px;
+  max-width: 760px;   /* 500 -> 760 */
+  min-width: 420px;   /* dar ekranlarda da düzgün kalsın */
   position: relative;
 }
+
 .search-input {
   width: 100%;
   height: 46px;
