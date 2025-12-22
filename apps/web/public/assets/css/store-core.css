@@ -779,3 +779,112 @@ button {
   .store-hero { padding: 6rem 0; }
   .store-hero-inner { gap: 5rem; }
 }
+/* =========================================================
+  CATEGORIES TOGGLE (Header button -> Section Nav)
+  ======================================================= */
+
+/* Buton aktif hali (premium highlight) */
+.store-header-categories-btn.is-active{
+  border-color: rgba(249,115,22,0.55);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.9),
+    0 10px 25px rgba(249,115,22,0.18);
+}
+
+/* Section nav "collapsed" (JS ekleyecek) */
+.store-section-nav.is-collapsed{
+  display: none;
+}
+
+/* =========================================================
+  OPTIONAL: Categories Dropdown Panel (Ana sayfa ile uyumlu)
+  - section nav görünür ama butona basınca panel de açılır
+  ======================================================= */
+
+.store-categories-panel{
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: none;
+  padding: 18px var(--container-padding) 22px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 18px 50px rgba(15,23,42,0.12);
+}
+
+.store-categories-panel.is-open{
+  display: block;
+}
+
+.store-categories-panel__inner{
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+  overflow: hidden;
+}
+
+.store-categories-panel__title{
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.20);
+  background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
+}
+
+.store-categories-panel__grid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+}
+
+.store-categories-panel__item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  background: radial-gradient(circle at top, #ffffff 0, #f9fafb 55%, #eef2ff 100%);
+  box-shadow: 0 10px 25px rgba(15,23,42,0.08);
+  color: var(--color-text-main);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+.store-categories-panel__item:hover{
+  transform: translateY(-2px);
+  border-color: rgba(249,115,22,0.45);
+  box-shadow: 0 18px 45px rgba(15,23,42,0.14);
+  text-decoration: none;
+}
+.store-categories-panel__name{
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}
+.store-categories-panel__tagline{
+  font-size: 0.78rem;
+  color: var(--color-text-sub);
+  margin: 0;
+}
+
+/* Responsive grid */
+@media (max-width: 1200px){
+  .store-categories-panel__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px){
+  .store-categories-panel__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px){
+  .store-categories-panel__grid{ grid-template-columns: 1fr; }
+}
