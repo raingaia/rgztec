@@ -780,13 +780,13 @@ section:last-of-type{
 
 /* 2) FOOTER ana blok */
 .footer{
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #f8fafc 45%,
-    #eef2f7 100%
-  );
-  border-top: 1px solid rgba(15,23,42,0.06);
+  /* Daha belirgin premium renk */
+  background:
+    radial-gradient(circle at 20% 0%, rgba(249,115,22,0.14) 0%, rgba(249,115,22,0.00) 55%),
+    radial-gradient(circle at 85% 40%, rgba(15,23,42,0.08) 0%, rgba(15,23,42,0.00) 60%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 40%, #eef2f7 100%);
+
+  border-top: 1px solid rgba(15,23,42,0.08);
   padding: 80px 0 36px;
 
   color: var(--sub);
