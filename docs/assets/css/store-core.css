@@ -888,3 +888,7 @@ button {
 @media (max-width: 560px){
   .store-categories-panel__grid{ grid-template-columns: 1fr; }
 }
+/* FINAL: Categories toggle (Section nav collapse) */
+.store-section-nav.is-collapsed {
+  display: none;
+}
