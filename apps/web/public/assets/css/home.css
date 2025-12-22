@@ -785,13 +785,24 @@ section:last-of-type{
 
 /* 2) FOOTER ana blok */
 .footer{
-  background:#ffffff;
+  /* Premium üstten alta geçiş */
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8fafc 45%,
+    #eef2f7 100%
+  );
+
   border-top: 1px solid rgba(15,23,42,0.06);
-  padding: 72px 0 28px;
+  padding: 80px 0 36px;
+
   color: var(--sub);
   font-family: var(--font-body);
+
   position: relative;
+  z-index: 5;
 }
+
 
 /* 3) İç grid */
 .footer .footer-inner{
