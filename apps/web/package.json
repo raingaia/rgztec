@@ -1,5 +1,7 @@
 {
+  "name": "rgztec-web",
+  "version": "1.0.0",
   "scripts": {
-    "build": "next build"
+    "build": "echo 'Skipping build, using static files'"
   }
 }
