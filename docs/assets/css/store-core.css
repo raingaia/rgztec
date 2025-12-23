@@ -892,3 +892,5 @@ button {
 .store-section-nav.is-collapsed {
   display: none;
 }
+/* Categories toggle */
+#store-section-nav.is-collapsed { display: none; }
