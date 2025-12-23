@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
   
-  <base href="/">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
@@ -258,7 +256,17 @@
   </footer>
 
   <!-- ✅ TEK JS: stabil home manager -->
-  <script src="assets/js/home-products.js" defer></script>
+  <script>
+  // Vercel-safe boot: DOM hazır olmadan çalışmayı engeller, hata yakalar
+  window.addEventListener('DOMContentLoaded', () => {
+    const s = document.createElement('script');
+    s.src = 'assets/js/home-products.js?v=1';
+    s.onload = () => console.log('[RGZTEC] home-products loaded');
+    s.onerror = (e) => console.error('[RGZTEC] home-products failed', e);
+    document.body.appendChild(s);
+  });
+</script>
+
 </body>
 </html>
 
