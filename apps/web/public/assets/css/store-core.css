@@ -915,3 +915,28 @@ button {
     display:block;
   }
 }
+/* ===========================
+   FINAL FIX — NAV CLICKABLE
+   Problem: .store-hero overlay clicks
+   =========================== */
+
+/* Nav + header her zaman en üstte */
+.store-header,
+.store-main-nav,
+.store-section-nav{
+  position: relative;
+  z-index: 9999;
+}
+
+/* Hero katmanı click yemesin */
+.store-hero{
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hero içindeki gerçek içerik (buton vs) çalışsın */
+.store-hero-inner,
+.store-hero-inner *{
+  pointer-events: auto;
+}
