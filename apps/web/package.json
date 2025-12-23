@@ -1,7 +1,3 @@
-{
-  "name": "rgztec-web",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "true"
-  }
+"scripts": {
+  "build": "true"
 }
