@@ -894,3 +894,24 @@ button {
 }
 /* Categories toggle */
 #store-section-nav.is-collapsed { display: none; }
+/* =========================================================
+   SECTION NAV TOGGLE (Categories button)  ✅ FINAL
+   ========================================================= */
+
+/* Varsayılan: açık (desktop) */
+#store-section-nav{ display:block; }
+
+/* Buton tıklanınca JS bu class'ı ekleyecek */
+#store-section-nav.is-collapsed{
+  display:none;
+}
+
+/* Mobilde default kapalı gelsin (isteğe bağlı ama tavsiye) */
+@media (max-width: 1024px){
+  #store-section-nav{
+    display:none;
+  }
+  #store-section-nav.is-open{
+    display:block;
+  }
+}
