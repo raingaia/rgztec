@@ -10,9 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- ✅ Vercel-safe: kökten çağır -->
-  <link rel="stylesheet" href="/assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="/assets/css/store-core.css?v=1">
-  <link rel="stylesheet" href="/assets/css/home.css?v=1">
+  <link rel="stylesheet" href="./assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="./assets/css/store-core.css?v=1">
+  <link rel="stylesheet" href="./assets/css/home.css?v=1">
 
   <style>
     img, a img { border:none !important; outline:none !important; }
@@ -208,7 +208,7 @@
           <div class="hero-big">Global Marketplace</div>
           <div class="hero-art">
             <!-- ✅ Vercel-safe: kökten -->
-            <img src="/assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC Global Marketplace Banner">
+            <img src="./assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC Banner">
           </div>
         </div>
       </div>
@@ -258,15 +258,13 @@
 
   <!-- ✅ Vercel-safe boot: absolute JS path + cache-bust -->
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const s = document.createElement('script');
-      s.src = '/assets/js/home-products.js?v=1';
-      s.defer = true;
-      s.onload = () => console.log('[RGZTEC] home-products loaded');
-      s.onerror = (e) => console.error('[RGZTEC] home-products failed', e);
-      document.body.appendChild(s);
-    });
-  </script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const s = document.createElement('script');
+    s.src = './assets/js/home-products.js?v=1'; // Buraya dikkat!
+    s.defer = true;
+    document.body.appendChild(s);
+  });
+</script>
 
 </body>
 </html>
