@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="assets/css/store-core.css">
-  <link rel="stylesheet" href="assets/css/home.css">
+  <!-- ✅ Vercel-safe: kökten çağır -->
+  <link rel="stylesheet" href="/assets/css/theme-tokens.css?v=1">
+  <link rel="stylesheet" href="/assets/css/store-core.css?v=1">
+  <link rel="stylesheet" href="/assets/css/home.css?v=1">
 
   <style>
     img, a img { border:none !important; outline:none !important; }
@@ -143,7 +144,7 @@
   <header class="app-header">
     <div class="container header-inner">
       <div class="header-left">
-        <a href="./" class="logo">RGZTEC</a>
+        <a href="/" class="logo">RGZTEC</a>
 
         <button id="btn-categories" class="btn-cat" type="button">
           <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -174,10 +175,9 @@
       </div>
 
       <div class="nav-right">
-        <a href="editor/" class="nav-link">Dashboard / Editor</a>
-        <a href="login/" class="nav-link">Sign In</a>
-
-        <a href="open-store.html" class="btn-open-store">Open Store</a>
+        <a href="/editor/" class="nav-link">Dashboard / Editor</a>
+        <a href="/login/" class="nav-link">Sign In</a>
+        <a href="/open-store.html" class="btn-open-store">Open Store</a>
       </div>
     </div>
   </header>
@@ -207,7 +207,8 @@
           <div class="hero-badge">#1 BEST SELLING</div>
           <div class="hero-big">Global Marketplace</div>
           <div class="hero-art">
-            <img src="assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC Global Marketplace Banner">
+            <!-- ✅ Vercel-safe: kökten -->
+            <img src="/assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC Global Marketplace Banner">
           </div>
         </div>
       </div>
@@ -232,12 +233,12 @@
         <div class="footer-col">
           <h4>Marketplace</h4>
           <a href="#gallery">Explore stores</a>
-          <a href="open-store.html">Open a store</a>
+          <a href="/open-store.html">Open a store</a>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
         </div>
         <div class="footer-col">
           <h4>Stay in touch</h4>
@@ -248,27 +249,28 @@
       <div class="footer-bot">
         <span>© 2025 RGZTEC, Inc. All rights reserved.</span>
         <div class="footer-links">
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- ✅ TEK JS: stabil home manager -->
+  <!-- ✅ Vercel-safe boot: absolute JS path + cache-bust -->
   <script>
-  // Vercel-safe boot: DOM hazır olmadan çalışmayı engeller, hata yakalar
-  window.addEventListener('DOMContentLoaded', () => {
-    const s = document.createElement('script');
-    s.src = 'assets/js/home-products.js?v=1';
-    s.onload = () => console.log('[RGZTEC] home-products loaded');
-    s.onerror = (e) => console.error('[RGZTEC] home-products failed', e);
-    document.body.appendChild(s);
-  });
-</script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const s = document.createElement('script');
+      s.src = '/assets/js/home-products.js?v=1';
+      s.defer = true;
+      s.onload = () => console.log('[RGZTEC] home-products loaded');
+      s.onerror = (e) => console.error('[RGZTEC] home-products failed', e);
+      document.body.appendChild(s);
+    });
+  </script>
 
 </body>
 </html>
+
 
 
 
