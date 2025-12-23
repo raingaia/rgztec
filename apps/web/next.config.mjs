@@ -1,2 +1,7 @@
 /** @type {import('next').NextConfig} */
-export default { reactStrictMode: true };
+const nextConfig = {
+  output: 'export', 
+  distDir: 'public', // Çıktıyı doğrudan public klasöründen almasını söyleyelim
+  images: { unoptimized: true }
+};
+export default nextConfig;
