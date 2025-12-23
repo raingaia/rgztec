@@ -2,6 +2,6 @@
   "name": "rgztec-web",
   "version": "1.0.0",
   "scripts": {
-    "build": "echo 'Skipping build, using static files'"
+    "build": "echo 'Build skipped: Using static files from public'"
   }
 }
