@@ -1,11 +1,14 @@
-/* RGZTEC HOME MANAGER – STABİL VERSİYON
- * - Veriyi direkt JS içinde tutar (STORES_DATA).
- * - Hata fırlatmamak için her yerde guard (kontrol) kullanır.
- * - Galeri, sub-nav ve kategori mega menüsünü doldurur.
+/* RGZTEC HOME MANAGER – STABİL (DOCS-ROOT FINAL)
+ * - Docs publish root = /
+ * - Tüm linkler absolute: /store/...
+ * - Tüm assetler absolute: /assets/...
  */
 
-const BASE = "/rgztec/";
-const STORE_IMAGE_BASE = "assets/images/store/";
+const BASE = ""; // ✅ docs-root deploy (publish root)
+const STORE_IMAGE_BASE = `${BASE}/assets/images/store/`;
+const PLACEHOLDER_IMG = `${BASE}/assets/images/placeholder.png`;
+
+const STORE_URL = (slug) => `${BASE}/store/${slug}/`;
 
 // ---- MAĞAZA VERİLERİ ----
 const STORES_DATA = [
@@ -96,17 +99,16 @@ function renderGallery(data) {
 
   const html = data
     .map((store) => {
-      const href = `store/${store.slug}/`;
-      const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`;
+      const href = STORE_URL(store.slug); // ✅ absolute
+      const imgSrc = `${STORE_IMAGE_BASE}${store.slug}.webp`; // ✅ absolute
 
       if (store.isFeatured) {
-        // Featured (büyük kart)
         return `
           <article class="card card--featured">
             <a href="${href}" class="card-media">
               <img src="${imgSrc}" alt="${escapeHtml(store.title)}"
                    loading="lazy"
-                   onerror="this.src='assets/images/placeholder.png'">
+                   onerror="this.src='${PLACEHOLDER_IMG}'">
             </a>
             <div class="card-content">
               <span class="card-badge">Featured • Hardware</span>
@@ -118,7 +120,6 @@ function renderGallery(data) {
         `;
       }
 
-      // Normal kart
       return `
         <article class="card">
           <a href="${href}" class="card-media">
@@ -146,12 +147,7 @@ function renderSubNav(data) {
   if (!list || !Array.isArray(data)) return;
 
   list.innerHTML = data
-    .map(
-      (s) =>
-        `<div class="sub-nav-item"><a href="store/${s.slug}/">${escapeHtml(
-          s.title
-        )}</a></div>`
-    )
+    .map((s) => `<div class="sub-nav-item"><a href="${STORE_URL(s.slug)}">${escapeHtml(s.title)}</a></div>`)
     .join("");
 }
 
@@ -165,10 +161,8 @@ function initMegaMenu(data) {
   const listEl = document.getElementById("categories-list");
   const detailEl = document.getElementById("categories-detail");
 
-  // HTML’de bu elemanlar yoksa mega menü kurulmasın, ama hata da vermesin
   if (!btn || !header || !panel || !listEl || !detailEl) return;
 
-  // Sol listeyi doldur
   listEl.innerHTML = data
     .map(
       (s, i) => `
@@ -183,15 +177,11 @@ function initMegaMenu(data) {
     )
     .join("");
 
-  // İlk mağazanın detayını göster
   renderDetail(data[0], detailEl);
 
-  // Hover ile detay güncelle
   listEl.querySelectorAll(".cat-item").forEach((item) => {
     item.addEventListener("mouseenter", () => {
-      listEl
-        .querySelectorAll(".cat-item")
-        .forEach((b) => b.classList.remove("cat-item--active"));
+      listEl.querySelectorAll(".cat-item").forEach((b) => b.classList.remove("cat-item--active"));
       item.classList.add("cat-item--active");
 
       const slug = item.getAttribute("data-slug");
@@ -200,18 +190,14 @@ function initMegaMenu(data) {
     });
   });
 
-  // Aç/kapa
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
     const isOpen = header.classList.contains("has-cat-open");
     header.classList.toggle("has-cat-open", !isOpen);
   });
 
-  // Header dışına tıklayınca kapat
   document.addEventListener("click", (e) => {
-    if (!header.contains(e.target)) {
-      header.classList.remove("has-cat-open");
-    }
+    if (!header.contains(e.target)) header.classList.remove("has-cat-open");
   });
 }
 
@@ -222,15 +208,12 @@ function renderDetail(store, container) {
   const slug = store.slug;
   const sections = Array.isArray(store.sections) ? store.sections : [];
 
+  const storeHref = STORE_URL(slug);
+
   const linksHtml =
     sections
-      .map(
-        (s) =>
-          `<a href="store/${slug}/">${escapeHtml(
-            s.name || ""
-          )}</a>`
-      )
-      .join("") + `<a href="store/${slug}/">View All</a>`;
+      .map((s) => `<a href="${storeHref}">${escapeHtml(s.name || "")}</a>`)
+      .join("") + `<a href="${storeHref}">View All</a>`;
 
   container.innerHTML = `
     <div class="cat-detail-eyebrow">STORE</div>
@@ -240,7 +223,7 @@ function renderDetail(store, container) {
   `;
 }
 
-// ---- KÜÇÜK YARDIMCI (XSS KORUMASI İÇİN) ----
+// ---- KÜÇÜK YARDIMCI ----
 function escapeHtml(str) {
   if (typeof str !== "string") return "";
   return str
