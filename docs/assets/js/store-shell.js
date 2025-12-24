@@ -1,361 +1,356 @@
 /**
- * RGZTEC Marketplace — STORE SHELL ENGINE (BRAIN, NO-CORE)
- * FINAL v19.1.0
+ * RGZTEC Marketplace - Store Shell Engine
  *
- * Works when you DO NOT have /core.
- * - Static safe: absolute paths only
- * - Base path resolver: root or /rgztec
- * - Data from /data/store.data.json by default
- *
- * Required HTML hooks:
- *  #rgzTopNav, #rgzSectionNav, #rgzHero, #rgzGrid, #rgzBreadcrumb (optional)
- *
- * Routing:
- *  <body data-path="hardware"> or <body data-path="hardware/ai-accelerators">
- *  If missing, infers from URL /store/{...}/
+ * FINAL v18.2.5 (GLOBAL ROOT NAV + ABSOLUTE LINKS + CATEGORIES TOGGLE FIX)
+ * - Navigation always built from root store (rootSlug)
+ * - Section nav links always absolute: /rgztec/store/{rootSlug}/{sectionSlug}/
+ * - Active highlight correct only when we are inside a section (depth >= 2)
+ * - Categories button toggles section nav (no missing CSS)
+ * - No ICON_GIFT / ICON_CART dependencies
  */
+(function () {
+  "use strict";
 
-(() => {
-  // ---------------------------
-  // 0) Base Path Resolver
-  // ---------------------------
-  function resolveBasePath() {
-    const meta = document.querySelector('meta[name="rgz-base"]');
-    if (meta?.content != null) return String(meta.content).replace(/\/+$/, "");
+  const DATA_URL = "/rgztec/data/store.data.json?v=1825";
+  const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
 
-    const p = window.location.pathname || "/";
-    const idx = p.indexOf("/rgztec/");
-    if (idx !== -1) return "/rgztec";
+  document.addEventListener("DOMContentLoaded", () => {
+    const storeRoot = document.getElementById("store-root");
+    const storeBody = document.querySelector("body.store-body");
 
-    return "";
-  }
-  const BASE = resolveBasePath();
-  const abs = (path) => `${BASE}${path.startsWith("/") ? path : "/" + path}`;
-
-  // ---------------------------
-  // 1) Config (NO-CORE)
-  // ---------------------------
-  const CONFIG = {
-    DATA_URL: abs("/data/store.data.json"), // <-- core yoksa burası
-    DEFAULT_EMPTY_MSG: "No items found for this section.",
-    DEBUG: false,
-  };
-  const log = (...a) => CONFIG.DEBUG && console.log("[RGZTEC]", ...a);
-
-  // ---------------------------
-  // 2) DOM Helpers
-  // ---------------------------
-  const setHTML = (id, html) => {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = html;
-    return el;
-  };
-
-  function escapeHtml(str) {
-    return String(str)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function showFatal(message, details = "") {
-    const box = document.createElement("div");
-    box.style.cssText =
-      "max-width:980px;margin:40px auto;padding:18px;border:1px solid #eee;border-radius:14px;font-family:Inter,system-ui,Arial;background:#fff;";
-    box.innerHTML = `
-      <div style="font-weight:800;font-size:18px;margin-bottom:8px;">RGZTEC Store Engine Error</div>
-      <div style="color:#333;line-height:1.5;margin-bottom:10px;">${escapeHtml(message)}</div>
-      ${details ? `<pre style="white-space:pre-wrap;background:#fafafa;border:1px solid #eee;padding:12px;border-radius:12px;overflow:auto;">${escapeHtml(details)}</pre>` : ""}
-      <div style="margin-top:10px;color:#666;font-size:12px;">DATA: ${escapeHtml(CONFIG.DATA_URL)} | BASE: ${escapeHtml(BASE || "(root)")}</div>
-    `;
-    document.body.prepend(box);
-  }
-
-  // ---------------------------
-  // 3) Data Load
-  // ---------------------------
-  async function loadBrain() {
-    const res = await fetch(CONFIG.DATA_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Store data fetch failed: ${res.status} ${CONFIG.DATA_URL}`);
-    return res.json();
-  }
-
-  // ---------------------------
-  // 4) Schema Normalizers (tolerant)
-  // ---------------------------
-  const asArray = (x) => (Array.isArray(x) ? x : x ? [x] : []);
-
-  const getRootStores = (brain) => {
-    // Accept: brain.stores OR brain.root.stores OR brain.data.stores OR brain itself array
-    const stores =
-      asArray(brain?.stores).length ? asArray(brain?.stores) :
-      asArray(brain?.root?.stores).length ? asArray(brain?.root?.stores) :
-      asArray(brain?.data?.stores).length ? asArray(brain?.data?.stores) :
-      Array.isArray(brain) ? brain : [];
-    return stores.filter(Boolean);
-  };
-
-  const getChildren = (node) =>
-    (asArray(node?.children).length ? asArray(node?.children) :
-     asArray(node?.substores).length ? asArray(node?.substores) :
-     asArray(node?.sections).length ? asArray(node?.sections) :
-     asArray(node?.stores).length ? asArray(node?.stores) : [])
-    .filter(Boolean);
-
-  const getSlug = (node) => node?.slug || node?.id || node?.key || "";
-  const getTitle = (node) => node?.title || node?.name || node?.label || getSlug(node) || "RGZTEC";
-  const getBanner = (node) => node?.banner || node?.hero || node?.cover || null;
-  const getCards = (node) =>
-    (asArray(node?.cards).length ? asArray(node?.cards) :
-     asArray(node?.items).length ? asArray(node?.items) :
-     asArray(node?.products).length ? asArray(node?.products) : [])
-    .filter(Boolean);
-
-  // ---------------------------
-  // 5) Route Resolver
-  // ---------------------------
-  function getRequestedPath() {
-    const dp = document.body?.getAttribute("data-path");
-    if (dp) return dp.replace(/^\/+|\/+$/g, "");
-
-    const p = (window.location.pathname || "/").replace(BASE, "");
-    const parts = p.split("/").filter(Boolean);
-    const i = parts.indexOf("store");
-    if (i !== -1) return parts.slice(i + 1).join("/");
-
-    return "";
-  }
-
-  function findNodeByPath(rootStores, pathStr) {
-    const segs = (pathStr || "").split("/").filter(Boolean);
-    if (!segs.length) return { node: null, trail: [] };
-
-    const rootSlug = segs[0];
-    const root = rootStores.find((s) => getSlug(s) === rootSlug);
-    if (!root) return { node: null, trail: [] };
-
-    let current = root;
-    const trail = [root];
-
-    for (let i = 1; i < segs.length; i++) {
-      const slug = segs[i];
-      const kids = getChildren(current);
-      const next = kids.find((k) => getSlug(k) === slug);
-      if (!next) break;
-      current = next;
-      trail.push(current);
-    }
-
-    return { node: current, trail };
-  }
-
-  // ---------------------------
-  // 6) URL Builders (ABSOLUTE)
-  // ---------------------------
-  function storeUrl(rootSlug, sectionPath = "") {
-    const tail = sectionPath ? `/${sectionPath.replace(/^\/+|\/+$/g, "")}/` : "/";
-    return abs(`/store/${rootSlug}${tail}`);
-  }
-
-  // ---------------------------
-  // 7) Renderers
-  // ---------------------------
-  function renderTopNav(rootStores, activeRootSlug) {
-    setHTML("rgzTopNav", `
-      <div class="rgz-nav-root">
-        ${rootStores.map(s => {
-          const slug = getSlug(s);
-          const active = slug === activeRootSlug ? "is-active" : "";
-          return `<a class="rgz-nav-root__item ${active}" href="${storeUrl(slug)}">${escapeHtml(getTitle(s))}</a>`;
-        }).join("")}
-      </div>
-    `);
-  }
-
-  function renderSectionNav(rootNode, trail) {
-    const rootSlug = getSlug(rootNode);
-    const rootChildren = getChildren(rootNode);
-    if (!rootChildren.length) return setHTML("rgzSectionNav", "");
-
-    const activeSlug = getSlug(trail[trail.length - 1] || rootNode);
-
-    setHTML("rgzSectionNav", `
-      <div class="rgz-nav-section">
-        ${rootChildren.map(sec => {
-          const secSlug = getSlug(sec);
-          const active = secSlug === activeSlug ? "is-active" : "";
-          return `<a class="rgz-nav-section__item ${active}" href="${storeUrl(rootSlug, secSlug)}">${escapeHtml(getTitle(sec))}</a>`;
-        }).join("")}
-      </div>
-    `);
-  }
-
-  function renderBreadcrumb(trail) {
-    if (!trail?.length) return setHTML("rgzBreadcrumb", "");
-
-    const rootSlug = getSlug(trail[0]);
-    const items = trail.map((n, i) => {
-      const title = getTitle(n);
-      const path = trail.slice(1, i + 1).map(getSlug).join("/");
-      const href = i === 0 ? storeUrl(rootSlug) : storeUrl(rootSlug, path);
-      return `<a href="${href}">${escapeHtml(title)}</a>`;
-    });
-
-    setHTML("rgzBreadcrumb", `
-      <div class="rgz-bc">${items.join('<span class="rgz-bc__sep">/</span>')}</div>
-    `);
-  }
-
-  function renderHero(node, rootNode) {
-    const b = getBanner(node) || getBanner(rootNode);
-    if (!b) {
-      setHTML("rgzHero", `
-        <div class="rgz-hero rgz-hero--fallback">
-          <div class="rgz-hero__kicker">${escapeHtml(getTitle(rootNode))}</div>
-          <div class="rgz-hero__title">${escapeHtml(getTitle(node || rootNode))}</div>
-          <div class="rgz-hero__sub">Premium digital assets for modern builders.</div>
-        </div>
-      `);
+    if (!storeBody || !storeRoot) {
+      console.error("Store Shell Engine: '.store-body' veya '#store-root' bulunamadı.");
       return;
     }
 
-    const title = b.title || getTitle(node || rootNode);
-    const subtitle = b.subtitle || b.sub || "";
-    const kicker = b.kicker || getTitle(rootNode);
-    const img = b.image || b.img || b.url || (typeof b === "string" ? b : "");
-
-    setHTML("rgzHero", `
-      <div class="rgz-hero">
-        <div class="rgz-hero__content">
-          <div class="rgz-hero__kicker">${escapeHtml(kicker)}</div>
-          <div class="rgz-hero__title">${escapeHtml(title)}</div>
-          ${subtitle ? `<div class="rgz-hero__sub">${escapeHtml(subtitle)}</div>` : ""}
-        </div>
-        ${img ? `<div class="rgz-hero__media"><img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy"/></div>` : ""}
-      </div>
-    `);
-  }
-
-  function renderGridFromCards(cards) {
-    if (!cards.length) {
-      setHTML("rgzGrid", `<div class="rgz-empty">${escapeHtml(CONFIG.DEFAULT_EMPTY_MSG)}</div>`);
+    let path = normalizePath(storeBody.dataset.path || "");
+    if (!path) {
+      renderError(new Error("No 'data-path' attribute found on the body tag."), storeRoot);
       return;
     }
 
-    setHTML("rgzGrid", `
-      <div class="rgz-grid">
-        ${cards.map(card => {
-          const title = card.title || card.name || "Untitled";
-          const desc = card.desc || card.description || "";
-          const tag = card.tag || card.badge || "";
-          const img = card.image || card.img || "";
-          const href = card.href || card.url || "#";
-          const isExternal = /^https?:\/\//.test(href);
-          const aAttrs = isExternal ? `target="_blank" rel="noopener noreferrer"` : "";
-          return `
-            <a class="rgz-card" href="${escapeHtml(href)}" ${aAttrs}>
-              ${img ? `<div class="rgz-card__media"><img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy"/></div>` : ""}
-              <div class="rgz-card__body">
-                <div class="rgz-card__title">${escapeHtml(title)}</div>
-                ${desc ? `<div class="rgz-card__desc">${escapeHtml(desc)}</div>` : ""}
-                ${tag ? `<div class="rgz-card__tag">${escapeHtml(tag)}</div>` : ""}
-              </div>
-            </a>
-          `;
-        }).join("")}
-      </div>
-    `);
-  }
+    initStore(path, storeRoot);
+  });
 
-  function renderChildrenAsCards(node, rootSlug, trail) {
-    const kids = getChildren(node);
-    if (!kids.length) return false;
-
-    const pathPrefix = trail.slice(1).map(getSlug).join("/");
-    const cards = kids.map(kid => {
-      const slug = getSlug(kid);
-      const title = getTitle(kid);
-      const b = getBanner(kid);
-      const img = b?.image || b?.img || b?.url || "";
-      const subtitle = b?.subtitle || b?.sub || kid?.subtitle || "";
-      const fullPath = pathPrefix ? `${pathPrefix}/${slug}` : slug;
-      return {
-        title,
-        description: subtitle,
-        image: img,
-        href: storeUrl(rootSlug, fullPath),
-        badge: "Open"
-      };
-    });
-
-    renderGridFromCards(cards);
-    return true;
-  }
-
-  // ---------------------------
-  // 8) Boot
-  // ---------------------------
-  async function boot() {
+  async function initStore(path, targetElement) {
     try {
-      const brain = await loadBrain();
-      const rootStores = getRootStores(brain);
-      if (!rootStores.length) throw new Error("No root stores found in JSON (brain.stores missing).");
+      const allStoresData = await fetchJSON(DATA_URL);
+      if (!allStoresData) throw new Error("store.data.json boş veya eksik.");
 
-      const requestedPath = getRequestedPath(); // "hardware/ai-accelerators"
-      log("BASE", BASE, "requestedPath", requestedPath);
+      const { currentData, rootSlug, currentSlug, depth } = findDataByPath(allStoresData, path);
+      if (!currentData || !rootSlug) throw new Error(`Path not found in store.data.json: "${path}"`);
 
-      if (!requestedPath) {
-        const first = rootStores[0];
-        renderTopNav(rootStores, getSlug(first));
-        renderSectionNav(first, [first]);
-        renderBreadcrumb([first]);
-        renderHero(first, first);
+      // ✅ NAV: always from root store
+      const rootStoreData = allStoresData[rootSlug] || {};
+      const rootSections = Array.isArray(rootStoreData.sections) ? rootStoreData.sections : [];
 
-        const did = renderChildrenAsCards(first, getSlug(first), [first]);
-        if (!did) renderGridFromCards(getCards(first));
-        return;
+      // ✅ Active highlight:
+      // Root page (depth===1): no active in section nav
+      // Inside category (depth>=2): active is currentSlug
+      const activeSectionSlug = depth >= 2 ? currentSlug : null;
+
+      let html = "";
+      html += renderHeader();
+      html += renderStoreNav(allStoresData, rootSlug);
+      html += renderSectionNav(rootSections, activeSectionSlug, rootSlug); // absolute always
+      html += renderHero(currentData);
+
+      if (currentData.sections && currentData.sections.length > 0) {
+        html += renderShopSection(currentData.sections, rootSlug);
+      }
+      if (currentData.products && currentData.products.length > 0) {
+        html += renderProductSection(currentData.products);
+      }
+      if ((!currentData.sections || currentData.sections.length === 0) &&
+          (!currentData.products || currentData.products.length === 0)) {
+        html += renderEmptyShop();
       }
 
-      const { node, trail } = findNodeByPath(rootStores, requestedPath);
-      if (!node || !trail.length) {
-        renderTopNav(rootStores, "");
-        setHTML("rgzHero", "");
-        setHTML("rgzSectionNav", "");
-        setHTML("rgzBreadcrumb", "");
-        setHTML("rgzGrid", `<div class="rgz-empty">Store path not found: <b>${escapeHtml(requestedPath)}</b></div>`);
-        return;
-      }
-
-      const rootNode = trail[0];
-      const rootSlug = getSlug(rootNode);
-
-      renderTopNav(rootStores, rootSlug);
-      renderSectionNav(rootNode, trail);
-      renderBreadcrumb(trail);
-      renderHero(node, rootNode);
-
-      const cards = getCards(node);
-      if (cards.length) {
-        renderGridFromCards(cards);
-      } else {
-        const did = renderChildrenAsCards(node, rootSlug, trail);
-        if (!did) renderGridFromCards([]);
-      }
-
+      // ✅ inject + interactions
+      targetElement.innerHTML = html;
+      wireInteractions(targetElement);
     } catch (err) {
-      showFatal(
-        "Store engine failed to boot. Most common: /data/store.data.json 404 OR script path wrong OR missing data-path.",
-        err?.stack || String(err)
-      );
+      console.error("Store Shell Engine error:", err);
+      renderError(err, targetElement);
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
+  function normalizePath(p) {
+    let s = String(p || "");
+    s = s.replace(/#.*$/, "").trim();
+    s = s.replace(/^\/+/, "").replace(/\/+$/, "");
+    return s;
+  }
+
+  function findDataByPath(allStoresData, path) {
+    const segments = normalizePath(path).split("/").filter(Boolean);
+    const rootSlug = segments[0] || null;
+    const currentSlug = segments[segments.length - 1] || null;
+    const depth = segments.length;
+
+    if (!rootSlug || !allStoresData[rootSlug]) return { currentData: null };
+
+    let currentData = allStoresData[rootSlug];
+
+    for (let i = 1; i < segments.length; i++) {
+      const seg = segments[i];
+      const sections = currentData.sections || [];
+      const next = sections.find((s) => s && s.slug === seg);
+      if (next) currentData = next;
+      else return { currentData: null };
+    }
+
+    return { currentData, rootSlug, currentSlug, depth };
+  }
+
+  function renderHeader() {
+    const ICON_CATEGORIES = `
+      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>`;
+    const ICON_SEARCH = `
+      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+      </svg>`;
+
+    return `
+      <header class="store-header">
+        <div class="store-header-inner">
+          <div class="store-header-left">
+            <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
+
+            <!-- ✅ IMPORTANT: id=btn-categories -->
+            <button
+              class="store-header-categories-btn"
+              id="btn-categories"
+              type="button"
+              aria-expanded="true"
+              aria-controls="store-section-nav">
+              ${ICON_CATEGORIES} <span>Categories</span>
+            </button>
+          </div>
+
+          <div class="store-header-center">
+            <form class="store-header-search" role="search">
+              <input type="search" placeholder="Search for anything" aria-label="Search" />
+              <button type="submit" aria-label="Search">${ICON_SEARCH}</button>
+            </form>
+          </div>
+
+          <div class="store-header-right">
+            <div class="store-header-secondary">
+              <a href="#" class="store-header-secondary-link">Dashboard</a>
+              <a href="#" class="store-header-secondary-link">Sign In</a>
+            </div>
+            <a href="#" class="store-header-cta"><span>Open Store</span></a>
+          </div>
+        </div>
+      </header>
+    `;
+  }
+
+  function renderStoreNav(allStoresData, currentRootSlug) {
+    const storeLinks = Object.keys(allStoresData)
+      .map((slug) => {
+        const store = allStoresData[slug];
+        if (!store || !store.title) return "";
+        const isActive = slug === currentRootSlug;
+        return `
+          <li class="store-main-nav__item">
+            <a href="/rgztec/store/${escapeHtml(slug)}/"
+               class="store-main-nav__link ${isActive ? "active" : ""}">
+              ${escapeHtml(store.title)}
+            </a>
+          </li>`;
+      })
+      .join("");
+
+    return `
+      <nav class="store-main-nav" aria-label="RGZTEC stores">
+        <ul class="store-main-nav__list">${storeLinks}</ul>
+      </nav>`;
+  }
+
+  // ✅ Always absolute paths
+  function renderSectionNav(sections, activeSlug, rootSlug) {
+    if (!Array.isArray(sections) || sections.length === 0) return "";
+
+    const navItems = sections
+      .map((section) => {
+        if (!section) return "";
+        const slug = escapeHtml(section.slug || "");
+        const name = escapeHtml(section.name || "Unnamed Section");
+        const isActive = !!activeSlug && slug === activeSlug;
+
+        const href = isActive
+          ? "#"
+          : `/rgztec/store/${escapeHtml(rootSlug)}/${slug}/`;
+
+        return `
+          <li class="store-section-nav__item">
+            <a href="${href}" class="store-section-nav__link ${isActive ? "active" : ""}">
+              ${name}
+            </a>
+          </li>`;
+      })
+      .join("");
+
+    return `
+      <nav id="store-section-nav" class="store-section-nav" aria-label="Store sections">
+        <ul class="store-section-nav__list">${navItems}</ul>
+      </nav>`;
+  }
+
+  function renderHero(data) {
+    const title = escapeHtml(data.title || data.name || "Welcome");
+    const tagline = escapeHtml(data.tagline || "");
+    const badge = escapeHtml(data.badge || "Official");
+    const bannerUrl = data.banner ? `${IMAGE_BASE_PATH}${escapeHtml(data.banner)}` : "";
+
+    return `
+      <section class="store-hero">
+        <div class="store-hero-inner">
+          <div class="store-hero-left">
+            <span class="store-badge">${badge}</span>
+            <h1>${title}</h1>
+            ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ""}
+          </div>
+          <div class="store-hero-right">
+            ${bannerUrl ? `<img src="${bannerUrl}" class="store-hero-img" alt="${title}" loading="lazy">` : ""}
+          </div>
+        </div>
+      </section>`;
+  }
+
+  function renderShopSection(sections, rootSlug) {
+    const shopCards = sections
+      .map((s) => {
+        if (!s) return "";
+        const slug = escapeHtml(s.slug || "");
+        const href = `/rgztec/store/${escapeHtml(rootSlug)}/${slug}/`;
+        const imageUrl = s.image ? `${IMAGE_BASE_PATH}${escapeHtml(s.image)}` : "";
+        return `
+          <a href="${href}" class="shop-card">
+            <div class="shop-card-media">
+              ${imageUrl ? `<img src="${imageUrl}" alt="${escapeHtml(s.name || "")}" loading="lazy">`
+                         : `<div class="product-media-placeholder"></div>`}
+            </div>
+            <div class="shop-card-body">
+              <h3 class="shop-card-title">${escapeHtml(s.name || "Untitled Shop")}</h3>
+              <p class="shop-card-tagline">${escapeHtml(s.tagline || "")}</p>
+            </div>
+          </a>`;
+      })
+      .join("");
+
+    return `
+      <main class="store-shops">
+        <div class="store-shops-header"><h2>Explore Shops</h2></div>
+        <div class="shop-grid">${shopCards}</div>
+      </main>`;
+  }
+
+  function renderProductSection(products) {
+    const cards = products
+      .map((p) => {
+        if (!p) return "";
+        const url = p.url ? escapeHtml(p.url) : "#";
+        const title = escapeHtml(p.title || "Untitled Product");
+        const tagline = escapeHtml(p.tagline || "");
+        const imageUrl = p.image ? `${IMAGE_BASE_PATH}${escapeHtml(p.image)}` : "";
+        return `
+          <a href="${url}" class="shop-card" target="_blank" rel="noopener noreferrer">
+            <div class="shop-card-media">
+              ${imageUrl ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
+                         : `<div class="product-media-placeholder"></div>`}
+            </div>
+            <div class="shop-card-body">
+              <h3 class="shop-card-title">${title}</h3>
+              <p class="shop-card-tagline">${tagline}</p>
+            </div>
+          </a>`;
+      })
+      .join("");
+
+    return `
+      <main class="store-products">
+        <div class="store-products-header"><h2>Explore Products</h2></div>
+        <div class="shop-grid">${cards}</div>
+      </main>`;
+  }
+
+  function renderEmptyShop() {
+    return `
+      <main class="store-products">
+        <div class="products-grid-empty">
+          <h3>Coming Soon</h3>
+          <p>New sections and products are being added to this shop.</p>
+        </div>
+      </main>`;
+  }
+
+  function wireInteractions(root) {
+    // Search (optional)
+    const searchForm = root.querySelector(".store-header-search");
+    if (searchForm) {
+      searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = searchForm.querySelector("input[type='search']");
+        const q = input ? input.value.trim() : "";
+        if (!q) return;
+        console.log("[RGZTEC] Search:", q);
+      });
+    }
+
+    // ✅ Categories toggle
+    const btn = root.querySelector("#btn-categories");
+    const nav = root.querySelector("#store-section-nav");
+
+    if (btn && nav) {
+      // Mobile default closed
+      const mq = window.matchMedia("(max-width: 1024px)");
+      if (mq.matches) {
+        nav.classList.add("is-collapsed");
+        btn.setAttribute("aria-expanded", "false");
+      }
+
+      btn.addEventListener("click", () => {
+        const collapsed = nav.classList.toggle("is-collapsed");
+        btn.setAttribute("aria-expanded", String(!collapsed));
+      });
+    }
+  }
+
+  function renderError(error, targetElement) {
+    targetElement.innerHTML = `
+      <div style="padding:40px; text-align:center;">
+        <h1 style="font-size:1.5rem; font-weight:800;">RGZTEC</h1>
+        <h2 style="font-size:2rem; margin:12px 0;">An Error Occurred</h2>
+        <p style="color:#555;">We're sorry, but this store could not be loaded.</p>
+        <code style="display:block; background:#f5f5f5; color:#d73a49; padding:10px; margin-top:20px; border-radius:6px;">
+          ${escapeHtml(error.message)}
+        </code>
+      </div>`;
+  }
+
+  async function fetchJSON(url) {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) {
+      if (res.status === 404) throw new Error(`File not found: ${url}`);
+      throw new Error(`HTTP error fetching ${url}: ${res.status} ${res.statusText}`);
+    }
+    return await res.json();
+  }
+
+  function escapeHtml(unsafe) {
+    return String(unsafe || "").replace(/[&<>"']/g, (m) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[m]));
   }
 })();
+
 
