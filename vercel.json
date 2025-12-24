@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/rgztec/:path*",
+      "destination": "https://raingaia.github.io/rgztec/:path*"
+    }
+  ]
+}
