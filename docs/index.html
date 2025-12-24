@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
 
+  <!-- ✅ Added (BASE override; keep empty for docs/root deploy) -->
+  <meta name="rgz-base" content="">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
@@ -255,9 +258,55 @@
     </div>
   </footer>
 
-  <!-- ✅ TEK JS: stabil home manager -->
+  <!-- ✅ Added: SAFE bootstrap (Categories toggle + outside click + ESC + BASE resolver) -->
+  <script>
+  (function () {
+    function resolveBase() {
+      const meta = document.querySelector('meta[name="rgz-base"]');
+      if (meta && meta.content != null) return String(meta.content).replace(/\/+$/,'');
+      const p = location.pathname || "/";
+      return p.includes("/rgztec/") ? "/rgztec" : "";
+    }
+    window.RGZ_BASE = resolveBase();
+
+    function initCategories() {
+      const header = document.querySelector(".app-header");
+      const btn = document.getElementById("btn-categories");
+      const panelWrap = document.getElementById("categories-panel");
+      if (!header || !btn || !panelWrap) return;
+
+      const close = () => header.classList.remove("has-cat-open");
+      const toggle = () => header.classList.toggle("has-cat-open");
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggle();
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!header.classList.contains("has-cat-open")) return;
+        const inside = panelWrap.contains(e.target) || btn.contains(e.target);
+        if (!inside) close();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initCategories);
+    } else {
+      initCategories();
+    }
+  })();
+  </script>
+
+  <!-- ✅ TEK JS: stabil home manager (seninki aynen kaldı) -->
   <script src="assets/js/home-products.js"></script>
 </body>
 </html>
+
 
 
