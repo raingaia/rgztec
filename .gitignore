@@ -1,13 +1,21 @@
-node_modules/
-.pnpm-store/
-dist/
-build/
-.next/
-out/
-.env
-.env.*
+# Node
+node_modules
 npm-debug.log*
-pnpm-debug.log*
+yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# Next
+.next
+out
+.vercel
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
 .DS_Store
-coverage/
+Thumbs.db
+
