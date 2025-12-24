@@ -8,11 +8,19 @@
  * - Categories button toggles section nav (no missing CSS)
  * - No ICON_GIFT / ICON_CART dependencies
  */
-(function () {
-  "use strict";
+// ✅ AUTO BASE (works for "/rgztec" and for root "/")
+function resolveBase() {
+  const meta = document.querySelector('meta[name="rgz-base"]');
+  if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
+  const p = location.pathname || "/";
+  return p.includes("/rgztec/") ? "/rgztec" : "";
+}
+const BASE = resolveBase(); // "" or "/rgztec"
+const withBase = (p) => (BASE ? `${BASE}${p}` : p); // p must start with "/"
 
- const DATA_URL = "/data/store.data.json?v=1825";
- const IMAGE_BASE_PATH = "/assets/images/store/";
+const DATA_URL = withBase("/data/store.data.json?v=1825");
+const IMAGE_BASE_PATH = withBase("/assets/images/store/");
+
 
   document.addEventListener("DOMContentLoaded", () => {
     const storeRoot = document.getElementById("store-root");
