@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • Dev Studio One</title>
-  <link rel="stylesheet" href="/rgztec/assets/css/store-core.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display.swap" rel="stylesheet">
+
+  <meta name="rgz-base" content="" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    (function () {
+      function resolveBase() {
+        const meta = document.querySelector('meta[name="rgz-base"]');
+        if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
+        const p = location.pathname || "/";
+        return p.includes("/rgztec/") ? "/rgztec" : "";
+      }
+      const BASE = resolveBase();
+      const withBase = (p) => (BASE ? `${BASE}${p}` : p);
+
+      window.RGZ_BASE = BASE;
+      window.RGZ_WITH_BASE = withBase;
+
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = withBase("/assets/css/store-core.css");
+      document.head.appendChild(css);
+    })();
+  </script>
 </head>
+
 <body class="store-body" data-path="dev-studio-one">
   <div id="store-root"></div>
-  <script src="/rgztec/assets/js/store-shell.js"></script>
+
+  <script>
+    (function () {
+      const withBase = window.RGZ_WITH_BASE || ((p) => p);
+      const s = document.createElement("script");
+      s.defer = true;
+      s.src = withBase("/assets/js/store-shell.js");
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
+
