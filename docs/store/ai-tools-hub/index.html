@@ -5,17 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • AI Tools Hub</title>
 
-  <link rel="stylesheet" href="/assets/css/store-core.css" />
+  <!-- ✅ BASE override (optional)
+       - GitHub Pages /rgztec için: "/rgztec"
+       - Root deploy için: "" -->
+  <meta name="rgz-base" content="" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ✅ BASE-resolved assets -->
+  <script>
+    (function () {
+      function resolveBase() {
+        const meta = document.querySelector('meta[name="rgz-base"]');
+        if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
+        const p = location.pathname || "/";
+        return p.includes("/rgztec/") ? "/rgztec" : "";
+      }
+      const BASE = resolveBase(); // "" or "/rgztec"
+      const withBase = (p) => (BASE ? `${BASE}${p}` : p);
+
+      // expose for store-shell.js
+      window.RGZ_BASE = BASE;
+      window.RGZ_WITH_BASE = withBase;
+
+      // inject css
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = withBase("/assets/css/store-core.css");
+      document.head.appendChild(css);
+    })();
+  </script>
 </head>
 
 <body class="store-body" data-path="ai-tools-hub">
   <div id="store-root"></div>
 
-  <script defer src="/assets/js/store-shell.js"></script>
+  <!-- ✅ BASE-resolved shell -->
+  <script>
+    (function () {
+      const withBase = window.RGZ_WITH_BASE || ((p) => p);
+      const s = document.createElement("script");
+      s.defer = true;
+      s.src = withBase("/assets/js/store-shell.js");
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
+
 
