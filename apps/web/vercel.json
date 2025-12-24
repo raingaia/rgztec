@@ -1,8 +1,15 @@
 {
   "rewrites": [
-    { "source": "/rgztec", "destination": "/index.html" },
-    { "source": "/rgztec/(.*)", "destination": "/$1" }
+    {
+      "source": "/rgztec",
+      "destination": "/rgztec/index.html"
+    },
+    {
+      "source": "/rgztec/(.*)",
+      "destination": "/$1"
+    }
   ]
 }
+
 
 
