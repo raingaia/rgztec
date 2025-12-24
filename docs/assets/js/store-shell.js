@@ -11,8 +11,8 @@
 (function () {
   "use strict";
 
-  const DATA_URL = "/rgztec/data/store.data.json?v=1825";
-  const IMAGE_BASE_PATH = "/rgztec/assets/images/store/";
+ const DATA_URL = "/data/store.data.json?v=1825";
+ const IMAGE_BASE_PATH = "/assets/images/store/";
 
   document.addEventListener("DOMContentLoaded", () => {
     const storeRoot = document.getElementById("store-root");
