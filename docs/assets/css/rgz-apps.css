@@ -216,3 +216,38 @@
 @keyframes loading {
     0% { width: 0%; } 100% { width: 100%; }
 }
+/* Etsy-Inspired Premium UI */
+:root {
+    --etsy-orange: #F1641E;
+    --rgz-soft-bg: #F8F9FB;
+    --rgz-border: #E1E3E9;
+}
+
+.seller-hub-layout {
+    background: var(--rgz-soft-bg);
+    font-family: 'Graphik', 'Inter', sans-serif; /* Etsy tarzı modern font */
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid var(--rgz-border);
+    border-radius: 18px; /* Daha yumuşak köşeler */
+    padding: 24px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+/* Hardware Pinout Preview Tag */
+.hardware-spec-tag {
+    background: #f0f0f0;
+    color: #333;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    border: 1px solid #ddd;
+}
