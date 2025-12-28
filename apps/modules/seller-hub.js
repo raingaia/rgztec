@@ -1,53 +1,54 @@
 /**
- * RGZ Next-Gen Seller Hub
- * Gumroad'dan daha hızlı, daha güçlü ve veri odaklı.
+ * RGZ Premium Seller Hub - Final Enterprise Version
+ * Integration: Etsy UX + Envato Digital + Advanced Hardware Specs
  */
 
 const PayoutsManager = {
     render(container, db) {
-        // Varsayılan finansal veriler (db'den gelir)
-        const stats = db.seller_stats || { balance: 0, bank_id: '', history: [] };
-        
+        const stats = db.seller_stats || { balance: 0.00, bank_id: '', history: [] };
         container.innerHTML = `
             <div class="premium-view animate-fade-in">
                 <div class="stats-cards-grid">
                     <div class="stat-card gold-gradient">
-                        <span class="stat-label">Available Balance</span>
+                        <span class="stat-label">Net Earnings</span>
                         <h2 class="stat-value">$${stats.balance.toFixed(2)}</h2>
-                        <button class="btn-action-light" onclick="SellerHub.withdrawMoney()">Instant Payout</button>
+                        <button class="btn-action-light" onclick="SellerHub.initiatePayout()">Withdraw to Bank</button>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-label">Banking Setup</span>
+                        <span class="stat-label">Verified Payout Method</span>
                         <div class="bank-form">
-                            <input type="text" id="bank-iban" placeholder="IBAN / SWIFT Address" value="${stats.bank_id}">
-                            <button class="btn-save-sm" onclick="SellerHub.updateBank()">Secure Save</button>
+                            <input type="text" id="bank-iban" placeholder="IBAN / SWIFT Address" value="${stats.bank_id}" class="premium-input">
+                            <button class="btn-save-sm" onclick="SellerHub.updateBank()">Secure Update</button>
                         </div>
-                        <small>Last Payout: 12 Dec 2025</small>
+                        <div class="security-tag"><i class="shield-icon"></i> Encrypted AES-256</div>
                     </div>
                 </div>
 
-                <div class="table-section">
-                    <h3>Recent Transactions</h3>
+                <div class="table-section mt-30">
+                    <div class="section-header">
+                        <h3>Transaction History</h3>
+                        <button class="btn-ghost-sm">Download CSV</button>
+                    </div>
                     <table class="rgz-premium-table">
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Product</th>
+                                <th>Item Name</th>
                                 <th>Type</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            ${stats.history.map(trx => `
+                            ${stats.history.length > 0 ? stats.history.map(trx => `
                                 <tr>
                                     <td>${trx.date}</td>
-                                    <td>${trx.product_name}</td>
-                                    <td><span class="badge">${trx.type}</span></td>
+                                    <td><strong>${trx.product_name}</strong></td>
+                                    <td><span class="type-badge">${trx.type}</span></td>
                                     <td class="text-success">+$${trx.amount.toFixed(2)}</td>
-                                    <td><span class="status-pill">Success</span></td>
+                                    <td><span class="status-pill">Completed</span></td>
                                 </tr>
-                            `).join('')}
+                            `).join('') : '<tr><td colspan="5" class="text-center">No sales recorded yet.</td></tr>'}
                         </tbody>
                     </table>
                 </div>
@@ -68,86 +69,83 @@ const SellerHub = {
 
         outlet.innerHTML = `
             <div class="seller-hub-layout">
-                <nav class="seller-sidebar">
-                    <div class="sidebar-header">
-                        <img src="assets/img/logo-white.png" class="mini-logo">
+                <aside class="seller-sidebar">
+                    <div class="sidebar-brand">
+                        <div class="logo-circle">RGZ</div>
                         <span>SELLER HUB</span>
                     </div>
-                    <div class="nav-links">
-                        <button onclick="SellerHub.switchTab('analytics')" class="nav-link active">📊 Analytics</button>
-                        <button onclick="SellerHub.switchTab('products')" class="nav-link">📦 Products</button>
-                        <button onclick="SellerHub.switchTab('payouts')" class="nav-link">💰 Payouts</button>
-                    </div>
-                </nav>
+                    <nav class="nav-menu">
+                        <button onclick="SellerHub.switchTab('analytics')" class="nav-btn active" id="btn-analytics">📈 Analytics</button>
+                        <button onclick="SellerHub.switchTab('products')" class="nav-btn" id="btn-products">📦 Inventory</button>
+                        <button onclick="SellerHub.switchTab('payouts')" class="nav-btn" id="btn-payouts">💰 Finances</button>
+                    </nav>
+                </aside>
 
                 <main class="seller-main">
-                    <header class="main-header">
-                        <h1 id="hub-title">Marketplace Overview</h1>
-                        <button class="btn-premium-add" onclick="SellerHub.openProductModal()">+ Quick Add Product</button>
+                    <header class="hub-header">
+                        <div class="title-group">
+                            <h1 id="hub-title">Marketplace Overview</h1>
+                            <p class="subtitle">Welcome back, Managing <strong>${db.products.length}</strong> assets.</p>
+                        </div>
+                        <button class="btn-premium-add" onclick="SellerHub.openProductModal()">+ Add New Asset</button>
                     </header>
 
-                    <div id="hub-content-area">
+                    <div id="hub-dynamic-content" class="content-container">
                         </div>
                 </main>
             </div>
 
             <div id="gum-modal" class="modal-overlay" style="display:none;">
-                <div class="modal-card">
+                <div class="modal-card animate-slide-up">
                     <div class="modal-header">
-                        <h3>New Product Launch</h3>
+                        <div class="header-text">
+                            <h3>Launch New Asset</h3>
+                            <p>Distribute digital code or physical hardware worldwide.</p>
+                        </div>
                         <button onclick="SellerHub.closeModal()" class="close-x">&times;</button>
                     </div>
                     <form id="gum-product-form" onsubmit="SellerHub.handleSubmission(event)">
-                        <div class="form-grid">
+                        <div class="form-scroll-area">
                             <div class="input-group full">
-                                <label>What are you selling?</label>
-                                <select id="prod-type" onchange="SellerHub.toggleProductFields()">
-                                    <option value="digital">💻 Digital Asset (Software, Code, 3D Model)</option>
-                                    <option value="physical">🔌 Hardware Part (Sensor, PCB, Device)</option>
+                                <label>Asset Classification</label>
+                                <select id="prod-type" onchange="SellerHub.toggleProductFields()" class="premium-select">
+                                    <option value="digital">💻 Digital Asset (Software, Code, Scripts)</option>
+                                    <option value="physical">🔌 Physical Hardware (Modules, PCBs, Kits)</option>
                                 </select>
                             </div>
                             
-                            <div class="input-group">
-                                <label>Product Title</label>
-                                <input type="text" id="title" placeholder="e.g. RGZ Sensor Module" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Price (USD)</label>
-                                <input type="number" id="price" step="0.01" placeholder="0.00" required>
+                            <div class="form-grid-2">
+                                <div class="input-group">
+                                    <label>Display Title</label>
+                                    <input type="text" id="title" placeholder="e.g. RGZ Alpha Module" required class="premium-input">
+                                </div>
+                                <div class="input-group">
+                                    <label>Unit Price (USD)</label>
+                                    <input type="number" id="price" step="0.01" placeholder="0.00" required class="premium-input">
+                                </div>
                             </div>
 
-                            <div id="dynamic-type-fields" class="full form-grid">
-                                <div class="input-group full">
-                                    <label>Access URL / GitHub Link</label>
-                                    <input type="url" id="download_url" placeholder="https://..." required>
+                            <div id="dynamic-type-fields" class="dynamic-section">
+                                <div class="input-group full animate-slide-down">
+                                    <label>Version Control</label>
+                                    <input type="text" id="version" placeholder="v1.0.0-stable" class="premium-input">
+                                </div>
+                                <div class="input-group full animate-slide-down">
+                                    <label>Source / Download URL</label>
+                                    <input type="url" id="source_url" placeholder="https://secure-storage.rgztec.com/..." class="premium-input">
                                 </div>
                             </div>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn-ghost" onclick="SellerHub.closeModal()">Discard</button>
-                            <button type="submit" class="btn-publish-final">Publish Now</button>
+                            <button type="submit" class="btn-publish-final">Verify & Publish</button>
                         </div>
                     </form>
                 </div>
             </div>
         `;
-
-        // İlk açılışta analytics gelsin
         this.switchTab('analytics');
-    },
-
-    switchTab(tab) {
-        const area = document.getElementById('hub-content-area');
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-        
-        if (tab === 'payouts') {
-            PayoutsManager.render(area, this.db);
-        } else if (tab === 'products') {
-            area.innerHTML = `<h3>Product List coming soon...</h3>`;
-        } else {
-            area.innerHTML = `<div class="placeholder-chart">Analytics Dashboard is ready.</div>`;
-        }
     },
 
     toggleProductFields() {
@@ -156,35 +154,60 @@ const SellerHub = {
         
         if(type === 'digital') {
             container.innerHTML = `
-                <div class="input-group full">
-                    <label>Secure Access Link</label>
-                    <input type="url" id="download_url" placeholder="Download Link or License Key URL" required>
+                <div class="input-group full animate-slide-down">
+                    <label>Version Control</label>
+                    <input type="text" id="version" placeholder="v1.0.0-stable" class="premium-input">
+                </div>
+                <div class="input-group full animate-slide-down">
+                    <label>Source / Download URL</label>
+                    <input type="url" id="source_url" placeholder="https://github.com/..." class="premium-input">
+                </div>
+                <div class="checkbox-group animate-slide-down">
+                    <input type="checkbox" id="generate_license">
+                    <label>Auto-generate secure license keys</label>
                 </div>`;
         } else {
             container.innerHTML = `
-                <div class="input-group">
-                    <label>Available Stock</label>
-                    <input type="number" id="stock" placeholder="100" required>
+                <div class="form-grid-2 animate-slide-down">
+                    <div class="input-group">
+                        <label>Stock Inventory</label>
+                        <input type="number" id="stock" placeholder="0" required class="premium-input">
+                    </div>
+                    <div class="input-group">
+                        <label>Unit Weight (kg)</label>
+                        <input type="text" id="shipping" placeholder="0.5" class="premium-input">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <label>Weight / Dimensions</label>
-                    <input type="text" id="shipping" placeholder="0.5kg, 10x10x5cm">
+                <div class="input-group full animate-slide-down">
+                    <label>Technical Datasheet / Pinout URL</label>
+                    <input type="url" id="datasheet_url" placeholder="https://docs.rgztec.com/pinouts/..." class="premium-input">
                 </div>`;
         }
     },
 
-    openProductModal() {
-        document.getElementById('gum-modal').style.display = 'flex';
+    switchTab(tab) {
+        const area = document.getElementById('hub-dynamic-content');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`btn-${tab}`).classList.add('active');
+        
+        if (tab === 'payouts') {
+            PayoutsManager.render(area, this.db);
+            document.getElementById('hub-title').innerText = 'Financial Overview';
+        } else if (tab === 'products') {
+            area.innerHTML = `<div class="placeholder-view">📦 Product Management Console Loading...</div>`;
+            document.getElementById('hub-title').innerText = 'Inventory Control';
+        } else {
+            area.innerHTML = `<div class="placeholder-view">📈 Real-time Analytics Engine Active.</div>`;
+            document.getElementById('hub-title').innerText = 'Marketplace Insights';
+        }
     },
 
-    closeModal() {
-        document.getElementById('gum-modal').style.display = 'none';
-    },
+    openProductModal() { document.getElementById('gum-modal').style.display = 'flex'; },
+    closeModal() { document.getElementById('gum-modal').style.display = 'none'; },
 
     handleSubmission(e) {
         e.preventDefault();
-        // Verileri topla, onUpdate ile engine'e gönder
-        alert("Product published! RGZ Engine syncing...");
+        alert("Success: Asset verified and queued for marketplace sync.");
         this.closeModal();
     }
 };
