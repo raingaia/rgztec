@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC • Seller Dashboard</title>
+
+  <style>
+    body{font-family:Inter,system-ui,Arial; margin:0; background:#0b0f17; color:#e9eefc;}
+    header{display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.04); position:sticky; top:0}
+    .brand{font-weight:800; letter-spacing:.4px}
+    .pill{font-size:12px; padding:6px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(0,0,0,.25)}
+    .wrap{display:grid; grid-template-columns:260px 1fr; min-height:calc(100vh - 58px)}
+    nav{border-right:1px solid rgba(255,255,255,.10); padding:14px; background:rgba(255,255,255,.03)}
+    nav button{width:100%; text-align:left; padding:10px 12px; margin:6px 0; border-radius:12px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.20); color:#e9eefc; cursor:pointer}
+    main{padding:16px}
+    .card{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:16px; margin-bottom:12px}
+    textarea{width:100%; min-height:220px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:#fff; padding:12px; outline:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .btn{padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:800}
+    .btn.primary{background:#fff; color:#0b0f17}
+    .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.14)}
+    .muted{color:rgba(233,238,252,.7); font-size:12px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">RGZTEC • Seller Panel</div>
+    <div class="pill" id="sellerTag">seller: -</div>
+  </header>
+
+  <div class="wrap">
+    <nav>
+      <button data-tab="products">Products Editor</button>
+      <button data-tab="banners">Banners</button>
+      <button data-tab="profile">Profile</button>
+      <button id="logout">Logout</button>
+      <div class="muted" style="margin-top:10px">
+        Not: Bu MVP editör. Sonra API ile kaydetme gelecek.
+      </div>
+    </nav>
+
+    <main>
+      <div class="card" id="viewTitle">
+        <b id="tabTitle">Products Editor</b>
+        <div class="muted">JSON düzenle → Download → GitHub commit (şimdilik manuel).</div>
+      </div>
+
+      <div class="card">
+        <textarea id="editor"></textarea>
+        <div class="row">
+          <button class="btn primary" id="download">Download JSON</button>
+          <button class="btn ghost" id="loadDemo">Load Demo</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ===== Guard: token yoksa login'e at =====
+    const token = localStorage.getItem("rgz_seller_token");
+    const sellerId = localStorage.getItem("rgz_seller_id");
+
+    if (!token || !sellerId) {
+      location.href = "./login.html";
+    }
+
+    document.getElementById("sellerTag").textContent = "seller: " + sellerId;
+
+    const editor = document.getElementById("editor");
+
+    const DEMO_DATA = {
+      sellerId,
+      products: [
+        { id:"p1", title:"Premium Product A", category:"hardware", status:"active" },
+        { id:"p2", title:"Premium Product B", category:"ai", status:"draft" }
+      ],
+      banners: [
+        { slot:"hero", title:"Seller Hero Banner", href:"/rgztec/store/hardware/" }
+      ]
+    };
+
+    function setTab(tab){
+      const map = {
+        products: "Products Editor",
+        banners: "Banners",
+        profile: "Profile"
+      };
+      document.getElementById("tabTitle").textContent = map[tab] || "Editor";
+    }
+
+    document.querySelectorAll("nav button[data-tab]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const tab = btn.getAttribute("data-tab");
+        setTab(tab);
+      });
+    });
+
+    document.getElementById("loadDemo").addEventListener("click", ()=>{
+      editor.value = JSON.stringify(DEMO_DATA, null, 2);
+    });
+
+    document.getElementById("download").addEventListener("click", ()=>{
+      const blob = new Blob([editor.value || ""], { type:"application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `seller-${sellerId}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById("logout").addEventListener("click", ()=>{
+      localStorage.removeItem("rgz_seller_token");
+      localStorage.removeItem("rgz_seller_id");
+      location.href = "./login.html";
+    });
+
+    // default
+    editor.value = JSON.stringify(DEMO_DATA, null, 2);
+  </script>
+</body>
+</html>
