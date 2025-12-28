@@ -27,15 +27,20 @@
 
       // 2) APPS ROUTE PARSER (BASE'i düşür, /apps'i parse et)
       function parseAppsRoute() {
-        // örn: "/rgztec/apps/admin/settings" -> afterBase: "/apps/admin/settings"
-        let afterBase = (location.pathname || "/");
-        if (BASE && afterBase.startsWith(BASE)) afterBase = afterBase.slice(BASE.length);
-        if (!afterBase.startsWith("/")) afterBase = "/" + afterBase;
+  let afterBase = (location.pathname || "/");
+  if (BASE && afterBase.startsWith(BASE)) afterBase = afterBase.slice(BASE.length);
+  if (!afterBase.startsWith("/")) afterBase = "/" + afterBase;
 
-        // "/apps" veya "/apps/" veya "/apps/xxx"
-        if (!afterBase.startsWith("/apps")) {
-          return { module: "dashboard", params: [] };
-        }
+  // Hem /apps hem de /store prefixlerini temizle
+  let rest = afterBase.replace(/^\/(apps|store)/, ""); 
+  rest = rest.replace(/^\/+/, "").replace(/\/+$/, "");
+
+  const parts = rest ? rest.split("/").filter(Boolean) : [];
+  const mod = parts[0] || "dashboard";
+  const params = parts.slice(1);
+
+  return { module: mod, params };
+}
 
         // "/apps" kısmını at
         let rest = afterBase.slice("/apps".length); // "" | "/" | "/admin/.."
