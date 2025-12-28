@@ -13,38 +13,91 @@
 
   <script>
     (function () {
-      function resolveBase() {
-        const meta = document.querySelector('meta[name="rgz-base"]');
-        if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
-        const p = location.pathname || "/";
-        return p.includes("/rgztec/") ? "/rgztec" : "";
-      }
-      const BASE = resolveBase();
-      const withBase = (p) => (BASE ? `${BASE}${p}` : p);
+      const candidates = [];
 
-      window.RGZ_BASE = BASE;
-      window.RGZ_WITH_BASE = withBase;
+      const meta = document.querySelector('meta[name="rgz-base"]');
+      const metaBase = meta && meta.content != null
+        ? String(meta.content).trim().replace(/\/+$/,"")
+        : "";
+      if (metaBase) candidates.push(metaBase);
+
+      const p = location.pathname || "/";
+      if (p.includes("/rgztec/")) candidates.push("/rgztec");
+
+      candidates.push("");
+      candidates.push("/rgztec");
+
+      const uniq = [];
+      for (const c of candidates) if (!uniq.includes(c)) uniq.push(c);
+
+      function withBase(base, path) {
+        const b = (base || "").replace(/\/+$/,"");
+        const p2 = path.startsWith("/") ? path : ("/" + path);
+        return b ? (b + p2) : p2;
+      }
+
+      window.__RGZ_CANDIDATES = uniq;
+      window.__RGZ_withBase = withBase;
 
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = withBase("/assets/css/store-core.css");
+
+      let i = 0;
+      function tryCss() {
+        const base = uniq[i] || "";
+        css.href = withBase(base, "/assets/css/store-core.css");
+      }
+      css.onerror = function () {
+        i++;
+        if (i < uniq.length) tryCss();
+        else console.error("RGZ CSS not found for any BASE candidate.");
+      };
+      tryCss();
       document.head.appendChild(css);
     })();
   </script>
 </head>
 
 <body class="store-body" data-path="reactorium">
-  <div id="store-root"></div>
+  <div id="store-root" style="padding:18px;font-family:Inter,system-ui,Arial;">
+    Loading store…
+  </div>
 
   <script>
     (function () {
-      const withBase = window.RGZ_WITH_BASE || ((p) => p);
+      const root = document.getElementById("store-root");
+      const uniq = window.__RGZ_CANDIDATES || ["", "/rgztec"];
+      const withBase = window.__RGZ_withBase || ((b,p)=> (b? b+p : p));
+
+      let i = 0;
       const s = document.createElement("script");
       s.defer = true;
-      s.src = withBase("/assets/js/store-shell.js");
+
+      function tryJs() {
+        const base = uniq[i] || "";
+        window.RGZ_BASE = base;
+        window.RGZ_WITH_BASE = (p) => withBase(base, p);
+        s.src = withBase(base, "/assets/js/store-shell.js");
+      }
+
+      s.onerror = function () {
+        i++;
+        if (i < uniq.length) {
+          tryJs();
+        } else if (root) {
+          root.innerHTML =
+            "<div style='padding:16px;border:1px solid #eee;border-radius:12px;background:#fff'>" +
+            "<b>store-shell.js not found</b><br/>Tried BASE candidates: <code>" +
+            (uniq.join(", ") || "") +
+            "</code></div>";
+        }
+      };
+
+      tryJs();
       document.body.appendChild(s);
     })();
   </script>
 </body>
 </html>
+
 
