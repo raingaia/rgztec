@@ -93,9 +93,18 @@
       html += renderEmpty();
     }
 
-    target.innerHTML = html;
-    wireInteractions(target);
-  }
+  // ✅ soft mount (no flash)
+target.style.opacity = "0";
+target.style.transition = "opacity 180ms ease";
+target.innerHTML = html;
+
+// fade-in next frame
+requestAnimationFrame(() => {
+  target.style.opacity = "1";
+});
+
+wireInteractions(target);
+
 
   // -----------------------------
   // HELPERS
