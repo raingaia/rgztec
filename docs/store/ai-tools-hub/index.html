@@ -5,16 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • AI Tools Hub</title>
 
-  <!-- ✅ BASE override (optional)
-       - GitHub Pages /rgztec için: "/rgztec"
-       - Root deploy için: "" -->
   <meta name="rgz-base" content="" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- ✅ BASE-resolved assets -->
   <script>
     (function () {
       function resolveBase() {
@@ -23,36 +19,58 @@
         const p = location.pathname || "/";
         return p.includes("/rgztec/") ? "/rgztec" : "";
       }
-      const BASE = resolveBase(); // "" or "/rgztec"
+      const BASE = resolveBase();
       const withBase = (p) => (BASE ? `${BASE}${p}` : p);
 
-      // expose for store-shell.js
       window.RGZ_BASE = BASE;
       window.RGZ_WITH_BASE = withBase;
 
-      // inject css
       const css = document.createElement("link");
       css.rel = "stylesheet";
       css.href = withBase("/assets/css/store-core.css");
+      css.onerror = () => console.error("CSS 404:", css.href);
       document.head.appendChild(css);
     })();
   </script>
 </head>
 
 <body class="store-body" data-path="ai-tools-hub">
-  <div id="store-root"></div>
+  <div id="store-root" style="padding:20px;font-family:Inter,system-ui,Arial;">
+    Loading store…
+  </div>
 
-  <!-- ✅ BASE-resolved shell -->
   <script>
     (function () {
       const withBase = window.RGZ_WITH_BASE || ((p) => p);
+      const root = document.getElementById("store-root");
+
       const s = document.createElement("script");
       s.defer = true;
       s.src = withBase("/assets/js/store-shell.js");
+
+      s.onload = () => {
+        // shell loaded
+        // If store-shell doesn't render, it will replace this anyway.
+        // Keeping here for visibility.
+        // console.log("Shell loaded:", s.src);
+      };
+
+      s.onerror = () => {
+        if (root) {
+          root.innerHTML =
+            "<div style='padding:16px;border:1px solid #eee;border-radius:12px;background:#fff'>" +
+            "<b>Shell JS not found</b><br/>" +
+            "Tried: <code>" + s.src + "</code><br/>" +
+            "Check if this file exists in your deploy output." +
+            "</div>";
+        }
+      };
+
       document.body.appendChild(s);
     })();
   </script>
 </body>
 </html>
+
 
 
