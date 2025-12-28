@@ -4,17 +4,56 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • Hardware</title>
+
+  <!-- İstersen override:
+       GitHub Pages: "/rgztec"
+       Root deploy: "" -->
   <meta name="rgz-base" content="" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/store-core.css" />
+
+  <script>
+    (function () {
+      function resolveBase() {
+        const meta = document.querySelector('meta[name="rgz-base"]');
+        if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
+
+        const p = location.pathname || "/";
+        // GitHub Pages project path desteği
+        return p.startsWith("/rgztec/") ? "/rgztec" : "";
+      }
+
+      const BASE = resolveBase();
+      const withBase = (p) => (BASE ? BASE + p : p);
+
+      window.RGZ_BASE = BASE;
+      window.RGZ_WITH_BASE = withBase;
+
+      const css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = withBase("/assets/css/store-core.css");
+      document.head.appendChild(css);
+    })();
+  </script>
 </head>
+
 <body class="store-body" data-path="hardware">
-  <div id="store-root"></div>
-  <script defer src="/assets/js/store-shell.js"></script>
+  <div id="store-root">Loading store...</div>
+
+  <script>
+    (function () {
+      const withBase = window.RGZ_WITH_BASE || ((p) => p);
+      const s = document.createElement("script");
+      s.defer = true;
+      s.src = withBase("/assets/js/store-shell.js");
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
+
 
 
 
