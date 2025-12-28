@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGZTEC • LAB (Sandbox)</title>
+  <style>
+    :root{
+      --bg:#0b0f17; --panel:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
+      --ink:#e9eefc; --muted:rgba(233,238,252,.7);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:Inter,system-ui,Arial; background:var(--bg); color:var(--ink)}
+    header{display:flex; align-items:center; justify-content:space-between; padding:14px 16px;
+      border-bottom:1px solid var(--line); background:rgba(255,255,255,.04); position:sticky; top:0; z-index:5}
+    .brand{font-weight:900; letter-spacing:.3px}
+    .muted{color:var(--muted); font-size:12px}
+    .wrap{display:grid; grid-template-columns: 1fr 1fr; height:calc(100vh - 56px)}
+    .col{border-right:1px solid var(--line)}
+    .col:last-child{border-right:0}
+    .pane{height:100%; display:flex; flex-direction:column}
+    .tabs{display:flex; gap:8px; padding:10px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.03)}
+    .tab{padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.2); color:var(--ink); cursor:pointer; font-weight:700; font-size:12px}
+    .tab.active{background:#fff; color:#0b0f17; border-color:#fff}
+    textarea{
+      flex:1; width:100%; resize:none; border:0; outline:none; padding:14px;
+      background:transparent; color:var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size:13px; line-height:1.5;
+    }
+    .actions{display:flex; gap:10px; padding:10px; border-top:1px solid var(--line); background:rgba(255,255,255,.03)}
+    .btn{padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:900}
+    .btn.primary{background:#fff; color:#0b0f17}
+    .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.14)}
+    iframe{flex:1; width:100%; border:0; background:#fff; border-radius:0}
+    .rightTop{display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,.03)}
+    code.badge{padding:6px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(0,0,0,.2); font-size:12px}
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="brand">RGZTEC • LAB</div>
+      <div class="muted">Sandbox / Kod Deneme Alanı (Dashboard ile karışmaz)</div>
+    </div>
+    <code class="badge" id="where">/rgztec/lab/</code>
+  </header>
+
+  <div class="wrap">
+    <!-- LEFT: Editors -->
+    <div class="col pane">
+      <div class="tabs">
+        <button class="tab active" data-tab="html">HTML</button>
+        <button class="tab" data-tab="css">CSS</button>
+        <button class="tab" data-tab="js">JS</button>
+      </div>
+
+      <textarea id="editor"></textarea>
+
+      <div class="actions">
+        <button class="btn primary" id="run">Run</button>
+        <button class="btn ghost" id="reset">Reset</button>
+        <button class="btn ghost" id="share">Share Link</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Preview -->
+    <div class="pane">
+      <div class="rightTop">
+        <div class="muted">Live Preview</div>
+        <div class="muted" id="status">Ready</div>
+      </div>
+      <iframe id="preview" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
+    </div>
+  </div>
+
+<script>
+  const DEFAULT = {
+    html: `<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>RGZTEC LAB</title></head>
+<body>
+  <h1>RGZTEC LAB</h1>
+  <p>Burada HTML/CSS/JS test edebilirsin.</p>
+  <button id="btn">Click</button>
+  <div id="out"></div>
+</body>
+</html>`,
+    css: `body{font-family:system-ui,Arial; padding:24px}
+h1{margin:0 0 8px}
+button{padding:10px 12px; border-radius:10px; border:1px solid #ddd; cursor:pointer}`,
+    js: `document.getElementById("btn").addEventListener("click", ()=>{
+  document.getElementById("out").textContent = "OK ✅ " + new Date().toLocaleString();
+});`
+  };
+
+  const tabs = document.querySelectorAll(".tab");
+  const editor = document.getElementById("editor");
+  const preview = document.getElementById("preview");
+  const status = document.getElementById("status");
+
+  let state = loadState();
+
+  function loadState(){
+    // 1) URL hash varsa onu oku
+    if (location.hash && location.hash.length > 1){
+      try{
+        const json = decodeURIComponent(atob(location.hash.slice(1)));
+        const obj = JSON.parse(json);
+        return { ...DEFAULT, ...obj };
+      }catch(e){}
+    }
+    // 2) LocalStorage
+    try{
+      const saved = JSON.parse(localStorage.getItem("rgz_lab_state") || "null");
+      if (saved) return { ...DEFAULT, ...saved };
+    }catch(e){}
+    return { ...DEFAULT };
+  }
+
+  function saveState(){
+    localStorage.setItem("rgz_lab_state", JSON.stringify(state));
+  }
+
+  function activeTab(){
+    return document.querySelector(".tab.active").dataset.tab;
+  }
+
+  function setActive(tab){
+    tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
+    editor.value = state[tab] || "";
+  }
+
+  tabs.forEach(t=>{
+    t.addEventListener("click", ()=> setActive(t.dataset.tab));
+  });
+
+  editor.addEventListener("input", ()=>{
+    const tab = activeTab();
+    state[tab] = editor.value;
+    saveState();
+  });
+
+  function buildDoc(){
+    const html = state.html || "";
+    const css = `<style>${state.css || ""}</style>`;
+    const js  = `<script>${state.js || ""}<\/script>`;
+    // HTML içine CSS ve JS enjekte et
+    if (html.includes("</head>")){
+      return html.replace("</head>", css + "\n</head>").replace("</body>", js + "\n</body>");
+    }
+    return css + "\n" + html + "\n" + js;
+  }
+
+  function run(){
+    status.textContent = "Running…";
+    const doc = buildDoc();
+    preview.srcdoc = doc;
+    setTimeout(()=> status.textContent = "Live", 150);
+  }
+
+  document.getElementById("run").addEventListener("click", run);
+
+  document.getElementById("reset").addEventListener("click", ()=>{
+    state = { ...DEFAULT };
+    saveState();
+    setActive(activeTab());
+    run();
+  });
+
+  document.getElementById("share").addEventListener("click", async ()=>{
+    try{
+      const payload = btoa(encodeURIComponent(JSON.stringify(state)));
+      const url = location.origin + location.pathname + "#" + payload;
+      await navigator.clipboard.writeText(url);
+      status.textContent = "Link copied ✅";
+      setTimeout(()=> status.textContent = "Live", 800);
+    }catch(e){
+      status.textContent = "Copy failed";
+    }
+  });
+
+  // init
+  setActive("html");
+  run();
+</script>
+</body>
+</html>
