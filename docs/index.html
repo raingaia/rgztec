@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
 
-  <!-- ✅ Docs-root deploy: publish root = "/" -->
+  <!-- Base (kept for future resolver; current page uses relative links) -->
   <meta name="rgz-base" content="">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- ✅ Absolute asset paths (never break) -->
+  <!-- Assets (relative so it works under / and /rgztec/) -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
-  <link rel="stylesheet" href="assets/css/store-core.css">
-  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/store-core.css?v=1">
+  <link rel="stylesheet" href="assets/css/home.css?v=1">
 
   <style>
     img, a img { border:none !important; outline:none !important; }
@@ -147,8 +147,8 @@
   <header class="app-header">
     <div class="container header-inner">
       <div class="header-left">
-        <!-- ✅ Always go to home -->
-        <a href="/" class="logo">RGZTEC</a>
+        <!-- ✅ Works on / and /rgztec/ -->
+        <a href="./" class="logo">RGZTEC</a>
 
         <button id="btn-categories" class="btn-cat" type="button">
           <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -178,10 +178,10 @@
       </div>
 
       <div class="nav-right">
-        <!-- ✅ Absolute internal links -->
-        <a href="/editor/" class="nav-link">Dashboard / Editor</a>
-        <a href="/login/" class="nav-link">Sign In</a>
-        <a href="/open-store.html" class="btn-open-store">Open Store</a>
+        <!-- ✅ Relative internal links (safe for / and /rgztec/) -->
+        <a href="./lab/" class="nav-link">Dashboard / Editor</a>
+        <a href="./seller/login.html" class="nav-link">Sign In</a>
+        <a href="./open-store.html" class="btn-open-store">Open Store</a>
       </div>
     </div>
   </header>
@@ -211,7 +211,6 @@
           <div class="hero-badge">#1 BEST SELLING</div>
           <div class="hero-big">Global Marketplace</div>
           <div class="hero-art">
-            <!-- ✅ Absolute image path -->
             <img src="assets/images/banners/global-marketplace-banner.webp" alt="RGZTEC Global Marketplace Banner">
           </div>
         </div>
@@ -237,12 +236,12 @@
         <div class="footer-col">
           <h4>Marketplace</h4>
           <a href="#gallery">Explore stores</a>
-          <a href="/open-store.html">Open a store</a>
+          <a href="./open-store.html">Open a store</a>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
-          <a href="/about.html">About</a>
-          <a href="/contact.html">Contact</a>
+          <a href="./about.html">About</a>
+          <a href="./contact.html">Contact</a>
         </div>
         <div class="footer-col">
           <h4>Stay in touch</h4>
@@ -253,17 +252,14 @@
       <div class="footer-bot">
         <span>© 2025 RGZTEC, Inc. All rights reserved.</span>
         <div class="footer-links">
-          <a href="/privacy.html">Privacy</a>
-          <a href="/terms.html">Terms</a>
+          <a href="./privacy.html">Privacy</a>
+          <a href="./terms.html">Terms</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- ✅ Docs-root bootstrap: freeze base (no guessing) -->
   <script>
-    // Docs-root deploy: keep it deterministic
-    window.RGZ_BASE = "";
     (function () {
       function initCategories() {
         const header = document.querySelector(".app-header");
@@ -299,10 +295,10 @@
     })();
   </script>
 
-  <!-- ✅ Home manager (absolute path) -->
-  <script src="assets/js/home-products.js"></script>
+  <script src="assets/js/home-products.js?v=1"></script>
 </body>
 </html>
+
 
 
 
