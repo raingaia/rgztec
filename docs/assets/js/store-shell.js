@@ -1,21 +1,17 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  * HYBRID MASTER FINAL (Static Stores + Dynamic Apps)
- * Features:
- * - Static store rendering (87+ stores) via data-path
+ *
+ * - Static stores via <body class="store-body" data-path="hardware/ai-accelerators">
  * - Dynamic apps via /apps/* (admin, search, signin, open-store)
  * - Global search (recursive scan)
  * - Admin Command Center (recursive inventory count)
  * - BASE auto (no hardcoded /rgztec)
  *
- * Requirements:
- * - Works with your Vercel rewrites:
- *   /apps/:path*  -> /apps/index.html (sets window.APPS_MODE / APPS_PARAMS)
- *   /(stores...)/ -> /docs/... (static)
- *
- * Notes:
- * - Keep ONLY this file as assets/js/store-shell.js
- * - apps/index.html should set window.APPS_MODE and window.APPS_PARAMS (you already have)
+ * IMPORTANT:
+ * - Keep ONLY this file as: /assets/js/store-shell.js
+ * - apps/index.html should set: window.APPS_MODE + window.APPS_PARAMS
+ * - Your pages must have: <div id="store-root"></div> and <body class="store-body" ...>
  */
 (() => {
   "use strict";
@@ -35,6 +31,8 @@
 
   const BASE = resolveBase(); // "" or "/rgztec"
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
+  const enc = (s) => encodeURIComponent(String(s || ""));
+  const safeSlug = (s) => String(s || "").trim().replace(/^\/+|\/+$/g, "");
 
   // Data + assets
   const DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
@@ -173,7 +171,6 @@
       const stores = Object.keys(data || {});
       let totalItems = 0;
 
-      // recursive count (products + sections at all depths)
       stores.forEach((k) => {
         totalItems += countTree(data[k]);
       });
@@ -204,32 +201,28 @@
 
           <div style="display:flex; flex-direction:column; gap:12px;">
             <h3 style="color:#fff; margin:0 0 10px;">Store Inventory</h3>
-            ${stores
-              .map((key) => {
-                const title = esc((data[key] && (data[key].title || data[key].name)) || key);
-                const route = withBase(`/store/${esc(key)}/`);
-                const editRoute = withBase(`/apps/editor?store=${encodeURIComponent(key)}`); // placeholder route
-                return `
-                  <div style="background:#0a0a0a; border:1px solid #1a1a1a; padding:16px 24px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:14px;">
-                    <div>
-                      <div style="color:#fff; font-weight:600;">${title}</div>
-                      <div style="color:#444; font-size:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">/store/${esc(
-                        key
-                      )}/</div>
-                    </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
-                      <a href="${editRoute}"
-                        style="background:#1a1a1a; color:#bbb; border:1px solid #333; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none;">
-                        EDIT
-                      </a>
-                      <a href="${route}" target="_blank" rel="noopener"
-                        style="background:#00ffa3; color:#000; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:900; text-decoration:none;">
-                        LIVE
-                      </a>
-                    </div>
-                  </div>`;
-              })
-              .join("")}
+            ${stores.map((key) => {
+              const title = esc((data[key] && (data[key].title || data[key].name)) || key);
+              const route = withBase(`/store/${enc(key)}/`);
+              const editRoute = withBase(`/apps/editor?store=${enc(key)}`); // placeholder
+              return `
+                <div style="background:#0a0a0a; border:1px solid #1a1a1a; padding:16px 24px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:14px;">
+                  <div>
+                    <div style="color:#fff; font-weight:600;">${title}</div>
+                    <div style="color:#444; font-size:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">/store/${esc(key)}/</div>
+                  </div>
+                  <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+                    <a href="${editRoute}"
+                      style="background:#1a1a1a; color:#bbb; border:1px solid #333; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none;">
+                      EDIT
+                    </a>
+                    <a href="${route}" target="_blank" rel="noopener"
+                      style="background:#00ffa3; color:#000; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:900; text-decoration:none;">
+                      LIVE
+                    </a>
+                  </div>
+                </div>`;
+            }).join("")}
           </div>
         </main>
       `;
@@ -252,7 +245,7 @@
   }
 
   // ---------- Dynamic: Search ----------
-  function renderSearchModule(target, params) {
+  function renderSearchModule(target) {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q") || "";
 
@@ -292,7 +285,6 @@
 
   async function performSearch(query, gridTarget) {
     const qraw = String(query || "").trim().toLowerCase();
-
     if (!gridTarget) return;
 
     if (qraw.length < 2) {
@@ -312,31 +304,20 @@
     Object.keys(allData || {}).forEach((slug) => searchInData(allData[slug], slug, qraw, results));
 
     if (results.length === 0) {
-      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(
-        qraw
-      )}"</p>`;
+      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(qraw)}"</p>`;
       return;
     }
 
     gridTarget.innerHTML = results
-      .slice(0, 200) // safety cap
+      .slice(0, 200)
       .map((item) => {
-        const img =
-          item.image && String(item.image).trim()
-            ? String(item.image).startsWith("http")
-              ? String(item.image)
-              : IMAGE_BASE_PATH + String(item.image).replace(/^\/+/, "")
-            : "";
-
+        const img = resolveImage(item.image || "");
         return `
-          <a href="${escAttr(item.url || "#")}" class="shop-card" ${
-          item.isExternal ? 'target="_blank" rel="noopener"' : ""
-        }>
+          <a href="${escAttr(item.url || "#")}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ""}>
             <div class="shop-card-media" style="position:relative;">
-              ${
-                img
-                  ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">`
-                  : `<div class="product-media-placeholder"></div>`
+              ${img
+                ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">`
+                : `<div class="product-media-placeholder"></div>`
               }
               <div style="position:absolute; top:12px; right:12px; background:#00ffa3; color:#000; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:bold; letter-spacing:0.5px;">
                 ${esc(String(item.storeName || "").toUpperCase())}
@@ -354,7 +335,7 @@
   function searchInData(obj, storeSlug, q, results) {
     if (!obj) return;
 
-    // 1) Products scan
+    // Products
     if (Array.isArray(obj.products)) {
       obj.products.forEach((p) => {
         const title = String(p && p.title ? p.title : "");
@@ -375,7 +356,7 @@
       });
     }
 
-    // 2) Sections scan (safe)
+    // Sections (recursive)
     if (Array.isArray(obj.sections)) {
       obj.sections.forEach((s) => {
         const nm = String((s && (s.name || s.title)) || "").toLowerCase();
@@ -386,27 +367,31 @@
             title: (s && (s.name || s.title)) || slug || "Section",
             tagline: (s && s.tagline) || "Shop Section",
             image: (s && s.image) || "",
-            url: slug ? withBase(`/store/${storeSlug}/${slug}/`) : withBase(`/store/${storeSlug}/`),
+            url: slug ? withBase(`/store/${enc(storeSlug)}/${enc(slug)}/`) : withBase(`/store/${enc(storeSlug)}/`),
             isExternal: false,
             storeName: storeSlug
           });
         }
 
-        // recursive dive
         searchInData(s, storeSlug, q, results);
       });
     }
   }
 
   // ============================================================
-  // 4) STATIC STORE INIT (87 stores)
+  // 4) STATIC STORE INIT
   // ============================================================
   async function initStore(path, target) {
     try {
       target.innerHTML = `<div style="padding:18px; color:#666; font-family:Inter,system-ui,Arial;">Loading store...</div>`;
 
       const allStoresData = await fetchJSON(DATA_URL);
-      const { currentData, rootSlug, currentSlug, depth } = findDataByPath(allStoresData, path);
+      const found = findDataByPath(allStoresData, path);
+
+      const currentData = found.currentData;
+      const rootSlug = found.rootSlug;
+      const currentSlug = found.currentSlug;
+      const depth = found.depth;
 
       if (!currentData || !rootSlug) throw new Error(`Path not found: "${path}"`);
 
@@ -454,13 +439,13 @@
 
   function normalizePath(p) {
     let s = String(p || "");
-    s = s.replace(/#.*$/, "").trim();
+    s = s.replace(/[?#].*$/, "").trim(); // ✅ remove ?query and #hash
     s = s.replace(/^\/+/, "").replace(/\/+$/, "");
     return s;
   }
 
   // ============================================================
-  // 5) RENDER (STATIC NAV + HERO + GRIDS)
+  // 5) RENDER
   // ============================================================
   function renderHeader() {
     const isApps = (location.pathname || "").includes("/apps/");
@@ -518,7 +503,7 @@
         const isActive = slug === currentRootSlug;
         return `
           <li class="store-main-nav__item">
-            <a href="${withBase(`/store/${esc(slug)}/`)}" class="store-main-nav__link ${isActive ? "active" : ""}">
+            <a href="${withBase(`/store/${enc(slug)}/`)}" class="store-main-nav__link ${isActive ? "active" : ""}">
               ${esc(store.title || store.name || slug)}
             </a>
           </li>`;
@@ -536,10 +521,10 @@
     const navItems = sections
       .map((section) => {
         if (!section) return "";
-        const slug = esc(section.slug || "");
+        const slug = safeSlug(section.slug || "");
         const name = esc(section.name || section.title || "Unnamed Section");
         const isActive = !!activeSlug && slug === activeSlug;
-        const href = isActive ? "#" : withBase(`/store/${esc(rootSlug)}/${slug}/`);
+        const href = isActive ? "#" : withBase(`/store/${enc(rootSlug)}/${enc(slug)}/`);
         return `
           <li class="store-section-nav__item">
             <a href="${href}" class="store-section-nav__link ${isActive ? "active" : ""}">
@@ -559,7 +544,7 @@
     const title = esc(data.title || data.name || "Welcome");
     const tagline = esc(data.tagline || "");
     const badge = esc(data.badge || "Official");
-    const bannerUrl = data.banner ? `${IMAGE_BASE_PATH}${esc(data.banner)}` : "";
+    const bannerUrl = resolveImage(data.banner || "");
 
     return `
       <section class="store-hero">
@@ -570,7 +555,7 @@
             ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ""}
           </div>
           <div class="store-hero-right">
-            ${bannerUrl ? `<img src="${bannerUrl}" class="store-hero-img" alt="${title}" loading="lazy">` : ""}
+            ${bannerUrl ? `<img src="${escAttr(bannerUrl)}" class="store-hero-img" alt="${escAttr(title)}" loading="lazy">` : ""}
           </div>
         </div>
       </section>`;
@@ -580,15 +565,15 @@
     const cards = sections
       .map((s) => {
         if (!s) return "";
-        const slug = esc(s.slug || "");
-        const href = withBase(`/store/${esc(rootSlug)}/${slug}/`);
-        const imageUrl = s.image ? `${IMAGE_BASE_PATH}${esc(s.image)}` : "";
+        const slug = safeSlug(s.slug || "");
+        const href = withBase(`/store/${enc(rootSlug)}/${enc(slug)}/`);
+        const imageUrl = resolveImage(s.image || "");
         return `
           <a href="${href}" class="shop-card">
             <div class="shop-card-media">
               ${
                 imageUrl
-                  ? `<img src="${imageUrl}" alt="${esc(s.name || s.title || "")}" loading="lazy">`
+                  ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(s.name || s.title || "")}" loading="lazy">`
                   : `<div class="product-media-placeholder"></div>`
               }
             </div>
@@ -614,11 +599,11 @@
         const url = p.url ? escAttr(p.url) : "#";
         const title = esc(p.title || "Untitled Product");
         const tagline = esc(p.tagline || "");
-        const imageUrl = p.image ? `${IMAGE_BASE_PATH}${esc(p.image)}` : "";
+        const imageUrl = resolveImage(p.image || "");
         return `
           <a href="${url}" class="shop-card" target="_blank" rel="noopener noreferrer">
             <div class="shop-card-media">
-              ${imageUrl ? `<img src="${imageUrl}" alt="${escAttr(title)}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
+              ${imageUrl ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(title)}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
             </div>
             <div class="shop-card-body">
               <h3 class="shop-card-title">${title}</h3>
@@ -645,6 +630,15 @@
       </main>`;
   }
 
+  // Resolve image to absolute or base-relative
+  function resolveImage(raw) {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    if (/^https?:\/\//i.test(s)) return s;
+    if (s.startsWith("/")) return withBase(s); // "/assets/..." or "/images/..."
+    return IMAGE_BASE_PATH + s.replace(/^\/+/, "");
+  }
+
   // ============================================================
   // 6) INTERACTIONS
   // ============================================================
@@ -656,7 +650,7 @@
         e.preventDefault();
         const inp = form.querySelector('input[name="q"]') || form.querySelector("input");
         const q = inp ? String(inp.value || "").trim() : "";
-        if (q) window.location.href = withBase(`/apps/search?q=${encodeURIComponent(q)}`);
+        if (q) window.location.href = withBase(`/apps/search?q=${enc(q)}`);
       });
     }
 
@@ -687,8 +681,10 @@
     return await res.json();
   }
 
-  function renderError(target, msg) {
-    target.innerHTML = `
+  function renderError(targetOrEl, msg) {
+    const el = typeof targetOrEl === "string" ? document.querySelector(targetOrEl) : targetOrEl;
+    if (!el) return;
+    el.innerHTML = `
       <div style="padding:22px;max-width:900px;margin:20px auto;font-family:Inter,system-ui,Arial;">
         <h2 style="margin:0 0 10px; color:#111;">RGZTEC • Load Error</h2>
         <div style="padding:14px;border:1px solid #eee;border-radius:12px;background:#fff;">
@@ -711,7 +707,6 @@
     }[m]));
   }
 
-  // For attributes (URL / src / href)
   function escAttr(s) {
     return esc(String(s || "")).replace(/`/g, "&#096;");
   }
