@@ -1,57 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGZ NEXT | Command Center</title>
-    
-    <link rel="stylesheet" href="../docs/assets/css/style.css">
-    <link rel="stylesheet" href="../docs/assets/css/rgz-premium.css">
-    
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RGZTEC • Apps</title>
+
+  <!-- ✅ ALWAYS absolute (rewrite already maps /assets -> /docs/assets) -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/rgz-premium.css" />
+
+  <!-- CDN (senin CSP’de cdn.jsdelivr.net var) -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body { margin:0; font-family: Inter, system-ui, Arial; background:#0b0f17; color:#e9eefc; }
+    .error-screen{max-width:920px;margin:40px auto;padding:24px;border:1px solid rgba(255,255,255,.14);
+      border-radius:16px;background:rgba(255,255,255,.04)}
+    .error-screen h2{margin:0 0 10px}
+    .error-screen p{margin:0;color:rgba(233,238,252,.75)}
+  </style>
 </head>
 <body>
+  <div id="rgz-app-root"></div>
 
-    <div id="rgz-app-root"></div>
+  <script type="module">
+    /**
+     * RGZ APPS ROUTER (single entry)
+     * Works for:
+     * - /apps
+     * - /apps/admin
+     * - /apps/seller
+     * - /apps/lab
+     *
+     * ✅ Uses absolute imports so trailingSlash / nested routes never break.
+     */
 
-    <script type="module">
-        /**
-         * RGZ Master Orchestrator
-         * Statik yapıyı dinamik bir SaaS platformuna bağlar.
-         */
-        import RGZ_AppEngine from './core/engine.js';
-        import SellerHub from './modules/seller-hub.js';
+    // ---- route resolver ----
+    function getAppRoute(){
+      // Examples:
+      // /apps               -> ["apps"]            => route = ""
+      // /apps/admin         -> ["apps","admin"]    => route = "admin"
+      // /apps/seller        -> ["apps","seller"]   => route = "seller"
+      const parts = location.pathname.split("/").filter(Boolean);
+      const idx = parts.indexOf("apps");
+      const route = (idx >= 0 && parts[idx + 1]) ? parts[idx + 1] : "admin";
+      return String(route || "admin").toLowerCase();
+    }
 
-        async function start() {
-            try {
-                // 1. Motoru çalıştır (master-data.json yüklenir)
-                await RGZ_AppEngine.boot();
-                
-                // 2. Güncel veritabanını çek
-                const db = RGZ_AppEngine.getModuleData();
-                
-                // 3. Seller Hub'ı (Etsy/Amazon/Python Hibrit) render et
-                // Parametreler: (Root ID, Veri, Güncelleme Callback)
-                await SellerHub.render('rgz-app-root', db, async (newData) => {
-                    await RGZ_AppEngine.sync(newData); // Veriyi senkronize et
-                    console.log("RGZ Sync: Data verified and deployed.");
-                });
+    // ---- boot sequence ----
+    async function start(){
+      const root = document.getElementById("rgz-app-root");
+      const route = getAppRoute();
 
-                console.log("RGZ Core: Boot sequence completed successfully.");
-            } catch (error) {
-                console.error("RGZ Critical Error:", error);
-                document.getElementById('rgz-app-root').innerHTML = `
-                    <div class="error-screen">
-                        <h2>System Failure</h2>
-                        <p>${error.message}</p>
-                    </div>
-                `;
-            }
+      try {
+        // ✅ absolute imports (NEVER break)
+        const { default: RGZ_AppEngine } = await import("/apps/core/engine.js");
+
+        // boot db
+        await RGZ_AppEngine.boot();
+        const db = RGZ_AppEngine.getModuleData();
+
+        // route -> module
+        if (route === "seller" || route === "admin" || route === "dashboard") {
+          const { default: SellerHub } = await import("/apps/modules/seller-hub.js");
+
+          // SellerHub render
+          await SellerHub.render("rgz-app-root", db, async (newData) => {
+            await RGZ_AppEngine.sync(newData);
+            console.log("RGZ Sync: Data verified and deployed.");
+          });
+
+          document.title = "RGZTEC • Seller Hub";
+          return;
         }
 
-        // Uygulamayı Başlat
-        window.addEventListener('DOMContentLoaded', start);
-    </script>
+        if (route === "lab") {
+          // Eğer senin lab HTML’in ayrı dosyaysa:
+          // root.innerHTML = `<iframe src="/apps/lab/index.html" style="width:100%;height:100vh;border:0"></iframe>`;
+          // veya bir modülün varsa:
+          const { default: Lab } = await import("/apps/modules/lab.js");
+          await Lab.render("rgz-app-root", db);
+          document.title = "RGZTEC • LAB";
+          return;
+        }
+
+        // fallback
+        root.innerHTML = `
+          <div class="error-screen">
+            <h2>Unknown app route: <code>${route}</code></h2>
+            <p>Try: <b>/apps/admin</b>, <b>/apps/seller</b>, <b>/apps/lab</b></p>
+          </div>
+        `;
+
+      } catch (error) {
+        console.error("RGZ Critical Error:", error);
+        document.getElementById("rgz-app-root").innerHTML = `
+          <div class="error-screen">
+            <h2>System Failure</h2>
+            <p>${String(error && error.message ? error.message : error)}</p>
+          </div>
+        `;
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", start);
+  </script>
 </body>
 </html>
+
