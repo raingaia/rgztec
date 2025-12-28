@@ -1,42 +1,34 @@
-// apps/core/engine.js
+import { executeSearch } from './search-logic.js';
+import DashboardManager from '../modules/dashboard.js';
+import InventoryManager from '../modules/inventory.js';
+
 const RGZ_AppEngine = {
-    state: null,
+    db: null,
 
-    async bootstrap() {
+    async boot() {
         try {
-            const stream = await fetch('/apps/storage/master-data.json');
-            this.state = await stream.json();
-            console.info("[RGZ Engine] System bootstrapped successfully.");
-        } catch (err) {
-            console.error("[RGZ Engine] Bootstrap failure:", err);
+            const response = await fetch('/apps/storage/master-data.json');
+            this.db = await response.json();
+            console.info("RGZ Global Engine: Ready");
+        } catch (e) {
+            console.error("Boot Error:", e);
         }
     },
 
-    // Dynamic Module Router
-    dispatch(moduleKey, mountPointId) {
-        const outlet = document.getElementById(mountPointId);
-        if (!this.state) return;
-
-        switch(moduleKey) {
-            case 'inventory':
-                this.renderInventory(outlet);
-                break;
-            case 'dashboard':
-                this.renderDashboard(outlet);
-                break;
-            default:
-                console.warn("Module not found.");
+    // Smart Router: Decide what to show
+    navigate(view) {
+        const root = 'rgz-app-root';
+        if (view === 'admin') {
+            DashboardManager.renderAdminPanel(root, this.db);
+        } else {
+            InventoryManager.renderList(root, this.db.products);
         }
     },
 
-    renderInventory(outlet) {
-        // Logic for dynamic product listing
-        outlet.innerHTML = this.state.products.map(item => `
-            <div class="product-item">
-                <h4>${item.title}</h4>
-                <p>Price: ${item.price} ${this.state.metadata.currency}</p>
-            </div>
-        `).join('');
+    // Search and Refresh
+    runSearch(query) {
+        const results = executeSearch(query, this.db.products);
+        InventoryManager.renderList('rgz-app-root', results);
     }
 };
 
