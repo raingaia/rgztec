@@ -12,7 +12,9 @@
     p{margin:0 0 16px; color:rgba(233,238,252,.75); font-size:13px; line-height:1.4}
     label{display:block; font-size:12px; margin:10px 0 6px; color:rgba(233,238,252,.8)}
     input{width:100%; padding:12px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:#fff; outline:none}
-    button{width:100%; padding:12px 14px; border-radius:12px; border:0; cursor:pointer; margin-top:14px; font-weight:700; background:#ffffff; color:#0b0f17}
+    input[type="password"]{letter-spacing:.06em}
+    button{width:100%; padding:12px 14px; border-radius:12px; border:0; cursor:pointer; margin-top:14px; font-weight:800; background:#ffffff; color:#0b0f17}
+    button:disabled{opacity:.65; cursor:not-allowed}
     .hint{margin-top:10px; font-size:12px; color:rgba(233,238,252,.65)}
     .err{margin-top:10px; font-size:12px; color:#ffb4b4; display:none}
   </style>
@@ -20,48 +22,88 @@
 <body>
   <div class="card">
     <h1>Seller Sign-In</h1>
-    <p>Satıcı paneline giriş yap. (MVP: Seller ID + Access Key)</p>
+    <p>Satıcı paneline giriş yap. (API: Seller ID + Access Key)</p>
 
-    <label>Seller ID</label>
+    <label for="sellerId">Seller ID</label>
     <input id="sellerId" placeholder="ör: acme-store" autocomplete="username" />
 
-    <label>Access Key</label>
-    <input id="accessKey" placeholder="ör: RGZ-XXXX-XXXX" autocomplete="current-password" />
+    <label for="accessKey">Access Key</label>
+    <input id="accessKey" type="password" placeholder="ör: RGZ-DEMO-1234" autocomplete="current-password" />
 
     <button id="btn">Giriş Yap</button>
     <div class="err" id="err"></div>
-    <div class="hint">Not: Şimdilik demo giriş var. Sonra API ile gerçek auth’a bağlayacağız.</div>
+    <div class="hint">Not: Bu ekran artık <b>/api/seller/login</b> ile gerçek auth’a bağlı.</div>
   </div>
 
   <script>
-    // ===== MVP DEMO AUTH (statik) =====
-    // Bu kısım sadece paneli görünür yapmak için.
-    // Sonra /api/seller/login ile değişecek.
-    const DEMO = {
-      "acme-store": "RGZ-DEMO-1234"
-    };
+    // ===== Seller Login (API) =====
+    // Requires backend endpoints:
+    // - POST /api/seller/login  -> { ok:true, token:"...", seller:{...} }
+    // Stores token in localStorage (persistent) by default.
 
     const err = document.getElementById("err");
-    document.getElementById("btn").addEventListener("click", () => {
+    const btn = document.getElementById("btn");
+
+    function getToken() {
+      return localStorage.getItem("rgz_seller_token") || sessionStorage.getItem("rgz_seller_token");
+    }
+
+    // If already logged in, go dashboard
+    if (getToken()) {
+      location.replace("./index.html");
+    }
+
+    async function doLogin() {
       const sellerId = document.getElementById("sellerId").value.trim();
-      const key = document.getElementById("accessKey").value.trim();
+      const accessKey = document.getElementById("accessKey").value.trim();
 
       err.style.display = "none";
-      if (!sellerId || !key) {
+      if (!sellerId || !accessKey) {
         err.textContent = "Seller ID ve Access Key gir.";
         err.style.display = "block";
         return;
       }
-
-      if (DEMO[sellerId] && DEMO[sellerId] === key) {
-        localStorage.setItem("rgz_seller_id", sellerId);
-        localStorage.setItem("rgz_seller_token", "demo-token-" + Date.now());
-        location.href = "./index.html";
+      if (accessKey.length < 6) {
+        err.textContent = "Access Key en az 6 karakter olmalı.";
+        err.style.display = "block";
         return;
       }
 
-      err.textContent = "Hatalı giriş (demo).";
-      err.style.display = "block";
+      btn.disabled = true;
+
+      try {
+        const r = await fetch("/api/seller/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sellerId, accessKey })
+        });
+
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok || !data.token) {
+          throw new Error(data?.error || "Giriş başarısız.");
+        }
+
+        // Persist
+        localStorage.setItem("rgz_seller_id", sellerId);
+        localStorage.setItem("rgz_seller_token", data.token);
+
+        // Clean session storage
+        sessionStorage.removeItem("rgz_seller_id");
+        sessionStorage.removeItem("rgz_seller_token");
+
+        location.href = "./index.html";
+      } catch (e) {
+        err.textContent = String(e?.message || e);
+        err.style.display = "block";
+        btn.disabled = false;
+      }
+    }
+
+    btn.addEventListener("click", doLogin);
+
+    // Enter to submit
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") doLogin();
     });
   </script>
 </body>
