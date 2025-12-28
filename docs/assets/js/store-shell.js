@@ -1,12 +1,11 @@
 /**
- * RGZTEC Marketplace - Store Shell Engine
- * HYBRID MASTER (Static 87 Stores + Dynamic Apps)
- * Features: Global Search + Admin Command Center + Recursive Scan
+ * RGZTEC Marketplace - Store Shell Engine (Full Integrated)
+ * Features: Admin Dashboard + Store Inspector + Global Search + Static Store
  */
 (() => {
   "use strict";
 
-  // ---------- BASE RESOLUTION ----------
+  // ---------- ALTYAPI (BASE & URL) ----------
   function resolveBase() {
     const meta = document.querySelector('meta[name="rgz-base"]');
     if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
@@ -19,125 +18,128 @@
   const DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
   const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
-  // ---------- BOOT ----------
+  // ---------- ANA ÇALIŞTIRICI ----------
   document.addEventListener("DOMContentLoaded", () => {
     const storeRoot = document.getElementById("store-root");
     const storeBody = document.querySelector("body.store-body");
-
     if (!storeBody || !storeRoot) return;
 
+    // A) Apps Modu (Admin veya Search)
     if (window.APPS_MODE) {
       initDynamicModule(window.APPS_MODE, window.APPS_PARAMS || [], storeRoot);
       return;
     }
 
+    // B) Statik Mağaza Modu
     const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
     if (!rawPath) {
-      renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="hardware">`);
+      renderError(storeRoot, `Missing data-path on body.`);
       return;
     }
-
     initStore(rawPath, storeRoot);
   });
 
-  // ---------- DYNAMIC MODULES ----------
+  // ---------- DİNAMİK MODÜLLER (APPS) ----------
   async function initDynamicModule(mode, params, target) {
     if (mode === "search") {
       renderSearchModule(target, params);
-      return;
-    }
-
-    if (mode === "admin") {
+    } else if (mode === "admin") {
       renderAdminDashboard(target);
-      return;
+    } else {
+      target.innerHTML = renderHeader() + `<main style="padding:100px; text-align:center; color:#fff;"><h1>Module: ${esc(mode)}</h1><p>Work in progress.</p></main>`;
+      wireInteractions(target);
     }
+  }
 
-    // Default Fallback
-    target.innerHTML = renderHeader() + `<main style="padding:80px 20px; text-align:center;"><h1 style="color:#fff;">Module: ${esc(mode)}</h1><p style="color:#888;">Coming Soon</p></main>`;
+  // ---------- ADMIN & INSPECTOR ----------
+  async function renderAdminDashboard(target) {
+    target.innerHTML = renderHeader() + `<div style="padding:50px; color:#fff; text-align:center;">Analyzing Command Center...</div>`;
+    try {
+      const data = await fetchJSON(DATA_URL);
+      const urlParams = new URLSearchParams(window.location.search);
+      const inspectSlug = urlParams.get('inspect');
+
+      if (inspectSlug && data[inspectSlug]) {
+        renderStoreInspector(target, inspectSlug, data[inspectSlug]);
+      } else {
+        const stores = Object.keys(data);
+        let totalItems = 0;
+        stores.forEach(k => {
+          if (data[k].products) totalItems += data[k].products.length;
+          if (data[k].sections) totalItems += data[k].sections.length;
+        });
+
+        target.innerHTML = renderHeader() + `
+          <main class="admin-panel" style="padding:40px 20px; max-width:1200px; margin:0 auto; font-family:Inter, sans-serif;">
+            <div style="background:linear-gradient(145deg, #0f0f0f, #050505); border:1px solid #333; padding:40px; border-radius:30px; margin-bottom:40px;">
+              <h1 style="font-size:32px; color:#fff; margin:0;">Command Center</h1>
+              <p style="color:#666; margin:8px 0 25px;">RGZTEC Global Ecosystem Overview</p>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+                <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;"><small style="color:#555;">STORES</small><div style="font-size:28px; color:#00ffa3; font-weight:800;">${stores.length}</div></div>
+                <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;"><small style="color:#555;">TOTAL ASSETS</small><div style="font-size:28px; color:#00ffa3; font-weight:800;">${totalItems}</div></div>
+                <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;"><small style="color:#555;">ENGINE</small><div style="font-size:28px; color:#00ffa3; font-weight:800;">v2.6 Live</div></div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <h3 style="color:#fff; margin-bottom:10px;">Store Inventory</h3>
+              ${stores.map(key => `
+                <div style="background:#0a0a0a; border:1px solid #1a1a1a; padding:16px 24px; border-radius:14px; display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <div style="color:#fff; font-weight:600;">${esc(data[key].title || key)}</div>
+                    <div style="color:#444; font-size:11px;">Slug: /${key}/</div>
+                  </div>
+                  <div style="display:flex; gap:10px;">
+                     <a href="?inspect=${key}" style="background:#1a1a1a; color:#fff; border:1px solid #333; padding:8px 16px; border-radius:8px; font-size:12px; text-decoration:none;">INSPECT</a>
+                     <a href="${withBase('/store/' + key + '/')}" target="_blank" style="background:#00ffa3; color:#000; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:bold; text-decoration:none;">LIVE</a>
+                  </div>
+                </div>`).join('')}
+            </div>
+          </main>`;
+      }
+      wireInteractions(target);
+    } catch (e) { renderError(target, "Admin Load Error: " + e.message); }
+  }
+
+  function renderStoreInspector(target, slug, storeData) {
+    const products = storeData.products || [];
+    const sections = storeData.sections || [];
+    target.innerHTML = renderHeader() + `
+      <main style="padding:40px 20px; max-width:1200px; margin:0 auto; font-family:Inter, sans-serif; color:#fff;">
+        <a href="?" style="color:#00ffa3; text-decoration:none; font-size:13px; display:inline-block; margin-bottom:20px;">← Back to Command Center</a>
+        <div style="background:#111; border:1px solid #222; padding:30px; border-radius:20px; margin-bottom:30px;">
+          <h1 style="margin:0;">Inspecting: ${esc(storeData.title)}</h1>
+          <p style="color:#666;">Inventory analysis for slug: <strong>${slug}</strong></p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(400px, 1fr)); gap:30px;">
+          <section>
+            <h3 style="border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px;">Root Products (${products.length})</h3>
+            ${products.length ? products.map(p => `<div style="padding:12px; background:#0a0a0a; border:1px solid #1a1a1a; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;"><span>${esc(p.title)}</span><span style="color:${p.url?'#00ffa3':'#f44'}">${p.url?'LINK OK':'MISSING'}</span></div>`).join('') : '<p style="color:#444;">No products found.</p>'}
+          </section>
+          <section>
+            <h3 style="border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:15px;">Sub-Sections (${sections.length})</h3>
+            ${sections.length ? sections.map(s => `<div style="padding:12px; background:#0a0a0a; border:1px solid #1a1a1a; margin-bottom:8px; border-radius:8px;"><div><strong>${esc(s.name)}</strong></div><small style="color:#555;">${(s.products||[]).length} Products inside</small></div>`).join('') : '<p style="color:#444;">No sections found.</p>'}
+          </section>
+        </div>
+      </main>`;
     wireInteractions(target);
   }
 
-  // ---------- PREMIUM ADMIN DASHBOARD ----------
-  async function renderAdminDashboard(target) {
-    target.innerHTML = renderHeader() + `<div style="padding:40px; color:#fff; text-align:center;">Loading System Data...</div>`;
-    
-    try {
-      const data = await fetchJSON(DATA_URL);
-      const stores = Object.keys(data);
-      let totalItems = 0;
-      
-      stores.forEach(k => {
-        if(data[k].products) totalItems += data[k].products.length;
-        if(data[k].sections) totalItems += data[k].sections.length;
-      });
-
-      target.innerHTML = renderHeader() + `
-        <main class="admin-panel" style="padding:40px 20px; max-width:1200px; margin:0 auto; font-family:Inter, sans-serif;">
-          <div style="background:linear-gradient(145deg, #0f0f0f, #050505); border:1px solid #333; padding:40px; border-radius:30px; margin-bottom:40px;">
-            <h1 style="font-size:32px; color:#fff; margin:0;">Command Center</h1>
-            <p style="color:#666; margin:8px 0 30px;">Global Infrastructure Management</p>
-            
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
-              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
-                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Active Stores</small>
-                <div style="font-size:28px; color:#00ffa3; font-weight:800;">${stores.length}</div>
-              </div>
-              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
-                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Total Entries</small>
-                <div style="font-size:28px; color:#00ffa3; font-weight:800;">${totalItems}</div>
-              </div>
-              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
-                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Engine Status</small>
-                <div style="font-size:28px; color:#00ffa3; font-weight:800;">v2.5 Hybrid</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <h3 style="color:#fff; margin-bottom:10px;">Store Inventory (87 Units)</h3>
-            ${stores.map(key => `
-              <div style="background:#0a0a0a; border:1px solid #1a1a1a; padding:16px 24px; border-radius:14px; display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                  <div style="color:#fff; font-weight:600;">${esc(data[key].title || key)}</div>
-                  <div style="color:#444; font-size:12px; font-family:monospace;">/store/${key}/</div>
-                </div>
-                <div style="display:flex; gap:10px;">
-                   <button onclick="alert('JSON Editor coming in next update!')" style="background:#1a1a1a; color:#888; border:1px solid #333; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:12px;">EDIT</button>
-                   <a href="${withBase('/store/' + key + '/')}" target="_blank" style="background:#00ffa3; color:#000; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:bold; text-decoration:none;">LIVE</a>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </main>`;
-        wireInteractions(target);
-    } catch (e) {
-      renderError(target, "Admin Data Load Failed: " + e.message);
-    }
-  }
-
-  // ---------- GLOBAL SEARCH MODULE ----------
+  // ---------- GLOBAL SEARCH ----------
   function renderSearchModule(target, params) {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q") || "";
-
     target.innerHTML = renderHeader() + `
       <main class="search-container" style="padding:40px 20px; max-width:1200px; margin:0 auto;">
-        <div class="search-header" style="margin-bottom:30px; text-align:center;">
-          <h1 style="font-size:2.2rem; margin-bottom:10px; color:#fff;">Global Search</h1>
-          <p style="color:#888;">Deep scanning 87 premium store units...</p>
-          <div style="margin-top:18px; max-width:760px; margin-left:auto; margin-right:auto;">
-            <input type="text" id="main-search-input" value="${esc(query)}"
-              placeholder="Search products, tools or shops..."
-              style="width:100%; padding:16px 24px; border-radius:999px; border:1px solid #333; background:#111; color:#fff; font-size:1.1rem; outline:none; transition:border-color 0.2s;">
-          </div>
+        <div class="search-header" style="margin-bottom:40px; text-align:center;">
+          <h1 style="font-size:2.5rem; color:#fff; margin-bottom:10px;">Global Search</h1>
+          <p style="color:#666;">Deep scanning 87 premium store units...</p>
+          <input type="text" id="main-search-input" value="${esc(query)}" placeholder="Search products or shops..." style="width:100%; max-width:700px; padding:18px 25px; border-radius:999px; border:1px solid #333; background:#111; color:#fff; font-size:1.1rem; margin-top:20px; outline:none; border-color:#00ffa3;">
         </div>
         <div id="search-results-grid" class="shop-grid"></div>
       </main>`;
-
     wireInteractions(target);
     const input = document.getElementById("main-search-input");
     const grid = document.getElementById("search-results-grid");
-
     if (input) {
       input.addEventListener("input", (e) => performSearch(e.target.value, grid));
       if (query) performSearch(query, grid);
@@ -148,88 +150,63 @@
   async function performSearch(query, gridTarget) {
     const qraw = String(query || "").trim().toLowerCase();
     if (qraw.length < 2) {
-      gridTarget.innerHTML = `<p style="color:#444; grid-column:1/-1; text-align:center; padding:40px;">Enter at least 2 characters to scan the database...</p>`;
+      gridTarget.innerHTML = `<p style="color:#444; grid-column:1/-1; text-align:center; padding:50px;">Enter at least 2 characters to start scan...</p>`;
       return;
     }
-
     const allData = await fetchJSON(DATA_URL);
     const results = [];
-    Object.keys(allData).forEach(slug => searchInData(allData[slug], slug, qraw, results));
-
+    Object.keys(allData).forEach(slug => searchDeep(allData[slug], slug, qraw, results));
     if (results.length === 0) {
-      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(qraw)}"</p>`;
+      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:50px;">No matches found for "${esc(qraw)}"</p>`;
       return;
     }
-
     gridTarget.innerHTML = results.map(item => `
-        <a href="${item.url}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ''}>
-          <div class="shop-card-media" style="position:relative;">
-            ${item.image ? `<img src="${item.image.startsWith('http') ? item.image : IMAGE_BASE_PATH + item.image}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
-            <div style="position:absolute; top:12px; right:12px; background:#00ffa3; color:#000; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:bold; letter-spacing:0.5px;">${item.storeName.toUpperCase()}</div>
-          </div>
-          <div class="shop-card-body">
-            <h3 class="shop-card-title">${esc(item.title)}</h3>
-            <p class="shop-card-tagline">${esc(item.tagline)}</p>
-          </div>
-        </a>`).join("");
+      <a href="${item.url}" class="shop-card" ${item.isExternal ? 'target="_blank"' : ''}>
+        <div class="shop-card-media" style="position:relative;">
+          ${item.image ? `<img src="${item.image.startsWith('http') ? item.image : IMAGE_BASE_PATH + item.image}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
+          <div style="position:absolute; top:12px; right:12px; background:#00ffa3; color:#000; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:bold;">${item.storeName.toUpperCase()}</div>
+        </div>
+        <div class="shop-card-body"><h3 class="shop-card-title">${esc(item.title)}</h3><p class="shop-card-tagline">${esc(item.tagline)}</p></div>
+      </a>`).join("");
   }
 
-  function searchInData(obj, storeSlug, q, results) {
-    if (obj.products) {
-      obj.products.forEach(p => {
-        if (p.title.toLowerCase().includes(q) || (p.tagline && p.tagline.toLowerCase().includes(q))) {
-          results.push({ title: p.title, tagline: p.tagline, image: p.image, url: p.url, isExternal: true, storeName: storeSlug });
-        }
-      });
-    }
-    if (obj.sections) {
-      obj.sections.forEach(s => {
-        if (s.name.toLowerCase().includes(q)) {
-          results.push({ title: s.name, tagline: s.tagline || "Shop Section", image: s.image, url: withBase(`/store/${storeSlug}/${s.slug}/`), isExternal: false, storeName: storeSlug });
-        }
-        searchInData(s, storeSlug, q, results);
-      });
-    }
+  function searchDeep(obj, storeSlug, q, results) {
+    if (obj.products) obj.products.forEach(p => {
+      if (p.title.toLowerCase().includes(q) || (p.tagline && p.tagline.toLowerCase().includes(q))) {
+        results.push({ title: p.title, tagline: p.tagline, image: p.image, url: p.url, isExternal: true, storeName: storeSlug });
+      }
+    });
+    if (obj.sections) obj.sections.forEach(s => {
+      if (s.name.toLowerCase().includes(q)) {
+        results.push({ title: s.name, tagline: s.tagline || "Category", image: s.image, url: withBase(`/store/${storeSlug}/${s.slug}/`), isExternal: false, storeName: storeSlug });
+      }
+      searchDeep(s, storeSlug, q, results);
+    });
   }
 
-  // ---------- STATIC STORE INIT ----------
+  // ---------- STATİK MAĞAZA İŞLEMLERİ ----------
   async function initStore(path, target) {
     try {
-      target.innerHTML = `<div style="padding:18px; color:#666;">Synchronizing...</div>`;
-      const allStoresData = await fetchJSON(DATA_URL);
-      const { currentData, rootSlug, currentSlug, depth } = findDataByPath(allStoresData, path);
-      if (!currentData || !rootSlug) throw new Error(`Path not found: "${path}"`);
+      target.innerHTML = `<div style="padding:50px; color:#444; text-align:center;">Syncing with RGZ Network...</div>`;
+      const allData = await fetchJSON(DATA_URL);
+      const { currentData, rootSlug, currentSlug, depth } = findDataByPath(allData, path);
+      if (!currentData || !rootSlug) throw new Error(`Path ${path} not found.`);
 
-      const rootStoreData = allStoresData[rootSlug] || {};
-      const rootSections = Array.isArray(rootStoreData.sections) ? rootStoreData.sections : [];
-      const activeSectionSlug = depth >= 2 ? currentSlug : null;
-
+      const rootStore = allData[rootSlug] || {};
+      const sections = Array.isArray(rootStore.sections) ? rootStore.sections : [];
+      
       target.innerHTML = renderHeader() + 
-        renderStoreNav(allStoresData, rootSlug) + 
-        renderSectionNav(rootSections, activeSectionSlug, rootSlug) + 
+        renderStoreNav(allData, rootSlug) + 
+        renderSectionNav(sections, (depth >= 2 ? currentSlug : null), rootSlug) + 
         renderHero(currentData) + 
-        (Array.isArray(currentData.sections) && currentData.sections.length > 0 ? renderShopSection(currentData.sections, rootSlug) : 
-        Array.isArray(currentData.products) && currentData.products.length > 0 ? renderProductSection(currentData.products) : renderEmptyShop());
+        (currentData.sections?.length ? renderShopSection(currentData.sections, rootSlug) : 
+         currentData.products?.length ? renderProductSection(currentData.products) : renderEmptyShop());
 
       wireInteractions(target);
-    } catch (e) {
-      renderError(target, e.message);
-    }
+    } catch (e) { renderError(target, e.message); }
   }
 
-  // ---------- HELPERS & RENDERS (Core) ----------
-  function findDataByPath(all, path) {
-    const segments = path.replace(/^\/+/, "").replace(/\/+$/, "").split("/").filter(Boolean);
-    const rootSlug = segments[0] || null;
-    if (!rootSlug || !all[rootSlug]) return { currentData: null };
-    let currentData = all[rootSlug];
-    for (let i = 1; i < segments.length; i++) {
-      const next = (currentData.sections || []).find(s => s.slug === segments[i]);
-      if (next) currentData = next; else return { currentData: null };
-    }
-    return { currentData, rootSlug, currentSlug: segments[segments.length-1], depth: segments.length };
-  }
-
+  // ---------- YARDIMCI RENDERERLAR ----------
   function renderHeader() {
     return `
       <header class="store-header">
@@ -243,7 +220,7 @@
           </div>
           <div class="store-header-center">
             <form class="store-header-search">
-              <input type="search" name="q" placeholder="Global search..." />
+              <input type="search" name="q" placeholder="Search across 87 stores..." />
               <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="store-header-icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></button>
             </form>
           </div>
@@ -255,14 +232,14 @@
       </header>`;
   }
 
-  function renderStoreNav(all, currentRootSlug) {
-    const links = Object.keys(all).map(slug => `<li class="store-main-nav__item"><a href="${withBase(`/store/${slug}/`)}" class="store-main-nav__link ${slug === currentRootSlug ? "active" : ""}">${esc(all[slug].title)}</a></li>`).join("");
+  function renderStoreNav(all, active) {
+    const links = Object.keys(all).map(slug => `<li class="store-main-nav__item"><a href="${withBase(`/store/${slug}/`)}" class="store-main-nav__link ${slug===active?'active':''}">${esc(all[slug].title)}</a></li>`).join("");
     return `<nav class="store-main-nav"><ul class="store-main-nav__list">${links}</ul></nav>`;
   }
 
   function renderSectionNav(sections, active, root) {
     if (!sections.length) return "";
-    const items = sections.map(s => `<li class="store-section-nav__item"><a href="${withBase(`/store/${root}/${s.slug}/`)}" class="store-section-nav__link ${s.slug === active ? "active" : ""}">${esc(s.name)}</a></li>`).join("");
+    const items = sections.map(s => `<li class="store-section-nav__item"><a href="${withBase(`/store/${root}/${s.slug}/`)}" class="store-section-nav__link ${s.slug===active?'active':''}">${esc(s.name)}</a></li>`).join("");
     return `<nav id="store-section-nav" class="store-section-nav"><ul class="store-section-nav__list">${items}</ul></nav>`;
   }
 
@@ -281,7 +258,19 @@
     return `<main class="store-products"><div class="store-products-header"><h2>Explore Products</h2></div><div class="shop-grid">${cards}</div></main>`;
   }
 
-  function renderEmptyShop() { return `<main class="store-products"><div class="products-grid-empty"><h3>Coming Soon</h3><p>New sections and products are being added.</p></div></main>`; }
+  function renderEmptyShop() { return `<main class="store-products"><div class="products-grid-empty"><h3>Coming Soon</h3><p>Inventory update in progress.</p></div></main>`; }
+
+  function findDataByPath(all, path) {
+    const segs = path.replace(/^\/+/, "").replace(/\/+$/, "").split("/").filter(Boolean);
+    const rootSlug = segs[0];
+    if (!rootSlug || !all[rootSlug]) return { currentData: null };
+    let cur = all[rootSlug];
+    for (let i = 1; i < segs.length; i++) {
+      const next = (cur.sections || []).find(s => s.slug === segs[i]);
+      if (next) cur = next; else return { currentData: null };
+    }
+    return { currentData: cur, rootSlug, currentSlug: segs[segs.length - 1], depth: segs.length };
+  }
 
   function wireInteractions(root) {
     const form = root.querySelector(".store-header-search");
@@ -295,16 +284,13 @@
     if (btn && nav) btn.addEventListener("click", () => nav.classList.toggle("is-collapsed"));
   }
 
-  function renderError(target, msg) {
-    target.innerHTML = `<div style="padding:40px; color:white;"><h2>Engine Error</h2><p>${esc(msg)}</p></div>`;
-  }
-
   async function fetchJSON(url) {
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   }
 
+  function renderError(target, msg) { target.innerHTML = `<div style="padding:100px; color:white; text-align:center;"><h2>Engine Error</h2><p>${esc(msg)}</p></div>`; }
   function esc(s) { return String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m])); }
 
 })();
