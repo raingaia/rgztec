@@ -1,9 +1,8 @@
 /**
  * RGZ Central Data & Search Hub
- * Katalog verilerini yönetir ve gelişmiş arama/filtreleme sağlar.
+ * Veri dağıtımı, gelişmiş arama ve katalog filtreleme merkezi.
  */
 const SearchHub = {
-    // Ham veriyi kategorize ederek önbelleğe alır
     cache: {
         all: [],
         hardware: [],
@@ -11,48 +10,42 @@ const SearchHub = {
     },
 
     /**
-     * Veriyi Başlatır: Engine'den gelen veriyi tipine göre ayırır.
+     * Veriyi İndeksler: Engine'den gelen ham veriyi kategorize eder.
      */
     init(products) {
-        this.cache.all = products;
-        this.cache.hardware = products.filter(p => p.type === 'hardware');
-        this.cache.digital = products.filter(p => p.type === 'digital');
-        console.log("SearchHub: Data Indexed.");
+        this.cache.all = products || [];
+        this.cache.hardware = this.cache.all.filter(p => p.type === 'hardware' || p.category === 'hardware');
+        this.cache.digital = this.cache.all.filter(p => p.type === 'digital' || p.category === 'digital');
+        console.log(`SearchHub: ${this.cache.all.length} items indexed.`);
     },
 
     /**
-     * Merkezi Arama Fonksiyonu
-     * @param {string} query - Arama terimi
-     * @param {string} category - 'all', 'hardware', 'digital'
+     * Gelişmiş Arama: İsim, açıklama ve etiketlerde (tags) arama yapar.
      */
-    executeSearch(query, category = 'all') {
-        const searchTerm = query.toLowerCase().trim();
-        const dataSource = this.cache[category] || this.cache.all;
+    executeSearch(query, scope = 'all') {
+        const term = query.toLowerCase().trim();
+        const source = this.cache[scope] || this.cache.all;
 
-        if (!searchTerm) return dataSource;
+        if (!term) return source;
 
-        return dataSource.filter(item => {
-            return (
-                item.name.toLowerCase().includes(searchTerm) ||
-                (item.description && item.description.toLowerCase().includes(searchTerm)) ||
-                (item.tags && item.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
-            );
-        });
+        return source.filter(item => 
+            item.name.toLowerCase().includes(term) || 
+            (item.description && item.description.toLowerCase().includes(term)) ||
+            (item.tags && item.tags.some(t => t.toLowerCase().includes(term)))
+        );
     },
 
     /**
-     * Katalog Verisi Getir (Filtreli)
+     * Akıllı Katalog Getirici: Filtreleme parametrelerine göre veri döner.
      */
-    getCatalog(filter = {}) {
-        let results = [...this.cache.all];
+    getFilteredCatalog({ type, minPrice, maxPrice, sortBy }) {
+        let results = type ? (this.cache[type] || []) : [...this.cache.all];
 
-        if (filter.type) {
-            results = results.filter(p => p.type === filter.type);
-        }
-        
-        if (filter.minPrice) {
-            results = results.filter(p => p.price >= filter.minPrice);
-        }
+        if (minPrice) results = results.filter(p => p.price >= minPrice);
+        if (maxPrice) results = results.filter(p => p.price <= maxPrice);
+
+        if (sortBy === 'price-asc') results.sort((a, b) => a.price - b.price);
+        if (sortBy === 'price-desc') results.sort((a, b) => b.price - a.price);
 
         return results;
     }
