@@ -3,13 +3,18 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>RGZTEC • Sign in</title>
+<title>RGZTEC • Seller Sign in</title>
 <meta name="description" content="Sign in to manage your store and products on RGZTEC."/>
-<base href="/rgztec/apps/web/public/">
 
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/styles.css">
-<link rel="stylesheet" href="assets/css/card.css">
+<!-- ✅ IMPORTANT:
+  This file should live at: /rgztec/seller/login.html
+  Shared assets live at:     /rgztec/assets/...
+  So we use ../assets/... (works under /rgztec/ and local docs testing)
+-->
+
+<link rel="stylesheet" href="../assets/css/base.css?v=1">
+<link rel="stylesheet" href="../assets/css/styles.css?v=1">
+<link rel="stylesheet" href="../assets/css/card.css?v=1">
 
 <style>
   :root{
@@ -41,11 +46,6 @@
   .btn{height:46px;border:0;border-radius:12px;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
   .btn:hover{background:var(--brand-700);transform:translateY(-1px)}
   .btn:disabled{opacity:.6;cursor:not-allowed}
-  .sep{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:6px 0 2px}
-  .sep:before,.sep:after{content:"";height:1px;background:var(--line)}
-  .sso{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .sso .btnx{height:42px;border:1.5px solid var(--line-strong);background:#fff;border-radius:12px;font-weight:700;cursor:pointer}
-  .sso .btnx:hover{background:#f8fafc}
 
   .alert{display:none;margin-top:2px;padding:10px 12px;border-radius:10px;font-size:14px}
   .error{border:1px solid #fecaca;background:#fff1f2;color:#b91c1c}
@@ -76,60 +76,53 @@
 <body>
 
 <header class="hdr">
-  <a class="brand" href="./">RGZTEC</a>
-  <!-- slug yönlendirme -->
-  <a class="link" href="create-account/">Create an Account</a>
+  <!-- ✅ Home of RGZTEC (one level up from /seller/) -->
+  <a class="brand" href="../">RGZTEC</a>
+  <!-- ✅ Optional: later you can build seller onboarding -->
+  <a class="link" href="./create-account/">Create an Account</a>
 </header>
 
 <main class="wrap" aria-labelledby="signinTitle">
   <!-- LEFT: FORM -->
-  <section class="panel" aria-label="Sign in form">
+  <section class="panel" aria-label="Seller sign in form">
     <div class="p-inner">
-      <h1 id="signinTitle" class="title">Welcome back</h1>
-      <p class="sub">Log in to manage your store and products.</p>
+      <h1 id="signinTitle" class="title">Seller sign in</h1>
+      <p class="sub">Log in to manage your store, products and banners.</p>
 
-      <div id="ok"   class="alert ok"    role="status">Account created. You can sign in now.</div>
-      <div id="err"  class="alert error" role="alert">Please enter a valid email and a password (min 6 chars).</div>
-      <div id="err2" class="alert error" role="alert">Account not found. Please create an account first.</div>
-      <div id="err3" class="alert error" role="alert">Incorrect password.</div>
+      <div id="ok"  class="alert ok"    role="status">Signed in. Redirecting…</div>
+      <div id="err" class="alert error" role="alert">Please enter a valid Seller ID and Access Key.</div>
+      <div id="err2" class="alert error" role="alert">Login failed. Check your Seller ID / Access Key.</div>
 
       <form id="form" novalidate>
         <div>
-          <label class="lbl" for="email">Email address</label>
-          <input class="txt" id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="username" />
+          <label class="lbl" for="sellerId">Seller ID</label>
+          <input class="txt" id="sellerId" name="sellerId" type="text" placeholder="e.g. acme-store" required autocomplete="username" />
         </div>
 
         <div>
-          <label class="lbl" for="password">Password</label>
-          <input class="txt" id="password" name="password" type="password" placeholder="••••••••" required minlength="6" autocomplete="current-password"/>
+          <label class="lbl" for="accessKey">Access Key</label>
+          <input class="txt" id="accessKey" name="accessKey" type="password" placeholder="••••••••" required minlength="6" autocomplete="current-password"/>
         </div>
 
         <div class="row">
-          <label class="chk"><input type="checkbox" id="remember" /> Remember me</label>
-          <a class="a" href="forgot-password.html">Forgot password?</a>
+          <label class="chk"><input type="checkbox" id="remember" checked /> Remember me</label>
+          <a class="a" href="./forgot-password.html">Forgot key?</a>
         </div>
 
         <button class="btn" id="submitBtn" type="submit">Sign in</button>
 
-        <div class="sep"><span>or continue with</span></div>
-
-        <div class="sso">
-          <button type="button" class="btnx" onclick="location.href='auth/google'">Google</button>
-          <button type="button" class="btnx" onclick="location.href='auth/github'">GitHub</button>
-        </div>
-
-        <p class="foot">Don’t have an account?
-          <!-- slug yönlendirme -->
-          <a href="create-account/">Sign up</a>
+        <p class="foot">Don’t have a seller account?
+          <a href="./create-account/">Sign up</a>
         </p>
       </form>
     </div>
   </section>
+
   <!-- RIGHT: VISUAL / VALUE PROP -->
   <aside class="panel hero" aria-label="Why RGZTEC">
     <div class="hero-head">
       <h2 class="h1">Secure. Fast. Built for creators.</h2>
-      <p class="hsub">Best-in-class checkout, fraud protection, and instant delivery for your customers.</p>
+      <p class="hsub">Seller-grade control, sponsor banners, and premium distribution.</p>
     </div>
 
     <div class="illus" aria-hidden="true">
@@ -147,69 +140,87 @@
     </div>
 
     <div class="tagz">
-      <span class="tag">🔒 Buyer Protection</span>
-      <span class="tag">⚡ Instant delivery</span>
-      <span class="tag">🌍 Global</span>
-      <span class="tag">🧾 Invoices</span>
+      <span class="tag">🔒 Secure tokens</span>
+      <span class="tag">⚡ Fast publish</span>
+      <span class="tag">🧩 Modular stores</span>
+      <span class="tag">📈 Banner analytics</span>
     </div>
   </aside>
 </main>
 
 <script>
-  // --- helper: querystring ---
+  // --- querystring ---
   const qs = new URLSearchParams(location.search);
   if (qs.get('welcome') === '1') {
     const ok = document.getElementById('ok'); ok.style.display = 'block';
   }
 
-  // --- DEMO doğrulama: localStorage tabanlı ---
-  function getUsers(){
-    try { return JSON.parse(localStorage.getItem('rgztec_users')||'{}'); }
-    catch { return {}; }
-  }
-
   const form = document.getElementById('form');
   const err  = document.getElementById('err');
   const err2 = document.getElementById('err2');
-  const err3 = document.getElementById('err3');
   const btn  = document.getElementById('submitBtn');
+  const okBox = document.getElementById('ok');
 
-  function hideAlerts(){ [err, err2, err3].forEach(e=>e.style.display='none'); }
+  function hideAlerts(){ [err, err2].forEach(e=>e.style.display='none'); }
 
-  // Oturumu açık kullanıcının tekrar login’e gelmesi durumunda direkt dashboard'a al
-  try {
-    const s = JSON.parse(localStorage.getItem('rgztec_session')||'null');
-    if (s && s.email) { location.replace('editor/'); }
-  } catch {}
+  function getToken() {
+    return localStorage.getItem('rgz_seller_token') || sessionStorage.getItem('rgz_seller_token');
+  }
 
-  form.addEventListener('submit', (e) => {
+  // If already signed in, go to seller dashboard
+  const existing = getToken();
+  if (existing) {
+    location.replace("./index.html");
+  }
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     hideAlerts();
 
-    const email = document.getElementById('email').value.trim().toLowerCase();
-    const pass  = document.getElementById('password').value;
+    const sellerId = document.getElementById('sellerId').value.trim();
+    const accessKey = document.getElementById('accessKey').value;
 
-    const okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if(!okEmail || pass.length < 6){ err.style.display = 'block'; return; }
-
-    const users = getUsers();
-    const u = users[email];
-    if(!u){
-      err2.style.display = 'block';
-      setTimeout(() => location.href = 'create-account/', 900);
-      return;
-    }
-    if(u.password !== pass){
-      err3.style.display = 'block';
+    if (!sellerId || !accessKey || accessKey.length < 6) {
+      err.style.display = 'block';
       return;
     }
 
-    // başarılı giriş (demo): remember seçiliyse kalıcı sakla, değilse sadece oturum için işaretle
-    const session = { email, t: Date.now() };
-    localStorage.setItem('rgztec_session', JSON.stringify(session));
     btn.disabled = true;
-    setTimeout(() => { location.href = 'editor/'; }, 400);
+
+    try {
+      const r = await fetch("/api/seller/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sellerId, accessKey })
+      });
+
+      const data = await r.json();
+      if (!r.ok || !data || !data.token) {
+        throw new Error(data?.error || "Login failed");
+      }
+
+      const remember = !!document.getElementById('remember').checked;
+      if (remember) {
+        localStorage.setItem("rgz_seller_token", data.token);
+        localStorage.setItem("rgz_seller_id", sellerId);
+        sessionStorage.removeItem("rgz_seller_token");
+      } else {
+        sessionStorage.setItem("rgz_seller_token", data.token);
+        sessionStorage.setItem("rgz_seller_id", sellerId);
+        localStorage.removeItem("rgz_seller_token");
+      }
+
+      okBox.textContent = "Signed in. Redirecting…";
+      okBox.style.display = "block";
+
+      setTimeout(() => { location.href = "./index.html"; }, 250);
+    } catch (e2) {
+      err2.textContent = String(e2?.message || e2);
+      err2.style.display = 'block';
+      btn.disabled = false;
+    }
   });
 </script>
 </body>
 </html>
+
