@@ -1,8 +1,7 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
- * FINAL (BASE-AUTO + ROOT/GHPAGES + NO HARDCODED /rgztec)
- * + DYNAMIC APPS MODE (search/admin)
- * + GLOBAL SEARCH MODULE (recursive deep scan)
+ * HYBRID MASTER (Static 87 Stores + Dynamic Apps)
+ * Features: Global Search + Admin Command Center + Recursive Scan
  */
 (() => {
   "use strict";
@@ -10,18 +9,14 @@
   // ---------- BASE RESOLUTION ----------
   function resolveBase() {
     const meta = document.querySelector('meta[name="rgz-base"]');
-    if (meta && meta.content != null) {
-      return String(meta.content).trim().replace(/\/+$/, "");
-    }
+    if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
     const p = location.pathname || "/";
     return p.includes("/rgztec/") ? "/rgztec" : "";
   }
 
-  const BASE = resolveBase(); // "" or "/rgztec"
+  const BASE = resolveBase();
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
-
-  // IMPORTANT: data file + image base
-  const DATA_URL = withBase("/data/store.data.json?v=final");
+  const DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
   const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
   // ---------- BOOT ----------
@@ -31,15 +26,12 @@
 
     if (!storeBody || !storeRoot) return;
 
-    // ✅ A) DYNAMIC APPS MODE (from /apps/index.html)
     if (window.APPS_MODE) {
       initDynamicModule(window.APPS_MODE, window.APPS_PARAMS || [], storeRoot);
       return;
     }
 
-    // ✅ B) STATIC STORE MODE (87 stores)
     const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
-
     if (!rawPath) {
       renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="hardware">`);
       return;
@@ -49,54 +41,162 @@
   });
 
   // ---------- DYNAMIC MODULES ----------
-  function initDynamicModule(mode, params, target) {
-    // Always show header first (same premium header)
+  async function initDynamicModule(mode, params, target) {
     if (mode === "search") {
       renderSearchModule(target, params);
       return;
     }
 
     if (mode === "admin") {
-      target.innerHTML =
-        renderHeader() +
-        `
-        <main class="admin-panel" style="padding:60px 20px; max-width:1100px; margin:0 auto;">
-          <div style="border:1px solid #333; background:#0a0a0a; padding:40px; border-radius:24px;">
-            <h1 style="font-size:32px; margin-bottom:10px; color:#fff;">Control Center</h1>
-            <p style="color:#888; margin-bottom:30px;">Managing static stores and global dynamic routes.</p>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
-              <div style="background:#111; padding:20px; border-radius:12px; border:1px solid #222;">
-                <span style="color:#00ffa3; font-weight:800;">STATUS: ONLINE</span><br><small style="color:#777;">Static Edge Network</small>
-              </div>
-              <div style="background:#111; padding:20px; border-radius:12px; border:1px solid #222;">
-                <span style="color:#00ffa3; font-weight:800;">MODE: DYNAMIC</span><br><small style="color:#777;">Apps Router</small>
-              </div>
-            </div>
-          </div>
-        </main>`;
-      // header interactions (search, categories)
-      wireInteractions(target);
+      renderAdminDashboard(target);
       return;
     }
 
-    // default fallback
-    target.innerHTML =
-      renderHeader() +
-      `<main style="padding:80px 20px; max-width:1100px; margin:0 auto;">
-        <h1 style="color:#fff;">RGZTEC Engine</h1>
-        <p style="color:#888;">Unknown module: <b>${esc(mode)}</b></p>
-      </main>`;
+    // Default Fallback
+    target.innerHTML = renderHeader() + `<main style="padding:80px 20px; text-align:center;"><h1 style="color:#fff;">Module: ${esc(mode)}</h1><p style="color:#888;">Coming Soon</p></main>`;
     wireInteractions(target);
+  }
+
+  // ---------- PREMIUM ADMIN DASHBOARD ----------
+  async function renderAdminDashboard(target) {
+    target.innerHTML = renderHeader() + `<div style="padding:40px; color:#fff; text-align:center;">Loading System Data...</div>`;
+    
+    try {
+      const data = await fetchJSON(DATA_URL);
+      const stores = Object.keys(data);
+      let totalItems = 0;
+      
+      stores.forEach(k => {
+        if(data[k].products) totalItems += data[k].products.length;
+        if(data[k].sections) totalItems += data[k].sections.length;
+      });
+
+      target.innerHTML = renderHeader() + `
+        <main class="admin-panel" style="padding:40px 20px; max-width:1200px; margin:0 auto; font-family:Inter, sans-serif;">
+          <div style="background:linear-gradient(145deg, #0f0f0f, #050505); border:1px solid #333; padding:40px; border-radius:30px; margin-bottom:40px;">
+            <h1 style="font-size:32px; color:#fff; margin:0;">Command Center</h1>
+            <p style="color:#666; margin:8px 0 30px;">Global Infrastructure Management</p>
+            
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
+                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Active Stores</small>
+                <div style="font-size:28px; color:#00ffa3; font-weight:800;">${stores.length}</div>
+              </div>
+              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
+                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Total Entries</small>
+                <div style="font-size:28px; color:#00ffa3; font-weight:800;">${totalItems}</div>
+              </div>
+              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
+                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Engine Status</small>
+                <div style="font-size:28px; color:#00ffa3; font-weight:800;">v2.5 Hybrid</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <h3 style="color:#fff; margin-bottom:10px;">Store Inventory (87 Units)</h3>
+            ${stores.map(key => `
+              <div style="background:#0a0a0a; border:1px solid #1a1a1a; padding:16px 24px; border-radius:14px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="color:#fff; font-weight:600;">${esc(data[key].title || key)}</div>
+                  <div style="color:#444; font-size:12px; font-family:monospace;">/store/${key}/</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                   <button onclick="alert('JSON Editor coming in next update!')" style="background:#1a1a1a; color:#888; border:1px solid #333; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:12px;">EDIT</button>
+                   <a href="${withBase('/store/' + key + '/')}" target="_blank" style="background:#00ffa3; color:#000; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:bold; text-decoration:none;">LIVE</a>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </main>`;
+        wireInteractions(target);
+    } catch (e) {
+      renderError(target, "Admin Data Load Failed: " + e.message);
+    }
+  }
+
+  // ---------- GLOBAL SEARCH MODULE ----------
+  function renderSearchModule(target, params) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get("q") || "";
+
+    target.innerHTML = renderHeader() + `
+      <main class="search-container" style="padding:40px 20px; max-width:1200px; margin:0 auto;">
+        <div class="search-header" style="margin-bottom:30px; text-align:center;">
+          <h1 style="font-size:2.2rem; margin-bottom:10px; color:#fff;">Global Search</h1>
+          <p style="color:#888;">Deep scanning 87 premium store units...</p>
+          <div style="margin-top:18px; max-width:760px; margin-left:auto; margin-right:auto;">
+            <input type="text" id="main-search-input" value="${esc(query)}"
+              placeholder="Search products, tools or shops..."
+              style="width:100%; padding:16px 24px; border-radius:999px; border:1px solid #333; background:#111; color:#fff; font-size:1.1rem; outline:none; transition:border-color 0.2s;">
+          </div>
+        </div>
+        <div id="search-results-grid" class="shop-grid"></div>
+      </main>`;
+
+    wireInteractions(target);
+    const input = document.getElementById("main-search-input");
+    const grid = document.getElementById("search-results-grid");
+
+    if (input) {
+      input.addEventListener("input", (e) => performSearch(e.target.value, grid));
+      if (query) performSearch(query, grid);
+      input.focus();
+    }
+  }
+
+  async function performSearch(query, gridTarget) {
+    const qraw = String(query || "").trim().toLowerCase();
+    if (qraw.length < 2) {
+      gridTarget.innerHTML = `<p style="color:#444; grid-column:1/-1; text-align:center; padding:40px;">Enter at least 2 characters to scan the database...</p>`;
+      return;
+    }
+
+    const allData = await fetchJSON(DATA_URL);
+    const results = [];
+    Object.keys(allData).forEach(slug => searchInData(allData[slug], slug, qraw, results));
+
+    if (results.length === 0) {
+      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(qraw)}"</p>`;
+      return;
+    }
+
+    gridTarget.innerHTML = results.map(item => `
+        <a href="${item.url}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ''}>
+          <div class="shop-card-media" style="position:relative;">
+            ${item.image ? `<img src="${item.image.startsWith('http') ? item.image : IMAGE_BASE_PATH + item.image}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
+            <div style="position:absolute; top:12px; right:12px; background:#00ffa3; color:#000; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:bold; letter-spacing:0.5px;">${item.storeName.toUpperCase()}</div>
+          </div>
+          <div class="shop-card-body">
+            <h3 class="shop-card-title">${esc(item.title)}</h3>
+            <p class="shop-card-tagline">${esc(item.tagline)}</p>
+          </div>
+        </a>`).join("");
+  }
+
+  function searchInData(obj, storeSlug, q, results) {
+    if (obj.products) {
+      obj.products.forEach(p => {
+        if (p.title.toLowerCase().includes(q) || (p.tagline && p.tagline.toLowerCase().includes(q))) {
+          results.push({ title: p.title, tagline: p.tagline, image: p.image, url: p.url, isExternal: true, storeName: storeSlug });
+        }
+      });
+    }
+    if (obj.sections) {
+      obj.sections.forEach(s => {
+        if (s.name.toLowerCase().includes(q)) {
+          results.push({ title: s.name, tagline: s.tagline || "Shop Section", image: s.image, url: withBase(`/store/${storeSlug}/${s.slug}/`), isExternal: false, storeName: storeSlug });
+        }
+        searchInData(s, storeSlug, q, results);
+      });
+    }
   }
 
   // ---------- STATIC STORE INIT ----------
   async function initStore(path, target) {
     try {
-      target.innerHTML = `<div style="padding:18px;font-family:Inter,system-ui,Arial;">Loading store...</div>`;
-
+      target.innerHTML = `<div style="padding:18px; color:#666;">Synchronizing...</div>`;
       const allStoresData = await fetchJSON(DATA_URL);
-      if (!allStoresData) throw new Error("store.data.json is empty.");
-
       const { currentData, rootSlug, currentSlug, depth } = findDataByPath(allStoresData, path);
       if (!currentData || !rootSlug) throw new Error(`Path not found: "${path}"`);
 
@@ -104,435 +204,107 @@
       const rootSections = Array.isArray(rootStoreData.sections) ? rootStoreData.sections : [];
       const activeSectionSlug = depth >= 2 ? currentSlug : null;
 
-      let html = "";
-      html += renderHeader();
-      html += renderStoreNav(allStoresData, rootSlug);
-      html += renderSectionNav(rootSections, activeSectionSlug, rootSlug);
-      html += renderHero(currentData);
+      target.innerHTML = renderHeader() + 
+        renderStoreNav(allStoresData, rootSlug) + 
+        renderSectionNav(rootSections, activeSectionSlug, rootSlug) + 
+        renderHero(currentData) + 
+        (Array.isArray(currentData.sections) && currentData.sections.length > 0 ? renderShopSection(currentData.sections, rootSlug) : 
+        Array.isArray(currentData.products) && currentData.products.length > 0 ? renderProductSection(currentData.products) : renderEmptyShop());
 
-      if (Array.isArray(currentData.sections) && currentData.sections.length > 0) {
-        html += renderShopSection(currentData.sections, rootSlug);
-      } else if (Array.isArray(currentData.products) && currentData.products.length > 0) {
-        html += renderProductSection(currentData.products);
-      } else {
-        html += renderEmptyShop();
-      }
-
-      target.innerHTML = html;
       wireInteractions(target);
     } catch (e) {
-      console.error(e);
-      renderError(target, e.message || String(e));
+      renderError(target, e.message);
     }
   }
 
-  // ---------- PATH ----------
-  function normalizePath(p) {
-    let s = String(p || "");
-    s = s.replace(/#.*$/, "").trim();
-    s = s.replace(/^\/+/, "").replace(/\/+$/, "");
-    return s;
-  }
-
+  // ---------- HELPERS & RENDERS (Core) ----------
   function findDataByPath(all, path) {
-    const segments = normalizePath(path).split("/").filter(Boolean);
+    const segments = path.replace(/^\/+/, "").replace(/\/+$/, "").split("/").filter(Boolean);
     const rootSlug = segments[0] || null;
-    const currentSlug = segments[segments.length - 1] || null;
-    const depth = segments.length;
-
     if (!rootSlug || !all[rootSlug]) return { currentData: null };
-
     let currentData = all[rootSlug];
     for (let i = 1; i < segments.length; i++) {
-      const seg = segments[i];
-      const sections = Array.isArray(currentData.sections) ? currentData.sections : [];
-      const next = sections.find((s) => s && s.slug === seg);
-      if (next) currentData = next;
-      else return { currentData: null };
+      const next = (currentData.sections || []).find(s => s.slug === segments[i]);
+      if (next) currentData = next; else return { currentData: null };
     }
-
-    return { currentData, rootSlug, currentSlug, depth };
+    return { currentData, rootSlug, currentSlug: segments[segments.length-1], depth: segments.length };
   }
 
-  // ---------- RENDER ----------
   function renderHeader() {
-    const ICON_CATEGORIES = `
-      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>`;
-    const ICON_SEARCH = `
-      <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-      </svg>`;
-
     return `
       <header class="store-header">
         <div class="store-header-inner">
           <div class="store-header-left">
             <a href="${withBase("/")}" class="store-header-logo">RGZTEC</a>
-            <button class="store-header-categories-btn" id="btn-categories" type="button"
-              aria-expanded="true" aria-controls="store-section-nav">
-              ${ICON_CATEGORIES} <span>Categories</span>
+            <button class="store-header-categories-btn" id="btn-categories">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="store-header-icon"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+              <span>Categories</span>
             </button>
           </div>
           <div class="store-header-center">
-            <form class="store-header-search" role="search">
-              <input id="rgz-search-input" type="search" name="q" placeholder="Search for anything" aria-label="Search" />
-              <button type="submit" aria-label="Search">${ICON_SEARCH}</button>
+            <form class="store-header-search">
+              <input type="search" name="q" placeholder="Global search..." />
+              <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="store-header-icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></button>
             </form>
           </div>
           <div class="store-header-right">
-            <div class="store-header-secondary">
-              <a href="${withBase("/apps/admin")}" class="store-header-secondary-link">Dashboard</a>
-              <a href="#" class="store-header-secondary-link">Sign In</a>
-            </div>
+            <a href="${withBase("/apps/admin")}" class="store-header-secondary-link">Dashboard</a>
             <a href="#" class="store-header-cta"><span>Open Store</span></a>
           </div>
         </div>
-      </header>
-    `;
+      </header>`;
   }
 
   function renderStoreNav(all, currentRootSlug) {
-    const storeLinks = Object.keys(all).map((slug) => {
-      const store = all[slug];
-      if (!store || !store.title) return "";
-      const isActive = slug === currentRootSlug;
-      return `
-        <li class="store-main-nav__item">
-          <a href="${withBase(`/store/${esc(slug)}/`)}" class="store-main-nav__link ${isActive ? "active" : ""}">
-            ${esc(store.title)}
-          </a>
-        </li>`;
-    }).join("");
-
-    return `
-      <nav class="store-main-nav" aria-label="RGZTEC stores">
-        <ul class="store-main-nav__list">${storeLinks}</ul>
-      </nav>`;
+    const links = Object.keys(all).map(slug => `<li class="store-main-nav__item"><a href="${withBase(`/store/${slug}/`)}" class="store-main-nav__link ${slug === currentRootSlug ? "active" : ""}">${esc(all[slug].title)}</a></li>`).join("");
+    return `<nav class="store-main-nav"><ul class="store-main-nav__list">${links}</ul></nav>`;
   }
 
-  function renderSectionNav(sections, activeSlug, rootSlug) {
-    if (!Array.isArray(sections) || sections.length === 0) return "";
-    const navItems = sections.map((section) => {
-      if (!section) return "";
-      const slug = esc(section.slug || "");
-      const name = esc(section.name || "Unnamed Section");
-      const isActive = !!activeSlug && slug === activeSlug;
-      const href = isActive ? "#" : withBase(`/store/${esc(rootSlug)}/${slug}/`);
-      return `
-        <li class="store-section-nav__item">
-          <a href="${href}" class="store-section-nav__link ${isActive ? "active" : ""}">
-            ${name}
-          </a>
-        </li>`;
-    }).join("");
-
-    return `
-      <nav id="store-section-nav" class="store-section-nav" aria-label="Store sections">
-        <ul class="store-section-nav__list">${navItems}</ul>
-      </nav>`;
+  function renderSectionNav(sections, active, root) {
+    if (!sections.length) return "";
+    const items = sections.map(s => `<li class="store-section-nav__item"><a href="${withBase(`/store/${root}/${s.slug}/`)}" class="store-section-nav__link ${s.slug === active ? "active" : ""}">${esc(s.name)}</a></li>`).join("");
+    return `<nav id="store-section-nav" class="store-section-nav"><ul class="store-section-nav__list">${items}</ul></nav>`;
   }
 
   function renderHero(data) {
-    const title = esc(data.title || data.name || "Welcome");
-    const tagline = esc(data.tagline || "");
-    const badge = esc(data.badge || "Official");
-    const bannerUrl = data.banner ? `${IMAGE_BASE_PATH}${esc(data.banner)}` : "";
-
-    return `
-      <section class="store-hero">
-        <div class="store-hero-inner">
-          <div class="store-hero-left">
-            <span class="store-badge">${badge}</span>
-            <h1>${title}</h1>
-            ${tagline ? `<p class="store-hero-tagline">${tagline}</p>` : ""}
-          </div>
-          <div class="store-hero-right">
-            ${bannerUrl ? `<img src="${bannerUrl}" class="store-hero-img" alt="${title}" loading="lazy">` : ""}
-          </div>
-        </div>
-      </section>`;
+    const banner = data.banner ? `${IMAGE_BASE_PATH}${esc(data.banner)}` : "";
+    return `<section class="store-hero"><div class="store-hero-inner"><div class="store-hero-left"><span class="store-badge">${esc(data.badge || "Official")}</span><h1>${esc(data.title || data.name)}</h1><p class="store-hero-tagline">${esc(data.tagline || "")}</p></div><div class="store-hero-right">${banner ? `<img src="${banner}" class="store-hero-img">` : ""}</div></div></section>`;
   }
 
-  function renderShopSection(sections, rootSlug) {
-    const cards = sections.map((s) => {
-      if (!s) return "";
-      const slug = esc(s.slug || "");
-      const href = withBase(`/store/${esc(rootSlug)}/${slug}/`);
-      const imageUrl = s.image ? `${IMAGE_BASE_PATH}${esc(s.image)}` : "";
-      return `
-        <a href="${href}" class="shop-card">
-          <div class="shop-card-media">
-            ${imageUrl ? `<img src="${imageUrl}" alt="${esc(s.name || "")}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
-          </div>
-          <div class="shop-card-body">
-            <h3 class="shop-card-title">${esc(s.name || "Untitled Shop")}</h3>
-            <p class="shop-card-tagline">${esc(s.tagline || "")}</p>
-          </div>
-        </a>`;
-    }).join("");
-
-    return `
-      <main class="store-shops">
-        <div class="store-shops-header"><h2>Explore Shops</h2></div>
-        <div class="shop-grid">${cards}</div>
-      </main>`;
+  function renderShopSection(sections, root) {
+    const cards = sections.map(s => `<a href="${withBase(`/store/${root}/${s.slug}/`)}" class="shop-card"><div class="shop-card-media">${s.image ? `<img src="${IMAGE_BASE_PATH}${s.image}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}</div><div class="shop-card-body"><h3 class="shop-card-title">${esc(s.name)}</h3><p class="shop-card-tagline">${esc(s.tagline || "")}</p></div></a>`).join("");
+    return `<main class="store-shops"><div class="store-shops-header"><h2>Explore Shops</h2></div><div class="shop-grid">${cards}</div></main>`;
   }
 
   function renderProductSection(products) {
-    const cards = products.map((p) => {
-      if (!p) return "";
-      const url = p.url ? esc(p.url) : "#";
-      const title = esc(p.title || "Untitled Product");
-      const tagline = esc(p.tagline || "");
-      const imageUrl = p.image ? `${IMAGE_BASE_PATH}${esc(p.image)}` : "";
-      return `
-        <a href="${url}" class="shop-card" target="_blank" rel="noopener noreferrer">
-          <div class="shop-card-media">
-            ${imageUrl ? `<img src="${imageUrl}" alt="${title}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
-          </div>
-          <div class="shop-card-body">
-            <h3 class="shop-card-title">${title}</h3>
-            <p class="shop-card-tagline">${tagline}</p>
-          </div>
-        </a>`;
-    }).join("");
-
-    return `
-      <main class="store-products">
-        <div class="store-products-header"><h2>Explore Products</h2></div>
-        <div class="shop-grid">${cards}</div>
-      </main>`;
+    const cards = products.map(p => `<a href="${p.url || "#"}" class="shop-card" target="_blank"><div class="shop-card-media">${p.image ? `<img src="${IMAGE_BASE_PATH}${p.image}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}</div><div class="shop-card-body"><h3 class="shop-card-title">${esc(p.title)}</h3><p class="shop-card-tagline">${esc(p.tagline || "")}</p></div></a>`).join("");
+    return `<main class="store-products"><div class="store-products-header"><h2>Explore Products</h2></div><div class="shop-grid">${cards}</div></main>`;
   }
 
-  function renderEmptyShop() {
-    return `
-      <main class="store-products">
-        <div class="products-grid-empty">
-          <h3>Coming Soon</h3>
-          <p>New sections and products are being added to this shop.</p>
-        </div>
-      </main>`;
-  }
+  function renderEmptyShop() { return `<main class="store-products"><div class="products-grid-empty"><h3>Coming Soon</h3><p>New sections and products are being added.</p></div></main>`; }
 
-  // ---------- GLOBAL SEARCH MODULE (INTEGRATED) ----------
-  function renderSearchModule(target, params) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get("q") || "";
-
-    target.innerHTML =
-      renderHeader() +
-      `
-      <main class="search-container" style="padding:40px 20px; max-width:1200px; margin:0 auto;">
-        <div class="search-header" style="margin-bottom:30px; text-align:center;">
-          <h1 style="font-size:2.2rem; margin-bottom:10px; color:#fff;">Global Search</h1>
-          <p style="color:#888;">Searching across 87 premium stores...</p>
-          <div style="margin-top:18px; max-width:760px; margin-left:auto; margin-right:auto;">
-            <input type="text" id="main-search-input" value="${esc(query)}"
-              placeholder="Type to search products..."
-              style="width:100%; padding:14px 22px; border-radius:999px; border:1px solid #333; background:#111; color:#fff; font-size:1.05rem;">
-          </div>
-        </div>
-
-        <div id="search-results-grid" class="shop-grid">
-          <div style="color:#666; grid-column:1/-1; text-align:center; padding:20px;">
-            Type at least 2 characters to search…
-          </div>
-        </div>
-      </main>
-    `;
-
-    // header interactions for search page too
-    wireInteractions(target);
-
-    const input = document.getElementById("main-search-input");
-    const grid = document.getElementById("search-results-grid");
-
-    if (input) {
-      input.addEventListener("input", (e) => {
-        performSearch(String(e.target.value || ""), grid);
-      });
-      // initial run
-      if (query) performSearch(query, grid);
-      // focus
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    }
-  }
-
-  async function performSearch(query, gridTarget) {
-    if (!gridTarget) return;
-
-    const qraw = String(query || "").trim();
-    if (qraw.length < 2) {
-      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center;">Type at least 2 characters to search...</p>`;
-      return;
-    }
-
-    gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center;">Searching...</p>`;
-
-    const allData = await fetchJSON(DATA_URL);
-    const results = [];
-    const q = qraw.toLowerCase();
-
-    Object.keys(allData || {}).forEach((storeSlug) => {
-      const store = allData[storeSlug];
-      if (!store) return;
-      searchInData(store, storeSlug, q, results);
-    });
-
-    if (results.length === 0) {
-      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center;">No results found for "${esc(qraw)}"</p>`;
-      return;
-    }
-
-    // Basic sort: exact title match > partial
-    results.sort((a, b) => {
-      const at = (a.title || "").toLowerCase();
-      const bt = (b.title || "").toLowerCase();
-      const ae = at === q ? 0 : at.startsWith(q) ? 1 : 2;
-      const be = bt === q ? 0 : bt.startsWith(q) ? 1 : 2;
-      return ae - be;
-    });
-
-    gridTarget.innerHTML = results.map((item) => {
-      const href = item.url || "#";
-      const badge = esc(item.storeName || "");
-      const title = esc(item.title || "");
-      const tagline = esc(item.tagline || "");
-
-      // item.image: allow either "hardware/banner.webp" or already full path.
-      const img = item.image ? String(item.image) : "";
-      const imgSrc = img
-        ? (img.startsWith("http") ? img : `${IMAGE_BASE_PATH}${img.replace(/^\/+/, "")}`)
-        : "";
-
-      return `
-        <a href="${href}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener noreferrer"' : ""}>
-          <div class="shop-card-media" style="position:relative;">
-            ${imgSrc ? `<img src="${imgSrc}" loading="lazy" alt="${title}">` : `<div class="product-media-placeholder"></div>`}
-            <div style="position:absolute; top:10px; right:10px; background:rgba(0,255,163,0.12); color:#00ffa3; padding:4px 8px; border-radius:6px; font-size:10px; border:1px solid rgba(0,255,163,0.2);">
-              ${badge.toUpperCase()}
-            </div>
-          </div>
-          <div class="shop-card-body">
-            <h3 class="shop-card-title">${title}</h3>
-            ${tagline ? `<p class="shop-card-tagline">${tagline}</p>` : ""}
-          </div>
-        </a>
-      `;
-    }).join("");
-  }
-
-  function searchInData(obj, storeSlug, q, results) {
-    // 1) products
-    if (obj.products && Array.isArray(obj.products)) {
-      obj.products.forEach((p) => {
-        if (!p || !p.title) return;
-        const title = String(p.title || "");
-        const tagline = String(p.tagline || "");
-        if (title.toLowerCase().includes(q) || tagline.toLowerCase().includes(q)) {
-          results.push({
-            title,
-            tagline,
-            image: p.image || "",
-            url: p.url || "#",
-            isExternal: true,
-            storeName: storeSlug
-          });
-        }
-      });
-    }
-
-    // 2) sections (recursive)
-    if (obj.sections && Array.isArray(obj.sections)) {
-      obj.sections.forEach((s) => {
-        if (!s) return;
-        const name = String(s.name || "");
-        const tagline = String(s.tagline || "Category");
-        if (name.toLowerCase().includes(q)) {
-          results.push({
-            title: name,
-            tagline,
-            image: s.image || "",
-            url: withBase(`/store/${storeSlug}/${s.slug || ""}/`),
-            isExternal: false,
-            storeName: storeSlug
-          });
-        }
-        // recursive
-        searchInData(s, storeSlug, q, results);
-      });
-    }
-  }
-
-  // ---------- INTERACTIONS ----------
   function wireInteractions(root) {
-    // Header Search -> routes to /apps/search?q=
-    const searchForm = root.querySelector(".store-header-search");
-    if (searchForm) {
-      searchForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = searchForm.querySelector('input[name="q"], input[type="search"]');
-        const q = input ? String(input.value || "").trim() : "";
-        // go to apps search page (vercel rewrite loads apps/index.html)
-        const url = withBase(`/apps/search?q=${encodeURIComponent(q)}`);
-        window.location.href = url;
-      });
-    }
-
-    // Categories collapse on mobile
+    const form = root.querySelector(".store-header-search");
+    if (form) form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = form.querySelector('input').value.trim();
+      if (q) window.location.href = withBase(`/apps/search?q=${encodeURIComponent(q)}`);
+    });
     const btn = root.querySelector("#btn-categories");
     const nav = root.querySelector("#store-section-nav");
-    if (btn && nav) {
-      const mq = window.matchMedia("(max-width: 1024px)");
-      if (mq.matches) {
-        nav.classList.add("is-collapsed");
-        btn.setAttribute("aria-expanded", "false");
-      }
-      btn.addEventListener("click", () => {
-        const collapsed = nav.classList.toggle("is-collapsed");
-        btn.setAttribute("aria-expanded", String(!collapsed));
-      });
-    }
+    if (btn && nav) btn.addEventListener("click", () => nav.classList.toggle("is-collapsed"));
   }
 
-  // ---------- ERROR ----------
   function renderError(target, msg) {
-    target.innerHTML = `
-      <div style="padding:22px;max-width:900px;margin:20px auto;font-family:Inter,system-ui,Arial;">
-        <h2 style="margin:0 0 10px;">RGZTEC • Load Error</h2>
-        <div style="padding:14px;border:1px solid #eee;border-radius:12px;background:#fff;">
-          <div style="margin-bottom:10px;color:#111;">${esc(msg)}</div>
-          <div style="color:#666;font-size:13px;">
-            <div><b>DATA_URL</b>: <code>${esc(DATA_URL)}</code></div>
-            <div><b>BASE</b>: <code>${esc(BASE)}</code></div>
-          </div>
-        </div>
-      </div>`;
+    target.innerHTML = `<div style="padding:40px; color:white;"><h2>Engine Error</h2><p>${esc(msg)}</p></div>`;
   }
 
   async function fetchJSON(url) {
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error(`Fetch failed: ${res.status} ${res.statusText} (${url})`);
-    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   }
 
-  function esc(s) {
-    return String(s || "").replace(/[&<>"']/g, (m) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[m]));
-  }
+  function esc(s) { return String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m])); }
+
 })();
-
-
-
-
-
