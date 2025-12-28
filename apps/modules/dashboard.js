@@ -1,13 +1,15 @@
 /**
- * RGZ Advanced Dynamic Dashboard Manager
- * Full Data-Driven UI and CRUD Logic
+ * RGZ Premium Dashboard Manager (Final Version)
+ * Features: Dynamic Forms, Image Preview, Stock Progress, and Full CRUD
  */
 const DashboardManager = {
+    // 1. Premium Configuration: Add any field here to update the entire system
     formConfig: [
-        { id: 'title', label: 'Product Title', type: 'text', placeholder: 'e.g. RGZ-Alpha Connector', required: true },
-        { id: 'price', label: 'Price ($)', type: 'number', placeholder: '0.00', step: '0.01', required: true },
-        { id: 'stock', label: 'Initial Stock', type: 'number', placeholder: 'Quantity', required: true },
-        { id: 'description', label: 'Description', type: 'textarea', placeholder: 'Product details...', required: false }
+        { id: 'title', label: 'Product Name', type: 'text', placeholder: 'Enterprise Module X', required: true },
+        { id: 'image', label: 'Image URL', type: 'url', placeholder: 'https://images.unsplash.com/...', required: false },
+        { id: 'price', label: 'Unit Price ($)', type: 'number', placeholder: '0.00', step: '0.01', required: true },
+        { id: 'stock', label: 'Inventory Count', type: 'number', placeholder: '100', required: true },
+        { id: 'description', label: 'Product Description', type: 'textarea', placeholder: 'Describe the premium features...', required: false }
     ],
 
     renderAdminPanel(containerId, db, onUpdate) {
@@ -15,28 +17,37 @@ const DashboardManager = {
         if (!outlet) return;
 
         outlet.innerHTML = `
-            <div class="admin-panel">
+            <div class="admin-panel premium-layout">
                 ${this.renderHeader(db)}
-                ${this.renderTable(db)}
+                
+                <div class="table-wrapper">
+                    ${this.renderTable(db)}
+                </div>
             </div>
 
             <div id="rgz-modal" class="modal-overlay" style="display:none;">
-                <div class="modal-content">
-                    <h3 id="modal-title">Product Entry</h3>
+                <div class="modal-content premium-glass">
+                    <div class="modal-header">
+                        <h3 id="modal-title">Product Entry</h3>
+                        <button class="close-x" onclick="DashboardManager.closeModal()">&times;</button>
+                    </div>
+                    
                     <form id="product-form">
                         <input type="hidden" id="form-id">
-                        <div id="dynamic-fields-container"></div>
+                        
+                        <div id="dynamic-fields-container" class="form-grid">
+                            </div>
 
-                        <div class="field-group">
-                            <label>Category</label>
+                        <div class="field-group full-width">
+                            <label>Global Category</label>
                             <select id="form-category">
                                 ${db.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
                             </select>
                         </div>
 
-                        <div class="modal-actions">
-                            <button type="button" class="btn-secondary" onclick="DashboardManager.closeModal()">Cancel</button>
-                            <button type="submit" class="btn-success">Confirm & Save</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-cancel" onclick="DashboardManager.closeModal()">Discard</button>
+                            <button type="submit" class="btn-premium">Confirm Changes</button>
                         </div>
                     </form>
                 </div>
@@ -50,14 +61,15 @@ const DashboardManager = {
         const totalValue = db.products.reduce((acc, p) => acc + (p.price * p.stock), 0);
         return `
             <header class="panel-header">
-                <div class="header-info">
-                    <h2>Inventory Management</h2>
-                    <div class="stats-mini">
-                        <span><strong>Total Products:</strong> ${db.products.length}</span> | 
-                        <span><strong>Market Value:</strong> $${totalValue.toFixed(2)}</span>
+                <div class="header-left">
+                    <h1>Inventory Manager</h1>
+                    <div class="stats-badge">
+                        <span><strong>${db.products.length}</strong> Products</span>
+                        <span class="divider">|</span>
+                        <span><strong>$${totalValue.toLocaleString()}</strong> Total Assets</span>
                     </div>
                 </div>
-                <button id="add-prod-btn" class="btn-success" onclick="DashboardManager.showAdd()">+ Add Product</button>
+                <button class="btn-add-main" onclick="DashboardManager.showAdd()">+ New Product</button>
             </header>
         `;
     },
@@ -67,26 +79,40 @@ const DashboardManager = {
             <table class="rgz-admin-table">
                 <thead>
                     <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Stock</th>
+                        <th>Asset</th>
+                        <th>Details</th>
+                        <th>Availability</th>
                         <th>Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    ${db.products.map(p => `
+                    ${db.products.map(p => {
+                        const stockPercent = Math.min((p.stock / 100) * 100, 100);
+                        return `
                         <tr>
-                            <td><strong>${p.title}</strong></td>
-                            <td><span class="badge">${p.category_id}</span></td>
-                            <td class="${p.stock < 5 ? 'low-stock' : ''}">${p.stock}</td>
-                            <td>$${p.price.toFixed(2)}</td>
+                            <td class="td-img">
+                                <img src="${p.image || 'https://via.placeholder.com/80'}" alt="thumb" class="prod-thumb">
+                            </td>
                             <td>
-                                <button class="btn-edit" onclick="window.rgzEdit('${p.id}')">Edit</button>
-                                <button class="btn-del" onclick="window.rgzDelete('${p.id}')">Remove</button>
+                                <span class="title-text">${p.title}</span><br>
+                                <span class="cat-text">${p.category_id}</span>
+                            </td>
+                            <td>
+                                <div class="stock-flow">
+                                    <div class="bar-bg"><div class="bar-fill" style="width: ${stockPercent}%"></div></div>
+                                    <span class="stock-label ${p.stock < 10 ? 'urgent' : ''}">${p.stock} units</span>
+                                </div>
+                            </td>
+                            <td class="price-text">$${p.price.toFixed(2)}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn-icon-edit" onclick="window.rgzEdit('${p.id}')">✎</button>
+                                    <button class="btn-icon-del" onclick="window.rgzDelete('${p.id}')">🗑</button>
+                                </div>
                             </td>
                         </tr>
-                    `).join('')}
+                    `}).join('')}
                 </tbody>
             </table>
         `;
@@ -96,7 +122,7 @@ const DashboardManager = {
         const container = document.getElementById('dynamic-fields-container');
         if (!container) return;
         container.innerHTML = this.formConfig.map(field => `
-            <div class="field-group">
+            <div class="field-group ${field.type === 'textarea' ? 'full-width' : ''}">
                 <label for="form-${field.id}">${field.label}</label>
                 ${field.type === 'textarea' 
                     ? `<textarea id="form-${field.id}" placeholder="${field.placeholder}"></textarea>`
@@ -107,44 +133,36 @@ const DashboardManager = {
     },
 
     bindEvents(db, onUpdate) {
-        // DELETE
         window.rgzDelete = (id) => {
-            if(confirm("Are you sure?")) {
+            if(confirm("Are you sure you want to remove this asset?")) {
                 const updated = db.products.filter(p => p.id !== id);
                 onUpdate(updated);
             }
         };
 
-        // EDIT (Trigger)
         window.rgzEdit = (id) => {
             const product = db.products.find(p => p.id === id);
             if(product) this.showEdit(product);
         };
 
-        // SAVE (Submit)
         const form = document.getElementById('product-form');
         if (form) {
             form.onsubmit = (e) => {
                 e.preventDefault();
                 const id = document.getElementById('form-id').value || 'p_' + Date.now();
                 
-                // Dinamik olarak tüm config alanlarını topla
                 const productData = { id: id };
                 this.formConfig.forEach(field => {
-                    const val = document.getElementById(`form-${field.id}`).value;
-                    productData[field.id] = field.type === 'number' ? parseFloat(val) : val;
+                    const el = document.getElementById(`form-${field.id}`);
+                    productData[field.id] = field.type === 'number' ? parseFloat(el.value) : el.value;
                 });
                 productData.category_id = document.getElementById('form-category').value;
-                productData.tags = productData.tags || ["synced"];
 
-                let updatedProducts;
-                const index = db.products.findIndex(p => p.id === id);
-                if (index > -1) {
-                    updatedProducts = [...db.products];
-                    updatedProducts[index] = productData;
-                } else {
-                    updatedProducts = [...db.products, productData];
-                }
+                let updatedProducts = [...db.products];
+                const index = updatedProducts.findIndex(p => p.id === id);
+                
+                if (index > -1) updatedProducts[index] = productData;
+                else updatedProducts.push(productData);
 
                 onUpdate(updatedProducts);
                 this.closeModal();
@@ -153,14 +171,15 @@ const DashboardManager = {
     },
 
     showAdd() {
-        document.getElementById('product-form').reset();
+        const form = document.getElementById('product-form');
+        if(form) form.reset();
         document.getElementById('form-id').value = '';
-        document.getElementById('modal-title').innerText = 'Add New Product';
+        document.getElementById('modal-title').innerText = 'Add New Asset';
         document.getElementById('rgz-modal').style.display = 'flex';
     },
 
     showEdit(product) {
-        document.getElementById('modal-title').innerText = 'Edit Product';
+        document.getElementById('modal-title').innerText = 'Edit Asset Details';
         document.getElementById('form-id').value = product.id;
         this.formConfig.forEach(field => {
             const el = document.getElementById(`form-${field.id}`);
