@@ -13,14 +13,21 @@
     .wrap{display:grid; grid-template-columns:260px 1fr; min-height:calc(100vh - 58px)}
     nav{border-right:1px solid rgba(255,255,255,.10); padding:14px; background:rgba(255,255,255,.03)}
     nav button{width:100%; text-align:left; padding:10px 12px; margin:6px 0; border-radius:12px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.20); color:#e9eefc; cursor:pointer}
+    nav button.active{outline:2px solid rgba(255,255,255,.25)}
     main{padding:16px}
     .card{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:16px; margin-bottom:12px}
-    textarea{width:100%; min-height:220px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:#fff; padding:12px; outline:none}
+    textarea{width:100%; min-height:220px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.25); color:#fff; padding:12px; outline:none; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
     .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
     .btn{padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:800}
     .btn.primary{background:#fff; color:#0b0f17}
     .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.14)}
+    .btn.danger{background:#ef4444; color:#fff}
+    .btn:disabled{opacity:.65; cursor:not-allowed}
     .muted{color:rgba(233,238,252,.7); font-size:12px}
+    .toast{display:none; margin-top:10px; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); font-size:13px}
+    .toast.ok{border-color:rgba(34,197,94,.35)}
+    .toast.err{border-color:rgba(239,68,68,.45)}
+    .split{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
   </style>
 </head>
 <body>
@@ -31,44 +38,90 @@
 
   <div class="wrap">
     <nav>
-      <button data-tab="products">Products Editor</button>
+      <button data-tab="products" class="active">Products Editor</button>
       <button data-tab="banners">Banners</button>
       <button data-tab="profile">Profile</button>
-      <button id="logout">Logout</button>
+
+      <div style="height:10px"></div>
+
+      <button id="logout" class="btn danger" style="width:100%; border-radius:12px">Logout</button>
+
       <div class="muted" style="margin-top:10px">
-        Not: Bu MVP editör. Sonra API ile kaydetme gelecek.
+        Not: Bu panel API ile <b>Load/Save</b> yapar. Token yoksa login’e atar.
       </div>
     </nav>
 
     <main>
       <div class="card" id="viewTitle">
-        <b id="tabTitle">Products Editor</b>
-        <div class="muted">JSON düzenle → Download → GitHub commit (şimdilik manuel).</div>
+        <div class="split">
+          <div>
+            <b id="tabTitle">Products Editor</b>
+            <div class="muted" id="tabSub">JSON düzenle → Save (API) → Firestore.</div>
+          </div>
+          <div class="muted" id="syncTag">sync: -</div>
+        </div>
       </div>
 
       <div class="card">
-        <textarea id="editor"></textarea>
+        <textarea id="editor" spellcheck="false"></textarea>
         <div class="row">
-          <button class="btn primary" id="download">Download JSON</button>
+          <button class="btn primary" id="save">Save (API)</button>
+          <button class="btn ghost" id="load">Load (API)</button>
+          <button class="btn ghost" id="download">Download JSON</button>
           <button class="btn ghost" id="loadDemo">Load Demo</button>
         </div>
+        <div id="toast" class="toast"></div>
       </div>
     </main>
   </div>
 
   <script>
-    // ===== Guard: token yoksa login'e at =====
-    const token = localStorage.getItem("rgz_seller_token");
-    const sellerId = localStorage.getItem("rgz_seller_id");
+    // ===== Token/session helper =====
+    function getToken() {
+      return localStorage.getItem("rgz_seller_token") || sessionStorage.getItem("rgz_seller_token");
+    }
+    function getSellerId() {
+      return localStorage.getItem("rgz_seller_id") || sessionStorage.getItem("rgz_seller_id");
+    }
 
+    const token = getToken();
+    const sellerId = getSellerId();
+
+    // Guard: token yoksa login'e at
     if (!token || !sellerId) {
       location.href = "./login.html";
     }
 
-    document.getElementById("sellerTag").textContent = "seller: " + sellerId;
-
+    const sellerTag = document.getElementById("sellerTag");
     const editor = document.getElementById("editor");
+    const toast = document.getElementById("toast");
+    const syncTag = document.getElementById("syncTag");
 
+    sellerTag.textContent = "seller: " + sellerId;
+
+    function showToast(kind, msg) {
+      toast.className = "toast " + (kind === "ok" ? "ok" : "err");
+      toast.textContent = msg;
+      toast.style.display = "block";
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => (toast.style.display = "none"), 2600);
+    }
+
+    async function api(path, options = {}) {
+      const r = await fetch(path, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {}),
+          "Authorization": "Bearer " + token
+        }
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data?.error || "API error");
+      return data;
+    }
+
+    // Demo payload
     const DEMO_DATA = {
       sellerId,
       products: [
@@ -80,13 +133,20 @@
       ]
     };
 
+    // Tabs (UI only for MVP)
     function setTab(tab){
       const map = {
-        products: "Products Editor",
-        banners: "Banners",
-        profile: "Profile"
+        products: { title:"Products Editor", sub:"Products JSON (Save/Load via API)" },
+        banners:  { title:"Banners", sub:"Banners JSON (Save/Load via API)" },
+        profile:  { title:"Profile", sub:"Seller profile JSON (Save/Load via API)" }
       };
-      document.getElementById("tabTitle").textContent = map[tab] || "Editor";
+      const t = map[tab] || { title:"Editor", sub:"JSON (Save/Load via API)" };
+      document.getElementById("tabTitle").textContent = t.title;
+      document.getElementById("tabSub").textContent = t.sub;
+
+      document.querySelectorAll("nav button[data-tab]").forEach(b => b.classList.remove("active"));
+      const btn = document.querySelector(`nav button[data-tab="${tab}"]`);
+      if (btn) btn.classList.add("active");
     }
 
     document.querySelectorAll("nav button[data-tab]").forEach(btn=>{
@@ -96,8 +156,57 @@
       });
     });
 
+    // ===== API actions =====
+    async function loadFromAPI() {
+      const out = await api("/api/seller/load", { method: "GET" });
+      if (out.json) {
+        editor.value = JSON.stringify(out.json, null, 2);
+        syncTag.textContent = "sync: loaded";
+        showToast("ok", "Loaded ✅");
+      } else {
+        syncTag.textContent = "sync: empty";
+        showToast("ok", "No saved data yet (empty).");
+      }
+    }
+
+    async function saveToAPI() {
+      let obj;
+      try {
+        obj = JSON.parse(editor.value || "{}");
+      } catch (e) {
+        showToast("err", "JSON parse error ❌");
+        throw e;
+      }
+      const out = await api("/api/seller/save", {
+        method: "POST",
+        body: JSON.stringify({ json: obj })
+      });
+      syncTag.textContent = "sync: saved";
+      showToast("ok", "Saved ✅ " + new Date(out.savedAt).toLocaleString());
+    }
+
+    // Buttons
+    const btnSave = document.getElementById("save");
+    const btnLoad = document.getElementById("load");
+
+    btnSave.addEventListener("click", async () => {
+      btnSave.disabled = true;
+      try { await saveToAPI(); }
+      catch (e) { showToast("err", String(e.message || e)); }
+      finally { btnSave.disabled = false; }
+    });
+
+    btnLoad.addEventListener("click", async () => {
+      btnLoad.disabled = true;
+      try { await loadFromAPI(); }
+      catch (e) { showToast("err", String(e.message || e)); }
+      finally { btnLoad.disabled = false; }
+    });
+
     document.getElementById("loadDemo").addEventListener("click", ()=>{
       editor.value = JSON.stringify(DEMO_DATA, null, 2);
+      syncTag.textContent = "sync: demo";
+      showToast("ok", "Demo loaded.");
     });
 
     document.getElementById("download").addEventListener("click", ()=>{
@@ -107,16 +216,46 @@
       a.download = `seller-${sellerId}.json`;
       a.click();
       URL.revokeObjectURL(a.href);
+      showToast("ok", "Downloaded JSON.");
     });
 
     document.getElementById("logout").addEventListener("click", ()=>{
       localStorage.removeItem("rgz_seller_token");
       localStorage.removeItem("rgz_seller_id");
+      sessionStorage.removeItem("rgz_seller_token");
+      sessionStorage.removeItem("rgz_seller_id");
       location.href = "./login.html";
     });
 
-    // default
-    editor.value = JSON.stringify(DEMO_DATA, null, 2);
+    // ===== Boot =====
+    (async () => {
+      // Verify token / seller quickly
+      try {
+        const me = await api("/api/seller/me", { method: "GET" });
+        sellerTag.textContent = "seller: " + (me?.seller?.sellerId || sellerId);
+      } catch (e) {
+        // token invalid -> force login
+        localStorage.removeItem("rgz_seller_token");
+        localStorage.removeItem("rgz_seller_id");
+        sessionStorage.removeItem("rgz_seller_token");
+        sessionStorage.removeItem("rgz_seller_id");
+        location.href = "./login.html";
+        return;
+      }
+
+      // Load saved data; if none, show demo
+      try {
+        await loadFromAPI();
+        if (!editor.value || editor.value.trim() === "" || editor.value.trim() === "null") {
+          editor.value = JSON.stringify(DEMO_DATA, null, 2);
+          syncTag.textContent = "sync: demo";
+        }
+      } catch {
+        editor.value = JSON.stringify(DEMO_DATA, null, 2);
+        syncTag.textContent = "sync: demo";
+      }
+    })();
   </script>
 </body>
 </html>
+
