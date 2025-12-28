@@ -2,17 +2,42 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>RGZ Admin | Command Center</title>
-    <meta name="rgz-base" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGZTEC | System Center</title>
+    <meta name="rgz-base" content="/"> 
     <link rel="stylesheet" href="../assets/css/store.style.css">
+    <style>
+        :root { --rgz-accent: #00ffa3; --rgz-bg: #050505; }
+        body { background: var(--rgz-bg); color: #fff; margin:0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        #store-root { min-height: 100vh; }
+        /* Admin Scrollbar Customization */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--rgz-accent); }
+    </style>
 </head>
 <body class="store-body">
+
     <div id="store-root"></div>
-    
+
     <script>
-        // JS'ye hangi kimlikle çalışacağını söylüyoruz
-        window.APPS_MODE = "admin"; 
+        /**
+         * RGZ DYNAMIC ROUTER
+         * URL Analizi yaparak sistemi ilgili modda başlatır.
+         */
+        const params = new URLSearchParams(window.location.search);
+        
+        // Mode: 'admin' (default) veya 'search'
+        window.APPS_MODE = params.get('mode') || 'admin'; 
+        
+        // Dinamik Parametreler
+        window.APPS_PARAMS = {
+            query: params.get('q') || "",
+            inspect: params.get('inspect') || ""
+        };
     </script>
+
     <script src="../assets/js/store-shell.js"></script>
 </body>
 </html>
