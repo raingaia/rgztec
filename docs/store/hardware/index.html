@@ -4,106 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • Hardware</title>
-
-  <!-- Optional: set "/rgztec" for GH Pages subpath deployments -->
   <meta name="rgz-base" content="" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <script>
-    (function () {
-      // BASE candidates (try in order)
-      const candidates = [];
-
-      // 1) explicit meta base if set
-      const meta = document.querySelector('meta[name="rgz-base"]');
-      const metaBase = meta && meta.content != null ? String(meta.content).trim().replace(/\/+$/,"") : "";
-      if (metaBase) candidates.push(metaBase);
-
-      // 2) auto-detect
-      const p = location.pathname || "/";
-      if (p.includes("/rgztec/")) candidates.push("/rgztec");
-
-      // 3) fallback always
-      candidates.push("");
-      candidates.push("/rgztec");
-
-      // unique
-      const uniq = [];
-      for (const c of candidates) if (!uniq.includes(c)) uniq.push(c);
-
-      function withBase(base, path) {
-        const b = (base || "").replace(/\/+$/,"");
-        const p2 = path.startsWith("/") ? path : ("/" + path);
-        return b ? (b + p2) : p2;
-      }
-
-      window.__RGZ_CANDIDATES = uniq;
-      window.__RGZ_withBase = withBase;
-
-      // Load CSS with fallback
-      const css = document.createElement("link");
-      css.rel = "stylesheet";
-
-      let i = 0;
-      function tryCss() {
-        const base = uniq[i] || "";
-        css.href = withBase(base, "/assets/css/store-core.css");
-      }
-      css.onerror = function () {
-        i++;
-        if (i < uniq.length) tryCss();
-        else console.error("RGZ CSS not found for any BASE candidate.");
-      };
-      tryCss();
-      document.head.appendChild(css);
-    })();
-  </script>
+  <link rel="stylesheet" href="/assets/css/store-core.css" />
 </head>
-
 <body class="store-body" data-path="hardware">
   <div id="store-root"></div>
-
-
-  <script>
-    (function () {
-      const root = document.getElementById("store-root");
-      const uniq = window.__RGZ_CANDIDATES || ["", "/rgztec"];
-      const withBase = window.__RGZ_withBase || ((b,p)=> (b? b+p : p));
-
-      let i = 0;
-      const s = document.createElement("script");
-      s.defer = true;
-
-      function tryJs() {
-        const base = uniq[i] || "";
-        // expose BASE for store-shell.js
-        window.RGZ_BASE = base;
-        window.RGZ_WITH_BASE = (p) => withBase(base, p);
-        s.src = withBase(base, "/assets/js/store-shell.js");
-      }
-
-      s.onerror = function () {
-        i++;
-        if (i < uniq.length) {
-          tryJs();
-        } else {
-          if (root) {
-            root.innerHTML =
-              "<div style='padding:16px;border:1px solid #eee;border-radius:12px;background:#fff'>" +
-              "<b>store-shell.js not found</b><br/>Tried BASE candidates: <code>" + (uniq.join(", ") || "") + "</code>" +
-              "</div>";
-          }
-        }
-      };
-
-      tryJs();
-      document.body.appendChild(s);
-    })();
-  </script>
+  <script defer src="/assets/js/store-shell.js"></script>
 </body>
 </html>
+
 
 
