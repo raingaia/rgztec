@@ -2,24 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>rgztec | Dynamic Catalog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGZ NEXT | Command Center</title>
+    
     <link rel="stylesheet" href="../docs/assets/css/style.css">
+    <link rel="stylesheet" href="../docs/assets/css/rgz-premium.css">
+    
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div id="rgz-app-root">
-        </div>
+
+    <div id="rgz-app-root"></div>
 
     <script type="module">
+        /**
+         * RGZ Master Orchestrator
+         * Statik yapıyı dinamik bir SaaS platformuna bağlar.
+         */
         import RGZ_AppEngine from './core/engine.js';
-        import InventoryManager from './modules/inventory.js';
+        import SellerHub from './modules/seller-hub.js';
 
         async function start() {
-            await RGZ_AppEngine.boot();
-            const products = RGZ_AppEngine.getModuleData().products;
-            InventoryManager.renderList('rgz-app-root', products);
+            try {
+                // 1. Motoru çalıştır (master-data.json yüklenir)
+                await RGZ_AppEngine.boot();
+                
+                // 2. Güncel veritabanını çek
+                const db = RGZ_AppEngine.getModuleData();
+                
+                // 3. Seller Hub'ı (Etsy/Amazon/Python Hibrit) render et
+                // Parametreler: (Root ID, Veri, Güncelleme Callback)
+                await SellerHub.render('rgz-app-root', db, async (newData) => {
+                    await RGZ_AppEngine.sync(newData); // Veriyi senkronize et
+                    console.log("RGZ Sync: Data verified and deployed.");
+                });
+
+                console.log("RGZ Core: Boot sequence completed successfully.");
+            } catch (error) {
+                console.error("RGZ Critical Error:", error);
+                document.getElementById('rgz-app-root').innerHTML = `
+                    <div class="error-screen">
+                        <h2>System Failure</h2>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
         }
-        start();
+
+        // Uygulamayı Başlat
+        window.addEventListener('DOMContentLoaded', start);
     </script>
 </body>
 </html>
-
