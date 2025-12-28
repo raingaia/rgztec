@@ -1,27 +1,58 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  *
- * FINAL v18.2.5 (GLOBAL ROOT NAV + ABSOLUTE LINKS + CATEGORIES TOGGLE FIX)
- * - Navigation always built from root store (rootSlug)
- * - Section nav links always absolute: /rgztec/store/{rootSlug}/{sectionSlug}/
- * - Active highlight correct only when we are inside a section (depth >= 2)
- * - Categories button toggles section nav (no missing CSS)
- * - No ICON_GIFT / ICON_CART dependencies
+ * FINAL v19.2.0 (BASE-AWARE + DOCS/ROOT SAFE + NO /rgztec HARDCODE)
+ * - Works on root "/" OR subpath "/rgztec" (auto-base)
+ * - All internal links generated with withBase()
+ * - Data-path MUST match store.data.json root key (rootSlug)
+ * - Section paths: {rootSlug}/{sectionSlug}... recursive
+ * - No white screen: renders a visible error box on failure
  */
-// ✅ AUTO BASE (works for "/rgztec" and for root "/")
-function resolveBase() {
-  const meta = document.querySelector('meta[name="rgz-base"]');
-  if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
-  const p = location.pathname || "/";
-  return p.includes("/rgztec/") ? "/rgztec" : "";
-}
-const BASE = resolveBase(); // "" or "/rgztec"
-const withBase = (p) => (BASE ? `${BASE}${p}` : p); // p must start with "/"
 
-const DATA_URL = withBase("/data/store.data.json?v=1825");
-const IMAGE_BASE_PATH = withBase("/assets/images/store/");
+(() => {
+  // ---------------------------
+  // 0) Base Resolver
+  // ---------------------------
+  function resolveBase() {
+    // 1) If html exposes base (recommended)
+    if (typeof window !== "undefined" && typeof window.RGZ_BASE === "string") {
+      return String(window.RGZ_BASE).trim().replace(/\/+$/, "");
+    }
 
+    // 2) meta override
+    const meta = document.querySelector('meta[name="rgz-base"]');
+    if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
 
+    // 3) auto detect from url
+    const p = location.pathname || "/";
+    return p.includes("/rgztec/") ? "/rgztec" : "";
+  }
+
+  const BASE = resolveBase(); // "" or "/rgztec"
+  const withBase = (p) => {
+    // p must start with "/"
+    if (!p) return BASE || "";
+    const path = p.startsWith("/") ? p : `/${p}`;
+    return BASE ? `${BASE}${path}` : path;
+  };
+
+  // expose for other scripts if needed
+  window.RGZ_BASE = BASE;
+  window.RGZ_WITH_BASE = withBase;
+
+  // ---------------------------
+  // 1) Config
+  // ---------------------------
+  // You can change version query anytime to bust cache
+  const DATA_URL = withBase("/data/store.data.json?v=1920");
+  const IMAGE_BASE_PATH = withBase("/assets/images/store/");
+
+  const DEBUG = false;
+  const log = (...a) => DEBUG && console.log("[RGZTEC]", ...a);
+
+  // ---------------------------
+  // 2) Boot
+  // ---------------------------
   document.addEventListener("DOMContentLoaded", () => {
     const storeRoot = document.getElementById("store-root");
     const storeBody = document.querySelector("body.store-body");
@@ -40,49 +71,67 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
     initStore(path, storeRoot);
   });
 
+  // ---------------------------
+  // 3) Main
+  // ---------------------------
   async function initStore(path, targetElement) {
     try {
       const allStoresData = await fetchJSON(DATA_URL);
-      if (!allStoresData) throw new Error("store.data.json boş veya eksik.");
+      if (!allStoresData || typeof allStoresData !== "object") {
+        throw new Error("store.data.json boş/eksik veya format hatalı.");
+      }
 
-      const { currentData, rootSlug, currentSlug, depth } = findDataByPath(allStoresData, path);
-      if (!currentData || !rootSlug) throw new Error(`Path not found in store.data.json: "${path}"`);
+      const found = findDataByPath(allStoresData, path);
+      const { currentData, rootSlug, currentSlug, depth } = found;
 
-      // ✅ NAV: always from root store
+      // Helpful debug line
+      log("PATH:", path, "rootSlug:", rootSlug, "exists:", !!(rootSlug && allStoresData[rootSlug]));
+
+      if (!currentData || !rootSlug) {
+        throw new Error(`Path not found in store.data.json: "${path}" (rootSlug="${rootSlug || "?"}")`);
+      }
+
+      // ✅ NAV ALWAYS FROM ROOT STORE
       const rootStoreData = allStoresData[rootSlug] || {};
       const rootSections = Array.isArray(rootStoreData.sections) ? rootStoreData.sections : [];
 
-      // ✅ Active highlight:
-      // Root page (depth===1): no active in section nav
-      // Inside category (depth>=2): active is currentSlug
+      // ✅ Active highlight only when depth >= 2
       const activeSectionSlug = depth >= 2 ? currentSlug : null;
 
+      // Build HTML
       let html = "";
       html += renderHeader();
       html += renderStoreNav(allStoresData, rootSlug);
-      html += renderSectionNav(rootSections, activeSectionSlug, rootSlug); // absolute always
+      html += renderSectionNav(rootSections, activeSectionSlug, rootSlug); // base-aware
       html += renderHero(currentData);
 
       if (currentData.sections && currentData.sections.length > 0) {
-        html += renderShopSection(currentData.sections, rootSlug);
+        html += renderShopSection(currentData.sections, rootSlug, path);
       }
       if (currentData.products && currentData.products.length > 0) {
         html += renderProductSection(currentData.products);
       }
-      if ((!currentData.sections || currentData.sections.length === 0) &&
-          (!currentData.products || currentData.products.length === 0)) {
+
+      if (
+        (!currentData.sections || currentData.sections.length === 0) &&
+        (!currentData.products || currentData.products.length === 0)
+      ) {
         html += renderEmptyShop();
       }
 
-      // ✅ inject + interactions
+      // Inject + interactions
       targetElement.innerHTML = html;
       wireInteractions(targetElement);
+
     } catch (err) {
       console.error("Store Shell Engine error:", err);
       renderError(err, targetElement);
     }
   }
 
+  // ---------------------------
+  // 4) Path + Finder (YOUR JSON MODEL)
+  // ---------------------------
   function normalizePath(p) {
     let s = String(p || "");
     s = s.replace(/#.*$/, "").trim();
@@ -102,7 +151,7 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
     for (let i = 1; i < segments.length; i++) {
       const seg = segments[i];
-      const sections = currentData.sections || [];
+      const sections = Array.isArray(currentData.sections) ? currentData.sections : [];
       const next = sections.find((s) => s && s.slug === seg);
       if (next) currentData = next;
       else return { currentData: null };
@@ -111,6 +160,9 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
     return { currentData, rootSlug, currentSlug, depth };
   }
 
+  // ---------------------------
+  // 5) Render
+  // ---------------------------
   function renderHeader() {
     const ICON_CATEGORIES = `
       <svg class="store-header-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -125,9 +177,9 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
       <header class="store-header">
         <div class="store-header-inner">
           <div class="store-header-left">
-            <a href="/rgztec/" class="store-header-logo">RGZTEC</a>
+            <!-- ✅ BASE-AWARE HOME -->
+            <a href="${withBase("/")}" class="store-header-logo">RGZTEC</a>
 
-            <!-- ✅ IMPORTANT: id=btn-categories -->
             <button
               class="store-header-categories-btn"
               id="btn-categories"
@@ -163,9 +215,11 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
         const store = allStoresData[slug];
         if (!store || !store.title) return "";
         const isActive = slug === currentRootSlug;
+
         return `
           <li class="store-main-nav__item">
-            <a href="/rgztec/store/${escapeHtml(slug)}/"
+            <!-- ✅ BASE-AWARE STORE LINK -->
+            <a href="${withBase(`/store/${escapeHtml(slug)}/`)}"
                class="store-main-nav__link ${isActive ? "active" : ""}">
               ${escapeHtml(store.title)}
             </a>
@@ -179,7 +233,7 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
       </nav>`;
   }
 
-  // ✅ Always absolute paths
+  // ✅ Always base-aware
   function renderSectionNav(sections, activeSlug, rootSlug) {
     if (!Array.isArray(sections) || sections.length === 0) return "";
 
@@ -192,7 +246,7 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
         const href = isActive
           ? "#"
-          : `/rgztec/store/${escapeHtml(rootSlug)}/${slug}/`;
+          : withBase(`/store/${escapeHtml(rootSlug)}/${slug}/`);
 
         return `
           <li class="store-section-nav__item">
@@ -230,18 +284,23 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
       </section>`;
   }
 
-  function renderShopSection(sections, rootSlug) {
+  // Shows child sections as cards (base-aware)
+  function renderShopSection(sections, rootSlug, fullPath) {
+    // fullPath could be: "root" or "root/child"
+    // for child cards we want: /store/{rootSlug}/{childSlug}/ (only direct child of currentData)
     const shopCards = sections
       .map((s) => {
         if (!s) return "";
         const slug = escapeHtml(s.slug || "");
-        const href = `/rgztec/store/${escapeHtml(rootSlug)}/${slug}/`;
+        const href = withBase(`/store/${escapeHtml(rootSlug)}/${slug}/`);
         const imageUrl = s.image ? `${IMAGE_BASE_PATH}${escapeHtml(s.image)}` : "";
+
         return `
           <a href="${href}" class="shop-card">
             <div class="shop-card-media">
-              ${imageUrl ? `<img src="${imageUrl}" alt="${escapeHtml(s.name || "")}" loading="lazy">`
-                         : `<div class="product-media-placeholder"></div>`}
+              ${imageUrl
+                ? `<img src="${imageUrl}" alt="${escapeHtml(s.name || "")}" loading="lazy">`
+                : `<div class="product-media-placeholder"></div>`}
             </div>
             <div class="shop-card-body">
               <h3 class="shop-card-title">${escapeHtml(s.name || "Untitled Shop")}</h3>
@@ -266,11 +325,13 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
         const title = escapeHtml(p.title || "Untitled Product");
         const tagline = escapeHtml(p.tagline || "");
         const imageUrl = p.image ? `${IMAGE_BASE_PATH}${escapeHtml(p.image)}` : "";
+
         return `
           <a href="${url}" class="shop-card" target="_blank" rel="noopener noreferrer">
             <div class="shop-card-media">
-              ${imageUrl ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
-                         : `<div class="product-media-placeholder"></div>`}
+              ${imageUrl
+                ? `<img src="${imageUrl}" alt="${title}" loading="lazy">`
+                : `<div class="product-media-placeholder"></div>`}
             </div>
             <div class="shop-card-body">
               <h3 class="shop-card-title">${title}</h3>
@@ -297,6 +358,9 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
       </main>`;
   }
 
+  // ---------------------------
+  // 6) Interactions
+  // ---------------------------
   function wireInteractions(root) {
     // Search (optional)
     const searchForm = root.querySelector(".store-header-search");
@@ -310,12 +374,11 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
       });
     }
 
-    // ✅ Categories toggle
+    // Categories toggle (responsive)
     const btn = root.querySelector("#btn-categories");
     const nav = root.querySelector("#store-section-nav");
 
     if (btn && nav) {
-      // Mobile default closed
       const mq = window.matchMedia("(max-width: 1024px)");
       if (mq.matches) {
         nav.classList.add("is-collapsed");
@@ -329,15 +392,25 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
     }
   }
 
+  // ---------------------------
+  // 7) Errors + Fetch
+  // ---------------------------
   function renderError(error, targetElement) {
+    const msg = escapeHtml(error?.message || String(error));
     targetElement.innerHTML = `
-      <div style="padding:40px; text-align:center;">
-        <h1 style="font-size:1.5rem; font-weight:800;">RGZTEC</h1>
-        <h2 style="font-size:2rem; margin:12px 0;">An Error Occurred</h2>
-        <p style="color:#555;">We're sorry, but this store could not be loaded.</p>
-        <code style="display:block; background:#f5f5f5; color:#d73a49; padding:10px; margin-top:20px; border-radius:6px;">
-          ${escapeHtml(error.message)}
-        </code>
+      <div style="max-width:920px;margin:28px auto;padding:18px;border:1px solid rgba(0,0,0,0.08);border-radius:14px;background:#fff;">
+        <div style="font-weight:900;font-size:18px;margin-bottom:6px;">RGZTEC</div>
+        <div style="font-weight:900;font-size:22px;margin-bottom:10px;">Store Load Error</div>
+        <div style="color:#444;line-height:1.6;margin-bottom:14px;">
+          Something prevented this store from loading.
+        </div>
+        <div style="font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+                    font-size:12px;background:#fafafa;border:1px solid rgba(0,0,0,0.08);padding:12px;border-radius:12px;overflow:auto;">
+          ${msg}
+        </div>
+        <div style="margin-top:12px;color:#666;font-size:12px;">
+          BASE: <b>${escapeHtml(BASE || "(root)")}</b> • DATA: <b>${escapeHtml(DATA_URL)}</b>
+        </div>
       </div>`;
   }
 
@@ -360,5 +433,6 @@ const IMAGE_BASE_PATH = withBase("/assets/images/store/");
     }[m]));
   }
 })();
+
 
 
