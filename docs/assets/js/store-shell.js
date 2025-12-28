@@ -1,6 +1,8 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
  * FINAL (BASE-AUTO + ROOT/GHPAGES + NO HARDCODED /rgztec)
+ * + DYNAMIC APPS MODE (search/admin)
+ * + GLOBAL SEARCH MODULE (recursive deep scan)
  */
 (() => {
   "use strict";
@@ -12,12 +14,13 @@
       return String(meta.content).trim().replace(/\/+$/, "");
     }
     const p = location.pathname || "/";
-    // if hosted under /rgztec on GitHub Pages
     return p.includes("/rgztec/") ? "/rgztec" : "";
   }
-  const BASE = resolveBase(); // "" or "/rgztec"
-  const withBase = (p) => (BASE ? `${BASE}${p}` : p); // p starts with "/"
 
+  const BASE = resolveBase(); // "" or "/rgztec"
+  const withBase = (p) => (BASE ? `${BASE}${p}` : p);
+
+  // IMPORTANT: data file + image base
   const DATA_URL = withBase("/data/store.data.json?v=final");
   const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
@@ -28,8 +31,14 @@
 
     if (!storeBody || !storeRoot) return;
 
-    const rawPath =
-      (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
+    // ✅ A) DYNAMIC APPS MODE (from /apps/index.html)
+    if (window.APPS_MODE) {
+      initDynamicModule(window.APPS_MODE, window.APPS_PARAMS || [], storeRoot);
+      return;
+    }
+
+    // ✅ B) STATIC STORE MODE (87 stores)
+    const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
 
     if (!rawPath) {
       renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="hardware">`);
@@ -39,7 +48,48 @@
     initStore(rawPath, storeRoot);
   });
 
-  // ---------- INIT ----------
+  // ---------- DYNAMIC MODULES ----------
+  function initDynamicModule(mode, params, target) {
+    // Always show header first (same premium header)
+    if (mode === "search") {
+      renderSearchModule(target, params);
+      return;
+    }
+
+    if (mode === "admin") {
+      target.innerHTML =
+        renderHeader() +
+        `
+        <main class="admin-panel" style="padding:60px 20px; max-width:1100px; margin:0 auto;">
+          <div style="border:1px solid #333; background:#0a0a0a; padding:40px; border-radius:24px;">
+            <h1 style="font-size:32px; margin-bottom:10px; color:#fff;">Control Center</h1>
+            <p style="color:#888; margin-bottom:30px;">Managing static stores and global dynamic routes.</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+              <div style="background:#111; padding:20px; border-radius:12px; border:1px solid #222;">
+                <span style="color:#00ffa3; font-weight:800;">STATUS: ONLINE</span><br><small style="color:#777;">Static Edge Network</small>
+              </div>
+              <div style="background:#111; padding:20px; border-radius:12px; border:1px solid #222;">
+                <span style="color:#00ffa3; font-weight:800;">MODE: DYNAMIC</span><br><small style="color:#777;">Apps Router</small>
+              </div>
+            </div>
+          </div>
+        </main>`;
+      // header interactions (search, categories)
+      wireInteractions(target);
+      return;
+    }
+
+    // default fallback
+    target.innerHTML =
+      renderHeader() +
+      `<main style="padding:80px 20px; max-width:1100px; margin:0 auto;">
+        <h1 style="color:#fff;">RGZTEC Engine</h1>
+        <p style="color:#888;">Unknown module: <b>${esc(mode)}</b></p>
+      </main>`;
+    wireInteractions(target);
+  }
+
+  // ---------- STATIC STORE INIT ----------
   async function initStore(path, target) {
     try {
       target.innerHTML = `<div style="padding:18px;font-family:Inter,system-ui,Arial;">Loading store...</div>`;
@@ -127,13 +177,13 @@
           </div>
           <div class="store-header-center">
             <form class="store-header-search" role="search">
-              <input type="search" placeholder="Search for anything" aria-label="Search" />
+              <input id="rgz-search-input" type="search" name="q" placeholder="Search for anything" aria-label="Search" />
               <button type="submit" aria-label="Search">${ICON_SEARCH}</button>
             </form>
           </div>
           <div class="store-header-right">
             <div class="store-header-secondary">
-              <a href="#" class="store-header-secondary-link">Dashboard</a>
+              <a href="${withBase("/apps/admin")}" class="store-header-secondary-link">Dashboard</a>
               <a href="#" class="store-header-secondary-link">Sign In</a>
             </div>
             <a href="#" class="store-header-cta"><span>Open Store</span></a>
@@ -266,15 +316,173 @@
       </main>`;
   }
 
+  // ---------- GLOBAL SEARCH MODULE (INTEGRATED) ----------
+  function renderSearchModule(target, params) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get("q") || "";
+
+    target.innerHTML =
+      renderHeader() +
+      `
+      <main class="search-container" style="padding:40px 20px; max-width:1200px; margin:0 auto;">
+        <div class="search-header" style="margin-bottom:30px; text-align:center;">
+          <h1 style="font-size:2.2rem; margin-bottom:10px; color:#fff;">Global Search</h1>
+          <p style="color:#888;">Searching across 87 premium stores...</p>
+          <div style="margin-top:18px; max-width:760px; margin-left:auto; margin-right:auto;">
+            <input type="text" id="main-search-input" value="${esc(query)}"
+              placeholder="Type to search products..."
+              style="width:100%; padding:14px 22px; border-radius:999px; border:1px solid #333; background:#111; color:#fff; font-size:1.05rem;">
+          </div>
+        </div>
+
+        <div id="search-results-grid" class="shop-grid">
+          <div style="color:#666; grid-column:1/-1; text-align:center; padding:20px;">
+            Type at least 2 characters to search…
+          </div>
+        </div>
+      </main>
+    `;
+
+    // header interactions for search page too
+    wireInteractions(target);
+
+    const input = document.getElementById("main-search-input");
+    const grid = document.getElementById("search-results-grid");
+
+    if (input) {
+      input.addEventListener("input", (e) => {
+        performSearch(String(e.target.value || ""), grid);
+      });
+      // initial run
+      if (query) performSearch(query, grid);
+      // focus
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  }
+
+  async function performSearch(query, gridTarget) {
+    if (!gridTarget) return;
+
+    const qraw = String(query || "").trim();
+    if (qraw.length < 2) {
+      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center;">Type at least 2 characters to search...</p>`;
+      return;
+    }
+
+    gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center;">Searching...</p>`;
+
+    const allData = await fetchJSON(DATA_URL);
+    const results = [];
+    const q = qraw.toLowerCase();
+
+    Object.keys(allData || {}).forEach((storeSlug) => {
+      const store = allData[storeSlug];
+      if (!store) return;
+      searchInData(store, storeSlug, q, results);
+    });
+
+    if (results.length === 0) {
+      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center;">No results found for "${esc(qraw)}"</p>`;
+      return;
+    }
+
+    // Basic sort: exact title match > partial
+    results.sort((a, b) => {
+      const at = (a.title || "").toLowerCase();
+      const bt = (b.title || "").toLowerCase();
+      const ae = at === q ? 0 : at.startsWith(q) ? 1 : 2;
+      const be = bt === q ? 0 : bt.startsWith(q) ? 1 : 2;
+      return ae - be;
+    });
+
+    gridTarget.innerHTML = results.map((item) => {
+      const href = item.url || "#";
+      const badge = esc(item.storeName || "");
+      const title = esc(item.title || "");
+      const tagline = esc(item.tagline || "");
+
+      // item.image: allow either "hardware/banner.webp" or already full path.
+      const img = item.image ? String(item.image) : "";
+      const imgSrc = img
+        ? (img.startsWith("http") ? img : `${IMAGE_BASE_PATH}${img.replace(/^\/+/, "")}`)
+        : "";
+
+      return `
+        <a href="${href}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener noreferrer"' : ""}>
+          <div class="shop-card-media" style="position:relative;">
+            ${imgSrc ? `<img src="${imgSrc}" loading="lazy" alt="${title}">` : `<div class="product-media-placeholder"></div>`}
+            <div style="position:absolute; top:10px; right:10px; background:rgba(0,255,163,0.12); color:#00ffa3; padding:4px 8px; border-radius:6px; font-size:10px; border:1px solid rgba(0,255,163,0.2);">
+              ${badge.toUpperCase()}
+            </div>
+          </div>
+          <div class="shop-card-body">
+            <h3 class="shop-card-title">${title}</h3>
+            ${tagline ? `<p class="shop-card-tagline">${tagline}</p>` : ""}
+          </div>
+        </a>
+      `;
+    }).join("");
+  }
+
+  function searchInData(obj, storeSlug, q, results) {
+    // 1) products
+    if (obj.products && Array.isArray(obj.products)) {
+      obj.products.forEach((p) => {
+        if (!p || !p.title) return;
+        const title = String(p.title || "");
+        const tagline = String(p.tagline || "");
+        if (title.toLowerCase().includes(q) || tagline.toLowerCase().includes(q)) {
+          results.push({
+            title,
+            tagline,
+            image: p.image || "",
+            url: p.url || "#",
+            isExternal: true,
+            storeName: storeSlug
+          });
+        }
+      });
+    }
+
+    // 2) sections (recursive)
+    if (obj.sections && Array.isArray(obj.sections)) {
+      obj.sections.forEach((s) => {
+        if (!s) return;
+        const name = String(s.name || "");
+        const tagline = String(s.tagline || "Category");
+        if (name.toLowerCase().includes(q)) {
+          results.push({
+            title: name,
+            tagline,
+            image: s.image || "",
+            url: withBase(`/store/${storeSlug}/${s.slug || ""}/`),
+            isExternal: false,
+            storeName: storeSlug
+          });
+        }
+        // recursive
+        searchInData(s, storeSlug, q, results);
+      });
+    }
+  }
+
   // ---------- INTERACTIONS ----------
   function wireInteractions(root) {
+    // Header Search -> routes to /apps/search?q=
     const searchForm = root.querySelector(".store-header-search");
     if (searchForm) {
       searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        const input = searchForm.querySelector('input[name="q"], input[type="search"]');
+        const q = input ? String(input.value || "").trim() : "";
+        // go to apps search page (vercel rewrite loads apps/index.html)
+        const url = withBase(`/apps/search?q=${encodeURIComponent(q)}`);
+        window.location.href = url;
       });
     }
 
+    // Categories collapse on mobile
     const btn = root.querySelector("#btn-categories");
     const nav = root.querySelector("#store-section-nav");
     if (btn && nav) {
@@ -323,6 +531,7 @@
     }[m]));
   }
 })();
+
 
 
 
