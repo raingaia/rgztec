@@ -1,25 +1,46 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
   "name": "rgztec-premium-hub",
+  "cleanUrls": true,
+  "trailingSlash": true,
+
   "rewrites": [
     {
-      "comment": "--- DINAMIK KATMAN (THE ENGINE) ---",
+      "comment": "--- STATIC FILES (docs altindan servis) ---",
+      "source": "/assets/:path*",
+      "destination": "/docs/assets/:path*"
+    },
+    {
+      "comment": "--- DATA (docs altindan servis) ---",
+      "source": "/data/:path*",
+      "destination": "/docs/data/:path*"
+    },
+
+    {
+      "comment": "--- DYNAMIC LAYER (apps/* -> tek shell) ---",
       "source": "/apps/:path*",
-      "destination": "/apps/index.html"
+      "destination": "/docs/store/index.html"
     },
+
     {
-      "comment": "--- STATIK KATMAN (THE SHOWCASE) ---",
-      "source": "/(game-makers|ai-tools-hub|hardware|tiny-js-lab|unity-hub|wp-plugins|icon-smith|html-templates)/:path*",
-      "destination": "/docs/$1/:path*"
+      "comment": "--- STORE LAYER (store/* -> tek shell) ---",
+      "source": "/store/:path*",
+      "destination": "/docs/store/index.html"
     },
+
     {
-      "comment": "--- ANA SAYFA YONLENDIRMESI ---",
+      "comment": "--- (OPSİYONEL) ESKI KISA LINKLERI STORE'A TASIMA ---",
+      "source": "/(game-makers|ai-tools-hub|hardware|tiny-js-lab|unity-hub|wp-plugins|icon-smith|html-templates|email-forge|reactorium|dev-studio-one)/:path*",
+      "destination": "/store/$1/:path*"
+    },
+
+    {
+      "comment": "--- HOME ---",
       "source": "/",
       "destination": "/docs/index.html"
     }
   ],
+
   "headers": [
     {
       "source": "/(.*)",
