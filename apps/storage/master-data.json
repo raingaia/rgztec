@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "version": "2.0.0",
+    "region": "US",
+    "currency": "USD"
+  },
+  "categories": [
+    {"id": "cat_01", "name": "Electronics"},
+    {"id": "cat_02", "name": "Software Solutions"}
+  ],
+  "products": [
+    {
+      "id": "prod_1001",
+      "title": "RGZ-Core Module",
+      "category_id": "cat_02",
+      "price": 299.99,
+      "inventory_count": 50,
+      "attributes": {
+        "color": "Midnight Black",
+        "size": "Standard"
+      },
+      "tags": ["enterprise", "automation", "api"]
+    }
+  ]
+}
