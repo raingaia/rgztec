@@ -2,16 +2,23 @@
   "version": 2,
   "name": "rgztec-premium-hub",
   "cleanUrls": true,
-  "trailingSlash": false,
+  "trailingSlash": true,
 
   "rewrites": [
     {
-      "comment": "--- MODÜLLERİ KORU (Dinamik JS dosyaları HTML'e yönlenmemeli) ---",
-      "source": "/docs/apps/modules/:path*",
-      "destination": "/docs/apps/modules/:path*"
+      "comment": "=== APPS (Dynamic router) ===",
+      "source": "/apps/:path*",
+      "destination": "/apps/index.html"
     },
+
     {
-      "comment": "--- STATIC FILES & DATA ---",
+      "comment": "=== APPS MODULES (serve real JS files, do NOT rewrite to HTML) ===",
+      "source": "/apps/modules/:path*",
+      "destination": "/apps/modules/:path*"
+    },
+
+    {
+      "comment": "=== STATIC ASSETS & DATA ===",
       "source": "/assets/:path*",
       "destination": "/docs/assets/:path*"
     },
@@ -21,21 +28,27 @@
     },
 
     {
-      "comment": "--- SELLER HUB & DASHBOARD (Tek Shell üzerinden yönetim) ---",
-      "source": "/(seller|dashboard|payouts|analytics)",
-      "destination": "/docs/store/index.html"
+      "comment": "=== SELLER / DASHBOARD (route these to apps) ===",
+      "source": "/(seller|dashboard|payouts|analytics)/:path*",
+      "destination": "/apps/index.html"
     },
 
     {
-      "comment": "--- STORE LAYER ---",
+      "comment": "=== STORE LAYER (store shell entry) ===",
       "source": "/store/:path*",
       "destination": "/docs/store/index.html"
     },
 
     {
-      "comment": "--- HOME ---",
+      "comment": "=== HOME ===",
       "source": "/",
       "destination": "/docs/index.html"
+    },
+
+    {
+      "comment": "=== FALLBACK: everything else -> docs ===",
+      "source": "/:path*",
+      "destination": "/docs/:path*"
     }
   ],
 
@@ -47,15 +60,19 @@
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;" }
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;"
+        }
       ]
     },
     {
-      "source": "/docs/apps/modules/(.*).js",
+      "source": "/apps/modules/(.*)\\.js",
       "headers": [
-        { "key": "Content-Type", "value": "application/javascript" },
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" },
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     }
   ]
 }
+
