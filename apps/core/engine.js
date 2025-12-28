@@ -1,57 +1,50 @@
-import SearchHub from './search-logic.js'; // Arama ve Katalog Merkezi
-import DashboardManager from '../modules/dashboard.js';
+import SearchHub from './search-logic.js';
+import SellerHub from '../modules/seller-hub.js';
 import InventoryManager from '../modules/inventory.js';
-import SellerHub from '../modules/seller-hub.js'; // Yeni SaaS Paneli
 
 const RGZ_AppEngine = {
     db: null,
+    currentStoreID: null, // 87 mağazadan hangisindeyiz?
 
-    /**
-     * Boot: Veriyi yükle ve Merkezi Arama Hub'ını (SearchHub) başlat.
-     */
     async boot() {
-        const localData = localStorage.getItem('rgz_premium_db');
+        // URL'den veya subdomain'den mağaza ID'sini yakala (Örn: rgztec.com/store/87)
+        const pathParts = window.location.pathname.split('/');
+        this.currentStoreID = pathParts[pathParts.indexOf('store') + 1] || 'default';
+
+        const localData = localStorage.getItem(`rgz_db_${this.currentStoreID}`);
+        
         if (localData) {
             this.db = JSON.parse(localData);
         } else {
-            // Veri yolunu projene göre kontrol et (/data/ veya /storage/)
-            const response = await fetch('/apps/storage/master-data.json');
-            this.db = await response.json();
+            // Tek bir JSON'dan 87 mağazanın verisini veya o mağazaya özel dosyayı çek
+            const response = await fetch(`/apps/storage/master-data.json`);
+            const allStores = await response.json();
+            // Sadece bu mağazaya ait ürünleri filtrele
+            this.db = {
+                products: allStores.products.filter(p => p.storeId === this.currentStoreID),
+                seller_stats: allStores.stats[this.currentStoreID] || { balance: 0 }
+            };
         }
 
-        // --- KRİTİK EKLEME: Merkezi Veri Hub'ını İndeksle ---
+        // Merkezi Hub'ı başlat (Arama artık sadece bu mağazada çalışır)
         SearchHub.init(this.db.products);
-        
-        console.log("RGZ Core: Booted & Data Hub Indexed.");
+        console.log(`RGZ SaaS: Store ${this.currentStoreID} is online.`);
     },
 
-    /**
-     * Sync: Yeni veriyi kaydet ve Arama Hub'ını anlık olarak tazele.
-     */
     sync(updatedProducts) {
         this.db.products = updatedProducts;
-        localStorage.setItem('rgz_premium_db', JSON.stringify(this.db));
-        
-        // Veri değiştiği anda Hub'ı yeniden indeksle ki aramalar güncel kalsın
+        localStorage.setItem(`rgz_db_${this.currentStoreID}`, JSON.stringify(this.db));
         SearchHub.init(this.db.products);
-        
-        console.log("RGZ Sync: Local & Hub Updated.");
-        this.navigate('admin'); 
+        this.navigate('admin');
     },
 
-    /**
-     * Navigate: Artık veriyi doğrudan db'den değil, merkezden (SearchHub) çeker.
-     */
     navigate(view) {
         const root = 'rgz-app-root';
-        
         if (view === 'admin') {
-            // Admin paneli için tam DB objesini gönderiyoruz
             SellerHub.render(root, this.db, (newP) => this.sync(newP));
         } else {
-            // Katalog görünümü: Veriyi merkezden (Hub) süzülmüş olarak al
-            const catalogData = SearchHub.getCatalog(); 
-            InventoryManager.renderList(root, catalogData);
+            // Katalog görünümünde merkezi Hub'dan veriyi al
+            InventoryManager.renderList(root, SearchHub.getCatalog());
         }
     }
 };
