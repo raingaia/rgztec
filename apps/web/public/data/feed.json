@@ -1,6 +1,0 @@
-{
-  "version": 1,
-  "new": [
-    { "id":"p-1200", "title":"27\" 4K IPS Monitor", "price":289, "img":"assets/img/products/27-4k.jpg", "href":"product/monitor-27-4k/", "tag":"hardware" }
-  ]
-}
