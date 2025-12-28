@@ -1,52 +1,54 @@
-/**
- * RGZ Admin Dashboard Module
- * Handles CRUD operations for products and categories
- */
 const DashboardManager = {
-    // Render the product management table
-    renderAdminPanel(containerId, db) {
+    renderAdminPanel(containerId, db, onUpdate) {
         const outlet = document.getElementById(containerId);
         if (!outlet) return;
 
         outlet.innerHTML = `
-            <div class="admin-header">
-                <h2>Product Management</h2>
-                <button onclick="DashboardManager.openAddModal()" class="btn-primary">Add New Product</button>
-            </div>
-            <table class="rgz-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${db.products.map(p => `
+            <div class="admin-panel">
+                <header class="panel-header">
+                    <h2>Inventory Management</h2>
+                    <button id="add-prod-btn" class="btn-success">+ Add Product</button>
+                </header>
+                <div class="stats-bar">
+                    <span>Total Products: ${db.products.length}</span>
+                    <span>Total Value: $${db.products.reduce((acc, p) => acc + p.price, 0)}</span>
+                </div>
+                <table class="rgz-admin-table">
+                    <thead>
                         <tr>
-                            <td>${p.id}</td>
-                            <td>${p.title}</td>
-                            <td>$${p.price}</td>
-                            <td>${p.stock}</td>
-                            <td>
-                                <button onclick="DashboardManager.editProduct('${p.id}')">Edit</button>
-                                <button onclick="DashboardManager.deleteProduct('${p.id}')" class="text-danger">Delete</button>
-                            </td>
+                            <th>Product</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Actions</th>
                         </tr>
-                    `).join('')}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        ${db.products.map(p => `
+                            <tr>
+                                <td><strong>${p.title}</strong></td>
+                                <td class="${p.stock < 5 ? 'low-stock' : ''}">${p.stock}</td>
+                                <td>$${p.price}</td>
+                                <td>
+                                    <button onclick="window.rgzEdit('${p.id}')">Edit</button>
+                                    <button class="btn-del" onclick="window.rgzDelete('${p.id}')">Remove</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
         `;
+        this.bindEvents(db, onUpdate);
     },
 
-    // Mock functions for logic (to be connected to a backend later)
-    deleteProduct(id) {
-        if(confirm(`Delete product ${id}?`)) {
-            console.log(`Product ${id} marked for deletion.`);
-            // Logic to update master-data.json goes here
-        }
+    bindEvents(db, onUpdate) {
+        window.rgzDelete = (id) => {
+            if(confirm("Are you sure?")) {
+                const updated = db.products.filter(p => p.id !== id);
+                onUpdate(updated);
+            }
+        };
+        // Add Product logic will trigger here
     }
 };
 
