@@ -4,15 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • Engine</title>
-
-  <!-- opsiyonel: zorla base vermek istersen -->
-  <meta name="rgz-base" content="" />
-
   <script>
     (function () {
       "use strict";
-
-      // 1) BASE ("" veya "/rgztec")
       function resolveBase() {
         const meta = document.querySelector('meta[name="rgz-base"]');
         if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
@@ -21,72 +15,43 @@
       }
       const BASE = resolveBase();
       const withBase = (p) => (BASE ? `${BASE}${p}` : p);
-
       window.RGZ_BASE = BASE;
       window.RGZ_WITH_BASE = withBase;
 
-      // 2) APPS ROUTE PARSER (BASE'i düşür, /apps'i parse et)
       function parseAppsRoute() {
-  let afterBase = (location.pathname || "/");
-  if (BASE && afterBase.startsWith(BASE)) afterBase = afterBase.slice(BASE.length);
-  if (!afterBase.startsWith("/")) afterBase = "/" + afterBase;
-
-  // Hem /apps hem de /store prefixlerini temizle
-  let rest = afterBase.replace(/^\/(apps|store)/, ""); 
-  rest = rest.replace(/^\/+/, "").replace(/\/+$/, "");
-
-  const parts = rest ? rest.split("/").filter(Boolean) : [];
-  const mod = parts[0] || "dashboard";
-  const params = parts.slice(1);
-
-  return { module: mod, params };
-}
-
-        // "/apps" kısmını at
-        let rest = afterBase.slice("/apps".length); // "" | "/" | "/admin/.."
-        rest = rest.replace(/^\/+/, "").replace(/\/+$/, ""); // trim slashes
-
-        const parts = rest ? rest.split("/").filter(Boolean) : [];
-        const mod = parts[0] || "dashboard";
-        const params = parts.slice(1);
-
-        return { module: mod, params };
+        let path = location.pathname || "/";
+        if (BASE && path.startsWith(BASE)) path = path.slice(BASE.length);
+        
+        // Hem /apps/ hem de /store/ kısmını temizle
+        let rest = path.replace(/^\/(apps|store)/, "").replace(/^\/+/, "").replace(/\/+$/, "");
+        const parts = rest.split("/").filter(Boolean);
+        
+        // Eğer yol /store/hardware ise modül 'hardware' olur. Eğer /apps/admin ise modül 'admin' olur.
+        return { module: parts[0] || "dashboard", params: parts.slice(1) };
       }
 
       const { module, params } = parseAppsRoute();
+      window.APPS_MODE = module;
+      window.APPS_PARAMS = params;
 
-      // 3) Title
-      const formatTitle = (str) =>
-        String(str || "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      const formatTitle = (s) => String(s).replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
       document.title = `RGZTEC • ${formatTitle(module)}`;
 
-      // 4) CSS inject (BASE ile)
       const css = document.createElement("link");
       css.rel = "stylesheet";
       css.href = withBase("/assets/css/store-core.css");
       document.head.appendChild(css);
-
-      // 5) Shell'e aktarılacak global flags
-      window.APPS_MODE = module;
-      window.APPS_PARAMS = params;
-
-      console.log("[RGZ-ENGINE]", { BASE, module, params, path: location.pathname });
     })();
   </script>
 </head>
-
 <body class="store-body" data-engine="dynamic">
   <div id="store-root"></div>
-
   <script>
     (function () {
-      "use strict";
-      document.body.setAttribute("data-active-module", window.APPS_MODE || "dashboard");
-
-      const withBase = window.RGZ_WITH_BASE || ((p) => p);
+      document.body.setAttribute("data-active-module", window.APPS_MODE);
       const s = document.createElement("script");
       s.defer = true;
-      s.src = withBase("/assets/js/store-shell.js");
+      s.src = window.RGZ_WITH_BASE("/assets/js/store-shell.js");
       document.body.appendChild(s);
     })();
   </script>
