@@ -1,0 +1,6 @@
+:root { --rgz-primary: #007bff; --rgz-dark: #1a1a1a; --rgz-danger: #dc3545; }
+.rgz-admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; color: #333; }
+.rgz-admin-table th, .rgz-admin-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+.low-stock { color: var(--rgz-danger); font-weight: bold; }
+.btn-success { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+.btn-del { color: var(--rgz-danger); background: none; border: none; cursor: pointer; }
