@@ -915,4 +915,5 @@ button {
     display:block;
   }
 }
+#store-root { min-height: 80vh; }
 
