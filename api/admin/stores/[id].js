@@ -1,5 +1,5 @@
-import { requireAdmin } from "../../../apps/rgz/middleware/adminKey.js";
-import { db, FieldValue } from "../../../apps/rgz/lib/firebaseAdmin.js";
+import { requireAdmin } from "../../../src/rgz/middleware/adminKey.js";
+import { db, FieldValue } from "../../../src/rgz/lib/firebaseAdmin.js";
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
