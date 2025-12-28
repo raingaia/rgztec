@@ -19,7 +19,7 @@
     .col{border-right:1px solid var(--line)}
     .col:last-child{border-right:0}
     .pane{height:100%; display:flex; flex-direction:column}
-    .tabs{display:flex; gap:8px; padding:10px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.03)}
+    .tabs{display:flex; gap:8px; padding:10px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.03); flex-wrap:wrap}
     .tab{padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.2); color:var(--ink); cursor:pointer; font-weight:700; font-size:12px}
     .tab.active{background:#fff; color:#0b0f17; border-color:#fff}
@@ -28,14 +28,24 @@
       background:transparent; color:var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size:13px; line-height:1.5;
     }
-    .actions{display:flex; gap:10px; padding:10px; border-top:1px solid var(--line); background:rgba(255,255,255,.03)}
+    .actions{display:flex; gap:10px; padding:10px; border-top:1px solid var(--line); background:rgba(255,255,255,.03); flex-wrap:wrap}
     .btn{padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:900}
     .btn.primary{background:#fff; color:#0b0f17}
     .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.14)}
     iframe{flex:1; width:100%; border:0; background:#fff; border-radius:0}
     .rightTop{display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--line);
       background:rgba(255,255,255,.03)}
-    code.badge{padding:6px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(0,0,0,.2); font-size:12px}
+    code.badge{padding:6px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(0,0,0,.2); font-size:12px; display:inline-flex; gap:10px; align-items:center}
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.ok{background:#22c55e}
+    .dot.bad{background:#ef4444}
+    .dot.wait{background:#f59e0b}
+    .mini{font-size:11px; opacity:.85}
+    @media (max-width:980px){
+      .wrap{grid-template-columns:1fr; height:auto}
+      .col{border-right:0; border-bottom:1px solid var(--line)}
+      iframe{min-height:460px}
+    }
   </style>
 </head>
 <body>
@@ -44,7 +54,15 @@
       <div class="brand">RGZTEC • LAB</div>
       <div class="muted">Sandbox / Kod Deneme Alanı (Dashboard ile karışmaz)</div>
     </div>
-    <code class="badge" id="where">/rgztec/lab/</code>
+
+    <!-- ✅ Added: API health indicator + quick links -->
+    <code class="badge" id="where">
+      <span class="dot wait" id="apiDot"></span>
+      <span class="mini" id="apiText">API: checking…</span>
+      <span style="opacity:.35">|</span>
+      <a href="../" style="color:#fff; text-decoration:none; font-weight:900">Home</a>
+      <a href="../seller/" style="color:#fff; text-decoration:none; font-weight:900">Seller</a>
+    </code>
   </header>
 
   <div class="wrap">
@@ -54,6 +72,10 @@
         <button class="tab active" data-tab="html">HTML</button>
         <button class="tab" data-tab="css">CSS</button>
         <button class="tab" data-tab="js">JS</button>
+
+        <!-- ✅ Added: small ready snippets -->
+        <button class="tab" data-tab="snippet-fetch">Snippet: Fetch</button>
+        <button class="tab" data-tab="snippet-ui">Snippet: UI</button>
       </div>
 
       <textarea id="editor"></textarea>
@@ -62,6 +84,7 @@
         <button class="btn primary" id="run">Run</button>
         <button class="btn ghost" id="reset">Reset</button>
         <button class="btn ghost" id="share">Share Link</button>
+        <button class="btn ghost" id="openPreview">Open Preview in new tab</button>
       </div>
     </div>
 
@@ -76,6 +99,9 @@
   </div>
 
 <script>
+  // ===========================
+  // DEFAULTS
+  // ===========================
   const DEFAULT = {
     html: `<!doctype html>
 <html>
@@ -92,7 +118,31 @@ h1{margin:0 0 8px}
 button{padding:10px 12px; border-radius:10px; border:1px solid #ddd; cursor:pointer}`,
     js: `document.getElementById("btn").addEventListener("click", ()=>{
   document.getElementById("out").textContent = "OK ✅ " + new Date().toLocaleString();
-});`
+});`,
+
+    // Extra tabs (snippets)
+    "snippet-fetch": `// Example: call your API health
+fetch("/api/health")
+  .then(r => r.json())
+  .then(d => console.log("API OK:", d))
+  .catch(e => console.error("API error:", e));`,
+
+    "snippet-ui": `// Example: simple UI toast
+function toast(msg){
+  const t = document.createElement("div");
+  t.textContent = msg;
+  t.style.position="fixed";
+  t.style.right="16px";
+  t.style.bottom="16px";
+  t.style.padding="10px 12px";
+  t.style.border="1px solid rgba(0,0,0,.15)";
+  t.style.borderRadius="12px";
+  t.style.background="#fff";
+  t.style.boxShadow="0 10px 26px rgba(0,0,0,.12)";
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 1800);
+}
+toast("Hello from RGZTEC LAB ✅");`
   };
 
   const tabs = document.querySelectorAll(".tab");
@@ -100,6 +150,9 @@ button{padding:10px 12px; border-radius:10px; border:1px solid #ddd; cursor:poin
   const preview = document.getElementById("preview");
   const status = document.getElementById("status");
 
+  // ===========================
+  // STATE
+  // ===========================
   let state = loadState();
 
   function loadState(){
@@ -142,6 +195,9 @@ button{padding:10px 12px; border-radius:10px; border:1px solid #ddd; cursor:poin
     saveState();
   });
 
+  // ===========================
+  // PREVIEW
+  // ===========================
   function buildDoc(){
     const html = state.html || "";
     const css = `<style>${state.css || ""}</style>`;
@@ -181,9 +237,42 @@ button{padding:10px 12px; border-radius:10px; border:1px solid #ddd; cursor:poin
     }
   });
 
+  // Open preview in new tab (uses srcdoc)
+  document.getElementById("openPreview").addEventListener("click", ()=>{
+    const w = window.open("", "_blank");
+    if (!w) return;
+    w.document.open();
+    w.document.write(buildDoc());
+    w.document.close();
+  });
+
+  // ===========================
+  // API HEALTH INDICATOR (NEW)
+  // ===========================
+  async function checkApi(){
+    const dot = document.getElementById("apiDot");
+    const txt = document.getElementById("apiText");
+    dot.className = "dot wait";
+    txt.textContent = "API: checking…";
+    try{
+      const r = await fetch("/api/health", { cache:"no-store" });
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      const d = await r.json().catch(()=>({}));
+      dot.className = "dot ok";
+      txt.textContent = "API: ok";
+      // Small detail in title (optional)
+      // txt.textContent = "API: ok • " + (d.ts ? new Date(d.ts).toLocaleTimeString() : "");
+    }catch(e){
+      dot.className = "dot bad";
+      txt.textContent = "API: offline";
+    }
+  }
+
   // init
   setActive("html");
   run();
+  checkApi();
 </script>
 </body>
 </html>
+
