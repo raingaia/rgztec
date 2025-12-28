@@ -1,79 +1,57 @@
-/**
- * RGZ Next-Gen Engine
- * Marketplace Veri Akışını ve Senkronizasyonu Yönetir.
- */
+import SearchHub from './search-logic.js'; // Arama ve Katalog Merkezi
 import DashboardManager from '../modules/dashboard.js';
 import InventoryManager from '../modules/inventory.js';
+import SellerHub from '../modules/seller-hub.js'; // Yeni SaaS Paneli
 
 const RGZ_AppEngine = {
     db: null,
 
     /**
-     * Sistemi Başlatır: Önce yerel veriyi, yoksa ana veritabanını yükler.
+     * Boot: Veriyi yükle ve Merkezi Arama Hub'ını (SearchHub) başlat.
      */
     async boot() {
         const localData = localStorage.getItem('rgz_premium_db');
         if (localData) {
             this.db = JSON.parse(localData);
         } else {
-            try {
-                // Not: Yolun doğruluğundan emin ol (docs/data veya apps/storage)
-                const response = await fetch('/data/master-data.json');
-                this.db = await response.json();
-                
-                // İlk açılışta temel finansal yapıyı kur
-                if(!this.db.seller_stats) {
-                    this.db.seller_stats = { balance: 0.0, bank_id: '', history: [] };
-                }
-            } catch (e) {
-                console.error("Boot Error: Master data not found. Initializing empty state.");
-                this.db = { products: [], seller_stats: { balance: 0, bank_id: '', history: [] } };
-            }
+            // Veri yolunu projene göre kontrol et (/data/ veya /storage/)
+            const response = await fetch('/apps/storage/master-data.json');
+            this.db = await response.json();
         }
-        console.log("RGZ SaaS Core: Online");
+
+        // --- KRİTİK EKLEME: Merkezi Veri Hub'ını İndeksle ---
+        SearchHub.init(this.db.products);
+        
+        console.log("RGZ Core: Booted & Data Hub Indexed.");
     },
 
     /**
-     * Global Veri Çekme
+     * Sync: Yeni veriyi kaydet ve Arama Hub'ını anlık olarak tazele.
      */
-    getModuleData() {
-        return this.db;
-    },
-
-    /**
-     * Senkronizasyon (Sync): SellerHub'dan gelen her türlü güncellemeyi işler.
-     * @param {Object} updateObject - { products: [], seller_stats: {} }
-     */
-    async sync(updateObject) {
-        // Derin birleştirme (Deep Merge) mantığı
-        if (updateObject.products) this.db.products = updateObject.products;
-        if (updateObject.seller_stats) this.db.seller_stats = updateObject.seller_stats;
-
-        // Yerel depolamaya yaz (SaaS Persistence)
+    sync(updatedProducts) {
+        this.db.products = updatedProducts;
         localStorage.setItem('rgz_premium_db', JSON.stringify(this.db));
         
-        console.log("RGZ Sync: Cloud & Local synchronized.");
-        return true;
+        // Veri değiştiği anda Hub'ı yeniden indeksle ki aramalar güncel kalsın
+        SearchHub.init(this.db.products);
+        
+        console.log("RGZ Sync: Local & Hub Updated.");
+        this.navigate('admin'); 
     },
 
     /**
-     * Navigasyon Sistemi: Görünümler arası geçişi sağlar.
+     * Navigate: Artık veriyi doğrudan db'den değil, merkezden (SearchHub) çeker.
      */
-    navigate(view, containerId = 'rgz-app-root') {
-        const root = document.getElementById(containerId);
-        if (!root) return;
-
-        root.innerHTML = ''; // Temizlik
-
-        switch(view) {
-            case 'seller-hub':
-                // SellerHub modülünü buraya bağla
-                break;
-            case 'storefront':
-                InventoryManager.renderList(containerId, this.db.products);
-                break;
-            default:
-                InventoryManager.renderList(containerId, this.db.products);
+    navigate(view) {
+        const root = 'rgz-app-root';
+        
+        if (view === 'admin') {
+            // Admin paneli için tam DB objesini gönderiyoruz
+            SellerHub.render(root, this.db, (newP) => this.sync(newP));
+        } else {
+            // Katalog görünümü: Veriyi merkezden (Hub) süzülmüş olarak al
+            const catalogData = SearchHub.getCatalog(); 
+            InventoryManager.renderList(root, catalogData);
         }
     }
 };
