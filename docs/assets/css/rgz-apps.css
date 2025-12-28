@@ -175,3 +175,26 @@
     border-radius: 6px;
     cursor: pointer;
 }
+/* Premium Enhancements */
+.premium-theme { background: #fdfdfd; border: 1px solid #eee; }
+
+.table-img { width: 45px; height: 45px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+
+.prod-title { font-weight: 600; color: #2d3436; font-size: 1rem; }
+.prod-cat { color: #a29bfe; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Progress Bar for Stock */
+.progress-bar { width: 60px; height: 6px; background: #eee; border-radius: 3px; margin-bottom: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--rgz-primary); transition: width 0.3s; }
+
+/* Action Buttons */
+.action-group { display: flex; gap: 8px; }
+.action-btn { border: none; background: #f1f2f6; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+.action-btn.edit:hover { background: #dfe6e9; color: var(--rgz-primary); }
+.action-btn.delete:hover { background: #fab1a0; color: var(--rgz-danger); }
+
+/* Modal Premium */
+.premium-modal { border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.full-width { grid-column: span 2; }
+.btn-premium { background: var(--rgz-dark); color: white; padding: 12px 25px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
