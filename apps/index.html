@@ -3,55 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title id="dynamic-title">RGZTEC • Engine</title>
-  
+  <title>RGZTEC • Engine</title>
+
+  <!-- opsiyonel: zorla base vermek istersen -->
+  <meta name="rgz-base" content="" />
+
   <script>
     (function () {
-      // 1. URL Analizi (Örn: /apps/admin/settings -> module: admin, params: ['settings'])
-      const fullPath = window.location.pathname;
-      const pathSegments = fullPath.replace("/apps/", "").replace(/\/$/, "").split('/');
-      
-      const module = pathSegments[0] || 'dashboard'; 
-      const params = pathSegments.slice(1);
+      "use strict";
 
-      // 2. Dinamik Başlık Yönetimi
-      const formatTitle = (str) => str.replace(/-/g, ' ').toUpperCase();
-      document.title = `RGZTEC • ${formatTitle(module)}`;
-
-      // 3. Global RGZ Base Ayarları
+      // 1) BASE ("" veya "/rgztec")
       function resolveBase() {
         const meta = document.querySelector('meta[name="rgz-base"]');
         if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
-        return fullPath.includes("/rgztec/") ? "/rgztec" : "";
+        const p = location.pathname || "/";
+        return p.includes("/rgztec/") ? "/rgztec" : "";
       }
-      
       const BASE = resolveBase();
-      window.RGZ_BASE = BASE;
-      window.RGZ_WITH_BASE = (p) => (BASE ? `${BASE}${p}` : p);
+      const withBase = (p) => (BASE ? `${BASE}${p}` : p);
 
-      // 4. Premium CSS Enjeksiyonu
+      window.RGZ_BASE = BASE;
+      window.RGZ_WITH_BASE = withBase;
+
+      // 2) APPS ROUTE PARSER (BASE'i düşür, /apps'i parse et)
+      function parseAppsRoute() {
+        // örn: "/rgztec/apps/admin/settings" -> afterBase: "/apps/admin/settings"
+        let afterBase = (location.pathname || "/");
+        if (BASE && afterBase.startsWith(BASE)) afterBase = afterBase.slice(BASE.length);
+        if (!afterBase.startsWith("/")) afterBase = "/" + afterBase;
+
+        // "/apps" veya "/apps/" veya "/apps/xxx"
+        if (!afterBase.startsWith("/apps")) {
+          return { module: "dashboard", params: [] };
+        }
+
+        // "/apps" kısmını at
+        let rest = afterBase.slice("/apps".length); // "" | "/" | "/admin/.."
+        rest = rest.replace(/^\/+/, "").replace(/\/+$/, ""); // trim slashes
+
+        const parts = rest ? rest.split("/").filter(Boolean) : [];
+        const mod = parts[0] || "dashboard";
+        const params = parts.slice(1);
+
+        return { module: mod, params };
+      }
+
+      const { module, params } = parseAppsRoute();
+
+      // 3) Title
+      const formatTitle = (str) =>
+        String(str || "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      document.title = `RGZTEC • ${formatTitle(module)}`;
+
+      // 4) CSS inject (BASE ile)
       const css = document.createElement("link");
       css.rel = "stylesheet";
-      css.href = window.RGZ_WITH_BASE("/assets/css/store-core.css");
+      css.href = withBase("/assets/css/store-core.css");
       document.head.appendChild(css);
 
-      // 5. Dinamik Kontrol Değişkenleri (Shell.js bu verileri kullanacak)
-      window.APPS_MODE = module; 
+      // 5) Shell'e aktarılacak global flags
+      window.APPS_MODE = module;
       window.APPS_PARAMS = params;
-      console.log(`[RGZ-ENGINE] Module: ${module} initialized with params:`, params);
+
+      console.log("[RGZ-ENGINE]", { BASE, module, params, path: location.pathname });
     })();
   </script>
 </head>
+
 <body class="store-body" data-engine="dynamic">
-  
-  <div id="store-root">
-    </div>
+  <div id="store-root"></div>
 
   <script>
     (function () {
-      // Body'ye aktif modülü etiketle (CSS seçicileri için)
-      document.body.setAttribute("data-active-module", window.APPS_MODE);
-      
+      "use strict";
+      document.body.setAttribute("data-active-module", window.APPS_MODE || "dashboard");
+
       const withBase = window.RGZ_WITH_BASE || ((p) => p);
       const s = document.createElement("script");
       s.defer = true;
@@ -61,3 +87,4 @@
   </script>
 </body>
 </html>
+
