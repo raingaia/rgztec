@@ -1,154 +1,275 @@
-/**
- * RGZ Premium Seller Hub - Advanced Preview & Sync Version
- * Etsy UI + Amazon Specs + Python Intelligence
- */
-import RGZ_Intelligence from './intelligence.js';
+// apps/modules/seller-hub.js
+import Engine from "/apps/core/engine.js";
 
-const SellerHub = {
-    db: null,
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));}
 
-    async render(containerId, db) {
-        this.db = db;
-        const outlet = document.getElementById(containerId);
-        
-        outlet.innerHTML = `
-            <div class="rgz-app-frame animate-fade-in">
-                <aside class="rgz-sidebar-premium">
-                    <div class="logo-area">RGZ<span>NEXT</span></div>
-                    <nav>
-                        <button onclick="SellerHub.switchTab('intel')" id="tab-intel">🧠 AI Insights</button>
-                        <button onclick="SellerHub.switchTab('inventory')" id="tab-inventory" class="active">🔌 Hardware & Code</button>
-                        <button onclick="SellerHub.switchTab('finance')" id="tab-finance">💰 Payouts</button>
-                    </nav>
-                </aside>
+function css(){
+  return `
+  .grid{display:grid; gap:14px}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between}
+  .card{
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.18);
+    border-radius:18px;
+    padding:16px;
+  }
+  .title{margin:0; font-size:16px; font-weight:1000}
+  .sub{margin:6px 0 0; color:rgba(233,238,252,.68); font-size:13px; line-height:1.6}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 10px; border-radius:999px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.22);
+    font-size:12px; color: rgba(233,238,252,.70);
+  }
+  .btn{
+    height:40px; padding:0 12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    color:#e9eefc; cursor:pointer; font-weight:900;
+  }
+  .btn:hover{transform: translateY(-1px)}
+  .btn.primary{
+    border-color: rgba(0,255,163,.30);
+    background: linear-gradient(180deg, rgba(0,255,163,.20), rgba(0,255,163,.10));
+  }
+  .btn.warn{
+    border-color: rgba(255,204,102,.35);
+    background: linear-gradient(180deg, rgba(255,204,102,.14), rgba(255,204,102,.08));
+  }
+  .btn.danger{
+    border-color: rgba(255,107,107,.35);
+    background: linear-gradient(180deg, rgba(255,107,107,.14), rgba(255,107,107,.08));
+  }
+  .split{
+    display:grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap:14px;
+    align-items:start;
+  }
+  textarea{
+    width:100%;
+    min-height:520px;
+    resize: vertical;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.25);
+    color:#e9eefc;
+    padding:12px;
+    outline:none;
+    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    font-size:12.5px;
+    line-height:1.55;
+  }
+  textarea:focus{ border-color: rgba(0,255,163,.35); box-shadow: 0 0 0 3px rgba(0,255,163,.10) }
+  .list{display:grid; gap:10px}
+  .item{
+    padding:12px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.18);
+  }
+  .item b{font-weight:1000}
+  .meta{margin-top:6px; color:rgba(233,238,252,.65); font-size:12px; line-height:1.6}
+  @media (max-width: 1100px){ .split{grid-template-columns:1fr} textarea{min-height:420px} }
+  `;
+}
 
-                <main class="rgz-main-content">
-                    <header class="rgz-glass-header">
-                        <h2 id="page-title">Inventory Command Center</h2>
-                        <div class="header-actions">
-                            <span class="status-indicator">● System Online</span>
-                            <button class="btn-etsy" onclick="SellerHub.openModal()">+ New Asset</button>
-                        </div>
-                    </header>
+function downloadText(filename, text){
+  const blob = new Blob([text], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
-                    <div id="dynamic-workspace" class="workspace-grid">
-                        </div>
-                </main>
+export default {
+  async render(root, ctx){
+    const s = ctx.session;
+    if (!s) { location.replace("/apps/signin"); return; }
+
+    const db = Engine.getDB();
+    const meta = Engine.getMeta();
+    const summary = Engine.inventorySummary(db);
+
+    // seller scope store selection (MVP):
+    // if sellerId matches a store slug, open that store. Otherwise let pick any.
+    const sellerPreferred = s.sellerId || "";
+    const storeSlugs = Object.keys(db || {});
+    const defaultStore = storeSlugs.includes(sellerPreferred) ? sellerPreferred : (storeSlugs[0] || "");
+
+    root.innerHTML = `
+      <style>${css()}</style>
+      <div class="grid">
+
+        <div class="card">
+          <div class="row">
+            <div>
+              <div class="title">Seller Hub</div>
+              <div class="sub">
+                Edit store JSON (MVP). <b>Sync</b> writes a local override. Later: API commit/publish.
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+              <span class="pill">source: <b>${esc(meta.source)}</b></span>
+              <span class="pill">stores: <b>${summary.stores}</b></span>
+              <span class="pill">entries: <b>${summary.totalEntries}</b></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="card">
+            <div class="row">
+              <div>
+                <div class="title">JSON Editor</div>
+                <div class="sub">Store: <b id="storeName">${esc(defaultStore)}</b></div>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+                <select id="storeSelect" class="btn" style="height:40px; padding:0 10px;">
+                  ${storeSlugs.map(sl=>`<option value="${esc(sl)}"${sl===defaultStore?" selected":""}>${esc(sl)}</option>`).join("")}
+                </select>
+                <button class="btn" id="btnLoad">Load</button>
+                <button class="btn warn" id="btnValidate">Validate</button>
+                <button class="btn primary" id="btnSync">Sync Override</button>
+                <button class="btn" id="btnExport">Export JSON</button>
+                <button class="btn danger" id="btnClearOverride">Clear Override</button>
+              </div>
             </div>
 
-            <div id="asset-modal" class="modal-blur" style="display:none;">
-                <div class="modal-content-premium">
-                    <div class="modal-body-split">
-                        <form id="asset-form" class="modal-form">
-                            <div class="form-header">
-                                <h3>Asset Configuration</h3>
-                                <select id="asset-type" onchange="SellerHub.updateFormFields()" class="type-picker">
-                                    <option value="hardware">Physical Hardware (Amazon+ Tech)</option>
-                                    <option value="code">Digital Code (Envato+ Style)</option>
-                                </select>
-                            </div>
-                            
-                            <div id="fields-area" class="fields-scroll">
-                                </div>
+            <div class="meta" id="editorMeta"></div>
+            <textarea id="editor" spellcheck="false"></textarea>
+          </div>
 
-                            <div class="form-footer">
-                                <button type="button" class="btn-ghost" onclick="SellerHub.closeModal()">Cancel</button>
-                                <button type="submit" class="btn-primary-rgz">Verify & Deploy</button>
-                            </div>
-                        </form>
-
-                        <div class="live-preview-section">
-                            <label>Storefront Preview</label>
-                            <div id="live-preview-pane">
-                                <div class="preview-placeholder">Enter details to see preview...</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div class="card">
+            <div class="row">
+              <div>
+                <div class="title">Quick Preview</div>
+                <div class="sub">Shows parsed overview of the store JSON.</div>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="btn primary" id="btnOpenLive" href="/store/${esc(defaultStore)}/" target="_blank" rel="noopener">Open Live Store</a>
+              </div>
             </div>
-        `;
-        this.updateFormFields();
-        this.setupEventListeners(); // Önizleme dinleyicilerini başlat
-        this.switchTab('inventory');
-    },
 
-    updateFormFields() {
-        const type = document.getElementById('asset-type').value;
-        const area = document.getElementById('fields-area');
-        
-        if(type === 'hardware') {
-            area.innerHTML = `
-                <div class="input-wrap"><label>Product Title</label><input type="text" id="p-title" placeholder="e.g. RGZ Sensor V2" required></div>
-                <div class="grid-2">
-                    <div class="input-wrap"><label>Voltage</label><input type="number" id="p-volt" placeholder="5V"></div>
-                    <div class="input-wrap"><label>Interface</label><input type="text" id="p-interface" placeholder="I2C/SPI"></div>
-                </div>
-                <div class="input-wrap"><label>Price ($)</label><input type="number" id="p-price" placeholder="29.99"></div>
-                <div class="input-wrap"><label>Pinout URL</label><input type="url" id="p-image" placeholder="Image URL"></div>
-            `;
-        } else {
-            area.innerHTML = `
-                <div class="input-wrap"><label>Script Name</label><input type="text" id="p-title" placeholder="e.g. Neural Logic Engine" required></div>
-                <div class="input-wrap"><label>Version</label><input type="text" id="p-version" placeholder="1.0.4"></div>
-                <div class="input-wrap"><label>Price ($)</label><input type="number" id="p-price" placeholder="49.00"></div>
-                <div class="input-wrap"><label>Source URL</label><input type="url" id="p-image" placeholder="Icon or Cover URL"></div>
-            `;
+            <div class="list" id="preview"></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const editor = root.querySelector("#editor");
+    const preview = root.querySelector("#preview");
+    const storeSelect = root.querySelector("#storeSelect");
+    const storeName = root.querySelector("#storeName");
+    const editorMeta = root.querySelector("#editorMeta");
+    const btnOpenLive = root.querySelector("#btnOpenLive");
+
+    function setMeta(text){ editorMeta.innerHTML = `<span class="pill">${esc(text)}</span>`; }
+
+    function loadStore(slug){
+      const obj = db?.[slug] || {};
+      storeName.textContent = slug;
+      btnOpenLive.href = `/store/${slug}/`;
+      editor.value = JSON.stringify(obj, null, 2);
+      setMeta(`Loaded ${slug}. Tip: validate before sync.`);
+      buildPreview(obj, slug);
+    }
+
+    function buildPreview(obj, slug){
+      const title = obj?.title || obj?.name || slug;
+      const sections = Array.isArray(obj?.sections) ? obj.sections : [];
+      const products = Array.isArray(obj?.products) ? obj.products : [];
+      preview.innerHTML = `
+        <div class="item">
+          <b>${esc(title)}</b>
+          <div class="meta">Slug: <code>${esc(slug)}</code></div>
+          <div class="meta">Sections: <b>${sections.length}</b> • Products: <b>${products.length}</b></div>
+        </div>
+
+        <div class="item">
+          <b>Top Sections</b>
+          <div class="meta">${sections.slice(0,10).map(s=>esc(s?.name||s?.title||s?.slug||"section")).join(" • ") || "—"}</div>
+        </div>
+
+        <div class="item">
+          <b>Top Products</b>
+          <div class="meta">${products.slice(0,10).map(p=>esc(p?.title||"product")).join(" • ") || "—"}</div>
+        </div>
+
+        <div class="item">
+          <b>Validation Tips</b>
+          <div class="meta">
+            • Store must be an object<br/>
+            • Sections: array of {slug,name/title,sections?,products?}<br/>
+            • Products: array of {title,tagline?,image?,url?}
+          </div>
+        </div>
+      `;
+    }
+
+    function validateJSON(){
+      try{
+        const obj = JSON.parse(editor.value || "{}");
+        if (!obj || typeof obj !== "object") throw new Error("Store JSON must be an object.");
+        if (obj.sections && !Array.isArray(obj.sections)) throw new Error("sections must be an array.");
+        if (obj.products && !Array.isArray(obj.products)) throw new Error("products must be an array.");
+        // simple deep checks (light)
+        if (Array.isArray(obj.sections)) {
+          obj.sections.forEach((s,i)=>{
+            if (!s || typeof s !== "object") throw new Error(`sections[${i}] is invalid`);
+          });
         }
-    },
+        return { ok:true, obj };
+      }catch(e){
+        return { ok:false, error: e?.message || String(e) };
+      }
+    }
 
-    setupEventListeners() {
-        const form = document.getElementById('asset-form');
-        // Formdaki her tuş vuruşunda önizlemeyi güncelle
-        form.addEventListener('input', () => {
-            const data = {
-                type: document.getElementById('asset-type').value,
-                title: document.getElementById('p-title')?.value || 'New Asset',
-                price: document.getElementById('p-price')?.value || '0.00',
-                image: document.getElementById('p-image')?.value,
-                volt: document.getElementById('p-volt')?.value,
-                interface: document.getElementById('p-interface')?.value,
-                version: document.getElementById('p-version')?.value
-            };
-            this.renderLivePreview(data);
-        });
-    },
+    // events
+    root.querySelector("#btnLoad").addEventListener("click", () => loadStore(storeSelect.value));
+    storeSelect.addEventListener("change", () => loadStore(storeSelect.value));
 
-    renderLivePreview(data) {
-        const pane = document.getElementById('live-preview-pane');
-        const isHardware = data.type === 'hardware';
+    root.querySelector("#btnValidate").addEventListener("click", () => {
+      const r = validateJSON();
+      if (!r.ok) { ctx.notify("Invalid JSON", r.error); setMeta("❌ Invalid JSON: " + r.error); return; }
+      ctx.notify("Valid JSON", "Ready to sync.");
+      setMeta("✅ JSON valid. You can sync now.");
+      buildPreview(r.obj, storeSelect.value);
+    });
 
-        pane.innerHTML = `
-            <div class="etsy-card-preview animate-slide-up">
-                <div class="preview-img" style="background-image: url('${data.image || 'https://via.placeholder.com/300x200?text=RGZ+Preview'}')">
-                    <span class="badge">${isHardware ? 'HARDWARE' : 'DIGITAL'}</span>
-                </div>
-                <div class="preview-body">
-                    <h4>${data.title}</h4>
-                    <div class="preview-specs">
-                        ${isHardware ? `<span>${data.volt || '--'}V</span> • <span>${data.interface || '--'}</span>` : `<span>v${data.version || '1.0.0'}</span>`}
-                    </div>
-                    <div class="preview-price">$${data.price}</div>
-                    <button class="preview-btn" disabled>Add to Cart</button>
-                </div>
-            </div>
-        `;
-    },
+    root.querySelector("#btnExport").addEventListener("click", () => {
+      const r = validateJSON();
+      if (!r.ok) { ctx.notify("Export failed", r.error); return; }
+      downloadText(`store-${storeSelect.value}.json`, JSON.stringify(r.obj, null, 2));
+      ctx.notify("Exported", `store-${storeSelect.value}.json`);
+    });
 
-    async switchTab(tab) {
-        const workspace = document.getElementById('dynamic-workspace');
-        document.querySelectorAll('.rgz-sidebar-premium button').forEach(b => b.classList.remove('active'));
-        document.getElementById(`tab-${tab}`).classList.add('active');
+    root.querySelector("#btnSync").addEventListener("click", async () => {
+      const r = validateJSON();
+      if (!r.ok) { ctx.notify("Sync failed", r.error); return; }
 
-        if(tab === 'intel') {
-            workspace.innerHTML = `<div class="ai-card"><h3>AI Analysis</h3><canvas id="analysisChart"></canvas><p id="ai-status">Python Booting...</p></div>`;
-            const analysis = await RGZ_Intelligence.runMarketAnalysis(this.db.products);
-            document.getElementById('ai-status').innerText = `Forecast: ${analysis.status}`;
-            RGZ_Intelligence.renderChart('analysisChart', analysis);
-        } else if(tab === 'inventory') {
-            workspace.innerHTML = `<div class="inventory-grid">${this.db.products.map(p => `<div class="mini-card">${p.name}</div>`).join('')}</div>`;
-        }
-    },
+      // Merge into full DB, then Engine.sync()
+      const newDB = structuredClone(db);
+      newDB[storeSelect.value] = r.obj;
 
-    openModal() { document.getElementById('asset-modal').style.display = 'flex'; },
-    closeModal() { document.getElementById('asset-modal').style.display = 'none'; }
+      await Engine.sync(newDB);
+      ctx.notify("Synced override", "Local override saved. Reload to see source=override.");
+      setMeta("✅ Synced to local override. This is your ‘preview DB’ until API exists.");
+    });
+
+    root.querySelector("#btnClearOverride").addEventListener("click", async () => {
+      if (!confirm("Clear local override? (DB returns to /data/store.data.json)")) return;
+      Engine.clearOverride();
+      await Engine.reload({ preferOverride:false });
+      ctx.notify("Override cleared", "Reloading DB from /data");
+      location.reload();
+    });
+
+    // init
+    loadStore(defaultStore);
+  }
 };
+
