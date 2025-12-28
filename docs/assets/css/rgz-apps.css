@@ -143,3 +143,35 @@
     border: 1px solid var(--rgz-border);
     box-shadow: var(--rgz-shadow);
 }
+.field-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.field-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--rgz-gray);
+    margin-bottom: 5px;
+}
+
+.field-group input, .field-group textarea, .field-group select {
+    border: 1px solid var(--rgz-border);
+    padding: 10px;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.field-group input:focus {
+    border-color: var(--rgz-primary);
+    outline: none;
+}
+
+.btn-secondary {
+    background: #e9ecef;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
