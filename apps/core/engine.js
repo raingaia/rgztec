@@ -6,29 +6,30 @@ const RGZ_AppEngine = {
     db: null,
 
     async boot() {
-        try {
+        // First, check local storage for user updates, else fetch master-data.json
+        const localData = localStorage.getItem('rgz_db');
+        if (localData) {
+            this.db = JSON.parse(localData);
+        } else {
             const response = await fetch('/apps/storage/master-data.json');
             this.db = await response.json();
-            console.info("RGZ Global Engine: Ready");
-        } catch (e) {
-            console.error("Boot Error:", e);
         }
+        console.log("RGZ System Initialized.");
     },
 
-    // Smart Router: Decide what to show
+    save(updatedProducts) {
+        this.db.products = updatedProducts;
+        localStorage.setItem('rgz_db', JSON.stringify(this.db));
+        this.navigate('admin'); // Refresh view
+    },
+
     navigate(view) {
         const root = 'rgz-app-root';
         if (view === 'admin') {
-            DashboardManager.renderAdminPanel(root, this.db);
+            DashboardManager.renderAdminPanel(root, this.db, (newP) => this.save(newP));
         } else {
             InventoryManager.renderList(root, this.db.products);
         }
-    },
-
-    // Search and Refresh
-    runSearch(query) {
-        const results = executeSearch(query, this.db.products);
-        InventoryManager.renderList('rgz-app-root', results);
     }
 };
 
