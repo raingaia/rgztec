@@ -710,5 +710,10 @@
   function escAttr(s) {
     return esc(String(s || "")).replace(/`/g, "&#096;");
   }
+  // expose minimal helpers for other pages (seller/admin/etc.)
+window.StoreShell = window.StoreShell || {};
+window.StoreShell.base = BASE;
+window.StoreShell.withBase = withBase;
+
 })();
 
