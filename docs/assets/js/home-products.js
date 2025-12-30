@@ -309,5 +309,33 @@
     searchBtn.addEventListener('click', runSearch);
     searchInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') runSearch(); });
   }
+  // ---- SEARCH ENGINE (YAPIYI BOZMADAN EKLE) ----
+  const searchInput = document.querySelector('.search-input');
+  const searchBtn = document.querySelector('.search-btn');
+
+  if (searchInput && searchBtn) {
+    const handleSearch = () => {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        // Kullanıcıyı arama sonuçları sayfasına, base path'i koruyarak gönderir
+        // apps/core/search-logic.js bu URL parametresini yakalayıp sonuçları getirecek
+        window.location.href = withBase(`/search.html?q=${enc(query)}`);
+      }
+    };
+
+    // Büyüteç butonuna tıklandığında ara
+    searchBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleSearch();
+    });
+
+    // Enter tuşuna basıldığında ara
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSearch();
+      }
+    });
+  }
 })();
 
