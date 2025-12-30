@@ -3,13 +3,13 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install # Dinamik paketleri kurar
+        - npm install # Dinamik paketler için şart
     build:
       commands:
-        - npm run build:static # Senin özel scriptin verileri işler
+        - npm run build:static # Senin özel verilerini hazırlar
         - npx next build       # Next.js'e dinamik yetki verir
   artifacts:
-    baseDirectory: .next # Next.js hem statik hem dinamik her şeyi burada toplar
+    baseDirectory: .next # Hem statik hem dinamik her şeyi burada toplar
     files:
       - '**/*'
   cache:
