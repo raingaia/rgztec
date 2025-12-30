@@ -1,278 +1,224 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC • LAB (Sandbox)</title>
-  <style>
-    :root{
-      --bg:#0b0f17; --panel:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
-      --ink:#e9eefc; --muted:rgba(233,238,252,.7);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%; margin:0; font-family:Inter,system-ui,Arial; background:var(--bg); color:var(--ink)}
-    header{display:flex; align-items:center; justify-content:space-between; padding:14px 16px;
-      border-bottom:1px solid var(--line); background:rgba(255,255,255,.04); position:sticky; top:0; z-index:5}
-    .brand{font-weight:900; letter-spacing:.3px}
-    .muted{color:var(--muted); font-size:12px}
-    .wrap{display:grid; grid-template-columns: 1fr 1fr; height:calc(100vh - 56px)}
-    .col{border-right:1px solid var(--line)}
-    .col:last-child{border-right:0}
-    .pane{height:100%; display:flex; flex-direction:column}
-    .tabs{display:flex; gap:8px; padding:10px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.03); flex-wrap:wrap}
-    .tab{padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.2); color:var(--ink); cursor:pointer; font-weight:700; font-size:12px}
-    .tab.active{background:#fff; color:#0b0f17; border-color:#fff}
-    textarea{
-      flex:1; width:100%; resize:none; border:0; outline:none; padding:14px;
-      background:transparent; color:var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size:13px; line-height:1.5;
-    }
-    .actions{display:flex; gap:10px; padding:10px; border-top:1px solid var(--line); background:rgba(255,255,255,.03); flex-wrap:wrap}
-    .btn{padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:900}
-    .btn.primary{background:#fff; color:#0b0f17}
-    .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.14)}
-    iframe{flex:1; width:100%; border:0; background:#fff; border-radius:0}
-    .rightTop{display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--line);
-      background:rgba(255,255,255,.03)}
-    code.badge{padding:6px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(0,0,0,.2); font-size:12px; display:inline-flex; gap:10px; align-items:center}
-    .dot{width:8px;height:8px;border-radius:50%}
-    .dot.ok{background:#22c55e}
-    .dot.bad{background:#ef4444}
-    .dot.wait{background:#f59e0b}
-    .mini{font-size:11px; opacity:.85}
-    @media (max-width:980px){
-      .wrap{grid-template-columns:1fr; height:auto}
-      .col{border-right:0; border-bottom:1px solid var(--line)}
-      iframe{min-height:460px}
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div>
-      <div class="brand">RGZTEC • LAB</div>
-      <div class="muted">Sandbox / Kod Deneme Alanı (Dashboard ile karışmaz)</div>
-    </div>
+  <title>RGZTEC • LAB</title>
 
-    <!-- ✅ Added: API health indicator + quick links -->
-    <code class="badge" id="where">
-      <span class="dot wait" id="apiDot"></span>
-      <span class="mini" id="apiText">API: checking…</span>
-      <span style="opacity:.35">|</span>
-      <a href="../" style="color:#fff; text-decoration:none; font-weight:900">Home</a>
-      <a href="../seller/" style="color:#fff; text-decoration:none; font-weight:900">Seller</a>
-    </code>
+  <!-- Base (opsiyonel): senin sistem meta rgz-base kullanıyordu -->
+  <meta name="rgz-base" content="" />
+
+  <!-- Fonts (ana sitede ne varsa kalsın; Inter örneği) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- ✅ ANA SAYFA CSS (bunu senin gerçek dosyana göre ayarla) -->
+  <link rel="stylesheet" href="../assets/css/home.css" />
+
+  <!-- ✅ LAB Premium Override (aşağıda dosyasını veriyorum) -->
+  <link rel="stylesheet" href="./lab-premium.css" />
+</head>
+
+<body class="rgz-body rgz-lab">
+
+  <!-- =========================================================
+       HEADER (ANA SAYFA İLE AYNI OLMALI)
+       Eğer class/id farklıysa: Ana sayfadaki header'ı BURAYA birebir yapıştır.
+       ========================================================= -->
+  <header class="rgz-header">
+    <div class="rgz-header__inner">
+      <a class="rgz-brand" href="../index.html" aria-label="RGZTEC Home">
+        <span class="rgz-brand__logo"></span>
+        <span class="rgz-brand__name">RGZTEC</span>
+      </a>
+
+      <nav class="rgz-nav" aria-label="Primary">
+        <a class="rgz-nav__link" href="../store/">Store</a>
+        <a class="rgz-nav__link" href="../catalog/">Catalog</a>
+        <a class="rgz-nav__link" href="../seller/">Seller</a>
+        <a class="rgz-nav__link is-active" href="./">LAB</a>
+      </nav>
+
+      <div class="rgz-actions">
+        <a class="rgz-btn rgz-btn--ghost" href="../login/">Sign in</a>
+        <a class="rgz-btn rgz-btn--primary" href="../open-store.html">Open a Store</a>
+      </div>
+    </div>
   </header>
 
-  <div class="wrap">
-    <!-- LEFT: Editors -->
-    <div class="col pane">
-      <div class="tabs">
-        <button class="tab active" data-tab="html">HTML</button>
-        <button class="tab" data-tab="css">CSS</button>
-        <button class="tab" data-tab="js">JS</button>
+  <!-- =========================================================
+       HERO
+       ========================================================= -->
+  <main class="lab-shell">
+    <section class="lab-hero">
+      <div class="lab-hero__bg"></div>
 
-        <!-- ✅ Added: small ready snippets -->
-        <button class="tab" data-tab="snippet-fetch">Snippet: Fetch</button>
-        <button class="tab" data-tab="snippet-ui">Snippet: UI</button>
+      <div class="lab-hero__content">
+        <div class="lab-kicker">
+          <span class="lab-dot"></span>
+          <span>Experimental • Internal-grade • Production-minded</span>
+        </div>
+
+        <h1 class="lab-title">
+          RGZTEC LAB
+          <span class="lab-title__glow" aria-hidden="true"></span>
+        </h1>
+
+        <p class="lab-subtitle">
+          A premium playground to test UI components, data flows, fetch patterns, and micro-interactions —
+          without touching Store or Admin stability.
+        </p>
+
+        <div class="lab-cta">
+          <button class="lab-btn lab-btn--primary" id="btn-run">Run Demo</button>
+          <button class="lab-btn lab-btn--soft" id="btn-copy">Copy Snippet</button>
+          <a class="lab-btn lab-btn--ghost" href="../store/">Go to Store</a>
+        </div>
+
+        <div class="lab-metrics">
+          <div class="lab-metric">
+            <div class="lab-metric__k">Mode</div>
+            <div class="lab-metric__v">Safe Sandbox</div>
+          </div>
+          <div class="lab-metric">
+            <div class="lab-metric__k">Scope</div>
+            <div class="lab-metric__v">UI + Fetch + UX</div>
+          </div>
+          <div class="lab-metric">
+            <div class="lab-metric__k">Quality</div>
+            <div class="lab-metric__v">Ultra Premium</div>
+          </div>
+        </div>
       </div>
 
-      <textarea id="editor"></textarea>
+      <aside class="lab-panel">
+        <div class="lab-panel__top">
+          <div class="lab-badge">LIVE PREVIEW</div>
+          <div class="lab-chip">No Store CSS touched</div>
+        </div>
 
-      <div class="actions">
-        <button class="btn primary" id="run">Run</button>
-        <button class="btn ghost" id="reset">Reset</button>
-        <button class="btn ghost" id="share">Share Link</button>
-        <button class="btn ghost" id="openPreview">Open Preview in new tab</button>
+        <div class="lab-card">
+          <div class="lab-card__title">Demo Output</div>
+          <div class="lab-card__desc">Click “Run Demo” to simulate a production-like UI response.</div>
+
+          <div class="lab-output" id="out">
+            Ready. No actions executed yet.
+          </div>
+
+          <div class="lab-divider"></div>
+
+          <div class="lab-snippet">
+            <div class="lab-snippet__head">
+              <span>Snippet</span>
+              <span class="lab-snippet__tag">fetch + render</span>
+            </div>
+
+            <pre class="lab-code" id="code"><code>// RGZTEC LAB snippet
+async function demo(){
+  const res = await fetch("../data/store.data.json");
+  const data = await res.json();
+  return { ok:true, stores: (data?.stores?.length || 0) };
+}</code></pre>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- =========================================================
+         GRID
+         ========================================================= -->
+    <section class="lab-grid">
+      <article class="lab-box">
+        <h3>UI Components</h3>
+        <p>Buttons, cards, headers, banners — polished and brand-consistent.</p>
+        <div class="lab-tags">
+          <span class="lab-tag">layout</span><span class="lab-tag">tokens</span><span class="lab-tag">motion</span>
+        </div>
+      </article>
+
+      <article class="lab-box">
+        <h3>Data & Fetch</h3>
+        <p>Test JSON paths, caching, base resolution, and safe fallbacks.</p>
+        <div class="lab-tags">
+          <span class="lab-tag">fetch</span><span class="lab-tag">json</span><span class="lab-tag">fallback</span>
+        </div>
+      </article>
+
+      <article class="lab-box">
+        <h3>Micro UX</h3>
+        <p>Hover states, focus rings, skeletons, empty states — premium feel.</p>
+        <div class="lab-tags">
+          <span class="lab-tag">a11y</span><span class="lab-tag">states</span><span class="lab-tag">polish</span>
+        </div>
+      </article>
+    </section>
+
+    <footer class="lab-footer">
+      <div class="lab-footer__inner">
+        <div class="lab-footer__left">
+          <strong>RGZTEC</strong> • LAB
+          <span class="lab-footer__sep">—</span>
+          Built for quality-first iteration.
+        </div>
+        <div class="lab-footer__right">
+          <a href="../privacy.html">Privacy</a>
+          <a href="../index.html">Home</a>
+        </div>
       </div>
-    </div>
+    </footer>
+  </main>
 
-    <!-- RIGHT: Preview -->
-    <div class="pane">
-      <div class="rightTop">
-        <div class="muted">Live Preview</div>
-        <div class="muted" id="status">Ready</div>
-      </div>
-      <iframe id="preview" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
-    </div>
-  </div>
+  <script>
+    // Minimal safe interactions (no dependencies)
+    const out = document.getElementById("out");
+    const code = document.getElementById("code");
+    const btnRun = document.getElementById("btn-run");
+    const btnCopy = document.getElementById("btn-copy");
 
-<script>
-  // ===========================
-  // DEFAULTS
-  // ===========================
-  const DEFAULT = {
-    html: `<!doctype html>
-<html>
-<head><meta charset="utf-8"><title>RGZTEC LAB</title></head>
-<body>
-  <h1>RGZTEC LAB</h1>
-  <p>Burada HTML/CSS/JS test edebilirsin.</p>
-  <button id="btn">Click</button>
-  <div id="out"></div>
-</body>
-</html>`,
-    css: `body{font-family:system-ui,Arial; padding:24px}
-h1{margin:0 0 8px}
-button{padding:10px 12px; border-radius:10px; border:1px solid #ddd; cursor:pointer}`,
-    js: `document.getElementById("btn").addEventListener("click", ()=>{
-  document.getElementById("out").textContent = "OK ✅ " + new Date().toLocaleString();
-});`,
+    function now(){
+      const d = new Date();
+      return d.toLocaleTimeString();
+    }
 
-    // Extra tabs (snippets)
-    "snippet-fetch": `// Example: call your API health
-fetch("/api/health")
-  .then(r => r.json())
-  .then(d => console.log("API OK:", d))
-  .catch(e => console.error("API error:", e));`,
+    btnRun.addEventListener("click", async () => {
+      out.textContent = "Running demo…";
+      out.classList.add("is-loading");
 
-    "snippet-ui": `// Example: simple UI toast
-function toast(msg){
-  const t = document.createElement("div");
-  t.textContent = msg;
-  t.style.position="fixed";
-  t.style.right="16px";
-  t.style.bottom="16px";
-  t.style.padding="10px 12px";
-  t.style.border="1px solid rgba(0,0,0,.15)";
-  t.style.borderRadius="12px";
-  t.style.background="#fff";
-  t.style.boxShadow="0 10px 26px rgba(0,0,0,.12)";
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 1800);
-}
-toast("Hello from RGZTEC LAB ✅");`
-  };
-
-  const tabs = document.querySelectorAll(".tab");
-  const editor = document.getElementById("editor");
-  const preview = document.getElementById("preview");
-  const status = document.getElementById("status");
-
-  // ===========================
-  // STATE
-  // ===========================
-  let state = loadState();
-
-  function loadState(){
-    // 1) URL hash varsa onu oku
-    if (location.hash && location.hash.length > 1){
       try{
-        const json = decodeURIComponent(atob(location.hash.slice(1)));
-        const obj = JSON.parse(json);
-        return { ...DEFAULT, ...obj };
-      }catch(e){}
-    }
-    // 2) LocalStorage
-    try{
-      const saved = JSON.parse(localStorage.getItem("rgz_lab_state") || "null");
-      if (saved) return { ...DEFAULT, ...saved };
-    }catch(e){}
-    return { ...DEFAULT };
-  }
+        // Example: safe fetch (may 404 depending on your path; handles gracefully)
+        const res = await fetch("../data/store.data.json", { cache: "no-store" });
+        const ok = res.ok;
 
-  function saveState(){
-    localStorage.setItem("rgz_lab_state", JSON.stringify(state));
-  }
+        let stores = 0;
+        if(ok){
+          const data = await res.json();
+          stores = (data?.stores?.length || 0);
+        }
 
-  function activeTab(){
-    return document.querySelector(".tab.active").dataset.tab;
-  }
+        out.classList.remove("is-loading");
+        out.textContent = ok
+          ? `[${now()}] OK • store.data.json loaded • stores: ${stores}`
+          : `[${now()}] WARN • Could not load ../data/store.data.json (status: ${res.status})`;
 
-  function setActive(tab){
-    tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
-    editor.value = state[tab] || "";
-  }
+      }catch(err){
+        out.classList.remove("is-loading");
+        out.textContent = `[${now()}] ERROR • ${String(err?.message || err)}`;
+      }
+    });
 
-  tabs.forEach(t=>{
-    t.addEventListener("click", ()=> setActive(t.dataset.tab));
-  });
-
-  editor.addEventListener("input", ()=>{
-    const tab = activeTab();
-    state[tab] = editor.value;
-    saveState();
-  });
-
-  // ===========================
-  // PREVIEW
-  // ===========================
-  function buildDoc(){
-    const html = state.html || "";
-    const css = `<style>${state.css || ""}</style>`;
-    const js  = `<script>${state.js || ""}<\/script>`;
-    // HTML içine CSS ve JS enjekte et
-    if (html.includes("</head>")){
-      return html.replace("</head>", css + "\n</head>").replace("</body>", js + "\n</body>");
-    }
-    return css + "\n" + html + "\n" + js;
-  }
-
-  function run(){
-    status.textContent = "Running…";
-    const doc = buildDoc();
-    preview.srcdoc = doc;
-    setTimeout(()=> status.textContent = "Live", 150);
-  }
-
-  document.getElementById("run").addEventListener("click", run);
-
-  document.getElementById("reset").addEventListener("click", ()=>{
-    state = { ...DEFAULT };
-    saveState();
-    setActive(activeTab());
-    run();
-  });
-
-  document.getElementById("share").addEventListener("click", async ()=>{
-    try{
-      const payload = btoa(encodeURIComponent(JSON.stringify(state)));
-      const url = location.origin + location.pathname + "#" + payload;
-      await navigator.clipboard.writeText(url);
-      status.textContent = "Link copied ✅";
-      setTimeout(()=> status.textContent = "Live", 800);
-    }catch(e){
-      status.textContent = "Copy failed";
-    }
-  });
-
-  // Open preview in new tab (uses srcdoc)
-  document.getElementById("openPreview").addEventListener("click", ()=>{
-    const w = window.open("", "_blank");
-    if (!w) return;
-    w.document.open();
-    w.document.write(buildDoc());
-    w.document.close();
-  });
-
-  // ===========================
-  // API HEALTH INDICATOR (NEW)
-  // ===========================
-  async function checkApi(){
-    const dot = document.getElementById("apiDot");
-    const txt = document.getElementById("apiText");
-    dot.className = "dot wait";
-    txt.textContent = "API: checking…";
-    try{
-      const r = await fetch("/api/health", { cache:"no-store" });
-      if(!r.ok) throw new Error("HTTP " + r.status);
-      const d = await r.json().catch(()=>({}));
-      dot.className = "dot ok";
-      txt.textContent = "API: ok";
-      // Small detail in title (optional)
-      // txt.textContent = "API: ok • " + (d.ts ? new Date(d.ts).toLocaleTimeString() : "");
-    }catch(e){
-      dot.className = "dot bad";
-      txt.textContent = "API: offline";
-    }
-  }
-
-  // init
-  setActive("html");
-  run();
-  checkApi();
-</script>
+    btnCopy.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(code.innerText);
+        btnCopy.textContent = "Copied";
+        setTimeout(()=> btnCopy.textContent = "Copy Snippet", 1100);
+      }catch(e){
+        btnCopy.textContent = "Copy failed";
+        setTimeout(()=> btnCopy.textContent = "Copy Snippet", 1100);
+      }
+    });
+  </script>
 </body>
 </html>
+
 
