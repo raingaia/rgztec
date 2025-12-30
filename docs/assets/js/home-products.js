@@ -1,30 +1,27 @@
 (function () {
   "use strict";
 
-  // -----------------------------
-  // 1) BASE & PATH CONFIG (AUTO)
-  // -----------------------------
-  const resolveBase = () => {
-    // 1) meta override varsa onu kullan
+  // ===============================
+  // RGZTEC HOME PRODUCTS (AWS Amplify Safe)
+  // - Reads from /data/store.data.json (static)
+  // - Survives SPA rewrites (detects HTML)
+  // - Extracts stores from different schemas
+  // ===============================
+
+  // 1) BASE (GH Pages + Amplify compatible)
+  function resolveBase() {
     const meta = document.querySelector('meta[name="rgz-base"]');
-    if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
+    if (meta?.content) return String(meta.content).trim().replace(/\/+$/, "");
 
-    // 2) otomatik yakalama: /rgztec/ altında mı?
     const p = location.pathname || "/";
-    // örn: https://domain.com/rgztec/index.html  => base "/rgztec"
-    const m = p.match(/^\/([^/]+)(\/|$)/);
-    const top = m ? `/${m[1]}` : "";
-    // İstersen burada whitelist yap: sadece "/rgztec" ise base al
-    if (top === "/rgztec") return "/rgztec";
-
-    return "";
-  };
+    // GitHub Pages alt path (opsiyonel)
+    return p.includes("/rgztec/") ? "/rgztec" : "";
+  }
 
   const BASE = resolveBase();
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
-  const enc = (s) => encodeURIComponent(String(s ?? ""));
 
-  // URL Helpers
+  const enc = (s) => encodeURIComponent(String(s ?? ""));
   const STORE_URL = (slug) => withBase(`/store/${enc(slug)}/`);
   const STORE_SECTION_URL = (storeSlug, sectionSlug) =>
     withBase(`/store/${enc(storeSlug)}/${enc(sectionSlug)}/`);
@@ -33,81 +30,140 @@
   const STORE_IMAGE_BASE = ASSET_URL("images/store/");
   const PLACEHOLDER_IMG = ASSET_URL("images/placeholder.png");
 
-  // API
-  const CATALOG_URL = withBase("/api/catalog.json");
+  // ✅ Amplify’de önerilen: static data
+  const DATA_URL = withBase("/data/store.data.json");
 
-  // -----------------------------
   // 2) BOOT
-  // -----------------------------
   document.addEventListener("DOMContentLoaded", () => {
-    boot().catch((err) => console.error("RGZTEC boot error:", err));
+    boot().catch((err) => console.error("RGZTEC Home boot error:", err));
   });
 
   async function boot() {
-    const stores = await loadCatalogStores(CATALOG_URL);
+    const result = await fetchJsonSafe(DATA_URL);
+    const stores = extractStores(result);
 
-    if (stores.length > 0) {
-      renderGallery(stores);
-      renderSubNav(stores);
-      initMegaMenu(stores);
-    } else {
-      console.warn("RGZTEC: stores boş geldi.");
+    if (!stores.length) {
+      // minimum teşhis mesajı
+      console.warn("RGZTEC: stores boş. (Data path veya schema kontrol)");
+      showEmptyState();
+      initSearchEngine(); // arama yine çalışsın
+      return;
     }
 
+    renderGallery(stores);
+    renderSubNav(stores);
+    initMegaMenu(stores);
     initSearchEngine();
-    console.log(`RGZTEC: ${stores.length} mağaza yüklendi. BASE="${BASE}"`);
+
+    console.log(`RGZTEC: ${stores.length} stores loaded. BASE="${BASE}" DATA="${DATA_URL}"`);
   }
 
-  // -----------------------------
-  // 3) DATA LOAD (SAFE)
-  // -----------------------------
-  async function loadCatalogStores(url) {
+  // 3) FETCH (Amplify rewrite-safe)
+  async function fetchJsonSafe(url) {
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 12000); // 12s timeout
+    const t = setTimeout(() => ctrl.abort(), 12000);
 
     try {
       const res = await fetch(url, {
         method: "GET",
         cache: "no-store",
         signal: ctrl.signal,
-        headers: { "Accept": "application/json" },
+        headers: { Accept: "application/json" },
       });
 
       if (!res.ok) {
-        throw new Error(`catalog fetch failed: ${res.status} ${res.statusText}`);
+        throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
       }
 
-      const result = await res.json().catch(() => ({}));
-      const stores = Array.isArray(result?.stores)
-        ? result.stores
-        : Array.isArray(result?.data?.stores)
-          ? result.data.stores
-          : [];
+      const ct = (res.headers.get("content-type") || "").toLowerCase();
+      const text = await res.text();
 
-      // normalize / temizle
-      return stores
-        .filter(Boolean)
-        .map((s) => ({
-          slug: String(s.slug ?? "").trim(),
-          title: String(s.title ?? s.name ?? "Untitled Store").trim(),
-          tagline: String(s.tagline ?? s.description ?? "").trim(),
-          isFeatured: Boolean(s.isFeatured),
-          sections: Array.isArray(s.sections) ? s.sections : [],
-        }))
-        .filter((s) => s.slug); // slug olmayanı at
+      // 🔥 Amplify SPA rewrite data'yı yutarsa HTML döner. Burada yakalıyoruz.
+      const looksLikeHtml = /<html|<!doctype/i.test(text);
+      if (looksLikeHtml) {
+        throw new Error(
+          `Data route got HTML (SPA rewrite). Fix Amplify rewrites to bypass /data/*. URL=${url}`
+        );
+      }
+
+      // JSON parse
+      try {
+        return JSON.parse(text);
+      } catch {
+        throw new Error(`JSON parse failed. First 120 chars: ${text.slice(0, 120)}`);
+      }
     } finally {
       clearTimeout(t);
     }
   }
 
-  // -----------------------------
-  // 4) UI RENDER
-  // -----------------------------
+  // 4) STORE EXTRACT (senin "tek beyin" şema toleranslı)
+  function extractStores(result) {
+    if (!result || typeof result !== "object") return [];
+
+    // 1) klasik: { stores: [] }
+    if (Array.isArray(result.stores)) return normalizeStores(result.stores);
+    if (Array.isArray(result.data?.stores)) return normalizeStores(result.data.stores);
+
+    // 2) muhtemel RGZTEC şemaları
+    const arrCandidates = [
+      result.root?.stores,
+      result.catalog?.stores,
+      result.market?.stores,
+      result.tree?.stores,
+      result.nav?.stores,
+      result.storesIndex,
+    ].filter(Boolean);
+
+    for (const c of arrCandidates) {
+      if (Array.isArray(c)) return normalizeStores(c);
+    }
+
+    // 3) map: { "slug": {...}, ... }
+    const mapCandidates = [
+      result.root?.storesMap,
+      result.catalog?.storesMap,
+      result.storesMap,
+      result.stores, // bazen object map oluyor
+    ].filter(Boolean);
+
+    for (const m of mapCandidates) {
+      if (m && typeof m === "object" && !Array.isArray(m)) {
+        return normalizeStores(Object.values(m));
+      }
+    }
+
+    // 4) Son çare: "stores" string key’li objeler içinde tarama
+    // (çok düşük ihtimal, ama kurtarıcı)
+    for (const k of Object.keys(result)) {
+      const v = result[k];
+      if (v && typeof v === "object") {
+        if (Array.isArray(v?.stores)) return normalizeStores(v.stores);
+        if (v?.storesMap && typeof v.storesMap === "object") return normalizeStores(Object.values(v.storesMap));
+      }
+    }
+
+    return [];
+  }
+
+  function normalizeStores(arr) {
+    return (arr || [])
+      .filter(Boolean)
+      .map((s) => ({
+        slug: String(s.slug ?? s.id ?? "").trim(),
+        title: String(s.title ?? s.name ?? "Untitled Store").trim(),
+        tagline: String(s.tagline ?? s.description ?? "").trim(),
+        isFeatured: Boolean(s.isFeatured ?? s.featured),
+        sections: Array.isArray(s.sections) ? s.sections : [],
+      }))
+      .filter((s) => s.slug);
+  }
+
+  // 5) UI RENDER
   function renderGallery(data) {
     const gallery = document.getElementById("gallery");
     if (!gallery) return;
 
-    // Daha stabil ve hızlı: fragment ile bas
     const frag = document.createDocumentFragment();
 
     data.forEach((store) => {
@@ -123,9 +179,7 @@
       img.alt = store.title || "Store";
       img.loading = "lazy";
       img.decoding = "async";
-      img.addEventListener("error", () => {
-        img.src = PLACEHOLDER_IMG;
-      });
+      img.addEventListener("error", () => (img.src = PLACEHOLDER_IMG));
 
       aMedia.appendChild(img);
 
@@ -164,18 +218,14 @@
     if (!list) return;
 
     list.innerHTML = data
+      .slice(0, 30) // subnav çok şişmesin
       .map(
         (s) =>
-          `<div class="sub-nav-item">
-             <a href="${STORE_URL(s.slug)}">${escapeHtml(s.title)}</a>
-           </div>`
+          `<div class="sub-nav-item"><a href="${STORE_URL(s.slug)}">${escapeHtml(s.title)}</a></div>`
       )
       .join("");
   }
 
-  // -----------------------------
-  // 5) MEGA MENU (FIX + CLOSE)
-  // -----------------------------
   function initMegaMenu(data) {
     const listEl = document.getElementById("categories-list");
     const detailEl = document.getElementById("categories-detail");
@@ -186,9 +236,11 @@
     listEl.innerHTML = data
       .map(
         (s, i) => `
-        <button class="cat-item ${i === 0 ? "cat-item--active" : ""}" type="button" data-slug="${escapeAttr(s.slug)}">
-          <span>${escapeHtml(s.title)}</span>
-        </button>`
+      <button class="cat-item ${i === 0 ? "cat-item--active" : ""}" type="button" data-slug="${escapeAttr(
+          s.slug
+        )}">
+        <span>${escapeHtml(s.title)}</span>
+      </button>`
       )
       .join("");
 
@@ -202,34 +254,26 @@
       if (store) renderDetail(store, detailEl);
     };
 
-    // Hover + click destekle (mobilde hover yok)
     listEl.querySelectorAll(".cat-item").forEach((item) => {
       item.addEventListener("mouseenter", () => setActive(item.dataset.slug));
       item.addEventListener("click", () => setActive(item.dataset.slug));
     });
 
-    // Toggle
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       header.classList.toggle("has-cat-open");
-      btn.setAttribute("aria-expanded", header.classList.contains("has-cat-open") ? "true" : "false");
     });
 
-    // Dışarı tıkla kapan
+    // outside click close
     document.addEventListener("click", (e) => {
       if (!header.classList.contains("has-cat-open")) return;
-      const isInside = header.contains(e.target);
-      if (!isInside) header.classList.remove("has-cat-open");
-      btn.setAttribute("aria-expanded", "false");
+      if (!header.contains(e.target)) header.classList.remove("has-cat-open");
     });
 
-    // ESC ile kapan
+    // esc close
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && header.classList.contains("has-cat-open")) {
-        header.classList.remove("has-cat-open");
-        btn.setAttribute("aria-expanded", "false");
-      }
+      if (e.key === "Escape") header.classList.remove("has-cat-open");
     });
   }
 
@@ -240,11 +284,10 @@
     const subtitle = store.tagline || "Browse all sections and featured items.";
 
     const links = (store.sections || [])
-      .slice(0, 10) // aşırı şişmesin
+      .slice(0, 10)
       .map((sec) => {
         const name = String(sec?.name ?? sec?.title ?? "").trim();
         if (!name) return "";
-        // sectionSlug varsa onu kullan; yoksa isimden üret
         const sectionSlug = String(sec?.slug ?? "").trim() || slugify(name);
         return `<a href="${STORE_SECTION_URL(store.slug, sectionSlug)}">${escapeHtml(name)}</a>`;
       })
@@ -260,9 +303,7 @@
       </div>`;
   }
 
-  // -----------------------------
   // 6) SEARCH
-  // -----------------------------
   function initSearchEngine() {
     const input = document.querySelector(".search-input");
     const btn = document.querySelector(".search-btn");
@@ -280,9 +321,21 @@
     });
   }
 
-  // -----------------------------
-  // 7) HELPERS
-  // -----------------------------
+  // 7) EMPTY STATE (opsiyonel)
+  function showEmptyState() {
+    const gallery = document.getElementById("gallery");
+    if (!gallery) return;
+    gallery.innerHTML = `
+      <div style="padding:32px; border:1px solid #eee; border-radius:16px; background:#fff;">
+        <div style="font-weight:700; font-size:18px; margin-bottom:6px;">Stores are not loading</div>
+        <div style="opacity:.75; line-height:1.5;">
+          Check <code>/data/store.data.json</code> is reachable and Amplify rewrites bypass <code>/data/*</code>.
+        </div>
+      </div>
+    `;
+  }
+
+  // 8) HELPERS
   function escapeHtml(str) {
     const p = document.createElement("p");
     p.textContent = String(str ?? "");
@@ -294,7 +347,6 @@
   }
 
   function cssEscape(str) {
-    // basit css selector escape
     return String(str ?? "").replace(/["\\]/g, "\\$&");
   }
 
@@ -307,4 +359,5 @@
       .replace(/^-+|-+$/g, "");
   }
 })();
+
 
