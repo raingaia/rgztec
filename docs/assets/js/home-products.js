@@ -2,26 +2,26 @@
   "use strict";
 
   // ===============================
-  // RGZTEC HOME PRODUCTS (AWS Amplify Safe)
-  // - Reads from /data/store.data.json (static)
-  // - Survives SPA rewrites (detects HTML)
-  // - Extracts stores from different schemas
+  // RGZTEC HOME PRODUCTS (AWS Amplify SAFE - Single File)
+  // - No import/module needed
+  // - Fetches /data/store.data.json
+  // - Detects SPA rewrite (HTML returned instead of JSON)
+  // - Extracts stores from many schemas
   // ===============================
 
-  // 1) BASE (GH Pages + Amplify compatible)
   function resolveBase() {
     const meta = document.querySelector('meta[name="rgz-base"]');
     if (meta?.content) return String(meta.content).trim().replace(/\/+$/, "");
-
     const p = location.pathname || "/";
-    // GitHub Pages alt path (opsiyonel)
     return p.includes("/rgztec/") ? "/rgztec" : "";
   }
 
   const BASE = resolveBase();
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
-
   const enc = (s) => encodeURIComponent(String(s ?? ""));
+
+  const DATA_URL = withBase("/data/store.data.json");
+
   const STORE_URL = (slug) => withBase(`/store/${enc(slug)}/`);
   const STORE_SECTION_URL = (storeSlug, sectionSlug) =>
     withBase(`/store/${enc(storeSlug)}/${enc(sectionSlug)}/`);
@@ -30,26 +30,37 @@
   const STORE_IMAGE_BASE = ASSET_URL("images/store/");
   const PLACEHOLDER_IMG = ASSET_URL("images/placeholder.png");
 
-  // ✅ Amplify’de önerilen: static data
-  const DATA_URL = withBase("/data/store.data.json");
-
-  // 2) BOOT
   document.addEventListener("DOMContentLoaded", () => {
-    boot().catch((err) => console.error("RGZTEC Home boot error:", err));
+    boot().catch((e) => {
+      console.error("RGZTEC boot error:", e);
+      showDebug(`BOOT ERROR: ${String(e?.message || e)}`);
+    });
   });
 
   async function boot() {
+    // 0) DOM target var mı?
+    const gallery = document.getElementById("gallery");
+    if (!gallery) {
+      showDebug(`Missing #gallery in HTML. Add: <section id="gallery"></section>`);
+      initSearchEngine(); // search yine çalışsın
+      return;
+    }
+
+    // 1) Data çek
     const result = await fetchJsonSafe(DATA_URL);
     const stores = extractStores(result);
 
     if (!stores.length) {
-      // minimum teşhis mesajı
-      console.warn("RGZTEC: stores boş. (Data path veya schema kontrol)");
-      showEmptyState();
-      initSearchEngine(); // arama yine çalışsın
+      showDebug(
+        `Stores array is empty after parsing.\n` +
+        `DATA_URL: ${DATA_URL}\n` +
+        `Fix: ensure JSON contains stores or tell me your schema keys.`
+      );
+      initSearchEngine();
       return;
     }
 
+    // 2) Render
     renderGallery(stores);
     renderSubNav(stores);
     initMegaMenu(stores);
@@ -58,7 +69,9 @@
     console.log(`RGZTEC: ${stores.length} stores loaded. BASE="${BASE}" DATA="${DATA_URL}"`);
   }
 
-  // 3) FETCH (Amplify rewrite-safe)
+  // -----------------------------
+  // FETCH (Rewrite-safe)
+  // -----------------------------
   async function fetchJsonSafe(url) {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 12000);
@@ -71,41 +84,49 @@
         headers: { Accept: "application/json" },
       });
 
-      if (!res.ok) {
-        throw new Error(`Fetch failed: ${res.status} ${res.statusText}`);
-      }
-
-      const ct = (res.headers.get("content-type") || "").toLowerCase();
       const text = await res.text();
 
-      // 🔥 Amplify SPA rewrite data'yı yutarsa HTML döner. Burada yakalıyoruz.
-      const looksLikeHtml = /<html|<!doctype/i.test(text);
-      if (looksLikeHtml) {
-        throw new Error(
-          `Data route got HTML (SPA rewrite). Fix Amplify rewrites to bypass /data/*. URL=${url}`
-        );
+      if (!res.ok) {
+        showDebug(`FETCH FAILED\nStatus: ${res.status} ${res.statusText}\nURL: ${url}\nFirst120: ${text.slice(0,120)}`);
+        throw new Error(`Fetch failed: ${res.status}`);
       }
 
-      // JSON parse
+      // 🔥 Amplify SPA rewrite yutarsa HTML döner
+      if (/<html|<!doctype/i.test(text)) {
+        showDebug(
+          `AMPLIFY REWRITE PROBLEM ⚠️\n` +
+          `JSON yerine HTML geldi.\n` +
+          `URL: ${url}\n\n` +
+          `Çözüm: Amplify Rewrites sırası:\n` +
+          `1) /data/<*>  -> /data/<*>  (200)\n` +
+          `2) /assets/<*>-> /assets/<*> (200)\n` +
+          `3) /<*>       -> /index.html (200)\n`
+        );
+        throw new Error("Data route returned HTML (rewrite).");
+      }
+
       try {
         return JSON.parse(text);
       } catch {
-        throw new Error(`JSON parse failed. First 120 chars: ${text.slice(0, 120)}`);
+        showDebug(`JSON PARSE FAILED\nURL: ${url}\nFirst200: ${text.slice(0,200)}`);
+        throw new Error("JSON parse failed.");
       }
     } finally {
       clearTimeout(t);
     }
   }
 
-  // 4) STORE EXTRACT (senin "tek beyin" şema toleranslı)
+  // -----------------------------
+  // STORE EXTRACT (Schema tolerant)
+  // -----------------------------
   function extractStores(result) {
     if (!result || typeof result !== "object") return [];
 
-    // 1) klasik: { stores: [] }
+    // A) klasik
     if (Array.isArray(result.stores)) return normalizeStores(result.stores);
     if (Array.isArray(result.data?.stores)) return normalizeStores(result.data.stores);
 
-    // 2) muhtemel RGZTEC şemaları
+    // B) RGZTEC tek-beyin muhtemel yollar
     const arrCandidates = [
       result.root?.stores,
       result.catalog?.stores,
@@ -113,33 +134,23 @@
       result.tree?.stores,
       result.nav?.stores,
       result.storesIndex,
+      result.index?.stores,
     ].filter(Boolean);
 
-    for (const c of arrCandidates) {
-      if (Array.isArray(c)) return normalizeStores(c);
-    }
+    for (const c of arrCandidates) if (Array.isArray(c)) return normalizeStores(c);
 
-    // 3) map: { "slug": {...}, ... }
+    // C) map yapıları
     const mapCandidates = [
+      result.storesMap,
       result.root?.storesMap,
       result.catalog?.storesMap,
-      result.storesMap,
+      result.nav?.storesMap,
       result.stores, // bazen object map oluyor
     ].filter(Boolean);
 
     for (const m of mapCandidates) {
       if (m && typeof m === "object" && !Array.isArray(m)) {
         return normalizeStores(Object.values(m));
-      }
-    }
-
-    // 4) Son çare: "stores" string key’li objeler içinde tarama
-    // (çok düşük ihtimal, ama kurtarıcı)
-    for (const k of Object.keys(result)) {
-      const v = result[k];
-      if (v && typeof v === "object") {
-        if (Array.isArray(v?.stores)) return normalizeStores(v.stores);
-        if (v?.storesMap && typeof v.storesMap === "object") return normalizeStores(Object.values(v.storesMap));
       }
     }
 
@@ -159,7 +170,9 @@
       .filter((s) => s.slug);
   }
 
-  // 5) UI RENDER
+  // -----------------------------
+  // UI
+  // -----------------------------
   function renderGallery(data) {
     const gallery = document.getElementById("gallery");
     if (!gallery) return;
@@ -188,7 +201,7 @@
 
       const h3 = document.createElement("h3");
       h3.className = "card-title";
-      h3.textContent = store.title || "Untitled Store";
+      h3.textContent = store.title;
 
       const p = document.createElement("p");
       p.className = "card-desc";
@@ -218,11 +231,8 @@
     if (!list) return;
 
     list.innerHTML = data
-      .slice(0, 30) // subnav çok şişmesin
-      .map(
-        (s) =>
-          `<div class="sub-nav-item"><a href="${STORE_URL(s.slug)}">${escapeHtml(s.title)}</a></div>`
-      )
+      .slice(0, 30)
+      .map((s) => `<div class="sub-nav-item"><a href="${STORE_URL(s.slug)}">${escapeHtml(s.title)}</a></div>`)
       .join("");
   }
 
@@ -234,25 +244,22 @@
     if (!listEl || !detailEl || !btn || !header) return;
 
     listEl.innerHTML = data
-      .map(
-        (s, i) => `
-      <button class="cat-item ${i === 0 ? "cat-item--active" : ""}" type="button" data-slug="${escapeAttr(
-          s.slug
-        )}">
-        <span>${escapeHtml(s.title)}</span>
-      </button>`
+      .map((s, i) => `
+        <button class="cat-item ${i === 0 ? "cat-item--active" : ""}" type="button" data-slug="${escapeAttr(s.slug)}">
+          <span>${escapeHtml(s.title)}</span>
+        </button>`
       )
       .join("");
 
-    renderDetail(data[0], detailEl);
+    setActive(data[0].slug);
 
-    const setActive = (slug) => {
+    function setActive(slug) {
       listEl.querySelectorAll(".cat-item").forEach((b) => b.classList.remove("cat-item--active"));
-      const btnEl = listEl.querySelector(`.cat-item[data-slug="${cssEscape(slug)}"]`);
-      if (btnEl) btnEl.classList.add("cat-item--active");
+      const el = listEl.querySelector(`.cat-item[data-slug="${cssEscape(slug)}"]`);
+      if (el) el.classList.add("cat-item--active");
       const store = data.find((x) => x.slug === slug);
       if (store) renderDetail(store, detailEl);
-    };
+    }
 
     listEl.querySelectorAll(".cat-item").forEach((item) => {
       item.addEventListener("mouseenter", () => setActive(item.dataset.slug));
@@ -265,23 +272,16 @@
       header.classList.toggle("has-cat-open");
     });
 
-    // outside click close
     document.addEventListener("click", (e) => {
       if (!header.classList.contains("has-cat-open")) return;
       if (!header.contains(e.target)) header.classList.remove("has-cat-open");
     });
 
-    // esc close
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") header.classList.remove("has-cat-open");
-    });
+    document.addEventListener("keydown", (e) => e.key === "Escape" && header.classList.remove("has-cat-open"));
   }
 
   function renderDetail(store, container) {
     if (!store || !container) return;
-
-    const title = store.title || "Untitled Store";
-    const subtitle = store.tagline || "Browse all sections and featured items.";
 
     const links = (store.sections || [])
       .slice(0, 10)
@@ -295,15 +295,14 @@
       .join("");
 
     container.innerHTML = `
-      <div class="cat-detail-title">${escapeHtml(title)}</div>
-      <div class="cat-detail-subtitle">${escapeHtml(subtitle)}</div>
+      <div class="cat-detail-title">${escapeHtml(store.title)}</div>
+      <div class="cat-detail-subtitle">${escapeHtml(store.tagline || "")}</div>
       <div class="cat-detail-links">
         ${links || ""}
         <a href="${STORE_URL(store.slug)}">View All</a>
       </div>`;
   }
 
-  // 6) SEARCH
   function initSearchEngine() {
     const input = document.querySelector(".search-input");
     const btn = document.querySelector(".search-btn");
@@ -316,40 +315,38 @@
     };
 
     btn.addEventListener("click", run);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") run();
-    });
+    input.addEventListener("keydown", (e) => e.key === "Enter" && run());
   }
 
-  // 7) EMPTY STATE (opsiyonel)
-  function showEmptyState() {
-    const gallery = document.getElementById("gallery");
-    if (!gallery) return;
-    gallery.innerHTML = `
-      <div style="padding:32px; border:1px solid #eee; border-radius:16px; background:#fff;">
-        <div style="font-weight:700; font-size:18px; margin-bottom:6px;">Stores are not loading</div>
-        <div style="opacity:.75; line-height:1.5;">
-          Check <code>/data/store.data.json</code> is reachable and Amplify rewrites bypass <code>/data/*</code>.
-        </div>
-      </div>
-    `;
+  // -----------------------------
+  // DEBUG OVERLAY (makes it obvious)
+  // -----------------------------
+  function showDebug(msg) {
+    let box = document.getElementById("rgz-debug");
+    if (!box) {
+      box = document.createElement("pre");
+      box.id = "rgz-debug";
+      box.style.cssText =
+        "position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;" +
+        "background:#111;color:#fff;padding:12px 14px;border-radius:12px;" +
+        "font:12px/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;" +
+        "white-space:pre-wrap;box-shadow:0 10px 30px rgba(0,0,0,.35);";
+      document.body.appendChild(box);
+    }
+    box.textContent = `RGZTEC DEBUG\n\n${msg}`;
   }
 
-  // 8) HELPERS
   function escapeHtml(str) {
     const p = document.createElement("p");
     p.textContent = String(str ?? "");
     return p.innerHTML;
   }
-
   function escapeAttr(str) {
     return String(str ?? "").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
-
   function cssEscape(str) {
     return String(str ?? "").replace(/["\\]/g, "\\$&");
   }
-
   function slugify(s) {
     return String(s ?? "")
       .toLowerCase()
@@ -359,5 +356,6 @@
       .replace(/^-+|-+$/g, "");
   }
 })();
+
 
 
