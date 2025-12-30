@@ -1,14 +1,20 @@
-import { readJson } from "../apps/rgz/lib/storage.js";
-
-export default async function handler(req, res) {
-  try {
-    const latestPath = process.env.CATALOG_LATEST_PATH || "catalog/latest.json";
-    const data = await readJson(latestPath);
-    if (!data) return res.status(404).json({ ok: false, error: "CATALOG_NOT_FOUND" });
-
-    res.setHeader("Cache-Control", "public, max-age=30, stale-while-revalidate=300");
-    return res.status(200).json({ ok: true, data });
-  } catch (e) {
-    return res.status(500).json({ ok: false, error: "CATALOG_READ_FAILED", message: e?.message || String(e) });
+async function loadCategories() {
+  const response = await fetch('/api/catalog'); // Senin handler fonksiyonuna gider
+  const result = await response.json();
+  
+  if (result.ok) {
+    const catalogData = result.data;
+    // catalogData içindeki kategorileri (Category 1, 2 vb.) bul ve 
+    // Ana sayfadaki yatay menüye (Hardware Lab, Game Makers vb.) bas
+    renderCategoryMenu(catalogData.categories); 
   }
+}
+
+function renderCategoryMenu(categories) {
+  const menuContainer = document.querySelector('.categories-nav'); // Menü sınıfın
+  menuContainer.innerHTML = categories.map(cat => `
+    <button class="nav-item" onclick="filterByCategory('${cat.id}')">
+      ${cat.name}
+    </button>
+  `).join('');
 }
