@@ -120,55 +120,42 @@
   // STORE EXTRACT (Schema tolerant)
   // -----------------------------
   function extractStores(result) {
-    if (!result || typeof result !== "object") return [];
+  if (!result || typeof result !== "object") return [];
 
-    // A) klasik
-    if (Array.isArray(result.stores)) return normalizeStores(result.stores);
-    if (Array.isArray(result.data?.stores)) return normalizeStores(result.data.stores);
+  // ✅ Senin şema: { "slug": { title, tagline, sections... }, ... }
+  // Eğer result doğrudan store-map ise:
+  if (!Array.isArray(result) && !result.stores && !result.data?.stores) {
+    const keys = Object.keys(result);
+    // hızlı validasyon: en az 1 store objesi var mı?
+    const looksLikeStoreMap = keys.some((k) => {
+      const v = result[k];
+      return v && typeof v === "object" && ("title" in v || "tagline" in v || "sections" in v);
+    });
 
-    // B) RGZTEC tek-beyin muhtemel yollar
-    const arrCandidates = [
-      result.root?.stores,
-      result.catalog?.stores,
-      result.market?.stores,
-      result.tree?.stores,
-      result.nav?.stores,
-      result.storesIndex,
-      result.index?.stores,
-    ].filter(Boolean);
-
-    for (const c of arrCandidates) if (Array.isArray(c)) return normalizeStores(c);
-
-    // C) map yapıları
-    const mapCandidates = [
-      result.storesMap,
-      result.root?.storesMap,
-      result.catalog?.storesMap,
-      result.nav?.storesMap,
-      result.stores, // bazen object map oluyor
-    ].filter(Boolean);
-
-    for (const m of mapCandidates) {
-      if (m && typeof m === "object" && !Array.isArray(m)) {
-        return normalizeStores(Object.values(m));
-      }
+    if (looksLikeStoreMap) {
+      return normalizeStoresFromMap(result);
     }
-
-    return [];
   }
 
-  function normalizeStores(arr) {
-    return (arr || [])
-      .filter(Boolean)
-      .map((s) => ({
-        slug: String(s.slug ?? s.id ?? "").trim(),
-        title: String(s.title ?? s.name ?? "Untitled Store").trim(),
-        tagline: String(s.tagline ?? s.description ?? "").trim(),
-        isFeatured: Boolean(s.isFeatured ?? s.featured),
-        sections: Array.isArray(s.sections) ? s.sections : [],
-      }))
-      .filter((s) => s.slug);
-  }
+  // Eski destekler (kalsın)
+  if (Array.isArray(result.stores)) return normalizeStores(result.stores);
+  if (Array.isArray(result.data?.stores)) return normalizeStores(result.data.stores);
+
+  return [];
+}
+
+function normalizeStoresFromMap(map) {
+  return Object.entries(map)
+    .map(([slug, s]) => ({
+      slug: String(slug ?? "").trim(),
+      title: String(s?.title ?? s?.name ?? "Untitled Store").trim(),
+      tagline: String(s?.tagline ?? s?.description ?? "").trim(),
+      isFeatured: Boolean(s?.isFeatured ?? s?.featured),
+      banner: String(s?.banner ?? ""),
+      sections: Array.isArray(s?.sections) ? s.sections : [],
+    }))
+    .filter((x) => x.slug);
+}
 
   // -----------------------------
   // UI
