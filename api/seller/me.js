@@ -1,12 +1,8 @@
 import { db } from "../_lib/firebase.js";
 import { verifyToken, getBearer } from "../_lib/auth.js";
 
-function json(res, status, payload) {
-  return res.status(status).json(payload);
-}
-function err(res, status, code, message) {
-  return json(res, status, { ok: false, error: { code, message } });
-}
+function json(res, status, payload) { return res.status(status).json(payload); }
+function err(res, status, code, message) { return json(res, status, { ok:false, error:{ code, message } }); }
 
 export default async function handler(req, res) {
   if (req.method !== "GET") return err(res, 405, "METHOD_NOT_ALLOWED", "Method not allowed");
@@ -21,7 +17,6 @@ export default async function handler(req, res) {
     }
 
     const sellerId = String(payload.sellerId);
-
     const snap = await db.collection("sellers").doc(sellerId).get();
     if (!snap.exists) return err(res, 404, "SELLER_NOT_FOUND", "Seller not found");
 
@@ -30,18 +25,10 @@ export default async function handler(req, res) {
 
     return json(res, 200, {
       ok: true,
-      session: {
-        sellerId,
-        role: "seller",
-        sessionId: payload.sessionId || null
-      },
-      seller: {
-        id: sellerId,
-        name: data.name || sellerId,
-        active: true
-      }
+      session: { sellerId, role: "seller", sessionId: payload.sessionId || null },
+      seller: { id: sellerId, name: data.name || sellerId, active: true }
     });
-  } catch (e) {
+  } catch {
     return err(res, 500, "SERVER_ERROR", "Server error");
   }
 }
