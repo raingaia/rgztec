@@ -714,6 +714,69 @@
 window.StoreShell = window.StoreShell || {};
 window.StoreShell.base = BASE;
 window.StoreShell.withBase = withBase;
+// ---- DİNAMİK VERİ ENJEKSİYONU (YAPIYI BOZMADAN) ----
+  async function syncWithLiveApi() {
+    try {
+      // Senin handler fonksiyonuna istek atıyoruz
+      const response = await fetch(withBase('/api/catalog')); 
+      const result = await response.json();
 
+      if (result.ok && result.data && Array.isArray(result.data.stores)) {
+        const liveData = result.data.stores;
+
+        // Mevcut fonksiyonlarını yeni veriyle tekrar tetikle
+        renderGallery(liveData);
+        renderSubNav(liveData);
+        initMegaMenu(liveData);
+        
+        console.log("RGZTEC LIVE • Mağazalar API'den güncellendi.");
+      }
+    } catch (err) {
+      console.warn("API Bağlantısı kurulamadı, statik verilerle devam ediliyor.");
+    }
+  }
+
+  // Sayfa yüklendiğinde canlı veriyi çekmeyi dene
+  document.addEventListener("DOMContentLoaded", syncWithLiveApi);
+
+  // SEARCH TETİKLEYİCİ (Arama butonunu canlandırır)
+  const searchBtn = document.querySelector('.search-btn');
+  const searchInput = document.querySelector('.search-input');
+  if (searchBtn && searchInput) {
+    const runSearch = () => {
+      const q = searchInput.value.trim();
+      if(q) window.location.href = withBase(`/search.html?q=${enc(q)}`);
+    };
+    searchBtn.addEventListener('click', runSearch);
+    searchInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') runSearch(); });
+  }
+  // ---- SEARCH ENGINE (YAPIYI BOZMADAN EKLE) ----
+  const searchInput = document.querySelector('.search-input');
+  const searchBtn = document.querySelector('.search-btn');
+
+  if (searchInput && searchBtn) {
+    const handleSearch = () => {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        // Kullanıcıyı arama sonuçları sayfasına, base path'i koruyarak gönderir
+        // apps/core/search-logic.js bu URL parametresini yakalayıp sonuçları getirecek
+        window.location.href = withBase(`/search.html?q=${enc(query)}`);
+      }
+    };
+
+    // Büyüteç butonuna tıklandığında ara
+    searchBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleSearch();
+    });
+
+    // Enter tuşuna basıldığında ara
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSearch();
+      }
+    });
+  }
 })();
 
