@@ -10,15 +10,10 @@
 (function () {
   "use strict";
 
-  // ---------- BASE RESOLVER ----------
   function resolveBase() {
-    // 1) Optional meta override: <meta name="rgz-base" content="/rgztec">
-    const meta = document.querySelector('meta[name="rgz-base"]');
-    if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
-
-    // 2) Auto-detect
-    const p = location.pathname || "/";
-    return p.includes("/rgztec/") ? "/rgztec" : "";
+    // AWS Amplify'da site ana dizinden çalıştığı için burayı boş bırakıyoruz.
+    // Bu sayede tüm assets ve store linkleri doğru yolu bulacak.
+    return ""; 
   }
 
   const BASE = resolveBase(); // "" or "/rgztec"
