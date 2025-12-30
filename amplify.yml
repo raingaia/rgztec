@@ -3,16 +3,14 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm install # 'npm ci' yerine bunu kullanıyoruz (lock dosyası sormaz)
     build:
       commands:
-        - npm run build
-        - cp -r docs/* .next/static/ # Statik dosyaları Next.js'in içine kopyalıyoruz
+        - npm run build:static # Senin özel build komutun
   artifacts:
-    baseDirectory: .next
+    baseDirectory: docs # Build sonucunda her şeyin docs içine çıktığını varsayıyorum
     files:
       - '**/*'
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
