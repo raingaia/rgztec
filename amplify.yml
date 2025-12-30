@@ -6,9 +6,11 @@ frontend:
         - npm install
     build:
       commands:
-        - npm run build:static  # Kendi özel scriptini çalıştır
-        - npx next build        # Next.js'i zorla derle
+        - npm run build:static
   artifacts:
-    baseDirectory: .next
+    baseDirectory: docs # Kritik ayar burası!
     files:
       - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
