@@ -3,27 +3,16 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci # Next.js için gerekli paketleri kur
+        - npm ci
     build:
       commands:
-        - npm run build # Hem statik hem dinamik her şeyi derle
+        - npm run build
+        - cp -r docs/* .next/static/ # Statik dosyaları Next.js'in içine kopyalıyoruz
   artifacts:
-    baseDirectory: .next # Next.js'in ana çıktı klasörü
+    baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
-
-# Burası kritik: Statik dosyalar ve Dinamik rotalar birbirini ezmesin
-customRules:
-  - source: "/docs/<*>"
-    target: "/docs/<*>"
-    status: "200"
-  - source: "/store/<*>"
-    target: "/index.html"
-    status: "200"
-  - source: "</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>"
-    target: "/index.html"
-    status: "200"
