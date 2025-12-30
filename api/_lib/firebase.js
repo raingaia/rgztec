@@ -1,25 +1,10 @@
 import admin from "firebase-admin";
 
-let app;
-
-export function getFirebase() {
-  if (app) return admin;
-
-  const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-  if (!raw) throw new Error("Missing FIREBASE_SERVICE_ACCOUNT_JSON env var.");
-
-  const serviceAccount = JSON.parse(raw);
-
-  if (!admin.apps.length) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    });
-  }
-
-  app = admin.app();
-  return admin;
+if (!admin.apps.length) {
+  // En pratik yöntem: GOOGLE_APPLICATION_CREDENTIALS ya da service account json
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+  });
 }
 
-export function db() {
-  return getFirebase().firestore();
-}
+export const db = admin.firestore();
