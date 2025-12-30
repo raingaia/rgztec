@@ -1,16 +1,29 @@
 version: 1
 frontend:
   phases:
+    preBuild:
+      commands:
+        - npm ci # Next.js için gerekli paketleri kur
     build:
-      commands: []
+      commands:
+        - npm run build # Hem statik hem dinamik her şeyi derle
   artifacts:
-    baseDirectory: docs
+    baseDirectory: .next # Next.js'in ana çıktı klasörü
     files:
-      - "**/*"
+      - '**/*'
   cache:
-    paths: []
-# Bu kısım alt sayfaların (store/dev-studio-one gibi) 404 vermesini engeller
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
+
+# Burası kritik: Statik dosyalar ve Dinamik rotalar birbirini ezmesin
 customRules:
-  - source: </^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>
-    target: /index.html
-    status: 200
+  - source: "/docs/<*>"
+    target: "/docs/<*>"
+    status: "200"
+  - source: "/store/<*>"
+    target: "/index.html"
+    status: "200"
+  - source: "</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>"
+    target: "/index.html"
+    status: "200"
