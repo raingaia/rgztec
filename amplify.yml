@@ -3,12 +3,12 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install
+        - npm install # Paketleri kurar
     build:
       commands:
-        - npm run build:static
+        - npm run build:static # Senin özel scriptini çalıştırır
   artifacts:
-    baseDirectory: .next # Statik ve dinamiğin birleştiği yer
+    baseDirectory: docs # Ana sayfanın olduğu klasör
     files:
       - '**/*'
   cache:
