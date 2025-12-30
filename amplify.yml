@@ -3,17 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - node -v
+        - npm ci || npm install
     build:
       commands:
-        - node scripts/build-search-index.mjs || echo "skip build-search-index"
         - node scripts/copy-docs-data.mjs
-        - echo "Publish docs/"
   artifacts:
     baseDirectory: docs
     files:
       - '**/*'
   cache:
-    paths: []
+    paths:
+      - node_modules/**/*
+
 
 
