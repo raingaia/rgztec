@@ -1,0 +1,310 @@
+/* =========================================================
+   RGZTEC LAB • Ultra Premium (isolated)
+   - Uses home.css for header branding
+   - Adds LAB-only visuals
+   ========================================================= */
+
+:root{
+  --lab-bg: #0b1020;
+  --lab-card: rgba(255,255,255,.06);
+  --lab-card2: rgba(255,255,255,.08);
+  --lab-border: rgba(255,255,255,.12);
+  --lab-text: rgba(255,255,255,.92);
+  --lab-muted: rgba(255,255,255,.68);
+  --lab-soft: rgba(255,255,255,.10);
+  --lab-glow: rgba(99,102,241,.35);
+  --lab-glow2: rgba(79,70,229,.35);
+  --lab-radius: 22px;
+}
+
+body.rgz-lab{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1100px 700px at 80% 0%, rgba(99,102,241,.22), transparent 55%),
+              radial-gradient(900px 600px at 10% 10%, rgba(79,70,229,.18), transparent 55%),
+              linear-gradient(180deg, #070a14 0%, #0b1020 100%);
+  color: var(--lab-text);
+}
+
+/* Header: ana sayfa CSS’i kullanıyor; sadece LAB’de küçük uyum */
+.rgz-header{
+  backdrop-filter: blur(10px);
+  background: rgba(10,14,28,.55);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.rgz-header__inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.rgz-nav{ display:flex; gap: 14px; flex:1; justify-content:center; }
+.rgz-nav__link{
+  color: rgba(255,255,255,.78);
+  text-decoration:none;
+  font-weight:600;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+.rgz-nav__link:hover{ background: rgba(255,255,255,.08); color: rgba(255,255,255,.92); }
+.rgz-nav__link.is-active{ background: rgba(99,102,241,.18); color:#fff; }
+
+.rgz-actions{ display:flex; gap: 10px; }
+.rgz-btn{
+  text-decoration:none;
+  font-weight:700;
+  padding: 10px 14px;
+  border-radius: 14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.rgz-btn--ghost{
+  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.04);
+}
+.rgz-btn--primary{
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(135deg, rgba(79,70,229,.95), rgba(99,102,241,.95));
+  box-shadow: 0 18px 44px rgba(79,70,229,.25);
+}
+
+.lab-shell{ max-width: 1200px; margin: 0 auto; padding: 26px 18px 40px; }
+
+.lab-hero{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 18px;
+  padding: 22px;
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0,0,0,.35);
+}
+
+.lab-hero__bg{
+  position:absolute; inset:-2px;
+  background:
+    radial-gradient(900px 400px at 20% 10%, rgba(99,102,241,.22), transparent 60%),
+    radial-gradient(800px 500px at 90% 30%, rgba(79,70,229,.18), transparent 62%),
+    radial-gradient(700px 500px at 55% 100%, rgba(255,255,255,.06), transparent 62%);
+  pointer-events:none;
+  filter: saturate(110%);
+}
+
+.lab-hero__content{ position: relative; padding: 16px 14px 10px; }
+.lab-kicker{
+  display:inline-flex; align-items:center; gap:10px;
+  color: rgba(255,255,255,.72);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing:.02em;
+}
+.lab-dot{
+  width:10px; height:10px; border-radius:999px;
+  background: radial-gradient(circle at 30% 30%, #fff, #6366f1);
+  box-shadow: 0 0 0 6px rgba(99,102,241,.15);
+}
+
+.lab-title{
+  margin: 18px 0 10px;
+  font-size: 54px;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  position: relative;
+}
+.lab-title__glow{
+  position:absolute;
+  inset: -18px -30px -22px -30px;
+  background: radial-gradient(450px 180px at 30% 40%, rgba(99,102,241,.28), transparent 65%),
+              radial-gradient(380px 160px at 65% 55%, rgba(79,70,229,.22), transparent 70%);
+  filter: blur(10px);
+  z-index:-1;
+}
+
+.lab-subtitle{
+  max-width: 640px;
+  color: rgba(255,255,255,.72);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.lab-cta{ display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 18px; }
+
+.lab-btn{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.92);
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.lab-btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.07); }
+.lab-btn--primary{
+  background: linear-gradient(135deg, rgba(79,70,229,.95), rgba(99,102,241,.95));
+  box-shadow: 0 18px 44px rgba(79,70,229,.22);
+}
+.lab-btn--soft{
+  background: rgba(99,102,241,.14);
+  border-color: rgba(99,102,241,.25);
+}
+.lab-btn--ghost{
+  background: rgba(255,255,255,.03);
+}
+
+.lab-metrics{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.lab-metric{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  border-radius: 18px;
+  padding: 12px 12px;
+}
+.lab-metric__k{ color: rgba(255,255,255,.58); font-size: 12px; font-weight: 800; letter-spacing:.02em; }
+.lab-metric__v{ margin-top: 6px; font-weight: 900; }
+
+.lab-panel{ position: relative; padding: 14px; }
+.lab-panel__top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin: 8px 6px 12px; }
+.lab-badge{
+  font-weight: 900;
+  letter-spacing:.08em;
+  font-size: 11px;
+  color: rgba(255,255,255,.86);
+}
+.lab-chip{
+  font-weight: 800;
+  font-size: 12px;
+  color: rgba(255,255,255,.72);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  padding: 8px 10px;
+  border-radius: 999px;
+}
+
+.lab-card{
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+  padding: 16px;
+  box-shadow: 0 26px 70px rgba(0,0,0,.35);
+}
+.lab-card__title{ font-weight: 900; font-size: 14px; letter-spacing:-0.01em; }
+.lab-card__desc{ color: rgba(255,255,255,.66); margin: 8px 0 12px; line-height:1.5; }
+
+.lab-output{
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.25);
+  padding: 14px;
+  color: rgba(255,255,255,.86);
+  font-weight: 700;
+  min-height: 58px;
+  display:flex;
+  align-items:center;
+}
+.lab-output.is-loading{
+  color: rgba(255,255,255,.70);
+  opacity: .85;
+}
+
+.lab-divider{
+  height: 1px;
+  background: rgba(255,255,255,.10);
+  margin: 14px 0;
+}
+
+.lab-snippet__head{
+  display:flex; align-items:center; justify-content:space-between;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.lab-snippet__tag{
+  font-weight: 900;
+  font-size: 11px;
+  color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.lab-code{
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.35);
+  padding: 14px;
+  overflow:auto;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.86);
+}
+
+.lab-grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.lab-box{
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  padding: 18px;
+}
+.lab-box h3{ margin: 0 0 8px; font-weight: 950; letter-spacing:-0.02em; }
+.lab-box p{ margin:0; color: rgba(255,255,255,.68); line-height: 1.55; }
+
+.lab-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 12px; }
+.lab-tag{
+  font-weight: 900;
+  font-size: 11px;
+  color: rgba(255,255,255,.72);
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.05);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.lab-footer{
+  margin-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.10);
+  padding-top: 16px;
+}
+.lab-footer__inner{
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  color: rgba(255,255,255,.70);
+  font-weight: 700;
+}
+.lab-footer__right{ display:flex; gap:12px; }
+.lab-footer__right a{ color: rgba(255,255,255,.78); text-decoration:none; }
+.lab-footer__right a:hover{ color:#fff; }
+.lab-footer__sep{ margin: 0 10px; opacity: .5; }
+
+@media (max-width: 980px){
+  .lab-hero{ grid-template-columns: 1fr; }
+  .lab-grid{ grid-template-columns: 1fr; }
+  .lab-title{ font-size: 44px; }
+  .rgz-nav{ display:none; }
+}
