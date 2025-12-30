@@ -1,84 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>RGZTEC • Seller Access</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RGZTEC • Seller Dashboard</title>
 
-  <!-- Store Core -->
-  <link rel="stylesheet" href="/assets/css/store.tokens.css" />
-  <link rel="stylesheet" href="/assets/css/store.layout.css" />
-  <link rel="stylesheet" href="/assets/css/store.components.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Seller Auth -->
-  <link rel="stylesheet" href="/assets/css/auth.seller.css" />
+  <link rel="stylesheet" href="/assets/css/seller.dashboard.css" />
 </head>
-<body class="store-body auth-body">
 
-  <!-- Header (aynı store header) -->
-  <header class="store-header">
-    <div class="container">
-      <div class="logo">RGZTEC</div>
-      <nav class="nav">
-        <a href="/store/">Store</a>
-        <a href="/open-store.html">Open a Store</a>
-      </nav>
-    </div>
-  </header>
+<body class="sd-body">
+  <!-- AUTH GUARD -->
+  <script>
+    (async () => {
+      const token = localStorage.getItem("rgz_seller_token");
+      if (!token) return location.replace("/seller/login/");
+      try {
+        const r = await fetch("/api/seller/me", { headers: { Authorization: "Bearer " + token }});
+        if (!r.ok) throw 0;
+      } catch {
+        localStorage.removeItem("rgz_seller_token");
+        location.replace("/seller/login/");
+      }
+    })();
+  </script>
 
-  <!-- Auth -->
-  <main class="auth-wrapper">
-    <section class="auth-card">
-      <h1>Seller Sign In</h1>
-      <p class="muted">
-        Secure access to your Seller Panel
-      </p>
+  <!-- store-shell sende varsa yükle (opsiyonel) -->
+  <!-- <script src="/assets/js/store-shell.js"></script> -->
 
-      <form id="loginForm">
-        <label>
-          Seller ID
-          <input id="sellerId" placeholder="acme-store" required />
-        </label>
+  <main id="seller-dashboard-root"></main>
 
-        <label>
-          Access Key
-          <input id="accessKey" placeholder="RGZ-XXXX-XXXX" required />
-        </label>
-
-        <button type="submit" class="btn-primary">
-          Sign In
-        </button>
-
-        <p class="hint">
-          This panel is protected by RGZTEC API authentication.
-        </p>
-      </form>
-    </section>
-  </main>
-
-<script>
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const sellerId = sellerIdInput = document.getElementById("sellerId").value;
-  const accessKey = document.getElementById("accessKey").value;
-
-  const res = await fetch("/api/seller/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sellerId, accessKey })
-  });
-
-  const data = await res.json();
-  if (!data.ok) {
-    alert(data.error?.message || "Login failed");
-    return;
-  }
-
-  localStorage.setItem("rgz_seller_token", data.token);
-  location.href = "/seller/";
-});
-</script>
+  <script type="module">
+    import { SellerDashboard } from "/assets/js/seller/dashboard.js";
+    SellerDashboard.mount({
+      root: "#seller-dashboard-root",
+      shell: window.StoreShell || null
+    });
+  </script>
 </body>
 </html>
 
