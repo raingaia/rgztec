@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  // ----------------------------
+  // BASE RESOLUTION
+  // ----------------------------
   function resolveBase() {
     const meta = document.querySelector('meta[name="rgz-base"]');
     if (meta?.content) return String(meta.content).trim().replace(/\/+$/, "");
@@ -12,21 +15,34 @@
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
   const enc = (s) => encodeURIComponent(String(s ?? ""));
 
+  // ----------------------------
+  // ROUTES / SOURCES
+  // ----------------------------
   const PUBLIC = {
-    stores: withBase("/data/store.data.json"),       // ✅ snapshot
+    // ✅ Snapshot (static)
+    stores: withBase("/data/store.data.json"),
+
+    // ✅ JSON fallbacks (API çalışmazsa)
+    categories: withBase("/api/data/categories.json"),
+    searchIndex: withBase("/api/data/search.index.json"),
   };
 
   const API = {
-    categories: withBase("/api/categories"),         // ✅ live
-    search: withBase("/api/search"),                 // ✅ live
+    // ✅ Live endpoints (varsa)
+    categories: withBase("/api/categories"),
+    search: withBase("/api/search"),
   };
 
   const URLS = {
     STORE: (slug) => withBase(`/store/${enc(slug)}/`),
-    STORE_SECTION: (storeSlug, sectionSlug) => withBase(`/store/${enc(storeSlug)}/${enc(sectionSlug)}/`),
+    STORE_SECTION: (storeSlug, sectionSlug) =>
+      withBase(`/store/${enc(storeSlug)}/${enc(sectionSlug)}/`),
     ASSET: (p) => withBase(`/assets/${String(p ?? "").replace(/^\/+/, "")}`),
   };
 
+  // ----------------------------
+  // FETCH JSON (SAFE)
+  // ----------------------------
   async function fetchJson(url, { timeout = 12000 } = {}) {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), timeout);
@@ -46,21 +62,118 @@
     }
   }
 
-  // ✅ STORES = snapshot (API’ye bağımlı değil)
+  // ----------------------------
+  // STORES (SNAPSHOT)
+  // ----------------------------
   async function getStores() {
     return await fetchJson(PUBLIC.stores);
   }
 
-  // ✅ CATEGORIES = always API
+  // ----------------------------
+  // CATEGORIES (API -> FALLBACK JSON)
+  // ----------------------------
   async function getCategories() {
-    return await fetchJson(API.categories);
+    try {
+      return await fetchJson(API.categories);
+    } catch (e) {
+      return await fetchJson(PUBLIC.categories);
+    }
   }
 
-  // ✅ SEARCH = always API
+  // ----------------------------
+  // SEARCH (API -> FALLBACK INDEX.JSON)
+  // ----------------------------
+  let __searchIndexCache = null;
+
+  async function getSearchIndex() {
+    if (__searchIndexCache) return __searchIndexCache;
+    __searchIndexCache = await fetchJson(PUBLIC.searchIndex);
+    return __searchIndexCache;
+  }
+
+  function norm(s) {
+    return String(s ?? "").toLowerCase().trim();
+  }
+
+  function makeHay(it) {
+    // aramada store + section + product alanlarını topluyoruz
+    return norm(
+      [
+        it.type,
+        it.title,
+        it.tagline,
+        it.store,
+        it.section,
+        it.id,
+        it.category,
+        it.keywords,
+      ]
+        .flat()
+        .filter(Boolean)
+        .join(" ")
+    );
+  }
+
+  function computeHref(it) {
+    // kart basmıyoruz => yönlendirme
+    // product da olsa section’a/ store’a götür
+    if (it.store && it.section) return URLS.STORE_SECTION(it.store, it.section);
+    if (it.store) return URLS.STORE(it.store);
+    if (it.href) return withBase(it.href);
+    return "";
+  }
+
   async function search(q) {
-    const url = `${API.search}?q=${enc(q)}`;
-    return await fetchJson(url);
+    const query = norm(q);
+    if (!query) return { q: "", results: [] };
+
+    // 1) Live API
+    try {
+      const url = `${API.search}?q=${enc(q)}`;
+      return await fetchJson(url);
+    } catch (e) {
+      // 2) Fallback: search.index.json üzerinde local filtre
+      const data = await getSearchIndex();
+      const items = Array.isArray(data?.items) ? data.items : [];
+
+      const results = items
+        .map((it) => ({
+          ...it,
+          _hay: makeHay(it),
+        }))
+        .filter((it) => it._hay.includes(query))
+        .slice(0, 14)
+        .map((it) => ({
+          type: it.type || "item",
+          title: it.title || it.name || it.store || "Untitled",
+          tagline: it.tagline || "",
+          store: it.store || "",
+          section: it.section || "",
+          id: it.id || "",
+          href: computeHref(it),
+        }));
+
+      return { q, results };
+    }
   }
 
-  window.RGZ = { BASE, withBase, enc, PUBLIC, API, URLS, fetchJson, getStores, getCategories, search };
+  // ----------------------------
+  // EXPORT
+  // ----------------------------
+  window.RGZ = {
+    BASE,
+    withBase,
+    enc,
+    PUBLIC,
+    API,
+    URLS,
+    fetchJson,
+    getStores,
+    getCategories,
+    search,
+
+    // debug helpers (istersen console’da bak)
+    _getSearchIndex: getSearchIndex,
+  };
 })();
+
