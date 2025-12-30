@@ -1,0 +1,1070 @@
+{
+  "game-makers": {
+    "title": "Game Makers",
+    "tagline": "Unity & Unreal templates, UI kits and game-ready assets.",
+    "banner": "game-makers.webp",
+    "sections": [
+      {
+        "slug": "prototypes",
+        "name": "Prototypes",
+        "tagline": "Game-ready concepts and kits.",
+        "banner": "banners/gm-prototypes.webp",
+        "products": [
+          {
+            "id": "gm001",
+            "title": "Ultimate 3D Prototyping Kit",
+            "tagline": "Build and test 3D game concepts fast.",
+            "image": "products/gm-proto-kit.webp"
+          }
+        ]
+      },
+      {
+        "slug": "ui-hud",
+        "name": "UI & HUD",
+        "tagline": "Sci-fi, fantasy, and modern UI.",
+        "banner": "banners/gm-ui-hud.webp",
+        "products": [
+          {
+            "id": "gm002",
+            "title": "Sci-Fi UI & HUD Pack",
+            "tagline": "Cyberpunk-style UI elements.",
+            "image": "products/gm-scifi-ui.webp"
+          },
+          {
+            "id": "gm003",
+            "title": "Fantasy RPG UI Kit",
+            "tagline": "Hand-painted UI for fantasy RPGs.",
+            "image": "products/gm-fantasy-ui.webp"
+          }
+        ]
+      },
+      {
+        "slug": "unity-2d",
+        "name": "Unity 2D",
+        "tagline": "2D controllers, assets, and tools.",
+        "banner": "banners/gm-unity-2d.webp",
+        "products": [
+          {
+            "id": "gm004",
+            "title": "2D Platformer Controller",
+            "tagline": "Physics-based controller for Unity 2D.",
+            "image": "products/gm-unity-2d.webp"
+          }
+        ]
+      },
+      {
+        "slug": "unity-3d",
+        "name": "Unity 3D",
+        "tagline": "3D models, shaders, and systems.",
+        "banner": "banners/gm-unity-3d.webp",
+        "products": [
+          {
+            "id": "gm005",
+            "title": "Modular 3D Village Pack",
+            "tagline": "Low-poly assets for building 3D villages.",
+            "image": "products/gm-unity-3d.webp"
+          }
+        ]
+      },
+      {
+        "slug": "unreal",
+        "name": "Unreal",
+        "tagline": "Blueprints, Metahumans, and VFX.",
+        "banner": "banners/gm-unreal.webp",
+        "products": [
+          {
+            "id": "gm006",
+            "title": "Advanced Unreal 5 Metahuman",
+            "tagline": "Photorealistic, game-ready character model.",
+            "image": "products/gm-metahuman.webp"
+          }
+        ]
+      },
+      {
+        "slug": "vfx-sfx",
+        "name": "VFX & SFX",
+        "tagline": "Visual effects and sound packs.",
+        "banner": "banners/gm-vfx.webp",
+        "products": [
+          {
+            "id": "gm007",
+            "title": "Magic Spells VFX Pack",
+            "tagline": "Over 100 magical effects (fire, ice, arcane).",
+            "image": "products/gm-vfx.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "ai-tools-hub": {
+    "title": "AI Tools Hub",
+    "tagline": "Agents, automations and AI workflows.",
+    "banner": "ai-tools-hub.webp",
+    "sections": [
+      {
+        "slug": "agents",
+        "name": "Agents",
+        "tagline": "Autonomous AI agents.",
+        "banner": "banners/ai-agents.webp",
+        "products": [
+          {
+            "id": "ai001",
+            "title": "Autonomous Sales Agent",
+            "tagline": "AI agent to manage and qualify incoming leads.",
+            "image": "products/ai-sales-agent.webp"
+          }
+        ]
+      },
+      {
+        "slug": "analytics",
+        "name": "Analytics",
+        "tagline": "AI-powered data analysis.",
+        "banner": "banners/ai-analytics.webp",
+        "products": [
+          {
+            "id": "ai002",
+            "title": "Sentiment Analysis API",
+            "tagline": "Real-time sentiment scoring for user feedback.",
+            "image": "products/ai-analytics.webp"
+          }
+        ]
+      },
+      {
+        "slug": "automations",
+        "name": "Automations",
+        "tagline": "Connect your AI workflows.",
+        "banner": "banners/ai-automations.webp",
+        "products": [
+          {
+            "id": "ai003",
+            "title": "Workflow: Notion to Twitter",
+            "tagline": "Automatically create and schedule Twitter threads.",
+            "image": "products/ai-notion-twitter.webp"
+          }
+        ]
+      },
+      {
+        "slug": "generators",
+        "name": "Generators",
+        "tagline": "Content and code generators.",
+        "banner": "banners/ai-generators.webp",
+        "products": [
+          {
+            "id": "ai004",
+            "title": "AI Blog Post Generator",
+            "tagline": "Generate full articles from a single headline.",
+            "image": "products/ai-generator.webp"
+          }
+        ]
+      },
+      {
+        "slug": "integrations",
+        "name": "Integrations",
+        "tagline": "Plug-and-play AI APIs.",
+        "banner": "banners/ai-integrations.webp",
+        "products": [
+          {
+            "id": "ai005",
+            "title": "GPT-4 Vision API Connector",
+            "tagline": "Integrate vision capabilities into your app.",
+            "image": "products/ai-vision-api.webp"
+          }
+        ]
+      },
+      {
+        "slug": "prompts",
+        "name": "Prompts",
+        "tagline": "Expert-level prompt libraries.",
+        "banner": "banners/ai-prompts.webp",
+        "products": [
+          {
+            "id": "ai006",
+            "title": "The CEO Prompt Pack",
+            "tagline": "1000+ high-level prompts for business strategy.",
+            "image": "products/ai-ceo-prompts.webp"
+          }
+        ]
+      },
+      {
+        "slug": "utilities",
+        "name": "Utilities",
+        "tagline": "AI helper tools.",
+        "banner": "banners/ai-utilities.webp",
+        "products": [
+          {
+            "id": "ai007",
+            "title": "Prompt Optimizer Tool",
+            "tagline": "Refine your prompts for better AI responses.",
+            "image": "products/ai-prompt-util.webp"
+          }
+        ]
+      },
+      {
+        "slug": "workflows",
+        "name": "Workflows",
+        "tagline": "Pre-built AI processes.",
+        "banner": "banners/ai-workflows.webp",
+        "products": [
+          {
+            "id": "ai008",
+            "title": "Customer Support AI Workflow",
+            "tagline": "Automate 80% of your customer support tickets.",
+            "image": "products/ai-workflow.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "dev-studio-one": {
+    "title": "Dev Studio One",
+    "tagline": "Starters, dashboards and design systems.",
+    "banner": "dev-studio-one.webp",
+    "sections": [
+      {
+        "slug": "api-boilerplates",
+        "name": "API Boilerplates",
+        "tagline": "Ready-to-deploy API starters.",
+        "banner": "banners/ds-api.webp",
+        "products": [
+          {
+            "id": "ds001",
+            "title": "FastAPI Production Boilerplate",
+            "tagline": "Includes JWT, alembic migrations, and testing.",
+            "image": "products/ds-fastapi.webp"
+          }
+        ]
+      },
+      {
+        "slug": "auth-stacks",
+        "name": "Auth Stacks",
+        "tagline": "Secure authentication solutions.",
+        "banner": "banners/ds-auth.webp",
+        "products": [
+          {
+            "id": "ds002",
+            "title": "Next.js + Supabase Auth",
+            "tagline": "Pre-built authentication stack with RLS security.",
+            "image": "products/ds-next-supabase.webp"
+          }
+        ]
+      },
+      {
+        "slug": "dashboard-kits",
+        "name": "Dashboard Kits",
+        "tagline": "Admin dashboards (React, Vue).",
+        "banner": "banners/ds-dashboards.webp",
+        "products": [
+          {
+            "id": "ds003",
+            "title": "Apex Dashboard UI Kit (React)",
+            "tagline": "Complete admin dashboard with 50+ components.",
+            "image": "products/ds-apex-dashboard.webp"
+          }
+        ]
+      },
+      {
+        "slug": "design-systems",
+        "name": "Design Systems",
+        "tagline": "Figma and code component libraries.",
+        "banner": "banners/ds-design.webp",
+        "products": [
+          {
+            "id": "ds004",
+            "title": "Corporate Figma Design System",
+            "tagline": "1000+ components for professional branding.",
+            "image": "products/ds-figma-system.webp"
+          }
+        ]
+      },
+      {
+        "slug": "html-starters",
+        "name": "HTML Starters",
+        "tagline": "Astro, 11ty, and HTML5 starters.",
+        "banner": "banners/ds-starters.webp",
+        "products": [
+          {
+            "id": "ds005",
+            "title": "Astro.js Blog Starter",
+            "tagline": "A lightweight, fast starter for content sites.",
+            "image": "products/ds-astro-starter.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "email-forge": {
+    "title": "Email Forge",
+    "tagline": "High-converting email templates.",
+    "banner": "email-forge.webp",
+    "sections": [
+      {
+        "slug": "drip-flows",
+        "name": "Drip Flows",
+        "tagline": "Automated email sequences.",
+        "banner": "banners/ef-drip.webp",
+        "products": [
+          {
+            "id": "ef001",
+            "title": "Abandoned Cart Flow (Klaviyo)",
+            "tagline": "3-email sequence to recover lost sales.",
+            "image": "products/ef-drip.webp"
+          }
+        ]
+      },
+      {
+        "slug": "marketing-campaigns",
+        "name": "Marketing Campaigns",
+        "tagline": "Templates for sales & promos.",
+        "banner": "banners/ef-campaigns.webp",
+        "products": [
+          {
+            "id": "ef002",
+            "title": "Black Friday Campaign Kit",
+            "tagline": "10 high-impact templates for Black Friday.",
+            "image": "products/ef-campaign.webp"
+          }
+        ]
+      },
+      {
+        "slug": "newsletters",
+        "name": "Newsletters",
+        "tagline": "Beautiful newsletter designs.",
+        "banner": "banners/ef-newsletters.webp",
+        "products": [
+          {
+            "id": "ef003",
+            "title": "The 'Curator' Newsletter Template",
+            "tagline": "Minimalist template for curated content.",
+            "image": "products/ef-newsletter.webp"
+          }
+        ]
+      },
+      {
+        "slug": "notifications",
+        "name": "Notifications",
+        "tagline": "SaaS and app notification templates.",
+        "banner": "banners/ef-notifications.webp",
+        "products": [
+          {
+            "id": "ef004",
+            "title": "SaaS Notification Pack (MJML)",
+            "tagline": "15 essential notification templates for any SaaS.",
+            "image": "products/ef-saas-pack.webp"
+          }
+        ]
+      },
+      {
+        "slug": "onboarding",
+        "name": "Onboarding",
+        "tagline": "Welcome and activation flows.",
+        "banner": "banners/ef-onboarding.webp",
+        "products": [
+          {
+            "id": "ef005",
+            "title": "5-Day Welcome Sequence",
+            "tagline": "High-converting email onboarding flow.",
+            "image": "products/ef-welcome-seq.webp"
+          }
+        ]
+      },
+      {
+        "slug": "receipts-invoices",
+        "name": "Receipts & Invoices",
+        "tagline": "Transactional receipt templates.",
+        "banner": "banners/ef-receipts.webp",
+        "products": [
+          {
+            "id": "ef006",
+            "title": "CleanStore Receipt Template",
+            "tagline": "Beautiful, simple receipt for e-commerce.",
+            "image": "products/ef-receipt.webp"
+          }
+        ]
+      },
+      {
+        "slug": "transactional",
+        "name": "Transactional",
+        "tagline": "Password resets, confirmations.",
+        "banner": "banners/ef-transactional.webp",
+        "products": [
+          {
+            "id": "ef007",
+            "title": "Password Reset Template",
+            "tagline": "Secure and clear password reset email.",
+            "image": "products/ef-transactional.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "hardware": {
+    "title": "Hardware Lab",
+    "tagline": "AI accelerators, dev boards, and edge devices.",
+    "banner": "hardware.webp",
+    "sections": [
+      {
+        "slug": "ai-accelerators",
+        "name": "AI Accelerators",
+        "tagline": "Edge TPU, Neural Sticks, and more.",
+        "banner": "banners/hw-ai.webp",
+        "products": [
+          {
+            "id": "hw001",
+            "title": "RGZ-Edge AI Accelerator",
+            "tagline": "Powerful TensorFlow Lite processing.",
+            "image": "products/hw-accelerator.webp"
+          },
+          {
+            "id": "hw002",
+            "title": "Neural Compute Stick v3",
+            "tagline": "USB-based AI inference engine.",
+            "image": "products/hw-neural-stick.webp"
+          }
+        ]
+      },
+      {
+        "slug": "dev-boards",
+        "name": "Dev Boards",
+        "tagline": "ESP32, Raspberry Pi, Arduino.",
+        "banner": "banners/hw-dev.webp",
+        "products": [
+          {
+            "id": "hw003",
+            "title": "RGZ-DevBoard Pro (ESP32-S3)",
+            "tagline": "All-in-one board with WiFi, BLE, and camera.",
+            "image": "products/hw-devboard.webp"
+          }
+        ]
+      },
+      {
+        "slug": "edge-devices",
+        "name": "Edge Devices",
+        "tagline": "Jetson Nano and compute modules.",
+        "banner": "banners/hw-edge.webp",
+        "products": [
+          {
+            "id": "hw004",
+            "title": "Jetson Nano Pro (8GB)",
+            "tagline": "High-performance edge AI computer.",
+            "image": "products/hw-jetson.webp"
+          }
+        ]
+      },
+      {
+        "slug": "iot-devices",
+        "name": "IoT Devices",
+        "tagline": "Connected devices and gateways.",
+        "banner": "banners/hw-iot.webp",
+        "products": [
+          {
+            "id": "hw005",
+            "title": "LoRaWAN Gateway (8-Channel)",
+            "tagline": "Long-range IoT gateway for smart devices.",
+            "image": "products/hw-lorawan.webp"
+          }
+        ]
+      },
+      {
+        "slug": "medical-bio-sensing",
+        "name": "Medical & Bio-Sensing",
+        "tagline": "ECG, EDA, and bio-sensors.",
+        "banner": "banners/hw-bio.webp",
+        "products": [
+          {
+            "id": "hw006",
+            "title": "ECG & Heart Rate Monitor",
+            "tagline": "High-precision sensor for medical prototypes.",
+            "image": "products/hw-ecg.webp"
+          }
+        ]
+      },
+      {
+        "slug": "sensors",
+        "name": "Sensors",
+        "tagline": "Lidar, environmental, and proximity.",
+        "banner": "banners/hw-sensors.webp",
+        "products": [
+          {
+            "id": "hw007",
+            "title": "Pro-Grade Lidar Sensor",
+            "tagline": "360-degree, 25m range Lidar for robotics.",
+            "image": "products/hw-lidar.webp"
+          }
+        ]
+      },
+      {
+        "slug": "smart-controllers",
+        "name": "Smart Controllers",
+        "tagline": "Zigbee, Z-Wave, and Home hubs.",
+        "banner": "banners/hw-controllers.webp",
+        "products": [
+          {
+            "id": "hw008",
+            "title": "Smart Home Hub (Zigbee)",
+            "tagline": "Control all your smart devices from one hub.",
+            "image": "products/hw-zigbee.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "html-templates": {
+    "title": "HTML Templates",
+    "tagline": "Landing pages, dashboards and section packs.",
+    "banner": "html-templates.webp",
+    "sections": [
+      {
+        "slug": "components",
+        "name": "Components",
+        "tagline": "Copy-paste HTML/CSS components.",
+        "banner": "banners/ht-components.webp",
+        "products": [
+          {
+            "id": "ht001",
+            "title": "Copy/Paste Component Library",
+            "tagline": "50+ Tailwind components ready to use.",
+            "image": "products/ht-components.webp"
+          }
+        ]
+      },
+      {
+        "slug": "dashboards",
+        "name": "Dashboards",
+        "tagline": "Admin dashboard templates.",
+        "banner": "banners/ht-dashboards.webp",
+        "products": [
+          {
+            "id": "ht002",
+            "title": "AdminOne Dashboard HTML",
+            "tagline": "Bootstrap 5 admin dashboard template.",
+            "image": "products/ht-admin-dash.webp"
+          }
+        ]
+      },
+      {
+        "slug": "email-layouts",
+        "name": "Email Layouts",
+        "tagline": "Responsive HTML email layouts.",
+        "banner": "banners/ht-email.webp",
+        "products": [
+          {
+            "id": "ht003",
+            "title": "MJML Responsive Email Layouts",
+            "tagline": "10 rock-solid layouts for any email.",
+            "image": "products/ht-email.webp"
+          }
+        ]
+      },
+      {
+        "slug": "landing-pages",
+        "name": "Landing Pages",
+        "tagline": "Templates for marketing & startups.",
+        "banner": "banners/ht-landing.webp",
+        "products": [
+          {
+            "id": "ht004",
+            "title": "SaaSApp Landing Page",
+            "tagline": "Modern TailwindCSS landing page for startups.",
+            "image": "products/ht-saas-landing.webp"
+          }
+        ]
+      },
+      {
+        "slug": "marketing-pages",
+        "name": "Marketing Pages",
+        "tagline": "About, Contact, Pricing pages.",
+        "banner": "banners/ht-marketing.webp",
+        "products": [
+          {
+            "id": "ht005",
+            "title": "Agency 'About Us' Page",
+            "tagline": "Clean and professional agency template.",
+            "image": "products/ht-agency.webp"
+          }
+        ]
+      },
+      {
+        "slug": "portfolio",
+        "name": "Portfolio",
+        "tagline": "Portfolio templates for creatives.",
+        "banner": "banners/ht-portfolio.webp",
+        "products": [
+          {
+            "id": "ht006",
+            "title": "Minimalist Designer Portfolio",
+            "tagline": "Focus on your work with this clean layout.",
+            "image": "products/ht-portfolio.webp"
+          }
+        ]
+      },
+      {
+        "slug": "sections",
+        "name": "Sections",
+        "tagline": "Hero, FAQ, Feature sections.",
+        "banner": "banners/ht-sections.webp",
+        "products": [
+          {
+            "id": "ht007",
+            "title": "Hero Sections Pack",
+            "tagline": "20 different hero sections for any website.",
+            "image": "products/ht-sections.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "icon-smith": {
+    "title": "Icon Smith",
+    "tagline": "Icon systems for apps, dashboards and brand libraries.",
+    "banner": "icon-smith.webp",
+    "sections": [
+      {
+        "slug": "3d-icons",
+        "name": "3D Icons",
+        "tagline": "Playful 3D icons for marketing.",
+        "banner": "banners/ic-3d.webp",
+        "products": [
+          {
+            "id": "ic001",
+            "title": "Clay 3D Icon Pack",
+            "tagline": "100+ playful 3D icons for marketing.",
+            "image": "products/ic-clay-3d.webp"
+          }
+        ]
+      },
+      {
+        "slug": "brand-icons",
+        "name": "Brand Icons",
+        "tagline": "SVG logos for tech and social.",
+        "banner": "banners/ic-brand.webp",
+        "products": [
+          {
+            "id": "ic002",
+            "title": "Ultimate Brand Logos (SVG)",
+            "tagline": "2000+ SVG logos for top tech companies.",
+            "image": "products/ic-brand.webp"
+          }
+        ]
+      },
+      {
+        "slug": "duotone-icons",
+        "name": "Duotone Icons",
+        "tagline": "Two-color icon sets.",
+        "banner": "banners/ic-duotone.webp",
+        "products": [
+          {
+            "id": "ic003",
+            "title": "Duotone Business Icons",
+            "tagline": "500 two-color icons for professional use.",
+            "image": "products/ic-duotone.webp"
+          }
+        ]
+      },
+      {
+        "slug": "filled-icons",
+        "name": "Filled Icons",
+        "tagline": "Solid-style icon libraries.",
+        "banner": "banners/ic-filled.webp",
+        "products": [
+          {
+            "id": "ic004",
+            "title": "SolidGlyph Icon Set",
+            "tagline": "A sharp, modern set of 800 solid icons.",
+            "image": "products/ic-filled.webp"
+          }
+        ]
+      },
+      {
+        "slug": "flags-icons",
+        "name": "Flags Icons",
+        "tagline": "All world flags (SVG, PNG).",
+        "banner": "banners/ic-flags.webp",
+        "products": [
+          {
+            "id": "ic005",
+            "title": "World Flags Icon Pack",
+            "tagline": "All 254 country flags in SVG and PNG.",
+            "image": "products/ic-flags.webp"
+          }
+        ]
+      },
+      {
+        "slug": "outline-icons",
+        "name": "Outline Icons",
+        "tagline": "Minimalist, stroke-based icons.",
+        "banner": "banners/ic-outline.webp",
+        "products": [
+          {
+            "id": "ic006",
+            "title": "Feather Icons Pro",
+            "tagline": "Extended professional version of the classic set.",
+            "image": "products/ic-feather-pro.webp"
+          }
+        ]
+      },
+      {
+        "slug": "solid-icons",
+        "name": "Solid Icons",
+        "tagline": "Filled, solid icon libraries.",
+        "banner": "banners/ic-solid.webp",
+        "products": [
+          {
+            "id": "ic007",
+            "title": "Heroicons Solid (Extended)",
+            "tagline": "An extended set based on Tailwind's icons.",
+            "image": "products/ic-solid.webp"
+          }
+        ]
+      },
+      {
+        "slug": "system-icons",
+        "name": "System Icons",
+        "tagline": "Pixel-perfect icons for UI.",
+        "banner": "banners/ic-system.webp",
+        "products": [
+          {
+            "id": "ic008",
+            "title": "Apex UI Icon System",
+            "tagline": "3,000+ minimal icons in Outline, Solid, and Duotone.",
+            "image": "products/ic-apex-system.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "reactorium": {
+    "title": "Reactorium",
+    "tagline": "React UI kits, charts and navigation patterns.",
+    "banner": "reactorium.webp",
+    "sections": [
+      {
+        "slug": "charts",
+        "name": "Charts",
+        "tagline": "React charting libraries.",
+        "banner": "banners/re-charts.webp",
+        "products": [
+          {
+            "id": "re001",
+            "title": "DataViz Chart Library",
+            "tagline": "Simple, lightweight charting library for React.",
+            "image": "products/re-charts.webp"
+          }
+        ]
+      },
+      {
+        "slug": "forms",
+        "name": "Forms",
+        "tagline": "React form components.",
+        "banner": "banners/re-forms.webp",
+        "products": [
+          {
+            "id": "re002",
+            "title": "React Hook Form Pro",
+            "tagline": "Advanced patterns for React Hook Form.",
+            "image": "products/re-forms.webp"
+          }
+        ]
+      },
+      {
+        "slug": "hooks",
+        "name": "Hooks",
+        "tagline": "Advanced React hooks.",
+        "banner": "banners/re-hooks.webp",
+        "products": [
+          {
+            "id": "re003",
+            "title": "useProHooks Collection",
+            "tagline": "30+ advanced React hooks for any project.",
+            "image": "products/re-hooks.webp"
+          }
+        ]
+      },
+      {
+        "slug": "layouts",
+        "name": "Layouts",
+        "tagline": "Responsive page shells.",
+        "banner": "banners/re-layouts.webp",
+        "products": [
+          {
+            "id": "re004",
+            "title": "Responsive Page Shells",
+            "tagline": "5 common page layouts for React apps.",
+            "image": "products/re-layouts.webp"
+          }
+        ]
+      },
+      {
+        "slug": "navigation",
+        "name": "Navigation",
+        "tagline": "Menus, sidebars, and nav.",
+        "banner": "banners/re-nav.webp",
+        "products": [
+          {
+            "id": "re005",
+            "title": "Command Menu (K-Bar)",
+            "tagline": "A cmd+k style command menu for React.",
+            "image": "products/re-kbar.webp"
+          }
+        ]
+      },
+      {
+        "slug": "tables",
+        "name": "Tables",
+        "tagline": "Data grids and tables.",
+        "banner": "banners/re-tables.webp",
+        "products": [
+          {
+            "id": "re006",
+            "title": "Pro Data Grid Component",
+            "tagline": "Server-side sorting, filtering, and pagination.",
+            "image": "products/re-table.webp"
+          }
+        ]
+      },
+      {
+        "slug": "ui-kit",
+        "name": "UI Kit",
+        "tagline": "React component libraries.",
+        "banner": "banners/re-ui-kit.webp",
+        "products": [
+          {
+            "id": "re007",
+            "title": "Reactorium Pro UI Kit",
+            "tagline": "200+ production-ready components for React.",
+            "image": "products/re-pro-kit.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "tiny-js-lab": {
+    "title": "Tiny JS Lab",
+    "tagline": "Vanilla JS utilities, widgets and micro-patterns.",
+    "banner": "tiny-js-lab.webp",
+    "sections": [
+      {
+        "slug": "animations",
+        "name": "Animations",
+        "tagline": "Lightweight animation libraries.",
+        "banner": "banners/js-animations.webp",
+        "sections": [
+          {
+            "slug": "scroll-effects",
+            "name": "Scroll Effects",
+            "tagline": "On-scroll and reveal animations.",
+            "banner": "banners/js-scroll-fx.webp",
+            "products": [
+              {
+                "id": "js001",
+                "title": "Scroll-Animate Library",
+                "tagline": "Tiny library for scroll-based animations.",
+                "image": "products/js-scroll.webp"
+              }
+            ]
+          },
+          {
+            "slug": "loaders",
+            "name": "Loaders & Spinners",
+            "tagline": "Loading state animations.",
+            "banner": "banners/js-loaders.webp"
+          }
+        ]
+      },
+      {
+        "slug": "widgets",
+        "name": "Widgets",
+        "tagline": "Calendars, sliders, etc.",
+        "banner": "banners/js-widgets.webp",
+        "products": [
+          {
+            "id": "js007",
+            "title": "Modern Calendar Widget",
+            "tagline": "Vanilla JS, lightweight, no dependencies.",
+            "image": "products/js-calendar.webp"
+          }
+        ]
+      },
+      {
+        "slug": "validation",
+        "name": "Validation",
+        "tagline": "Form validation scripts.",
+        "banner": "banners/js-validation.webp",
+        "products": [
+          {
+            "id": "js006",
+            "title": "FormGuard Validator",
+            "tagline": "Simple and clean form validation script.",
+            "image": "products/js-validator.webp"
+          }
+        ]
+      },
+      {
+        "slug": "state-management",
+        "name": "State Management",
+        "tagline": "Micro state managers.",
+        "banner": "banners/js-state.webp",
+        "products": [
+          {
+            "id": "js004",
+            "title": "NanoState Manager",
+            "tagline": "Simple global state manager (1kb).",
+            "image": "products/js-state.webp"
+          }
+        ]
+      },
+      {
+        "slug": "storage",
+        "name": "Storage",
+        "tagline": "LocalStorage wrappers.",
+        "banner": "banners/js-storage.webp",
+        "products": [
+          {
+            "id": "js005",
+            "title": "Store.js (LocalStorage Wrapper)",
+            "tagline": "A simple API for LocalStorage.",
+            "image": "products/js-storage.webp"
+          }
+        ]
+      },
+      {
+        "slug": "data-fetching",
+        "name": "Data Fetching",
+        "tagline": "Tiny fetch clients.",
+        "banner": "banners/js-data.webp",
+        "products": [
+          {
+            "id": "js002",
+            "title": "Micro-Fetch Client",
+            "tagline": "A 1kb fetch client with caching.",
+            "image": "products/js-fetch.webp"
+          }
+        ]
+      },
+      {
+        "slug": "dom-utils",
+        "name": "DOM Utils",
+        "tagline": "DOM manipulation helpers.",
+        "banner": "banners/js-dom.webp",
+        "products": [
+          {
+            "id": "js003",
+            "title": "DOMQuery Helper",
+            "tagline": "jQuery-like syntax in 50 lines of code.",
+            "image": "products/js-dom.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "unity-hub": {
+    "title": "Unity Hub",
+    "tagline": "Unity camera, character, and multiplayer templates.",
+    "banner": "unity-hub.webp",
+    "sections": [
+      {
+        "slug": "camera-systems",
+        "name": "Camera Systems",
+        "tagline": "Cinematic and gameplay cameras.",
+        "banner": "banners/un-camera.webp",
+        "products": [
+          {
+            "id": "un001",
+            "title": "Cinematic Camera Rig",
+            "tagline": "Easy-to-use camera system for cutscenes.",
+            "image": "products/un-camera.webp"
+          }
+        ]
+      },
+      {
+        "slug": "character-controllers",
+        "name": "Character Controllers",
+        "tagline": "Physics-based controllers.",
+        "banner": "banners/un-character.webp",
+        "products": [
+          {
+            "id": "un002",
+            "title": "Pro Character Controller",
+            "tagline": "Advanced physics-based controller for 3D games.",
+            "image": "products/un-char-controller.webp"
+          }
+        ]
+      },
+      {
+        "slug": "environment-kits",
+        "name": "Environment Kits",
+        "tagline": "Low-poly and realistic assets.",
+        "banner": "banners/un-env.webp",
+        "products": [
+          {
+            "id": "un003",
+            "title": "Poly-World Environment Kit",
+            "tagline": "Low-poly assets for stylized worlds.",
+            "image": "products/un-env.webp"
+          }
+        ]
+      },
+      {
+        "slug": "multiplayer",
+        "name": "Multiplayer",
+        "tagline": "NetCode and Photon starters.",
+        "banner": "banners/un-multiplayer.webp",
+        "products": [
+          {
+            "id": "un004",
+            "title": "NetCode Multiplayer Starter",
+            "tagline": "Get your multiplayer game running in minutes.",
+            "image": "products/un-multiplayer.webp"
+          }
+        ]
+      },
+      {
+        "slug": "shaders-materials",
+        "name": "Shaders & Materials",
+        "tagline": "URP and HDRP shaders.",
+        "banner": "banners/un-shaders.webp",
+        "products": [
+          {
+            "id": "un005",
+            "title": "Toon Shader Pack",
+            "tagline": "High-performance toon shaders for URP.",
+            "image": "products/un-shader.webp"
+          }
+        ]
+      },
+      {
+        "slug": "tools-editors",
+        "name": "Tools & Editors",
+        "tagline": "Unity editor tools.",
+        "banner": "banners/un-tools.webp",
+        "products": [
+          {
+            "id": "un006",
+            "title": "Rapid Level Designer",
+            "tagline": "A tool for quickly blocking out levels.",
+            "image": "products/un-tools.webp"
+          }
+        ]
+      }
+    ]
+  },
+  "wp-plugins": {
+    "title": "WP Plugins",
+    "tagline": "High-quality WordPress plugins.",
+    "banner": "wp-plugins.webp",
+    "sections": [
+      {
+        "slug": "blocks-editor",
+        "name": "Blocks Editor",
+        "tagline": "Advanced Gutenberg blocks.",
+        "banner": "banners/wp-blocks.webp",
+        "products": [
+          {
+            "id": "wp001",
+            "title": "Pro Blocks for Gutenberg",
+            "tagline": "30+ advanced blocks for the Gutenberg editor.",
+            "image": "products/wp-blocks.webp"
+          }
+        ]
+      },
+      {
+   
