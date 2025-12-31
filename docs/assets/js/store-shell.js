@@ -14,6 +14,8 @@
  */
 (() => {
   "use strict";
+  
+  console.log("STORE-SHELL BOOT OK", location.pathname);
 
   // ============================================================
   // 1) BASE RESOLUTION (Amplify root => "")
