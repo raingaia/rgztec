@@ -1,298 +1,249 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Dashboard / Editor</title>
-
-  <!-- Base (opsiyonel) -->
+  <meta name="description" content="RGZTEC Dashboard/Editor — test HTML, CSS and JS blocks inside RGZTEC layout before publishing.">
   <meta name="rgz-base" content="">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- ✅ Home ile aynı dil (lab/ altında olduğun için ../) -->
+  <!-- ✅ Same stack as home -->
   <link rel="stylesheet" href="../assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="../assets/css/store-core.css?v=1">
   <link rel="stylesheet" href="../assets/css/home.css?v=1">
 
   <style>
-    /* =========================================================
-       LAB / EDITOR – Premium UI (Home uyumlu)
-    ========================================================= */
-
+    /* ---------- LAB (Premium) ---------- */
     :root{
       --lab-bg: #ffffff;
-      --lab-muted: #6b7280;
+      --lab-panel: #ffffff;
       --lab-border: rgba(0,0,0,.08);
-      --lab-shadow: 0 18px 40px rgba(0,0,0,.10);
-      --lab-soft: #f6f7f9;
+      --lab-muted: #6b7280;
+      --lab-ink: #0f172a;
       --lab-accent: #ff6b00;
-      --lab-card: #ffffff;
-      --lab-codebg: #0b1020;
-      --lab-codetext: #e7ecff;
+      --lab-shadow: 0 18px 40px rgba(0,0,0,.10);
+      --lab-radius: 14px;
+      --lab-radius-lg: 18px;
+      --lab-code-bg: #0b1220;
+      --lab-code-ink: #e5e7eb;
     }
+    body{ background: var(--lab-bg); }
 
-    body[data-theme="light"]{
-      --lab-bg:#ffffff;
-      --lab-soft:#f6f7f9;
-      --lab-card:#ffffff;
-      --lab-codebg:#0b1020;
-      --lab-codetext:#e7ecff;
-    }
-
-    body[data-theme="corporate"]{
-      /* RGZTEC corporate: temiz + premium */
-      --lab-bg:#ffffff;
-      --lab-soft:#f7f7fb;
-      --lab-card:#ffffff;
-      --lab-codebg:#0b1020;
-      --lab-codetext:#e7ecff;
-    }
-
-    body[data-theme="dark"]{
-      --lab-bg:#0b1220;
-      --lab-soft:#0f1a30;
-      --lab-card:#0f1a30;
-      --lab-border: rgba(255,255,255,.10);
-      --lab-shadow: 0 18px 40px rgba(0,0,0,.45);
-      --lab-muted: rgba(255,255,255,.65);
-      --lab-codebg:#050815;
-      --lab-codetext:#e7ecff;
-    }
-
-    body{
-      background: var(--lab-bg) !important;
-    }
-
-    .lab-wrap{
-      margin-top: 28px;
-      margin-bottom: 38px;
-    }
-
+    .lab-wrap{ padding: 22px 0 48px; }
     .lab-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom: 16px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+      padding: 12px 0 18px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      margin-bottom: 18px;
     }
-
-    .lab-title{
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      color: #111827;
+    .lab-title h1{
+      font-size: 22px; line-height: 1.15; margin:0;
+      letter-spacing: -.02em; color: var(--lab-ink);
     }
-    body[data-theme="dark"] .lab-title{ color:#ffffff; }
-
-    .lab-sub{
-      margin-top: 6px;
-      color: var(--lab-muted);
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 1.55;
-      max-width: 720px;
+    .lab-title p{
+      margin: 8px 0 0; color: var(--lab-muted); font-size: 13px; line-height: 1.6;
+      max-width: 860px;
     }
-
-    .lab-controls{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
-    .lab-pill{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
+    .lab-badges{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
       border:1px solid var(--lab-border);
+      background:#fff;
+      padding:7px 10px;
       border-radius: 999px;
-      background: var(--lab-card);
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    }
-
-    .lab-pill label{
-      font-size: 12px;
-      font-weight: 900;
+      font-size:12px;
+      font-weight:800;
       color:#111827;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      opacity: .75;
     }
-    body[data-theme="dark"] .lab-pill label{ color:#fff; }
+    .dot{ width:8px; height:8px; border-radius:99px; background:#22c55e; }
+    .dot.warn{ background:#f59e0b; }
+    .dot.off{ background:#ef4444; }
 
-    .lab-select{
-      border:none;
-      outline:none;
-      background: transparent;
-      font-weight: 800;
-      color: inherit;
-      cursor:pointer;
-    }
-
-    .lab-btn{
-      border:1px solid var(--lab-border);
-      background: var(--lab-card);
-      color: #111827;
-      font-weight: 900;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor:pointer;
-      transition: .15s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    body[data-theme="dark"] .lab-btn{ color:#fff; }
-
-    .lab-btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 14px 26px rgba(0,0,0,.10);
-      border-color: rgba(255,107,0,.25);
-    }
-    .lab-btn.primary{
-      background: linear-gradient(180deg, #ff7a1a 0%, #ff6b00 100%);
-      border-color: rgba(255,107,0,.45);
-      color:#fff;
-      box-shadow: 0 18px 34px rgba(255,107,0,.22);
-    }
-    .lab-btn.primary:hover{
-      box-shadow: 0 22px 44px rgba(255,107,0,.28);
-    }
-
-    /* Grid */
     .lab-grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 16px;
     }
     @media (max-width: 1100px){
       .lab-grid{ grid-template-columns: 1fr; }
     }
 
-    .lab-panel{
-      background: var(--lab-card);
-      border:1px solid var(--lab-border);
-      border-radius: 16px;
-      overflow:hidden;
-      box-shadow: var(--lab-shadow);
-    }
-
-    .panel-top{
+    .panel{
+      background: var(--lab-panel);
+      border: 1px solid var(--lab-border);
+      border-radius: var(--lab-radius-lg);
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+      overflow: hidden;
+      min-height: 520px;
       display:flex;
-      align-items:center;
+      flex-direction:column;
+    }
+    .panel-head{
+      display:flex;
       justify-content:space-between;
-      padding: 12px 12px;
-      background: linear-gradient(180deg, rgba(0,0,0,.02) 0%, rgba(0,0,0,0) 100%);
-      border-bottom:1px solid var(--lab-border);
-    }
-    body[data-theme="dark"] .panel-top{
-      background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 100%);
-    }
-
-    .tabs{
-      display:flex;
-      gap:8px;
+      gap:12px;
       align-items:center;
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      background: linear-gradient(180deg,#fff 0%, #fbfbfb 100%);
+    }
+    .panel-head .left{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .tabs{
+      display:flex; gap:8px; align-items:center;
+      padding: 4px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius: 999px;
     }
     .tab{
-      border:1px solid var(--lab-border);
-      background: transparent;
-      color: inherit;
-      font-weight: 900;
+      border:0;
+      background:transparent;
+      padding:8px 12px;
       border-radius: 999px;
-      padding: 8px 12px;
+      font-weight:900;
+      font-size:12px;
       cursor:pointer;
-      transition:.15s ease;
-      font-size: 13px;
+      color:#111827;
     }
     .tab.active{
-      background: rgba(255,107,0,.10);
-      border-color: rgba(255,107,0,.35);
+      background:#fff7ed;
       color: var(--lab-accent);
-      box-shadow: 0 12px 22px rgba(255,107,0,.12);
+      box-shadow: 0 8px 20px rgba(255,107,0,.12);
     }
 
-    .panel-hint{
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--lab-muted);
+    .panel-head .right{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
     }
 
-    /* Editor textarea */
-    .codebox{
-      width:100%;
-      min-height: 520px;
-      border:none;
+    .select{
+      border:1px solid rgba(0,0,0,.10);
+      border-radius: 12px;
+      padding:8px 10px;
+      font-weight:900;
+      font-size:12px;
+      background:#fff;
+      color:#111827;
       outline:none;
-      resize: vertical;
-      padding: 16px;
+    }
+
+    .btn{
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color:#111827;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-weight: 900;
+      font-size: 12px;
+      cursor:pointer;
+      transition: .15s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+    }
+    .btn:hover{ box-shadow: 0 12px 26px rgba(0,0,0,.08); transform: translateY(-1px); }
+    .btn.primary{
+      background: var(--lab-accent);
+      border-color: rgba(255,107,0,.55);
+      color:#fff;
+      box-shadow: 0 12px 26px rgba(255,107,0,.18);
+    }
+    .btn.ghost{ background:#fff; }
+    .btn.danger{
+      background:#fff;
+      border-color: rgba(239,68,68,.35);
+      color:#b91c1c;
+    }
+
+    .panel-body{
+      padding: 0;
+      display:flex;
+      flex-direction:column;
+      flex:1;
+      min-height: 0;
+    }
+
+    /* Editor */
+    .editor{
+      width:100%;
+      height:100%;
+      border:0;
+      outline:none;
+      resize:none;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 13px;
-      line-height: 1.65;
-      background: var(--lab-codebg);
-      color: var(--lab-codetext);
+      line-height: 1.55;
+      padding: 14px;
+      background: var(--lab-code-bg);
+      color: var(--lab-code-ink);
+      flex:1;
+      min-height: 0;
+    }
+    .hintbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding: 10px 12px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(11,18,32,.98);
+      color: rgba(255,255,255,.70);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .kbd{
+      border:1px solid rgba(255,255,255,.16);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,.90);
     }
 
     /* Preview */
     .preview-wrap{
-      background: var(--lab-soft);
-      min-height: 520px;
-      padding: 14px;
+      flex:1;
+      min-height: 0;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
     }
     .preview-frame{
       width:100%;
-      height: 560px;
-      border:1px solid var(--lab-border);
-      border-radius: 14px;
+      height:100%;
+      border:0;
       background:#fff;
-      overflow:hidden;
-      box-shadow: 0 18px 40px rgba(0,0,0,.12);
+      flex:1;
+      min-height: 0;
     }
-    body[data-theme="dark"] .preview-frame{
-      background:#0b1220;
-    }
-
-    .mini-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
+    .preview-empty{
+      padding: 18px;
+      color: var(--lab-muted);
+      font-weight: 800;
+      font-size: 13px;
     }
 
-    /* Header renkleri dark theme için */
-    body[data-theme="dark"] .app-header,
-    body[data-theme="dark"] .sub-nav{
-      background:#0b1220 !important;
-      border-color: rgba(255,255,255,.08) !important;
-    }
-    body[data-theme="dark"] .logo,
-    body[data-theme="dark"] .nav-link{
-      color:#fff !important;
-    }
+    /* Keep header nice */
+    .app-header{ position: sticky; top:0; z-index: 999; }
   </style>
 </head>
 
-<body data-theme="corporate">
-  <!-- ✅ HOME HEADER (aynı hizaya yakın, linkler relative) -->
+<body>
+
+  <!-- ✅ Premium header (same vibe as home) -->
   <header class="app-header">
     <div class="container header-inner">
       <div class="header-left">
         <a href="../" class="logo">RGZTEC</a>
-      </div>
-
-      <div class="search-bar" style="max-width:520px; opacity:.55; pointer-events:none;">
-        <input type="text" class="search-input" placeholder="Editor mode…">
-        <button class="search-btn" type="button" aria-label="Search">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-        </button>
+        <span style="font-weight:900;color:#111827;opacity:.65;font-size:13px;margin-left:10px;">Dashboard / Editor</span>
       </div>
 
       <div class="nav-right">
@@ -303,278 +254,267 @@
     </div>
   </header>
 
-  <main class="container lab-wrap">
-    <div class="lab-head">
-      <div>
-        <div class="lab-title">Dashboard / Editor</div>
-        <div class="lab-sub">
-          Test HTML, CSS and JS blocks exactly inside RGZTEC layout before publishing.
-          Use <b>Open Preview</b> to validate a component in a clean new tab.
+  <main class="lab-wrap">
+    <div class="container">
+
+      <div class="lab-head">
+        <div class="lab-title">
+          <h1>Dashboard / Editor</h1>
+          <p>
+            Test <b>HTML</b>, <b>CSS</b> and <b>JS</b> blocks inside a safe sandbox, exactly in RGZTEC layout.
+            Use <b>Open Preview</b> to validate in a new tab.
+          </p>
+        </div>
+        <div class="lab-badges">
+          <span class="pill"><span class="dot"></span> Static Preview Ready</span>
+          <span class="pill"><span class="dot warn"></span> Hybrid: can call <code>/api/*</code></span>
+          <span class="pill"><span class="dot"></span> Autosave On</span>
         </div>
       </div>
 
-      <div class="lab-controls">
-        <div class="lab-pill">
-          <label for="themeSelect">Theme</label>
-          <select id="themeSelect" class="lab-select">
-            <option value="corporate" selected>Corporate</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
+      <div class="lab-grid">
 
-        <button id="btnCopy" class="lab-btn" type="button">Copy</button>
-        <button id="btnReset" class="lab-btn" type="button">Reset</button>
-        <button id="btnOpen" class="lab-btn" type="button">Open Preview</button>
-        <button id="btnRun" class="lab-btn primary" type="button">Run</button>
+        <!-- EDITOR -->
+        <section class="panel" aria-label="Editor panel">
+          <div class="panel-head">
+            <div class="left">
+              <div class="tabs" role="tablist" aria-label="Editor tabs">
+                <button class="tab active" data-tab="html" role="tab" aria-selected="true">HTML</button>
+                <button class="tab" data-tab="css" role="tab" aria-selected="false">CSS</button>
+                <button class="tab" data-tab="js" role="tab" aria-selected="false">JS</button>
+              </div>
+              <span class="pill" title="Autosave uses localStorage."><span class="dot"></span> Autosave</span>
+            </div>
+            <div class="right">
+              <label style="display:flex;align-items:center;gap:8px;font-weight:900;font-size:12px;color:#111827;">
+                THEME
+                <select id="themeSelect" class="select" aria-label="Theme select">
+                  <option value="corporate">Corporate</option>
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                </select>
+              </label>
+
+              <button id="btnCopy" class="btn ghost" type="button">Copy</button>
+              <button id="btnReset" class="btn danger" type="button">Reset</button>
+              <button id="btnOpen" class="btn ghost" type="button">Open Preview</button>
+              <button id="btnRun" class="btn primary" type="button">Run</button>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <textarea id="editor" class="editor" spellcheck="false"></textarea>
+            <div class="hintbar">
+              <div>Tips: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> Run • <span class="kbd">Ctrl</span> + <span class="kbd">S</span> Copy</div>
+              <div id="statusText">Ready.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PREVIEW -->
+        <section class="panel" aria-label="Preview panel">
+          <div class="panel-head">
+            <div class="left">
+              <span style="font-weight:1000;font-size:12px;letter-spacing:.10em;text-transform:uppercase;color:#6b7280;">
+                Preview (Sandbox)
+              </span>
+            </div>
+            <div class="right">
+              <button id="btnRefresh" class="btn ghost" type="button">Refresh</button>
+            </div>
+          </div>
+
+          <div class="preview-wrap">
+            <div id="previewEmpty" class="preview-empty">
+              Click <b>Run</b> to render your component.
+            </div>
+            <iframe id="previewFrame"
+              class="preview-frame"
+              sandbox="allow-scripts allow-forms allow-modals allow-popups allow-downloads allow-same-origin"
+              style="display:none"
+            ></iframe>
+          </div>
+        </section>
+
       </div>
-    </div>
-
-    <div class="lab-grid">
-      <!-- EDITOR -->
-      <section class="lab-panel">
-        <div class="panel-top">
-          <div class="tabs">
-            <button class="tab active" data-tab="html" type="button">HTML</button>
-            <button class="tab" data-tab="css" type="button">CSS</button>
-            <button class="tab" data-tab="js" type="button">JS</button>
-          </div>
-          <div class="panel-hint">Autosave • Safe preview</div>
-        </div>
-
-        <textarea id="codeBox" class="codebox" spellcheck="false"></textarea>
-      </section>
-
-      <!-- PREVIEW -->
-      <section class="lab-panel">
-        <div class="panel-top">
-          <div class="tabs" style="gap:10px">
-            <span style="font-weight:900; letter-spacing:.02em;">Preview</span>
-            <span style="font-size:12px; color:var(--lab-muted); font-weight:800;">(sandbox iframe)</span>
-          </div>
-          <div class="mini-row">
-            <button id="btnRefresh" class="lab-btn" type="button">Refresh</button>
-          </div>
-        </div>
-
-        <div class="preview-wrap">
-          <iframe id="previewFrame" class="preview-frame" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-downloads"></iframe>
-        </div>
-      </section>
     </div>
   </main>
-
-  <footer class="footer" style="margin-top:34px">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo">RGZTEC</div>
-        <p>Premium digital marketplace for code, UI kits and hardware accessories.</p>
-      </div>
-      <div class="footer-bot">
-        <span>© 2025 RGZTEC, Inc. All rights reserved.</span>
-        <div class="footer-links">
-          <a href="../privacy.html">Privacy</a>
-          <a href="../terms.html">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <script>
     (function(){
       "use strict";
 
-      // ---------------------------
-      // Defaults
-      // ---------------------------
+      // ---------- STATE ----------
+      const KEY = "rgz_lab_v2_state";
       const DEFAULTS = {
+        tab: "html",
         theme: "corporate",
         html:
-`<div class="rgz-card">
-  <div class="rgz-badge">#PREMIUM</div>
+`<div class="rgz-demo-card">
   <h3>Hello RGZTEC</h3>
-  <p>This is a test component inside RGZTEC layout.</p>
-  <button class="rgz-btn">Action</button>
+  <p>This is a test component.</p>
+  <a class="rgz-demo-link" href="/store/hardware/" target="_blank" rel="noopener">Open a Store</a>
 </div>`,
         css:
-`.rgz-card{
-  background:#fff;
-  border-radius:14px;
-  padding:18px;
+`.rgz-demo-card{
   border:1px solid rgba(0,0,0,.08);
-  box-shadow: 0 18px 40px rgba(0,0,0,.10);
+  border-radius: 16px;
+  padding: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
-.rgz-badge{
-  display:inline-flex;
-  padding:6px 10px;
-  border-radius:999px;
-  font-weight:900;
-  font-size:12px;
-  background: rgba(255,107,0,.12);
-  color:#ff6b00;
+.rgz-demo-card h3{ margin:0 0 8px; font-size:18px; letter-spacing:-.02em; }
+.rgz-demo-card p{ margin:0 0 14px; color:#6b7280; font-weight:700; }
+.rgz-demo-link{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 12px; border-radius: 999px;
+  background:#fff7ed; color:#ff6b00;
+  text-decoration:none; font-weight:900;
   border:1px solid rgba(255,107,0,.25);
 }
-.rgz-btn{
-  margin-top:12px;
-  border:none;
-  cursor:pointer;
-  font-weight:900;
-  padding:10px 14px;
-  border-radius:999px;
-  background: linear-gradient(180deg,#ff7a1a 0%, #ff6b00 100%);
-  color:#fff;
-  box-shadow: 0 18px 34px rgba(255,107,0,.22);
-}`,
+.rgz-demo-link:hover{ box-shadow:0 16px 34px rgba(255,107,0,.12); }`,
         js:
-`document.querySelector(".rgz-btn")?.addEventListener("click", ()=>{
-  alert("RGZTEC ✅ Component works!");
-});`
+`// You can call your live endpoints here if needed:
+// fetch("/api/categories").then(r=>r.json()).then(console.log).catch(console.error);
+
+console.log("RGZTEC Lab ready ✅");`
       };
 
-      const LS_KEY = "rgztec_lab_v1";
-
+      // ---------- ELEMENTS ----------
       const els = {
-        theme: document.getElementById("themeSelect"),
         tabs: Array.from(document.querySelectorAll(".tab")),
-        code: document.getElementById("codeBox"),
-        frame: document.getElementById("previewFrame"),
+        editor: document.getElementById("editor"),
+        theme: document.getElementById("themeSelect"),
         btnRun: document.getElementById("btnRun"),
-        btnRefresh: document.getElementById("btnRefresh"),
-        btnReset: document.getElementById("btnReset"),
-        btnCopy: document.getElementById("btnCopy"),
         btnOpen: document.getElementById("btnOpen"),
+        btnCopy: document.getElementById("btnCopy"),
+        btnReset: document.getElementById("btnReset"),
+        btnRefresh: document.getElementById("btnRefresh"),
+        status: document.getElementById("statusText"),
+        frame: document.getElementById("previewFrame"),
+        empty: document.getElementById("previewEmpty"),
       };
 
-      let state = loadState();
-      let activeTab = "html";
-
-      // ---------------------------
-      // State
-      // ---------------------------
+      // ---------- LOAD/SAVE ----------
       function loadState(){
         try{
-          const raw = localStorage.getItem(LS_KEY);
-          if(!raw) return structuredClone(DEFAULTS);
+          const raw = localStorage.getItem(KEY);
+          if(!raw) return { ...DEFAULTS };
           const parsed = JSON.parse(raw);
-          return {
-            theme: parsed.theme || DEFAULTS.theme,
-            html: parsed.html ?? DEFAULTS.html,
-            css: parsed.css ?? DEFAULTS.css,
-            js: parsed.js ?? DEFAULTS.js
-          };
+          return { ...DEFAULTS, ...parsed };
         }catch{
-          return structuredClone(DEFAULTS);
+          return { ...DEFAULTS };
         }
       }
-
       function saveState(){
-        try{
-          localStorage.setItem(LS_KEY, JSON.stringify(state));
-        }catch{}
+        localStorage.setItem(KEY, JSON.stringify(state));
       }
 
-      function structuredClone(obj){
-        return JSON.parse(JSON.stringify(obj));
-      }
+      let state = loadState();
+      let lastBlobUrl = null;
 
-      // ---------------------------
-      // Theme
-      // ---------------------------
-      function applyTheme(t){
-        document.body.setAttribute("data-theme", t);
-        state.theme = t;
-        saveState();
-        runPreview(); // preview da theme ile yenilensin
+      // ---------- UI HELPERS ----------
+      function setStatus(msg){
+        els.status.textContent = msg;
       }
-
-      // ---------------------------
-      // Tabs
-      // ---------------------------
-      function setTab(tab){
-        activeTab = tab;
-        els.tabs.forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
-        els.code.value = state[tab] || "";
-      }
-
-      function updateActiveCode(){
-        state[activeTab] = els.code.value;
+      function setActiveTab(tab){
+        state.tab = tab;
+        els.tabs.forEach(b=>{
+          const active = b.dataset.tab === tab;
+          b.classList.toggle("active", active);
+          b.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        els.editor.value = state[tab];
         saveState();
       }
 
-      // ---------------------------
-      // Build preview document
-      // ---------------------------
-      function buildPreviewDoc({ html, css, js, theme }){
-        // Preview için minimal ama kaliteli base
-        // (İstersen buraya store-core/home css linklerini de ekleriz; şimdilik isolated)
-        const bg = (theme === "dark") ? "#0b1220" : "#f6f7f9";
-        const text = (theme === "dark") ? "#ffffff" : "#111827";
-        const card = (theme === "dark") ? "#0f1a30" : "#ffffff";
-        const border = (theme === "dark") ? "rgba(255,255,255,.12)" : "rgba(0,0,0,.08)";
+      function currentCodeUpdate(){
+        state[state.tab] = els.editor.value;
+        saveState();
+      }
 
+      // ---------- BUILD DOC ----------
+      function themeCSS(theme){
+        if(theme === "dark"){
+          return `
+            html,body{ background:#0b1220; color:#e5e7eb; }
+            .rgz-wrap{ padding:18px; }
+          `;
+        }
+        if(theme === "light"){
+          return `
+            html,body{ background:#ffffff; color:#111827; }
+            .rgz-wrap{ padding:18px; }
+          `;
+        }
+        // corporate
+        return `
+          html,body{ background:#ffffff; color:#111827; }
+          .rgz-wrap{ padding:18px; }
+        `;
+      }
+
+      function buildPreviewDoc({html, css, js, theme}){
+        // NOTE: This is a sandboxed page. Use minimal external deps for stability.
+        // If you want to import RGZTEC CSS inside preview, you can add <link> with absolute paths.
         return `<!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>RGZTEC Preview</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{ color-scheme:${theme==="dark" ? "dark" : "light"}; }
-  html,body{ margin:0; padding:0; background:${bg}; color:${text}; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
-  .preview-shell{ padding:24px; }
-  .preview-surface{
-    background:${card};
-    border:1px solid ${border};
-    border-radius:16px;
-    padding:22px;
-    box-shadow: 0 18px 40px rgba(0,0,0,.12);
-  }
-  /* küçük global helper */
-  a{ color:#ff6b00; font-weight:800; text-decoration:none; }
+${themeCSS(theme)}
+${css || ""}
 </style>
-<style>${css || ""}</style>
 </head>
 <body>
-  <div class="preview-shell">
-    <div class="preview-surface">
-      ${html || ""}
-    </div>
+  <div class="rgz-wrap">
+    ${html || ""}
   </div>
-
-  <script>
-    try{
-      ${js || ""}
-    }catch(e){
-      console.error(e);
-      const pre = document.createElement("pre");
-      pre.style.whiteSpace="pre-wrap";
-      pre.style.background="rgba(255,0,0,.08)";
-      pre.style.border="1px solid rgba(255,0,0,.25)";
-      pre.style.padding="12px";
-      pre.style.borderRadius="12px";
-      pre.textContent = "JS Error: " + (e && e.message ? e.message : String(e));
-      document.body.appendChild(pre);
-    }
-  <\/script>
+<script>
+try{
+${js || ""}
+}catch(e){
+  console.error(e);
+  const pre = document.createElement("pre");
+  pre.style.whiteSpace="pre-wrap";
+  pre.style.padding="12px";
+  pre.style.border="1px solid rgba(0,0,0,.10)";
+  pre.style.borderRadius="12px";
+  pre.style.background="#fff";
+  pre.style.color="#b91c1c";
+  pre.textContent="JS Error: " + (e && e.message ? e.message : String(e));
+  document.body.prepend(pre);
+}
+</script>
 </body>
 </html>`;
       }
 
-      // ---------------------------
-      // Preview actions
-      // ---------------------------
+      function setFrameHTML(htmlDoc){
+        if(lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
+        const blob = new Blob([htmlDoc], { type:"text/html;charset=utf-8" });
+        lastBlobUrl = URL.createObjectURL(blob);
+
+        els.frame.removeAttribute("srcdoc");
+        els.frame.src = lastBlobUrl;
+
+        els.empty.style.display = "none";
+        els.frame.style.display = "block";
+      }
+
       function runPreview(){
+        setStatus("Running…");
         const doc = buildPreviewDoc({
           html: state.html,
           css: state.css,
           js: state.js,
           theme: state.theme
         });
-        els.frame.srcdoc = doc;
+        setFrameHTML(doc);
+        setTimeout(()=> setStatus("Rendered ✅"), 120);
       }
 
       function openPreviewNewTab(){
@@ -584,93 +524,81 @@
           js: state.js,
           theme: state.theme
         });
-        const w = window.open("", "_blank");
-        if(!w){
-          alert("Pop-up blocked. Please allow pop-ups for this site.");
-          return;
-        }
-        w.document.open();
-        w.document.write(doc);
-        w.document.close();
+        const blob = new Blob([doc], { type:"text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank", "noopener,noreferrer");
+        setTimeout(()=> URL.revokeObjectURL(url), 15000);
+        setStatus("Opened in new tab ✅");
       }
 
-      // ---------------------------
-      // Buttons
-      // ---------------------------
-      els.btnRun.addEventListener("click", () => {
-        updateActiveCode();
-        runPreview();
-      });
-
-      els.btnRefresh.addEventListener("click", () => {
-        runPreview();
-      });
-
-      els.btnReset.addEventListener("click", () => {
-        if(!confirm("Reset editor to default template?")) return;
-        state = structuredClone(DEFAULTS);
-        saveState();
-        els.theme.value = state.theme;
-        applyTheme(state.theme);
-        setTab(activeTab);
-        runPreview();
-      });
-
-      els.btnCopy.addEventListener("click", async () => {
-        updateActiveCode();
-        const payload =
-`<!-- HTML -->
-${state.html}
-
-<!-- CSS -->
-<style>
-${state.css}
-</style>
-
-<!-- JS -->
-<script>
-${state.js}
-</script>`;
-        try{
-          await navigator.clipboard.writeText(payload);
-          els.btnCopy.textContent = "Copied ✓";
-          setTimeout(()=> els.btnCopy.textContent="Copy", 900);
-        }catch{
-          alert("Copy failed (clipboard blocked).");
-        }
-      });
-
-      els.btnOpen.addEventListener("click", () => {
-        updateActiveCode();
-        openPreviewNewTab();
-      });
-
-      // Tabs change
-      els.tabs.forEach(btn => {
-        btn.addEventListener("click", () => {
-          updateActiveCode();
-          setTab(btn.dataset.tab);
+      // ---------- EVENTS ----------
+      els.tabs.forEach(b=>{
+        b.addEventListener("click", ()=>{
+          currentCodeUpdate();
+          setActiveTab(b.dataset.tab);
         });
       });
 
-      // Autosave typing
-      els.code.addEventListener("input", () => {
-        updateActiveCode();
+      els.editor.addEventListener("input", ()=>{
+        currentCodeUpdate();
+        setStatus("Saved.");
       });
 
-      // Theme change
-      els.theme.addEventListener("change", (e) => {
-        applyTheme(e.target.value);
+      els.theme.addEventListener("change", ()=>{
+        state.theme = els.theme.value;
+        saveState();
+        setStatus("Theme updated.");
       });
 
-      // Init
-      els.theme.value = state.theme || DEFAULTS.theme;
-      applyTheme(els.theme.value);
-      setTab("html");
-      runPreview();
+      els.btnRun.addEventListener("click", runPreview);
+      els.btnOpen.addEventListener("click", openPreviewNewTab);
+      els.btnRefresh.addEventListener("click", runPreview);
 
+      els.btnCopy.addEventListener("click", async ()=>{
+        const payload = JSON.stringify({ html: state.html, css: state.css, js: state.js, theme: state.theme }, null, 2);
+        try{
+          await navigator.clipboard.writeText(payload);
+          setStatus("Copied ✅");
+        }catch{
+          // fallback
+          els.editor.select();
+          document.execCommand("copy");
+          setStatus("Copied (fallback) ✅");
+        }
+      });
+
+      els.btnReset.addEventListener("click", ()=>{
+        if(!confirm("Reset editor to defaults?")) return;
+        state = { ...DEFAULTS };
+        saveState();
+        els.theme.value = state.theme;
+        setActiveTab(state.tab);
+        els.empty.style.display = "block";
+        els.frame.style.display = "none";
+        setStatus("Reset ✅");
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", (e)=>{
+        if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "enter"){
+          e.preventDefault();
+          runPreview();
+        }
+        if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s"){
+          e.preventDefault();
+          // Copy current tab content quickly (copy JSON)
+          els.btnCopy.click();
+        }
+      });
+
+      // ---------- INIT ----------
+      els.theme.value = state.theme || "corporate";
+      setActiveTab(state.tab || "html");
+      setStatus("Ready.");
     })();
   </script>
+
 </body>
 </html>
+
 
