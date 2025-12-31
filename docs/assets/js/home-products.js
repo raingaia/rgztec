@@ -1,5 +1,7 @@
-/* RGZTEC HOME – products + categories + search (bridge-connected)
-   - Gallery: PUBLIC.stores (snapshot) => /data/store.data.json
+/* RGZTEC HOME – gallery + header stores + categories + search (bridge-connected)
+   - Stores data: PUBLIC.stores (snapshot) => /data/store.data.json
+   - Header stores: fills #sub-nav-list
+   - Gallery: fills #gallery
    - Categories: API.categories (live) => /api/categories
    - Search: API.search (live) => /api/search?q=
 */
@@ -32,23 +34,100 @@
     return v && typeof v === "object" && !Array.isArray(v);
   }
 
-  // Normalize with base: supports PUBLIC.stores being "/data/..." while site is under "/rgztec/"
   function normalizeURL(u) {
     if (!u) return "";
     const s = String(u).trim();
-
-    // absolute URL (http/https) - keep
-    if (/^https?:\/\//i.test(s)) return s;
-
-    // If bridge provides withBase(), use it for root-absolute paths
-    // "/data/x.json" -> "/rgztec/data/x.json" when deployed under /rgztec
-    if (s.startsWith("/") && typeof B.withBase === "function") return B.withBase(s);
-
-    // "./data/x.json" or "data/x.json" keep as is
-    return s;
+    if (/^https?:\/\//i.test(s)) return s; // absolute keep
+    if (s.startsWith("/") && typeof B.withBase === "function") return B.withBase(s); // root-absolute -> base-fixed
+    return s; // relative keep
   }
 
-  // ---- 2) GALLERY (Explore Stores) ----
+  // ---- 2) Store Data (single load, shared) ----
+  let storeDataPromise = null;
+
+  function getStoreDataURL() {
+    const raw = (B.PUBLIC && B.PUBLIC.stores) ? B.PUBLIC.stores : "/data/store.data.json";
+    return normalizeURL(raw) || (typeof B.withBase === "function" ? B.withBase("/data/store.data.json") : "/data/store.data.json");
+  }
+
+  function normalizeStoresToEntries(data) {
+    // Accept:
+    // 1) { "hardware": {...}, "ai-tools-hub": {...} }  (map)
+    // 2) { stores: { ... } }                          (map)
+    // 3) { stores: [ ... ] }                          (array)
+    // 4) [ ... ]                                      (array)
+    let entries = [];
+
+    if (Array.isArray(data)) {
+      entries = data.map((s, i) => [safeText(s.slug, `store-${i}`), s]).filter(([slug]) => !!slug);
+    } else if (isObject(data) && isObject(data.stores)) {
+      entries = Object.entries(data.stores);
+    } else if (isObject(data) && Array.isArray(data.stores)) {
+      entries = data.stores.map((s, i) => [safeText(s.slug, `store-${i}`), s]).filter(([slug]) => !!slug);
+    } else if (isObject(data)) {
+      entries = Object.entries(data);
+    }
+
+    return entries;
+  }
+
+  async function loadStoresOnce() {
+    if (storeDataPromise) return storeDataPromise;
+
+    const url = getStoreDataURL();
+    console.log("[HOME] storeDataURL =", url);
+
+    storeDataPromise = (async () => {
+      const data = await fetchJSON(url);
+      const entries = normalizeStoresToEntries(data);
+      return { url, data, entries };
+    })();
+
+    return storeDataPromise;
+  }
+
+  // ---- 3) HEADER STORES (Sub-nav) ----
+  async function renderHeaderStores() {
+    const subNav = $("#sub-nav-list");
+    if (!subNav) return;
+
+    subNav.innerHTML = `<span style="opacity:.6;font-weight:800;">Loading…</span>`;
+
+    try {
+      const { entries } = await loadStoresOnce();
+
+      if (!entries.length) {
+        subNav.innerHTML = `<span style="opacity:.7;font-weight:800;">No stores.</span>`;
+        return;
+      }
+
+      // ✅ Clean render
+      subNav.innerHTML = "";
+      const frag = document.createDocumentFragment();
+
+      // Optional: sort by title
+      const sorted = entries.slice().sort((a, b) => {
+        const at = safeText(a[1]?.title, a[0]).toLowerCase();
+        const bt = safeText(b[1]?.title, b[0]).toLowerCase();
+        return at.localeCompare(bt);
+      });
+
+      for (const [slug, store] of sorted) {
+        const a = el("a");
+        a.className = "sub-nav-item"; // (home.css / store-core.css varsa uygular)
+        a.href = (B.URLS?.STORE ? B.URLS.STORE(slug) : `./store/${encodeURIComponent(slug)}/`);
+        a.textContent = safeText(store?.title, slug);
+        frag.appendChild(a);
+      }
+
+      subNav.appendChild(frag);
+    } catch (e) {
+      console.error("[HOME] Header stores error:", e);
+      subNav.innerHTML = `<span style="opacity:.75;font-weight:800;">Stores failed to load.</span>`;
+    }
+  }
+
+  // ---- 4) GALLERY (Explore Stores) ----
   async function renderGallery() {
     const grid = $("#gallery");
     if (!grid) return;
@@ -56,38 +135,10 @@
     grid.innerHTML = `<div style="padding:16px;color:#6b7280;font-weight:800;">Loading stores…</div>`;
 
     try {
-      const raw = (B.PUBLIC && B.PUBLIC.stores) ? B.PUBLIC.stores : "/data/store.data.json";
-      const storeDataURL = normalizeURL(raw) || (typeof B.withBase === "function" ? B.withBase("/data/store.data.json") : "/data/store.data.json");
-
-      console.log("[HOME] storeDataURL =", storeDataURL);
-
-      const data = await fetchJSON(storeDataURL);
-
-      // ✅ Accept multiple JSON shapes:
-      // 1) { "hardware": {...}, "ai-tools-hub": {...} }   (map)
-      // 2) { stores: { ... } }                           (map in stores)
-      // 3) { stores: [ ... ] }                           (array)
-      // 4) [ ... ]                                       (array)
-      let entries = [];
-
-      if (Array.isArray(data)) {
-        // array of stores
-        entries = data
-          .map((s, i) => [safeText(s.slug, `store-${i}`), s])
-          .filter(([slug]) => !!slug);
-      } else if (isObject(data) && isObject(data.stores)) {
-        entries = Object.entries(data.stores);
-      } else if (isObject(data) && Array.isArray(data.stores)) {
-        entries = data.stores
-          .map((s, i) => [safeText(s.slug, `store-${i}`), s])
-          .filter(([slug]) => !!slug);
-      } else if (isObject(data)) {
-        entries = Object.entries(data);
-      }
+      const { entries } = await loadStoresOnce();
 
       if (!entries.length) {
-        grid.innerHTML = `<div style="padding:16px;color:#6b7280;font-weight:800;">No stores found in data.</div>`;
-        console.log("[HOME] store.data.json sample =", data);
+        grid.innerHTML = `<div style="padding:16px;color:#6b7280;font-weight:800;">No stores found.</div>`;
         return;
       }
 
@@ -104,7 +155,6 @@
         card.style.color = "inherit";
 
         const wrap = el("div");
-        wrap.className = "rgz-store-card";
         wrap.style.border = "1px solid rgba(0,0,0,0.08)";
         wrap.style.borderRadius = "16px";
         wrap.style.overflow = "hidden";
@@ -126,10 +176,6 @@
         img.style.height = "100%";
         img.style.objectFit = "cover";
 
-        // banner rules:
-        // - if banner is absolute URL => use
-        // - else try B.URLS.ASSET(`/images/store/${banner}`)
-        // - else fall back to local path
         if (banner && /^(https?:)?\/\//.test(banner)) {
           img.src = banner;
         } else if (banner) {
@@ -164,21 +210,17 @@
         card.appendChild(wrap);
         grid.appendChild(card);
       }
-
-      console.log(`[HOME] Rendered ${entries.length} stores.`);
     } catch (e) {
       console.error("[HOME] Gallery error:", e);
       grid.innerHTML = `
         <div style="padding:16px;border:1px solid rgba(0,0,0,.08);border-radius:12px;background:#fff;">
           <b>Stores failed to load.</b><br>
-          <span style="color:#6b7280;font-weight:700;">
-            Open Console/Network and check the storeDataURL + HTTP status.
-          </span>
+          <span style="color:#6b7280;font-weight:700;">Console/Network: storeDataURL + HTTP status.</span>
         </div>`;
     }
   }
 
-  // ---- 3) CATEGORIES PANEL (API live) ----
+  // ---- 5) CATEGORIES PANEL (API live) ----
   async function renderCategoriesPanel() {
     const list = $("#categories-list");
     const detail = $("#categories-detail");
@@ -202,7 +244,6 @@
     }
 
     const categories = (cats && Array.isArray(cats.categories)) ? cats.categories : [];
-
     if (!categories.length) {
       list.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">No categories.</div>`;
       detail.innerHTML = "";
@@ -266,7 +307,7 @@
     setActive(0);
   }
 
-  // ---- 4) SEARCH (API live) ----
+  // ---- 6) SEARCH (API live) ----
   function mountSearchUI() {
     const input = $(".search-input");
     const btn = $(".search-btn");
@@ -386,11 +427,13 @@
     btn.addEventListener("click", () => runSearch(input.value));
   }
 
-  // ---- 5) Boot ----
+  // ---- 7) Boot ----
   async function boot() {
-    try { await renderGallery(); } catch (e) { console.error("[HOME] Gallery error:", e); }
-    try { await renderCategoriesPanel(); } catch (e) { console.error("[HOME] Categories error:", e); }
-    try { mountSearchUI(); } catch (e) { console.error("[HOME] Search UI error:", e); }
+    // ✅ header stores first (so you immediately see if data loads)
+    await renderHeaderStores();
+    await renderGallery();
+    await renderCategoriesPanel();
+    mountSearchUI();
   }
 
   if (document.readyState === "loading") {
@@ -399,4 +442,5 @@
     boot();
   }
 })();
+
 
