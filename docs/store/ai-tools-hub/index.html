@@ -9,31 +9,19 @@
 
   <script>
     (function () {
-      // 1) Base resolve (/rgztec veya root)
       function resolveBase() {
         const meta = document.querySelector('meta[name="rgz-base"]');
         if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
         const p = location.pathname || "/";
         return p.includes("/rgztec/") ? "/rgztec" : "";
       }
-
       const BASE = resolveBase();
       const withBase = (p) => (BASE ? `${BASE}${p}` : p);
 
       window.RGZ_BASE = BASE;
       window.RGZ_WITH_BASE = withBase;
 
-      // 2) data-path AUTO (URL'den slug al)
-      // /store/ai-tools-hub/  => ai-tools-hub
-      const path = (location.pathname || "/").replace(/\/+$/, "");
-      const parts = path.split("/").filter(Boolean);
-      const slug = parts[parts.length - 1] || "home";
-      document.addEventListener("DOMContentLoaded", () => {
-        document.body.setAttribute("data-path", slug);
-        // console.log("[STORE] data-path =", slug, "BASE =", BASE);
-      });
-
-      // 3) store-core.css (sadece store’un kendi CSS’i)
+      // (opsiyonel) sadece store-core, store kendi stilini buradan kuruyorsa
       const css = document.createElement("link");
       css.rel = "stylesheet";
       css.href = withBase("/assets/css/store-core.css?v=1");
@@ -48,34 +36,26 @@
 
   <script>
     (function () {
+      // ✅ 1) data-path'i HEMEN set et (DOMContentLoaded bekleme!)
+      const path = (location.pathname || "/").replace(/\/+$/, "");
+      const parts = path.split("/").filter(Boolean);
+
+      // /store/ai-tools-hub -> ai-tools-hub
+      const slug = parts[parts.length - 1] || "home";
+      document.body.setAttribute("data-path", slug);
+
+      // ✅ 2) sonra store-shell'i yükle (async kapalı)
       const withBase = window.RGZ_WITH_BASE || ((p) => p);
-      const root = document.getElementById("store-root");
-
-      // Minimal fallback: eğer shell patlarsa boş kalmasın
-      const fallback = document.createElement("div");
-      fallback.style.maxWidth = "1440px";
-      fallback.style.margin = "18px auto";
-      fallback.style.padding = "0 24px";
-      fallback.style.color = "#64748b";
-      fallback.style.fontFamily = "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif";
-      fallback.style.fontWeight = "700";
-      fallback.textContent = "Loading…";
-      document.body.insertBefore(fallback, root);
-
       const s = document.createElement("script");
-      s.defer = true;
       s.src = withBase("/assets/js/store-shell.js?v=1");
-
-      s.onload = () => {
-        // Shell bir şey render edince fallback'i kaldır
-        setTimeout(() => {
-          if (root && root.children && root.children.length > 0) fallback.remove();
-          else fallback.textContent = "Store failed to render (check console).";
-        }, 80);
-      };
+      s.async = false;
 
       s.onerror = () => {
-        fallback.textContent = "store-shell.js not found. Check deploy paths.";
+        document.getElementById("store-root").innerHTML =
+          "<div style='max-width:1440px;margin:24px auto;padding:16px 24px;border:1px solid #eee;border-radius:12px;background:#fff'>" +
+          "<b>Shell JS not found</b><br/>" +
+          "Tried: <code>" + s.src + "</code>" +
+          "</div>";
       };
 
       document.body.appendChild(s);
@@ -83,8 +63,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
