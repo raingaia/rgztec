@@ -32,36 +32,105 @@
       document.head.appendChild(css);
     })();
   </script>
+
+  <!-- ✅ ONLY: white page fix (does not touch store design) -->
+  <style>
+    /* Only affects the temporary preload block */
+    #rgz-preload{
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: rgba(100,116,139,0.95);
+      font-weight: 700;
+      letter-spacing: .01em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    #rgz-preload .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #f97316;
+      box-shadow: 0 0 0 4px rgba(249,115,22,0.12);
+      flex: 0 0 auto;
+    }
+    #rgz-preload .bar{
+      height: 10px;
+      width: 220px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(226,232,240,0.8) 0%,
+        rgba(226,232,240,0.25) 35%,
+        rgba(226,232,240,0.8) 70%);
+      background-size: 240px 10px;
+      animation: rgz-sheen 1.1s linear infinite;
+    }
+    @keyframes rgz-sheen{
+      0%{ background-position: 0 0; }
+      100%{ background-position: 240px 0; }
+    }
+  </style>
 </head>
 
 <body class="store-body" data-path="ai-tools-hub">
+  <!-- ✅ Temporary loader (removed when store renders) -->
+  <div id="rgz-preload">
+    <span class="dot"></span>
+    <span>Loading store…</span>
+    <span class="bar" aria-hidden="true"></span>
+  </div>
+
   <div id="store-root"></div>
 
   <script>
     (function () {
       const withBase = window.RGZ_WITH_BASE || ((p) => p);
       const root = document.getElementById("store-root");
+      const preload = document.getElementById("rgz-preload");
+
+      // ✅ Remove loader when store-root gets content (store-shell renders)
+      function removePreload() {
+        if (!preload) return;
+        preload.remove();
+      }
+
+      // Watch for first render
+      if (root && preload) {
+        const obs = new MutationObserver(() => {
+          // If shell added something meaningful
+          if (root.children && root.children.length > 0) {
+            obs.disconnect();
+            removePreload();
+          }
+        });
+        obs.observe(root, { childList: true, subtree: true });
+
+        // Fail-safe: don't keep loader forever (in case shell renders differently)
+        setTimeout(() => {
+          // If still empty after 8s, keep a minimal message but stop animation
+          if (root.children.length === 0) {
+            preload.innerHTML = "<span class='dot'></span><span>Still loading…</span>";
+          }
+        }, 8000);
+      }
 
       const s = document.createElement("script");
       s.defer = true;
       s.src = withBase("/assets/js/store-shell.js");
 
-      s.onload = () => {
-        // shell loaded
-        // If store-shell doesn't render, it will replace this anyway.
-        // Keeping here for visibility.
-        // console.log("Shell loaded:", s.src);
-      };
-
       s.onerror = () => {
         if (root) {
           root.innerHTML =
-            "<div style='padding:16px;border:1px solid #eee;border-radius:12px;background:#fff'>" +
+            "<div style='max-width:1440px;margin:24px auto;padding:16px 24px;border:1px solid #eee;border-radius:12px;background:#fff'>" +
             "<b>Shell JS not found</b><br/>" +
             "Tried: <code>" + s.src + "</code><br/>" +
             "Check if this file exists in your deploy output." +
             "</div>";
         }
+        // Remove loader so error is visible
+        removePreload();
       };
 
       document.body.appendChild(s);
@@ -69,6 +138,7 @@
   </script>
 </body>
 </html>
+
 
 
 
