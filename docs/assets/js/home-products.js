@@ -1,9 +1,9 @@
-/* RGZTEC HOME – gallery + header stores + categories + search (bridge-connected)
-   - Stores data: PUBLIC.stores (snapshot) => /data/store.data.json
-   - Header stores: fills #sub-nav-list
-   - Gallery: fills #gallery
-   - Categories: API.categories (live) => /api/categories
-   - Search: API.search (live) => /api/search?q=
+/* RGZTEC HOME – FINAL (Header Stores + Gallery Cards + Categories + Search)
+   - Stores data: PUBLIC.stores => /data/store.data.json
+   - Header sub-nav: fills #sub-nav-list
+   - Gallery: fills #gallery with YOUR Etsy CSS classes (.card, .card-media, ...)
+   - Categories: API.categories => /api/categories
+   - Search: API.search => /api/search?q=
 */
 
 (() => {
@@ -12,12 +12,11 @@
   // ---- 0) Bridge guard ----
   const B = window.RGZ || window.rgz || null;
   if (!B) {
-    console.error("[HOME] rgz.bridge missing. Add: <script src='assets/js/rgz.bridge.js'> before home-products.js");
+    console.error("[HOME] rgz.bridge missing. Add rgz.bridge.js before home-products.js");
     return;
   }
 
   const $ = (sel, root = document) => root.querySelector(sel);
-  const el = (tag, attrs = {}) => Object.assign(document.createElement(tag), attrs);
 
   // ---- 1) Helpers ----
   async function fetchJSON(url) {
@@ -37,12 +36,12 @@
   function normalizeURL(u) {
     if (!u) return "";
     const s = String(u).trim();
-    if (/^https?:\/\//i.test(s)) return s; // absolute keep
-    if (s.startsWith("/") && typeof B.withBase === "function") return B.withBase(s); // root-absolute -> base-fixed
-    return s; // relative keep
+    if (/^https?:\/\//i.test(s)) return s;
+    if (s.startsWith("/") && typeof B.withBase === "function") return B.withBase(s);
+    return s;
   }
 
-  // ---- 2) Store Data (single load, shared) ----
+  // ---- 2) Store Data (single load shared) ----
   let storeDataPromise = null;
 
   function getStoreDataURL() {
@@ -51,19 +50,18 @@
   }
 
   function normalizeStoresToEntries(data) {
-    // Accept:
-    // 1) { "hardware": {...}, "ai-tools-hub": {...} }  (map)
-    // 2) { stores: { ... } }                          (map)
-    // 3) { stores: [ ... ] }                          (array)
-    // 4) [ ... ]                                      (array)
     let entries = [];
 
     if (Array.isArray(data)) {
-      entries = data.map((s, i) => [safeText(s.slug, `store-${i}`), s]).filter(([slug]) => !!slug);
+      entries = data
+        .map((s, i) => [safeText(s.slug, `store-${i}`), s])
+        .filter(([slug]) => !!slug);
     } else if (isObject(data) && isObject(data.stores)) {
       entries = Object.entries(data.stores);
     } else if (isObject(data) && Array.isArray(data.stores)) {
-      entries = data.stores.map((s, i) => [safeText(s.slug, `store-${i}`), s]).filter(([slug]) => !!slug);
+      entries = data.stores
+        .map((s, i) => [safeText(s.slug, `store-${i}`), s])
+        .filter(([slug]) => !!slug);
     } else if (isObject(data)) {
       entries = Object.entries(data);
     }
@@ -91,7 +89,7 @@
     const subNav = $("#sub-nav-list");
     if (!subNav) return;
 
-    subNav.innerHTML = `<span style="opacity:.6;font-weight:800;">Loading…</span>`;
+    subNav.innerHTML = `<span style="opacity:.7;font-weight:800;">Loading…</span>`;
 
     try {
       const { entries } = await loadStoresOnce();
@@ -101,22 +99,22 @@
         return;
       }
 
-      // ✅ Clean render
-      subNav.innerHTML = "";
-      const frag = document.createDocumentFragment();
-
-      // Optional: sort by title
+      // Sort by title for clean corporate nav
       const sorted = entries.slice().sort((a, b) => {
         const at = safeText(a[1]?.title, a[0]).toLowerCase();
         const bt = safeText(b[1]?.title, b[0]).toLowerCase();
         return at.localeCompare(bt);
       });
 
+      subNav.innerHTML = "";
+      const frag = document.createDocumentFragment();
+
       for (const [slug, store] of sorted) {
-        const a = el("a");
-        a.className = "sub-nav-item"; // (home.css / store-core.css varsa uygular)
+        const a = document.createElement("a");
+        a.className = "sub-nav-item"; // ✅ CSS patch targets this directly
         a.href = (B.URLS?.STORE ? B.URLS.STORE(slug) : `./store/${encodeURIComponent(slug)}/`);
         a.textContent = safeText(store?.title, slug);
+
         frag.appendChild(a);
       }
 
@@ -149,65 +147,36 @@
         const tagline = safeText(store?.tagline, "");
         const banner = safeText(store?.banner, "");
 
-        const card = el("a");
-        card.href = (B.URLS?.STORE ? B.URLS.STORE(slug) : `./store/${encodeURIComponent(slug)}/`);
-        card.style.textDecoration = "none";
-        card.style.color = "inherit";
+        const href = (B.URLS?.STORE ? B.URLS.STORE(slug) : `./store/${encodeURIComponent(slug)}/`);
 
-        const wrap = el("div");
-        wrap.style.border = "1px solid rgba(0,0,0,0.08)";
-        wrap.style.borderRadius = "16px";
-        wrap.style.overflow = "hidden";
-        wrap.style.background = "#fff";
-        wrap.style.boxShadow = "0 10px 26px rgba(0,0,0,0.06)";
+        const bannerSrc = banner
+          ? (B.URLS?.ASSET ? B.URLS.ASSET(`/images/store/${banner}`) : `assets/images/store/${banner}`)
+          : "assets/images/banners/global-marketplace-banner.webp";
 
-        const imgWrap = el("div");
-        imgWrap.style.height = "140px";
-        imgWrap.style.background = "#f3f4f6";
-        imgWrap.style.display = "flex";
-        imgWrap.style.alignItems = "center";
-        imgWrap.style.justifyContent = "center";
-        imgWrap.style.overflow = "hidden";
+        const isHardware = (store && store.kind === "hardware") || /hardware/i.test(slug) || /hardware/i.test(title);
 
-        const img = el("img");
-        img.alt = title;
-        img.loading = "lazy";
-        img.style.width = "100%";
-        img.style.height = "100%";
-        img.style.objectFit = "cover";
+        // ✅ Uses YOUR Etsy card CSS (.card, .card-media, .card-content...)
+        const card = document.createElement("a");
+        card.href = href;
+        card.className = "card" + (isHardware ? " card--hardware" : "");
 
-        if (banner && /^(https?:)?\/\//.test(banner)) {
-          img.src = banner;
-        } else if (banner) {
-          img.src = (B.URLS?.ASSET ? B.URLS.ASSET(`/images/store/${banner}`) : `assets/images/store/${banner}`);
-        } else {
-          img.src = "assets/images/banners/global-marketplace-banner.webp";
-        }
+        card.innerHTML = `
+          <div class="card-media">
+            <img src="${bannerSrc}" alt="${title}" loading="lazy">
+          </div>
 
-        imgWrap.appendChild(img);
+          <div class="card-content">
+            <div class="card-badge">${isHardware ? "HARDWARE STORE" : "OFFICIAL STORE"}</div>
+            <div class="card-title">${title}</div>
+            <div class="card-desc">
+              ${tagline || (isHardware
+                ? "AI accelerators, dev boards, embedded kits and edge devices."
+                : "Premium templates, UI kits, components and tools.")}
+            </div>
+            <div class="card-link">Explore store</div>
+          </div>
+        `;
 
-        const body = el("div");
-        body.style.padding = "14px";
-
-        const h = el("div", { textContent: title });
-        h.style.fontWeight = "900";
-        h.style.fontSize = "16px";
-        h.style.color = "#111827";
-        h.style.letterSpacing = "-0.01em";
-
-        const p = el("div", { textContent: tagline });
-        p.style.marginTop = "6px";
-        p.style.fontSize = "13px";
-        p.style.color = "#6b7280";
-        p.style.lineHeight = "1.5";
-
-        body.appendChild(h);
-        body.appendChild(p);
-
-        wrap.appendChild(imgWrap);
-        wrap.appendChild(body);
-
-        card.appendChild(wrap);
         grid.appendChild(card);
       }
     } catch (e) {
@@ -215,7 +184,7 @@
       grid.innerHTML = `
         <div style="padding:16px;border:1px solid rgba(0,0,0,.08);border-radius:12px;background:#fff;">
           <b>Stores failed to load.</b><br>
-          <span style="color:#6b7280;font-weight:700;">Console/Network: storeDataURL + HTTP status.</span>
+          <span style="color:#6b7280;font-weight:700;">Check Console/Network: storeDataURL + HTTP status.</span>
         </div>`;
     }
   }
@@ -260,28 +229,24 @@
 
       detail.innerHTML = "";
 
-      const eyebrow = el("div", { className: "cat-detail-eyebrow", textContent: "CATEGORY" });
-      const title = el("div", { className: "cat-detail-title", textContent: safeText(cat.title, cat.slug) });
-      const subtitle = el("div", { className: "cat-detail-subtitle", textContent: safeText(cat.tagline, "") });
+      const eyebrow = document.createElement("div");
+      eyebrow.className = "cat-detail-eyebrow";
+      eyebrow.textContent = "CATEGORY";
 
-      const links = el("div", { className: "cat-detail-links" });
+      const title = document.createElement("div");
+      title.className = "cat-detail-title";
+      title.textContent = safeText(cat.title, cat.slug);
+
+      const subtitle = document.createElement("div");
+      subtitle.className = "cat-detail-subtitle";
+      subtitle.textContent = safeText(cat.tagline, "");
+
+      const links = document.createElement("div");
+      links.className = "cat-detail-links";
 
       const items = Array.isArray(cat.items) ? cat.items : [];
-      if (!items.length) {
-        const none = el("div");
-        none.style.marginTop = "10px";
-        none.style.color = "#6b7280";
-        none.style.fontWeight = "800";
-        none.textContent = "No stores in this category.";
-        detail.appendChild(eyebrow);
-        detail.appendChild(title);
-        detail.appendChild(subtitle);
-        detail.appendChild(none);
-        return;
-      }
-
       for (const storeSlug of items) {
-        const a = el("a");
+        const a = document.createElement("a");
         a.href = (B.URLS?.STORE ? B.URLS.STORE(storeSlug) : `./store/${encodeURIComponent(storeSlug)}/`);
         a.textContent = storeSlug;
         links.appendChild(a);
@@ -295,7 +260,7 @@
 
     list.innerHTML = "";
     categories.forEach((cat, idx) => {
-      const btn = el("button");
+      const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "cat-item";
       btn.innerHTML = `<span>${safeText(cat.title, cat.slug)}</span><span style="opacity:.35;">›</span>`;
@@ -316,9 +281,9 @@
     const wrap = input.parentElement;
     wrap.style.position = "relative";
 
-    const dd = el("div");
+    const dd = document.createElement("div");
     dd.style.position = "absolute";
-    dd.style.top = "44px";
+    dd.style.top = "54px";
     dd.style.left = "0";
     dd.style.right = "0";
     dd.style.zIndex = "9999";
@@ -377,7 +342,7 @@
 
       dd.innerHTML = "";
       results.slice(0, 10).forEach((r, idx) => {
-        const a = el("a");
+        const a = document.createElement("a");
         a.href =
           (r.sectionSlug && B.URLS?.STORE_SECTION)
             ? B.URLS.STORE_SECTION(r.storeSlug, r.sectionSlug)
@@ -390,16 +355,17 @@
         a.style.fontWeight = "900";
         a.style.borderTop = idx === 0 ? "none" : "1px solid rgba(0,0,0,0.06)";
 
-        const title = el("div", { textContent: safeText(r.title, "Result") });
+        const t1 = document.createElement("div");
+        t1.textContent = safeText(r.title, "Result");
 
-        const sub = el("div");
+        const sub = document.createElement("div");
         sub.style.marginTop = "4px";
         sub.style.fontSize = "12px";
         sub.style.fontWeight = "800";
         sub.style.color = "#6b7280";
         sub.textContent = safeText(r.storeSlug, "") + (r.sectionSlug ? ` / ${r.sectionSlug}` : "");
 
-        a.appendChild(title);
+        a.appendChild(t1);
         a.appendChild(sub);
 
         dd.appendChild(a);
@@ -429,7 +395,6 @@
 
   // ---- 7) Boot ----
   async function boot() {
-    // ✅ header stores first (so you immediately see if data loads)
     await renderHeaderStores();
     await renderGallery();
     await renderCategoriesPanel();
@@ -442,5 +407,3 @@
     boot();
   }
 })();
-
-
