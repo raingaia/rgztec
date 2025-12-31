@@ -1,225 +1,161 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC • LAB</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RGZTEC • Dashboard Editor</title>
 
-  <!-- Base (opsiyonel): senin sistem meta rgz-base kullanıyordu -->
-  <meta name="rgz-base" content="" />
+  <meta name="rgz-base" content="">
 
-  <!-- Fonts (ana sitede ne varsa kalsın; Inter örneği) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- ✅ ANA SAYFA CSS (bunu senin gerçek dosyana göre ayarla) -->
-  <link rel="stylesheet" href="../assets/css/home.css" />
+  <!-- SAME CSS AS HOME -->
+  <link rel="stylesheet" href="../assets/css/theme-tokens.css">
+  <link rel="stylesheet" href="../assets/css/store-core.css">
+  <link rel="stylesheet" href="../assets/css/home.css">
 
-  <!-- ✅ LAB Premium Override (aşağıda dosyasını veriyorum) -->
-  <link rel="stylesheet" href="../assets/css/lab-premium.css" />
-
-</head>
-
-<body class="rgz-body rgz-lab">
-
-  <!-- =========================================================
-       HEADER (ANA SAYFA İLE AYNI OLMALI)
-       Eğer class/id farklıysa: Ana sayfadaki header'ı BURAYA birebir yapıştır.
-       ========================================================= -->
-  <header class="rgz-header">
-    <div class="rgz-header__inner">
-      <a class="rgz-brand" href="../index.html" aria-label="RGZTEC Home">
-        <span class="rgz-brand__logo"></span>
-        <span class="rgz-brand__name">RGZTEC</span>
-      </a>
-
-      <nav class="rgz-nav" aria-label="Primary">
-        <a class="rgz-nav__link" href="../store/">Store</a>
-        <a class="rgz-nav__link" href="../catalog/">Catalog</a>
-        <a class="rgz-nav__link" href="../seller/">Seller</a>
-        <a class="rgz-nav__link is-active" href="./">LAB</a>
-      </nav>
-
-      <div class="rgz-actions">
-        <a class="rgz-btn rgz-btn--ghost" href="../login/">Sign in</a>
-        <a class="rgz-btn rgz-btn--primary" href="../open-store.html">Open a Store</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- =========================================================
-       HERO
-       ========================================================= -->
-  <main class="lab-shell">
-    <section class="lab-hero">
-      <div class="lab-hero__bg"></div>
-
-      <div class="lab-hero__content">
-        <div class="lab-kicker">
-          <span class="lab-dot"></span>
-          <span>Experimental • Internal-grade • Production-minded</span>
-        </div>
-
-        <h1 class="lab-title">
-          RGZTEC LAB
-          <span class="lab-title__glow" aria-hidden="true"></span>
-        </h1>
-
-        <p class="lab-subtitle">
-          A premium playground to test UI components, data flows, fetch patterns, and micro-interactions —
-          without touching Store or Admin stability.
-        </p>
-
-        <div class="lab-cta">
-          <button class="lab-btn lab-btn--primary" id="btn-run">Run Demo</button>
-          <button class="lab-btn lab-btn--soft" id="btn-copy">Copy Snippet</button>
-          <a class="lab-btn lab-btn--ghost" href="../store/">Go to Store</a>
-        </div>
-
-        <div class="lab-metrics">
-          <div class="lab-metric">
-            <div class="lab-metric__k">Mode</div>
-            <div class="lab-metric__v">Safe Sandbox</div>
-          </div>
-          <div class="lab-metric">
-            <div class="lab-metric__k">Scope</div>
-            <div class="lab-metric__v">UI + Fetch + UX</div>
-          </div>
-          <div class="lab-metric">
-            <div class="lab-metric__k">Quality</div>
-            <div class="lab-metric__v">Ultra Premium</div>
-          </div>
-        </div>
-      </div>
-
-      <aside class="lab-panel">
-        <div class="lab-panel__top">
-          <div class="lab-badge">LIVE PREVIEW</div>
-          <div class="lab-chip">No Store CSS touched</div>
-        </div>
-
-        <div class="lab-card">
-          <div class="lab-card__title">Demo Output</div>
-          <div class="lab-card__desc">Click “Run Demo” to simulate a production-like UI response.</div>
-
-          <div class="lab-output" id="out">
-            Ready. No actions executed yet.
-          </div>
-
-          <div class="lab-divider"></div>
-
-          <div class="lab-snippet">
-            <div class="lab-snippet__head">
-              <span>Snippet</span>
-              <span class="lab-snippet__tag">fetch + render</span>
-            </div>
-
-            <pre class="lab-code" id="code"><code>// RGZTEC LAB snippet
-async function demo(){
-  const res = await fetch("../data/store.data.json");
-  const data = await res.json();
-  return { ok:true, stores: (data?.stores?.length || 0) };
-}</code></pre>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- =========================================================
-         GRID
-         ========================================================= -->
-    <section class="lab-grid">
-      <article class="lab-box">
-        <h3>UI Components</h3>
-        <p>Buttons, cards, headers, banners — polished and brand-consistent.</p>
-        <div class="lab-tags">
-          <span class="lab-tag">layout</span><span class="lab-tag">tokens</span><span class="lab-tag">motion</span>
-        </div>
-      </article>
-
-      <article class="lab-box">
-        <h3>Data & Fetch</h3>
-        <p>Test JSON paths, caching, base resolution, and safe fallbacks.</p>
-        <div class="lab-tags">
-          <span class="lab-tag">fetch</span><span class="lab-tag">json</span><span class="lab-tag">fallback</span>
-        </div>
-      </article>
-
-      <article class="lab-box">
-        <h3>Micro UX</h3>
-        <p>Hover states, focus rings, skeletons, empty states — premium feel.</p>
-        <div class="lab-tags">
-          <span class="lab-tag">a11y</span><span class="lab-tag">states</span><span class="lab-tag">polish</span>
-        </div>
-      </article>
-    </section>
-
-    <footer class="lab-footer">
-      <div class="lab-footer__inner">
-        <div class="lab-footer__left">
-          <strong>RGZTEC</strong> • LAB
-          <span class="lab-footer__sep">—</span>
-          Built for quality-first iteration.
-        </div>
-        <div class="lab-footer__right">
-          <a href="../privacy.html">Privacy</a>
-          <a href="../index.html">Home</a>
-        </div>
-      </div>
-    </footer>
-  </main>
-
-  <script>
-    // Minimal safe interactions (no dependencies)
-    const out = document.getElementById("out");
-    const code = document.getElementById("code");
-    const btnRun = document.getElementById("btn-run");
-    const btnCopy = document.getElementById("btn-copy");
-
-    function now(){
-      const d = new Date();
-      return d.toLocaleTimeString();
+  <style>
+    /* ===== EDITOR ONLY ===== */
+    .editor-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:24px;
+      margin-top:32px;
+      margin-bottom:80px;
     }
 
-    btnRun.addEventListener("click", async () => {
-      out.textContent = "Running demo…";
-      out.classList.add("is-loading");
+    .editor-panel{
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:16px;
+      overflow:hidden;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
+      min-height:520px;
+    }
 
-      try{
-        // Example: safe fetch (may 404 depending on your path; handles gracefully)
-        const res = await fetch("../data/store.data.json", { cache: "no-store" });
-        const ok = res.ok;
+    .editor-head{
+      padding:14px 18px;
+      font-weight:800;
+      font-size:14px;
+      border-bottom:1px solid rgba(0,0,0,.06);
+      background:#fafafa;
+    }
 
-        let stores = 0;
-        if(ok){
-          const data = await res.json();
-          stores = (data?.stores?.length || 0);
-        }
+    .editor-textarea{
+      flex:1;
+      width:100%;
+      border:0;
+      outline:none;
+      padding:16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size:13px;
+      line-height:1.6;
+      resize:none;
+    }
 
-        out.classList.remove("is-loading");
-        out.textContent = ok
-          ? `[${now()}] OK • store.data.json loaded • stores: ${stores}`
-          : `[${now()}] WARN • Could not load ../data/store.data.json (status: ${res.status})`;
+    .editor-preview{
+      padding:24px;
+    }
 
-      }catch(err){
-        out.classList.remove("is-loading");
-        out.textContent = `[${now()}] ERROR • ${String(err?.message || err)}`;
+    .editor-preview .preview-box{
+      border:1px dashed rgba(0,0,0,.15);
+      border-radius:12px;
+      padding:24px;
+      min-height:200px;
+    }
+
+    @media (max-width: 900px){
+      .editor-wrap{
+        grid-template-columns:1fr;
       }
-    });
+    }
+  </style>
+</head>
 
-    btnCopy.addEventListener("click", async () => {
-      try{
-        await navigator.clipboard.writeText(code.innerText);
-        btnCopy.textContent = "Copied";
-        setTimeout(()=> btnCopy.textContent = "Copy Snippet", 1100);
-      }catch(e){
-        btnCopy.textContent = "Copy failed";
-        setTimeout(()=> btnCopy.textContent = "Copy Snippet", 1100);
-      }
-    });
-  </script>
+<body>
+
+<!-- SAME HEADER -->
+<header class="app-header">
+  <div class="container header-inner">
+    <div class="header-left">
+      <a href="../" class="logo">RGZTEC</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="../" class="nav-link">Home</a>
+      <a href="../seller/login.html" class="nav-link">Sign In</a>
+    </div>
+  </div>
+</header>
+
+<!-- SAME SUB NAV (EMPTY BUT ALIGNED) -->
+<nav class="sub-nav">
+  <div class="sub-nav-list"></div>
+</nav>
+
+<!-- MAIN -->
+<main class="container">
+
+  <div class="section-header" style="margin-top:32px;">
+    <h1 class="gallery-title">Dashboard / Editor</h1>
+    <p class="hero-desc" style="max-width:640px;">
+      Test HTML, CSS and JS blocks exactly inside RGZTEC layout before publishing.
+    </p>
+  </div>
+
+  <div class="editor-wrap">
+
+    <!-- CODE INPUT -->
+    <div class="editor-panel">
+      <div class="editor-head">Editor</div>
+      <textarea id="editorInput" class="editor-textarea">
+<div class="card-demo">
+  <h3>Hello RGZTEC</h3>
+  <p>This is a test component.</p>
+</div>
+      </textarea>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="editor-panel">
+      <div class="editor-head">Preview</div>
+      <div class="editor-preview">
+        <div id="previewBox" class="preview-box"></div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- SAME FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">RGZTEC</div>
+      <p>Premium digital marketplace for code, UI kits and hardware accessories.</p>
+    </div>
+    <div class="footer-bot">
+      <span>© 2025 RGZTEC, Inc.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const input = document.getElementById("editorInput");
+  const preview = document.getElementById("previewBox");
+
+  function render(){
+    preview.innerHTML = input.value;
+  }
+
+  input.addEventListener("input", render);
+  render();
+</script>
+
 </body>
 </html>
-
-
