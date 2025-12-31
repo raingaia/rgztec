@@ -2,17 +2,16 @@
  * RGZTEC Marketplace - Store Shell Engine
  * HYBRID MASTER FINAL (Static Stores + Dynamic Apps)
  *
- * ✅ Static stores via: <body class="store-body" data-path="hardware/ai-accelerators">
- * ✅ Dynamic apps via: /apps/* (admin, search, signin, open-store)
- * ✅ Global search page (/apps/search) scans DATA recursively
- * ✅ BASE auto (no hardcoded /rgztec) — Amplify root uses ""
+ * Static store:
+ *  <body class="store-body" data-path="hardware/ai-accelerators">
+ *  <div id="store-root"></div>
+ *
+ * Dynamic apps:
+ *  window.APPS_MODE + window.APPS_PARAMS (apps pages)
  *
  * IMPORTANT:
  * - Keep ONLY this file as: /assets/js/store-shell.js
- * - Store pages must have: <div id="store-root"></div> + <body class="store-body" data-path="...">
- * - Optional overrides from page:
- *    window.RGZ_DATA_URL   = "/data/store.data.json"
- *    window.RGZ_IMAGE_BASE = "/assets/images/store/"
+ * - Data must exist at: /data/store.data.json
  */
 (() => {
   "use strict";
@@ -21,24 +20,24 @@
   // 1) BASE RESOLUTION
   // ============================================================
   function resolveBase() {
-    // AWS Amplify root deployment => keep empty.
-    // If you ever deploy under /rgztec, you can change detection here.
+    // Amplify root deploy => empty base
     return "";
   }
 
-  const BASE = resolveBase(); // "" or "/rgztec"
+  const BASE = resolveBase();
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
   const enc = (s) => encodeURIComponent(String(s || ""));
   const safeSlug = (s) => String(s || "").trim().replace(/^\/+|\/+$/g, "");
 
-  // ✅ Allow page-level overrides (NO structure change)
-  const DATA_URL =
-    (window.RGZ_DATA_URL && String(window.RGZ_DATA_URL)) ||
-    withBase("/data/store.data.json?v=" + Date.now());
+  // Data + assets
+  const DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
+  const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
-  const IMAGE_BASE_PATH =
-    (window.RGZ_IMAGE_BASE && String(window.RGZ_IMAGE_BASE)) ||
-    withBase("/assets/images/store/");
+  // expose minimal helpers
+  window.StoreShell = window.StoreShell || {};
+  window.StoreShell.base = BASE;
+  window.StoreShell.withBase = withBase;
+  window.StoreShell.dataUrl = DATA_URL;
 
   // ============================================================
   // 2) BOOT
@@ -46,7 +45,6 @@
   document.addEventListener("DOMContentLoaded", () => {
     const storeRoot = document.getElementById("store-root");
     const storeBody = document.querySelector("body.store-body");
-
     if (!storeBody || !storeRoot) return;
 
     // Dynamic apps layer (/apps/*)
@@ -55,10 +53,10 @@
       return;
     }
 
-    // Static store layer (87+ stores)
+    // Static store layer
     const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
     if (!rawPath) {
-      renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="hardware">`);
+      renderError(storeRoot, `Missing data-path. Example: <body class="store-body" data-path="hardware">`);
       return;
     }
 
@@ -72,33 +70,29 @@
     const m = (mode || "dashboard").toLowerCase();
 
     if (m === "search") {
-      renderSearchModule(target, params);
+      renderSearchModule(target);
       return;
     }
-
     if (m === "admin") {
       renderAdminDashboard(target);
       return;
     }
-
     if (m === "signin") {
       target.innerHTML = renderHeader() + renderSignInModule();
       wireInteractions(target);
       return;
     }
-
     if (m === "open-store") {
       target.innerHTML = renderHeader() + renderOpenStoreModule();
       wireInteractions(target);
       return;
     }
 
-    // Default fallback
     target.innerHTML =
       renderHeader() +
       `<main style="padding:80px 20px; text-align:center;">
-        <h1 style="color:#fff; margin:0 0 8px;">Module: ${esc(m)}</h1>
-        <p style="color:#888; margin:0;">Coming Soon</p>
+        <h1 style="color:#111; margin:0 0 8px;">Module: ${esc(m)}</h1>
+        <p style="color:#666; margin:0;">Coming Soon</p>
       </main>`;
     wireInteractions(target);
   }
@@ -106,16 +100,16 @@
   function renderSignInModule() {
     return `
       <main style="padding:60px 20px; max-width:900px; margin:0 auto;">
-        <div style="background:#0a0a0a; border:1px solid #222; padding:28px; border-radius:18px;">
-          <h1 style="color:#fff; margin:0 0 10px;">Sign In</h1>
-          <p style="color:#777; margin:0 0 22px;">Account system is being integrated.</p>
+        <div style="background:#fff; border:1px solid #e5e7eb; padding:28px; border-radius:18px;">
+          <h1 style="color:#111; margin:0 0 10px;">Sign In</h1>
+          <p style="color:#64748b; margin:0 0 22px;">Account system is being integrated.</p>
           <div style="display:grid; gap:12px;">
             <input placeholder="Email"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
             <input placeholder="Password" type="password"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
             <button type="button"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #00ffa3; background:#00ffa3; color:#000; font-weight:800; cursor:pointer;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #111; background:#111; color:#fff; font-weight:800; cursor:pointer;">
               Continue
             </button>
           </div>
@@ -126,33 +120,33 @@
   function renderOpenStoreModule() {
     return `
       <main style="padding:60px 20px; max-width:1000px; margin:0 auto;">
-        <div style="background:#0a0a0a; border:1px solid #222; padding:28px; border-radius:18px;">
-          <h1 style="color:#fff; margin:0 0 10px;">Open a Store</h1>
-          <p style="color:#777; margin:0 0 22px;">Apply to launch your store on RGZTEC Marketplace.</p>
+        <div style="background:#fff; border:1px solid #e5e7eb; padding:28px; border-radius:18px;">
+          <h1 style="color:#111; margin:0 0 10px;">Open a Store</h1>
+          <p style="color:#64748b; margin:0 0 22px;">Apply to launch your store on RGZTEC Marketplace.</p>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
             <input placeholder="Brand / Store Name"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
             <input placeholder="Email"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
             <input placeholder="Category (e.g., Hardware, Templates)"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
             <input placeholder="Website / Portfolio"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
           </div>
 
           <div style="margin-top:12px;">
             <textarea placeholder="Tell us what you'll sell…"
-              style="width:100%; min-height:120px; padding:14px 16px; border-radius:12px; border:1px solid #333; background:#111; color:#fff; outline:none;"></textarea>
+              style="width:100%; min-height:120px; padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;"></textarea>
           </div>
 
           <div style="margin-top:12px; display:flex; gap:10px; justify-content:flex-end;">
             <a href="${withBase("/")}"
-              style="padding:12px 14px; border-radius:12px; border:1px solid #333; background:#111; color:#aaa; text-decoration:none;">
+              style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; text-decoration:none;">
               Back
             </a>
             <button type="button"
-              style="padding:12px 14px; border-radius:12px; border:1px solid #00ffa3; background:#00ffa3; color:#000; font-weight:800; cursor:pointer;">
+              style="padding:12px 14px; border-radius:12px; border:1px solid #111; background:#111; color:#fff; font-weight:800; cursor:pointer;">
               Submit
             </button>
           </div>
@@ -161,71 +155,57 @@
   }
 
   async function renderAdminDashboard(target) {
-    target.innerHTML =
-      renderHeader() +
-      `<div style="padding:40px; color:#fff; text-align:center;">Loading System Data...</div>`;
+    target.innerHTML = renderHeader() + `<div style="padding:40px; color:#64748b; text-align:center;">Loading System Data...</div>`;
 
     try {
       const data = await fetchJSON(DATA_URL);
       const stores = Object.keys(data || {});
       let totalItems = 0;
-
-      stores.forEach((k) => {
-        totalItems += countTree(data[k]);
-      });
+      stores.forEach((k) => (totalItems += countTree(data[k])));
 
       target.innerHTML =
         renderHeader() +
         `
-        <main class="admin-panel" style="padding:40px 20px; max-width:1200px; margin:0 auto; font-family:Inter, sans-serif;">
-          <div style="background:linear-gradient(145deg, #0f0f0f, #050505); border:1px solid #333; padding:40px; border-radius:30px; margin-bottom:40px;">
-            <h1 style="font-size:32px; color:#fff; margin:0;">Command Center</h1>
-            <p style="color:#666; margin:8px 0 30px;">Global Infrastructure Management</p>
+        <main style="padding:40px 20px; max-width:1200px; margin:0 auto;">
+          <div style="background:#fff; border:1px solid #e5e7eb; padding:28px; border-radius:18px; margin-bottom:22px;">
+            <h1 style="margin:0 0 6px; color:#111;">Command Center</h1>
+            <p style="margin:0; color:#64748b;">Global Infrastructure Management</p>
+          </div>
 
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
-              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
-                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Active Stores</small>
-                <div style="font-size:28px; color:#00ffa3; font-weight:800;">${stores.length}</div>
-              </div>
-              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
-                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Total Entries</small>
-                <div style="font-size:28px; color:#00ffa3; font-weight:800;">${totalItems}</div>
-              </div>
-              <div style="background:#111; padding:20px; border-radius:16px; border:1px solid #222;">
-                <small style="color:#555; text-transform:uppercase; letter-spacing:1px;">Engine Status</small>
-                <div style="font-size:28px; color:#00ffa3; font-weight:800;">Hybrid FINAL</div>
-              </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:22px;">
+            <div style="background:#fff; border:1px solid #e5e7eb; padding:16px; border-radius:14px;">
+              <div style="color:#64748b; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;">Active Stores</div>
+              <div style="font-size:28px; color:#111; font-weight:900;">${stores.length}</div>
+            </div>
+            <div style="background:#fff; border:1px solid #e5e7eb; padding:16px; border-radius:14px;">
+              <div style="color:#64748b; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;">Total Entries</div>
+              <div style="font-size:28px; color:#111; font-weight:900;">${totalItems}</div>
+            </div>
+            <div style="background:#fff; border:1px solid #e5e7eb; padding:16px; border-radius:14px;">
+              <div style="color:#64748b; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;">Engine Status</div>
+              <div style="font-size:18px; color:#111; font-weight:900;">Hybrid FINAL</div>
             </div>
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <h3 style="color:#fff; margin:0 0 10px;">Store Inventory</h3>
+          <div style="display:flex; flex-direction:column; gap:10px;">
             ${stores.map((key) => {
               const title = esc((data[key] && (data[key].title || data[key].name)) || key);
               const route = withBase(`/store/${enc(key)}/`);
-              const editRoute = withBase(`/apps/editor?store=${enc(key)}`); // placeholder
               return `
-                <div style="background:#0a0a0a; border:1px solid #1a1a1a; padding:16px 24px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:14px;">
+                <div style="background:#fff; border:1px solid #e5e7eb; padding:14px 16px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:12px;">
                   <div>
-                    <div style="color:#fff; font-weight:600;">${title}</div>
-                    <div style="color:#444; font-size:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">/store/${esc(key)}/</div>
+                    <div style="color:#111; font-weight:800;">${title}</div>
+                    <div style="color:#64748b; font-size:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">/store/${esc(key)}/</div>
                   </div>
-                  <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
-                    <a href="${editRoute}"
-                      style="background:#1a1a1a; color:#bbb; border:1px solid #333; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none;">
-                      EDIT
-                    </a>
-                    <a href="${route}" target="_blank" rel="noopener"
-                      style="background:#00ffa3; color:#000; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:900; text-decoration:none;">
-                      LIVE
-                    </a>
-                  </div>
+                  <a href="${route}" target="_blank" rel="noopener"
+                    style="background:#111; color:#fff; padding:10px 14px; border-radius:10px; font-size:12px; font-weight:900; text-decoration:none;">
+                    LIVE
+                  </a>
                 </div>`;
             }).join("")}
           </div>
         </main>
       `;
-
       wireInteractions(target);
     } catch (e) {
       renderError(target, "Admin Data Load Failed: " + (e && e.message ? e.message : String(e)));
@@ -243,7 +223,6 @@
     return c;
   }
 
-  // ---------- Dynamic: Search ----------
   function renderSearchModule(target) {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q") || "";
@@ -251,19 +230,16 @@
     target.innerHTML =
       renderHeader() +
       `
-      <main class="search-container" style="padding:40px 20px; max-width:1200px; margin:0 auto;">
-        <div class="search-header" style="margin-bottom:30px; text-align:center;">
-          <h1 style="font-size:2.2rem; margin:0 0 10px; color:#fff;">Global Search</h1>
-          <p style="color:#888; margin:0;">Deep scanning stores and sub-stores...</p>
-          <div style="margin-top:18px; max-width:760px; margin-left:auto; margin-right:auto;">
-            <input
-              type="text"
-              id="main-search-input"
-              value="${esc(query)}"
-              placeholder="Search products, tools or shops..."
-              style="width:100%; padding:16px 24px; border-radius:999px; border:1px solid #333; background:#111; color:#fff; font-size:1.1rem; outline:none;"
-            />
-          </div>
+      <main style="padding:40px 20px; max-width:1200px; margin:0 auto;">
+        <div style="margin-bottom:18px; text-align:center;">
+          <h1 style="margin:0 0 8px; color:#111;">Global Search</h1>
+          <p style="margin:0; color:#64748b;">Deep scanning stores and sub-stores…</p>
+        </div>
+
+        <div style="max-width:760px; margin:0 auto 18px;">
+          <input type="text" id="main-search-input" value="${esc(query)}"
+            placeholder="Search products, tools or shops…"
+            style="width:100%; padding:14px 18px; border-radius:999px; border:1px solid #e5e7eb; background:#fff; color:#111; font-size:16px; outline:none;">
         </div>
 
         <div id="search-results-grid" class="shop-grid"></div>
@@ -287,7 +263,7 @@
     if (!gridTarget) return;
 
     if (qraw.length < 2) {
-      gridTarget.innerHTML = `<p style="color:#444; grid-column:1/-1; text-align:center; padding:40px;">Enter at least 2 characters to scan...</p>`;
+      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:40px;">Enter at least 2 characters to scan…</p>`;
       return;
     }
 
@@ -295,7 +271,7 @@
     try {
       allData = await fetchJSON(DATA_URL);
     } catch (e) {
-      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:40px;">Search failed to load database.</p>`;
+      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:40px;">Search failed to load database.</p>`;
       return;
     }
 
@@ -303,33 +279,26 @@
     Object.keys(allData || {}).forEach((slug) => searchInData(allData[slug], slug, qraw, results));
 
     if (results.length === 0) {
-      gridTarget.innerHTML = `<p style="color:#666; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(qraw)}"</p>`;
+      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(qraw)}"</p>`;
       return;
     }
 
-    gridTarget.innerHTML = results
-      .slice(0, 200)
-      .map((item) => {
-        const img = resolveImage(item.image || "");
-        return `
-          <a href="${escAttr(item.url || "#")}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ""}>
-            <div class="shop-card-media" style="position:relative;">
-              ${
-                img
-                  ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">`
-                  : `<div class="product-media-placeholder"></div>`
-              }
-              <div style="position:absolute; top:12px; right:12px; background:#00ffa3; color:#000; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:bold; letter-spacing:0.5px;">
-                ${esc(String(item.storeName || "").toUpperCase())}
-              </div>
+    gridTarget.innerHTML = results.slice(0, 200).map((item) => {
+      const img = resolveImage(item.image || "");
+      return `
+        <a href="${escAttr(item.url || "#")}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ""}>
+          <div class="shop-card-media" style="position:relative;">
+            ${img ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">` : `<div class="product-media-placeholder"></div>`}
+            <div style="position:absolute; top:12px; right:12px; background:#111; color:#fff; padding:3px 8px; border-radius:8px; font-size:10px; font-weight:900; letter-spacing:0.5px;">
+              ${esc(String(item.storeName || "").toUpperCase())}
             </div>
-            <div class="shop-card-body">
-              <h3 class="shop-card-title">${esc(item.title)}</h3>
-              <p class="shop-card-tagline">${esc(item.tagline || "")}</p>
-            </div>
-          </a>`;
-      })
-      .join("");
+          </div>
+          <div class="shop-card-body">
+            <h3 class="shop-card-title">${esc(item.title)}</h3>
+            <p class="shop-card-tagline">${esc(item.tagline || "")}</p>
+          </div>
+        </a>`;
+    }).join("");
   }
 
   function searchInData(obj, storeSlug, q, results) {
@@ -349,7 +318,7 @@
             image: p && p.image ? p.image : "",
             url: (p && p.url) || "#",
             isExternal: true,
-            storeName: storeSlug,
+            storeName: storeSlug
           });
         }
       });
@@ -367,7 +336,7 @@
             image: (s && s.image) || "",
             url: slug ? withBase(`/store/${enc(storeSlug)}/${enc(slug)}/`) : withBase(`/store/${enc(storeSlug)}/`),
             isExternal: false,
-            storeName: storeSlug,
+            storeName: storeSlug
           });
         }
 
@@ -381,7 +350,7 @@
   // ============================================================
   async function initStore(path, target) {
     try {
-      target.innerHTML = `<div style="padding:18px; color:#666; font-family:Inter,system-ui,Arial;">Loading store...</div>`;
+      target.innerHTML = `<div style="padding:18px; color:#64748b; font-family:Inter,system-ui,Arial;">Loading store…</div>`;
 
       const allStoresData = await fetchJSON(DATA_URL);
       const found = findDataByPath(allStoresData, path);
@@ -569,11 +538,7 @@
         return `
           <a href="${href}" class="shop-card">
             <div class="shop-card-media">
-              ${
-                imageUrl
-                  ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(s.name || s.title || "")}" loading="lazy">`
-                  : `<div class="product-media-placeholder"></div>`
-              }
+              ${imageUrl ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(s.name || s.title || "")}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
             </div>
             <div class="shop-card-body">
               <h3 class="shop-card-title">${esc(s.name || s.title || "Untitled Shop")}</h3>
@@ -601,11 +566,7 @@
         return `
           <a href="${url}" class="shop-card" target="_blank" rel="noopener noreferrer">
             <div class="shop-card-media">
-              ${
-                imageUrl
-                  ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(title)}" loading="lazy">`
-                  : `<div class="product-media-placeholder"></div>`
-              }
+              ${imageUrl ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(title)}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
             </div>
             <div class="shop-card-body">
               <h3 class="shop-card-title">${title}</h3>
@@ -676,21 +637,18 @@
   // ============================================================
   async function fetchJSON(url) {
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error(`Fetch failed: ${res.status} ${res.statusText} (${url})`);
-    }
+    if (!res.ok) throw new Error(`Fetch failed: ${res.status} ${res.statusText} (${url})`);
     return await res.json();
   }
 
-  function renderError(targetOrEl, msg) {
-    const el = typeof targetOrEl === "string" ? document.querySelector(targetOrEl) : targetOrEl;
-    if (!el) return;
-    el.innerHTML = `
-      <div style="padding:22px;max-width:900px;margin:20px auto;font-family:Inter,system-ui,Arial;">
-        <h2 style="margin:0 0 10px; color:#111;">RGZTEC • Load Error</h2>
-        <div style="padding:14px;border:1px solid #eee;border-radius:12px;background:#fff;">
+  function renderError(target, msg) {
+    if (!target) return;
+    target.innerHTML = `
+      <div style="padding:22px;max-width:980px;margin:20px auto;font-family:Inter,system-ui,Arial;">
+        <h2 style="margin:0 0 10px; color:#111;">Store failed to render (check console).</h2>
+        <div style="padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;">
           <div style="margin-bottom:10px;color:#111;">${esc(msg)}</div>
-          <div style="color:#666;font-size:13px;">
+          <div style="color:#64748b;font-size:13px; line-height:1.6;">
             <div><b>DATA_URL</b>: <code>${esc(DATA_URL)}</code></div>
             <div><b>BASE</b>: <code>${esc(BASE)}</code></div>
           </div>
@@ -704,18 +662,12 @@
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
-      "'": "&#039;",
+      "'": "&#039;"
     }[m]));
   }
-
   function escAttr(s) {
     return esc(String(s || "")).replace(/`/g, "&#096;");
   }
-
-  // ✅ expose minimal helpers for other pages
-  window.StoreShell = window.StoreShell || {};
-  window.StoreShell.base = BASE;
-  window.StoreShell.withBase = withBase;
 })();
 
 
