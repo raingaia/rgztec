@@ -2,16 +2,17 @@
  * RGZTEC Marketplace - Store Shell Engine
  * HYBRID MASTER FINAL (Static Stores + Dynamic Apps)
  *
- * - Static stores via <body class="store-body" data-path="hardware/ai-accelerators">
- * - Dynamic apps via /apps/* (admin, search, signin, open-store)
- * - Global search (recursive scan)
- * - Admin Command Center (recursive inventory count)
- * - BASE auto (no hardcoded /rgztec)
+ * ✅ Static stores via: <body class="store-body" data-path="hardware/ai-accelerators">
+ * ✅ Dynamic apps via: /apps/* (admin, search, signin, open-store)
+ * ✅ Global search page (/apps/search) scans DATA recursively
+ * ✅ BASE auto (no hardcoded /rgztec) — Amplify root uses ""
  *
  * IMPORTANT:
  * - Keep ONLY this file as: /assets/js/store-shell.js
- * - apps/index.html should set: window.APPS_MODE + window.APPS_PARAMS
- * - Your pages must have: <div id="store-root"></div> and <body class="store-body" ...>
+ * - Store pages must have: <div id="store-root"></div> + <body class="store-body" data-path="...">
+ * - Optional overrides from page:
+ *    window.RGZ_DATA_URL   = "/data/store.data.json"
+ *    window.RGZ_IMAGE_BASE = "/assets/images/store/"
  */
 (() => {
   "use strict";
@@ -20,9 +21,9 @@
   // 1) BASE RESOLUTION
   // ============================================================
   function resolveBase() {
-    // AWS Amplify'da site ana dizinden çalıştığı için burayı boş bırakıyoruz.
-    // Bu sayede tüm assets ve store linkleri doğru yolu bulacak.
-    return ""; 
+    // AWS Amplify root deployment => keep empty.
+    // If you ever deploy under /rgztec, you can change detection here.
+    return "";
   }
 
   const BASE = resolveBase(); // "" or "/rgztec"
@@ -30,9 +31,14 @@
   const enc = (s) => encodeURIComponent(String(s || ""));
   const safeSlug = (s) => String(s || "").trim().replace(/^\/+|\/+$/g, "");
 
-  // Data + assets
-  const DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
-  const IMAGE_BASE_PATH = withBase("/assets/images/store/");
+  // ✅ Allow page-level overrides (NO structure change)
+  const DATA_URL =
+    (window.RGZ_DATA_URL && String(window.RGZ_DATA_URL)) ||
+    withBase("/data/store.data.json?v=" + Date.now());
+
+  const IMAGE_BASE_PATH =
+    (window.RGZ_IMAGE_BASE && String(window.RGZ_IMAGE_BASE)) ||
+    withBase("/assets/images/store/");
 
   // ============================================================
   // 2) BOOT
@@ -97,7 +103,6 @@
     wireInteractions(target);
   }
 
-  // ---------- Dynamic: Sign In ----------
   function renderSignInModule() {
     return `
       <main style="padding:60px 20px; max-width:900px; margin:0 auto;">
@@ -118,7 +123,6 @@
       </main>`;
   }
 
-  // ---------- Dynamic: Open Store ----------
   function renderOpenStoreModule() {
     return `
       <main style="padding:60px 20px; max-width:1000px; margin:0 auto;">
@@ -156,7 +160,6 @@
       </main>`;
   }
 
-  // ---------- Dynamic: Admin ----------
   async function renderAdminDashboard(target) {
     target.innerHTML =
       renderHeader() +
@@ -311,9 +314,10 @@
         return `
           <a href="${escAttr(item.url || "#")}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ""}>
             <div class="shop-card-media" style="position:relative;">
-              ${img
-                ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">`
-                : `<div class="product-media-placeholder"></div>`
+              ${
+                img
+                  ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">`
+                  : `<div class="product-media-placeholder"></div>`
               }
               <div style="position:absolute; top:12px; right:12px; background:#00ffa3; color:#000; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:bold; letter-spacing:0.5px;">
                 ${esc(String(item.storeName || "").toUpperCase())}
@@ -331,7 +335,6 @@
   function searchInData(obj, storeSlug, q, results) {
     if (!obj) return;
 
-    // Products
     if (Array.isArray(obj.products)) {
       obj.products.forEach((p) => {
         const title = String(p && p.title ? p.title : "");
@@ -346,13 +349,12 @@
             image: p && p.image ? p.image : "",
             url: (p && p.url) || "#",
             isExternal: true,
-            storeName: storeSlug
+            storeName: storeSlug,
           });
         }
       });
     }
 
-    // Sections (recursive)
     if (Array.isArray(obj.sections)) {
       obj.sections.forEach((s) => {
         const nm = String((s && (s.name || s.title)) || "").toLowerCase();
@@ -365,7 +367,7 @@
             image: (s && s.image) || "",
             url: slug ? withBase(`/store/${enc(storeSlug)}/${enc(slug)}/`) : withBase(`/store/${enc(storeSlug)}/`),
             isExternal: false,
-            storeName: storeSlug
+            storeName: storeSlug,
           });
         }
 
@@ -435,7 +437,7 @@
 
   function normalizePath(p) {
     let s = String(p || "");
-    s = s.replace(/[?#].*$/, "").trim(); // ✅ remove ?query and #hash
+    s = s.replace(/[?#].*$/, "").trim();
     s = s.replace(/^\/+/, "").replace(/\/+$/, "");
     return s;
   }
@@ -599,7 +601,11 @@
         return `
           <a href="${url}" class="shop-card" target="_blank" rel="noopener noreferrer">
             <div class="shop-card-media">
-              ${imageUrl ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(title)}" loading="lazy">` : `<div class="product-media-placeholder"></div>`}
+              ${
+                imageUrl
+                  ? `<img src="${escAttr(imageUrl)}" alt="${escAttr(title)}" loading="lazy">`
+                  : `<div class="product-media-placeholder"></div>`
+              }
             </div>
             <div class="shop-card-body">
               <h3 class="shop-card-title">${title}</h3>
@@ -626,12 +632,11 @@
       </main>`;
   }
 
-  // Resolve image to absolute or base-relative
   function resolveImage(raw) {
     const s = String(raw || "").trim();
     if (!s) return "";
     if (/^https?:\/\//i.test(s)) return s;
-    if (s.startsWith("/")) return withBase(s); // "/assets/..." or "/images/..."
+    if (s.startsWith("/")) return withBase(s);
     return IMAGE_BASE_PATH + s.replace(/^\/+/, "");
   }
 
@@ -699,80 +704,18 @@
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
-      "'": "&#039;"
+      "'": "&#039;",
     }[m]));
   }
 
   function escAttr(s) {
     return esc(String(s || "")).replace(/`/g, "&#096;");
   }
-  // expose minimal helpers for other pages (seller/admin/etc.)
-window.StoreShell = window.StoreShell || {};
-window.StoreShell.base = BASE;
-window.StoreShell.withBase = withBase;
-// ---- DİNAMİK VERİ ENJEKSİYONU (YAPIYI BOZMADAN) ----
-  async function syncWithLiveApi() {
-    try {
-      // Senin handler fonksiyonuna istek atıyoruz
-      const response = await fetch(withBase('/api/catalog')); 
-      const result = await response.json();
 
-      if (result.ok && result.data && Array.isArray(result.data.stores)) {
-        const liveData = result.data.stores;
-
-        // Mevcut fonksiyonlarını yeni veriyle tekrar tetikle
-        renderGallery(liveData);
-        renderSubNav(liveData);
-        initMegaMenu(liveData);
-        
-        console.log("RGZTEC LIVE • Mağazalar API'den güncellendi.");
-      }
-    } catch (err) {
-      console.warn("API Bağlantısı kurulamadı, statik verilerle devam ediliyor.");
-    }
-  }
-
-  // Sayfa yüklendiğinde canlı veriyi çekmeyi dene
-  document.addEventListener("DOMContentLoaded", syncWithLiveApi);
-
-  // SEARCH TETİKLEYİCİ (Arama butonunu canlandırır)
-  const searchBtn = document.querySelector('.search-btn');
-  const searchInput = document.querySelector('.search-input');
-  if (searchBtn && searchInput) {
-    const runSearch = () => {
-      const q = searchInput.value.trim();
-      if(q) window.location.href = withBase(`/search.html?q=${enc(q)}`);
-    };
-    searchBtn.addEventListener('click', runSearch);
-    searchInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') runSearch(); });
-  }
-  // ---- SEARCH ENGINE (YAPIYI BOZMADAN EKLE) ----
-  const searchInput = document.querySelector('.search-input');
-  const searchBtn = document.querySelector('.search-btn');
-
-  if (searchInput && searchBtn) {
-    const handleSearch = () => {
-      const query = searchInput.value.trim();
-      if (query.length > 0) {
-        // Kullanıcıyı arama sonuçları sayfasına, base path'i koruyarak gönderir
-        // apps/core/search-logic.js bu URL parametresini yakalayıp sonuçları getirecek
-        window.location.href = withBase(`/search.html?q=${enc(query)}`);
-      }
-    };
-
-    // Büyüteç butonuna tıklandığında ara
-    searchBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      handleSearch();
-    });
-
-    // Enter tuşuna basıldığında ara
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        handleSearch();
-      }
-    });
-  }
+  // ✅ expose minimal helpers for other pages
+  window.StoreShell = window.StoreShell || {};
+  window.StoreShell.base = BASE;
+  window.StoreShell.withBase = withBase;
 })();
+
 
