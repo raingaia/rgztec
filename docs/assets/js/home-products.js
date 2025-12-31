@@ -25,7 +25,27 @@
   }
 
   function safeText(v, fallback = "") {
-    return (v == null ? fallback : String(v));
+    return v == null ? fallback : String(v);
+  }
+
+  function isObject(v) {
+    return v && typeof v === "object" && !Array.isArray(v);
+  }
+
+  // Normalize with base: supports PUBLIC.stores being "/data/..." while site is under "/rgztec/"
+  function normalizeURL(u) {
+    if (!u) return "";
+    const s = String(u).trim();
+
+    // absolute URL (http/https) - keep
+    if (/^https?:\/\//i.test(s)) return s;
+
+    // If bridge provides withBase(), use it for root-absolute paths
+    // "/data/x.json" -> "/rgztec/data/x.json" when deployed under /rgztec
+    if (s.startsWith("/") && typeof B.withBase === "function") return B.withBase(s);
+
+    // "./data/x.json" or "data/x.json" keep as is
+    return s;
   }
 
   // ---- 2) GALLERY (Explore Stores) ----
@@ -33,86 +53,128 @@
     const grid = $("#gallery");
     if (!grid) return;
 
-    grid.innerHTML = "";
+    grid.innerHTML = `<div style="padding:16px;color:#6b7280;font-weight:800;">Loading stores…</div>`;
 
-    // store.data.json: senin bridge'te PUBLIC.stores ile tanımlı
-    const storeDataURL = (B.PUBLIC && B.PUBLIC.stores) ? B.PUBLIC.stores : B.withBase?.("/data/store.data.json");
-    if (!storeDataURL) {
-      console.error("[HOME] PUBLIC.stores not defined in bridge");
-      return;
-    }
+    try {
+      const raw = (B.PUBLIC && B.PUBLIC.stores) ? B.PUBLIC.stores : "/data/store.data.json";
+      const storeDataURL = normalizeURL(raw) || (typeof B.withBase === "function" ? B.withBase("/data/store.data.json") : "/data/store.data.json");
 
-    const data = await fetchJSON(storeDataURL);
+      console.log("[HOME] storeDataURL =", storeDataURL);
 
-    // Senin store.data.json formatına göre:
-    // { "hardware": {...}, "ai-tools-hub": {...} } gibi object map
-    const entries = Object.entries(data || {});
-    if (!entries.length) {
-      grid.innerHTML = `<div style="padding:16px;color:#6b7280;font-weight:700;">No stores found.</div>`;
-      return;
-    }
+      const data = await fetchJSON(storeDataURL);
 
-    // Home'da mağaza kartı basabiliriz (bu sadece Explore Stores bölümü)
-    for (const [slug, store] of entries) {
-      const title = safeText(store.title, slug);
-      const tagline = safeText(store.tagline, "");
-      const banner = safeText(store.banner, "");
+      // ✅ Accept multiple JSON shapes:
+      // 1) { "hardware": {...}, "ai-tools-hub": {...} }   (map)
+      // 2) { stores: { ... } }                           (map in stores)
+      // 3) { stores: [ ... ] }                           (array)
+      // 4) [ ... ]                                       (array)
+      let entries = [];
 
-      const card = el("a");
-      card.href = (B.URLS?.STORE ? B.URLS.STORE(slug) : `./store/${encodeURIComponent(slug)}/`);
-      card.className = "store-card"; // store-core.css içindeki kart class’larına uyar, yoksa da sorun değil
-      card.style.textDecoration = "none";
-      card.style.color = "inherit";
+      if (Array.isArray(data)) {
+        // array of stores
+        entries = data
+          .map((s, i) => [safeText(s.slug, `store-${i}`), s])
+          .filter(([slug]) => !!slug);
+      } else if (isObject(data) && isObject(data.stores)) {
+        entries = Object.entries(data.stores);
+      } else if (isObject(data) && Array.isArray(data.stores)) {
+        entries = data.stores
+          .map((s, i) => [safeText(s.slug, `store-${i}`), s])
+          .filter(([slug]) => !!slug);
+      } else if (isObject(data)) {
+        entries = Object.entries(data);
+      }
 
-      const wrap = el("div");
-      wrap.className = "store-card-inner";
-      wrap.style.border = "1px solid rgba(0,0,0,0.08)";
-      wrap.style.borderRadius = "16px";
-      wrap.style.overflow = "hidden";
-      wrap.style.background = "#fff";
-      wrap.style.boxShadow = "0 10px 26px rgba(0,0,0,0.06)";
+      if (!entries.length) {
+        grid.innerHTML = `<div style="padding:16px;color:#6b7280;font-weight:800;">No stores found in data.</div>`;
+        console.log("[HOME] store.data.json sample =", data);
+        return;
+      }
 
-      const imgWrap = el("div");
-      imgWrap.style.height = "140px";
-      imgWrap.style.background = "#f3f4f6";
-      imgWrap.style.display = "flex";
-      imgWrap.style.alignItems = "center";
-      imgWrap.style.justifyContent = "center";
-      imgWrap.style.overflow = "hidden";
+      grid.innerHTML = "";
 
-      const img = el("img");
-      img.alt = title;
-      img.loading = "lazy";
-      img.style.width = "100%";
-      img.style.height = "100%";
-      img.style.objectFit = "cover";
-      img.src = banner ? (B.URLS?.ASSET ? B.URLS.ASSET(`/images/store/${banner}`) : `assets/images/store/${banner}`) : "assets/images/banners/global-marketplace-banner.webp";
+      for (const [slug, store] of entries) {
+        const title = safeText(store?.title, slug);
+        const tagline = safeText(store?.tagline, "");
+        const banner = safeText(store?.banner, "");
 
-      imgWrap.appendChild(img);
+        const card = el("a");
+        card.href = (B.URLS?.STORE ? B.URLS.STORE(slug) : `./store/${encodeURIComponent(slug)}/`);
+        card.style.textDecoration = "none";
+        card.style.color = "inherit";
 
-      const body = el("div");
-      body.style.padding = "14px";
+        const wrap = el("div");
+        wrap.className = "rgz-store-card";
+        wrap.style.border = "1px solid rgba(0,0,0,0.08)";
+        wrap.style.borderRadius = "16px";
+        wrap.style.overflow = "hidden";
+        wrap.style.background = "#fff";
+        wrap.style.boxShadow = "0 10px 26px rgba(0,0,0,0.06)";
 
-      const h = el("div", { textContent: title });
-      h.style.fontWeight = "900";
-      h.style.fontSize = "16px";
-      h.style.color = "#111827";
-      h.style.letterSpacing = "-0.01em";
+        const imgWrap = el("div");
+        imgWrap.style.height = "140px";
+        imgWrap.style.background = "#f3f4f6";
+        imgWrap.style.display = "flex";
+        imgWrap.style.alignItems = "center";
+        imgWrap.style.justifyContent = "center";
+        imgWrap.style.overflow = "hidden";
 
-      const p = el("div", { textContent: tagline });
-      p.style.marginTop = "6px";
-      p.style.fontSize = "13px";
-      p.style.color = "#6b7280";
-      p.style.lineHeight = "1.5";
+        const img = el("img");
+        img.alt = title;
+        img.loading = "lazy";
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.objectFit = "cover";
 
-      body.appendChild(h);
-      body.appendChild(p);
+        // banner rules:
+        // - if banner is absolute URL => use
+        // - else try B.URLS.ASSET(`/images/store/${banner}`)
+        // - else fall back to local path
+        if (banner && /^(https?:)?\/\//.test(banner)) {
+          img.src = banner;
+        } else if (banner) {
+          img.src = (B.URLS?.ASSET ? B.URLS.ASSET(`/images/store/${banner}`) : `assets/images/store/${banner}`);
+        } else {
+          img.src = "assets/images/banners/global-marketplace-banner.webp";
+        }
 
-      wrap.appendChild(imgWrap);
-      wrap.appendChild(body);
+        imgWrap.appendChild(img);
 
-      card.appendChild(wrap);
-      grid.appendChild(card);
+        const body = el("div");
+        body.style.padding = "14px";
+
+        const h = el("div", { textContent: title });
+        h.style.fontWeight = "900";
+        h.style.fontSize = "16px";
+        h.style.color = "#111827";
+        h.style.letterSpacing = "-0.01em";
+
+        const p = el("div", { textContent: tagline });
+        p.style.marginTop = "6px";
+        p.style.fontSize = "13px";
+        p.style.color = "#6b7280";
+        p.style.lineHeight = "1.5";
+
+        body.appendChild(h);
+        body.appendChild(p);
+
+        wrap.appendChild(imgWrap);
+        wrap.appendChild(body);
+
+        card.appendChild(wrap);
+        grid.appendChild(card);
+      }
+
+      console.log(`[HOME] Rendered ${entries.length} stores.`);
+    } catch (e) {
+      console.error("[HOME] Gallery error:", e);
+      grid.innerHTML = `
+        <div style="padding:16px;border:1px solid rgba(0,0,0,.08);border-radius:12px;background:#fff;">
+          <b>Stores failed to load.</b><br>
+          <span style="color:#6b7280;font-weight:700;">
+            Open Console/Network and check the storeDataURL + HTTP status.
+          </span>
+        </div>`;
     }
   }
 
@@ -125,14 +187,24 @@
     const catURL = B.API?.categories;
     if (!catURL) {
       console.error("[HOME] API.categories not defined in bridge");
+      list.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">Categories API missing.</div>`;
       return;
     }
 
-    const cats = await fetchJSON(catURL); // categories.json response
-    const categories = (cats && cats.categories) ? cats.categories : [];
+    let cats;
+    try {
+      cats = await fetchJSON(catURL);
+    } catch (e) {
+      console.error("[HOME] Categories fetch error:", e);
+      list.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">Categories failed to load.</div>`;
+      detail.innerHTML = "";
+      return;
+    }
+
+    const categories = (cats && Array.isArray(cats.categories)) ? cats.categories : [];
 
     if (!categories.length) {
-      list.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:700;">No categories.</div>`;
+      list.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">No categories.</div>`;
       detail.innerHTML = "";
       return;
     }
@@ -141,12 +213,10 @@
       const cat = categories[idx];
       if (!cat) return;
 
-      // active class
       [...list.querySelectorAll(".cat-item")].forEach((b, i) => {
         b.classList.toggle("cat-item--active", i === idx);
       });
 
-      // detail
       detail.innerHTML = "";
 
       const eyebrow = el("div", { className: "cat-detail-eyebrow", textContent: "CATEGORY" });
@@ -155,13 +225,24 @@
 
       const links = el("div", { className: "cat-detail-links" });
 
-      // ÖNEMLİ: Senin istediğin gibi KART BASMIYORUZ.
-      // Sadece store linkleri veriyoruz.
       const items = Array.isArray(cat.items) ? cat.items : [];
+      if (!items.length) {
+        const none = el("div");
+        none.style.marginTop = "10px";
+        none.style.color = "#6b7280";
+        none.style.fontWeight = "800";
+        none.textContent = "No stores in this category.";
+        detail.appendChild(eyebrow);
+        detail.appendChild(title);
+        detail.appendChild(subtitle);
+        detail.appendChild(none);
+        return;
+      }
+
       for (const storeSlug of items) {
         const a = el("a");
         a.href = (B.URLS?.STORE ? B.URLS.STORE(storeSlug) : `./store/${encodeURIComponent(storeSlug)}/`);
-        a.textContent = storeSlug; // istersen burada store title map’ten çekebiliriz
+        a.textContent = storeSlug;
         links.appendChild(a);
       }
 
@@ -171,7 +252,6 @@
       detail.appendChild(links);
     }
 
-    // list render
     list.innerHTML = "";
     categories.forEach((cat, idx) => {
       const btn = el("button");
@@ -192,7 +272,6 @@
     const btn = $(".search-btn");
     if (!input || !btn) return;
 
-    // dropdown container
     const wrap = input.parentElement;
     wrap.style.position = "relative";
 
@@ -230,54 +309,59 @@
 
       if (!B.API?.search) {
         console.error("[HOME] API.search not defined in bridge");
+        dd.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">Search API missing.</div>`;
+        open();
         return;
       }
 
       lastQ = q;
       const url = `${B.API.search}?q=${encodeURIComponent(q)}`;
+
       let data;
       try {
         data = await fetchJSON(url);
       } catch (err) {
-        dd.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:700;">Search error.</div>`;
+        console.error("[HOME] Search error:", err);
+        dd.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">Search error.</div>`;
         open();
         return;
       }
 
-      // Beklenen response:
-      // { "q":"..", "results":[ { type:"product|store", title:"..", storeSlug:"..", sectionSlug:"..", id:".."} ] }
       const results = Array.isArray(data.results) ? data.results : [];
       if (!results.length) {
-        dd.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:700;">No results.</div>`;
+        dd.innerHTML = `<div style="padding:12px;color:#6b7280;font-weight:800;">No results.</div>`;
         open();
         return;
       }
 
       dd.innerHTML = "";
-      results.slice(0, 10).forEach((r) => {
-        const item = el("a");
-        item.href = (r.sectionSlug && B.URLS?.STORE_SECTION)
-          ? B.URLS.STORE_SECTION(r.storeSlug, r.sectionSlug)
-          : (B.URLS?.STORE ? B.URLS.STORE(r.storeSlug) : `./store/${encodeURIComponent(r.storeSlug)}/`);
+      results.slice(0, 10).forEach((r, idx) => {
+        const a = el("a");
+        a.href =
+          (r.sectionSlug && B.URLS?.STORE_SECTION)
+            ? B.URLS.STORE_SECTION(r.storeSlug, r.sectionSlug)
+            : (B.URLS?.STORE ? B.URLS.STORE(r.storeSlug) : `./store/${encodeURIComponent(r.storeSlug)}/`);
 
-        item.style.display = "block";
-        item.style.padding = "12px 14px";
-        item.style.textDecoration = "none";
-        item.style.color = "#111827";
-        item.style.fontWeight = "800";
-        item.style.borderTop = "1px solid rgba(0,0,0,0.06)";
+        a.style.display = "block";
+        a.style.padding = "12px 14px";
+        a.style.textDecoration = "none";
+        a.style.color = "#111827";
+        a.style.fontWeight = "900";
+        a.style.borderTop = idx === 0 ? "none" : "1px solid rgba(0,0,0,0.06)";
+
+        const title = el("div", { textContent: safeText(r.title, "Result") });
 
         const sub = el("div");
         sub.style.marginTop = "4px";
         sub.style.fontSize = "12px";
         sub.style.fontWeight = "800";
         sub.style.color = "#6b7280";
-        sub.textContent = r.storeSlug + (r.sectionSlug ? ` / ${r.sectionSlug}` : "");
+        sub.textContent = safeText(r.storeSlug, "") + (r.sectionSlug ? ` / ${r.sectionSlug}` : "");
 
-        item.textContent = safeText(r.title, "Result");
-        item.appendChild(sub);
+        a.appendChild(title);
+        a.appendChild(sub);
 
-        dd.appendChild(item);
+        dd.appendChild(a);
       });
 
       open();
@@ -304,23 +388,9 @@
 
   // ---- 5) Boot ----
   async function boot() {
-    try {
-      await renderGallery();
-    } catch (e) {
-      console.error("[HOME] Gallery error:", e);
-    }
-
-    try {
-      await renderCategoriesPanel();
-    } catch (e) {
-      console.error("[HOME] Categories error:", e);
-    }
-
-    try {
-      mountSearchUI();
-    } catch (e) {
-      console.error("[HOME] Search UI error:", e);
-    }
+    try { await renderGallery(); } catch (e) { console.error("[HOME] Gallery error:", e); }
+    try { await renderCategoriesPanel(); } catch (e) { console.error("[HOME] Categories error:", e); }
+    try { mountSearchUI(); } catch (e) { console.error("[HOME] Search UI error:", e); }
   }
 
   if (document.readyState === "loading") {
@@ -329,3 +399,4 @@
     boot();
   }
 })();
+
