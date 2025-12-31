@@ -172,6 +172,10 @@
             <div>
                 <h2 style="margin:0; font-size: 1.1rem;">Editor v2.0</h2>
                 <small style="color: #718096;">Real-time SaaS Environment</small>
+
+                <button class="rgz-btn-secondary" onclick="openInNewTab()" style="margin-right: 10px; background: #4a5568; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer;">
+    ↗ Full Preview
+              </button>
             </div>
             <button class="btn-run" onclick="runProject()">Run Project</button>
         </header>
@@ -201,6 +205,35 @@
 </div>
 
 <script>
+
+    function openInNewTab() {
+    // 1. Editörlerdeki güncel kodları al
+    const html = document.getElementById('html-edit').value;
+    const css = "<style>" + document.getElementById('css-edit').value + "</style>";
+    const js = "<script>" + document.getElementById('js-edit').value + "<\/script>";
+    
+    const fullCode = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>RGZTEC Preview</title>
+            ${css}
+        </head>
+        <body>
+            ${html}
+            ${js}
+        </body>
+        </html>
+    `;
+
+    // 2. Yeni bir sekme aç
+    const newWindow = window.open('', '_blank');
+    
+    // 3. Kodları yeni sekmeye yaz
+    newWindow.document.open();
+    newWindow.document.write(fullCode);
+    newWindow.document.close();
+}
     function switchTab(type, btn) {
         // Sekme butonlarını güncelle
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
