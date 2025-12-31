@@ -76,27 +76,35 @@
   // ============================================================
   // 2) BOOT
   // ============================================================
-  document.addEventListener("DOMContentLoaded", () => {
-    const storeRoot = document.getElementById("store-root");
-    const storeBody = document.querySelector("body.store-body");
+  function bootStoreShell() {
+  const storeRoot = document.getElementById("store-root");
+  const storeBody = document.querySelector("body.store-body");
 
-    if (!storeBody || !storeRoot) return;
+  if (!storeBody || !storeRoot) return;
 
-    // Dynamic apps
-    if (window.APPS_MODE) {
-      initDynamicModule(String(window.APPS_MODE || "").trim(), window.APPS_PARAMS || [], storeRoot);
-      return;
-    }
+  // Dynamic apps
+  if (window.APPS_MODE) {
+    initDynamicModule(String(window.APPS_MODE || "").trim(), window.APPS_PARAMS || [], storeRoot);
+    return;
+  }
 
-    // Static store
-    const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
-    if (!rawPath) {
-      renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="ai-tools-hub">`);
-      return;
-    }
+  // Static store
+  const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
+  if (!rawPath) {
+    renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="ai-tools-hub">`);
+    return;
+  }
 
-    initStore(rawPath, storeRoot);
-  });
+  initStore(rawPath, storeRoot);
+}
+
+// ✅ DOMContentLoaded kaçmış olsa bile çalış
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootStoreShell);
+} else {
+  bootStoreShell();
+}
+
 
   // ============================================================
   // 3) DYNAMIC MODULES (/apps/*)
