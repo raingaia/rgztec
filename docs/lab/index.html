@@ -5,166 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RGZTEC • Dashboard / Editor</title>
 
-  <!-- Base (GitHub Pages / Amplify subpath) -->
+  <!-- GitHub Pages / Amplify subpath için: boş bırakabilirsin -->
   <meta name="rgz-base" content="" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- ✅ HOME CSS (senin mevcut dosya yollarına göre düzelt)
-       ÖRN: /assets/css/home.css veya /assets/css/styles.css vb.
-  -->
-  <link rel="stylesheet" href="../assets/css/home.css" />
-
-  <!-- ✅ RGZ bridge (base + url helpers) varsa -->
-  <script defer src="../assets/js/rgz.bridge.js"></script>
+  <!-- ✅ Home CSS'yi de base ile otomatik yükleyeceğiz -->
 
   <style>
-    /* ===== RGZTEC LAB - tiny scoped layout (home CSS bozulmaz) ===== */
-    .rgz-lab-wrap{ max-width:1180px; margin: 0 auto; padding: 22px 18px 48px; }
-    .rgz-lab-hero{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin: 6px 0 18px; }
-    .rgz-lab-title{ font-size:22px; font-weight:800; letter-spacing:-0.02em; color:#0f172a; }
-    .rgz-lab-sub{ margin-top:6px; font-size:13px; color:#64748b; max-width: 720px; line-height:1.45; }
-    .rgz-lab-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    /* minimal layout (home CSS bozulmasın diye scoped) */
+    .rgz-lab-wrap{max-width:1180px;margin:0 auto;padding:22px 18px 48px}
+    .rgz-lab-hero{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin:6px 0 18px}
+    .rgz-lab-title{font-size:22px;font-weight:800;letter-spacing:-.02em;color:#0f172a}
+    .rgz-lab-sub{margin-top:6px;font-size:13px;color:#64748b;max-width:720px;line-height:1.45}
+    .rgz-lab-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 
-    .rgz-pill{
-      display:inline-flex; align-items:center; gap:8px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.8);
-      border-radius:999px; padding:8px 12px;
-      box-shadow: 0 6px 18px rgba(2,6,23,.05);
-      font-size:12px; color:#0f172a;
-    }
-
-    .rgz-btn{
-      border:1px solid rgba(15,23,42,.10);
-      background:#fff;
-      border-radius:999px;
-      padding:9px 12px;
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-      transition: transform .06s ease, box-shadow .2s ease;
-      box-shadow: 0 10px 26px rgba(2,6,23,.06);
-    }
-    .rgz-btn:active{ transform: translateY(1px); box-shadow: 0 6px 16px rgba(2,6,23,.06); }
-    .rgz-btn.primary{ background:#0f172a; color:#fff; border-color:#0f172a; }
-    .rgz-btn.warn{ background:#fff; color:#b91c1c; border-color: rgba(185,28,28,.25); }
-
-    .rgz-select{
+    .rgz-btn,.rgz-select{
       border:1px solid rgba(15,23,42,.12);
-      background:#fff;
-      border-radius:999px;
-      padding:9px 12px;
-      font-size:12px;
-      font-weight:700;
-      color:#0f172a;
-      outline:none;
-      box-shadow: 0 10px 26px rgba(2,6,23,.06);
+      background:#fff;border-radius:999px;
+      padding:9px 12px;font-size:12px;font-weight:800;
     }
-
-    .rgz-lab-grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap:14px; align-items:stretch; }
-    @media (max-width: 980px){ .rgz-lab-grid{ grid-template-columns:1fr; } }
-
-    .rgz-card{
-      border:1px solid rgba(15,23,42,.08);
-      background: rgba(255,255,255,.92);
-      border-radius:16px;
-      box-shadow: 0 18px 40px rgba(2,6,23,.06);
-      overflow:hidden;
-    }
-    .rgz-card-hd{
-      padding:12px 14px;
-      display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid rgba(15,23,42,.08);
-      background: linear-gradient(to bottom, rgba(248,250,252,.95), rgba(255,255,255,.92));
-    }
-    .rgz-card-hd strong{ font-size:12px; letter-spacing:.02em; color:#0f172a; }
-    .rgz-status{ font-size:12px; color:#64748b; display:flex; align-items:center; gap:8px; }
-    .dot{ width:8px; height:8px; border-radius:999px; background:#22c55e; box-shadow:0 0 0 4px rgba(34,197,94,.12); }
-    .dot.warn{ background:#f59e0b; box-shadow:0 0 0 4px rgba(245,158,11,.14); }
-    .dot.err{ background:#ef4444; box-shadow:0 0 0 4px rgba(239,68,68,.14); }
-
-    .rgz-tabs{ display:flex; gap:8px; padding:12px 14px; border-bottom:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.7); }
-    .rgz-tab{
-      border:1px solid rgba(15,23,42,.10);
-      background:#fff;
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      cursor:pointer;
-    }
-    .rgz-tab.active{ background:#0f172a; color:#fff; border-color:#0f172a; }
-    .rgz-editor{
-      padding:0;
-      height: 520px;
-      display:flex;
-      flex-direction:column;
-    }
+    .rgz-btn{cursor:pointer}
+    .rgz-btn.primary{background:#0f172a;color:#fff;border-color:#0f172a}
+    .rgz-btn.warn{color:#b91c1c;border-color:rgba(185,28,28,.25)}
+    .rgz-lab-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+    @media (max-width:980px){.rgz-lab-grid{grid-template-columns:1fr}}
+    .rgz-card{border:1px solid rgba(15,23,42,.08);background:rgba(255,255,255,.92);border-radius:16px;overflow:hidden}
+    .rgz-card-hd{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(15,23,42,.08)}
+    .rgz-card-hd strong{font-size:12px;letter-spacing:.02em}
+    .rgz-status{font-size:12px;color:#64748b;display:flex;align-items:center;gap:8px}
+    .dot{width:8px;height:8px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+    .dot.warn{background:#f59e0b;box-shadow:0 0 0 4px rgba(245,158,11,.14)}
+    .dot.err{background:#ef4444;box-shadow:0 0 0 4px rgba(239,68,68,.14)}
+    .rgz-tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid rgba(15,23,42,.08)}
+    .rgz-tab{border:1px solid rgba(15,23,42,.10);background:#fff;padding:8px 10px;border-radius:999px;font-size:12px;font-weight:900;cursor:pointer}
+    .rgz-tab.active{background:#0f172a;color:#fff;border-color:#0f172a}
     textarea.rgz-area{
-      flex:1;
-      width:100%;
-      border:0;
-      outline:none;
-      resize:none;
-      padding:14px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:12.5px;
-      line-height:1.5;
-      color:#0b1220;
-      background: #0b1220;
-      color: #e5e7eb;
+      width:100%;height:520px;border:0;outline:none;resize:none;padding:14px;
+      font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.5;
+      background:#0b1220;color:#e5e7eb
     }
-    .rgz-foot{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; padding:10px 14px; border-top:1px solid rgba(15,23,42,.08);
-      background: rgba(248,250,252,.7);
-      font-size:12px; color:#64748b;
-    }
-
-    .rgz-preview{
-      height: 610px;
-      background:#0b1220;
-    }
-    iframe#rgzPreviewFrame{
-      width:100%; height:100%;
-      border:0;
-      background:#fff;
-    }
-
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:11px;
-      border:1px solid rgba(15,23,42,.12);
-      border-bottom-width:2px;
-      padding:2px 6px;
-      border-radius:8px;
-      background:#fff;
-      color:#0f172a;
-      font-weight:800;
-    }
+    .rgz-foot{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid rgba(15,23,42,.08);font-size:12px;color:#64748b}
+    .rgz-preview{height:610px;background:#fff}
+    iframe#rgzPreviewFrame{width:100%;height:100%;border:0;background:#fff}
   </style>
+
+  <script>
+    (function(){
+      function resolveBase(){
+        const meta = document.querySelector('meta[name="rgz-base"]');
+        if (meta && meta.content != null && String(meta.content).trim() !== "")
+          return String(meta.content).trim().replace(/\/+$/,"");
+        const p = location.pathname || "/";
+        // /rgztec/... ise base /rgztec
+        if (p.includes("/rgztec/")) return "/rgztec";
+        // Amplify branch url'lerinde genelde base yok: ""
+        return "";
+      }
+      const BASE = resolveBase();
+      const withBase = (p)=> BASE ? (BASE + p) : p;
+
+      // ✅ Home CSS yolunu buradan yönet
+      const homeCss = document.createElement("link");
+      homeCss.rel = "stylesheet";
+      homeCss.href = withBase("/assets/css/home.css");  // <-- home.css dosyanın gerçek yolu buysa doğru
+      document.head.appendChild(homeCss);
+
+      // ✅ Lab JS
+      const lab = document.createElement("script");
+      lab.defer = true;
+      lab.src = withBase("/assets/js/lab.js");          // <-- kesin doğru path
+      document.head.appendChild(lab);
+
+      // İstersen RGZ bridge de:
+      const bridge = document.createElement("script");
+      bridge.defer = true;
+      bridge.src = withBase("/assets/js/rgz.bridge.js");
+      document.head.appendChild(bridge);
+
+      window.__RGZ_BASE__ = BASE;
+    })();
+  </script>
 </head>
 
 <body class="rgz-body">
-  <!-- ✅ Mevcut site header layout’unu kullanıyorsan, burada kendi header partial’in / layout.js’in varsa çağır -->
-  <!-- Örn: <script defer src="../assets/js/layout.js"></script> -->
-  <!-- Basit placeholder header: senin header zaten home ile geliyor ise bunu kaldır -->
   <header class="rgz-header" style="border-bottom:1px solid rgba(15,23,42,.06); background:#fff;">
     <div style="max-width:1180px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-      <a href="../index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+      <a href="/index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
         <span style="font-weight:900;letter-spacing:.02em;color:#f97316;">RGZTEC</span>
-        <span style="font-size:12px;color:#64748b;font-weight:700;">Dashboard / Editor</span>
+        <span style="font-size:12px;color:#64748b;font-weight:800;">Dashboard / Editor</span>
       </a>
       <nav style="display:flex;gap:14px;align-items:center;font-size:12px;">
-        <a href="../index.html" style="color:#0f172a;text-decoration:none;font-weight:700;">Home</a>
-        <a href="../signin.html" style="color:#64748b;text-decoration:none;font-weight:700;">Sign in</a>
-        <a href="../open-store.html" style="text-decoration:none;">
-          <button class="rgz-btn">Open Store</button>
-        </a>
+        <a href="/index.html" style="color:#0f172a;text-decoration:none;font-weight:800;">Home</a>
+        <a href="/signin.html" style="color:#64748b;text-decoration:none;font-weight:800;">Sign in</a>
+        <a href="/open-store.html" style="color:#64748b;text-decoration:none;font-weight:800;">Open Store</a>
       </nav>
     </div>
   </header>
@@ -174,17 +110,16 @@
       <div>
         <div class="rgz-lab-title">Dashboard / Editor</div>
         <div class="rgz-lab-sub">
-          RGZTEC layout içinde HTML, CSS ve JS bloklarını test et. <b>Run</b> ile iframe preview,
-          <b>Open Preview</b> ile yeni sekmede “temiz” render alırsın. (Kısayol: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span>)
+          HTML/CSS/JS bloklarını RGZTEC layout içinde test et. Run iframe’e basar, Open Preview yeni sekmede açar.
+          (Kısayol: Ctrl + Enter)
         </div>
       </div>
 
       <div class="rgz-lab-actions">
-        <select id="rgzTheme" class="rgz-select" title="Theme">
+        <select id="rgzTheme" class="rgz-select">
           <option value="corporate" selected>Theme: Corporate</option>
           <option value="dark">Theme: Dark</option>
         </select>
-
         <button id="btnCopy" class="rgz-btn">Copy</button>
         <button id="btnReset" class="rgz-btn warn">Reset</button>
         <button id="btnOpen" class="rgz-btn">Open Preview</button>
@@ -193,7 +128,6 @@
     </div>
 
     <section class="rgz-lab-grid">
-      <!-- LEFT: Editor -->
       <div class="rgz-card">
         <div class="rgz-card-hd">
           <strong>EDITOR</strong>
@@ -203,29 +137,22 @@
           </div>
         </div>
 
-        <div class="rgz-tabs" role="tablist">
+        <div class="rgz-tabs">
           <button class="rgz-tab active" data-tab="html" type="button">HTML</button>
           <button class="rgz-tab" data-tab="css" type="button">CSS</button>
           <button class="rgz-tab" data-tab="js" type="button">JS</button>
         </div>
 
-        <div class="rgz-editor">
-          <textarea id="codeHtml" class="rgz-area" spellcheck="false"></textarea>
-          <textarea id="codeCss" class="rgz-area" spellcheck="false" style="display:none;"></textarea>
-          <textarea id="codeJs" class="rgz-area" spellcheck="false" style="display:none;"></textarea>
+        <textarea id="codeHtml" class="rgz-area" spellcheck="false"></textarea>
+        <textarea id="codeCss" class="rgz-area" spellcheck="false" style="display:none;"></textarea>
+        <textarea id="codeJs"  class="rgz-area" spellcheck="false" style="display:none;"></textarea>
 
-          <div class="rgz-foot">
-            <div>
-              Autosave: <b id="rgzSave">off</b> •
-              Run: <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> •
-              Copy: <span class="kbd">Ctrl</span> + <span class="kbd">S</span>
-            </div>
-            <div>Preview runs in sandboxed iframe.</div>
-          </div>
+        <div class="rgz-foot">
+          <div>Run: <b>Ctrl + Enter</b> • Copy: <b>Ctrl + S</b></div>
+          <div>Preview: srcdoc (CSP-safe)</div>
         </div>
       </div>
 
-      <!-- RIGHT: Preview -->
       <div class="rgz-card">
         <div class="rgz-card-hd">
           <strong>PREVIEW</strong>
@@ -234,13 +161,11 @@
           </div>
         </div>
         <div class="rgz-preview">
-          <iframe id="rgzPreviewFrame" sandbox="allow-scripts allow-forms allow-modals allow-popups allow-downloads"></iframe>
+          <iframe id="rgzPreviewFrame" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
         </div>
       </div>
     </section>
   </main>
-
-  <script defer src="../assets/js/lab.js"></script>
 </body>
 </html>
 
