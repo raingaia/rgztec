@@ -1,17 +1,19 @@
 /**
  * RGZTEC Marketplace - Store Shell Engine
- * HYBRID MASTER FINAL (Static Stores + Dynamic Apps)
+ * FINAL (Static Stores + Dynamic Apps)
  *
- * Static store:
- *  <body class="store-body" data-path="hardware/ai-accelerators">
- *  <div id="store-root"></div>
- *
+ * Static stores:
+ *   <body class="store-body" data-path="ai-tools-hub">
  * Dynamic apps:
- *  window.APPS_MODE + window.APPS_PARAMS (apps pages)
+ *   window.APPS_MODE + window.APPS_PARAMS (apps pages)
  *
  * IMPORTANT:
  * - Keep ONLY this file as: /assets/js/store-shell.js
- * - Data must exist at: /data/store.data.json
+ * - Requires: <div id="store-root"></div> + <body class="store-body" ...>
+ * - Data URL can be injected via:
+ *     <meta name="rgz-data" content="/data/store.data.json" />
+ *   or:
+ *     window.RGZ_DATA_URL = "/data/store.data.json";
  */
 (() => {
   "use strict";
@@ -20,17 +22,41 @@
   // 1) BASE RESOLUTION
   // ============================================================
   function resolveBase() {
-    // Amplify root deploy => empty base
+    // Amplify root deploy => ""
+    // If you later deploy under subpath, set <meta name="rgz-base" content="/rgztec" />
+    const meta = document.querySelector('meta[name="rgz-base"]');
+    if (meta && meta.content != null) return String(meta.content).trim().replace(/\/+$/, "");
     return "";
   }
 
   const BASE = resolveBase();
   const withBase = (p) => (BASE ? `${BASE}${p}` : p);
-  const enc = (s) => encodeURIComponent(String(s || ""));
-  const safeSlug = (s) => String(s || "").trim().replace(/^\/+|\/+$/g, "");
+  const enc = (s) => encodeURIComponent(String(s ?? ""));
+  const safeSlug = (s) => String(s ?? "").trim().replace(/^\/+|\/+$/g, "");
 
-  // Data + assets
-  const DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
+  // ============================================================
+  // 2) DATA URL RESOLUTION (INJECTABLE)
+  // ============================================================
+  function resolveDataUrl() {
+    // 1) window override
+    if (typeof window.RGZ_DATA_URL === "string" && window.RGZ_DATA_URL.trim()) {
+      const u = window.RGZ_DATA_URL.trim();
+      return u.startsWith("http") ? u : withBase(u.startsWith("/") ? u : `/${u}`);
+    }
+
+    // 2) meta override
+    const meta = document.querySelector('meta[name="rgz-data"]');
+    if (meta && meta.content != null && String(meta.content).trim()) {
+      const u = String(meta.content).trim();
+      return u.startsWith("http") ? u : withBase(u.startsWith("/") ? u : `/${u}`);
+    }
+
+    // 3) default
+    return withBase("/data/store.data.json");
+  }
+
+  const DATA_URL_BASE = resolveDataUrl();
+  const DATA_URL = DATA_URL_BASE + (DATA_URL_BASE.includes("?") ? "&" : "?") + "v=" + Date.now();
   const IMAGE_BASE_PATH = withBase("/assets/images/store/");
 
   // expose minimal helpers
@@ -40,11 +66,12 @@
   window.StoreShell.dataUrl = DATA_URL;
 
   // ============================================================
-  // 2) BOOT
+  // 3) BOOT
   // ============================================================
   document.addEventListener("DOMContentLoaded", () => {
     const storeRoot = document.getElementById("store-root");
     const storeBody = document.querySelector("body.store-body");
+
     if (!storeBody || !storeRoot) return;
 
     // Dynamic apps layer (/apps/*)
@@ -56,7 +83,7 @@
     // Static store layer
     const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
     if (!rawPath) {
-      renderError(storeRoot, `Missing data-path. Example: <body class="store-body" data-path="hardware">`);
+      renderError(storeRoot, `Missing data-path. Example: <body class="store-body" data-path="ai-tools-hub">`);
       return;
     }
 
@@ -64,13 +91,13 @@
   });
 
   // ============================================================
-  // 3) DYNAMIC MODULES (/apps/*)
+  // 4) DYNAMIC MODULES (/apps/*)
   // ============================================================
   async function initDynamicModule(mode, params, target) {
     const m = (mode || "dashboard").toLowerCase();
 
     if (m === "search") {
-      renderSearchModule(target);
+      renderSearchModule(target, params);
       return;
     }
     if (m === "admin") {
@@ -109,7 +136,7 @@
             <input placeholder="Password" type="password"
               style="padding:14px 16px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; outline:none;">
             <button type="button"
-              style="padding:14px 16px; border-radius:12px; border:1px solid #111; background:#111; color:#fff; font-weight:800; cursor:pointer;">
+              style="padding:14px 16px; border-radius:12px; border:1px solid #f97316; background:#f97316; color:#fff; font-weight:800; cursor:pointer;">
               Continue
             </button>
           </div>
@@ -142,11 +169,11 @@
 
           <div style="margin-top:12px; display:flex; gap:10px; justify-content:flex-end;">
             <a href="${withBase("/")}"
-              style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111; text-decoration:none;">
+              style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#334155; text-decoration:none;">
               Back
             </a>
             <button type="button"
-              style="padding:12px 14px; border-radius:12px; border:1px solid #111; background:#111; color:#fff; font-weight:800; cursor:pointer;">
+              style="padding:12px 14px; border-radius:12px; border:1px solid #f97316; background:#f97316; color:#fff; font-weight:800; cursor:pointer;">
               Submit
             </button>
           </div>
@@ -155,8 +182,7 @@
   }
 
   async function renderAdminDashboard(target) {
-    target.innerHTML = renderHeader() + `<div style="padding:40px; color:#64748b; text-align:center;">Loading System Data...</div>`;
-
+    target.innerHTML = renderHeader() + `<div style="padding:24px; color:#64748b;">Loading System Data...</div>`;
     try {
       const data = await fetchJSON(DATA_URL);
       const stores = Object.keys(data || {});
@@ -165,47 +191,47 @@
 
       target.innerHTML =
         renderHeader() +
-        `
-        <main style="padding:40px 20px; max-width:1200px; margin:0 auto;">
-          <div style="background:#fff; border:1px solid #e5e7eb; padding:28px; border-radius:18px; margin-bottom:22px;">
+        `<main style="padding:24px; max-width:1200px; margin:0 auto;">
+          <div style="border:1px solid #e5e7eb; background:#fff; border-radius:18px; padding:22px;">
             <h1 style="margin:0 0 6px; color:#111;">Command Center</h1>
-            <p style="margin:0; color:#64748b;">Global Infrastructure Management</p>
+            <p style="margin:0 0 16px; color:#64748b;">Global Infrastructure Management</p>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px;">
+              <div style="border:1px solid #e5e7eb; border-radius:14px; padding:14px;">
+                <div style="color:#64748b; font-size:12px; font-weight:800; letter-spacing:.08em;">ACTIVE STORES</div>
+                <div style="font-size:28px; font-weight:900; color:#0f172a;">${stores.length}</div>
+              </div>
+              <div style="border:1px solid #e5e7eb; border-radius:14px; padding:14px;">
+                <div style="color:#64748b; font-size:12px; font-weight:800; letter-spacing:.08em;">TOTAL ENTRIES</div>
+                <div style="font-size:28px; font-weight:900; color:#0f172a;">${totalItems}</div>
+              </div>
+              <div style="border:1px solid #e5e7eb; border-radius:14px; padding:14px;">
+                <div style="color:#64748b; font-size:12px; font-weight:800; letter-spacing:.08em;">ENGINE</div>
+                <div style="font-size:28px; font-weight:900; color:#0f172a;">FINAL</div>
+              </div>
+            </div>
           </div>
 
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:22px;">
-            <div style="background:#fff; border:1px solid #e5e7eb; padding:16px; border-radius:14px;">
-              <div style="color:#64748b; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;">Active Stores</div>
-              <div style="font-size:28px; color:#111; font-weight:900;">${stores.length}</div>
-            </div>
-            <div style="background:#fff; border:1px solid #e5e7eb; padding:16px; border-radius:14px;">
-              <div style="color:#64748b; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;">Total Entries</div>
-              <div style="font-size:28px; color:#111; font-weight:900;">${totalItems}</div>
-            </div>
-            <div style="background:#fff; border:1px solid #e5e7eb; padding:16px; border-radius:14px;">
-              <div style="color:#64748b; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em;">Engine Status</div>
-              <div style="font-size:18px; color:#111; font-weight:900;">Hybrid FINAL</div>
-            </div>
+          <div style="margin-top:18px; display:flex; flex-direction:column; gap:10px;">
+            <h3 style="margin:0; color:#111;">Store Inventory</h3>
+            ${stores
+              .map((key) => {
+                const title = esc((data[key] && (data[key].title || data[key].name)) || key);
+                const route = withBase(`/store/${enc(key)}/`);
+                return `
+                  <div style="border:1px solid #e5e7eb; background:#fff; padding:14px 16px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                    <div>
+                      <div style="color:#111; font-weight:800;">${title}</div>
+                      <div style="color:#64748b; font-size:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">/store/${esc(key)}/</div>
+                    </div>
+                    <a href="${route}" target="_blank" rel="noopener"
+                      style="background:#0f172a; color:#fff; padding:10px 14px; border-radius:12px; font-size:12px; font-weight:900; text-decoration:none;">
+                      LIVE
+                    </a>
+                  </div>`;
+              })
+              .join("")}
           </div>
-
-          <div style="display:flex; flex-direction:column; gap:10px;">
-            ${stores.map((key) => {
-              const title = esc((data[key] && (data[key].title || data[key].name)) || key);
-              const route = withBase(`/store/${enc(key)}/`);
-              return `
-                <div style="background:#fff; border:1px solid #e5e7eb; padding:14px 16px; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:12px;">
-                  <div>
-                    <div style="color:#111; font-weight:800;">${title}</div>
-                    <div style="color:#64748b; font-size:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;">/store/${esc(key)}/</div>
-                  </div>
-                  <a href="${route}" target="_blank" rel="noopener"
-                    style="background:#111; color:#fff; padding:10px 14px; border-radius:10px; font-size:12px; font-weight:900; text-decoration:none;">
-                    LIVE
-                  </a>
-                </div>`;
-            }).join("")}
-          </div>
-        </main>
-      `;
+        </main>`;
       wireInteractions(target);
     } catch (e) {
       renderError(target, "Admin Data Load Failed: " + (e && e.message ? e.message : String(e)));
@@ -229,28 +255,22 @@
 
     target.innerHTML =
       renderHeader() +
-      `
-      <main style="padding:40px 20px; max-width:1200px; margin:0 auto;">
-        <div style="margin-bottom:18px; text-align:center;">
+      `<main style="padding:24px; max-width:1200px; margin:0 auto;">
+        <div style="text-align:center; margin-bottom:16px;">
           <h1 style="margin:0 0 8px; color:#111;">Global Search</h1>
-          <p style="margin:0; color:#64748b;">Deep scanning stores and sub-stores…</p>
+          <p style="margin:0; color:#64748b;">Deep scanning stores and sub-stores...</p>
+          <div style="margin-top:14px; max-width:760px; margin-left:auto; margin-right:auto;">
+            <input id="main-search-input" value="${esc(query)}" placeholder="Search products, tools or shops..."
+              style="width:100%; padding:14px 18px; border-radius:999px; border:1px solid #e5e7eb; background:#fff; color:#111; font-size:16px; outline:none;" />
+          </div>
         </div>
-
-        <div style="max-width:760px; margin:0 auto 18px;">
-          <input type="text" id="main-search-input" value="${esc(query)}"
-            placeholder="Search products, tools or shops…"
-            style="width:100%; padding:14px 18px; border-radius:999px; border:1px solid #e5e7eb; background:#fff; color:#111; font-size:16px; outline:none;">
-        </div>
-
         <div id="search-results-grid" class="shop-grid"></div>
-      </main>
-    `;
+      </main>`;
 
     wireInteractions(target);
 
     const input = document.getElementById("main-search-input");
     const grid = document.getElementById("search-results-grid");
-
     if (input) {
       input.addEventListener("input", (e) => performSearch(e.target.value, grid));
       if (query) performSearch(query, grid);
@@ -263,15 +283,15 @@
     if (!gridTarget) return;
 
     if (qraw.length < 2) {
-      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:40px;">Enter at least 2 characters to scan…</p>`;
+      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:24px;">Enter at least 2 characters to scan...</p>`;
       return;
     }
 
     let allData;
     try {
       allData = await fetchJSON(DATA_URL);
-    } catch (e) {
-      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:40px;">Search failed to load database.</p>`;
+    } catch {
+      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:24px;">Search failed to load database.</p>`;
       return;
     }
 
@@ -279,26 +299,29 @@
     Object.keys(allData || {}).forEach((slug) => searchInData(allData[slug], slug, qraw, results));
 
     if (results.length === 0) {
-      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:40px;">No matches found for "${esc(qraw)}"</p>`;
+      gridTarget.innerHTML = `<p style="color:#64748b; grid-column:1/-1; text-align:center; padding:24px;">No matches found for "${esc(qraw)}"</p>`;
       return;
     }
 
-    gridTarget.innerHTML = results.slice(0, 200).map((item) => {
-      const img = resolveImage(item.image || "");
-      return `
-        <a href="${escAttr(item.url || "#")}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ""}>
-          <div class="shop-card-media" style="position:relative;">
-            ${img ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">` : `<div class="product-media-placeholder"></div>`}
-            <div style="position:absolute; top:12px; right:12px; background:#111; color:#fff; padding:3px 8px; border-radius:8px; font-size:10px; font-weight:900; letter-spacing:0.5px;">
-              ${esc(String(item.storeName || "").toUpperCase())}
+    gridTarget.innerHTML = results
+      .slice(0, 200)
+      .map((item) => {
+        const img = resolveImage(item.image || "");
+        return `
+          <a href="${escAttr(item.url || "#")}" class="shop-card" ${item.isExternal ? 'target="_blank" rel="noopener"' : ""}>
+            <div class="shop-card-media" style="position:relative;">
+              ${img ? `<img src="${escAttr(img)}" loading="lazy" alt="${escAttr(item.title || "")}">` : `<div classC="product-media-placeholder"></div>`}
+              <div style="position:absolute; top:12px; right:12px; background:#f97316; color:#fff; padding:3px 8px; border-radius:8px; font-size:10px; font-weight:900; letter-spacing:0.5px;">
+                ${esc(String(item.storeName || "").toUpperCase())}
+              </div>
             </div>
-          </div>
-          <div class="shop-card-body">
-            <h3 class="shop-card-title">${esc(item.title)}</h3>
-            <p class="shop-card-tagline">${esc(item.tagline || "")}</p>
-          </div>
-        </a>`;
-    }).join("");
+            <div class="shop-card-body">
+              <h3 class="shop-card-title">${esc(item.title)}</h3>
+              <p class="shop-card-tagline">${esc(item.tagline || "")}</p>
+            </div>
+          </a>`;
+      })
+      .join("");
   }
 
   function searchInData(obj, storeSlug, q, results) {
@@ -306,19 +329,16 @@
 
     if (Array.isArray(obj.products)) {
       obj.products.forEach((p) => {
-        const title = String(p && p.title ? p.title : "");
-        const tagline = String(p && p.tagline ? p.tagline : "");
-        const t = title.toLowerCase();
-        const g = tagline.toLowerCase();
-
-        if (t.includes(q) || g.includes(q)) {
+        const title = String(p?.title || "");
+        const tagline = String(p?.tagline || "");
+        if (title.toLowerCase().includes(q) || tagline.toLowerCase().includes(q)) {
           results.push({
             title: title || "Product",
             tagline: tagline || "",
-            image: p && p.image ? p.image : "",
-            url: (p && p.url) || "#",
+            image: p?.image || "",
+            url: p?.url || "#",
             isExternal: true,
-            storeName: storeSlug
+            storeName: storeSlug,
           });
         }
       });
@@ -326,31 +346,29 @@
 
     if (Array.isArray(obj.sections)) {
       obj.sections.forEach((s) => {
-        const nm = String((s && (s.name || s.title)) || "").toLowerCase();
-        const slug = String((s && s.slug) || "").trim();
-
+        const nm = String((s?.name || s?.title) || "").toLowerCase();
+        const slug = String(s?.slug || "").trim();
         if (nm && nm.includes(q)) {
           results.push({
-            title: (s && (s.name || s.title)) || slug || "Section",
-            tagline: (s && s.tagline) || "Shop Section",
-            image: (s && s.image) || "",
+            title: (s?.name || s?.title) || slug || "Section",
+            tagline: s?.tagline || "Shop Section",
+            image: s?.image || "",
             url: slug ? withBase(`/store/${enc(storeSlug)}/${enc(slug)}/`) : withBase(`/store/${enc(storeSlug)}/`),
             isExternal: false,
-            storeName: storeSlug
+            storeName: storeSlug,
           });
         }
-
         searchInData(s, storeSlug, q, results);
       });
     }
   }
 
   // ============================================================
-  // 4) STATIC STORE INIT
+  // 5) STATIC STORE INIT
   // ============================================================
   async function initStore(path, target) {
     try {
-      target.innerHTML = `<div style="padding:18px; color:#64748b; font-family:Inter,system-ui,Arial;">Loading store…</div>`;
+      target.innerHTML = `<div style="padding:18px; color:#64748b; font-family:Inter,system-ui,Arial;">Loading store...</div>`;
 
       const allStoresData = await fetchJSON(DATA_URL);
       const found = findDataByPath(allStoresData, path);
@@ -380,7 +398,7 @@
       target.innerHTML = html;
       wireInteractions(target);
     } catch (e) {
-      renderError(target, e && e.message ? e.message : String(e));
+      renderError(target, e?.message ? e.message : String(e));
     }
   }
 
@@ -412,7 +430,7 @@
   }
 
   // ============================================================
-  // 5) RENDER
+  // 6) RENDER (store-core.css handles UI)
   // ============================================================
   function renderHeader() {
     const isApps = (location.pathname || "").includes("/apps/");
@@ -423,14 +441,7 @@
         <div class="store-header-inner">
           <div class="store-header-left">
             <a href="${withBase("/")}" class="store-header-logo">RGZTEC</a>
-
-            <button class="store-header-categories-btn" id="btn-categories" type="button"
-              aria-expanded="true" aria-controls="store-section-nav">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke-width="1.5" stroke="currentColor" class="store-header-icon">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
+            <button class="store-header-categories-btn" id="btn-categories" type="button" aria-expanded="true" aria-controls="store-section-nav">
               <span>Categories</span>
             </button>
           </div>
@@ -438,13 +449,7 @@
           <div class="store-header-center">
             <form class="store-header-search" role="search">
               <input type="search" name="q" placeholder="Search across stores..." aria-label="Search" />
-              <button type="submit" aria-label="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  stroke-width="1.5" stroke="currentColor" class="store-header-icon">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-              </button>
+              <button type="submit" aria-label="Search">Search</button>
             </form>
           </div>
 
@@ -453,10 +458,7 @@
               <a href="${withBase("/apps/admin")}" class="store-header-secondary-link ${active("admin")}">Dashboard</a>
               <a href="${withBase("/apps/signin")}" class="store-header-secondary-link ${active("signin")}">Sign In</a>
             </div>
-
-            <a href="${withBase("/apps/open-store")}" class="store-header-cta ${active("open-store")}">
-              <span>Open Store</span>
-            </a>
+            <a href="${withBase("/apps/open-store")}" class="store-header-cta ${active("open-store")}"><span>Open Store</span></a>
           </div>
         </div>
       </header>`;
@@ -477,10 +479,7 @@
       })
       .join("");
 
-    return `
-      <nav class="store-main-nav" aria-label="RGZTEC stores">
-        <ul class="store-main-nav__list">${storeLinks}</ul>
-      </nav>`;
+    return `<nav class="store-main-nav" aria-label="RGZTEC stores"><ul class="store-main-nav__list">${storeLinks}</ul></nav>`;
   }
 
   function renderSectionNav(sections, activeSlug, rootSlug) {
@@ -494,17 +493,12 @@
         const href = isActive ? "#" : withBase(`/store/${enc(rootSlug)}/${enc(slug)}/`);
         return `
           <li class="store-section-nav__item">
-            <a href="${href}" class="store-section-nav__link ${isActive ? "active" : ""}">
-              ${name}
-            </a>
+            <a href="${href}" class="store-section-nav__link ${isActive ? "active" : ""}">${name}</a>
           </li>`;
       })
       .join("");
 
-    return `
-      <nav id="store-section-nav" class="store-section-nav" aria-label="Store sections">
-        <ul class="store-section-nav__list">${navItems}</ul>
-      </nav>`;
+    return `<nav id="store-section-nav" class="store-section-nav" aria-label="Store sections"><ul class="store-section-nav__list">${navItems}</ul></nav>`;
   }
 
   function renderHero(data) {
@@ -548,11 +542,7 @@
       })
       .join("");
 
-    return `
-      <main class="store-shops">
-        <div class="store-shops-header"><h2>Explore Shops</h2></div>
-        <div class="shop-grid">${cards}</div>
-      </main>`;
+    return `<main class="store-shops"><div class="store-shops-header"><h2>Explore Shops</h2></div><div class="shop-grid">${cards}</div></main>`;
   }
 
   function renderProductSection(products) {
@@ -576,21 +566,11 @@
       })
       .join("");
 
-    return `
-      <main class="store-products">
-        <div class="store-products-header"><h2>Explore Products</h2></div>
-        <div class="shop-grid">${cards}</div>
-      </main>`;
+    return `<main class="store-products"><div class="store-products-header"><h2>Explore Products</h2></div><div class="shop-grid">${cards}</div></main>`;
   }
 
   function renderEmptyShop() {
-    return `
-      <main class="store-products">
-        <div class="products-grid-empty">
-          <h3>Coming Soon</h3>
-          <p>New sections and products are being added to this shop.</p>
-        </div>
-      </main>`;
+    return `<main class="store-products"><div class="products-grid-empty"><h3>Coming Soon</h3><p>New sections and products are being added to this shop.</p></div></main>`;
   }
 
   function resolveImage(raw) {
@@ -602,7 +582,7 @@
   }
 
   // ============================================================
-  // 6) INTERACTIONS
+  // 7) INTERACTIONS
   // ============================================================
   function wireInteractions(root) {
     // Header search => /apps/search?q=
@@ -633,7 +613,7 @@
   }
 
   // ============================================================
-  // 7) CORE UTILS
+  // 8) CORE UTILS
   // ============================================================
   async function fetchJSON(url) {
     const res = await fetch(url, { cache: "no-store" });
@@ -641,14 +621,15 @@
     return await res.json();
   }
 
-  function renderError(target, msg) {
-    if (!target) return;
-    target.innerHTML = `
-      <div style="padding:22px;max-width:980px;margin:20px auto;font-family:Inter,system-ui,Arial;">
-        <h2 style="margin:0 0 10px; color:#111;">Store failed to render (check console).</h2>
+  function renderError(targetOrEl, msg) {
+    const el = typeof targetOrEl === "string" ? document.querySelector(targetOrEl) : targetOrEl;
+    if (!el) return;
+    el.innerHTML = `
+      <div style="padding:22px;max-width:900px;margin:20px auto;font-family:Inter,system-ui,Arial;">
+        <h2 style="margin:0 0 10px; color:#111;">RGZTEC • Load Error</h2>
         <div style="padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;">
           <div style="margin-bottom:10px;color:#111;">${esc(msg)}</div>
-          <div style="color:#64748b;font-size:13px; line-height:1.6;">
+          <div style="color:#64748b;font-size:13px;">
             <div><b>DATA_URL</b>: <code>${esc(DATA_URL)}</code></div>
             <div><b>BASE</b>: <code>${esc(BASE)}</code></div>
           </div>
@@ -662,12 +643,10 @@
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
-      "'": "&#039;"
+      "'": "&#039;",
     }[m]));
   }
   function escAttr(s) {
     return esc(String(s || "")).replace(/`/g, "&#096;");
   }
 })();
-
-
