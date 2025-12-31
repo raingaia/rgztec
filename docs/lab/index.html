@@ -1,172 +1,241 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RGZTEC • Dashboard / Editor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGZTEC | Professional Editor</title>
+    <style>
+        :root {
+            --primary: #f06529; /* RGZTEC Turuncusu */
+            --bg-body: #f4f7f9;
+            --bg-panel: #ffffff;
+            --border: #e1e8ed;
+            --text-main: #2d3748;
+            --sidebar-w: 240px;
+        }
 
-  <!-- GitHub Pages / Amplify subpath için: boş bırakabilirsin -->
-  <meta name="rgz-base" content="" />
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-main);
+            overflow: hidden;
+        }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        /* SaaS Layout */
+        .dashboard {
+            display: flex;
+            height: 100vh;
+        }
 
-  <!-- ✅ Home CSS'yi de base ile otomatik yükleyeceğiz -->
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: #1a202c;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
 
-  <style>
-    /* minimal layout (home CSS bozulmasın diye scoped) */
-    .rgz-lab-wrap{max-width:1180px;margin:0 auto;padding:22px 18px 48px}
-    .rgz-lab-hero{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin:6px 0 18px}
-    .rgz-lab-title{font-size:22px;font-weight:800;letter-spacing:-.02em;color:#0f172a}
-    .rgz-lab-sub{margin-top:6px;font-size:13px;color:#64748b;max-width:720px;line-height:1.45}
-    .rgz-lab-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+        .logo-area {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--primary);
+        }
 
-    .rgz-btn,.rgz-select{
-      border:1px solid rgba(15,23,42,.12);
-      background:#fff;border-radius:999px;
-      padding:9px 12px;font-size:12px;font-weight:800;
-    }
-    .rgz-btn{cursor:pointer}
-    .rgz-btn.primary{background:#0f172a;color:#fff;border-color:#0f172a}
-    .rgz-btn.warn{color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .rgz-lab-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
-    @media (max-width:980px){.rgz-lab-grid{grid-template-columns:1fr}}
-    .rgz-card{border:1px solid rgba(15,23,42,.08);background:rgba(255,255,255,.92);border-radius:16px;overflow:hidden}
-    .rgz-card-hd{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(15,23,42,.08)}
-    .rgz-card-hd strong{font-size:12px;letter-spacing:.02em}
-    .rgz-status{font-size:12px;color:#64748b;display:flex;align-items:center;gap:8px}
-    .dot{width:8px;height:8px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.12)}
-    .dot.warn{background:#f59e0b;box-shadow:0 0 0 4px rgba(245,158,11,.14)}
-    .dot.err{background:#ef4444;box-shadow:0 0 0 4px rgba(239,68,68,.14)}
-    .rgz-tabs{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid rgba(15,23,42,.08)}
-    .rgz-tab{border:1px solid rgba(15,23,42,.10);background:#fff;padding:8px 10px;border-radius:999px;font-size:12px;font-weight:900;cursor:pointer}
-    .rgz-tab.active{background:#0f172a;color:#fff;border-color:#0f172a}
-    textarea.rgz-area{
-      width:100%;height:520px;border:0;outline:none;resize:none;padding:14px;
-      font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.5;
-      background:#0b1220;color:#e5e7eb
-    }
-    .rgz-foot{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid rgba(15,23,42,.08);font-size:12px;color:#64748b}
-    .rgz-preview{height:610px;background:#fff}
-    iframe#rgzPreviewFrame{width:100%;height:100%;border:0;background:#fff}
-  </style>
+        .nav-group {
+            flex: 1;
+        }
 
-  <script>
-    (function(){
-      function resolveBase(){
-        const meta = document.querySelector('meta[name="rgz-base"]');
-        if (meta && meta.content != null && String(meta.content).trim() !== "")
-          return String(meta.content).trim().replace(/\/+$/,"");
-        const p = location.pathname || "/";
-        // /rgztec/... ise base /rgztec
-        if (p.includes("/rgztec/")) return "/rgztec";
-        // Amplify branch url'lerinde genelde base yok: ""
-        return "";
-      }
-      const BASE = resolveBase();
-      const withBase = (p)=> BASE ? (BASE + p) : p;
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: transparent;
+            border: none;
+            color: #a0aec0;
+            width: 100%;
+            font-size: 0.9rem;
+        }
 
-      // ✅ Home CSS yolunu buradan yönet
-      const homeCss = document.createElement("link");
-      homeCss.rel = "stylesheet";
-      homeCss.href = withBase("/assets/css/home.css");  // <-- home.css dosyanın gerçek yolu buysa doğru
-      document.head.appendChild(homeCss);
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
+        .nav-item.active { background: var(--primary); color: white; }
 
-      // ✅ Lab JS
-      const lab = document.createElement("script");
-      lab.defer = true;
-      lab.src = withBase("/assets/js/lab.js");          // <-- kesin doğru path
-      document.head.appendChild(lab);
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
 
-      // İstersen RGZ bridge de:
-      const bridge = document.createElement("script");
-      bridge.defer = true;
-      bridge.src = withBase("/assets/js/rgz.bridge.js");
-      document.head.appendChild(bridge);
+        .top-bar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
 
-      window.__RGZ_BASE__ = BASE;
-    })();
-  </script>
+        .btn-run {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-run:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* Editor Area */
+        .editor-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .panel {
+            background: var(--bg-panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .panel-header {
+            padding: 12px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Code Editors */
+        .editor-wrapper { flex: 1; position: relative; }
+        
+        textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            background: #2d3748;
+            color: #edf2f7;
+            display: none;
+        }
+
+        textarea.active { display: block; }
+
+        /* Preview */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+    </style>
 </head>
+<body>
 
-<body class="rgz-body">
-  <header class="rgz-header" style="border-bottom:1px solid rgba(15,23,42,.06); background:#fff;">
-    <div style="max-width:1180px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-      <a href="/index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-        <span style="font-weight:900;letter-spacing:.02em;color:#f97316;">RGZTEC</span>
-        <span style="font-size:12px;color:#64748b;font-weight:800;">Dashboard / Editor</span>
-      </a>
-      <nav style="display:flex;gap:14px;align-items:center;font-size:12px;">
-        <a href="/index.html" style="color:#0f172a;text-decoration:none;font-weight:800;">Home</a>
-        <a href="/signin.html" style="color:#64748b;text-decoration:none;font-weight:800;">Sign in</a>
-        <a href="/open-store.html" style="color:#64748b;text-decoration:none;font-weight:800;">Open Store</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="rgz-lab-wrap">
-    <div class="rgz-lab-hero">
-      <div>
-        <div class="rgz-lab-title">Dashboard / Editor</div>
-        <div class="rgz-lab-sub">
-          HTML/CSS/JS bloklarını RGZTEC layout içinde test et. Run iframe’e basar, Open Preview yeni sekmede açar.
-          (Kısayol: Ctrl + Enter)
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="logo-area">RGZTEC LAB</div>
+        <div class="nav-group">
+            <button class="nav-item active" onclick="switchTab('html', this)">index.html</button>
+            <button class="nav-item" onclick="switchTab('css', this)">style.css</button>
+            <button class="nav-item" onclick="switchTab('js', this)">script.js</button>
         </div>
-      </div>
+        <button class="nav-item" style="margin-top: auto;" onclick="resetAll()">Reset Project</button>
+    </aside>
 
-      <div class="rgz-lab-actions">
-        <select id="rgzTheme" class="rgz-select">
-          <option value="corporate" selected>Theme: Corporate</option>
-          <option value="dark">Theme: Dark</option>
-        </select>
-        <button id="btnCopy" class="rgz-btn">Copy</button>
-        <button id="btnReset" class="rgz-btn warn">Reset</button>
-        <button id="btnOpen" class="rgz-btn">Open Preview</button>
-        <button id="btnRun" class="rgz-btn primary">Run</button>
-      </div>
-    </div>
+    <main class="main-content">
+        <header class="top-bar">
+            <div>
+                <h2 style="margin:0; font-size: 1.1rem;">Editor v2.0</h2>
+                <small style="color: #718096;">Real-time SaaS Environment</small>
+            </div>
+            <button class="btn-run" onclick="runProject()">Run Project</button>
+        </header>
 
-    <section class="rgz-lab-grid">
-      <div class="rgz-card">
-        <div class="rgz-card-hd">
-          <strong>EDITOR</strong>
-          <div class="rgz-status">
-            <span id="rgzDot" class="dot"></span>
-            <span id="rgzStatus">Ready</span>
-          </div>
+        <div class="editor-container">
+            <div class="panel">
+                <div class="panel-header">
+                    <span id="current-file">index.html</span>
+                    <span style="color: #cbd5e0;">Source Code</span>
+                </div>
+                <div class="editor-wrapper">
+                    <textarea id="html-edit" class="active" placeholder="HTML kodlarını buraya yaz..."><h1>Hello RGZTEC!</h1></textarea>
+                    <textarea id="css-edit" placeholder="CSS kodlarını buraya yaz...">h1 { color: #f06529; text-align: center; margin-top: 50px; }</textarea>
+                    <textarea id="js-edit" placeholder="JS kodlarını buraya yaz...">console.log('RGZTEC Lab Ready!');</textarea>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <span>Live Preview</span>
+                    <span style="color: #48bb78;">● Live</span>
+                </div>
+                <iframe id="preview-frame"></iframe>
+            </div>
         </div>
+    </main>
+</div>
 
-        <div class="rgz-tabs">
-          <button class="rgz-tab active" data-tab="html" type="button">HTML</button>
-          <button class="rgz-tab" data-tab="css" type="button">CSS</button>
-          <button class="rgz-tab" data-tab="js" type="button">JS</button>
-        </div>
+<script>
+    function switchTab(type, btn) {
+        // Sekme butonlarını güncelle
+        document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-        <textarea id="codeHtml" class="rgz-area" spellcheck="false"></textarea>
-        <textarea id="codeCss" class="rgz-area" spellcheck="false" style="display:none;"></textarea>
-        <textarea id="codeJs"  class="rgz-area" spellcheck="false" style="display:none;"></textarea>
+        // Textareaları güncelle
+        document.querySelectorAll('textarea').forEach(t => t.classList.remove('active'));
+        document.getElementById(type + '-edit').classList.add('active');
+        
+        // Başlığı güncelle
+        document.getElementById('current-file').innerText = (type === 'html' ? 'index.html' : (type === 'css' ? 'style.css' : 'script.js'));
+    }
 
-        <div class="rgz-foot">
-          <div>Run: <b>Ctrl + Enter</b> • Copy: <b>Ctrl + S</b></div>
-          <div>Preview: srcdoc (CSP-safe)</div>
-        </div>
-      </div>
+    function runProject() {
+        const html = document.getElementById('html-edit').value;
+        const css = "<style>" + document.getElementById('css-edit').value + "</style>";
+        const js = "<script>" + document.getElementById('js-edit').value + "<\/script>";
+        
+        const iframe = document.getElementById('preview-frame');
+        const fullCode = css + html + js;
+        
+        const blob = new Blob([fullCode], { type: 'text/html' });
+        iframe.src = URL.createObjectURL(blob);
+    }
 
-      <div class="rgz-card">
-        <div class="rgz-card-hd">
-          <strong>PREVIEW</strong>
-          <div class="rgz-status">
-            <button id="btnRefresh" class="rgz-btn" style="box-shadow:none;">Refresh</button>
-          </div>
-        </div>
-        <div class="rgz-preview">
-          <iframe id="rgzPreviewFrame" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
-        </div>
-      </div>
-    </section>
-  </main>
+    function resetAll() {
+        if(confirm('Tüm değişiklikler silinecek. Emin misin?')) {
+            location.reload();
+        }
+    }
+
+    // İlk açılışta çalıştır
+    window.onload = runProject;
+</script>
+
 </body>
 </html>
-
 
