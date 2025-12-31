@@ -1000,4 +1000,74 @@ section:last-of-type{
   color: rgba(100,116,139,0.95);
   font-weight: 600;
 }
+/* ===========================================================
+   PATCH: SUB NAV FIX + CORPORATE SIZE
+   (JS: <a class="sub-nav-item"> üretir, eski CSS .sub-nav-item a idi)
+   Paste at END of home.css
+   =========================================================== */
+
+/* Sub-nav genel sıkılık */
+.sub-nav-list{
+  gap: 14px !important;     /* 32 çok genişti */
+  height: 46px !important;  /* 54 yerine daha kompakt */
+}
+
+/* ✅ FIX: linkin kendisi .sub-nav-item */
+.sub-nav-list .sub-nav-item{
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: var(--ink-light) !important;
+  white-space: nowrap !important;
+
+  height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+
+  padding: 8px 10px !important;
+  border-radius: 999px !important;
+  border: 1px solid transparent !important;
+
+  letter-spacing: .02em !important;
+  line-height: 1 !important;
+
+  opacity: .88 !important;
+  transition: all .18s ease !important;
+}
+
+.sub-nav-list .sub-nav-item:hover{
+  color: var(--brand) !important;
+  background: rgba(249,115,22,0.10) !important;
+  border-color: rgba(249,115,22,0.22) !important;
+  opacity: 1 !important;
+  transform: translateY(-1px);
+}
+
+/* Eski kuralın varsa etkisiz kalsın */
+.sub-nav-item a{ border-bottom: none !important; }
+
+/* ===========================================================
+   PATCH: HARDWARE CARD VARIANT (HOME)
+   (JS: hardware için .card--hardware ekler)
+   =========================================================== */
+
+.card--hardware{
+  background: radial-gradient(circle at 20% 0%, rgba(249,115,22,0.10) 0%, #ffffff 55%) !important;
+  border-color: rgba(249,115,22,0.25) !important;
+}
+
+.card--hardware .card-media{
+  aspect-ratio: 16 / 9 !important;
+  background: radial-gradient(120% 120% at 30% 20%, #0f172a 0%, #111827 55%, #0b1220 100%) !important;
+}
+
+.card--hardware .card-badge{
+  background: rgba(249,115,22,0.14) !important;
+  color: #9a3412 !important;
+  border: 1px solid rgba(249,115,22,0.22) !important;
+}
+
+/* İstersen hardware title biraz daha güçlü */
+.card--hardware .card-title{
+  font-weight: 800 !important;
+}
 
