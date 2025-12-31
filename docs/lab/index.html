@@ -1,254 +1,477 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGZTEC | Enterprise Design Lab</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #f06529; /* Core RGZTEC Orange */
-            --sidebar-bg: #0f172a; /* Darker Enterprise Slate */
-            --bg-body: #f8fafc;
-            --border: #e2e8f0;
-            --header-h: 70px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RGZTEC | Enterprise Design Lab</title>
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-body);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+  <!-- Opsiyonel: manuel base yazmak istersen -->
+  <meta name="rgz-base" content="" />
 
-        /* Sidebar - Kurumsal SaaS Stili */
-        .rgz-sidebar {
-            width: 260px;
-            background: var(--sidebar-bg);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 
-        .sidebar-brand {
-            height: var(--header-h);
-            display: flex;
-            align-items: center;
-            padding: 0 25px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            letter-spacing: -0.5px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
+  <style>
+    :root{
+      --primary:#f06529;         /* RGZTEC Orange */
+      --sidebar-bg:#0f172a;      /* Slate */
+      --bg-body:#f8fafc;
+      --border:#e2e8f0;
+      --header-h:70px;
+    }
+    body{
+      margin:0;
+      font-family:'Inter',sans-serif;
+      background:var(--bg-body);
+      display:flex;
+      height:100vh;
+      overflow:hidden;
+    }
 
-        .nav-section { padding: 20px 15px; flex: 1; }
-        .nav-label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
-        
-        .nav-btn {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.2s;
-            margin-bottom: 5px;
-        }
+    /* Sidebar */
+    .rgz-sidebar{
+      width:260px;
+      background:var(--sidebar-bg);
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      border-right:1px solid rgba(255,255,255,.10);
+    }
+    .sidebar-brand{
+      height:var(--header-h);
+      display:flex;
+      align-items:center;
+      padding:0 22px;
+      font-weight:900;
+      font-size:1.15rem;
+      letter-spacing:-.5px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .sidebar-brand small{
+      margin-left:10px;
+      font-weight:700;
+      font-size:.72rem;
+      opacity:.7;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
 
-        .nav-btn:hover { background: rgba(255,255,255,0.05); color: white; }
-        .nav-btn.active { background: var(--primary); color: white; font-weight: 600; }
+    .nav-section{padding:18px 14px;flex:1;}
+    .nav-label{font-size:.7rem;color:#94a3b8;text-transform:uppercase;margin:10px 0 12px;padding-left:10px;letter-spacing:.12em;}
+    .nav-btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      background:transparent;
+      border:none;
+      color:#cbd5e1;
+      text-align:left;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      transition:.18s;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+    .nav-btn:hover{background:rgba(255,255,255,.06);color:#fff;}
+    .nav-btn.active{background:var(--primary);color:#fff;}
 
-        /* Main View */
-        .main-view { flex: 1; display: flex; flex-direction: column; }
+    .side-footer{
+      padding:14px;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+    .side-link{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .side-link:hover{background:rgba(255,255,255,.08);}
 
-        .header {
-            height: var(--header-h);
-            background: white;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-        }
+    /* Main */
+    .main-view{flex:1;display:flex;flex-direction:column;min-width:0;}
+    .header{
+      height:var(--header-h);
+      background:#fff;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 26px;
+      gap:14px;
+    }
+    .header h1{margin:0;font-size:1.05rem;color:#0f172a;font-weight:900;letter-spacing:-.02em;}
+    .header p{margin:6px 0 0;font-size:.8rem;color:#64748b;font-weight:600;}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+    .btn{
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:900;
+      font-size:.85rem;
+      cursor:pointer;
+      transition:.18s;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+    .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+    .btn-outline{background:#fff;color:#0f172a;border:1px solid var(--border);}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.08);}
 
-        .actions { display: flex; gap: 12px; }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+    .workspace{
+      flex:1;
+      display:grid;
+      grid-template-columns:1fr 1.2fr;
+      padding:18px;
+      gap:16px;
+      min-height:0;
+    }
+    @media (max-width:1100px){.workspace{grid-template-columns:1fr;}}
+    .card{
+      background:#fff;
+      border-radius:16px;
+      border:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      box-shadow:0 1px 3px rgba(0,0,0,.05);
+      min-height:0;
+    }
+    .card-header{
+      padding:14px 18px;
+      background:#f8fafc;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .chip{
+      font-size:.72rem;
+      font-weight:900;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      background:#fff;
+      color:#0f172a;
+    }
+    .chip.live{border-color:rgba(16,185,129,.25);color:#059669;background:rgba(16,185,129,.06);}
 
-        .btn-primary { background: var(--primary); color: white; border: none; }
-        .btn-outline { background: white; color: #475569; border: 1px solid var(--border); }
-        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    /* Editor */
+    .editor-tabs{
+      display:flex;
+      gap:8px;
+      padding:10px 14px;
+      border-bottom:1px solid var(--border);
+      background:#fff;
+    }
+    .tab{
+      border:1px solid rgba(15,23,42,.10);
+      background:#fff;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .tab.active{background:#0f172a;color:#fff;border-color:#0f172a;}
 
-        /* Editor Grid */
-        .workspace {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .card-header {
-            padding: 15px 20px;
-            background: #f8fafc;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Monaco-like Textarea */
-        textarea {
-            flex: 1;
-            border: none;
-            padding: 25px;
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            background: #1e293b;
-            color: #e2e8f0;
-            resize: none;
-            outline: none;
-            display: none;
-        }
-        textarea.active { display: block; }
-
-        iframe { width: 100%; height: 100%; border: none; background: white; }
-    </style>
+    textarea{
+      flex:1;
+      border:none;
+      padding:16px 16px 18px;
+      font-family:'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size:13px;
+      line-height:1.6;
+      background:#0b1220;
+      color:#e5e7eb;
+      resize:none;
+      outline:none;
+      display:none;
+      min-height:0;
+    }
+    textarea.active{display:block;}
+    iframe{width:100%;height:100%;border:none;background:#fff;}
+  </style>
 </head>
+
 <body>
 
-    <aside class="rgz-sidebar">
-        <div class="sidebar-brand">RGZTEC<span style="color:var(--primary)">.</span></div>
-        <nav class="nav-section">
-            <div class="nav-label">Core Files</div>
-            <button class="nav-btn active" onclick="switchFile('html', this)">index.html</button>
-            <button class="nav-btn" onclick="switchFile('css', this)">style.css</button>
-            <button class="nav-btn" onclick="switchFile('js', this)">script.js</button>
-        </nav>
-        <div style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <button class="nav-btn" onclick="window.location.href='/'">Back to Home</button>
-        </div>
-    </aside>
-
-    <main class="main-view">
-        <header class="header">
-            <div>
-                <h1 style="margin:0; font-size: 1.1rem; color: #1e293b;">Component Editor</h1>
-                <p style="margin:0; font-size: 0.8rem; color: #64748b;">Building with Core Enterprise CSS</p>
-            </div>
-            <div class="actions">
-                <button class="btn btn-outline" onclick="openFullPreview()">Full Screen Preview</button>
-                <button class="btn btn-primary" onclick="runProject()">Sync & Deploy</button>
-            </div>
-        </header>
-
-        <section class="workspace">
-            <div class="card">
-                <div class="card-header">
-                    <span id="file-title" style="font-weight:600; font-size: 0.85rem;">index.html</span>
-                    <span style="font-size: 0.75rem; color: #94a3b8;">EDITOR</span>
-                </div>
-                <textarea id="html-editor" class="active">
-<div class="container py-5">
-    <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-body p-5 text-center">
-            <h2 class="fw-bold">Enterprise Component</h2>
-            <p class="text-muted">Bu kart projenin ana CSS dosyasını kullanıyor!</p>
-            <button class="btn btn-primary px-4">Core Button</button>
-        </div>
+  <aside class="rgz-sidebar">
+    <div class="sidebar-brand">
+      RGZTEC<span style="color:var(--primary)">.</span>
+      <small>Design Lab</small>
     </div>
-</div></textarea>
-                <textarea id="css-editor">/* Custom styles here */</textarea>
-                <textarea id="js-editor">console.log('Core initialized.');</textarea>
-            </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <span style="font-weight:600; font-size: 0.85rem;">Live Preview</span>
-                    <span style="font-size: 0.75rem; color: #10b981;">● CONNECTED TO CORE</span>
-                </div>
-                <iframe id="preview-frame"></iframe>
-            </div>
-        </section>
-    </main>
+    <nav class="nav-section">
+      <div class="nav-label">Core Files</div>
+      <button class="nav-btn active" data-file="html">index.html</button>
+      <button class="nav-btn" data-file="css">style.css</button>
+      <button class="nav-btn" data-file="js">script.js</button>
+
+      <div class="nav-label" style="margin-top:18px;">Tools</div>
+      <button class="nav-btn" id="btnCopy">Copy Project JSON</button>
+      <button class="nav-btn" id="btnReset">Reset</button>
+    </nav>
+
+    <div class="side-footer">
+      <button class="side-link" id="btnHome">Back to Home</button>
+    </div>
+  </aside>
+
+  <main class="main-view">
+    <header class="header">
+      <div>
+        <h1>Dashboard / Editor</h1>
+        <p>RGZTEC Home CSS + Store CSS ile bileşenleri birebir test et.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-outline" id="btnOpen">Full Screen Preview</button>
+        <button class="btn btn-primary" id="btnRun">Run Preview</button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <div class="card">
+        <div class="card-header">
+          <span id="file-title" style="font-weight:900;font-size:.85rem;color:#0f172a;">index.html</span>
+          <span class="chip">EDITOR</span>
+        </div>
+
+        <div class="editor-tabs">
+          <button class="tab active" data-tab="html">HTML</button>
+          <button class="tab" data-tab="css">CSS</button>
+          <button class="tab" data-tab="js">JS</button>
+        </div>
+
+        <textarea id="html-editor" class="active">
+<div class="container py-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-body p-5 text-center">
+      <h2 class="fw-bold">Enterprise Component</h2>
+      <p class="text-muted">Bu kart RGZTEC core CSS ile render olur.</p>
+      <button class="btn btn-primary px-4">Core Button</button>
+    </div>
+  </div>
+</div>
+        </textarea>
+
+        <textarea id="css-editor">/* Custom styles here */</textarea>
+        <textarea id="js-editor">console.log("RGZTEC Lab ready");</textarea>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span style="font-weight:900;font-size:.85rem;color:#0f172a;">Live Preview</span>
+          <span class="chip live">● CORE CONNECTED</span>
+        </div>
+        <iframe id="preview-frame" sandbox="allow-scripts allow-forms allow-modals allow-popups"></iframe>
+      </div>
+    </section>
+  </main>
 
 <script>
-    function switchFile(type, el) {
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        
-        document.querySelectorAll('textarea').forEach(t => t.classList.remove('active'));
-        document.getElementById(type + '-editor').classList.add('active');
-        document.getElementById('file-title').innerText = type.toUpperCase() + ' Source';
-    }
+/* ===========================
+   RGZTEC BASE RESOLVER
+   =========================== */
+function resolveBase(){
+  const meta = document.querySelector('meta[name="rgz-base"]');
+  if (meta && meta.content != null && String(meta.content).trim() !== "") {
+    return String(meta.content).trim().replace(/\/+$/, "");
+  }
+  const p = location.pathname || "/";
+  // /rgztec/... ise
+  if (p.includes("/rgztec/")) return "/rgztec";
+  return "";
+}
+const BASE = resolveBase();
+const withBase = (p) => (BASE ? (BASE + p) : p);
 
-    function runProject() {
-        const html = document.getElementById('html-editor').value;
-        const customCss = "<style>" + document.getElementById('css-editor').value + "</style>";
-        const js = "<script>" + document.getElementById('js-editor').value + "<\/script>";
-        
-        // KRİTİK NOKTA: Buradaki linkler senin projenin ana CSS yolları olmalı!
-        const coreCssLinks = `
-            <link rel="stylesheet" href="/assets/css/home.css">
-            <link rel="stylesheet" href="/assets/css/store-core.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-        `;
+/* ===========================
+   STATE + UI
+   =========================== */
+const KEY = "rgztec_lab_enterprise_v1";
 
-        const fullContent = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                ${coreCssLinks}
-                ${customCss}
-            </head>
-            <body>
-                ${html}
-                ${js}
-            </body>
-            </html>
-        `;
+const els = {
+  navBtns: Array.from(document.querySelectorAll(".nav-btn[data-file]")),
+  tabs: Array.from(document.querySelectorAll(".tab")),
+  html: document.getElementById("html-editor"),
+  css: document.getElementById("css-editor"),
+  js: document.getElementById("js-editor"),
+  title: document.getElementById("file-title"),
+  frame: document.getElementById("preview-frame"),
+  btnRun: document.getElementById("btnRun"),
+  btnOpen: document.getElementById("btnOpen"),
+  btnHome: document.getElementById("btnHome"),
+  btnCopy: document.getElementById("btnCopy"),
+  btnReset: document.getElementById("btnReset"),
+};
 
-        const iframe = document.getElementById('preview-frame');
-        iframe.srcdoc = fullContent;
-    }
+const DEFAULTS = {
+  html: els.html.value,
+  css: els.css.value,
+  js: els.js.value
+};
 
-    function openFullPreview() {
-        const content = document.getElementById('preview-frame').srcdoc;
-        const win = window.open('', '_blank');
-        win.document.write(content);
-        win.document.close();
-    }
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY) || "{}");
+    if (s.html != null) els.html.value = s.html;
+    if (s.css != null) els.css.value = s.css;
+    if (s.js != null) els.js.value = s.js;
+  }catch{}
+}
+function saveState(){
+  localStorage.setItem(KEY, JSON.stringify({
+    html: els.html.value,
+    css: els.css.value,
+    js: els.js.value
+  }));
+}
 
-    // Başlangıçta çalıştır
-    window.onload = runProject;
+/* ===========================
+   HOME UYUMLU PREVIEW
+   - core CSS linkleri base ile
+   =========================== */
+function buildDoc(){
+  const html = els.html.value || "";
+  const css = els.css.value || "";
+  const js  = els.js.value || "";
+
+  // ✅ Buradaki dosya yollarını senin projendeki GERÇEK yollarla aynı tuttum:
+  const coreCssLinks = `
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+    <!-- RGZTEC CORE -->
+    <link rel="stylesheet" href="${withBase("/assets/css/home.css")}">
+    <link rel="stylesheet" href="${withBase("/assets/css/store-core.css")}">
+
+    <!-- (opsiyonel) bootstrap demo bileşenleri için -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  `;
+
+  return `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+${coreCssLinks}
+<style>${css}</style>
+</head>
+<body>
+${html}
+<script>
+(function(){
+  "use strict";
+  try{
+    ${js}
+  }catch(e){
+    console.error(e);
+    var pre=document.createElement("pre");
+    pre.style.cssText="padding:12px;margin:12px;border-radius:12px;background:#111827;color:#fca5a5;font-family:ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;";
+    pre.textContent="JS Error: "+(e && e.message ? e.message : String(e));
+    document.body.prepend(pre);
+  }
+})();
+<\/script>
+</body>
+</html>`;
+}
+
+function runProject(){
+  saveState();
+  els.frame.srcdoc = buildDoc(); // ✅ CSP safe
+}
+
+function openFullPreview(){
+  const doc = buildDoc();
+  const w = window.open("", "_blank", "noopener,noreferrer");
+  if (!w) return;
+  w.document.open();
+  w.document.write(doc);
+  w.document.close();
+}
+
+/* ===========================
+   UI switching
+   =========================== */
+function switchFile(type, el){
+  els.navBtns.forEach(b => b.classList.remove("active"));
+  el.classList.add("active");
+
+  // editor tabı da değişsin
+  setTab(type);
+}
+
+function setTab(type){
+  els.tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === type));
+  els.html.classList.toggle("active", type === "html");
+  els.css.classList.toggle("active", type === "css");
+  els.js.classList.toggle("active", type === "js");
+
+  els.title.textContent =
+    type === "html" ? "index.html" :
+    type === "css"  ? "style.css" :
+    "script.js";
+}
+
+/* ===========================
+   Buttons
+   =========================== */
+els.navBtns.forEach(btn => {
+  btn.addEventListener("click", () => switchFile(btn.dataset.file, btn));
+});
+els.tabs.forEach(btn => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
+
+els.btnRun.addEventListener("click", runProject);
+els.btnOpen.addEventListener("click", openFullPreview);
+
+els.btnHome.addEventListener("click", () => {
+  // ✅ base uyumlu home
+  location.href = withBase("/index.html");
+});
+
+els.btnCopy.addEventListener("click", async () => {
+  const payload = JSON.stringify({
+    html: els.html.value,
+    css: els.css.value,
+    js: els.js.value
+  }, null, 2);
+
+  try{
+    await navigator.clipboard.writeText(payload);
+    alert("Copied ✅");
+  }catch{
+    alert("Copy failed ❌");
+  }
+});
+
+els.btnReset.addEventListener("click", () => {
+  if (!confirm("Reset to defaults?")) return;
+  els.html.value = DEFAULTS.html;
+  els.css.value = DEFAULTS.css;
+  els.js.value = DEFAULTS.js;
+  saveState();
+  runProject();
+});
+
+/* Shortcuts */
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "Enter") { e.preventDefault(); runProject(); }
+  if (e.ctrlKey && (e.key === "s" || e.key === "S")) { e.preventDefault(); els.btnCopy.click(); }
+});
+
+/* Init */
+loadState();
+setTab("html");
+runProject();
 </script>
 </body>
 </html>
+
 
