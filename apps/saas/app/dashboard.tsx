@@ -1,63 +1,75 @@
 import React, { useState } from 'react';
 import SaaSStats from '../components/SaaSStats';
 import ProductList from '../components/ProductList';
-import StoreAnalyticsTable from '../components/StoreAnalyticsTable'; // <-- Yeni eklediğimiz tablo
+import StoreAnalyticsTable from '../components/StoreAnalyticsTable';
 import { getSaaSProducts } from '../lib/store-logic';
 
 const Dashboard = () => {
   const [selectedStore, setSelectedStore] = useState('all');
+  const [searchTerm, setSearchTerm] = useState(''); // Arama state'i
   
-  // Mağaza listesini JSON'dan otomatik çekiyoruz
   const stores = ['all', ...new Set(getSaaSProducts().map(p => p.store_key))];
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      {/* Başlık Bölümü */}
-      <div className="flex justify-between items-center mb-10">
+    <div className="min-h-screen bg-black text-white p-8 print:bg-white print:text-black">
+      {/* Başlık ve Rapor Butonu */}
+      <div className="flex justify-between items-start mb-10 print:hidden">
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight">Executive Dashboard</h1>
           <p className="text-gray-400 mt-2">Global Inventory & Financial Real-time Data</p>
         </div>
-        <div className="flex flex-col items-end">
-          <div className="bg-blue-600 px-4 py-1 rounded-full text-xs font-bold mb-1">
+        <div className="flex flex-col items-end gap-3">
+          <button 
+            onClick={() => window.print()}
+            className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all border border-gray-700"
+          >
+            EXPORT PDF REPORT
+          </button>
+          <div className="bg-blue-600 px-4 py-1 rounded-full text-[10px] font-bold">
             US ENTITY: ACTIVE
           </div>
-          <p className="text-xs text-gray-500 font-mono">ID: RGZ-90-GLOBAL</p>
         </div>
       </div>
 
-      {/* 1. Kısım: Üst Özet İstatistikler */}
       <SaaSStats />
 
-      {/* 2. Kısım: Mağaza Filtreleme Menüsü */}
-      <div className="flex flex-wrap gap-3 mb-8 bg-gray-900/30 p-4 rounded-2xl border border-gray-800">
-        {stores.map(store => (
-          <button
-            key={store}
-            onClick={() => setSelectedStore(store)}
-            className={`px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-              selectedStore === store 
-                ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' 
-                : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'
-            }`}
-          >
-            {store.toUpperCase()}
-          </button>
-        ))}
+      {/* Arama ve Filtreleme Grubu */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8 print:hidden">
+        <div className="lg:col-span-1">
+          <input 
+            type="text" 
+            placeholder="Search ID or Name..."
+            className="w-full bg-gray-900 border border-gray-800 rounded-xl px-4 py-2.5 text-sm focus:border-blue-500 outline-none"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="lg:col-span-3 flex flex-wrap gap-2">
+          {stores.map(store => (
+            <button
+              key={store}
+              onClick={() => setSelectedStore(store)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                selectedStore === store ? 'bg-blue-500 text-white' : 'bg-gray-900 text-gray-500 hover:bg-gray-800'
+              }`}
+            >
+              {store.toUpperCase()}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* 3. Kısım: Dinamik Ürün Listesi */}
-      <div className="mb-12">
+      {/* Ürün Listesi */}
+      <div className="mb-12 print:hidden">
         <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
           <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
           Active Inventory
         </h2>
-        <ProductList filter={selectedStore} />
+        <ProductList filter={selectedStore} searchTerm={searchTerm} />
       </div>
 
-      {/* 4. Kısım: Finansal Analiz Tablosu (Final Dokunuşu) */}
-      <div className="mt-16 border-t border-gray-800 pt-10">
-        <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
+      {/* Finansal Analiz Tablosu */}
+      <div className="mt-16 border-t border-gray-800 pt-10 print:mt-0 print:border-none">
+        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
           <span className="w-2 h-6 bg-green-500 rounded-full"></span>
           Revenue Distribution
         </h2>
