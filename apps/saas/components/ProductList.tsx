@@ -1,36 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import { getSaaSProducts, Product } from '../lib/store-logic';
 
-const ProductList = () => {
+interface Props {
+  filter: string;
+  search: string;
+}
+
+const ProductList = ({ filter, search }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // Mantık katmanından işlenmiş veriyi çekiyoruz
-    const data = getSaaSProducts();
+    let data = getSaaSProducts();
+    
+    // Kategori Filtresi
+    if (filter !== 'all') {
+      data = data.filter(p => p.store_key === filter);
+    }
+    
+    // Arama Filtresi (Küçük/Büyük harf duyarsız)
+    if (search) {
+      data = data.filter(p => 
+        p.name.toLowerCase().includes(search.toLowerCase()) || 
+        p.id.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    
     setProducts(data);
-  }, []);
+  }, [filter, search]);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-white">Global Marketplace Inventory</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <div key={product.id} className="bg-gray-800 border border-gray-700 rounded-xl p-5 hover:border-blue-500 transition-all">
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-xs font-mono text-blue-400 bg-blue-900/30 px-2 py-1 rounded">
-                {product.store_key.toUpperCase()}
-              </span>
-              <span className="text-green-400 font-bold">${product.final_price}</span>
-            </div>
-            <h3 className="text-lg font-semibold text-white mb-2">{product.name}</h3>
-            <p className="text-sm text-gray-400 mb-4">Category: {product.section_slug}</p>
-            <div className="border-t border-gray-700 pt-4 flex justify-between items-center text-xs">
-              <span className="text-gray-500">Net Revenue (Est):</span>
-              <span className="text-gray-300 font-semibold">${product.net_revenue}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {products.map((product) => (
+        <div key={product.id} className="bg-gray-900 border border-gray-800 p-5 rounded-2xl hover:scale-[1.02] transition-transform duration-200">
+           {/* Kart içeriği aynı kalıyor... */}
+           <div className="flex justify-between mb-4">
+             <span className="text-blue-400 text-xs font-mono">{product.id}</span>
+             <span className="text-green-400 font-bold">${product.final_price}</span>
+           </div>
+           <h3 className="text-white font-semibold mb-1">{product.name}</h3>
+           <p className="text-gray-500 text-xs mb-4 capitalize">{product.section_slug.replace('-', ' ')}</p>
+           <div className="pt-4 border-t border-gray-800 text-[10px] text-gray-400 flex justify-between">
+             <span>NET REVENUE:</span>
+             <span className="text-gray-200 font-bold">${product.net_revenue}</span>
+           </div>
+        </div>
+      ))}
+      {products.length === 0 && (
+        <div className="col-span-full text-center py-20 text-gray-500">
+          No products found matching your search.
+        </div>
+      )}
     </div>
   );
 };
