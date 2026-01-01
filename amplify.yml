@@ -1,21 +1,20 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm ci || npm install
-    build:
-      commands:
-        # Doküman verilerini kopyala (senin özel scriptin)
-        - node scripts/copy-docs-data.mjs
-        # Next.js uygulamasını derle
-        - npm run build
-  artifacts:
-    # Next.js'in ana çıktı klasörü .next'tir
-    baseDirectory: .next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-      - .next/cache/**/*
+applications:
+  - appRoot: apps/saas # AWS'nin tüm işlemleri bu klasörde yapmasını sağlar
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install # Bağımlılıkları apps/saas içinde kurar
+        build:
+          commands:
+            # Üst dizindeki scripti çalıştırıp docs verilerini içeri çeker
+            - node ../../scripts/copy-docs-data.mjs 
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
