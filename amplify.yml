@@ -3,13 +3,16 @@ frontend:
   phases:
     preBuild:
       commands:
-        # SaaS klasörüne gir ve paketleri kur
+        # 1. Ana dizindeki bağımlılıkları (firebase-admin vb.) kur
+        - npm install
+        # 2. SaaS klasöründeki Next.js bağımlılıklarını kur
         - cd apps/saas && npm install
     build:
       commands:
-        # 1. Kök dizine geri dön (apps/saas'tan çık) ve scripti çalıştır
-        - cd ../.. && node scripts/copy-docs-data.mjs
-        # 2. SaaS klasörüne tekrar gir ve build al
+        # 3. Kök dizine dön ve senin tanımladığın statik build komutunu çalıştır
+        - cd ../..
+        - npm run build:static
+        # 4. SaaS klasörüne gir ve Next.js'i derle
         - cd apps/saas && npm run build
   artifacts:
     baseDirectory: apps/saas/.next
@@ -17,5 +20,6 @@ frontend:
       - '**/*'
   cache:
     paths:
+      - node_modules/**/*
       - apps/saas/node_modules/**/*
       - apps/saas/.next/cache/**/*
