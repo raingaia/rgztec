@@ -1,56 +1,32 @@
-// apps/saas/lib/build-search-index.ts
-import raw from "./source-stores.json";
+import stores from "./stores.json";
 
 type RawProduct = {
   id: string;
-  title: string;
+  title?: string;
+  name?: string;
   tagline?: string;
   image?: string;
+  keywords?: string[];
+  is_active?: boolean;
+  region_lock?: string | null;
 };
 
 type RawSection = {
   slug: string;
-  name: string;
+  name?: string;
   tagline?: string;
-  banner?: string;
   products?: RawProduct[];
-  sections?: RawSection[]; // nested sections support (tiny-js-lab gibi)
+  sections?: RawSection[]; // nested support (tiny-js-lab gibi)
 };
 
 type RawStore = {
-  title: string;
-  tagline?: string;
-  banner?: string;
+  title?: string;
   sections?: RawSection[];
 };
 
-type RawStoresRoot = Record<string, RawStore>;
+type RawRoot = Record<string, RawStore>;
 
-export type SearchIndexItem = {
-  id: string;
-  name: string;
-  tagline: string;
-  store_key: string;
-  store_title: string;
-  section_slug: string;
-  section_name: string;
-  image: string | null;
-
-  // search helpers
-  keywords: string[];
-
-  // saas flags
-  base_price_usd: number;
-  is_active: boolean;
-  region_lock: string | null;
-};
-
-const DEFAULT_PRICE = 69;
-const PLATFORM_FEE = 0.2;
-const TAX_RATE = 0.08;
-
-// basit keyword builder
-function buildKeywords(parts: string[]) {
+function tokenize(...parts: string[]) {
   return Array.from(
     new Set(
       parts
@@ -64,70 +40,64 @@ function buildKeywords(parts: string[]) {
 }
 
 function walkSections(
-  storeKey: string,
-  store: RawStore,
+  store_key: string,
   sections: RawSection[] | undefined,
-  out: SearchIndexItem[]
+  out: any[]
 ) {
   if (!sections) return;
 
   for (const sec of sections) {
-    // 1) products
-    const prods = sec.products || [];
-    for (const p of prods) {
-      // deterministic “vary price” (id’e göre) — sabit değil, random da değil
-      const hash =
-        p.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0) % 12;
-      const price = Number((DEFAULT_PRICE + hash * 5).toFixed(2));
+    // products
+    for (const p of sec.products || []) {
+      const name = p.title || p.name || p.id;
+
+      const autoKeywords = tokenize(
+        store_key,
+        sec.slug,
+        sec.name || "",
+        name,
+        p.tagline || ""
+      );
+
+      const mergedKeywords = Array.from(
+        new Set([...(p.keywords || []), ...autoKeywords])
+      );
 
       out.push({
         id: p.id,
-        name: p.title,
-        tagline: p.tagline || "",
-        store_key: storeKey,
-        store_title: store.title,
+        name,
+        store_key,
         section_slug: sec.slug,
-        section_name: sec.name,
+        keywords: mergedKeywords,
         image: p.image || null,
-
-        keywords: buildKeywords([
-          storeKey,
-          store.title,
-          sec.slug,
-          sec.name,
-          p.title,
-          p.tagline || "",
-        ]),
-
-        base_price_usd: price,
-        is_active: true,
-        region_lock: null,
+        is_active: p.is_active ?? true,
+        region_lock: p.region_lock ?? null
       });
     }
 
-    // 2) nested sections (tiny-js-lab gibi)
+    // nested sections
     if (sec.sections?.length) {
-      walkSections(storeKey, store, sec.sections, out);
+      walkSections(store_key, sec.sections, out);
     }
   }
 }
 
 export function buildSearchIndex() {
-  const root = raw as unknown as RawStoresRoot;
-  const out: SearchIndexItem[] = [];
+  const root = stores as unknown as RawRoot;
+  const out: any[] = [];
 
-  for (const [storeKey, store] of Object.entries(root)) {
-    walkSections(storeKey, store, store.sections, out);
+  for (const [store_key, store] of Object.entries(root)) {
+    walkSections(store_key, store.sections, out);
   }
 
-  // duplicate ID guard
+  // ID unique guard
   const seen = new Set<string>();
-  const deduped: SearchIndexItem[] = [];
-  for (const item of out) {
-    if (seen.has(item.id)) continue;
-    seen.add(item.id);
-    deduped.push(item);
-  }
+  const deduped = out.filter((x) => {
+    if (seen.has(x.id)) return false;
+    seen.add(x.id);
+    return true;
+  });
 
   return deduped;
 }
+
