@@ -3,14 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Kök dizinde olduğumuzdan emin olarak SaaS klasörüne dalıyoruz
         - cd apps/saas && npm install
     build:
       commands:
-        # SaaS klasörünün içinde build alıyoruz
         - cd apps/saas && npm run build
   artifacts:
-    # Çıktıyı doğrudan SaaS klasörünün altındaki .next klasöründen alıyoruz
     baseDirectory: apps/saas/.next
     files:
       - '**/*'
