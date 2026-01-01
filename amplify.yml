@@ -1,27 +1,37 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        # Ana dizindeki bağımlılıkları kur
-        - npm install
-        # SaaS klasörüne git ve Next.js paketlerini kur
-        - cd apps/saas && npm install
-    build:
-      commands:
-        # GARANTİ YÖNTEM: Doğrudan projenin kök dizinine zıpla
-        - cd $AWS_SRC_DIR
-        # Root'taki build:static komutunu (scripts/build-search-index.mjs) çalıştır
-        - npm run build:static
-        # Tekrar SaaS klasörüne gir ve Next.js build'i başlat
-        - cd apps/saas
-        - npm run build
-  artifacts:
-    baseDirectory: apps/saas/.next
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-      - apps/saas/node_modules/**/*
-      - apps/saas/.next/cache/**/*
+applications:
+  - appRoot: apps/saas
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            # Next 16.1.1 için Node 20.9+ şart
+            - nvm install 20 || true
+            - nvm use 20 || true
+            - node -v
+            - npm ci
+        build:
+          commands:
+            # 1) Root'a çık ve search index / static generator çalıştır
+            - cd ../..
+            - nvm use 20 || true
+            - node -v
+            - npm ci
+            - npm run build:static
+
+            # 2) Tekrar SaaS app'a dön ve Next build al
+            - cd apps/saas
+            - nvm use 20 || true
+            - node -v
+            - npm run build
+
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+
