@@ -3,11 +3,16 @@ frontend:
   phases:
     preBuild:
       commands:
+        # SaaS klasörüne girip paketleri kuruyoruz
         - cd apps/saas && npm install
     build:
       commands:
+        # 1. Kök dizine geri dönüp dökümanları hazırla
+        - cd ../.. && node scripts/copy-docs-data.mjs
+        # 2. SaaS klasörüne dön ve Next.js'i derle
         - cd apps/saas && npm run build
   artifacts:
+    # Kritik: BaseDirectory'yi Next.js'in gerçek çıktısına odaklıyoruz
     baseDirectory: apps/saas/.next
     files:
       - '**/*'
