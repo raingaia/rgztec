@@ -3,18 +3,20 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Kök dizindeki bağımlılıkları kur (firebase-admin vb.)
+        # 1. Root'taki paketleri kur (Firebase-admin vb. scriptler için)
         - npm install
-        # SaaS uygulamasına gir ve paketleri kur
+        # 2. SaaS uygulamasına gir ve Next.js paketlerini kur
         - cd apps/saas && npm install
     build:
       commands:
-        # 1. Kök dizine dönüp senin statik build komutunu çalıştır
+        # 3. Ana dizine (root) geri dön
         - cd ../..
+        # 4. Senin meşhur scriptini çalıştır (Arama indeksi ve dosya kopyalama)
         - npm run build:static
-        # 2. SaaS klasörüne gir ve Next.js'i derle
+        # 5. Tekrar SaaS klasörüne gir ve Next.js'i derle
         - cd apps/saas && npm run build
   artifacts:
+    # Next.js'in derlediği çıktı klasörü
     baseDirectory: apps/saas/.next
     files:
       - '**/*'
