@@ -3,20 +3,20 @@ frontend:
   phases:
     preBuild:
       commands:
-        # 1. Root'taki paketleri kur (Firebase-admin vb. scriptler için)
+        # Ana dizindeki bağımlılıkları kur
         - npm install
-        # 2. SaaS uygulamasına gir ve Next.js paketlerini kur
+        # SaaS klasörüne git ve Next.js paketlerini kur
         - cd apps/saas && npm install
     build:
       commands:
-        # 3. Ana dizine (root) geri dön
-        - cd ../..
-        # 4. Senin meşhur scriptini çalıştır (Arama indeksi ve dosya kopyalama)
+        # GARANTİ YÖNTEM: Doğrudan projenin kök dizinine zıpla
+        - cd $AWS_SRC_DIR
+        # Root'taki build:static komutunu (scripts/build-search-index.mjs) çalıştır
         - npm run build:static
-        # 5. Tekrar SaaS klasörüne gir ve Next.js'i derle
-        - cd apps/saas && npm run build
+        # Tekrar SaaS klasörüne gir ve Next.js build'i başlat
+        - cd apps/saas
+        - npm run build
   artifacts:
-    # Next.js'in derlediği çıktı klasörü
     baseDirectory: apps/saas/.next
     files:
       - '**/*'
