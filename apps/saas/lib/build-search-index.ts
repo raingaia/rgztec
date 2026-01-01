@@ -16,7 +16,7 @@ type RawSection = {
   name?: string;
   tagline?: string;
   products?: RawProduct[];
-  sections?: RawSection[]; // nested support (tiny-js-lab gibi)
+  sections?: RawSection[];
 };
 
 type RawStore = {
@@ -39,15 +39,10 @@ function tokenize(...parts: string[]) {
   );
 }
 
-function walkSections(
-  store_key: string,
-  sections: RawSection[] | undefined,
-  out: any[]
-) {
+function walkSections(store_key: string, sections: RawSection[] | undefined, out: any[]) {
   if (!sections) return;
 
   for (const sec of sections) {
-    // products
     for (const p of sec.products || []) {
       const name = p.title || p.name || p.id;
 
@@ -59,9 +54,7 @@ function walkSections(
         p.tagline || ""
       );
 
-      const mergedKeywords = Array.from(
-        new Set([...(p.keywords || []), ...autoKeywords])
-      );
+      const mergedKeywords = Array.from(new Set([...(p.keywords || []), ...autoKeywords]));
 
       out.push({
         id: p.id,
@@ -75,10 +68,7 @@ function walkSections(
       });
     }
 
-    // nested sections
-    if (sec.sections?.length) {
-      walkSections(store_key, sec.sections, out);
-    }
+    if (sec.sections?.length) walkSections(store_key, sec.sections, out);
   }
 }
 
@@ -90,14 +80,15 @@ export function buildSearchIndex() {
     walkSections(store_key, store.sections, out);
   }
 
-  // ID unique guard
   const seen = new Set<string>();
-  const deduped = out.filter((x) => {
+  return out.filter((x) => {
     if (seen.has(x.id)) return false;
     seen.add(x.id);
     return true;
   });
-
-  return deduped;
 }
+
+// opsiyonel: bazı yerler default import yapıyorsa diye:
+export default buildSearchIndex;
+
 
