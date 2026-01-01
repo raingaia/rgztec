@@ -1,21 +1,21 @@
 version: 1
-applications:
-  - appRoot: .
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - npm ci || npm install
-        build:
-          commands:
-            - node scripts/copy-docs-data.mjs # Statik dokümanları hazırlar
-            - npm run build # SaaS Next.js uygulamasını derler
-      artifacts:
-        baseDirectory: . # Ana dizinden yönet
-        files:
-          - 'docs/**/*'  # Statik dosyaların yolu
-          - '.next/**/*' # Dinamik uygulamanın yolu
-          - 'public/**/*'
-      cache:
-        paths:
-          - node_modules/**/*
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci || npm install
+    build:
+      commands:
+        # Doküman verilerini kopyala (senin özel scriptin)
+        - node scripts/copy-docs-data.mjs
+        # Next.js uygulamasını derle
+        - npm run build
+  artifacts:
+    # Next.js'in ana çıktı klasörü .next'tir
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
