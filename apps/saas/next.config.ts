@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'standalone', // Optimized for cloud deployments
+  experimental: {
+    externalDir: true, // Crucial for monorepos if you share packages later
+  },
+}
+module.exports = nextConfig
