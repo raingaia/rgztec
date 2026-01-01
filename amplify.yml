@@ -5,23 +5,23 @@ applications:
       phases:
         preBuild:
           commands:
-            # Next 16.1.1 için Node 20.9+ şart
-            - nvm install 20 || true
-            - nvm use 20 || true
+            - nvm install 20
+            - nvm use 20
             - node -v
             - npm ci
+
         build:
           commands:
-            # 1) Root'a çık ve search index / static generator çalıştır
+            # 1) Root’a çık ve search index’i üret
             - cd ../..
-            - nvm use 20 || true
+            - nvm use 20
             - node -v
             - npm ci
             - npm run build:static
 
-            # 2) Tekrar SaaS app'a dön ve Next build al
+            # 2) SaaS’a dön ve Next build al
             - cd apps/saas
-            - nvm use 20 || true
+            - nvm use 20
             - node -v
             - npm run build
 
@@ -34,4 +34,5 @@ applications:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
+
 
