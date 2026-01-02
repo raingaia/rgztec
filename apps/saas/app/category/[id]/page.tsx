@@ -1,7 +1,12 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import ProductList from '../../components/ProductList';
+// 3 nokta yerine 2 nokta kullanıyoruz:
+import ProductList from "../../components/ProductList"; 
+
+export default function CategoryPage() {
+  // ... geri kalan kod aynı
+}
 
 
 export default function CategoryPage() {
@@ -21,6 +26,7 @@ export default function CategoryPage() {
     </div>
   );
 }
+
 
 
 
