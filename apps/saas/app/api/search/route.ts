@@ -3,10 +3,8 @@ import { buildSearchIndex } from "@/lib/search-index.builder";
 
 export const dynamic = "force-static";
 
-const index = buildSearchIndex();
-
 export async function GET() {
+  const index = buildSearchIndex();
   return NextResponse.json(index);
 }
-
 
