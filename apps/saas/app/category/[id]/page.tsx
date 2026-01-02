@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import ProductList from '../../../components/ProductList';
+import ProductList from '../../components/ProductList';
 
 
 export default function CategoryPage() {
@@ -21,6 +21,7 @@ export default function CategoryPage() {
     </div>
   );
 }
+
 
 
 
