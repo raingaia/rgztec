@@ -23,7 +23,7 @@ export interface StoreAnalytics {
 
 // --- 1. Temel Ürün Listeleme & Hesaplama Motoru ---
 export const getSaaSProducts = (): Product[] => {
-  return rawData.map((item, index) => {
+  return rawData.map((item, index) => { ... })
     // Sabit fiyatları %15 aralığında dinamik olarak değiştiriyoruz
     // Böylece her ürünün fiyatı kendine has ve profesyonel görünür
     const variance = index % 2 === 0 ? 1.12 : 0.95;
