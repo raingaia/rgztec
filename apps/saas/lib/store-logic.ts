@@ -1,4 +1,4 @@
-import rawData from './data.json';
+import rawData from "./pricing.json";
 
 // --- Tipler (Interfaces) ---
 export interface Product {
