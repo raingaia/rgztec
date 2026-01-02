@@ -1,10 +1,11 @@
-'use client';
-import { useParams } from 'next/navigation';
-import ProductList from '@/components/ProductList'; //
+"use client";
+
+import { useParams } from "next/navigation";
+import ProductList from "@/components/ProductList";
 
 export default function CategoryPage() {
   const params = useParams();
-  const id = params.id as string; // URL'den gelen dinamik id (hardware, ai vb.)
+  const id = (params?.id as string) || "";
 
   return (
     <div className="p-8 bg-black min-h-screen text-white">
@@ -13,9 +14,11 @@ export default function CategoryPage() {
           {id} Store Analysis
         </h1>
       </div>
-      {/* Sadece bu kategoriye ait ürünleri dinamik olarak çeker */}
-      <ProductList filter={id} searchTerm="" /> 
+
+      {/* Sadece bu kategoriye ait ürünleri çeker */}
+      <ProductList filter={id} search="" />
     </div>
   );
 }
+
 
