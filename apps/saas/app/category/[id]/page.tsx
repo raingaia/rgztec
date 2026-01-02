@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams } from "next/navigation";
-// Alias kullanımı: Adres her zaman sabit, hata payı sıfır!
 import ProductList from "@/components/CategoryItems";
 
 export default function CategoryPage() {
@@ -21,6 +20,7 @@ export default function CategoryPage() {
     </div>
   );
 }
+
 
 
 
