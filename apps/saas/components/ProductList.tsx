@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { getSaaSProducts, Product } from '../lib/store-logic';
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { getSaaSProducts, Product } from "../lib/store-logic";
+
 
 interface Props {
   filter: string;
