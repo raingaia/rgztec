@@ -1,13 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-// Noktaları tamamen sil, bunu yapıştır:
+// Alias kullanımı: Adres her zaman sabit, hata payı sıfır!
 import ProductList from "@/components/ProductList";
-
-export default function CategoryPage() {
-  // ... geri kalan kod aynı
-}
-
 
 export default function CategoryPage() {
   const params = useParams();
@@ -26,8 +21,6 @@ export default function CategoryPage() {
     </div>
   );
 }
-
-
 
 
 
