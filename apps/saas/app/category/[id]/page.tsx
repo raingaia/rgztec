@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import ProductList from "@/components/CategoryItems";
+import ProductList from "@/components/CategoryItems"; // DOĞRU YOL BU
 
 export default function CategoryPage() {
   const params = useParams();
@@ -14,8 +14,6 @@ export default function CategoryPage() {
           {id} Store Analysis
         </h1>
       </div>
-
-      {/* Sadece bu kategoriye ait ürünleri çeker */}
       <ProductList filter={id} search="" />
     </div>
   );
