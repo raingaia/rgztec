@@ -1,8 +1,7 @@
 export type Role = "buyer" | "seller" | "admin";
 
-export function normalizeRole(v: any): Role {
-  const s = String(v || "").toLowerCase();
-  if (s === "admin") return "admin";
-  if (s === "seller") return "seller";
-  return "buyer";
+export const ROLES: Role[] = ["buyer", "seller", "admin"];
+
+export function isRole(x: any): x is Role {
+  return typeof x === "string" && (ROLES as string[]).includes(x);
 }

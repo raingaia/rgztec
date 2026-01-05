@@ -1,11 +1,13 @@
 import { redirect } from "next/navigation";
-import { Role } from "./roles";
+import type { Role } from "./roles";
 import { getSession } from "./session";
 
-export function requireRole(allowed: Role[]) {
-  const { role } = getSession();
-  if (!allowed.includes(role)) {
-    redirect(`/unauthorized?need=${allowed.join(",")}&have=${role}`);
-  }
-  return role;
+export async function requireRole(allowed: Role[]) {
+  const session = await getSession();
+  if (!session) redirect("/unauthorized");
+
+  const ok = session.user.roles.some((r) => allowed.includes(r));
+  if (!ok) redirect("/unauthorized");
+
+  return session;
 }
