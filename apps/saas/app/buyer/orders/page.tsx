@@ -1,5 +1,7 @@
-import Link from "next/link";
+
 import { requireRole } from "@/src/lib/auth/guard";
+import { Shell } from "@/src/modules/_ui/Shell";
+
 
 export default async function BuyerHome() {
   await requireRole(["buyer"]);
