@@ -1,74 +1,47 @@
+// apps/saas/app/api/auth/login/route.ts
 import { NextResponse } from "next/server";
 import { setSession } from "@/src/lib/auth/session";
-import { readJson } from "@/src/lib/readJson";
-
-type User = {
-  id: string;
-  email: string;
-  password: string;
-  roles: string[];
-  email_verified: boolean;
-  active: boolean;
-  blocked: boolean;
-};
+import type { Role } from "@/src/lib/auth/roles";
+import { normalizeRoles } from "@/src/lib/auth/roles";
+import { findUserByEmail, validateLocalPassword } from "@/src/lib/auth/users";
 
 export async function POST(req: Request) {
-  try {
-    const { email, password } = await req.json();
+  const body = await req.json().catch(() => ({} as any));
+  const email = String(body?.email || "").trim();
+  const password = String(body?.password || "");
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: "Email and password required" },
-        { status: 400 }
-      );
-    }
-
-    const users = await readJson<User[]>("src/data/users/users.json");
-
-    const user = users.find(
-      (u) =>
-        u.email === email &&
-        u.password === password &&
-        u.active &&
-        !u.blocked
-    );
-
-    if (!user) {
-      return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
-      );
-    }
-
-    if (!user.email_verified) {
-      return NextResponse.json(
-        { error: "Email not verified" },
-        { status: 403 }
-      );
-    }
-
-    await setSession({
-      user: {
-        id: user.id,
-        email: user.email,
-        roles: user.roles as any,
-      },
-      iat: Date.now(),
-    });
-
-    return NextResponse.json({
-      ok: true,
-      user: {
-        id: user.id,
-        email: user.email,
-        roles: user.roles,
-      },
-    });
-  } catch (err) {
-    return NextResponse.json(
-      { error: "Login failed" },
-      { status: 500 }
-    );
+  if (!email || !password) {
+    return NextResponse.json({ ok: false, error: "email_and_password_required" }, { status: 400 });
   }
-}
 
+  const user = await findUserByEmail(email);
+  if (!user) return NextResponse.json({ ok: false, error: "invalid_credentials" }, { status: 401 });
+
+  if (user.active === false) return NextResponse.json({ ok: false, error: "account_inactive" }, { status: 403 });
+  if (user.blocked === true) return NextResponse.json({ ok: false, error: "account_blocked" }, { status: 403 });
+
+  // şimdilik local password
+  const ok = await validateLocalPassword(user, password);
+  if (!ok) return NextResponse.json({ ok: false, error: "invalid_credentials" }, { status: 401 });
+
+  const roles = normalizeRoles(user.roles) as Role[];
+  const role = roles[0] ?? ("buyer" as Role);
+
+  await setSession({
+    user: { id: user.id, email: user.email, roles },
+    iat: Date.now(),
+  });
+
+  return NextResponse.json({
+    ok: true,
+    user: {
+      id: user.id,
+      email: user.email,
+      roles,
+      role,
+      email_verified: Boolean(user.email_verified),
+      store_key: user.store_key ?? null,
+      name: user.profile?.name ?? null,
+    },
+  });
+}
