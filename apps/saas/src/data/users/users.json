@@ -2,25 +2,42 @@
   {
     "id": "u_admin_001",
     "email": "admin@rgztec.com",
-    "password_hash": "demo:admin123",
+    "password": "admin123",
     "auth_provider": "local",
-
     "email_verified": true,
     "roles": ["admin"],
-
     "active": true,
     "blocked": false,
-
     "store_key": null,
-
     "profile": { "name": "RGZTEC Admin", "avatar": null },
-
-    "meta": {
-      "created_at": 1700000000000,
-      "last_login": null,
-      "login_count": 0,
-      "verified_at": 1700000000000
-    }
+    "meta": { "created_at": 1700000000000, "last_login": null, "login_count": 0, "verified_at": 1700000000000 }
+  },
+  {
+    "id": "u_seller_001",
+    "email": "seller@rgztec.com",
+    "password": "seller123",
+    "auth_provider": "local",
+    "email_verified": true,
+    "roles": ["seller"],
+    "active": true,
+    "blocked": false,
+    "store_key": "hardware",
+    "profile": { "name": "RGZTEC Seller", "avatar": null },
+    "meta": { "created_at": 1700000000000, "last_login": null, "login_count": 0, "verified_at": 1700000000000 }
+  },
+  {
+    "id": "u_buyer_001",
+    "email": "buyer@rgztec.com",
+    "password": "buyer123",
+    "auth_provider": "local",
+    "email_verified": false,
+    "roles": ["buyer"],
+    "active": true,
+    "blocked": false,
+    "store_key": null,
+    "profile": { "name": "RGZTEC Buyer", "avatar": null },
+    "meta": { "created_at": 1700000000000, "last_login": null, "login_count": 0, "verified_at": null }
   }
 ]
+
 
