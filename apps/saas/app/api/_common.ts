@@ -13,16 +13,16 @@ type Role = "seller" | "admin" | "buyer" | string;
 
 type PublicOptions = {
   requireStoreKey?: boolean; // GET requires ?store_key=
-  activeOnly?: boolean;      // GET forces status=active
-  allowQuery?: boolean;      // GET supports ?q=
-  queryFields?: string[];    // fields for q search (default: ["title","name"])
-  tagsField?: string;        // default: "tags"
+  activeOnly?: boolean; // GET forces status=active
+  allowQuery?: boolean; // GET supports ?q=
+  queryFields?: string[]; // fields for q search (default: ["title","name"])
+  tagsField?: string; // default: "tags"
 };
 
 type WriteOptions = {
-  requireAuth?: boolean;     // POST/PUT/DELETE requires Authorization: Bearer <api_key>
-  roles?: Role[];            // default: ["seller","admin"]
-  ownerKey?: string;         // default: "store_key"
+  requireAuth?: boolean; // POST/PUT/DELETE requires Authorization: Bearer <api_key>
+  roles?: Role[]; // default: ["seller","admin"]
+  ownerKey?: string; // default: "store_key" (or "seller_id")
   // products için: "active" sadece admin
   allowStatusActiveForAdminOnly?: boolean;
   // serverless güvenlik: yazmayı kapat
@@ -30,10 +30,10 @@ type WriteOptions = {
 };
 
 type MakeJsonRouteOptions = {
-  module?: string;           // response info
+  module?: string; // response info
   public?: PublicOptions;
   write?: WriteOptions;
-  idField?: string;          // default "id"
+  idField?: string; // default "id"
 };
 
 function json(data: any, status = 200) {
@@ -60,8 +60,10 @@ function envWriteMode(): "file" | "off" {
 
 /**
  * users.json -> same JSON engine
- * Expected fields:
+ * Expected fields (minimum):
  * { id, role, api_key, stores: ["store_key_1", ...] }
+ *
+ * For hardware (ownerKey="seller_id") stores can be empty: []
  */
 async function findActorByToken(token: string) {
   if (!token) return null;
@@ -89,6 +91,31 @@ function containsQ(obj: any, q: string, fields: string[], tagsField: string) {
   }
   const tags = obj?.[tagsField];
   if (Array.isArray(tags) && tags.some((t) => String(t).toLowerCase().includes(qq))) return true;
+  return false;
+}
+
+/**
+ * Ownership / write authorization
+ * - ownerKey="store_key": actor.stores must include store_key
+ * - ownerKey="seller_id": actor.id must equal seller_id
+ * - admin always allowed
+ */
+function canWrite(actor: any, owner: string, ownerKey: string) {
+  if (!actor) return false;
+  if (actor.role === "admin") return true;
+
+  const okOwner = normalizeStr(owner);
+  if (!okOwner) return false;
+
+  if (ownerKey === "store_key") {
+    return Array.isArray(actor.stores) && actor.stores.includes(okOwner);
+  }
+
+  if (ownerKey === "seller_id") {
+    return normalizeStr(actor.id) === okOwner;
+  }
+
+  // Safe default: deny
   return false;
 }
 
@@ -121,7 +148,10 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
       const items = (await readJson(file, [])) as any[];
       let out = Array.isArray(items) ? items : [];
 
+      // NOTE: store_key filter is optional even if resource uses ownerKey=seller_id
+      // If you want seller_id filter via query, add ?seller_id= and filter in route wrapper.
       if (storeKey) {
+        // When storeKey is present, filter by ownerKey (usually store_key)
         out = out.filter((it) => normalizeStr(it?.[ownerKey]) === storeKey);
       }
 
@@ -154,8 +184,9 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
 
         const owner = normalizeStr(body?.[ownerKey]);
         if (!owner) return json({ error: `${ownerKey} required`, module: moduleName }, 400);
-        if (actor.role !== "admin" && !actor.stores.includes(owner)) {
-          return json({ error: "Forbidden (store not owned)", module: moduleName }, 403);
+
+        if (!canWrite(actor, owner, ownerKey)) {
+          return json({ error: "Forbidden (not owner)", module: moduleName }, 403);
         }
 
         if (write.allowStatusActiveForAdminOnly && body.status === "active" && actor.role !== "admin") {
@@ -178,12 +209,12 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
         );
       }
 
-      // IMPORTANT: We assume file holds an ARRAY for list resources (products, stores, search index etc.)
+      // IMPORTANT: We assume file holds an ARRAY for list resources
       const items = (await readJson(file, [])) as any[];
       const arr = Array.isArray(items) ? items : [];
       arr.push(created);
-      writeJson(file, arr);
 
+      await writeJson(file, arr);
       return json({ ok: true, item: created, module: moduleName }, 201);
     } catch (e: any) {
       return json({ error: e?.message || "POST failed", module: moduleName }, 500);
@@ -218,7 +249,7 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
       const existingOwner = normalizeStr(existing?.[ownerKey]);
 
       if (write.requireAuth && actor) {
-        if (actor.role !== "admin" && !actor.stores.includes(existingOwner)) {
+        if (!canWrite(actor, existingOwner, ownerKey)) {
           return json({ error: "Forbidden", module: moduleName }, 403);
         }
         if (write.allowStatusActiveForAdminOnly && patch.status === "active" && actor.role !== "admin") {
@@ -239,7 +270,7 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
         );
       }
 
-      writeJson(file, arr);
+      await writeJson(file, arr);
       return json({ ok: true, item: updated, module: moduleName }, 200);
     } catch (e: any) {
       return json({ error: e?.message || "PUT failed", module: moduleName }, 500);
@@ -270,7 +301,7 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
       const existingOwner = normalizeStr(existing?.[ownerKey]);
 
       if (write.requireAuth && actor) {
-        if (actor.role !== "admin" && !actor.stores.includes(existingOwner)) {
+        if (!canWrite(actor, existingOwner, ownerKey)) {
           return json({ error: "Forbidden", module: moduleName }, 403);
         }
       }
@@ -281,7 +312,7 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
         return json({ ok: true, module: moduleName, note: "WRITE disabled (set RGZ_WRITE=file for dev)." }, 200);
       }
 
-      writeJson(file, next);
+      await writeJson(file, next);
       return json({ ok: true, module: moduleName }, 200);
     } catch (e: any) {
       return json({ error: e?.message || "DELETE failed", module: moduleName }, 500);
