@@ -1,59 +1,52 @@
+// apps/saas/src/lib/auth/guard.ts
 import { NextResponse } from "next/server";
 import { getSession } from "./session";
 import type { Role } from "./roles";
+import { isRole } from "./roles";
 
 type GuardOptions = {
   requireAuth?: boolean;
-  roles?: Role[];              // bu rollerden en az biri lazım
-  requireStoreKey?: boolean;   // store_key zorunlu mu
-  storeKeyName?: string;       // default: "store_key"
+  roles?: Role[];
+  requireStoreKey?: boolean;
 };
 
-function pickStoreKey(req: Request, storeKeyName = "store_key") {
-  const url = new URL(req.url);
+export type GuardOk = {
+  ok: true;
+  session: NonNullable<Awaited<ReturnType<typeof getSession>>>;
+};
 
-  // 1) query: ?store_key=xxx
-  const q = url.searchParams.get(storeKeyName);
-  if (q) return q;
-
-  // 2) header: x-store-key: xxx
-  const h = req.headers.get("x-store-key");
-  if (h) return h;
-
-  return null;
+function jsonError(status: number, message: string) {
+  return NextResponse.json({ ok: false, error: message }, { status });
 }
 
-export async function guardApi(req: Request, opts: GuardOptions = {}) {
-  const {
-    requireAuth = true,
-    roles,
-    requireStoreKey = false,
-    storeKeyName = "store_key",
-  } = opts;
+export async function guardApi(req: Request, opts: GuardOptions = {}): Promise<GuardOk | Response> {
+  const { requireAuth = false, roles = [], requireStoreKey = false } = opts;
 
   const session = await getSession();
 
-  if (requireAuth && !session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (roles && roles.length > 0) {
-    const userRoles = session?.user?.roles || [];
-    const ok = roles.some((r) => userRoles.includes(r));
-    if (!ok) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (requireAuth) {
+    if (!session?.user?.id) return jsonError(401, "Unauthorized");
+    if (session.user.roles?.length) {
+      // ok
+    } else {
+      return jsonError(401, "Unauthorized");
     }
   }
 
-  const storeKey = pickStoreKey(req, storeKeyName);
-
-  if (requireStoreKey && !storeKey) {
-    return NextResponse.json(
-      { error: `Missing ${storeKeyName}. Provide ?${storeKeyName}=... or header x-store-key.` },
-      { status: 400 }
-    );
+  if (roles.length) {
+    const userRoles = (session?.user?.roles || []).filter(isRole);
+    const allowed = roles.some((r) => userRoles.includes(r));
+    if (!allowed) return jsonError(403, "Forbidden");
   }
 
-  return { session, storeKey };
+  if (requireStoreKey) {
+    const url = new URL(req.url);
+    const storeKey = url.searchParams.get("store_key") || "";
+    if (!storeKey) return jsonError(400, "Missing store_key");
+  }
+
+  if (!session) return jsonError(401, "Unauthorized");
+  return { ok: true, session };
 }
+
 
