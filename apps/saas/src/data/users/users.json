@@ -1,1 +1,15 @@
-{}
+[
+  {
+    "id": "u_admin_001",
+    "email": "admin@rgztec.com",
+    "password": "admin123",
+    "auth_provider": "local",
+    "email_verified": true,
+    "roles": ["admin"],
+    "active": true,
+    "blocked": false,
+    "store_key": null,
+    "profile": { "name": "RGZTEC Admin", "avatar": null },
+    "meta": { "created_at": 1700000000000, "last_login": null, "login_count": 0, "verified_at": 1700000000000 }
+  }
+]
