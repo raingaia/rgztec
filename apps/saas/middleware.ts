@@ -3,63 +3,62 @@ import type { NextRequest } from "next/server";
 
 const COOKIE_NAME = "rgz_session";
 
-function base64urlToString(input: string) {
+function base64UrlToString(input: string) {
   input = input.replace(/-/g, "+").replace(/_/g, "/");
   const pad = input.length % 4;
   if (pad) input += "=".repeat(4 - pad);
   return Buffer.from(input, "base64").toString("utf8");
 }
 
-function readRolesFromCookie(req: NextRequest): string[] {
+function readRoles(req: NextRequest): string[] {
   const token = req.cookies.get(COOKIE_NAME)?.value;
   if (!token) return [];
-  // token format: base64url(payload).base64url(sig)  (biz payload'ı json tutuyoruz)
-  const parts = token.split(".");
-  if (parts.length < 1) return [];
+
   try {
-    const payloadJson = base64urlToString(parts[0]);
-    const payload = JSON.parse(payloadJson);
-    const roles = Array.isArray(payload?.roles) ? payload.roles : [];
-    return roles.map(String);
+    const [payload] = token.split(".");
+    const json = base64UrlToString(payload);
+    const data = JSON.parse(json);
+    return Array.isArray(data.roles) ? data.roles : [];
   } catch {
     return [];
   }
 }
 
-function requireRole(pathname: string): string | null {
-  if (pathname.startsWith("/admin")) return "admin";
-  if (pathname.startsWith("/seller")) return "seller";
-  if (pathname.startsWith("/buyer")) return "buyer";
+function requiredRole(path: string): string | null {
+  if (path.startsWith("/admin")) return "admin";
+  if (path.startsWith("/seller")) return "seller";
+  if (path.startsWith("/buyer")) return "buyer";
   return null;
 }
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // public / safe paths
+  // 🔓 PUBLIC ROUTES (çok önemli)
   if (
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/assets") ||
-    pathname.startsWith("/favicon") ||
-    pathname.startsWith("/api/auth") ||
-    pathname === "/unauthorized" ||
-    pathname === "/login"
+    pathname === "/" ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/open-store") ||
+    pathname.startsWith("/api/public")
   ) {
     return NextResponse.next();
   }
 
-  const needed = requireRole(pathname);
-  if (!needed) return NextResponse.next();
+  const need = requiredRole(pathname);
+  if (!need) return NextResponse.next();
 
-  const roles = readRolesFromCookie(req);
-  if (roles.includes(needed)) return NextResponse.next();
+  const roles = readRoles(req);
 
-  const url = req.nextUrl.clone();
-  url.pathname = "/unauthorized";
-  url.searchParams.set("from", pathname);
-  return NextResponse.redirect(url);
+  if (!roles.includes(need)) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/login"; // ⚠️ BU SAYFA GERÇEKTEN VAR OLMALI
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: ["/admin/:path*", "/seller/:path*", "/buyer/:path*"],
 };
+
