@@ -1,10 +1,7 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+// src/modules/_ui/Shell.tsx
 import React from "react";
-
-type NavItem = { href: string; label: string };
+import Link from "next/link";
+import type { NavItem } from "./nav";
 
 export function Shell({
   title,
@@ -15,49 +12,60 @@ export function Shell({
   nav: NavItem[];
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
   return (
-    <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "260px 1fr" }}>
-      <aside
-        style={{
-          borderRight: "1px solid rgba(255,255,255,0.10)",
-          padding: 16,
-        }}
-      >
-        <div style={{ fontWeight: 900, fontSize: 16, marginBottom: 10 }}>RGZTEC</div>
-        <div style={{ opacity: 0.75, fontSize: 12, marginBottom: 14 }}>{title}</div>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      {/* Top Bar */}
+      <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-slate-900" />
+            <div className="leading-tight">
+              <div className="text-sm font-semibold">RGZTEC</div>
+              <div className="text-xs text-slate-500">{title}</div>
+            </div>
+          </div>
 
-        <nav style={{ display: "grid", gap: 8 }}>
-          {nav.map((item) => {
-            const active = pathname === item.href;
-            return (
+          {/* Desktop Nav */}
+          <nav className="hidden items-center gap-2 md:flex">
+            {nav.map((i) => (
               <Link
-                key={item.href}
-                href={item.href}
-                style={{
-                  textDecoration: "none",
-                  padding: "10px 12px",
-                  borderRadius: 12,
-                  border: "1px solid rgba(255,255,255,0.10)",
-                  background: active ? "rgba(255,255,255,0.06)" : "transparent",
-                  fontWeight: active ? 800 : 600,
-                }}
+                key={i.href}
+                href={i.href}
+                className="rounded-xl px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
               >
-                {item.label}
+                {i.label}
               </Link>
-            );
-          })}
-        </nav>
-      </aside>
+            ))}
+          </nav>
 
-      <main style={{ padding: 22 }}>
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-          <h1 style={{ fontSize: 28, margin: 0 }}>{title}</h1>
+          {/* Right actions placeholder */}
+          <div className="hidden md:block">
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
+              Dev Mode
+            </span>
+          </div>
         </div>
+      </header>
 
-        <div style={{ marginTop: 14 }}>{children}</div>
-      </main>
+      {/* Mobile Nav */}
+      <div className="border-b bg-white md:hidden">
+        <div className="mx-auto max-w-6xl overflow-x-auto px-2 py-2">
+          <div className="flex gap-2">
+            {nav.map((i) => (
+              <Link
+                key={i.href}
+                href={i.href}
+                className="whitespace-nowrap rounded-xl border bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+              >
+                {i.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
     </div>
   );
 }
