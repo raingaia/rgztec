@@ -1,7 +1,9 @@
-import { makeJsonRoute } from "../_common"; // (konumuna göre düzelt: "../../_common" olabilir)
-import { guardApi } from "@/src/lib/auth/guard";
+// apps/saas/app/api/hardware/apply/route.ts
+import { makeJsonRoute } from "../../_common"; // konum doğru: apply -> hardware -> api
+import { guardApi } from "@/src/lib/auth/guard"; // sende guardApi adı buysa kalsın
 
-const base = makeJsonRoute("src/data/hardware/applications.json", {
+// Hardware seller application list (dev json)
+const engine = makeJsonRoute("src/data/hardware/applications.json", {
   module: "hardware_apply",
   public: {
     requireStoreKey: false,
@@ -16,32 +18,31 @@ const base = makeJsonRoute("src/data/hardware/applications.json", {
   },
 });
 
-export const GET = async (req: Request) => {
+// --- GET ---
+export async function GET(req: Request) {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
-  return base.GET(req);
-};
+  return engine.GET(req);
+}
 
-export const POST = async (req: Request) => {
+// --- POST ---
+export async function POST(req: Request) {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
+  return engine.POST(req);
+}
 
-  const body = await req.json();
+// --- PUT ---
+export async function PUT(req: Request) {
+  const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
+  if (g instanceof Response) return g;
+  return engine.PUT(req);
+}
 
-  const enriched = {
-    ...body,
-    id: body.id || `hwapp_${Date.now()}`,
-    seller_id: body.seller_id || g.user?.id, // guardApi user veriyorsa
-    status: body.status || "pending",
-    created_at: body.created_at || new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  };
+// --- DELETE ---
+export async function DELETE(req: Request) {
+  const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
+  if (g instanceof Response) return g;
+  return engine.DELETE(req);
+}
 
-  const newReq = new Request(req.url, {
-    method: "POST",
-    headers: req.headers,
-    body: JSON.stringify(enriched),
-  });
-
-  return base.POST(newReq);
-};
