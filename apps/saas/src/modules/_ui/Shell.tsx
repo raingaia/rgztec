@@ -1,17 +1,16 @@
-// src/modules/_ui/Shell.tsx
 import React from "react";
 import Link from "next/link";
-import type { NavItem } from "./nav";
+import { SELLER_NAV, SELLER_SECTION_META, type SellerSection } from "./shell.config";
 
 export function Shell({
-  title,
-  nav,
+  section,
   children,
 }: {
-  title: string;
-  nav: NavItem[];
+  section: SellerSection;
   children: React.ReactNode;
 }) {
+  const meta = SELLER_SECTION_META[section];
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Top Bar */}
@@ -20,52 +19,45 @@ export function Shell({
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl bg-slate-900" />
             <div className="leading-tight">
-              <div className="text-sm font-semibold">RGZTEC</div>
-              <div className="text-xs text-slate-500">{title}</div>
+              <div className="text-sm font-semibold">RGZTEC • Seller</div>
+              <div className="text-xs text-slate-500">Command Center</div>
             </div>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden items-center gap-2 md:flex">
-            {nav.map((i) => (
-              <Link
-                key={i.href}
-                href={i.href}
-                className="rounded-xl px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-              >
-                {i.label}
-              </Link>
-            ))}
+          <nav className="hidden items-center gap-4 text-sm md:flex">
+            {SELLER_NAV.map((i) => {
+              const active = i.section === section;
+              return (
+                <Link
+                  key={i.href}
+                  href={i.href}
+                  className={
+                    active
+                      ? "font-semibold text-slate-900"
+                      : "text-slate-600 hover:text-slate-900"
+                  }
+                >
+                  {i.label}
+                </Link>
+              );
+            })}
           </nav>
-
-          {/* Right actions placeholder */}
-          <div className="hidden md:block">
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
-              Dev Mode
-            </span>
-          </div>
         </div>
       </header>
 
-      {/* Mobile Nav */}
-      <div className="border-b bg-white md:hidden">
-        <div className="mx-auto max-w-6xl overflow-x-auto px-2 py-2">
-          <div className="flex gap-2">
-            {nav.map((i) => (
-              <Link
-                key={i.href}
-                href={i.href}
-                className="whitespace-nowrap rounded-xl border bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
-              >
-                {i.label}
-              </Link>
-            ))}
-          </div>
+      {/* Page */}
+      <main className="mx-auto max-w-6xl px-4 py-6">
+        <div className="mb-5">
+          <div className="text-xl font-semibold">{meta.title}</div>
+          {meta.subtitle ? (
+            <div className="mt-1 text-sm text-slate-600">{meta.subtitle}</div>
+          ) : null}
         </div>
-      </div>
 
-      {/* Content */}
-      <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
+        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+          {children}
+        </div>
+      </main>
     </div>
   );
 }
