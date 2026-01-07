@@ -10,8 +10,7 @@ const metrics: Metric[] = [
 
 export default function SellerDashboardPage() {
   return (
-    
-      {/* Header (store-core look) */}
+    <div className="store-body">
       <header className="store-header">
         <div className="store-header-inner">
           <div className="store-header-left">
@@ -48,8 +47,11 @@ export default function SellerDashboardPage() {
               <a className="store-header-icon-pill" href="/seller/settings" aria-label="Settings">
                 <svg className="store-header-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" />
-                  <path d="M19.4 15a7.9 7.9 0 0 0 .1-6l-2 1.2a6 6 0 0 0-1.4-1.4l1.2-2a7.9 7.9 0 0 0-6-.1l.3 2.3a6 6 0 0 0-2 0l.3-2.3a7.9 7.9 0 0 0-6 .1l1.2 2a6 6 0 0 0-1.4 1.4l-2-1.2a7.9 7.9 0 0 0 .1 6l2-1.2a6 6 0 0 0 1.4 1.4l-1.2 2a7.9 7.9 0 0 0 6 .1l-.3-2.3a6 6 0 0 0 2 0l-.3 2.3a7.9 7.9 0 0 0 6-.1l-1.2-2a6 6 0 0 0 1.4-1.4l2 1.2Z"
-                    stroke="currentColor" strokeLinejoin="round" />
+                  <path
+                    d="M19.4 15a7.9 7.9 0 0 0 .1-6l-2 1.2a6 6 0 0 0-1.4-1.4l1.2-2a7.9 7.9 0 0 0-6-.1l.3 2.3a6 6 0 0 0-2 0l.3-2.3a7.9 7.9 0 0 0-6 .1l1.2 2a6 6 0 0 0-1.4 1.4l-2-1.2a7.9 7.9 0 0 0 .1 6l2-1.2a6 6 0 0 0 1.4 1.4l-1.2 2a7.9 7.9 0 0 0 6 .1l-.3-2.3a6 6 0 0 0 2 0l-.3 2.3a7.9 7.9 0 0 0 6-.1l-1.2-2a6 6 0 0 0 1.4-1.4l2 1.2Z"
+                    stroke="currentColor"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </a>
 
@@ -61,7 +63,6 @@ export default function SellerDashboardPage() {
         </div>
       </header>
 
-      {/* Body content */}
       <section className="store-hero" style={{ paddingTop: "2.5rem" }}>
         <div className="store-hero-inner" style={{ alignItems: "flex-start" }}>
           <div className="store-hero-left" style={{ maxWidth: 680 }}>
@@ -80,9 +81,15 @@ export default function SellerDashboardPage() {
               {metrics.map((m) => (
                 <div key={m.label} className="shop-card">
                   <div className="shop-card-body">
-                    <div className="shop-card-tagline" style={{ marginBottom: 8 }}>{m.label}</div>
-                    <div className="shop-card-title" style={{ fontSize: "1.6rem" }}>{m.value}</div>
-                    <div className="shop-card-tagline" style={{ marginTop: 10 }}>{m.note ?? ""}</div>
+                    <div className="shop-card-tagline" style={{ marginBottom: 8 }}>
+                      {m.label}
+                    </div>
+                    <div className="shop-card-title" style={{ fontSize: "1.6rem" }}>
+                      {m.value}
+                    </div>
+                    <div className="shop-card-tagline" style={{ marginTop: 10 }}>
+                      {m.note ?? ""}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -91,7 +98,6 @@ export default function SellerDashboardPage() {
         </div>
       </section>
 
-      {/* Recent Orders / Products preview */}
       <section className="store-products">
         <div className="store-products-header">
           <h2>Operational Overview</h2>
@@ -101,9 +107,7 @@ export default function SellerDashboardPage() {
           <div className="product-card">
             <div className="product-body">
               <div className="product-title">Recent Orders</div>
-              <div className="product-tagline">
-                Last 24h activity. (Wire real data later)
-              </div>
+              <div className="product-tagline">Last 24h activity. (Wire real data later)</div>
               <div className="product-price">View Orders →</div>
             </div>
           </div>
@@ -111,9 +115,7 @@ export default function SellerDashboardPage() {
           <div className="product-card">
             <div className="product-body">
               <div className="product-title">Digital Assets</div>
-              <div className="product-tagline">
-                Upload, version, license and publish assets in one place.
-              </div>
+              <div className="product-tagline">Upload, version, license and publish assets in one place.</div>
               <div className="product-price">Manage Products →</div>
             </div>
           </div>
@@ -121,15 +123,14 @@ export default function SellerDashboardPage() {
           <div className="product-card">
             <div className="product-body">
               <div className="product-title">Payouts</div>
-              <div className="product-tagline">
-                Stripe-ready payout center & compliance ledger.
-              </div>
+              <div className="product-tagline">Stripe-ready payout center & compliance ledger.</div>
               <div className="product-price">Open Payouts →</div>
             </div>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
+
 
