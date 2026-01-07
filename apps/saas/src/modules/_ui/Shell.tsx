@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { SELLER_NAV, SELLER_SECTION_META, type SellerSection } from "./shell.config";
