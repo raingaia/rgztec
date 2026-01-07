@@ -10,7 +10,7 @@ const metrics: Metric[] = [
 
 export default function SellerDashboardPage() {
   return (
-    <main style={{ width: "100%" }}>
+    
       {/* Header (store-core look) */}
       <header className="store-header">
         <div className="store-header-inner">
