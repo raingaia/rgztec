@@ -1,0 +1,74 @@
+:root{
+  --bg: #0b0f19;
+  --panel: rgba(255,255,255,.06);
+  --panel2: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.10);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.62);
+  --brand: #f06529;
+  --radius: 16px;
+}
+
+.rgz-seller-app{
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: radial-gradient(1200px 800px at 20% 0%, rgba(240,101,41,.14), transparent 60%), var(--bg);
+  color: var(--text);
+}
+
+.rgz-seller-nav{
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid var(--border);
+  padding: 18px 14px;
+  background: rgba(10,14,24,.72);
+  backdrop-filter: blur(12px);
+}
+
+.rgz-seller-brand{
+  font-weight: 800;
+  letter-spacing: .08em;
+  margin: 6px 8px 18px;
+  opacity: .9;
+}
+
+.rgz-seller-section{
+  margin: 16px 8px 8px;
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: var(--muted);
+}
+
+.rgz-seller-link{
+  display: block;
+  margin: 6px 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.rgz-seller-link:hover{
+  background: var(--panel);
+  border-color: var(--border);
+}
+
+.rgz-seller-link.active{
+  background: var(--panel2);
+  border-color: rgba(240,101,41,.35);
+}
+
+.rgz-seller-bottom{
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+}
+
+.rgz-seller-main{
+  padding: 26px 26px 60px;
+}
