@@ -1,3 +1,5 @@
+console.log("✅ LOADED next.config.ts from apps/saas");
+
 import type { NextConfig } from "next";
 import path from "path";
 
