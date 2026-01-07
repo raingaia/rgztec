@@ -4,6 +4,7 @@ import "./seller-console.css";   // (opsiyonel, senin ek stilin)
 
 export default function SellerLayout({ children }: { children: ReactNode }) {
   return (
+  <div className="rgz-seller">      {/* 🔐 GLOBAL SCOPE */}
     <div className="rgz-seller-app">
       <aside className="rgz-seller-nav">
         <div className="rgz-seller-brand">RGZTEC.</div>
@@ -26,6 +27,7 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
     </div>
-  );
+  </div>
+);
 }
 
