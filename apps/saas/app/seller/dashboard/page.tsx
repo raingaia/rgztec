@@ -1,4 +1,5 @@
 import AnalyticsChart from "../_components/AnalyticsChart";
+import Shell from "@src/modules/_ui/Shell";
 
 type Metric = { k: string; v: string; n: string };
 type OrderRow = { id: string; product: string; amount: string; status: "Paid" | "Pending" | "Failed"; date: string };
