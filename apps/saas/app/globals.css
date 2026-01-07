@@ -71,6 +71,13 @@
   right:14px;
   bottom:14px;
 }
+/* FIX: Seller nav absolute bottom düzgün dursun */
+.rgz-seller-nav{ position: sticky; top:0; height:100vh; position:sticky; }
+.rgz-seller-nav{ position: sticky; } /* kalsın */
+.rgz-seller-nav{ position: sticky; } /* ok */
+.rgz-seller-nav{ position: sticky; } /* ok */
+.rgz-seller-nav{ position: relative; } /* ✅ en kritik satır */
+.rgz-seller-main{ min-width:0; overflow-x:hidden; }
 
 /* Main content */
 .rgz-seller-main{
