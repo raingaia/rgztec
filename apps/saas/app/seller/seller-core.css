@@ -1,4 +1,5 @@
-:root{
+/* RGZTEC Seller Console — Scoped */
+.rgz-seller{
   --bg: #0b0f19;
   --panel: rgba(255,255,255,.06);
   --panel2: rgba(255,255,255,.08);
@@ -7,7 +8,12 @@
   --muted: rgba(255,255,255,.62);
   --brand: #f06529;
   --radius: 16px;
+
+  min-height: 100vh;
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 20% 0%, rgba(240,101,41,.14), transparent 60%), var(--bg);
 }
+
 
 .rgz-seller-app{
   min-height: 100vh;
