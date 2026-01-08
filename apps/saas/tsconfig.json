@@ -17,10 +17,11 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@app/*": ["./app/*"],
-      "@src/*": ["../../src/*"]
-    }
+  "@/*": ["apps/saas/src/*"],
+  "@ui/*": ["apps/saas/src/modules/_ui/*"],
+  "@app/*": ["apps/saas/app/*"]
+}
+
   },
   "include": [
     "next-env.d.ts",
