@@ -1,18 +1,15 @@
+import styles from "./login.module.css";
+
 export default function LoginPage() {
   return (
-    <main style={{ padding: 40 }}>
-      <h1>Login</h1>
-      <p>Temporary login page (MVP)</p>
+    <main className={styles.container}>
+      <h1 className={styles.title}>Login</h1>
 
-      <form action="/api/auth/login" method="post" style={{ display: "grid", gap: 12, maxWidth: 360 }}>
+      <form action="/api/auth/login" method="post">
         <input name="email" placeholder="email" />
-        <input name="password" placeholder="password" type="password" />
+        <input name="password" type="password" />
         <button type="submit">Sign in</button>
       </form>
-
-      <p style={{ marginTop: 16 }}>
-        <a href="/seller/dashboard">Go Seller Dashboard</a>
-      </p>
     </main>
   );
 }
