@@ -1,0 +1,18 @@
+{
+  "range": "30d",
+  "visits": 18240,
+  "uniqueVisitors": 11420,
+  "bounceRate": 41.2,
+  "sources": [
+    { "id": "direct", "label": "Direct", "value": 42 },
+    { "id": "search", "label": "Search", "value": 38 },
+    { "id": "referral", "label": "Referral", "value": 20 }
+  ],
+  "countries": [
+    { "code": "US", "value": 34 },
+    { "code": "DE", "value": 18 },
+    { "code": "TR", "value": 16 },
+    { "code": "GB", "value": 12 },
+    { "code": "Other", "value": 20 }
+  ]
+}
