@@ -1,0 +1,25 @@
+{
+  "__defaults__": {
+    "platform_fee_rate": 0.20,
+    "state_tax_rate": 0.08
+  },
+
+  "__category_defaults__": {
+    "ai": { "base_price_usd": 299 },
+    "ds": { "base_price_usd": 149 },
+    "ef": { "base_price_usd": 49 },
+    "gm": { "base_price_usd": 79 },
+    "ht": { "base_price_usd": 69 },
+    "hw": { "base_price_usd": 399 },
+    "ic": { "base_price_usd": 39 },
+    "js": { "base_price_usd": 29 },
+    "re": { "base_price_usd": 89 },
+    "un": { "base_price_usd": 99 },
+    "wp": { "base_price_usd": 79 }
+  },
+
+  "__overrides__": {
+    "hw007": { "base_price_usd": 1200 },
+    "ai001": { "base_price_usd": 399 }
+  }
+}
