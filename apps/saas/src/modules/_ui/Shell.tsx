@@ -7,6 +7,9 @@ import { usePathname } from "next/navigation";
 import { SELLER_NAV, ADMIN_NAV, BUYER_NAV, type NavItem } from "./nav";
 import {
   type AppSection,
+  type SellerSection,
+  type AdminSection,
+  type BuyerSection,
   SELLER_SECTION_META,
   ADMIN_SECTION_META,
   BUYER_SECTION_META,
@@ -20,6 +23,12 @@ const NAV_BY_VARIANT: Record<Variant, NavItem[]> = {
   buyer: BUYER_NAV,
 };
 
+function getMeta(variant: Variant, section: AppSection) {
+  if (variant === "seller") return SELLER_SECTION_META[section as SellerSection];
+  if (variant === "admin") return ADMIN_SECTION_META[section as AdminSection];
+  return BUYER_SECTION_META[section as BuyerSection];
+}
+
 export default function Shell({
   section,
   children,
@@ -32,17 +41,21 @@ export default function Shell({
   const pathname = usePathname();
   const nav = NAV_BY_VARIANT[variant];
 
-  const meta =
-    variant === "seller"
-      ? (SELLER_SECTION_META as any)[section]
-      : variant === "admin"
-        ? (ADMIN_SECTION_META as any)[section]
-        : (BUYER_SECTION_META as any)[section];
+  const meta = getMeta(variant, section);
 
   const headerTitle =
-    variant === "seller" ? "RGZTEC • Seller" : variant === "admin" ? "RGZTEC • Admin" : "RGZTEC • Buyer";
+    variant === "seller"
+      ? "RGZTEC • Seller"
+      : variant === "admin"
+        ? "RGZTEC • Admin"
+        : "RGZTEC • Buyer";
+
   const headerSub =
-    variant === "seller" ? "Command Center" : variant === "admin" ? "Control Panel" : "Account";
+    variant === "seller"
+      ? "Command Center"
+      : variant === "admin"
+        ? "Control Panel"
+        : "Account";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" data-variant={variant}>
@@ -84,3 +97,4 @@ export default function Shell({
     </div>
   );
 }
+
