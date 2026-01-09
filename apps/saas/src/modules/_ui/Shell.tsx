@@ -12,13 +12,13 @@ import {
   type AppSection,
 } from "./shell.config";
 
+type Variant = "seller" | "admin" | "buyer";
+
 const NAV_BY_VARIANT: Record<Variant, NavItem[]> = {
   seller: SELLER_NAV,
   admin: ADMIN_NAV,
   buyer: BUYER_NAV,
 };
-
-type Variant = "seller" | "buyer" | "admin";
 
 export function Shell({
   section,
@@ -30,29 +30,22 @@ export function Shell({
   variant?: Variant;
 }) {
   const pathname = usePathname();
-
   const nav = NAV_BY_VARIANT[variant];
 
   const meta =
     variant === "seller"
-      ? SELLER_SECTION_META[section as keyof typeof SELLER_SECTION_META]
+      ? (SELLER_SECTION_META as any)[section]
       : variant === "admin"
-        ? ADMIN_SECTION_META[section as keyof typeof ADMIN_SECTION_META]
-        : BUYER_SECTION_META[section as keyof typeof BUYER_SECTION_META];
+        ? (ADMIN_SECTION_META as any)[section]
+        : (BUYER_SECTION_META as any)[section];
 
   const headerTitle =
     variant === "seller" ? "RGZTEC • Seller" : variant === "admin" ? "RGZTEC • Admin" : "RGZTEC • Buyer";
-
   const headerSub =
-    variant === "seller"
-      ? "Command Center"
-      : variant === "admin"
-        ? "Control Panel"
-        : "Account";
+    variant === "seller" ? "Command Center" : variant === "admin" ? "Control Panel" : "Account";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" data-variant={variant}>
-      {/* Top Bar */}
       <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
@@ -63,7 +56,6 @@ export function Shell({
             </div>
           </div>
 
-          {/* Nav */}
           <nav className="hidden items-center gap-4 text-sm md:flex">
             {nav.map((i) => {
               const active = pathname === i.href || pathname.startsWith(i.href + "/");
@@ -72,9 +64,7 @@ export function Shell({
                   key={i.href}
                   href={i.href}
                   className={
-                    active
-                      ? "font-semibold text-slate-900"
-                      : "text-slate-600 hover:text-slate-900"
+                    active ? "font-semibold text-slate-900" : "text-slate-600 hover:text-slate-900"
                   }
                 >
                   {i.label}
@@ -85,7 +75,6 @@ export function Shell({
         </div>
       </header>
 
-      {/* Page */}
       <main className="mx-auto max-w-6xl px-4 py-6">
         <div className="mb-5">
           <div className="text-xl font-semibold">{meta?.title ?? "Page"}</div>
