@@ -7,10 +7,13 @@ import { SELLER_NAV, SELLER_SECTION_META, type SellerSection } from "./shell.con
 export function Shell({
   section,
   children,
+  variant = "seller",
 }: {
   section: SellerSection;
   children: React.ReactNode;
-}) {
+  variant?: "seller" | "buyer" | "admin";
+})
+ {
   const meta = SELLER_SECTION_META[section];
 
   return (
