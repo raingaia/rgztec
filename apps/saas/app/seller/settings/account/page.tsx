@@ -6,7 +6,7 @@ export default function SellerSettingsAccount() {
   const [storeName, setStoreName] = React.useState("RGZTEC Store");
   const [supportEmail, setSupportEmail] = React.useState("support@rgztec.com");
   const [timezone, setTimezone] = React.useState("Europe/Istanbul");
-
+  
   return (
     <Shell section="settings_account" variant="seller">
       <div className="grid gap-4 md:grid-cols-2">
