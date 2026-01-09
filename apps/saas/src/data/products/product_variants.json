@@ -1,0 +1,9 @@
+[
+  {
+    "id": "var_ai001_std",
+    "product_id": "prd_ai001",
+    "name": "Standard License",
+    "price": { "amount": 29, "currency": "USD" },
+    "status": "active"
+  }
+]
