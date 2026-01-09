@@ -1,0 +1,10 @@
+[
+  {
+    "id": "ast_1001",
+    "product_id": "prd_ai001",
+    "kind": "image",
+    "label": "Thumbnail",
+    "url": "https://cdn.example.com/ai001-thumb.png",
+    "created_at": "2026-01-09T00:00:00.000Z"
+  }
+]
