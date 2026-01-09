@@ -1,0 +1,13 @@
+{
+  "events": [
+    {
+      "id": "evt_1",
+      "order_id": "ord_10001",
+      "at": "2026-01-09T12:10:00Z",
+      "type": "order_created",
+      "message": "Order created",
+      "actor": { "role": "system", "id": "sys" },
+      "data": { "status": "pending" }
+    }
+  ]
+}
