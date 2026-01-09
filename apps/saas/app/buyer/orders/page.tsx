@@ -1,46 +1,49 @@
+"use client";
 
-import { requireRole } from "@/src/lib/auth/guard";
-import { Shell } from "@/src/modules/_ui/Shell";
+import Shell from "@src/modules/_ui/Shell";
 
+type Row = { id: string; item: string; date: string; status: "Paid" | "Refunded" | "Pending" };
 
-export default async function BuyerHome() {
-  await requireRole(["buyer"]);
+const rows: Row[] = [
+  { id: "O-20018", item: "Next.js SaaS Starter", date: "Today", status: "Paid" },
+  { id: "O-20011", item: "Sticky Header UI Kit", date: "Yesterday", status: "Paid" },
+  { id: "O-19997", item: "Admin Dashboard Pro", date: "3 days ago", status: "Refunded" },
+];
 
+export default function BuyerOrdersPage() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-10">
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold">My Account</h1>
-        <p className="mt-1 text-sm opacity-70">
-          Orders, marketplace, profile — all in one place.
-        </p>
-      </header>
-
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Link
-          href="/buyer/orders"
-          className="rounded-xl border bg-white p-4 transition hover:shadow-sm"
-        >
-          <div className="font-semibold">My Orders</div>
-          <div className="text-sm opacity-70">Track purchases & invoices</div>
-        </Link>
-
-        <Link
-          href="/buyer/marketplace"
-          className="rounded-xl border bg-white p-4 transition hover:shadow-sm"
-        >
-          <div className="font-semibold">Marketplace</div>
-          <div className="text-sm opacity-70">Browse digital products</div>
-        </Link>
-
-        <Link
-          href="/buyer/profile"
-          className="rounded-xl border bg-white p-4 transition hover:shadow-sm"
-        >
-          <div className="font-semibold">Account Settings</div>
-          <div className="text-sm opacity-70">Profile & preferences</div>
-        </Link>
-      </section>
-    </main>
+    <Shell variant="buyer" section="buyer_orders">
+      <div className="overflow-hidden rounded-2xl border">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-slate-600">
+            <tr>
+              <th className="px-4 py-3 text-left">Order</th>
+              <th className="px-4 py-3 text-left">Item</th>
+              <th className="px-4 py-3 text-left">Date</th>
+              <th className="px-4 py-3 text-left">Status</th>
+              <th className="px-4 py-3 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.id} className="border-t">
+                <td className="px-4 py-3 font-semibold">{r.id}</td>
+                <td className="px-4 py-3">{r.item}</td>
+                <td className="px-4 py-3 text-slate-600">{r.date}</td>
+                <td className="px-4 py-3">
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold">{r.status}</span>
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <button className="rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white">
+                    Download
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Shell>
   );
 }
 
