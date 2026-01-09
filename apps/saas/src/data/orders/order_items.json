@@ -1,0 +1,17 @@
+{
+  "items": [
+    {
+      "id": "item_1",
+      "order_id": "ord_10001",
+      "product_id": "prd_7001",
+      "sku": "RGZ-AI-TOOL-001",
+      "title": "AI Tools Hub Template",
+      "type": "digital",
+      "quantity": 1,
+      "unit_price": 129.0,
+      "line_total": 129.0,
+      "currency": "USD",
+      "fulfillment": { "status": "not_required", "download_url": "/downloads/ai-tools-hub.zip" }
+    }
+  ]
+}
