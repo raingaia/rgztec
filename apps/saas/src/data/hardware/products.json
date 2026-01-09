@@ -2,22 +2,35 @@
   "id": "hw_1001",
   "sku": "AI-ACC-1001",
   "name": "ai-accelerator-1001",
-  "title": "AI Accelerator – Datacenter Class (Sample)",
+  "title": "Enterprise AI Accelerator (Datacenter Class)",
   "active": true,
   "type": "physical",
   "category": "ai-accelerators",
   "brand": "oem",
-  "short_description": "Datacenter-class AI accelerator compatible with NVIDIA® CUDA ecosystem.",
-  "price": { "currency": "USD", "amount": 3999 },
+
+  "short_description": "Datacenter-class AI accelerator designed for high-performance compute workloads and industry-standard GPU compute ecosystems.",
+
+  "applications": ["ai-training", "inference"],
+
+  "price": {
+    "currency": "USD",
+    "amount": 3999
+  },
+
   "primary_asset_id": "ast_1001",
-  "tags": ["hardware", "ai", "accelerator"],
+
+  "tags": ["hardware", "ai", "accelerator", "datacenter"],
+
   "compatibility": {
-    "ecosystem": ["cuda", "nvidia-compatible"],
+    "ecosystem": ["gpu-compute", "industry-standard"],
     "certified": false
   },
+
   "meta": {
     "created_at": "2026-01-09T00:00:00.000Z",
-    "listing_type": "sample"
+    "listing_type": "sample",
+    "compliance_note": "Brand-agnostic sample listing for platform demonstration purposes"
   }
 }
+
 
