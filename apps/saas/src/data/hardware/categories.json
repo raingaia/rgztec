@@ -1,0 +1,4 @@
+[
+  { "id": "cat_gpu", "name": "gpu", "title": "GPUs", "active": true, "tags": ["hardware", "graphics"] },
+  { "id": "cat_ai", "name": "ai-accelerators", "title": "AI Accelerators", "active": true, "tags": ["hardware", "ai"] }
+]
