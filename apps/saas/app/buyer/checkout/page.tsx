@@ -1,66 +1,53 @@
+"use client";
+import React from "react";
+import Shell from "@src/modules/_ui/Shell";
 
-import { requireRole } from "@/src/lib/auth/guard";
-import { Shell } from "@/src/modules/_ui/Shell";
-
-
-const NAV = [
-  { href: "/buyer/marketplace", label: "Marketplace" },
-  { href: "/buyer/cart", label: "Cart" },
-  { href: "/buyer/checkout", label: "Checkout" },
-  { href: "/buyer/orders", label: "Orders" },
-  { href: "/buyer/profile", label: "Profile" },
-];
-
-export default function Page() {
-  // Buyer ekranları: buyer + (istersen seller/admin da görebilir)
-  requireRole(["buyer", "seller", "admin"]);
+export default function BuyerCheckout() {
+  const [agree, setAgree] = React.useState(false);
 
   return (
-    <main style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
-      <header style={{ marginBottom: 16 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-          <h1 style={{ margin: 0, fontSize: 22 }}>Buyer • Checkout</h1>
-          <span style={{ opacity: 0.7, fontSize: 13 }}>Secure payment</span>
+    <Shell variant="buyer" section="buyer_checkout">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border p-4">
+          <div className="font-semibold">Payment</div>
+          <div className="mt-3 grid gap-2">
+            <input className="rounded-2xl border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-900/10" placeholder="Card number (demo)" />
+            <div className="grid grid-cols-2 gap-2">
+              <input className="rounded-2xl border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-900/10" placeholder="MM/YY" />
+              <input className="rounded-2xl border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-900/10" placeholder="CVC" />
+            </div>
+          </div>
+
+          <label className="mt-4 flex items-center gap-2 text-sm text-slate-700">
+            <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
+            I agree to Terms & Privacy.
+          </label>
+
+          <button
+            disabled={!agree}
+            className={
+              agree
+                ? "mt-4 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+                : "mt-4 rounded-full bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-500 cursor-not-allowed"
+            }
+          >
+            Pay Now (demo)
+          </button>
         </div>
 
-        <nav style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                padding: "8px 10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 10,
-                textDecoration: "none",
-                opacity: item.href === "/buyer/checkout" ? 1 : 0.8,
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </header>
-
-      <section
-        style={{
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: 14,
-          padding: 16,
-        }}
-      >
-        <p style={{ marginTop: 0, opacity: 0.85 }}>
-          TODO: Checkout UI (Stripe Checkout / payment intent / order finalize)
-        </p>
-
-        <ul style={{ margin: 0, paddingLeft: 18, opacity: 0.85 }}>
-          <li>Show order summary</li>
-          <li>Collect billing info</li>
-          <li>Start Stripe session</li>
-          <li>Redirect to success/cancel</li>
-        </ul>
-      </section>
-    </main>
+        <div className="rounded-2xl border p-4">
+          <div className="font-semibold">Order summary</div>
+          <div className="mt-3 text-sm text-slate-600">
+            This is UI only. Stripe wiring later.
+          </div>
+          <div className="mt-4 rounded-xl bg-slate-50 p-3 text-sm">
+            <div className="flex justify-between"><span>Items</span><b>$118</b></div>
+            <div className="mt-1 flex justify-between"><span>Fees</span><b>$0</b></div>
+            <div className="mt-2 flex justify-between text-base"><span>Total</span><b>$118</b></div>
+          </div>
+        </div>
+      </div>
+    </Shell>
   );
 }
 
