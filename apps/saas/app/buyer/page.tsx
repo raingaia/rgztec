@@ -1,47 +1,19 @@
+"use client";
+import Shell from "@src/modules/_ui/Shell";
 
-import { requireRole } from "@/src/lib/auth/guard";
-import { Shell } from "@/src/modules/_ui/Shell";
-
-
-export default async function BuyerHome() {
-  await requireRole(["buyer"]);
-
+export default function BuyerHome() {
   return (
-    <main className="mx-auto max-w-5xl px-6 py-10">
-      <header className="mb-8">
-        <h1 className="text-2xl font-bold">My Account</h1>
-        <p className="mt-1 text-sm opacity-70">
-          Orders, marketplace, profile — all in one place.
-        </p>
-      </header>
-
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <Link
-          href="/buyer/orders"
-          className="rounded-xl border bg-white p-4 transition hover:shadow-sm"
-        >
-          <div className="font-semibold">My Orders</div>
-          <div className="text-sm opacity-70">Track purchases & invoices</div>
-        </Link>
-
-        <Link
-          href="/buyer/marketplace"
-          className="rounded-xl border bg-white p-4 transition hover:shadow-sm"
-        >
-          <div className="font-semibold">Marketplace</div>
-          <div className="text-sm opacity-70">Browse digital products</div>
-        </Link>
-
-        <Link
-          href="/buyer/profile"
-          className="rounded-xl border bg-white p-4 transition hover:shadow-sm"
-        >
-          <div className="font-semibold">Account Settings</div>
-          <div className="text-sm opacity-70">Profile & preferences</div>
-        </Link>
-      </section>
-    </main>
+    <Shell variant="buyer" section="buyer_marketplace">
+      <div className="grid gap-3 md:grid-cols-2">
+        <a className="rounded-2xl border p-4 hover:bg-slate-50" href="/buyer/marketplace">
+          <div className="font-semibold">Go to Marketplace</div>
+          <div className="mt-1 text-sm text-slate-600">Browse products & bundles</div>
+        </a>
+        <a className="rounded-2xl border p-4 hover:bg-slate-50" href="/buyer/orders">
+          <div className="font-semibold">View Orders</div>
+          <div className="mt-1 text-sm text-slate-600">Downloads & receipts</div>
+        </a>
+      </div>
+    </Shell>
   );
 }
-
-
