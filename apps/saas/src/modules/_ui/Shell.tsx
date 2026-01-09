@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 
 import { SELLER_NAV, ADMIN_NAV, BUYER_NAV, type NavItem } from "./nav";
 import {
+  type AppSection,
   SELLER_SECTION_META,
   ADMIN_SECTION_META,
   BUYER_SECTION_META,
-  type AppSection,
 } from "./shell.config";
 
 type Variant = "seller" | "admin" | "buyer";
@@ -20,7 +20,7 @@ const NAV_BY_VARIANT: Record<Variant, NavItem[]> = {
   buyer: BUYER_NAV,
 };
 
-export function Shell({
+export default function Shell({
   section,
   children,
   variant = "seller",
@@ -63,9 +63,7 @@ export function Shell({
                 <Link
                   key={i.href}
                   href={i.href}
-                  className={
-                    active ? "font-semibold text-slate-900" : "text-slate-600 hover:text-slate-900"
-                  }
+                  className={active ? "font-semibold text-slate-900" : "text-slate-600 hover:text-slate-900"}
                 >
                   {i.label}
                 </Link>
@@ -86,4 +84,3 @@ export function Shell({
     </div>
   );
 }
-
