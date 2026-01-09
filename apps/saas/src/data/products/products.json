@@ -1,1 +1,24 @@
-{}
+[
+  {
+    "id": "prd_ai001",
+    "store_key": "store_hardwarelab",
+    "type": "digital",
+    "title": "AI Prompt Pack v1",
+    "slug": "ai-prompt-pack-v1",
+    "status": "pending",
+    "category": "ai",
+    "tags": ["prompt", "starter"],
+    "price": { "amount": 29, "currency": "USD" },
+
+    "summary": "High-converting prompt pack for founders.",
+    "description": "Long form markdown/html later",
+    "thumbnail_asset_id": "ast_1001",
+
+    "inventory": { "mode": "unlimited" },
+    "shipping": null,
+
+    "created_at": "2026-01-09T00:00:00.000Z",
+    "updated_at": "2026-01-09T00:00:00.000Z"
+  }
+]
+
