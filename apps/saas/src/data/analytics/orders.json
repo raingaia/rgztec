@@ -1,0 +1,33 @@
+{
+  "range": "30d",
+  "summary": {
+    "total": 342,
+    "completed": 310,
+    "refunded": 12,
+    "disputed": 2,
+    "pending": 18
+  },
+  "recent": [
+    {
+      "id": "ord_1001",
+      "date": "2026-01-08",
+      "status": "Completed",
+      "amount": 49,
+      "currency": "USD"
+    },
+    {
+      "id": "ord_1002",
+      "date": "2026-01-08",
+      "status": "Refunded",
+      "amount": 29,
+      "currency": "USD"
+    },
+    {
+      "id": "ord_1003",
+      "date": "2026-01-07",
+      "status": "Completed",
+      "amount": 99,
+      "currency": "USD"
+    }
+  ]
+}
