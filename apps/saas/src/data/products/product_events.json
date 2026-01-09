@@ -1,0 +1,11 @@
+[
+  {
+    "id": "evt_1",
+    "product_id": "prd_ai001",
+    "type": "status_change",
+    "from": "draft",
+    "to": "pending",
+    "actor_id": "usr_123",
+    "at": "2026-01-09T00:00:00.000Z"
+  }
+]
