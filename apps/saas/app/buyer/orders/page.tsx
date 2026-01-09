@@ -1,5 +1,4 @@
 "use client";
-
 import Shell from "@src/modules/_ui/Shell";
 
 type Row = { id: string; item: string; date: string; status: "Paid" | "Refunded" | "Pending" };
@@ -10,7 +9,7 @@ const rows: Row[] = [
   { id: "O-19997", item: "Admin Dashboard Pro", date: "3 days ago", status: "Refunded" },
 ];
 
-export default function BuyerOrdersPage() {
+export default function BuyerOrders() {
   return (
     <Shell variant="buyer" section="buyer_orders">
       <div className="overflow-hidden rounded-2xl border">
@@ -46,4 +45,5 @@ export default function BuyerOrdersPage() {
     </Shell>
   );
 }
+
 
