@@ -6,9 +6,6 @@ export default function SellerSettingsIntegrations() {
   const [sandboxMode, setSandboxMode] = React.useState(true);
   const [webhooksEnabled, setWebhooksEnabled] = React.useState(false);
 
-  const apiKey = "rgz_live_51KfZpQ9YbS1eXxZpQ9YbS1eXx";
-  const secret = "whsec_9bS1eXxZpQ9YbS1eXxZpQ9Yb";
-
   async function copy(v: string) {
     try { await navigator.clipboard.writeText(v); } catch {}
   }
