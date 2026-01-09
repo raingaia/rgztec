@@ -1,0 +1,32 @@
+{
+  "range": "30d",
+  "kpis": [
+    {
+      "id": "gross_revenue",
+      "label": "Gross Revenue (30d)",
+      "value": 128420,
+      "currency": "USD",
+      "note": "Global · All channels"
+    },
+    {
+      "id": "net_revenue",
+      "label": "Net Revenue (30d)",
+      "value": 94110,
+      "currency": "USD",
+      "note": "After fees & refunds"
+    },
+    {
+      "id": "orders",
+      "label": "Orders (30d)",
+      "value": 342,
+      "note": "Completed + refunded"
+    },
+    {
+      "id": "conversion",
+      "label": "Conversion Rate",
+      "value": 2.6,
+      "unit": "%",
+      "note": "Orders / visits"
+    }
+  ]
+}
