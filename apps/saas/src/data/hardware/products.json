@@ -1,17 +1,23 @@
-[
-  {
-    "id": "hw_1001",
-    "sku": "NV-AI-1001",
-    "name": "nvidia-ai-accelerator-1001",
-    "title": "NVIDIA AI Accelerator (Sample)",
-    "active": true,
-    "type": "physical",
-    "category": "ai-accelerators",
-    "brand": "nvidia",
-    "short_description": "Datacenter-class accelerator (sample listing).",
-    "price": { "currency": "USD", "amount": 3999 },
-    "primary_asset_id": "ast_1001",
-    "tags": ["hardware", "ai", "accelerator"],
-    "meta": { "created_at": "2026-01-09T00:00:00.000Z" }
+{
+  "id": "hw_1001",
+  "sku": "AI-ACC-1001",
+  "name": "ai-accelerator-1001",
+  "title": "AI Accelerator – Datacenter Class (Sample)",
+  "active": true,
+  "type": "physical",
+  "category": "ai-accelerators",
+  "brand": "oem",
+  "short_description": "Datacenter-class AI accelerator compatible with NVIDIA® CUDA ecosystem.",
+  "price": { "currency": "USD", "amount": 3999 },
+  "primary_asset_id": "ast_1001",
+  "tags": ["hardware", "ai", "accelerator"],
+  "compatibility": {
+    "ecosystem": ["cuda", "nvidia-compatible"],
+    "certified": false
+  },
+  "meta": {
+    "created_at": "2026-01-09T00:00:00.000Z",
+    "listing_type": "sample"
   }
-]
+}
+
