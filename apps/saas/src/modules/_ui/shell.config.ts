@@ -1,3 +1,4 @@
+// ---- TYPES ----
 export type SellerSection =
   | "dashboard"
   | "products"
@@ -6,19 +7,16 @@ export type SellerSection =
   | "hardware"
   | "pricing"
   | "profile"
+  | "settings"
   | "summary";
 
-export const SELLER_NAV: { href: string; label: string; section: SellerSection }[] = [
-  { href: "/seller/dashboard", label: "Dashboard", section: "dashboard" },
-  { href: "/seller/products",  label: "Products",  section: "products"  },
-  { href: "/seller/orders",    label: "Orders",    section: "orders"    },
-  { href: "/seller/analytics", label: "Analytics", section: "analytics" },
-  { href: "/seller/hardware",  label: "Hardware",  section: "hardware"  },
-  { href: "/seller/pricing",   label: "Pricing",   section: "pricing"   },
-  { href: "/seller/profile",   label: "Profile",   section: "profile"   },
-  { href: "/seller/summary",   label: "Summary",   section: "summary"   },
-];
+export type AdminSection = "overview" | "stores" | "products" | "banners";
+export type BuyerSection = "account" | "orders" | "billing";
 
+// Shell hepsini kapsasın:
+export type AppSection = SellerSection | AdminSection | BuyerSection;
+
+// ---- SELLER META ----
 export const SELLER_SECTION_META: Record<SellerSection, { title: string; subtitle?: string }> = {
   dashboard: { title: "Seller Dashboard", subtitle: "Overview & quick actions" },
   products:  { title: "Products", subtitle: "Create, edit, publish" },
@@ -27,5 +25,21 @@ export const SELLER_SECTION_META: Record<SellerSection, { title: string; subtitl
   hardware:  { title: "Hardware", subtitle: "Physical products & compliance" },
   pricing:   { title: "Pricing", subtitle: "Plans, fees, commissions" },
   profile:   { title: "Profile", subtitle: "Account & store settings" },
+  settings:  { title: "Settings", subtitle: "Security, team, notifications & integrations" },
   summary:   { title: "Summary", subtitle: "Reports & exports" },
+};
+
+// ---- ADMIN META ----
+export const ADMIN_SECTION_META: Record<AdminSection, { title: string; subtitle?: string }> = {
+  overview: { title: "Admin Overview", subtitle: "System status & operations" },
+  stores:   { title: "Stores", subtitle: "Manage stores & approvals" },
+  products: { title: "Products", subtitle: "Catalog moderation & flags" },
+  banners:  { title: "Banners", subtitle: "Sponsors, placements & inventory" },
+};
+
+// ---- BUYER META ----
+export const BUYER_SECTION_META: Record<BuyerSection, { title: string; subtitle?: string }> = {
+  account: { title: "Account", subtitle: "Profile & security" },
+  orders:  { title: "Orders", subtitle: "Purchases & downloads" },
+  billing: { title: "Billing", subtitle: "Invoices, payment methods" },
 };
