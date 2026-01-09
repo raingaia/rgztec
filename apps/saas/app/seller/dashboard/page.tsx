@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AnalyticsChart from "../_components/AnalyticsChart";
 import { Shell } from "@src/modules/_ui/Shell";
 
@@ -38,154 +39,165 @@ function statusClass(s: OrderRow["status"]) {
 
 export default function SellerDashboardPage() {
   return (
-    <div className="grid">
-      {/* LEFT */}
-      <section>
-        <div className="card">
-          <div className="card-h">
-            <div>
-              <h2>Performance snapshot</h2>
-              <span>Revenue, orders & conversion — last 30 days</span>
-            </div>
-            <span className="chip" style={{ borderColor: "rgba(34,197,94,.24)", background: "rgba(34,197,94,.10)", color: "#166534" }}>
-              ▲ +12.4%
-            </span>
-          </div>
-
-          <div className="metrics">
-            {metrics.map((m) => (
-              <div className="metric" key={m.k}>
-                <div className="k">{m.k}</div>
-                <div className="v">{m.v}</div>
-                <div className="n">{m.n}</div>
+    <Shell section="dashboard" variant="seller">
+      <div className="grid">
+        {/* LEFT */}
+        <section>
+          <div className="card">
+            <div className="card-h">
+              <div>
+                <h2>Performance snapshot</h2>
+                <span>Revenue, orders & conversion — last 30 days</span>
               </div>
-            ))}
-          </div>
-
-          <div className="card-h" style={{ borderTop: "1px solid var(--line)", background: "rgba(15,23,42,.01)" }}>
-            <div>
-              <h2>Recent orders</h2>
-              <span>Latest transactions and payment status</span>
+              <span
+                className="chip"
+                style={{
+                  borderColor: "rgba(34,197,94,.24)",
+                  background: "rgba(34,197,94,.10)",
+                  color: "#166534",
+                }}
+              >
+                ▲ +12.4%
+              </span>
             </div>
-            <span style={{ color: "var(--brand-600)", fontSize: 12, cursor: "pointer", fontWeight: 800 }}>
-              View all
-            </span>
-          </div>
 
-          <div style={{ padding: "6px 14px 14px" }}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Order</th>
-                  <th>Product</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((o) => (
-                  <tr className="row" key={o.id}>
-                    <td>{o.id}</td>
-                    <td>{o.product}</td>
-                    <td style={{ fontWeight: 900 }}>{o.amount}</td>
-                    <td>
-                      <span className={`status ${statusClass(o.status)}`}>
-                        <span className="s-dot" />
-                        {o.status}
-                      </span>
-                    </td>
-                    <td style={{ color: "var(--muted)" }}>{o.date}</td>
+            <div className="metrics">
+              {metrics.map((m) => (
+                <div className="metric" key={m.k}>
+                  <div className="k">{m.k}</div>
+                  <div className="v">{m.v}</div>
+                  <div className="n">{m.n}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="card-h" style={{ borderTop: "1px solid var(--line)", background: "rgba(15,23,42,.01)" }}>
+              <div>
+                <h2>Recent orders</h2>
+                <span>Latest transactions and payment status</span>
+              </div>
+
+              <Link
+                href="/seller/orders"
+                style={{ color: "var(--brand-600)", fontSize: 12, cursor: "pointer", fontWeight: 800 }}
+              >
+                View all
+              </Link>
+            </div>
+
+            <div style={{ padding: "6px 14px 14px" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div style={{ height: 16 }} />
-
-        <div className="card">
-          <div className="card-h">
-            <div>
-              <h2>Getting started</h2>
-              <span>Clean onboarding — same card scale, same spacing, no clutter</span>
-            </div>
-            <span style={{ color: "var(--muted)", fontSize: 12 }}>Show less</span>
-          </div>
-
-          <div className="steps">
-            {steps.map((s) => (
-              <div className="step" key={s.n}>
-                {s.done && <div className="check">✓</div>}
-                <div className="num">{s.n}</div>
-                <b>{s.t}</b>
-                <p>{s.d}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="note">
-            Tip: keep product cards Etsy-level — strong thumbnail, short title, clear price, one primary CTA.
-          </div>
-        </div>
-      </section>
-
-      {/* RIGHT */}
-      <aside>
-        <div className="card">
-          <div className="card-h">
-            <div>
-              <h2>Quick actions</h2>
-              <span>Shortcuts for seller operations</span>
+                </thead>
+                <tbody>
+                  {orders.map((o) => (
+                    <tr className="row" key={o.id}>
+                      <td>{o.id}</td>
+                      <td>{o.product}</td>
+                      <td style={{ fontWeight: 900 }}>{o.amount}</td>
+                      <td>
+                        <span className={`status ${statusClass(o.status)}`}>
+                          <span className="s-dot" />
+                          {o.status}
+                        </span>
+                      </td>
+                      <td style={{ color: "var(--muted)" }}>{o.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div className="actions">
-            <div className="action">
-              <div className="aico">⬆</div>
+          <div style={{ height: 16 }} />
+
+          <div className="card">
+            <div className="card-h">
               <div>
-                <b>Upload product</b>
-                <p>Add a new digital listing and assets.</p>
+                <h2>Getting started</h2>
+                <span>Clean onboarding — same card scale, same spacing, no clutter</span>
               </div>
+              <span style={{ color: "var(--muted)", fontSize: 12 }}>Show less</span>
             </div>
 
-            <div className="action">
-              <div className="aico">%</div>
+            <div className="steps">
+              {steps.map((s) => (
+                <div className="step" key={s.n}>
+                  {s.done && <div className="check">✓</div>}
+                  <div className="num">{s.n}</div>
+                  <b>{s.t}</b>
+                  <p>{s.d}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="note">
+              Tip: keep product cards Etsy-level — strong thumbnail, short title, clear price, one primary CTA.
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT */}
+        <aside>
+          <div className="card">
+            <div className="card-h">
               <div>
-                <b>Pricing rules</b>
-                <p>Create discounts, bundles and tiers.</p>
+                <h2>Quick actions</h2>
+                <span>Shortcuts for seller operations</span>
               </div>
             </div>
 
-            <div className="action">
-              <div className="aico">💳</div>
-              <div>
-                <b>Payouts</b>
-                <p>View balance and payout schedule.</p>
-              </div>
-            </div>
+            <div className="actions">
+              <Link className="action" href="/seller/products">
+                <div className="aico">⬆</div>
+                <div>
+                  <b>Upload product</b>
+                  <p>Add a new digital listing and assets.</p>
+                </div>
+              </Link>
 
-            <div className="action">
-              <div className="aico">🛟</div>
-              <div>
-                <b>Support</b>
-                <p>Refunds, disputes and tickets.</p>
-              </div>
-            </div>
+              <Link className="action" href="/seller/pricing">
+                <div className="aico">%</div>
+                <div>
+                  <b>Pricing rules</b>
+                  <p>Create discounts, bundles and tiers.</p>
+                </div>
+              </Link>
 
-            <div className="card" style={{ boxShadow: "none", background: "rgba(249,115,22,.03)" }}>
-              <div className="note" style={{ borderTop: "none" }}>
-                This is a static UI demo. Production: Orders → API, Products → Storage, Analytics → Events.
+              <Link className="action" href="/seller/pricing">
+                <div className="aico">💳</div>
+                <div>
+                  <b>Payouts</b>
+                  <p>View balance and payout schedule.</p>
+                </div>
+              </Link>
+
+              <Link className="action" href="/seller/orders">
+                <div className="aico">🛟</div>
+                <div>
+                  <b>Support</b>
+                  <p>Refunds, disputes and tickets.</p>
+                </div>
+              </Link>
+
+              <div className="card" style={{ boxShadow: "none", background: "rgba(249,115,22,.03)" }}>
+                <div className="note" style={{ borderTop: "none" }}>
+                  This is a static UI demo. Production: Orders → API, Products → Storage, Analytics → Events.
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <AnalyticsChart />
-      </aside>
-    </div>
+          <AnalyticsChart />
+        </aside>
+      </div>
+    </Shell>
   );
 }
-
-
