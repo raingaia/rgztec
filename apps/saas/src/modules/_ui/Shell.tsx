@@ -12,15 +12,11 @@ export function Shell({
   section: SellerSection;
   children: React.ReactNode;
   variant?: "seller" | "buyer" | "admin";
-})
- {
+}) {
   const meta = SELLER_SECTION_META[section];
 
   return (
-    <div
-  className="min-h-screen bg-slate-50 text-slate-900"
-  data-variant={variant}
->
+    <div className="min-h-screen bg-slate-50 text-slate-900" data-variant={variant}>
       {/* Top Bar */}
       <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -40,9 +36,7 @@ export function Shell({
                   key={i.href}
                   href={i.href}
                   className={
-                    active
-                      ? "font-semibold text-slate-900"
-                      : "text-slate-600 hover:text-slate-900"
+                    active ? "font-semibold text-slate-900" : "text-slate-600 hover:text-slate-900"
                   }
                 >
                   {i.label}
@@ -62,9 +56,7 @@ export function Shell({
           ) : null}
         </div>
 
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          {children}
-        </div>
+        <div className="rounded-2xl border bg-white p-5 shadow-sm">{children}</div>
       </main>
     </div>
   );
