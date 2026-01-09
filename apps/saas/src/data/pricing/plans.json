@@ -1,0 +1,72 @@
+[
+  {
+    "id": "free",
+    "name": "Free",
+    "price_monthly": 0,
+    "currency": "USD",
+    "badge": "Starter",
+    "features": [
+      "Up to 10 products",
+      "Basic analytics",
+      "Community support"
+    ],
+    "limits": {
+      "products": 10,
+      "stores": 1,
+      "api_calls_per_day": 500
+    },
+    "stripe": {
+      "price_id_monthly": null
+    },
+    "status": "active",
+    "created_at": "2026-01-09T00:00:00.000Z",
+    "updated_at": "2026-01-09T00:00:00.000Z"
+  },
+  {
+    "id": "pro",
+    "name": "Pro",
+    "price_monthly": 29,
+    "currency": "USD",
+    "badge": "Most Popular",
+    "features": [
+      "Unlimited products",
+      "Advanced analytics",
+      "Priority support"
+    ],
+    "limits": {
+      "products": 999999,
+      "stores": 3,
+      "api_calls_per_day": 20000
+    },
+    "stripe": {
+      "price_id_monthly": "TODO_STRIPE_PRICE_ID_PRO"
+    },
+    "status": "active",
+    "created_at": "2026-01-09T00:00:00.000Z",
+    "updated_at": "2026-01-09T00:00:00.000Z"
+  },
+  {
+    "id": "business",
+    "name": "Business",
+    "price_monthly": 99,
+    "currency": "USD",
+    "badge": "Scale",
+    "features": [
+      "Unlimited products",
+      "Team access",
+      "Premium analytics",
+      "Priority support"
+    ],
+    "limits": {
+      "products": 999999,
+      "stores": 10,
+      "api_calls_per_day": 100000
+    },
+    "stripe": {
+      "price_id_monthly": "TODO_STRIPE_PRICE_ID_BUSINESS"
+    },
+    "status": "active",
+    "created_at": "2026-01-09T00:00:00.000Z",
+    "updated_at": "2026-01-09T00:00:00.000Z"
+  }
+]
