@@ -1,0 +1,4 @@
+[
+  { "id": "m_1", "email": "raingaia@outlook.com", "role": "Owner", "status": "Active" },
+  { "id": "m_2", "email": "seller@rgztec.com", "role": "Manager", "status": "Active" }
+]
