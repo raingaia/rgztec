@@ -1,87 +1,47 @@
+"use client";
+import React from "react";
+import Shell from "@src/modules/_ui/Shell";
 
-import { requireRole } from "@/src/lib/auth/guard";
-import { Shell } from "@/src/modules/_ui/Shell";
+type Item = { id: string; title: string; price: string; tag: string };
 
-
-const nav = [
-  { href: "/buyer/marketplace", label: "Marketplace" },
-  { href: "/buyer/cart", label: "Cart" },
-  { href: "/buyer/checkout", label: "Checkout" },
-  { href: "/buyer/orders", label: "Orders" },
-  { href: "/buyer/profile", label: "Profile" },
+const seed: Item[] = [
+  { id: "MK-01", title: "Next.js SaaS Starter", price: "$89", tag: "Best Seller" },
+  { id: "MK-02", title: "Admin Dashboard Pro", price: "$59", tag: "Premium" },
+  { id: "MK-03", title: "Sticky Header UI Kit", price: "$29", tag: "UI Kit" },
 ];
 
-export default function BuyerProfilePage() {
-  // Buyer profili: sadece buyer (istersen admin de eklenir)
-  requireRole(["buyer"]);
+export default function BuyerMarketplace() {
+  const [q, setQ] = React.useState("");
+  const items = seed.filter((x) => (x.title + x.tag).toLowerCase().includes(q.toLowerCase()));
 
   return (
-    <main style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
-      <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800 }}>Buyer • Profile</h1>
-          <p style={{ margin: "6px 0 0", opacity: 0.75 }}>
-            Manage your account details and preferences.
-          </p>
-        </div>
+    <Shell variant="buyer" section="buyer_marketplace">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search marketplace…"
+          className="w-full rounded-2xl border px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-900/10 md:max-w-md"
+        />
+        <a href="/buyer/cart" className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
+          Open Cart
+        </a>
+      </div>
 
-        <nav style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "flex-end" }}>
-          {nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                padding: "8px 10px",
-                borderRadius: 10,
-                border: item.href === "/buyer/profile" ? "2px solid #111" : "1px solid rgba(0,0,0,0.12)",
-                textDecoration: "none",
-                color: "#111",
-                fontWeight: item.href === "/buyer/profile" ? 800 : 600,
-                opacity: item.href === "/buyer/profile" ? 1 : 0.9,
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </header>
-
-      <section style={{ marginTop: 18 }}>
-        <div
-          style={{
-            border: "1px solid rgba(0,0,0,0.12)",
-            borderRadius: 16,
-            padding: 16,
-            background: "rgba(0,0,0,0.02)",
-          }}
-        >
-          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 800 }}>Profile</h2>
-          <p style={{ margin: "8px 0 0", opacity: 0.8 }}>
-            TODO: profile UI (name, email, address, billing prefs)
-          </p>
-
-          {/* Örnek “boş state” */}
-          <div
-            style={{
-              marginTop: 14,
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 12,
-            }}
-          >
-            <div style={{ padding: 14, borderRadius: 14, border: "1px solid rgba(0,0,0,0.12)", background: "#fff" }}>
-              <div style={{ fontSize: 12, opacity: 0.7 }}>Name</div>
-              <div style={{ fontWeight: 800, marginTop: 4 }}>—</div>
-            </div>
-
-            <div style={{ padding: 14, borderRadius: 14, border: "1px solid rgba(0,0,0,0.12)", background: "#fff" }}>
-              <div style={{ fontSize: 12, opacity: 0.7 }}>Email</div>
-              <div style={{ fontWeight: 800, marginTop: 4 }}>—</div>
-            </div>
+      <div className="mt-4 grid gap-3 md:grid-cols-3">
+        {items.map((p) => (
+          <div key={p.id} className="rounded-2xl border p-4">
+            <div className="text-xs text-slate-500">{p.tag}</div>
+            <div className="mt-1 font-semibold">{p.title}</div>
+            <div className="mt-2 text-lg font-extrabold">{p.price}</div>
+            <button className="mt-3 w-full rounded-full border px-3 py-2 text-sm font-semibold hover:bg-slate-50">
+              Add to cart
+            </button>
           </div>
-        </div>
-      </section>
-    </main>
+        ))}
+      </div>
+    </Shell>
   );
 }
+
 
