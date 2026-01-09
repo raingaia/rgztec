@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "id": "app_ai_training",
+    "key": "ai-training",
+    "title": "AI Model Training",
+    "description": "Hardware optimized for large-scale AI and ML training workloads.",
+    "active": true,
+    "tags": ["ai", "ml", "training", "compute"],
+    "meta": {
+      "created_at": "2026-01-10T00:00:00.000Z"
+    }
+  },
+  {
+    "id": "app_inference",
+    "key": "inference",
+    "title": "AI Inference",
+    "description": "Low-latency inference workloads for production environments.",
+    "active": true,
+    "tags": ["ai", "inference", "edge"],
+    "meta": {
+      "created_at": "2026-01-10T00:00:00.000Z"
+    }
+  }
+]
+
