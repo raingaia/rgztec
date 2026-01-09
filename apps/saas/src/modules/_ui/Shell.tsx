@@ -17,7 +17,10 @@ export function Shell({
   const meta = SELLER_SECTION_META[section];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div
+  className="min-h-screen bg-slate-50 text-slate-900"
+  data-variant={variant}
+>
       {/* Top Bar */}
       <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
