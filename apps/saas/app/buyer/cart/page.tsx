@@ -1,66 +1,60 @@
+"use client";
+import React from "react";
+import Shell from "@src/modules/_ui/Shell";
 
-import { requireRole } from "@/src/lib/auth/guard";
-import { Shell } from "@/src/modules/_ui/Shell";
+type CartItem = { id: string; title: string; price: number; qty: number };
 
-
-const NAV = [
-  { href: "/buyer/marketplace", label: "Marketplace" },
-  { href: "/buyer/cart", label: "Cart" },
-  { href: "/buyer/checkout", label: "Checkout" },
-  { href: "/buyer/orders", label: "Orders" },
-  { href: "/buyer/profile", label: "Profile" },
+const seed: CartItem[] = [
+  { id: "C-01", title: "Next.js SaaS Starter", price: 89, qty: 1 },
+  { id: "C-02", title: "Sticky Header UI Kit", price: 29, qty: 1 },
 ];
 
-export default function Page() {
-  // Buyer ekranları: buyer + (istersen seller/admin da görebilir)
-  requireRole(["buyer", "seller", "admin"]);
+export default function BuyerCart() {
+  const [items, setItems] = React.useState(seed);
+
+  const total = items.reduce((s, x) => s + x.price * x.qty, 0);
+
+  function inc(id: string) {
+    setItems((p) => p.map((x) => (x.id === id ? { ...x, qty: x.qty + 1 } : x)));
+  }
+  function dec(id: string) {
+    setItems((p) => p.map((x) => (x.id === id ? { ...x, qty: Math.max(1, x.qty - 1) } : x)));
+  }
 
   return (
-    <main style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
-      <header style={{ marginBottom: 16 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-          <h1 style={{ margin: 0, fontSize: 22 }}>Buyer • Checkout</h1>
-          <span style={{ opacity: 0.7, fontSize: 13 }}>Secure payment</span>
+    <Shell variant="buyer" section="buyer_cart">
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="md:col-span-2 grid gap-3">
+          {items.map((x) => (
+            <div key={x.id} className="rounded-2xl border p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="font-semibold">{x.title}</div>
+                  <div className="mt-1 text-sm text-slate-600">${x.price}</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => dec(x.id)} className="h-9 w-9 rounded-full border font-bold hover:bg-slate-50">-</button>
+                  <div className="w-8 text-center font-semibold">{x.qty}</div>
+                  <button onClick={() => inc(x.id)} className="h-9 w-9 rounded-full border font-bold hover:bg-slate-50">+</button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <nav style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                padding: "8px 10px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 10,
-                textDecoration: "none",
-                opacity: item.href === "/buyer/checkout" ? 1 : 0.8,
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </header>
-
-      <section
-        style={{
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: 14,
-          padding: 16,
-        }}
-      >
-        <p style={{ marginTop: 0, opacity: 0.85 }}>
-          TODO: Checkout UI (Stripe Checkout / payment intent / order finalize)
-        </p>
-
-        <ul style={{ margin: 0, paddingLeft: 18, opacity: 0.85 }}>
-          <li>Show order summary</li>
-          <li>Collect billing info</li>
-          <li>Start Stripe session</li>
-          <li>Redirect to success/cancel</li>
-        </ul>
-      </section>
-    </main>
+        <div className="rounded-2xl border p-4">
+          <div className="font-semibold">Summary</div>
+          <div className="mt-3 flex items-center justify-between text-sm">
+            <span className="text-slate-600">Total</span>
+            <span className="text-lg font-extrabold">${total}</span>
+          </div>
+          <a href="/buyer/checkout" className="mt-4 block rounded-full bg-slate-900 px-4 py-2 text-center text-sm font-semibold text-white">
+            Continue to Checkout
+          </a>
+        </div>
+      </div>
+    </Shell>
   );
 }
+
 
