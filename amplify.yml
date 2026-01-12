@@ -1,21 +1,31 @@
 version: 1
 applications:
-  - appRoot: .
+  - appRoot: apps/saas
     frontend:
       phases:
         preBuild:
           commands:
-            - nvm install 20
             - nvm use 20
-            - node -v
-            - npm ci
+            - npm install # veya pnpm install / yarn
         build:
           commands:
-            - npm run build:static
+            - npm run build
       artifacts:
-        baseDirectory: docs
+        baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
+          - .next/cache/**/*
+
+  - appRoot: docs
+    frontend:
+      phases:
+        build:
+          commands:
+            - echo "Building static docs..." # Eğer bir jeneratör varsa buraya yaz
+      artifacts:
+        baseDirectory: . # veya docs içindeki çıktı klasörü (örn: dist)
+        files:
+          - '**/*'
