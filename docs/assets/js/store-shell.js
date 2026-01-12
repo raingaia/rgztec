@@ -14,7 +14,7 @@
  */
 (() => {
   "use strict";
-  
+
   console.log("STORE-SHELL BOOT OK", location.pathname);
 
   // ============================================================
@@ -31,6 +31,26 @@
   const safeSlug = (s) => String(s || "").trim().replace(/^\/+|\/+$/g, "");
   const IMAGE_BASE_FALLBACK = withBase("/assets/images/store/");
 
+  // ============================================================
+  // APP ORIGIN (AWS SaaS App) - Bridge target
+  // ============================================================
+  function resolveAppOrigin() {
+    const meta = document.querySelector('meta[name="rgztec-app-origin"]');
+    if (meta && meta.content && String(meta.content).trim()) {
+      return String(meta.content).trim().replace(/\/$/, "");
+    }
+    if (typeof window.RGZ_APP_ORIGIN === "string" && window.RGZ_APP_ORIGIN.trim()) {
+      return window.RGZ_APP_ORIGIN.trim().replace(/\/$/, "");
+    }
+    return ""; // empty => safe fallback
+  }
+
+  const APP_ORIGIN = resolveAppOrigin();
+  function withApp(path) {
+    if (!APP_ORIGIN) return path; // safe fallback
+    return APP_ORIGIN + path;
+  }
+
   function addCacheBuster(url) {
     const u = String(url || "").trim();
     if (!u) return u;
@@ -40,7 +60,7 @@
   }
 
   function resolveDataUrlBase() {
-    // 1) window override (senin enjekte ettiğin)
+    // 1) window override
     if (typeof window.RGZ_DATA_URL === "string" && window.RGZ_DATA_URL.trim()) {
       const u = window.RGZ_DATA_URL.trim();
       // already absolute or relative
@@ -56,7 +76,7 @@
       return withBase(u.startsWith("/") ? u : `/${u}`);
     }
 
-    // 3) fallback (senin dosyan)
+    // 3) fallback
     return withBase("/data/store.data.json");
   }
 
@@ -72,39 +92,39 @@
   window.StoreShell.withBase = withBase;
   window.StoreShell.dataUrl = DATA_URL;
   window.StoreShell.imageBase = IMAGE_BASE_PATH;
+  window.StoreShell.appOrigin = APP_ORIGIN;
 
   // ============================================================
   // 2) BOOT
   // ============================================================
   function bootStoreShell() {
-  const storeRoot = document.getElementById("store-root");
-  const storeBody = document.querySelector("body.store-body");
+    const storeRoot = document.getElementById("store-root");
+    const storeBody = document.querySelector("body.store-body");
 
-  if (!storeBody || !storeRoot) return;
+    if (!storeBody || !storeRoot) return;
 
-  // Dynamic apps
-  if (window.APPS_MODE) {
-    initDynamicModule(String(window.APPS_MODE || "").trim(), window.APPS_PARAMS || [], storeRoot);
-    return;
+    // Dynamic apps
+    if (window.APPS_MODE) {
+      initDynamicModule(String(window.APPS_MODE || "").trim(), window.APPS_PARAMS || [], storeRoot);
+      return;
+    }
+
+    // Static store
+    const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
+    if (!rawPath) {
+      renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="ai-tools-hub">`);
+      return;
+    }
+
+    initStore(rawPath, storeRoot);
   }
 
-  // Static store
-  const rawPath = (storeBody.dataset.path || window.RGZ_STORE_SLUG || "").trim();
-  if (!rawPath) {
-    renderError(storeRoot, `Missing data-path. Add: <body class="store-body" data-path="ai-tools-hub">`);
-    return;
+  // ✅ DOMContentLoaded kaçmış olsa bile çalış
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootStoreShell);
+  } else {
+    bootStoreShell();
   }
-
-  initStore(rawPath, storeRoot);
-}
-
-// ✅ DOMContentLoaded kaçmış olsa bile çalış
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", bootStoreShell);
-} else {
-  bootStoreShell();
-}
-
 
   // ============================================================
   // 3) DYNAMIC MODULES (/apps/*)
@@ -200,6 +220,11 @@ if (document.readyState === "loading") {
       const currentSlug = found.currentSlug;
       const depth = found.depth;
 
+      // ✅ expose store context for search/app bridge
+      window.StoreShell = window.StoreShell || {};
+      window.StoreShell.currentRootSlug = rootSlug;
+      window.StoreShell.currentPath = path;
+
       if (!currentData || !rootSlug) throw new Error(`Path not found: "${path}"`);
 
       const rootStoreData = allStoresData[rootSlug] || {};
@@ -261,16 +286,21 @@ if (document.readyState === "loading") {
           <div class="store-header-left">
             <a href="${withBase("/")}" class="store-header-logo">RGZTEC</a>
           </div>
+
           <div class="store-header-center">
             <form class="store-header-search" role="search">
               <input type="search" name="q" placeholder="Search across stores..." aria-label="Search" />
               <button type="submit" aria-label="Search">Search</button>
             </form>
           </div>
+
           <div class="store-header-right">
-            <a href="${withBase("/apps/admin")}" class="store-header-secondary-link">Dashboard</a>
-            <a href="${withBase("/apps/signin")}" class="store-header-secondary-link">Sign In</a>
-            <a href="${withBase("/apps/open-store")}" class="store-header-cta"><span>Open Store</span></a>
+            <!-- ✅ STATIC: Editor/Lab -->
+            <a href="${withBase("/lab/")}" class="store-header-secondary-link">Dashboard / Editor</a>
+
+            <!-- ✅ AWS APP (bridge) -->
+            <a href="${withBase("/apps/signin")}" data-bridge="login" class="store-header-secondary-link">Sign In</a>
+            <a href="${withBase("/apps/open-store")}" data-bridge="start-selling" class="store-header-cta"><span>Open Store</span></a>
           </div>
         </div>
       </header>`;
@@ -395,14 +425,31 @@ if (document.readyState === "loading") {
   // ============================================================
   function wireInteractions(root) {
     const form = root.querySelector(".store-header-search");
-    if (form) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const inp = form.querySelector('input[name="q"]') || form.querySelector("input");
-        const q = inp ? String(inp.value || "").trim() : "";
-        if (q) window.location.href = withBase(`/apps/search?q=${enc(q)}`);
-      });
-    }
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const inp =
+        form.querySelector('input[name="q"]') ||
+        form.querySelector("input");
+
+      const q = inp ? String(inp.value || "").trim() : "";
+      if (!q) return;
+
+      const store =
+        window.StoreShell && window.StoreShell.currentRootSlug
+          ? String(window.StoreShell.currentRootSlug)
+          : "";
+
+      // ✅ AWS App search
+      // Eğer app tarafında store filtresi desteklenmiyorsa "&store=" kısmını kaldır.
+      const url = store
+        ? withApp(`/search?q=${enc(q)}&store=${enc(store)}`)
+        : withApp(`/search?q=${enc(q)}`);
+
+      window.location.href = url;
+    });
   }
 
   // ============================================================
@@ -442,4 +489,5 @@ if (document.readyState === "loading") {
     return esc(String(s || "")).replace(/`/g, "&#096;");
   }
 })();
+
 
