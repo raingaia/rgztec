@@ -1,4 +1,11 @@
-// docs/assets/js/bridge.js
+/// === RGZ GLOBAL (home-products için ZORUNLU) ===
+window.RGZ = window.RGZ || {
+  env: "docs",
+  go(path) {
+    window.location.href = path;
+  }
+};
+/ docs/assets/js/bridge.js
 (function () {
   function ready(fn) {
     if (document.readyState === "loading") {
