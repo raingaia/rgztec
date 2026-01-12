@@ -13,15 +13,15 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+
     "plugins": [{ "name": "next" }],
 
     "baseUrl": ".",
     "paths": {
-  "@/*": ["apps/saas/src/*"],
-  "@ui/*": ["apps/saas/src/modules/_ui/*"],
-  "@app/*": ["apps/saas/app/*"]
-}
-
+      "@/*": ["src/*"],
+      "@ui/*": ["src/modules/_ui/*"],
+      "@app/*": ["app/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -32,4 +32,5 @@
   ],
   "exclude": ["node_modules"]
 }
+
 
