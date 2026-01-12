@@ -7,6 +7,9 @@
 
   <meta name="rgz-base" content="" />
 
+  <!-- ✅ AWS app origin -->
+  <meta name="rgztec-app-origin" content="https://YOUR-AWS-APP-DOMAIN" />
+
   <script>
     (function () {
       // ---- BASE ----
@@ -23,11 +26,11 @@
       window.RGZ_BASE = BASE;
       window.RGZ_WITH_BASE = withBase;
 
-      // ---- DATA + ASSETS (✅ this is what you wanted) ----
+      // ---- DATA + ASSETS ----
       window.RGZ_DATA_URL = withBase("/data/store.data.json?v=" + Date.now());
       window.RGZ_IMAGE_BASE = withBase("/assets/images/store/");
 
-      // optional: core css (store style)
+      // core css (store style)
       const css = document.createElement("link");
       css.rel = "stylesheet";
       css.href = withBase("/assets/css/store-core.css?v=1");
@@ -47,8 +50,20 @@
       // ✅ data-path MUST exist before shell runs
       const path = (location.pathname || "/").replace(/\/+$/, "");
       const parts = path.split("/").filter(Boolean);
-      const slug = parts[parts.length - 1] || "home";
-      document.body.setAttribute("data-path", slug);
+
+      // /store/<root>/<section?>/... → data-path="<root>/<section?>"
+      let dataPath = "home";
+      const storeIdx = parts.indexOf("store");
+
+      if (storeIdx >= 0) {
+        const root = parts[storeIdx + 1] || "";
+        const section = parts[storeIdx + 2] || "";
+        dataPath = section ? `${root}/${section}` : (root || "home");
+      } else {
+        dataPath = parts[parts.length - 1] || "home";
+      }
+
+      document.body.setAttribute("data-path", dataPath);
 
       // ✅ load shell
       const s = document.createElement("script");
