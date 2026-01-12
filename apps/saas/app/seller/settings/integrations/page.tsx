@@ -9,7 +9,7 @@ export default function SellerSettingsIntegrations() {
   async function copy(v: string) {
     try { await navigator.clipboard.writeText(v); } catch {}
   }
-
+  
   return (
     <Shell section="settings_integrations" variant="seller">
       <div className="grid gap-4 md:grid-cols-2">
