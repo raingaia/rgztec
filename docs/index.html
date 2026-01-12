@@ -9,6 +9,9 @@
   <!-- Base (kept for future resolver; current page uses relative links) -->
   <meta name="rgz-base" content="">
 
+  <!-- ✅ AWS APP ORIGIN: Deploy sonrası AWS domainini buraya yaz -->
+  <meta name="rgztec-app-origin" content="https://YOUR-AWS-APP-DOMAIN" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
@@ -148,7 +151,6 @@
   <header class="app-header">
     <div class="container header-inner">
       <div class="header-left">
-        <!-- ✅ Works on / and /rgztec/ -->
         <a href="./" class="logo">RGZTEC</a>
 
         <button id="btn-categories" class="btn-cat" type="button">
@@ -169,8 +171,9 @@
         </div>
       </div>
 
-      <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Search marketplace...">
+      <!-- ✅ Search → AWS app /search?q= -->
+      <div class="search-bar" data-bridge-search="global">
+        <input type="text" class="search-input" placeholder="Search marketplace..." aria-label="Search marketplace">
         <button class="search-btn" type="button" aria-label="Search">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -179,10 +182,14 @@
       </div>
 
       <div class="nav-right">
-        <!-- ✅ Relative internal links (safe for / and /rgztec/) -->
+        <!-- ✅ Static editor alanı (LAB) aynen kalsın -->
         <a href="./lab/" class="nav-link">Dashboard / Editor</a>
-        <a href="./seller/login.html" class="nav-link">Sign In</a>
-        <a href="./open-store.html" class="btn-open-store">Open Store</a>
+
+        <!-- ✅ Login → AWS app /login -->
+        <a href="./seller/login.html" class="nav-link" data-bridge="login">Sign In</a>
+
+        <!-- ✅ Open Store → AWS app /login (veya onboarding) -->
+        <a href="./open-store.html" class="btn-open-store" data-bridge="start-selling">Open Store</a>
       </div>
     </div>
   </header>
@@ -237,7 +244,7 @@
         <div class="footer-col">
           <h4>Marketplace</h4>
           <a href="#gallery">Explore stores</a>
-          <a href="./open-store.html">Open a store</a>
+          <a href="./open-store.html" data-bridge="start-selling">Open a store</a>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
@@ -296,7 +303,10 @@
     })();
   </script>
 
+  <!-- ✅ Bridge -->
   <script src="./assets/js/bridge.js" defer></script>
+
+  <!-- existing home script -->
   <script src="assets/js/home-products.js?v=1"></script>
 </body>
 </html>
