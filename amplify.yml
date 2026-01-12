@@ -7,18 +7,18 @@ applications:
           commands:
             - nvm install 20
             - nvm use 20
-            - node -v
-
-            # ✅ monorepo: her şeyi root'ta bir kere kur
-            - cd ../..
             - npm ci
 
         build:
           commands:
-            # 1) static üretimler (search index / docs kopyalama vb.)
+            # ROOT’a çık
+            - cd ../..
+            - npm ci
+
+            # ✅ STATIC (docs) üret
             - npm run build:static
 
-            # 2) saas next build
+            # ✅ SAAS (Next)
             - cd apps/saas
             - npm run build
 
@@ -30,7 +30,5 @@ applications:
       cache:
         paths:
           - node_modules/**/*
-          - apps/saas/.next/cache/**/*
-          - apps/saas/node_modules/**/*
-
+          - .next/cache/**/*
 
