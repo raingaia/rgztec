@@ -7,28 +7,31 @@ applications:
           commands:
             - nvm install 20
             - nvm use 20
+            - node -v
             - npm ci
 
         build:
           commands:
-            # ROOT’a çık
+            # root’tan static üret (docs basan scriptin)
             - cd ../..
             - npm ci
-
-            # ✅ STATIC (docs) üret
             - npm run build:static
 
-            # ✅ SAAS (Next)
+            # docs çıktısını Next public içine koy (tek domain altında servis)
+            - rsync -a --delete docs/ apps/saas/public/
+
+            # tekrar appRoot’a dön, Next build
             - cd apps/saas
             - npm run build
 
       artifacts:
         baseDirectory: .next
         files:
-          - '**/*'
+          - "**/*"
 
       cache:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
+
 
