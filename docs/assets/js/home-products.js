@@ -48,13 +48,16 @@ window.RGZ = window.RGZ || B;
   }
 
      // ---- IMAGE RESOLVER (Store-Shell ile birebir) ----
-  function resolveImage(raw) {
-    const s = String(raw || "").trim();
-    if (!s) return "";
-    if (/^https?:\/\//i.test(s)) return s;
-    if (s.startsWith("/")) return s;
-    return "/assets/images/store/" + s.replace(/^\/+/, "");
-  }
+  // ✅ same resolver as store-shell
+const IMAGE_BASE = "/assets/images/store/";
+function resolveImage(raw) {
+  const s = String(raw || "").trim();
+  if (!s) return "";
+  if (/^https?:\/\//i.test(s)) return s;
+  if (s.startsWith("/")) return (typeof B.withBase === "function") ? B.withBase(s) : s;
+  return IMAGE_BASE + s.replace(/^\/+/, "");
+}
+
  
   // ---- 2) Store Data (single load shared) ----
   let storeDataPromise = null;
