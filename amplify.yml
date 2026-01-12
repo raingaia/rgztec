@@ -1,19 +1,35 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - nvm use 20 || nvm install 20
-        - node -v
-        - npm ci
-    build:
-      commands:
-        - npm run build:static
-  artifacts:
-    baseDirectory: docs
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
+applications:
+  # SAAS UYGULAMASI
+  - appRoot: apps/saas
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm use 20
+            - npm install
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
 
+  # DOCS UYGULAMASI
+  - appRoot: docs
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install
+        build:
+          commands:
+            - npm run build # Veya döküman aracın neyse (Docusaurus, Next vb.)
+      artifacts:
+        baseDirectory: out # Statik çıktı klasörün
+        files:
+          - '**/*'
