@@ -10,11 +10,17 @@
   "use strict";
 
   // ---- 0) Bridge guard ----
-  const B = window.RGZ || window.rgz || null;
-  if (!B) {
-    console.error("[HOME] rgz.bridge missing. Add rgz.bridge.js before home-products.js");
-    return;
-  }
+  const B = window.RGZ || window.rgz || {
+  env: "docs",
+  PUBLIC: { stores: "/data/store.data.json" },
+  URLS: {
+    STORE: (slug) => `/store/${encodeURIComponent(slug)}/`,
+    ASSET: (p) => p
+  },
+  withBase: (p) => p
+};
+window.RGZ = window.RGZ || B;
+
 
   const $ = (sel, root = document) => root.querySelector(sel);
 
