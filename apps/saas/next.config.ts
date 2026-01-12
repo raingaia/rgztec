@@ -1,13 +1,12 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-const projectRoot = __dirname; 
-
+/** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // ✅ 1. Build Hatalarını Görmezden Gel (Amplify Build Fix)
-  // TypeScript ve ESLint hataları build'i patlatmasın diye ekliyoruz
+  // ✅ 1. Build Hatalarını Tamamen Devre Dışı Bırak (Amplify Fix)
+  // API rotalarındaki veya diğer sayfalardaki hatalar build'i durdurmaz.
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -15,23 +14,24 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  outputFileTracingRoot: projectRoot,
-
+  // ✅ 2. Monorepo & Deployment Ayarları
+  // Amplify'ın dosyaları doğru izlemesi için root'u garantiye alıyoruz
+  output: "standalone", // AWS Amplify ve Docker ortamları için en güvenli çıktı tipi
+  
   experimental: {
     externalDir: true,
+    // outputFileTracingRoot monorepo yapılarında üst klasöre bakmayı sağlar
+    outputFileTracingRoot: path.join(__dirname, "../../"), 
   },
 
-  turbopack: {
-    root: projectRoot,
-  },
-
-  webpack: (config) => {
-    config.resolve = config.resolve || {};
+  // ✅ 3. Path Alias & Webpack
+  webpack: (config, { isServer }) => {
     config.resolve.alias = {
-      ...(config.resolve.alias || {}),
-      "@src": path.resolve(projectRoot, "src"),
-      "@app": path.resolve(projectRoot, "app"),
+      ...config.resolve.alias,
+      "@src": path.resolve(__dirname, "src"),
+      "@app": path.resolve(__dirname, "app"),
     };
+
     return config;
   },
 };
