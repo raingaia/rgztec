@@ -6,11 +6,13 @@ applications:
         preBuild:
           commands:
             - nvm use 20
-            - npm install # veya pnpm install / yarn
+            - npm install
         build:
           commands:
+            # Next.js build komutu
             - npm run build
       artifacts:
+        # Next.js App Router/Pages için çıktı klasörü
         baseDirectory: .next
         files:
           - '**/*'
@@ -19,13 +21,15 @@ applications:
           - node_modules/**/*
           - .next/cache/**/*
 
+  # Eğer docs kısmını da Amplify üzerinden yayınlıyorsan burayı ekle
+  # Yayınlamıyorsan bu blok build'i etkilemez
   - appRoot: docs
     frontend:
       phases:
         build:
           commands:
-            - echo "Building static docs..." # Eğer bir jeneratör varsa buraya yaz
+            - echo "Static docs sync..."
       artifacts:
-        baseDirectory: . # veya docs içindeki çıktı klasörü (örn: dist)
+        baseDirectory: .
         files:
           - '**/*'
