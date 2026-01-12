@@ -5,14 +5,11 @@ applications:
       phases:
         preBuild:
           commands:
-            - nvm install 20
-            - nvm use 20
             - node -v
             - npm -v
             - npm ci
         build:
           commands:
-            # Turbopack yerine klasik build (daha stabil)
             - npm run build
       artifacts:
         baseDirectory: .next
@@ -22,10 +19,5 @@ applications:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
-      environment:
-        variables:
-          NODE_ENV: "production"
-          NEXT_TELEMETRY_DISABLED: "1"
-          # Turbopack çakışmaları için (loglarda turbopack uyarısı vardı)
-          NEXT_DISABLE_TURBOPACK: "1"
+
 
