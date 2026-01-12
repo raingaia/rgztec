@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>RGZTEC • Premium Digital Marketplace</title>
-  
-  <!-- Base (kept for future resolver; current page uses relative links) -->
-  <meta name="rgz-base" content="">
 
-  <!-- ✅ AWS APP ORIGIN: Deploy sonrası AWS domainini buraya yaz -->
-  <meta name="rgztec-app-origin" content="https://main.d2gd2sov0v7f3z.amplifyapp.com" />
+  <!-- ✅ AWS APP ORIGIN -->
+  <meta name="rgztec-app-origin" content="https://main.d2gd2sov0v7f3z.amplifyapp.com"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Assets (relative so it works under / and /rgztec/) -->
   <link rel="stylesheet" href="assets/css/theme-tokens.css?v=1">
   <link rel="stylesheet" href="assets/css/store-core.css?v=1">
   <link rel="stylesheet" href="assets/css/home.css?v=1">
@@ -26,7 +21,6 @@
     .header-inner{ position:relative; }
     .header-left{ position:relative; z-index:1001; }
 
-    /* Categories button */
     .bento-icon-svg{
       width:20px;height:20px;margin-right:8px;
       color:currentColor;
@@ -35,7 +29,6 @@
     .btn-cat{ display:flex; align-items:center; gap:4px; }
     .app-header.has-cat-open .bento-icon-svg{ transform:rotate(90deg); color:#ff6b00; }
 
-    /* Panel wrap */
     .categories-panel-wrap{
       position:absolute;
       top:100%;
@@ -47,7 +40,6 @@
     }
     .app-header.has-cat-open .categories-panel-wrap{ display:block; }
 
-    /* Mega panel layout */
     .categories-panel{
       background:#fff;
       border:1px solid rgba(0,0,0,0.08);
@@ -59,7 +51,6 @@
       min-height: 380px;
     }
 
-    /* Left list */
     #categories-list{
       background: linear-gradient(180deg,#ffffff 0%,#fbfbfb 100%);
       border-right:1px solid rgba(0,0,0,0.06);
@@ -93,7 +84,6 @@
       color:#ff6b00;
     }
 
-    /* Right detail */
     #categories-detail{
       padding:18px 18px 16px;
       display:flex;
@@ -151,7 +141,7 @@
   <header class="app-header">
     <div class="container header-inner">
       <div class="header-left">
-        <a href="./" class="logo">RGZTEC</a>
+        <a href="/" class="logo">RGZTEC</a>
 
         <button id="btn-categories" class="btn-cat" type="button">
           <svg class="bento-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -182,14 +172,14 @@
       </div>
 
       <div class="nav-right">
-        <!-- ✅ Static editor alanı (LAB) aynen kalsın -->
-        <a href="./lab/" class="nav-link">Dashboard / Editor</a>
+        <!-- LAB statik kalsın -->
+        <a href="/lab/" class="nav-link">Dashboard / Editor</a>
 
-        <!-- ✅ Login → AWS app /login -->
-        <a href="./seller/login.html" class="nav-link" data-bridge="login">Sign In</a>
+        <!-- ✅ Sign In doğrudan Next'e -->
+        <a href="/login" class="nav-link" data-bridge="login">Sign In</a>
 
-        <!-- ✅ Open Store → AWS app /login (veya onboarding) -->
-        <a href="./open-store.html" class="btn-open-store" data-bridge="start-selling">Open Store</a>
+        <!-- ✅ Open Store -->
+        <a href="/login" class="btn-open-store" data-bridge="start-selling">Open Store</a>
       </div>
     </div>
   </header>
@@ -244,12 +234,12 @@
         <div class="footer-col">
           <h4>Marketplace</h4>
           <a href="#gallery">Explore stores</a>
-          <a href="./open-store.html" data-bridge="start-selling">Open a store</a>
+          <a href="/login" data-bridge="start-selling">Open a store</a>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
-          <a href="./about.html">About</a>
-          <a href="./contact.html">Contact</a>
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
         </div>
         <div class="footer-col">
           <h4>Stay in touch</h4>
@@ -260,8 +250,8 @@
       <div class="footer-bot">
         <span>© 2025 RGZTEC, Inc. All rights reserved.</span>
         <div class="footer-links">
-          <a href="./privacy.html">Privacy</a>
-          <a href="./terms.html">Terms</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
         </div>
       </div>
     </div>
@@ -304,9 +294,8 @@
   </script>
 
   <!-- ✅ Bridge -->
-  <script src="./assets/js/bridge.js" defer></script>
+  <script src="/assets/js/bridge.js" defer></script>
 
-  <!-- existing home script -->
   <script src="assets/js/home-products.js?v=1"></script>
 </body>
 </html>
