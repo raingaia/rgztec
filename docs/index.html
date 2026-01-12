@@ -291,8 +291,17 @@
         initCategories();
       }
     })();
-  </script>
-  <script src="assets/js/home-products.js?v=1"></script>
+  <script>
+  // home-products.js'nin guard'ını geçmek için
+  window.RGZ = window.RGZ || {
+    env: "docs",
+    go: (p) => (location.href = p),
+    origin: location.origin
+  };
+</script>
+
+<script src="/assets/js/home-products.js?v=1"></script>
+
 </body>
 </html>
 
