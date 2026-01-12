@@ -260,49 +260,50 @@
   </footer>
 
   <script>
-    (function () {
-      function initCategories() {
-        const header = document.querySelector(".app-header");
-        const btn = document.getElementById("btn-categories");
-        const panelWrap = document.getElementById("categories-panel");
-        if (!header || !btn || !panelWrap) return;
+  (function () {
+    function initCategories() {
+      const header = document.querySelector(".app-header");
+      const btn = document.getElementById("btn-categories");
+      const panelWrap = document.getElementById("categories-panel");
+      if (!header || !btn || !panelWrap) return;
 
-        const close = () => header.classList.remove("has-cat-open");
-        const toggle = () => header.classList.toggle("has-cat-open");
+      const close = () => header.classList.remove("has-cat-open");
+      const toggle = () => header.classList.toggle("has-cat-open");
 
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          toggle();
-        });
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggle();
+      });
 
-        document.addEventListener("click", (e) => {
-          if (!header.classList.contains("has-cat-open")) return;
-          const inside = panelWrap.contains(e.target) || btn.contains(e.target);
-          if (!inside) close();
-        });
+      document.addEventListener("click", (e) => {
+        if (!header.classList.contains("has-cat-open")) return;
+        const inside = panelWrap.contains(e.target) || btn.contains(e.target);
+        if (!inside) close();
+      });
 
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") close();
-        });
-      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+    }
 
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initCategories);
-      } else {
-        initCategories();
-      }
-    })();
-  <script>
-  // home-products.js'nin guard'ını geçmek için
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initCategories);
+    } else {
+      initCategories();
+    }
+  })();
+</script>
+
+<script>
   window.RGZ = window.RGZ || {
     env: "docs",
-    go: (p) => (location.href = p),
-    origin: location.origin
+    withBase: (p) => p,
+    PUBLIC: { stores: "/data/store.data.json" }
   };
 </script>
 
-<script src="/assets/js/home-products.js?v=1"></script>
+<script src="/assets/js/home-products.js?v=99"></script>
 
 </body>
 </html>
