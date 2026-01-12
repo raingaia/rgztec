@@ -1,6 +1,6 @@
 version: 1
 applications:
-  - appRoot: apps/saas
+  - appRoot: .
     frontend:
       phases:
         preBuild:
@@ -9,29 +9,15 @@ applications:
             - nvm use 20
             - node -v
             - npm ci
-
         build:
           commands:
-            # root’tan static üret (docs basan scriptin)
-            - cd ../..
-            - npm ci
             - npm run build:static
-
-            # docs çıktısını Next public içine koy (tek domain altında servis)
-            - rsync -a --delete docs/ apps/saas/public/
-
-            # tekrar appRoot’a dön, Next build
-            - cd apps/saas
-            - npm run build
-
       artifacts:
-        baseDirectory: .next
+        baseDirectory: docs
         files:
-          - "**/*"
-
+          - '**/*'
       cache:
         paths:
           - node_modules/**/*
-          - .next/cache/**/*
 
 
