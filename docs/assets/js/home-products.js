@@ -9,14 +9,17 @@
 (() => {
   "use strict";
    
-// ✅ same resolver as store-shell
-const IMAGE_BASE = "/assets/images/store/";
+const IMAGE_BASE_PATH =
+  (B && typeof B.withBase === "function")
+    ? B.withBase("/assets/images/store/")
+    : "/assets/images/store/";
+
 function resolveImage(raw) {
   const s = String(raw || "").trim();
   if (!s) return "";
   if (/^https?:\/\//i.test(s)) return s;
-  if (s.startsWith("/")) return (typeof B.withBase === "function") ? B.withBase(s) : s;
-  return IMAGE_BASE + s.replace(/^\/+/, "");
+  if (s.startsWith("/")) return (typeof B.withBase === "function" ? B.withBase(s) : s);
+  return IMAGE_BASE_PATH + s.replace(/^\/+/, "");
 }
 
   // ---- 0) Bridge guard ----
