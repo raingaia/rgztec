@@ -5,8 +5,7 @@ import path from "path";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // ✅ 1. Build Hatalarını Tamamen Devre Dışı Bırak (Amplify Fix)
-  // API rotalarındaki veya diğer sayfalardaki hatalar build'i durdurmaz.
+  // ✅ 1. Build Hatalarını Engelle (Hatalı API rotaları olsa da build devam eder)
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -14,18 +13,18 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  // ✅ 2. Monorepo & Deployment Ayarları
-  // Amplify'ın dosyaları doğru izlemesi için root'u garantiye alıyoruz
-  output: "standalone", // AWS Amplify ve Docker ortamları için en güvenli çıktı tipi
+  // ✅ 2. Monorepo Çıktı Ayarı
+  // Standalone modu AWS Amplify için en sağlamıdır.
+  output: "standalone", 
   
   experimental: {
     externalDir: true,
-    // outputFileTracingRoot monorepo yapılarında üst klasöre bakmayı sağlar
+    // Monorepo köküne (root) kadar olan dosyaları izlemesini sağlar
     outputFileTracingRoot: path.join(__dirname, "../../"), 
   },
 
-  // ✅ 3. Path Alias & Webpack
-  webpack: (config, { isServer }) => {
+  // ✅ 3. Path Alias Ayarları
+  webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@src": path.resolve(__dirname, "src"),
@@ -34,6 +33,12 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+
+  // ✅ 4. Güvenlik (Environment Variables)
+  // Sızan anahtarları kodun içinde değil, buradan yönetmeliyiz.
+  env: {
+    // Örn: NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
+  }
 };
 
 export default nextConfig;
