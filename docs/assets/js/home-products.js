@@ -55,25 +55,13 @@ window.RGZ = window.RGZ || B;
     return normalizeURL(raw) || (typeof B.withBase === "function" ? B.withBase("/data/store.data.json") : "/data/store.data.json");
   }
 
-  function normalizeStoresToEntries(data) {
-    let entries = [];
+ function normalizeStoresToEntries(data) {
+  if (!data || typeof data !== "object") return [];
 
-    if (Array.isArray(data)) {
-      entries = data
-        .map((s, i) => [safeText(s.slug, `store-${i}`), s])
-        .filter(([slug]) => !!slug);
-    } else if (isObject(data) && isObject(data.stores)) {
-      entries = Object.entries(data.stores);
-    } else if (isObject(data) && Array.isArray(data.stores)) {
-      entries = data.stores
-        .map((s, i) => [safeText(s.slug, `store-${i}`), s])
-        .filter(([slug]) => !!slug);
-    } else if (isObject(data)) {
-      entries = Object.entries(data);
-    }
-
-    return entries;
-  }
+  // store.data.json formatı:
+  // { "game-makers": { ... }, "ai-tools": { ... } }
+  return Object.entries(data);
+}
 
   async function loadStoresOnce() {
     if (storeDataPromise) return storeDataPromise;
