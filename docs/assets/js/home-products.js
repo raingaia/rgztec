@@ -9,19 +9,6 @@
 (() => {
   "use strict";
    
-const IMAGE_BASE_PATH =
-  (B && typeof B.withBase === "function")
-    ? B.withBase("/assets/images/store/")
-    : "/assets/images/store/";
-
-function resolveImage(raw) {
-  const s = String(raw || "").trim();
-  if (!s) return "";
-  if (/^https?:\/\//i.test(s)) return s;
-  if (s.startsWith("/")) return (typeof B.withBase === "function" ? B.withBase(s) : s);
-  return IMAGE_BASE_PATH + s.replace(/^\/+/, "");
-}
-
   // ---- 0) Bridge guard ----
   const B = window.RGZ || window.rgz || {
   env: "docs",
@@ -59,6 +46,18 @@ window.RGZ = window.RGZ || B;
     if (s.startsWith("/") && typeof B.withBase === "function") return B.withBase(s);
     return s;
   }
+   const IMAGE_BASE_PATH =
+  (B && typeof B.withBase === "function")
+    ? B.withBase("/assets/images/store/")
+    : "/assets/images/store/";
+
+function resolveImage(raw) {
+  const s = String(raw || "").trim();
+  if (!s) return "";
+  if (/^https?:\/\//i.test(s)) return s;
+  if (s.startsWith("/")) return (typeof B.withBase === "function" ? B.withBase(s) : s);
+  return IMAGE_BASE_PATH + s.replace(/^\/+/, "");
+}
 
   // ---- 2) Store Data (single load shared) ----
   let storeDataPromise = null;
