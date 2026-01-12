@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-/** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // ✅ 1. Build Hatalarını Engelle (Hatalı API rotaları olsa da build devam eder)
+  // ✅ 1) Build hatalarını görmezden gel (build’in takılmasın)
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -13,32 +12,16 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  // ✅ 2. Monorepo Çıktı Ayarı
-  // Standalone modu AWS Amplify için en sağlamıdır.
-  output: "standalone", 
-  
+  // ✅ 2) Amplify / monorepo için güvenli çıktı
+  output: "standalone",
+
+  // ✅ 3) Next 16 + Amplify: Turbopack çakışmasını kesin çöz
+  // (Log'daki "This build is using Turbopack..." hatası bununla biter)
   experimental: {
+    turbo: false, // ⛔ Turbopack kapalı
     externalDir: true,
-    // Monorepo köküne (root) kadar olan dosyaları izlemesini sağlar
-    outputFileTracingRoot: path.join(__dirname, "../../"), 
+    outputFileTracingRoot: path.join(__dirname, "../../"),
   },
-
-  // ✅ 3. Path Alias Ayarları
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "@src": path.resolve(__dirname, "src"),
-      "@app": path.resolve(__dirname, "app"),
-    };
-
-    return config;
-  },
-
-  // ✅ 4. Güvenlik (Environment Variables)
-  // Sızan anahtarları kodun içinde değil, buradan yönetmeliyiz.
-  env: {
-    // Örn: NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
-  }
 };
 
 export default nextConfig;
