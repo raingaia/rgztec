@@ -1,7 +1,6 @@
 version: 1
 applications:
-  # SAAS UYGULAMASI
-  - appRoot: apps/saas
+  - appRoot: apps/saas # Sadece SaaS projesine odaklan
     frontend:
       phases:
         preBuild:
@@ -13,23 +12,5 @@ applications:
             - npm run build
       artifacts:
         baseDirectory: .next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-
-  # DOCS UYGULAMASI
-  - appRoot: docs
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - npm install
-        build:
-          commands:
-            - npm run build # Veya döküman aracın neyse (Docusaurus, Next vb.)
-      artifacts:
-        baseDirectory: out # Statik çıktı klasörün
         files:
           - '**/*'
