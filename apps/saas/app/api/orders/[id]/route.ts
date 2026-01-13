@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { json, normalizeStr, readJson, getBearer, findActorByToken } from "../../_common";
 
 const ORDERS_FILE = "src/data/orders/orders.json";
@@ -9,44 +11,39 @@ function isAllowedForOrder(actor: any, order: any) {
   if (actor.role === "admin") return true;
 
   const sellerId = normalizeStr(order?.seller_id);
-  const buyerId = normalizeStr(order?.buyer_id); // varsa
+  const buyerId = normalizeStr(order?.buyer_id);
   const storeKey = normalizeStr(order?.store_key);
 
-  // seller kendi seller_id'si ile erişir
   if (actor.role === "seller" && sellerId && normalizeStr(actor.id) === sellerId) return true;
-
-  // buyer kendi buyer_id'si ile erişir (order schema'da buyer_id varsa)
   if (actor.role === "buyer" && buyerId && normalizeStr(actor.id) === buyerId) return true;
-
-  // store_key bazlı erişim (actor.stores listesi varsa)
   if (storeKey && Array.isArray(actor.stores) && actor.stores.includes(storeKey)) return true;
 
   return false;
 }
 
-export async function GET(req: Request, ctx: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: { id: string } }) {
   try {
-    // ---- Auth (orders publicReadable:false mantığı) ----
     const token = getBearer(req);
+    if (!token) return json({ error: "Unauthorized", module: "orders" }, 401);
+
     const actor = await findActorByToken(token);
     if (!actor) return json({ error: "Unauthorized", module: "orders" }, 401);
 
-    const orderId = normalizeStr(ctx.params.id);
+    const orderId = normalizeStr(params.id);
 
-    const orders = (await readJson(ORDERS_FILE, [])) as any[];
-    const order = (Array.isArray(orders) ? orders : []).find((x) => normalizeStr(x?.id) === orderId);
+    const orders = (await readJson<any[]>(ORDERS_FILE, [])) ?? [];
+    const order = orders.find((x) => normalizeStr(x?.id) === orderId);
     if (!order) return json({ error: "Not found", module: "orders" }, 404);
 
     if (!isAllowedForOrder(actor, order)) {
       return json({ error: "Forbidden", module: "orders" }, 403);
     }
 
-    const items = (await readJson(ITEMS_FILE, [])) as any[];
-    const events = (await readJson(EVENTS_FILE, [])) as any[];
+    const items = (await readJson<any[]>(ITEMS_FILE, [])) ?? [];
+    const events = (await readJson<any[]>(EVENTS_FILE, [])) ?? [];
 
-    const outItems = (Array.isArray(items) ? items : []).filter((x) => normalizeStr(x?.order_id) === orderId);
-
-    const outEvents = (Array.isArray(events) ? events : [])
+    const outItems = items.filter((x) => normalizeStr(x?.order_id) === orderId);
+    const outEvents = events
       .filter((x) => normalizeStr(x?.order_id) === orderId)
       .sort((a, b) => String(a?.at || "").localeCompare(String(b?.at || "")));
 
@@ -55,3 +52,4 @@ export async function GET(req: Request, ctx: { params: { id: string } }) {
     return json({ error: e?.message || "GET failed", module: "orders" }, 500);
   }
 }
+
