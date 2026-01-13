@@ -1,6 +1,8 @@
-import { makeJsonRoute } from "../../_common";
+export const runtime = "nodejs";
 
-export const { GET, POST, PUT, DELETE } = makeJsonRoute(
+import { makeJsonCrudRoute } from "../../_common";
+
+export const { GET, POST, PUT, DELETE } = makeJsonCrudRoute(
   "src/data/hardware/warehouses.json",
   {
     module: "hardware_warehouses",
