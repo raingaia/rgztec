@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { json } from "../../_common";
 
 /**
@@ -15,7 +17,6 @@ import { json } from "../../_common";
 export async function POST(req: Request) {
   try {
     // Stripe signature doğrulaması olmadığı için şimdilik stub.
-    // İstersen şimdiden 200 döndürelim (Stripe bağlayınca gerçek logic yazacağız).
     return json(
       {
         ok: false,
