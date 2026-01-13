@@ -5,6 +5,8 @@ applications:
       phases:
         preBuild:
           commands:
+            - node -v
+            - npm -v
             - npm ci
         build:
           commands:
@@ -16,5 +18,4 @@ applications:
       cache:
         paths:
           - node_modules/**/*
-
-
+          - .next/cache/**/*
