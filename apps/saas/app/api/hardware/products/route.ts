@@ -1,13 +1,22 @@
-import { makeJsonRoute } from "../../_common";
+export const runtime = "nodejs";
 
-export const { GET, POST, PUT, DELETE } = makeJsonRoute(
+import { makeJsonCrudRoute } from "../../_common";
+
+export const { GET, POST, PUT, DELETE } = makeJsonCrudRoute(
   "src/data/hardware/products.json",
   {
     module: "hardware_products",
     public: {
       allowQuery: true,
       activeOnly: true,
-      queryFields: ["sku", "name", "title", "brand", "category", "short_description"],
+      queryFields: [
+        "sku",
+        "name",
+        "title",
+        "brand",
+        "category",
+        "short_description",
+      ],
       tagsField: "tags",
     },
     write: {
