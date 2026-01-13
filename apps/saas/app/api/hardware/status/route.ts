@@ -1,7 +1,6 @@
 export const runtime = "nodejs";
 
 import { makeJsonCrudRoute } from "../../_common";
-import { guardApi } from "../../_common_auth/guard";
 
 const base = makeJsonCrudRoute("src/data/hardware/status.json", {
   module: "hardware_status",
