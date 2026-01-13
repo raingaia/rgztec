@@ -1,14 +1,19 @@
-import { makeJsonRoute } from "../_common";
+export const runtime = "nodejs";
 
-export const { GET, POST, PUT, DELETE } = makeJsonRoute("src/data/users/users.json", {
-  module: "users",
-  public: {
-    // kullanıcı listesi public olmasın
-    publicReadable: false,
-  },
-  write: {
-    requireAuth: true,
-    roles: ["admin"],
-  },
-});
+import { makeJsonCrudRoute } from "../_common";
+
+export const { GET, POST, PUT, DELETE } = makeJsonCrudRoute(
+  "src/data/users/users.json",
+  {
+    module: "users",
+    public: {
+      publicReadable: false, // kullanıcı listesi public olmasın
+    },
+    write: {
+      requireAuth: true,
+      roles: ["admin"],
+    },
+  }
+);
+
 
