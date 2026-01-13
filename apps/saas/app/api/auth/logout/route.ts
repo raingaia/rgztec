@@ -2,7 +2,7 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { clearSession } from "../../_common_auth/session";
+import { clearSession } from "../../_common";
 
 export async function POST() {
   await clearSession();
