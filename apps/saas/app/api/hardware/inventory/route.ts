@@ -1,11 +1,12 @@
-import { makeJsonRoute } from "../../_common";
+export const runtime = "nodejs";
 
-export const { GET, POST, PUT, DELETE } = makeJsonRoute(
+import { makeJsonCrudRoute } from "../_common";
+
+export const { GET, POST, PUT, DELETE } = makeJsonCrudRoute(
   "src/data/hardware/inventory.json",
   {
     module: "hardware_inventory",
     public: {
-      // stok public olsun mu? bence şimdilik kapalı tut:
       publicReadable: false,
       allowQuery: true,
       queryFields: ["product_id", "sku", "warehouse_id"],
