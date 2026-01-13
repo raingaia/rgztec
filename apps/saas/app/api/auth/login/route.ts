@@ -2,7 +2,17 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { readJson, writeJson } from "../../_common";
+
+import {
+  readJson,
+  writeJson,
+  findUserByEmail,
+  validateLocalPassword,
+  normalizeRoles,
+  setSession,
+  type Role,
+} from "../../_common";
+
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({} as any));
