@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
-import nodemailer from "nodemailer";
 import { readJson, writeJson } from "../../_common";
 
 export const runtime = "nodejs";
