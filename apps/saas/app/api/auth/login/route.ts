@@ -7,7 +7,6 @@ import {
   readJson,
   writeJson,
   findUserByEmail,
-  validateLocalPassword,
   normalizeRoles,
   setSession,
   type Role,
