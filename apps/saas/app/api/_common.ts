@@ -343,3 +343,9 @@ export async function readJson<T = any>(relPath: string): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
+
+// String normalizer (shared)
+export function normalizeStr(v?: string | null) {
+  return (v ?? "").trim().toLowerCase();
+}
+
