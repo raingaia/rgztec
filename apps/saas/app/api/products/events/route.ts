@@ -1,6 +1,8 @@
-import { makeJsonRoute } from "../../_common";
+export const runtime = "nodejs";
 
-export const { GET, POST, PUT, DELETE } = makeJsonRoute(
+import { makeJsonCrudRoute } from "../../_common";
+
+export const { GET, POST, PUT, DELETE } = makeJsonCrudRoute(
   "src/data/products/product_events.json",
   {
     module: "product_events",
@@ -19,3 +21,4 @@ export const { GET, POST, PUT, DELETE } = makeJsonRoute(
     },
   }
 );
+
