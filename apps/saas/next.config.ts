@@ -3,18 +3,24 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // ✅ Amplify/SSR için: STATIC EXPORT YOK
-  // output: "export",          // ❌ kaldırıldı
-  // trailingSlash: true,       // ❌ kaldırıldı
+  // ✅ Amplify SSR için en stabil paketleme
+  output: "standalone",
 
   images: {
-    // Amplify SSR'de default optimizer çalışır.
-    // Eğer S3 export'a dönersen tekrar true yaparsın.
     unoptimized: false,
   },
 
+  // ✅ Bizim fs ile okunan JSON data klasörlerini prod bundle'a zorla dahil et
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/**": ["src/data/**/*"],
+    },
+  },
+
+  // (İstersen şimdilik kalsın ama build stabil olduktan sonra kapatmanı öneririm)
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 };
 
 export default nextConfig;
+
