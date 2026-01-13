@@ -2,15 +2,8 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
+import { makeJsonCrudRoute } from "../../_common";
 
-import {
-  readJson,
-  writeJson,
-  findUserByEmail,
-  normalizeRoles,
-  setSession,
-  type Role,
-} from "../../_common";
 
 
 export async function POST(req: Request) {
