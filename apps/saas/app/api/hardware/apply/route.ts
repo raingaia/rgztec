@@ -1,9 +1,10 @@
 // apps/saas/app/api/hardware/apply/route.ts
-import { makeJsonRoute } from "../../_common"; // konum doğru: apply -> hardware -> api
-import { guardApi } from "../../../src/lib/auth/guard"; // sende guardApi adı buysa kalsın
+export const runtime = "nodejs";
 
-// Hardware seller application list (dev json)
-const engine = makeJsonRoute("src/data/hardware/applications.json", {
+import { makeJsonCrudRoute } from "../_common";
+import { guardApi } from "../_common_auth/guard";
+
+const engine = makeJsonCrudRoute("src/data/hardware/applications.json", {
   module: "hardware_apply",
   public: {
     requireStoreKey: false,
@@ -18,31 +19,26 @@ const engine = makeJsonRoute("src/data/hardware/applications.json", {
   },
 });
 
-// --- GET ---
 export async function GET(req: Request) {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
-  return engine.GET(req);
+  return engine.GET(req as any);
 }
 
-// --- POST ---
 export async function POST(req: Request) {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
-  return engine.POST(req);
+  return engine.POST(req as any);
 }
 
-// --- PUT ---
 export async function PUT(req: Request) {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
-  return engine.PUT(req);
+  return engine.PUT(req as any);
 }
 
-// --- DELETE ---
 export async function DELETE(req: Request) {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
-  return engine.DELETE(req);
+  return engine.DELETE(req as any);
 }
-
