@@ -1,11 +1,13 @@
-import { makeJsonRoute } from "../_common";
+// apps/saas/app/api/orders/route.ts  (veya senin gerçek path'in)
+export const runtime = "nodejs";
 
-export const { GET, POST, PUT, DELETE } = makeJsonRoute(
+import { makeJsonCrudRoute } from "../_common";
+
+export const { GET, POST, PUT, DELETE } = makeJsonCrudRoute(
   "src/data/orders/orders.json",
   {
     module: "orders",
     public: {
-      // orders public olmayacak: default kapalı
       publicReadable: false,
     },
     write: {
