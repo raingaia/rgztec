@@ -1,4 +1,4 @@
 "use client";
 
-export { default } from "./Topbar";
+export { default } from "./Toolbar";
 
