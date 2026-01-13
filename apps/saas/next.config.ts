@@ -3,22 +3,18 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // 🔴 CloudFront + S3 için ŞART
-  output: "export",
-  trailingSlash: true,
+  // ✅ Amplify/SSR için: STATIC EXPORT YOK
+  // output: "export",          // ❌ kaldırıldı
+  // trailingSlash: true,       // ❌ kaldırıldı
 
-  // 🔴 Next Image S3 uyumu
   images: {
-    unoptimized: true,
+    // Amplify SSR'de default optimizer çalışır.
+    // Eğer S3 export'a dönersen tekrar true yaparsın.
+    unoptimized: false,
   },
 
-  // Monorepo güvenli
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
 };
 
 export default nextConfig;
