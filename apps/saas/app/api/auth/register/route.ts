@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
 import nodemailer from "nodemailer";
-import { readJson } from "@/lib/fs/readJson";
-import { writeJson } from "@/lib/fs/writeJson";
-
+import { readJson, writeJson } from "../../_common";
 
 export const runtime = "nodejs";
 
@@ -24,7 +22,7 @@ export async function POST(req: Request) {
   const usersPath = "src/data/users/users.json";
   const tokensPath = "src/data/auth/verify_tokens.json";
 
-  const users = (await readJson(usersPath, [])) as any[];
+  const users = (await readJson<any[]>(usersPath, [])) ?? [];
   const exists = users.some((u) => String(u?.email || "").toLowerCase() === email);
   if (exists) {
     return NextResponse.json({ ok: false, error: "email_already_exists" }, { status: 409 });
@@ -45,12 +43,11 @@ export async function POST(req: Request) {
   };
 
   users.push(user);
-  writeJson(usersPath, users);
+  await writeJson(usersPath, users);
 
-  // token üret
-  const tokens = (await readJson(tokensPath, [])) as any[];
+  const tokens = (await readJson<any[]>(tokensPath, [])) ?? [];
   const token = makeToken();
-  const expiresAt = now() + 1000 * 60 * 30; // 30 dk
+  const expiresAt = now() + 1000 * 60 * 30;
 
   tokens.push({
     token,
@@ -60,7 +57,7 @@ export async function POST(req: Request) {
     used: false,
     created_at: now()
   });
-  writeJson(tokensPath, tokens);
+  await writeJson(tokensPath, tokens);
 
   const baseUrl = process.env.RGZ_PUBLIC_BASE_URL || "http://localhost:3000";
   const link = `${baseUrl}/verify-email?token=${token}`;
