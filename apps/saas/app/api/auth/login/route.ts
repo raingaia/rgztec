@@ -2,10 +2,7 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { setSession } from "../../_common_auth/session";
-import type { Role } from "../../_common_auth/roles";
-import { normalizeRoles } from "../../_common_auth/roles";
-import { findUserByEmail, validateLocalPassword } from "../../_common_auth/users";
+import { readJson, writeJson } from "../../_common";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({} as any));
