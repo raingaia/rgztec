@@ -1,7 +1,9 @@
-import { makeJsonRoute } from "../_common";
-import { guardApi } from "../../../src/lib/auth/guard";
+export const runtime = "nodejs";
 
-const base = makeJsonRoute("src/data/hardware/status.json", {
+import { makeJsonCrudRoute } from "../../_common";
+import { guardApi } from "../../_common_auth/guard";
+
+const base = makeJsonCrudRoute("src/data/hardware/status.json", {
   module: "hardware_status",
   public: { requireStoreKey: false, activeOnly: false, allowQuery: false },
   write: {
@@ -15,11 +17,11 @@ const base = makeJsonRoute("src/data/hardware/status.json", {
 export const GET = async (req: Request) => {
   const g = await guardApi(req, { requireAuth: true, roles: ["seller", "admin"] });
   if (g instanceof Response) return g;
-  return base.GET(req);
+  return base.GET(req as any);
 };
 
 export const PUT = async (req: Request) => {
-  const g = await guardApi(req, { requireAuth: true, roles: ["admin"] }); // status update admin-only daha mantıklı
+  const g = await guardApi(req, { requireAuth: true, roles: ["admin"] });
   if (g instanceof Response) return g;
-  return base.PUT(req);
+  return base.PUT(req as any);
 };
