@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Shell } from "@src/modules/_ui/Shell";
+import  Shell from "@src/modules/_ui/Shell";
 import Toolbar from "../_components/Toolbar";
 
 export default function SellerProfilePage() {
