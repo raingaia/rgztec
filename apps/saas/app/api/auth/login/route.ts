@@ -1,9 +1,11 @@
 // apps/saas/app/api/auth/login/route.ts
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
-import { setSession } from "../../../src/lib/auth/session";
-import type { Role } from "../../../src/lib/auth/roles";
-import { normalizeRoles } from "../../../src/lib/auth/roles";
-import { findUserByEmail, validateLocalPassword } from "../../../src/lib/auth/users";
+import { setSession } from "../../_common_auth/session";
+import type { Role } from "../../_common_auth/roles";
+import { normalizeRoles } from "../../_common_auth/roles";
+import { findUserByEmail, validateLocalPassword } from "../../_common_auth/users";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({} as any));
@@ -20,7 +22,6 @@ export async function POST(req: Request) {
   if (user.active === false) return NextResponse.json({ ok: false, error: "account_inactive" }, { status: 403 });
   if (user.blocked === true) return NextResponse.json({ ok: false, error: "account_blocked" }, { status: 403 });
 
-  // şimdilik local password
   const ok = await validateLocalPassword(user, password);
   if (!ok) return NextResponse.json({ ok: false, error: "invalid_credentials" }, { status: 401 });
 
@@ -45,3 +46,4 @@ export async function POST(req: Request) {
     },
   });
 }
+
