@@ -1,18 +1,19 @@
+export const runtime = "nodejs";
+
 import { json, getBearer, findActorByToken } from "../../_common";
 
 /**
  * POST /api/pricing/portal
- *
- * TODO (Stripe):
- * - stripe.billingPortal.sessions.create({ customer: customer_id, return_url })
- * - return { url }
  */
 export async function POST(req: Request) {
   try {
     const token = getBearer(req);
+    if (!token) return json({ error: "Unauthorized", module: "pricing_portal" }, 401);
+
     const actor = await findActorByToken(token);
     if (!actor) return json({ error: "Unauthorized", module: "pricing_portal" }, 401);
-    if (!["seller", "admin"].includes(actor.role)) return json({ error: "Forbidden", module: "pricing_portal" }, 403);
+    if (!["seller", "admin"].includes(actor.role))
+      return json({ error: "Forbidden", module: "pricing_portal" }, 403);
 
     return json(
       {
