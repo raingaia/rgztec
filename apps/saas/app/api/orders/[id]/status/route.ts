@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import {
   json,
   normalizeStr,
@@ -37,14 +39,16 @@ function sellerOwnsOrder(actor: any, order: any) {
   return actor.role === "seller" && sellerId && normalizeStr(actor.id) === sellerId;
 }
 
-export async function POST(req: Request, ctx: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: { id: string } }) {
   try {
     const token = getBearer(req);
+    if (!token) return json({ error: "Unauthorized", module: "orders" }, 401);
+
     const actor = await findActorByToken(token);
     if (!actor) return json({ error: "Unauthorized", module: "orders" }, 401);
     if (!isSellerOrAdmin(actor)) return json({ error: "Forbidden", module: "orders" }, 403);
 
-    const orderId = normalizeStr(ctx.params.id);
+    const orderId = normalizeStr(params.id);
     const body = await req.json().catch(() => ({} as any));
 
     const to = normalizeStr(body?.to);
@@ -52,8 +56,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     if (!to) return json({ error: "to required", module: "orders" }, 400);
 
-    const orders = (await readJson(ORDERS_FILE, [])) as any[];
-    const arr = Array.isArray(orders) ? orders : [];
+    const arr = (await readJson<any[]>(ORDERS_FILE, [])) ?? [];
 
     const idx = arr.findIndex((x) => normalizeStr(x?.id) === orderId);
     if (idx < 0) return json({ error: "Not found", module: "orders" }, 404);
@@ -71,8 +74,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     const updated = { ...existing, status: to, updated_at: nowISO() };
     arr[idx] = updated;
 
-    const events = (await readJson(EVENTS_FILE, [])) as any[];
-    const evArr = Array.isArray(events) ? events : [];
+    const evArr = (await readJson<any[]>(EVENTS_FILE, [])) ?? [];
 
     evArr.push({
       id: makeId("evt"),
@@ -94,3 +96,4 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     return json({ error: e?.message || "POST status failed", module: "orders" }, 500);
   }
 }
+
