@@ -323,3 +323,23 @@ export function makeJsonRoute(file: string, options: MakeJsonRouteOptions = {}) 
   return { GET, POST, PUT, DELETE };
 }
 
+
+/* =========================
+   Added for Amplify build
+   ========================= */
+
+export function nowISO() {
+  return new Date().toISOString();
+}
+
+// JSON reader (Node runtime). Use only in server routes.
+export async function readJson<T = any>(relPath: string): Promise<T> {
+  const { readFile } = await import("node:fs/promises");
+  const { join } = await import("node:path");
+
+  // relPath examples: "src/data/orders/orders.json"
+  const abs = join(process.cwd(), relPath);
+  const raw = await readFile(abs, "utf8");
+  return JSON.parse(raw) as T;
+}
+
