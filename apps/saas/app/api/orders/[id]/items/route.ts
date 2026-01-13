@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { json, normalizeStr, readJson, getBearer, findActorByToken } from "../../../_common";
 
 const ORDERS_FILE = "src/data/orders/orders.json";
@@ -18,25 +20,27 @@ function isAllowedForOrder(actor: any, order: any) {
   return false;
 }
 
-export async function GET(req: Request, ctx: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: { id: string } }) {
   try {
     const token = getBearer(req);
+    if (!token) return json({ error: "Unauthorized", module: "order_items" }, 401);
+
     const actor = await findActorByToken(token);
     if (!actor) return json({ error: "Unauthorized", module: "order_items" }, 401);
 
-    const orderId = normalizeStr(ctx.params.id);
+    const orderId = normalizeStr(params.id);
 
-    // order permission check
-    const orders = (await readJson(ORDERS_FILE, [])) as any[];
-    const order = (Array.isArray(orders) ? orders : []).find((x) => normalizeStr(x?.id) === orderId);
+    const orders = (await readJson<any[]>(ORDERS_FILE, [])) ?? [];
+    const order = orders.find((x) => normalizeStr(x?.id) === orderId);
     if (!order) return json({ error: "Not found", module: "order_items" }, 404);
     if (!isAllowedForOrder(actor, order)) return json({ error: "Forbidden", module: "order_items" }, 403);
 
-    const items = (await readJson(ITEMS_FILE, [])) as any[];
-    const out = (Array.isArray(items) ? items : []).filter((x) => normalizeStr(x?.order_id) === orderId);
+    const items = (await readJson<any[]>(ITEMS_FILE, [])) ?? [];
+    const out = items.filter((x) => normalizeStr(x?.order_id) === orderId);
 
     return json({ items: out, order_id: orderId, module: "order_items" }, 200);
   } catch (e: any) {
     return json({ error: e?.message || "GET failed", module: "order_items" }, 500);
   }
 }
+
