@@ -1,5 +1,5 @@
 import { makeJsonRoute } from "../_common";
-import { guardApi } from "@/src/lib/auth/guard";
+import { guardApi } from "../../../src/lib/auth/guard";
 
 const base = makeJsonRoute("src/data/hardware/stores.json", {
   module: "hardware_store",

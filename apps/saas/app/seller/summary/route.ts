@@ -1,7 +1,7 @@
 // apps/saas/app/api/seller/summary/route.ts
 import { NextResponse } from "next/server";
-import { readArrayFile } from "@/src/lib/data";
-import { getSellerIdFromRequest, isMine } from "@/src/lib/seller";
+import { readArrayFile } from "../../../src/lib/data";
+import { getSellerIdFromRequest, isMine } from "../../../src/lib/seller";
 
 function money(n: any) {
   const x = Number(n);

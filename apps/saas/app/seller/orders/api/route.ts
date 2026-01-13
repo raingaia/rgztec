@@ -1,7 +1,7 @@
 // apps/saas/app/api/seller/orders/route.ts
 import { NextResponse } from "next/server";
-import { readArrayFile } from "@/src/lib/data";
-import { getSellerIdFromRequest, isMine } from "@/src/lib/seller";
+import { readArrayFile } from "../../../src/lib/data";
+import { getSellerIdFromRequest, isMine } from "../../../src/lib/seller";
 
 export async function GET() {
   const sellerId = getSellerIdFromRequest();

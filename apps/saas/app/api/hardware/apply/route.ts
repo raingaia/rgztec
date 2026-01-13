@@ -1,6 +1,6 @@
 // apps/saas/app/api/hardware/apply/route.ts
 import { makeJsonRoute } from "../../_common"; // konum doğru: apply -> hardware -> api
-import { guardApi } from "@/src/lib/auth/guard"; // sende guardApi adı buysa kalsın
+import { guardApi } from "../../../src/lib/auth/guard"; // sende guardApi adı buysa kalsın
 
 // Hardware seller application list (dev json)
 const engine = makeJsonRoute("src/data/hardware/applications.json", {

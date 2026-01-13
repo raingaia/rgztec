@@ -1,9 +1,9 @@
 // apps/saas/app/api/auth/login/route.ts
 import { NextResponse } from "next/server";
-import { setSession } from "@/src/lib/auth/session";
-import type { Role } from "@/src/lib/auth/roles";
-import { normalizeRoles } from "@/src/lib/auth/roles";
-import { findUserByEmail, validateLocalPassword } from "@/src/lib/auth/users";
+import { setSession } from "../../../src/lib/auth/session";
+import type { Role } from "../../../src/lib/auth/roles";
+import { normalizeRoles } from "../../../src/lib/auth/roles";
+import { findUserByEmail, validateLocalPassword } from "../../../src/lib/auth/users";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({} as any));

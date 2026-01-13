@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { readJson } from "@/src/lib/fs/readJson";
-import { writeJson } from "@/src/lib/fs/writeJson";
+import { readJson } from "../../../src/lib/fs/readJson";
+import { writeJson } from "../../../src/lib/fs/writeJson";
 
 export const runtime = "nodejs";
 
