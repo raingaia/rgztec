@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Shell } from "@src/modules/_ui/Shell";
+import  Shell  from "@src/modules/_ui/Shell";
 import Toolbar from "../_components/Toolbar";
 
 type Plan = { name: string; price: string; desc: string; items: string[]; badge?: string };
