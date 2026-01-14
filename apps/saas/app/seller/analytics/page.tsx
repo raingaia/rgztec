@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Shell } from "@src/modules/_ui/Shell";
+import  Shell  from "@/modules/_ui/Shell";
 import Toolbar from "../_components/Toolbar";
 import AnalyticsChart from "../_components/AnalyticsChart";
 
@@ -48,3 +48,4 @@ export default function SellerAnalyticsPage() {
     </Shell>
   );
 }
+
