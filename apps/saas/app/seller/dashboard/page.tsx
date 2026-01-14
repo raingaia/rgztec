@@ -1,6 +1,6 @@
 import Link from "next/link";
 import AnalyticsChart from "../_components/AnalyticsChart";
-import { Shell } from "@src/modules/_ui/Shell";
+import  Shell  from "@/modules/_ui/Shell";
 
 type Metric = { k: string; v: string; n: string };
 type OrderRow = { id: string; product: string; amount: string; status: "Paid" | "Pending" | "Failed"; date: string };
@@ -138,9 +138,7 @@ export default function SellerDashboardPage() {
               ))}
             </div>
 
-            <div className="note">
-              Tip: keep product cards Etsy-level — strong thumbnail, short title, clear price, one primary CTA.
-            </div>
+            <div className="note">Tip: keep product cards Etsy-level — strong thumbnail, short title, clear price, one primary CTA.</div>
           </div>
         </section>
 
