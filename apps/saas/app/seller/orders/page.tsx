@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Shell } from "@src/modules/_ui/Shell";
+import  Shell  from "@/modules/_ui/Shell";
 import StatusPill, { type Status } from "../_components/StatusPill";
 import Toolbar from "../_components/Toolbar";
 
@@ -51,7 +51,13 @@ export default function SellerOrdersPage() {
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search order, product, buyer…"
               className="chip"
-              style={{ padding: "10px 12px", borderRadius: 14, border: "1px solid var(--line)", background: "#fff", minWidth: 240 }}
+              style={{
+                padding: "10px 12px",
+                borderRadius: 14,
+                border: "1px solid var(--line)",
+                background: "#fff",
+                minWidth: 240,
+              }}
             />
             <select
               value={status}
@@ -90,7 +96,9 @@ export default function SellerOrdersPage() {
                   <td>{o.product}</td>
                   <td style={{ color: "var(--muted)" }}>{o.buyer}</td>
                   <td style={{ fontWeight: 900 }}>{o.amount}</td>
-                  <td><StatusPill status={o.status} /></td>
+                  <td>
+                    <StatusPill status={o.status} />
+                  </td>
                   <td style={{ color: "var(--muted)" }}>{o.date}</td>
                 </tr>
               ))}
@@ -106,10 +114,15 @@ export default function SellerOrdersPage() {
         </div>
 
         <div className="note">
-          Next: clicking an order would open details page (e.g. <Link href="/seller/orders" style={{ textDecoration: "underline" }}>/seller/orders/[id]</Link>).
+          Next: clicking an order would open details page (e.g.{" "}
+          <Link href="/seller/orders" style={{ textDecoration: "underline" }}>
+            /seller/orders/[id]
+          </Link>
+          ).
         </div>
       </div>
     </Shell>
   );
 }
+
 
