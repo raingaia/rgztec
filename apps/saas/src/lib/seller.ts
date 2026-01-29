@@ -2,20 +2,17 @@
 import { headers } from "next/headers";
 
 /**
- * Demo: header'dan seller id alır.
- * Prod: middleware/login sonrası buraya "x-seller-id" set edilecek.
+ * ✅ async eklendi ve dönüş tipi Promise<string> oldu.
  */
-export function getSellerIdFromRequest(): string {
-  const h = headers();
+export async function getSellerIdFromRequest(): Promise<string> {
+  const h = await headers(); // ✅ await ekleyerek Promise'i çözdük
   const sid = h.get("x-seller-id");
   if (sid && sid.trim()) return sid.trim();
   return "demo";
 }
 
 /**
- * Row bazlı sahiplik kontrolü.
- * - row.seller_id varsa eşitlik kontrolü
- * - yoksa demo modda true döner (şimdilik)
+ * Bu fonksiyon sadece mantıksal kontrol yaptığı için senkron kalabilir.
  */
 export function isMine(row: any, sellerId: string): boolean {
   if (row?.seller_id != null) return String(row.seller_id) === String(sellerId);
