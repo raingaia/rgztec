@@ -9,7 +9,11 @@
       "@data/*": ["data/*"],
       "@lib/*": ["lib/*"],
       "@modules/*": ["modules/*"],
-      "@backend/*": ["backend/*"]
+      "@backend/*": ["backend/*"],
+      /* --- Milyar Dolarlık Eklemeler Buradan Başlıyor --- */
+      "@rgz/licensing": ["../../licensing/index"],
+      "@rgz/licensing/*": ["../../licensing/*"]
+      /* ----------------------------------------------- */
     },
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -32,6 +36,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "../licensing/**/*.ts", // Licensing klasörünü TypeScript'e dahil ettik
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
