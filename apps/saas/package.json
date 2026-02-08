@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@repo/shared": "file:../../packages/shared",
     "next": "^16.1.1",
     "nodemailer": "^7.0.13",
     "react": "^19.2.3",

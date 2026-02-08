@@ -1,16 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  pageExtensions: ["ts", "tsx"],
-  // Turbopack ve Tracing ayarlarını koruyoruz
-  turbopack: { root: __dirname },
-  outputFileTracingRoot: __dirname,
+  // Shared paketini (Prisma vb.) tanıması için bu satır şart
+  transpilePackages: ["@repo/shared"],
   
-  /* --- Milyar Dolarlık Bağlantı Buraya --- */
   experimental: {
-    externalDir: true, // Bu satır, ../licensing klasörünü Next.js'e "içeriden biri" gibi tanıtır
+    // Monorepo içindeki klasör dışı dosyaları okuyabilmesi için
+    externalDir: true,
   },
+  
+  // Varsa diğer ayarların...
 };
 
 export default nextConfig;

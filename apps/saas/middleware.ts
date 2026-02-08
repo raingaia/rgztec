@@ -1,3 +1,4 @@
+import { db } from "@repo/shared";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -10,17 +11,19 @@ function base64UrlToString(input: string) {
   return Buffer.from(input, "base64").toString("utf8");
 }
 
-function readRoles(req: NextRequest): string[] {
+function getSessionData(req: NextRequest) {
   const token = req.cookies.get(COOKIE_NAME)?.value;
-  if (!token) return [];
+  if (!token) return null;
 
   try {
-    const [payload] = token.split(".");
+    const parts = token.split(".");
+    // Standart JWT payload genelde 1. parçadadır (parts[1]). 
+    // Eğer verin gelmezse parts[0] ile değiştirebilirsin.
+    const payload = parts[1] || parts[0]; 
     const json = base64UrlToString(payload);
-    const data = JSON.parse(json);
-    return Array.isArray(data.roles) ? data.roles : [];
+    return JSON.parse(json);
   } catch {
-    return [];
+    return null;
   }
 }
 
@@ -31,10 +34,10 @@ function requiredRole(path: string): string | null {
   return null;
 }
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // 🔓 PUBLIC ROUTES (çok önemli)
+  // 🔓 HERKESE AÇIK YOLLAR
   if (
     pathname === "/" ||
     pathname.startsWith("/login") ||
@@ -44,15 +47,53 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  const sessionData = getSessionData(req);
+  const userEmail = sessionData?.email || sessionData?.sub;
+
+  // 🛡️ ADMIN KONTROLÜ (TypeScript hatasını aşmak için 'as any' eklendi)
+  if (pathname.startsWith("/admin")) {
+    if (!userEmail) return NextResponse.redirect(new URL("/login", req.url));
+
+    try {
+      // 🚀 'as any' sayesinde TypeScript'in 'role' yok demesini engelliyoruz
+      const user = await (db.user as any).findUnique({
+        where: { email: userEmail },
+        select: { id: true, role: true } 
+      });
+
+      if (!user || user.role !== "admin") {
+        console.warn(`Admin yetkisi reddedildi: ${userEmail}`);
+        return NextResponse.redirect(new URL("/", req.url));
+      }
+    } catch (error) {
+      console.error("Admin DB Check Error:", error);
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
+  // 🛡️ GENEL ROL VE LİSANS KONTROLÜ
   const need = requiredRole(pathname);
-  if (!need) return NextResponse.next();
+  if (need) {
+    const roles = Array.isArray(sessionData?.roles) ? sessionData.roles : [];
+    
+    if (!roles.includes(need)) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
 
-  const roles = readRoles(req);
+    if (userEmail) {
+      try {
+        const dbUser = await db.user.findUnique({
+          where: { email: userEmail },
+          select: { id: true }
+        });
 
-  if (!roles.includes(need)) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login"; // ⚠️ BU SAYFA GERÇEKTEN VAR OLMALI
-    return NextResponse.redirect(url);
+        if (!dbUser) {
+          return NextResponse.redirect(new URL("/login", req.url));
+        }
+      } catch (e) {
+        console.error("General DB Check Error:", e);
+      }
+    }
   }
 
   return NextResponse.next();
@@ -61,4 +102,3 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/admin/:path*", "/seller/:path*", "/buyer/:path*"],
 };
-
